@@ -17,10 +17,13 @@ import (
 
 // apiLevelTag maps Android API levels to the AOSP git tags used for
 // checking out the corresponding source code.
+// apiLevelTag maps Android API levels to the AOSP git tags.
+// Use the latest patch release for each major version to match
+// shipping device firmware (e.g., Pixel 8a ships r4, not r1).
 var apiLevelTag = map[int]string{
-	34: "android-14.0.0_r1",
-	35: "android-15.0.0_r1",
-	36: "android-16.0.0_r1",
+	34: "android-14.0.0_r75",
+	35: "android-15.0.0_r25",
+	36: "android-16.0.0_r4",
 }
 
 // submoduleNames lists the 3rdparty submodule directory basenames.

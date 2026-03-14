@@ -39,6 +39,13 @@ func OpenConn(
 		return nil, fmt.Errorf("reading --target-api flag: %w", err)
 	}
 
+	// Detect API level BEFORE opening /dev/binder. Detection may fork
+	// a child process (getprop), and forking after mmap-ing the binder
+	// driver corrupts its state.
+	if targetAPI <= 0 {
+		targetAPI = versionaware.DetectAPILevel()
+	}
+
 	driver, err := kernelbinder.Open(ctx, binder.WithMapSize(uint32(mapSize)))
 	if err != nil {
 		return nil, fmt.Errorf("opening binder driver: %w", err)

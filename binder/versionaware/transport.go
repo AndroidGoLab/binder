@@ -2,7 +2,6 @@ package versionaware
 
 import (
 	"context"
-	"sync"
 
 	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
@@ -11,30 +10,43 @@ import (
 // Transport wraps a binder.Transport and adds version-aware
 // transaction code resolution via ResolveCode.
 type Transport struct {
-	inner binder.Transport
-
-	mu       sync.Mutex
+	inner    binder.Transport
 	apiLevel int
 	table    VersionTable
-	detected bool
+}
+
+// DetectAPILevel returns the Android API level of the running device.
+// Call this BEFORE opening /dev/binder, because the detection may fork
+// a child process (getprop), and forking after mmap-ing the binder
+// driver corrupts its state.
+func DetectAPILevel() int {
+	return detectAPILevel()
 }
 
 // NewTransport creates a version-aware Transport wrapping inner.
 // If targetAPI > 0, uses that API level's table directly.
-// If targetAPI == 0, detects the device's API level on first use.
+// If targetAPI == 0, auto-detects via DetectAPILevel().
+//
+// IMPORTANT: DetectAPILevel() may fork a child process (getprop).
+// Forking after mmap-ing /dev/binder corrupts the driver state.
+// Callers MUST either:
+//   - Call DetectAPILevel() BEFORE opening the binder driver and pass the result, or
+//   - Ensure the binder fd has not been opened yet when NewTransport is called with targetAPI=0.
 func NewTransport(
 	inner binder.Transport,
 	targetAPI int,
 ) *Transport {
-	t := &Transport{
-		inner: inner,
+	if targetAPI <= 0 {
+		targetAPI = detectAPILevel()
 	}
-	if targetAPI > 0 {
-		t.apiLevel = targetAPI
-		t.table = tableForAPI(targetAPI)
-		t.detected = true
+	if targetAPI <= 0 {
+		targetAPI = DefaultAPILevel
 	}
-	return t
+	return &Transport{
+		inner:    inner,
+		apiLevel: targetAPI,
+		table:    tableForAPI(targetAPI),
+	}
 }
 
 // ResolveCode resolves an AIDL method name to the correct transaction code
@@ -43,25 +55,7 @@ func (t *Transport) ResolveCode(
 	descriptor string,
 	method string,
 ) binder.TransactionCode {
-	t.ensureDetected()
 	return t.table.Resolve(descriptor, method)
-}
-
-func (t *Transport) ensureDetected() {
-	t.mu.Lock()
-	defer t.mu.Unlock()
-	if t.detected {
-		return
-	}
-	t.detected = true
-
-	// Try to detect the device's API level from /system/build.prop.
-	// Fall back to the build-time default if detection fails.
-	t.apiLevel = detectAPILevel()
-	if t.apiLevel == 0 {
-		t.apiLevel = DefaultAPILevel
-	}
-	t.table = tableForAPI(t.apiLevel)
 }
 
 // tableForAPI returns the VersionTable for the given API level.

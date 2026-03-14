@@ -1,64 +1,80 @@
 package versionaware
 
 import (
+	"encoding/json"
 	"os"
-	"os/exec"
 	"strconv"
-	"strings"
 )
 
 // detectAPILevel returns the Android API level of the running device.
-// It tries `getprop ro.build.version.sdk` first (works for any user),
-// then falls back to parsing /system/build.prop (requires root).
+// Reads /etc/build_flags.json (world-readable, no root needed, no fork).
 // Returns 0 if detection fails (e.g. when running outside Android).
 func detectAPILevel() int {
-	if n := detectViaGetprop(); n > 0 {
-		return n
-	}
-	return detectViaBuildProp()
+	return detectViaBuildFlags()
 }
 
-// getpropPaths lists candidate locations for the getprop binary.
-// The full path is needed because the binary's PATH may not include
-// /system/bin when launched from /data/local/tmp.
-var getpropPaths = []string{
-	"/system/bin/getprop",
-	"getprop",
+// buildFlagsPaths lists candidate locations for the build flags file.
+var buildFlagsPaths = []string{
+	"/etc/build_flags.json",
+	"/system/etc/build_flags.json",
 }
 
-func detectViaGetprop() int {
-	for _, path := range getpropPaths {
-		out, err := exec.Command(path, "ro.build.version.sdk").Output()
-		if err != nil {
-			continue
+func detectViaBuildFlags() int {
+	for _, path := range buildFlagsPaths {
+		n := parseBuildFlags(path)
+		if n > 0 {
+			return n
 		}
-		n, err := strconv.Atoi(strings.TrimSpace(string(out)))
-		if err != nil {
-			continue
-		}
-		return n
 	}
 	return 0
 }
 
-func detectViaBuildProp() int {
-	data, err := os.ReadFile("/system/build.prop")
+// buildFlags is the top-level structure of /etc/build_flags.json.
+type buildFlags struct {
+	Flags []buildFlag `json:"flags"`
+}
+
+type buildFlag struct {
+	Declaration buildFlagDeclaration `json:"flag_declaration"`
+	Value       buildFlagValue       `json:"value"`
+}
+
+type buildFlagDeclaration struct {
+	Name string `json:"name"`
+}
+
+type buildFlagValue struct {
+	Val map[string]json.RawMessage `json:"Val"`
+}
+
+func parseBuildFlags(path string) int {
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return 0
 	}
 
-	const prefix = "ro.build.version.sdk="
-	for _, line := range strings.Split(string(data), "\n") {
-		if !strings.HasPrefix(line, prefix) {
+	var flags buildFlags
+	if err := json.Unmarshal(data, &flags); err != nil {
+		return 0
+	}
+
+	for _, f := range flags.Flags {
+		if f.Declaration.Name != "RELEASE_PLATFORM_SDK_VERSION" {
 			continue
 		}
-		val := strings.TrimPrefix(line, prefix)
-		n, err := strconv.Atoi(strings.TrimSpace(val))
+		raw, ok := f.Value.Val["StringValue"]
+		if !ok {
+			return 0
+		}
+		var s string
+		if err := json.Unmarshal(raw, &s); err != nil {
+			return 0
+		}
+		n, err := strconv.Atoi(s)
 		if err != nil {
 			return 0
 		}
 		return n
 	}
-
 	return 0
 }
