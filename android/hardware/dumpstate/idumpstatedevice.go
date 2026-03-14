@@ -2,8 +2,8 @@ package dumpstate
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	dumpstateIDumpstateDevice "github.com/xaionaro-go/aidl/android/hardware/dumpstate/IDumpstateDevice"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

@@ -2,9 +2,9 @@ package ondeviceintelligence
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	appOndeviceintelligence "github.com/xaionaro-go/aidl/android/app/ondeviceintelligence"
 	os "github.com/xaionaro-go/aidl/android/os"
+	"github.com/xaionaro-go/aidl/binder"
 	infra "github.com/xaionaro-go/aidl/com/android/internal_/infra"
 	"github.com/xaionaro-go/aidl/parcel"
 )

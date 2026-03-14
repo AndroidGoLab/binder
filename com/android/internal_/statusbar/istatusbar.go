@@ -2,7 +2,6 @@ package statusbar
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	app "github.com/xaionaro-go/aidl/android/app"
 	content "github.com/xaionaro-go/aidl/android/content"
 	drawable "github.com/xaionaro-go/aidl/android/graphics/drawable"
@@ -11,6 +10,7 @@ import (
 	media "github.com/xaionaro-go/aidl/android/media"
 	os "github.com/xaionaro-go/aidl/android/os"
 	view "github.com/xaionaro-go/aidl/android/view"
+	"github.com/xaionaro-go/aidl/binder"
 	internalView "github.com/xaionaro-go/aidl/com/android/internal_/view"
 	"github.com/xaionaro-go/aidl/parcel"
 )

@@ -2,8 +2,8 @@ package c2
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	c2IComponentListener "github.com/xaionaro-go/aidl/android/hardware/media/c2/IComponentListener"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

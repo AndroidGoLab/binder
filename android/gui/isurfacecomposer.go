@@ -2,8 +2,8 @@ package gui
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	guiISurfaceComposer "github.com/xaionaro-go/aidl/android/gui/ISurfaceComposer"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

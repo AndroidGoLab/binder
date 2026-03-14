@@ -2,9 +2,9 @@ package IGlanceableHubWidgetManagerService
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	appwidget "github.com/xaionaro-go/aidl/android/appwidget"
 	widget "github.com/xaionaro-go/aidl/android/widget"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

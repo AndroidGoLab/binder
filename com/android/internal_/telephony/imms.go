@@ -2,11 +2,11 @@ package telephony
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	app "github.com/xaionaro-go/aidl/android/app"
 	content "github.com/xaionaro-go/aidl/android/content"
 	net "github.com/xaionaro-go/aidl/android/net"
 	os "github.com/xaionaro-go/aidl/android/os"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

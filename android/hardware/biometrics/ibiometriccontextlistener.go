@@ -2,8 +2,8 @@ package biometrics
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	biometricsIBiometricContextListener "github.com/xaionaro-go/aidl/android/hardware/biometrics/IBiometricContextListener"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

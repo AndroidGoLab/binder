@@ -2,9 +2,9 @@ package hdcp
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	drm "github.com/xaionaro-go/aidl/android/hardware/drm"
 	hdcpIHdcpAuthControl "github.com/xaionaro-go/aidl/android/hardware/security/see/hdcp/IHdcpAuthControl"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

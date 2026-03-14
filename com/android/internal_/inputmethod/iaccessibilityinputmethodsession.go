@@ -2,8 +2,8 @@ package inputmethod
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	viewInputmethod "github.com/xaionaro-go/aidl/android/view/inputmethod"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

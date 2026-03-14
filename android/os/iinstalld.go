@@ -2,8 +2,8 @@ package os
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	osIInstalld "github.com/xaionaro-go/aidl/android/os/IInstalld"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

@@ -2,12 +2,12 @@ package interactive
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	graphics "github.com/xaionaro-go/aidl/android/graphics"
 	media "github.com/xaionaro-go/aidl/android/media"
 	tv "github.com/xaionaro-go/aidl/android/media/tv"
 	net "github.com/xaionaro-go/aidl/android/net"
 	os "github.com/xaionaro-go/aidl/android/os"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

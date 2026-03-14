@@ -2,8 +2,8 @@ package smartspace
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	appSmartspace "github.com/xaionaro-go/aidl/android/app/smartspace"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

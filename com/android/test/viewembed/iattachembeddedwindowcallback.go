@@ -2,8 +2,8 @@ package viewembed
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	view "github.com/xaionaro-go/aidl/android/view"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

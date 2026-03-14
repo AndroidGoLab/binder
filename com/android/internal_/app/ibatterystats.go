@@ -2,10 +2,10 @@ package app
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	network "github.com/xaionaro-go/aidl/android/hardware/radio/network"
 	connectivity "github.com/xaionaro-go/aidl/android/os/connectivity"
 	health "github.com/xaionaro-go/aidl/android/os/health"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

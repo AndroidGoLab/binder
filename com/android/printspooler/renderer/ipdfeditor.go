@@ -2,8 +2,8 @@ package renderer
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	print "github.com/xaionaro-go/aidl/android/print"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

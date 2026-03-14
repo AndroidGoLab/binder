@@ -2,9 +2,9 @@ package fonts
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	graphicsFonts "github.com/xaionaro-go/aidl/android/graphics/fonts"
 	text "github.com/xaionaro-go/aidl/android/text"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

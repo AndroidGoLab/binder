@@ -2,9 +2,9 @@ package quicksettings
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	app "github.com/xaionaro-go/aidl/android/app"
 	drawable "github.com/xaionaro-go/aidl/android/graphics/drawable"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

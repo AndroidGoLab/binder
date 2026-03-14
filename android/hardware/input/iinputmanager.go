@@ -2,11 +2,11 @@ package input
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	lights "github.com/xaionaro-go/aidl/android/hardware/lights"
 	os "github.com/xaionaro-go/aidl/android/os"
 	view "github.com/xaionaro-go/aidl/android/view"
 	inputmethod "github.com/xaionaro-go/aidl/android/view/inputmethod"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

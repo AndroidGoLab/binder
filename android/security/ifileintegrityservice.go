@@ -2,8 +2,8 @@ package security
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	IInstalld "github.com/xaionaro-go/aidl/android/os/IInstalld"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

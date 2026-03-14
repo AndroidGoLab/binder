@@ -2,11 +2,11 @@ package composer3
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	gui "github.com/xaionaro-go/aidl/android/gui"
 	hardwareCommon "github.com/xaionaro-go/aidl/android/hardware/common"
 	drm "github.com/xaionaro-go/aidl/android/hardware/drm"
 	common "github.com/xaionaro-go/aidl/android/hardware/graphics/common"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

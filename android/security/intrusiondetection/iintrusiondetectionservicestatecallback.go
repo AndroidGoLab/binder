@@ -2,8 +2,8 @@ package intrusiondetection
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	StreamDescriptor "github.com/xaionaro-go/aidl/android/hardware/audio/core/StreamDescriptor"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

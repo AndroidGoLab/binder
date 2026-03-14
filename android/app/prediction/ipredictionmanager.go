@@ -2,9 +2,9 @@ package prediction
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	ondeviceintelligence "github.com/xaionaro-go/aidl/android/app/ondeviceintelligence"
 	pm "github.com/xaionaro-go/aidl/android/content/pm"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

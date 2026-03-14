@@ -2,9 +2,9 @@ package contentsuggestions
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	graphics "github.com/xaionaro-go/aidl/android/graphics"
 	os "github.com/xaionaro-go/aidl/android/os"
+	"github.com/xaionaro-go/aidl/binder"
 	internalOs "github.com/xaionaro-go/aidl/com/android/internal_/os"
 	"github.com/xaionaro-go/aidl/parcel"
 )

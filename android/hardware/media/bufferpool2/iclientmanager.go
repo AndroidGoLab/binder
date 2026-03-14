@@ -2,8 +2,8 @@ package bufferpool2
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	bufferpool2IClientManager "github.com/xaionaro-go/aidl/android/hardware/media/bufferpool2/IClientManager"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

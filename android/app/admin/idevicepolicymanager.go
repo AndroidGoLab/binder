@@ -2,7 +2,6 @@ package admin
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	accounts "github.com/xaionaro-go/aidl/android/accounts"
 	app "github.com/xaionaro-go/aidl/android/app"
 	content "github.com/xaionaro-go/aidl/android/content"
@@ -13,6 +12,7 @@ import (
 	keymaster "github.com/xaionaro-go/aidl/android/security/keymaster"
 	keystore "github.com/xaionaro-go/aidl/android/security/keystore"
 	data "github.com/xaionaro-go/aidl/android/telephony/data"
+	"github.com/xaionaro-go/aidl/binder"
 	infra "github.com/xaionaro-go/aidl/com/android/internal_/infra"
 	"github.com/xaionaro-go/aidl/parcel"
 )

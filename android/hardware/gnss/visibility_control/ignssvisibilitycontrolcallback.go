@@ -2,8 +2,8 @@ package visibility_control
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	visibility_controlIGnssVisibilityControlCallback "github.com/xaionaro-go/aidl/android/hardware/gnss/visibility_control/IGnssVisibilityControlCallback"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

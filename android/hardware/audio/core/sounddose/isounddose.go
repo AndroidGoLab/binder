@@ -2,8 +2,8 @@ package sounddose
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	sounddoseISoundDose "github.com/xaionaro-go/aidl/android/hardware/audio/core/sounddose/ISoundDose"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

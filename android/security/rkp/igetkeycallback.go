@@ -2,8 +2,8 @@ package rkp
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	device "github.com/xaionaro-go/aidl/android/hardware/camera/device"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

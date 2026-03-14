@@ -2,9 +2,9 @@ package c2
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	bufferpool2 "github.com/xaionaro-go/aidl/android/hardware/media/bufferpool2"
 	c2IComponentStore "github.com/xaionaro-go/aidl/android/hardware/media/c2/IComponentStore"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

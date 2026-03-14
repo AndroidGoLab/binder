@@ -2,8 +2,8 @@ package timedetector
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	time "github.com/xaionaro-go/aidl/android/app/time"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

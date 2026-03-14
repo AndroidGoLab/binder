@@ -2,8 +2,8 @@ package supplicant
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	common "github.com/xaionaro-go/aidl/android/hardware/wifi/common"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

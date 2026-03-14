@@ -2,9 +2,9 @@ package printservice
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	pm "github.com/xaionaro-go/aidl/android/content/pm"
 	drawable "github.com/xaionaro-go/aidl/android/graphics/drawable"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

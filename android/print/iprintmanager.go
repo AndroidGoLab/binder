@@ -2,11 +2,11 @@ package print
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	content "github.com/xaionaro-go/aidl/android/content"
 	drawable "github.com/xaionaro-go/aidl/android/graphics/drawable"
 	os "github.com/xaionaro-go/aidl/android/os"
 	recommendation "github.com/xaionaro-go/aidl/android/printservice/recommendation"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

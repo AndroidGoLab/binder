@@ -2,8 +2,8 @@ package processor
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	common "github.com/xaionaro-go/aidl/android/hardware/input/common"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

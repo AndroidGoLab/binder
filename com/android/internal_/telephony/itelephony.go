@@ -2,7 +2,6 @@ package telephony
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	app "github.com/xaionaro-go/aidl/android/app"
 	ondeviceintelligence "github.com/xaionaro-go/aidl/android/app/ondeviceintelligence"
 	content "github.com/xaionaro-go/aidl/android/content"
@@ -16,6 +15,7 @@ import (
 	androidTelephony "github.com/xaionaro-go/aidl/android/telephony"
 	gba "github.com/xaionaro-go/aidl/android/telephony/gba"
 	ims "github.com/xaionaro-go/aidl/android/telephony/ims"
+	"github.com/xaionaro-go/aidl/binder"
 	internal "github.com/xaionaro-go/aidl/com/android/ims/internal_"
 	"github.com/xaionaro-go/aidl/parcel"
 )

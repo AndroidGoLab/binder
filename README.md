@@ -186,7 +186,7 @@ Requires access to `/dev/binder` on the target device (typically available as `s
 
 <!-- BEGIN GENERATED PACKAGES -->
 
-601 packages, 5137 generated Go files.
+600 packages, 5120 generated Go files.
 
 <details>
 <summary><strong>android/accessibilityservice</strong> (1 packages)</summary>
@@ -1119,7 +1119,6 @@ Requires access to `/dev/binder` on the target device (typically available as `s
 | [`fuzztest`](https://pkg.go.dev/github.com/xaionaro-go/aidl/fuzztest) | 1 | `github.com/xaionaro-go/aidl/fuzztest` |
 
 </details>
-
 
 <details>
 <summary><strong>libgui_test_server</strong> (1 packages)</summary>

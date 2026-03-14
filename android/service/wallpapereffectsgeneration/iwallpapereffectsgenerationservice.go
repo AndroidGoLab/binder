@@ -2,8 +2,8 @@ package wallpapereffectsgeneration
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	appWallpapereffectsgeneration "github.com/xaionaro-go/aidl/android/app/wallpapereffectsgeneration"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

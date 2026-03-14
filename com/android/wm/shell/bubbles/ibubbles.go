@@ -2,9 +2,9 @@ package bubbles
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	content "github.com/xaionaro-go/aidl/android/content"
 	pm "github.com/xaionaro-go/aidl/android/content/pm"
+	"github.com/xaionaro-go/aidl/binder"
 	sharedBubbles "github.com/xaionaro-go/aidl/com/android/wm/shell/shared/bubbles"
 	"github.com/xaionaro-go/aidl/parcel"
 )

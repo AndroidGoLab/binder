@@ -2,10 +2,10 @@ package displayhash
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	graphics "github.com/xaionaro-go/aidl/android/graphics"
 	os "github.com/xaionaro-go/aidl/android/os"
 	viewDisplayhash "github.com/xaionaro-go/aidl/android/view/displayhash"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

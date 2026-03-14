@@ -2,8 +2,8 @@ package companion
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	app "github.com/xaionaro-go/aidl/android/app"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

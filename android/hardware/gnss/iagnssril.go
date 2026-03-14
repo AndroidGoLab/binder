@@ -2,8 +2,8 @@ package gnss
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	gnssIAGnssRil "github.com/xaionaro-go/aidl/android/hardware/gnss/IAGnssRil"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

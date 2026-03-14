@@ -2,9 +2,9 @@ package shared
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	view "github.com/xaionaro-go/aidl/android/view"
 	window "github.com/xaionaro-go/aidl/android/window"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

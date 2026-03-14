@@ -2,11 +2,11 @@ package tv
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	tuner "github.com/xaionaro-go/aidl/android/hardware/tv/tuner"
 	net "github.com/xaionaro-go/aidl/android/net"
 	os "github.com/xaionaro-go/aidl/android/os"
 	view "github.com/xaionaro-go/aidl/android/view"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

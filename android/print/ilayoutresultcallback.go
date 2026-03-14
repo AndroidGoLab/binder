@@ -2,8 +2,8 @@ package print
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	ondeviceintelligence "github.com/xaionaro-go/aidl/android/app/ondeviceintelligence"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

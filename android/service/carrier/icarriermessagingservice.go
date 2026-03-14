@@ -2,8 +2,8 @@ package carrier
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	net "github.com/xaionaro-go/aidl/android/net"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

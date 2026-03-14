@@ -2,8 +2,8 @@ package contentcapture
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	viewContentcapture "github.com/xaionaro-go/aidl/android/view/contentcapture"
+	"github.com/xaionaro-go/aidl/binder"
 	os "github.com/xaionaro-go/aidl/com/android/internal_/os"
 	"github.com/xaionaro-go/aidl/parcel"
 )

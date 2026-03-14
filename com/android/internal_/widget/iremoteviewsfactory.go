@@ -2,9 +2,9 @@ package widget
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	content "github.com/xaionaro-go/aidl/android/content"
 	androidWidget "github.com/xaionaro-go/aidl/android/widget"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

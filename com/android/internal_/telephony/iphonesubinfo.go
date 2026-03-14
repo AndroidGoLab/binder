@@ -2,9 +2,9 @@ package telephony
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	sim "github.com/xaionaro-go/aidl/android/hardware/radio/sim"
 	net "github.com/xaionaro-go/aidl/android/net"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

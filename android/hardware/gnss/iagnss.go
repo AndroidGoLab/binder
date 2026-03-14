@@ -2,9 +2,9 @@ package gnss
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	gnssIAGnss "github.com/xaionaro-go/aidl/android/hardware/gnss/IAGnss"
 	gnssIAGnssCallback "github.com/xaionaro-go/aidl/android/hardware/gnss/IAGnssCallback"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

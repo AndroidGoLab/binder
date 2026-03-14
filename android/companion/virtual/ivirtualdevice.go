@@ -2,7 +2,6 @@ package virtual
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	app "github.com/xaionaro-go/aidl/android/app"
 	audio "github.com/xaionaro-go/aidl/android/companion/virtual/audio"
 	camera "github.com/xaionaro-go/aidl/android/companion/virtual/camera"
@@ -12,6 +11,7 @@ import (
 	display "github.com/xaionaro-go/aidl/android/hardware/display"
 	input "github.com/xaionaro-go/aidl/android/hardware/input"
 	os "github.com/xaionaro-go/aidl/android/os"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

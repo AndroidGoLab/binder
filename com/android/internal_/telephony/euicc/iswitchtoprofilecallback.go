@@ -2,8 +2,8 @@ package euicc
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	serviceEuicc "github.com/xaionaro-go/aidl/android/service/euicc"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

@@ -2,9 +2,9 @@ package sensors
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	fmq "github.com/xaionaro-go/aidl/android/hardware/common/fmq"
 	sensorsISensors "github.com/xaionaro-go/aidl/android/hardware/sensors/ISensors"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

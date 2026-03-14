@@ -2,9 +2,9 @@ package widgets
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	content "github.com/xaionaro-go/aidl/android/content"
 	os "github.com/xaionaro-go/aidl/android/os"
+	"github.com/xaionaro-go/aidl/binder"
 	widgetsIGlanceableHubWidgetManagerService "github.com/xaionaro-go/aidl/com/android/systemui/communal/widgets/IGlanceableHubWidgetManagerService"
 	"github.com/xaionaro-go/aidl/parcel"
 )

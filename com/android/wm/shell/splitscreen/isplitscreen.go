@@ -2,12 +2,12 @@ package splitscreen
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	app "github.com/xaionaro-go/aidl/android/app"
 	content "github.com/xaionaro-go/aidl/android/content"
 	pm "github.com/xaionaro-go/aidl/android/content/pm"
 	os "github.com/xaionaro-go/aidl/android/os"
 	window "github.com/xaionaro-go/aidl/android/window"
+	"github.com/xaionaro-go/aidl/binder"
 	logging "github.com/xaionaro-go/aidl/com/android/internal_/logging"
 	"github.com/xaionaro-go/aidl/parcel"
 )

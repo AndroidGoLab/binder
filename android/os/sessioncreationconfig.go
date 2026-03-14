@@ -1,8 +1,8 @@
 package os
 
 import (
-	"github.com/xaionaro-go/aidl/binder"
 	power "github.com/xaionaro-go/aidl/android/hardware/power"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

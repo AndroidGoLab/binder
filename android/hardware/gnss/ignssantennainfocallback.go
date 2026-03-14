@@ -2,8 +2,8 @@ package gnss
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	gnssIGnssAntennaInfoCallback "github.com/xaionaro-go/aidl/android/hardware/gnss/IGnssAntennaInfoCallback"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

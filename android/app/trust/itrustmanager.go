@@ -2,8 +2,8 @@ package trust
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	biometrics "github.com/xaionaro-go/aidl/android/hardware/biometrics"
+	"github.com/xaionaro-go/aidl/binder"
 	policy "github.com/xaionaro-go/aidl/com/android/internal_/policy"
 	"github.com/xaionaro-go/aidl/parcel"
 )

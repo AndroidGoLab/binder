@@ -2,8 +2,8 @@ package netd
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	netdINetd "github.com/xaionaro-go/aidl/android/system/net/netd/INetd"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

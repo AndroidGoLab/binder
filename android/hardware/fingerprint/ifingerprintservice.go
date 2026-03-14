@@ -2,9 +2,9 @@ package fingerprint
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	biometrics "github.com/xaionaro-go/aidl/android/hardware/biometrics"
 	biometricsFingerprint "github.com/xaionaro-go/aidl/android/hardware/biometrics/fingerprint"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

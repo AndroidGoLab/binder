@@ -2,9 +2,9 @@ package musicrecognition
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	media "github.com/xaionaro-go/aidl/android/media"
 	os "github.com/xaionaro-go/aidl/android/os"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

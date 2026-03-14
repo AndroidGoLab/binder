@@ -2,8 +2,8 @@ package recents
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	app "github.com/xaionaro-go/aidl/android/app"
+	"github.com/xaionaro-go/aidl/binder"
 	shared "github.com/xaionaro-go/aidl/com/android/wm/shell/shared"
 	"github.com/xaionaro-go/aidl/parcel"
 )

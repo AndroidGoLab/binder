@@ -2,9 +2,9 @@ package desktopmode
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	app "github.com/xaionaro-go/aidl/android/app"
 	window "github.com/xaionaro-go/aidl/android/window"
+	"github.com/xaionaro-go/aidl/binder"
 	sharedDesktopmode "github.com/xaionaro-go/aidl/com/android/wm/shell/shared/desktopmode"
 	"github.com/xaionaro-go/aidl/parcel"
 )

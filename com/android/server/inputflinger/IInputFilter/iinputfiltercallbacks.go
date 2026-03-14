@@ -2,8 +2,8 @@ package IInputFilter
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	view "github.com/xaionaro-go/aidl/android/view"
+	"github.com/xaionaro-go/aidl/binder"
 	IInputThread "github.com/xaionaro-go/aidl/com/android/server/inputflinger/IInputThread"
 	"github.com/xaionaro-go/aidl/parcel"
 )

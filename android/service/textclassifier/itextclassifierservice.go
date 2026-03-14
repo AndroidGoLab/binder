@@ -2,8 +2,8 @@ package textclassifier
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	viewTextclassifier "github.com/xaionaro-go/aidl/android/view/textclassifier"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

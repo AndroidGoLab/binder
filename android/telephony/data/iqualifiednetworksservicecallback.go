@@ -2,8 +2,8 @@ package data
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	telephony "github.com/xaionaro-go/aidl/android/telephony"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

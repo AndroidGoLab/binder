@@ -2,10 +2,10 @@ package widget
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	app "github.com/xaionaro-go/aidl/android/app"
 	trust "github.com/xaionaro-go/aidl/android/app/trust"
 	recovery "github.com/xaionaro-go/aidl/android/security/keystore/recovery"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

@@ -2,9 +2,9 @@ package internal
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	os "github.com/xaionaro-go/aidl/android/os"
 	ims "github.com/xaionaro-go/aidl/android/telephony/ims"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

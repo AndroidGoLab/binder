@@ -2,8 +2,8 @@ package presence
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	vehicle "github.com/xaionaro-go/aidl/android/hardware/automotive/vehicle"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

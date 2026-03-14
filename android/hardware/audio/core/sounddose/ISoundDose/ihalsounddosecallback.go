@@ -2,9 +2,9 @@ package ISoundDose
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	ISoundDoseIHalSoundDoseCallback "github.com/xaionaro-go/aidl/android/hardware/audio/core/sounddose/ISoundDose/IHalSoundDoseCallback"
 	common "github.com/xaionaro-go/aidl/android/media/audio/common"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

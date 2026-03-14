@@ -2,12 +2,12 @@ package wallpaper
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	appWallpaper "github.com/xaionaro-go/aidl/android/app/wallpaper"
 	graphics "github.com/xaionaro-go/aidl/android/graphics"
 	common "github.com/xaionaro-go/aidl/android/hardware/input/common"
 	os "github.com/xaionaro-go/aidl/android/os"
 	view "github.com/xaionaro-go/aidl/android/view"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

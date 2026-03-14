@@ -2,8 +2,8 @@ package core
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	coreIBluetooth "github.com/xaionaro-go/aidl/android/hardware/audio/core/IBluetooth"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

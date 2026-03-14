@@ -2,8 +2,8 @@ package controller
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	quickaccesswallet "github.com/xaionaro-go/aidl/android/service/quickaccesswallet"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

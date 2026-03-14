@@ -2,13 +2,13 @@ package appwidget
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	app "github.com/xaionaro-go/aidl/android/app"
 	androidAppwidget "github.com/xaionaro-go/aidl/android/appwidget"
 	content "github.com/xaionaro-go/aidl/android/content"
 	pm "github.com/xaionaro-go/aidl/android/content/pm"
 	os "github.com/xaionaro-go/aidl/android/os"
 	widget "github.com/xaionaro-go/aidl/android/widget"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

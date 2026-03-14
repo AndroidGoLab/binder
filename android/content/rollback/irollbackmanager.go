@@ -2,9 +2,9 @@ package rollback
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	content "github.com/xaionaro-go/aidl/android/content"
 	pm "github.com/xaionaro-go/aidl/android/content/pm"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

@@ -2,8 +2,8 @@ package attestationverification
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	os "github.com/xaionaro-go/aidl/android/os"
+	"github.com/xaionaro-go/aidl/binder"
 	infra "github.com/xaionaro-go/aidl/com/android/internal_/infra"
 	"github.com/xaionaro-go/aidl/parcel"
 )

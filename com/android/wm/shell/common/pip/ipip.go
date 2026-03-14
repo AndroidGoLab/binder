@@ -2,12 +2,12 @@ package pip
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	app "github.com/xaionaro-go/aidl/android/app"
 	content "github.com/xaionaro-go/aidl/android/content"
 	pm "github.com/xaionaro-go/aidl/android/content/pm"
 	graphics "github.com/xaionaro-go/aidl/android/graphics"
 	view "github.com/xaionaro-go/aidl/android/view"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

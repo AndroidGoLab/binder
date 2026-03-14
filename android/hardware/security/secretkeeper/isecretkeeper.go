@@ -2,8 +2,8 @@ package secretkeeper
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	authgraph "github.com/xaionaro-go/aidl/android/hardware/security/authgraph"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

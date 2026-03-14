@@ -2,9 +2,9 @@ package telephony
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	os "github.com/xaionaro-go/aidl/android/os"
 	androidTelephony "github.com/xaionaro-go/aidl/android/telephony"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

@@ -2,8 +2,8 @@ package prediction
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	pm "github.com/xaionaro-go/aidl/android/content/pm"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

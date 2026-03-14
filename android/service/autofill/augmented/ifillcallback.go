@@ -2,10 +2,10 @@ package augmented
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	ondeviceintelligence "github.com/xaionaro-go/aidl/android/app/ondeviceintelligence"
 	os "github.com/xaionaro-go/aidl/android/os"
 	autofill "github.com/xaionaro-go/aidl/android/service/autofill"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

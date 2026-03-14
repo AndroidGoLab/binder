@@ -2,10 +2,10 @@ package soundtrigger3
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	broadcastradio "github.com/xaionaro-go/aidl/android/hardware/broadcastradio"
 	hardwareSoundtrigger "github.com/xaionaro-go/aidl/android/hardware/soundtrigger"
 	soundtrigger "github.com/xaionaro-go/aidl/android/media/soundtrigger"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

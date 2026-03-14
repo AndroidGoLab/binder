@@ -2,9 +2,9 @@ package keystore2
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	drm "github.com/xaionaro-go/aidl/android/hardware/drm"
 	keymint "github.com/xaionaro-go/aidl/android/hardware/security/keymint"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

@@ -2,8 +2,8 @@ package device
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	fmq "github.com/xaionaro-go/aidl/android/hardware/common/fmq"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

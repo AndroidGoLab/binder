@@ -2,11 +2,11 @@ package view
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	graphics "github.com/xaionaro-go/aidl/android/graphics"
 	gui "github.com/xaionaro-go/aidl/android/gui"
 	displayhash "github.com/xaionaro-go/aidl/android/view/displayhash"
 	inputmethod "github.com/xaionaro-go/aidl/android/view/inputmethod"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

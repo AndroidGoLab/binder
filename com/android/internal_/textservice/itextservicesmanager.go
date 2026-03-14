@@ -2,9 +2,9 @@ package textservice
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	os "github.com/xaionaro-go/aidl/android/os"
 	viewTextservice "github.com/xaionaro-go/aidl/android/view/textservice"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

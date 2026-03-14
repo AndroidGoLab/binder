@@ -2,10 +2,10 @@ package fingerprint
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	ondeviceintelligence "github.com/xaionaro-go/aidl/android/app/ondeviceintelligence"
 	common "github.com/xaionaro-go/aidl/android/hardware/biometrics/common"
 	keymaster "github.com/xaionaro-go/aidl/android/hardware/keymaster"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

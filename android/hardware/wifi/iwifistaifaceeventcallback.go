@@ -2,8 +2,8 @@ package wifi
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	wifiIWifiStaIfaceEventCallback "github.com/xaionaro-go/aidl/android/hardware/wifi/IWifiStaIfaceEventCallback"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

@@ -2,10 +2,10 @@ package view
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	os "github.com/xaionaro-go/aidl/android/os"
 	viewInputmethod "github.com/xaionaro-go/aidl/android/view/inputmethod"
 	window "github.com/xaionaro-go/aidl/android/window"
+	"github.com/xaionaro-go/aidl/binder"
 	inputmethod "github.com/xaionaro-go/aidl/com/android/internal_/inputmethod"
 	"github.com/xaionaro-go/aidl/parcel"
 )

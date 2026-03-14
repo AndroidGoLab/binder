@@ -2,8 +2,8 @@ package net
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	data "github.com/xaionaro-go/aidl/android/hardware/radio/data"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

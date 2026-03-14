@@ -2,8 +2,8 @@ package effect
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	effectIEffect "github.com/xaionaro-go/aidl/android/hardware/audio/effect/IEffect"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

@@ -2,10 +2,10 @@ package wearable
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	ambientcontext "github.com/xaionaro-go/aidl/android/app/ambientcontext"
 	appWearable "github.com/xaionaro-go/aidl/android/app/wearable"
 	os "github.com/xaionaro-go/aidl/android/os"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

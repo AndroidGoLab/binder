@@ -2,9 +2,9 @@ package gnss
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	gnssIGnss "github.com/xaionaro-go/aidl/android/hardware/gnss/IGnss"
 	visibility_control "github.com/xaionaro-go/aidl/android/hardware/gnss/visibility_control"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

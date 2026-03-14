@@ -2,8 +2,8 @@ package print
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	drawable "github.com/xaionaro-go/aidl/android/graphics/drawable"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

@@ -2,9 +2,9 @@ package aidl
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	net "github.com/xaionaro-go/aidl/android/net"
 	feature "github.com/xaionaro-go/aidl/android/telephony/ims/feature"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

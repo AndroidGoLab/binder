@@ -2,12 +2,12 @@ package display
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	pm "github.com/xaionaro-go/aidl/android/content/pm"
 	graphics "github.com/xaionaro-go/aidl/android/graphics"
 	gui "github.com/xaionaro-go/aidl/android/gui"
 	ScoConfig "github.com/xaionaro-go/aidl/android/hardware/audio/core/IBluetooth/ScoConfig"
 	projection "github.com/xaionaro-go/aidl/android/media/projection"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

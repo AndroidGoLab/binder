@@ -2,9 +2,9 @@ package vendor
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	net "github.com/xaionaro-go/aidl/android/net"
 	mbms "github.com/xaionaro-go/aidl/android/telephony/mbms"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

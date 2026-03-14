@@ -2,9 +2,9 @@ package pm
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	dex "github.com/xaionaro-go/aidl/android/content/pm/dex"
 	graphics "github.com/xaionaro-go/aidl/android/graphics"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

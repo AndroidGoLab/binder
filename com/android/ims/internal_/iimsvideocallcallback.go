@@ -2,8 +2,8 @@ package internal
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	telecom "github.com/xaionaro-go/aidl/android/telecom"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

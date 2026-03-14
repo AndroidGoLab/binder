@@ -2,10 +2,10 @@ package telecom
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	net "github.com/xaionaro-go/aidl/android/net"
 	os "github.com/xaionaro-go/aidl/android/os"
 	androidTelecom "github.com/xaionaro-go/aidl/android/telecom"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 

@@ -2,8 +2,8 @@ package app
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	soundtrigger "github.com/xaionaro-go/aidl/android/hardware/soundtrigger"
+	"github.com/xaionaro-go/aidl/binder"
 	infra "github.com/xaionaro-go/aidl/com/android/internal_/infra"
 	"github.com/xaionaro-go/aidl/parcel"
 )

@@ -2,8 +2,8 @@ package c2
 
 import (
 	"context"
-	"github.com/xaionaro-go/aidl/binder"
 	common "github.com/xaionaro-go/aidl/android/hardware/common"
+	"github.com/xaionaro-go/aidl/binder"
 	"github.com/xaionaro-go/aidl/parcel"
 )
 
