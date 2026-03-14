@@ -1,0 +1,12 @@
+[submodule "3rdparty/frameworks-base"]
+	path = tools/pkg/3rdparty/frameworks-base
+	url = https://android.googlesource.com/platform/frameworks/base
+[submodule "3rdparty/frameworks-native"]
+	path = tools/pkg/3rdparty/frameworks-native
+	url = https://android.googlesource.com/platform/frameworks/native
+[submodule "3rdparty/hardware-interfaces"]
+	path = tools/pkg/3rdparty/hardware-interfaces
+	url = https://android.googlesource.com/platform/hardware/interfaces
+[submodule "3rdparty/system-hardware-interfaces"]
+	path = tools/pkg/3rdparty/system-hardware-interfaces
+	url = https://android.googlesource.com/platform/system/hardware/interfaces

@@ -1,0 +1,178 @@
+package servicemanager
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/facebookincubator/go-belt/tool/logger"
+	"github.com/xaionaro-go/aidl/binder"
+	"github.com/xaionaro-go/aidl/parcel"
+)
+
+const (
+	serviceManagerHandle     = uint32(0)
+	serviceManagerDescriptor = "android.os.IServiceManager"
+
+	transactionGetService   = binder.FirstCallTransaction + 0 // = 1
+	transactionCheckService = binder.FirstCallTransaction + 1 // = 2
+	transactionAddService   = binder.FirstCallTransaction + 2 // = 3
+	transactionListServices = binder.FirstCallTransaction + 3 // = 4
+	transactionIsDeclared   = binder.FirstCallTransaction + 5 // = 6
+
+	// dumpFlagPriorityAll combines all priority flags per IServiceManager.aidl:
+	// DUMP_FLAG_PRIORITY_CRITICAL (1) | DUMP_FLAG_PRIORITY_HIGH (2)
+	// | DUMP_FLAG_PRIORITY_NORMAL (4) | DUMP_FLAG_PRIORITY_DEFAULT (8).
+	dumpFlagPriorityAll = int32(1 | 2 | 4 | 8)
+)
+
+// ServiceManager provides access to Android's ServiceManager via Binder IPC.
+type ServiceManager struct {
+	remote binder.IBinder
+}
+
+// New creates a ServiceManager client using the given transport.
+func New(
+	transport binder.Transport,
+) *ServiceManager {
+	return &ServiceManager{
+		remote: binder.NewProxyBinder(transport, serviceManagerHandle),
+	}
+}
+
+// GetService retrieves a service by name. Blocks until the service is available.
+func (sm *ServiceManager) GetService(
+	ctx context.Context,
+	name string,
+) (_binder binder.IBinder, _err error) {
+	logger.Tracef(ctx, "GetService(%q)", name)
+	defer func() { logger.Tracef(ctx, "/GetService(%q): %v", name, _err) }()
+
+	data := parcel.New()
+	data.WriteInterfaceToken(serviceManagerDescriptor)
+	data.WriteString16(name)
+
+	reply, err := sm.remote.Transact(ctx, transactionGetService, 0, data)
+	if err != nil {
+		return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
+	}
+
+	if err := binder.ReadStatus(reply); err != nil {
+		return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
+	}
+
+	handle, err := reply.ReadStrongBinder()
+	if err != nil {
+		return nil, fmt.Errorf("servicemanager: GetService(%q): reading binder: %w", name, err)
+	}
+
+	return binder.NewProxyBinder(sm.transport(), handle), nil
+}
+
+// CheckService checks if a service is registered without blocking.
+// Returns nil, nil if the service is not found.
+func (sm *ServiceManager) CheckService(
+	ctx context.Context,
+	name string,
+) (_binder binder.IBinder, _err error) {
+	logger.Tracef(ctx, "CheckService(%q)", name)
+	defer func() { logger.Tracef(ctx, "/CheckService(%q): %v", name, _err) }()
+
+	data := parcel.New()
+	data.WriteInterfaceToken(serviceManagerDescriptor)
+	data.WriteString16(name)
+
+	reply, err := sm.remote.Transact(ctx, transactionCheckService, 0, data)
+	if err != nil {
+		return nil, fmt.Errorf("servicemanager: CheckService(%q): %w", name, err)
+	}
+
+	if err := binder.ReadStatus(reply); err != nil {
+		return nil, fmt.Errorf("servicemanager: CheckService(%q): %w", name, err)
+	}
+
+	handle, ok, err := reply.ReadNullableStrongBinder()
+	if err != nil {
+		return nil, fmt.Errorf("servicemanager: CheckService(%q): reading binder: %w", name, err)
+	}
+
+	if !ok {
+		return nil, nil
+	}
+
+	return binder.NewProxyBinder(sm.transport(), handle), nil
+}
+
+// ListServices returns the names of all registered services.
+func (sm *ServiceManager) ListServices(
+	ctx context.Context,
+) (_services []string, _err error) {
+	logger.Tracef(ctx, "ListServices")
+	defer func() { logger.Tracef(ctx, "/ListServices: %d services, err=%v", len(_services), _err) }()
+
+	data := parcel.New()
+	data.WriteInterfaceToken(serviceManagerDescriptor)
+	data.WriteInt32(dumpFlagPriorityAll)
+
+	reply, err := sm.remote.Transact(ctx, transactionListServices, 0, data)
+	if err != nil {
+		return nil, fmt.Errorf("servicemanager: ListServices: %w", err)
+	}
+
+	if err := binder.ReadStatus(reply); err != nil {
+		return nil, fmt.Errorf("servicemanager: ListServices: %w", err)
+	}
+
+	count, err := reply.ReadInt32()
+	if err != nil {
+		return nil, fmt.Errorf("servicemanager: ListServices: reading count: %w", err)
+	}
+
+	services := make([]string, 0, count)
+	for i := int32(0); i < count; i++ {
+		name, err := reply.ReadString16()
+		if err != nil {
+			return nil, fmt.Errorf("servicemanager: ListServices: reading service %d: %w", i, err)
+		}
+		services = append(services, name)
+	}
+
+	return services, nil
+}
+
+// IsDeclared checks whether a service is declared in the VINTF manifest.
+func (sm *ServiceManager) IsDeclared(
+	ctx context.Context,
+	name string,
+) (_declared bool, _err error) {
+	logger.Tracef(ctx, "IsDeclared(%q)", name)
+	defer func() { logger.Tracef(ctx, "/IsDeclared(%q): %v, err=%v", name, _declared, _err) }()
+
+	data := parcel.New()
+	data.WriteInterfaceToken(serviceManagerDescriptor)
+	data.WriteString16(name)
+
+	reply, err := sm.remote.Transact(ctx, transactionIsDeclared, 0, data)
+	if err != nil {
+		return false, fmt.Errorf("servicemanager: IsDeclared(%q): %w", name, err)
+	}
+
+	if err := binder.ReadStatus(reply); err != nil {
+		return false, fmt.Errorf("servicemanager: IsDeclared(%q): %w", name, err)
+	}
+
+	val, err := reply.ReadBool()
+	if err != nil {
+		return false, fmt.Errorf("servicemanager: IsDeclared(%q): reading result: %w", name, err)
+	}
+
+	return val, nil
+}
+
+// transport extracts the Transport from the ProxyBinder.
+func (sm *ServiceManager) transport() binder.Transport {
+	pb, ok := sm.remote.(*binder.ProxyBinder)
+	if !ok {
+		panic("servicemanager: remote is not a *binder.ProxyBinder")
+	}
+	return pb.Transport()
+}

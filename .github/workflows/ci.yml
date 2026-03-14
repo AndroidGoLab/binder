@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: ['1.25.x']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 1
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Unit tests
+        run: go test -v -race ./tools/pkg/... ./binder/ ./parcel/
+
+      - name: Vet
+        run: go vet ./tools/pkg/... ./binder/ ./parcel/ ./kernelbinder/ ./servicemanager/ ./errors/ ./tools/...
+
+      - name: Build commands and tools
+        run: go build ./tools/cmd/...
+
+      - name: Build examples
+        run: |
+          for d in examples/*/; do
+            echo "Building $d..."
+            go build "./$d"
+          done
+
+      - name: Verify generated code is up to date
+        run: |
+          make clean
+          make generate
+          make smoke
+          make readme
+          git diff --exit-code

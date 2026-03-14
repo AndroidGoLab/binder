@@ -1,0 +1,4 @@
+/aidlgen
+*.test
+*.out
+*.prof
