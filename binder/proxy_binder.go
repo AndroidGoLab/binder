@@ -2,6 +2,7 @@ package binder
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/facebookincubator/go-belt/tool/logger"
 	"github.com/xaionaro-go/aidl/parcel"
@@ -36,6 +37,23 @@ func (b *ProxyBinder) Transact(
 	defer func() { logger.Tracef(ctx, "/Transact: %v", _err) }()
 
 	return b.transport.Transact(ctx, b.handle, code, flags, data)
+}
+
+// ResolveCode delegates to the underlying Transport if it implements
+// CodeResolver. Otherwise it panics; callers should use a version-aware
+// transport or the generated transaction code constants directly.
+func (b *ProxyBinder) ResolveCode(
+	descriptor string,
+	method string,
+) TransactionCode {
+	if resolver, ok := b.transport.(CodeResolver); ok {
+		return resolver.ResolveCode(descriptor, method)
+	}
+	panic(fmt.Sprintf(
+		"binder: transport %T does not implement CodeResolver; "+
+			"use versionaware.NewTransport() to wrap it",
+		b.transport,
+	))
 }
 
 // LinkToDeath registers a DeathRecipient for this Binder object.

@@ -15,6 +15,13 @@ type IBinder interface {
 		data *parcel.Parcel,
 	) (_reply *parcel.Parcel, _err error)
 
+	// ResolveCode maps an AIDL interface descriptor and method name
+	// to the correct TransactionCode for the target device.
+	ResolveCode(
+		descriptor string,
+		method string,
+	) TransactionCode
+
 	LinkToDeath(ctx context.Context, recipient DeathRecipient) (_err error)
 	UnlinkToDeath(ctx context.Context, recipient DeathRecipient) (_err error)
 	IsAlive(ctx context.Context) bool

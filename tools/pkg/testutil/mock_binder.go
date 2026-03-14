@@ -36,6 +36,14 @@ func (m *MockBinder) Transact(
 	return reply, nil
 }
 
+// ResolveCode always returns FirstCallTransaction for the mock.
+func (m *MockBinder) ResolveCode(
+	_ string,
+	_ string,
+) binder.TransactionCode {
+	return binder.FirstCallTransaction
+}
+
 // LinkToDeath is a no-op for the mock.
 func (m *MockBinder) LinkToDeath(
 	_ context.Context,

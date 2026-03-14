@@ -34,3 +34,13 @@ type Transport interface {
 
 	Close(ctx context.Context) (_err error)
 }
+
+// CodeResolver resolves AIDL method names to transaction codes for
+// the target device. Transport implementations can optionally
+// implement this interface.
+type CodeResolver interface {
+	ResolveCode(
+		descriptor string,
+		method string,
+	) TransactionCode
+}
