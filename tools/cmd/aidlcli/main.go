@@ -49,13 +49,6 @@ func newServiceCmd() *cobra.Command {
 	}
 }
 
-func newAIDLCmd() *cobra.Command {
-	return &cobra.Command{
-		Use:   "aidl",
-		Short: "Compile and inspect AIDL definitions",
-	}
-}
-
 func main() {
 	if err := newRootCmd().Execute(); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
