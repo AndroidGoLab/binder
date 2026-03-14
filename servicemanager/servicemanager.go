@@ -13,11 +13,15 @@ const (
 	serviceManagerHandle     = uint32(0)
 	serviceManagerDescriptor = "android.os.IServiceManager"
 
-	transactionGetService   = binder.FirstCallTransaction + 0 // = 1
-	transactionCheckService = binder.FirstCallTransaction + 1 // = 2
-	transactionAddService   = binder.FirstCallTransaction + 2 // = 3
-	transactionListServices = binder.FirstCallTransaction + 3 // = 4
-	transactionIsDeclared   = binder.FirstCallTransaction + 5 // = 6
+	// Transaction codes match the method order in IServiceManager.aidl:
+	// 0=getService, 1=getService2, 2=checkService, 3=checkService2,
+	// 4=addService, 5=listServices, 6=registerForNotifications,
+	// 7=unregisterForNotifications, 8=isDeclared.
+	transactionGetService   = binder.FirstCallTransaction + 0 // getService
+	transactionCheckService = binder.FirstCallTransaction + 2 // checkService
+	transactionAddService   = binder.FirstCallTransaction + 4 // addService
+	transactionListServices = binder.FirstCallTransaction + 5 // listServices
+	transactionIsDeclared   = binder.FirstCallTransaction + 8 // isDeclared
 
 	// dumpFlagPriorityAll combines all priority flags per IServiceManager.aidl:
 	// DUMP_FLAG_PRIORITY_CRITICAL (1) | DUMP_FLAG_PRIORITY_HIGH (2)
