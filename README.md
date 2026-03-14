@@ -1175,7 +1175,7 @@ Requires access to `/dev/binder` on the target device (typically available as `s
 Build and deploy:
 
 ```bash
-GOOS=linux GOARCH=arm64 go build -o aidlcli ./tools/cmd/aidlcli/
+GOOS=linux GOARCH=arm64 go build -o aidlcli ./cmd/aidlcli/
 adb push aidlcli /data/local/tmp/
 ```
 

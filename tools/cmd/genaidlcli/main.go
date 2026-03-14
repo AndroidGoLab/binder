@@ -18,7 +18,7 @@ import (
 
 const (
 	modulePath = "github.com/xaionaro-go/aidl"
-	outputDir  = "tools/cmd/aidlcli"
+	outputDir  = "cmd/aidlcli"
 )
 
 // scanDirs lists the directories (relative to module root) that contain

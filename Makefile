@@ -33,11 +33,11 @@ genaidlcli:
 
 # Build the aidlcli tool.
 aidlcli:
-	go build -o aidlcli ./tools/cmd/aidlcli
+	go build -o aidlcli ./cmd/aidlcli
 
 # List all available aidlcli subcommands.
 list-commands:
-	go run ./tools/cmd/aidlcli --help 2>&1 | grep '^ ' | awk '{print $$1}'
+	go run ./cmd/aidlcli --help 2>&1 | grep '^ ' | awk '{print $$1}'
 
 # Remove all generated code.
 clean:
