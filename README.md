@@ -1168,6 +1168,316 @@ Requires access to `/dev/binder` on the target device (typically available as `s
 | [`tools/cmd/gen_e2e_smoke`](tools/cmd/gen_e2e_smoke/) | Generates smoke tests exercising every proxy type in generated packages |
 | [`tools/cmd/genreadme`](tools/cmd/genreadme/) | Regenerates the package table in this README from generated packages |
 
+## aidlcli
+
+`aidlcli` is a unified command-line tool for interacting with Android Binder services and the AIDL compiler. It auto-generates subcommands for every AIDL interface in the project (1,500+ interfaces, 12,000+ methods), so you can call any Android system service method directly from the command line with typed flags.
+
+Build and deploy:
+
+```bash
+GOOS=linux GOARCH=arm64 go build -o aidlcli ./tools/cmd/aidlcli/
+adb push aidlcli /data/local/tmp/
+```
+
+Core subcommands:
+
+| Command | Description |
+|---|---|
+| `aidlcli service list` | List all registered binder services with alive/dead status |
+| `aidlcli service inspect <name>` | Show a service's handle, descriptor, and alive status |
+| `aidlcli service methods <name>` | List all methods available on a service |
+| `aidlcli service transact <name> <code> [hex]` | Send a raw binder transaction |
+| `aidlcli aidl compile [-I path] <files>` | Compile `.aidl` files to Go |
+| `aidlcli aidl parse <file>` | Dump parsed AIDL AST as JSON |
+| `aidlcli aidl check <files>` | Validate AIDL files without generating |
+| `aidlcli <descriptor> <method> [--flags]` | Call any AIDL method with typed parameters |
+
+Global flags: `--format json|text|auto`, `--binder-device`, `--map-size`.
+
+### Examples
+
+<details>
+<summary>Get GPS coordinates</summary>
+
+```bash
+# Check if GPS provider is enabled
+aidlcli android.location.ILocationManager is-provider-enabled-for-user \
+  --provider gps --userId 0
+
+# List all location providers
+aidlcli android.location.ILocationManager get-all-providers
+
+# Get last known GPS location (returns Location parcelable with lat/lon/alt)
+aidlcli android.location.ILocationManager get-last-location \
+  --provider gps \
+  --packageName com.android.shell \
+  --attributionTag ""
+
+# Get GNSS hardware info
+aidlcli android.location.ILocationManager get-gnss-hardware-model-name
+aidlcli android.location.ILocationManager get-gnss-year-of-hardware
+```
+
+</details>
+
+<details>
+<summary>Connect to a WiFi AP with SSID "MyNetwork" and PSK "secret123"</summary>
+
+```bash
+# Step 1: Add a new network via the supplicant
+aidlcli android.hardware.wifi.supplicant.ISupplicantStaIface add-network
+
+# Step 2: Set the SSID (pass as hex-encoded bytes; "MyNetwork" = 4d794e6574776f726b)
+aidlcli android.hardware.wifi.supplicant.ISupplicantStaNetwork set-ssid \
+  --ssid 4d794e6574776f726b
+
+# Step 3: Set the WPA passphrase
+aidlcli android.hardware.wifi.supplicant.ISupplicantStaNetwork set-psk-passphrase \
+  --psk secret123
+
+# Step 4: Set key management to WPA-PSK (bit 1 = 0x02)
+aidlcli android.hardware.wifi.supplicant.ISupplicantStaNetwork set-key-mgmt \
+  --keyMgmtMask 2
+
+# Step 5: Enable the network to trigger connection
+aidlcli android.hardware.wifi.supplicant.ISupplicantStaNetwork enable \
+  --noConnect false
+
+# Disconnect from current network
+aidlcli android.hardware.wifi.supplicant.ISupplicantStaIface disconnect
+
+# List saved networks
+aidlcli android.hardware.wifi.supplicant.ISupplicantStaIface list-networks
+```
+
+</details>
+
+<details>
+<summary>Take a picture from the camera</summary>
+
+```bash
+# List available camera devices
+aidlcli android.hardware.camera.provider.ICameraProvider get-camera-id-list
+
+# Get camera characteristics (resolution, capabilities, etc.)
+aidlcli android.hardware.camera.device.ICameraDevice get-camera-characteristics
+
+# Toggle flashlight/torch mode
+aidlcli android.hardware.camera.provider.ICameraProvider set-torch-mode \
+  --cameraDeviceName "0" --enabled true
+```
+
+Note: Full camera capture requires a callback-driven session flow (open → configure streams → capture request → receive frames). The individual steps are available as commands, but the session orchestration needs a script or the Go API directly.
+
+</details>
+
+<details>
+<summary>Record from microphone</summary>
+
+```bash
+# Get active microphones on an input stream
+aidlcli android.hardware.audio.core.IStreamIn get-active-microphones
+
+# Set microphone field dimension (for directional recording)
+aidlcli android.hardware.audio.core.IStreamIn set-microphone-field-dimension \
+  --zoom 1.0
+
+# Set microphone direction
+# 0=UNSPECIFIED, 1=FRONT, 2=BACK, 3=EXTERNAL
+aidlcli android.hardware.audio.core.IStreamIn set-microphone-direction \
+  --direction 1
+```
+
+Note: Actual audio capture requires opening an input stream via `IModule.openInputStream()` with an audio configuration, then reading PCM data from the returned stream handle. Use the Go API for the full recording flow.
+
+</details>
+
+<details>
+<summary>Send a notification</summary>
+
+```bash
+# Notifications are managed through the NotificationManager service.
+# Check if a notification channel exists:
+aidlcli android.app.INotificationManager get-notification-channel \
+  --callingPkg com.android.shell \
+  --userId 0 \
+  --pkg com.android.shell \
+  --channelId default
+
+# Get notification policy (DND settings)
+aidlcli android.app.INotificationManager get-notification-policy \
+  --pkg com.android.shell
+
+# Check notification access
+aidlcli android.app.INotificationManager is-notification-policy-access-granted \
+  --pkg com.android.shell
+
+# Cancel a notification by tag and ID
+aidlcli android.app.INotificationManager cancel-notification-with-tag \
+  --pkg com.android.shell \
+  --opPkg com.android.shell \
+  --tag "" \
+  --id 1 \
+  --userId 0
+```
+
+Note: Posting a new notification requires building a `Notification` parcelable with icon, title, text, channel, and other fields. Use `aidlcli service transact` with a pre-built parcel or the Go API.
+
+</details>
+
+<details>
+<summary>Query battery and thermal status</summary>
+
+```bash
+# Get battery health status
+aidlcli android.hardware.health.IHealth get-health-info
+
+# Get charge status
+aidlcli android.hardware.health.IHealth get-charge-status
+
+# Get battery capacity percentage
+aidlcli android.hardware.health.IHealth get-capacity
+
+# Get current thermal status
+aidlcli android.os.IThermalService get-current-thermal-status
+
+# Check if device is in power save mode
+aidlcli android.os.IPowerManager is-power-save-mode
+
+# Check if device is interactive (screen on)
+aidlcli android.os.IPowerManager is-interactive
+
+# Reboot the device
+aidlcli android.os.IPowerManager reboot \
+  --confirm false --reason "cli-reboot" --wait true
+```
+
+</details>
+
+<details>
+<summary>Query packages and app info</summary>
+
+```bash
+# Check if a package is installed
+aidlcli android.content.pm.IPackageManager is-package-available \
+  --packageName com.android.settings --userId 0
+
+# Get package info
+aidlcli android.content.pm.IPackageManager get-package-info \
+  --packageName com.android.settings --flags 0 --userId 0
+
+# Get the installer of a package
+aidlcli android.content.pm.IPackageManager get-installer-package-name \
+  --packageName com.android.chrome
+
+# Check a permission
+aidlcli android.content.pm.IPackageManager check-permission \
+  --permName android.permission.INTERNET \
+  --pkgName com.android.chrome --userId 0
+```
+
+</details>
+
+<details>
+<summary>Manage display and brightness</summary>
+
+```bash
+# Get physical display IDs
+aidlcli android.hardware.display.IDisplayManager get-display-ids \
+  --includeDisabled false
+
+# Get display brightness
+aidlcli android.hardware.display.IDisplayManager get-brightness \
+  --displayId 0
+
+# Set display brightness
+aidlcli android.hardware.display.IDisplayManager set-brightness \
+  --displayId 0 --brightness 0.5
+```
+
+</details>
+
+<details>
+<summary>Bluetooth operations</summary>
+
+```bash
+# Initialize Bluetooth HCI
+aidlcli android.hardware.bluetooth.IBluetoothHci initialize \
+  --callback <callback_service>
+
+# Send raw HCI command (hex bytes)
+aidlcli android.hardware.bluetooth.IBluetoothHci send-hci-command \
+  --command 01030c00
+
+# Close Bluetooth HCI
+aidlcli android.hardware.bluetooth.IBluetoothHci close
+```
+
+</details>
+
+<details>
+<summary>Clipboard operations</summary>
+
+```bash
+# Check if clipboard has text
+aidlcli android.content.IClipboard has-clipboard-text \
+  --callingPackage com.android.shell \
+  --attributionTag "" --userId 0 --deviceId 0
+
+# Get primary clipboard content
+aidlcli android.content.IClipboard get-primary-clip \
+  --pkg com.android.shell \
+  --attributionTag "" --userId 0 --deviceId 0
+```
+
+</details>
+
+<details>
+<summary>Telephony and SMS</summary>
+
+```bash
+# Get device IMEI
+aidlcli com.android.internal.telephony.ITelephony get-imei-for-slot \
+  --slotIndex 0 --callingPackage com.android.shell --callingFeatureId ""
+
+# Check if phone is ringing
+aidlcli com.android.internal.telephony.ITelephony is-ringing \
+  --callingPackage com.android.shell
+
+# Get active phone type (0=NONE, 1=GSM, 2=CDMA)
+aidlcli com.android.internal.telephony.ITelephony get-active-phone-type
+
+# Get network country ISO
+aidlcli com.android.internal.telephony.ITelephony get-network-country-iso-for-phone \
+  --phoneId 0 --callingPackage com.android.shell --callingFeatureId ""
+```
+
+</details>
+
+<details>
+<summary>ActivityManager queries</summary>
+
+```bash
+# Check if user is a monkey (automated test)
+aidlcli android.app.IActivityManager is-user-a-monkey
+
+# Get process memory limit
+aidlcli android.app.IActivityManager get-process-limit
+
+# Check a permission for a process
+aidlcli android.app.IActivityManager check-permission \
+  --permission android.permission.INTERNET --pid 1 --uid 0
+
+# Force stop a package
+aidlcli android.app.IActivityManager force-stop-package \
+  --packageName com.example.app --userId 0
+
+# Check if app freezer is supported
+aidlcli android.app.IActivityManager is-app-freezer-supported
+```
+
+</details>
+
 ## Architecture
 
 The project has two major parts: a **compiler** that turns `.aidl` files into Go source code, and a **runtime** that implements the Binder IPC protocol for communicating with Android services.
