@@ -48,6 +48,6 @@ func (p *GetRulesAuthTableCallbackProxy) OnComplete(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIGetRulesAuthTableCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGetRulesAuthTableCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

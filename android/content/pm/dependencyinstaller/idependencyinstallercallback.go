@@ -52,7 +52,7 @@ func (p *DependencyInstallerCallbackProxy) OnAllDependenciesResolved(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDependencyInstallerCallbackOnAllDependenciesResolved, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDependencyInstallerCallback, "onAllDependenciesResolved"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -71,7 +71,7 @@ func (p *DependencyInstallerCallbackProxy) OnFailureToResolveAllDependencies(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDependencyInstallerCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDependencyInstallerCallbackOnFailureToResolveAllDependencies, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDependencyInstallerCallback, "onFailureToResolveAllDependencies"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -49,7 +49,7 @@ func (p *SatelliteModemStateCallbackProxy) OnSatelliteModemStateChanged(
 	_data.WriteInterfaceToken(DescriptorISatelliteModemStateCallback)
 	_data.WriteInt32(state)
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteModemStateCallbackOnSatelliteModemStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteModemStateCallback, "onSatelliteModemStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,7 +61,7 @@ func (p *SatelliteModemStateCallbackProxy) OnEmergencyModeChanged(
 	_data.WriteInterfaceToken(DescriptorISatelliteModemStateCallback)
 	_data.WriteBool(isEmergency)
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteModemStateCallbackOnEmergencyModeChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteModemStateCallback, "onEmergencyModeChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,7 +73,7 @@ func (p *SatelliteModemStateCallbackProxy) OnRegistrationFailure(
 	_data.WriteInterfaceToken(DescriptorISatelliteModemStateCallback)
 	_data.WriteInt32(causeCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteModemStateCallbackOnRegistrationFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteModemStateCallback, "onRegistrationFailure"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,6 +85,6 @@ func (p *SatelliteModemStateCallbackProxy) OnTerrestrialNetworkAvailableChanged(
 	_data.WriteInterfaceToken(DescriptorISatelliteModemStateCallback)
 	_data.WriteBool(isAvailable)
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteModemStateCallbackOnTerrestrialNetworkAvailableChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteModemStateCallback, "onTerrestrialNetworkAvailableChanged"), binder.FlagOneway, _data)
 	return _err
 }

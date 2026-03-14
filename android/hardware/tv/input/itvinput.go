@@ -68,7 +68,7 @@ func (p *TvInputProxy) CloseStream(
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(streamId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITvInputCloseStream, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInput, "closeStream"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -90,7 +90,7 @@ func (p *TvInputProxy) GetStreamConfigurations(
 	_data.WriteInterfaceToken(DescriptorITvInput)
 	_data.WriteInt32(deviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITvInputGetStreamConfigurations, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInput, "getStreamConfigurations"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -127,7 +127,7 @@ func (p *TvInputProxy) OpenStream(
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(streamId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITvInputOpenStream, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInput, "openStream"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -151,7 +151,7 @@ func (p *TvInputProxy) SetCallback(
 	_data.WriteInterfaceToken(DescriptorITvInput)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITvInputSetCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInput, "setCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -178,7 +178,7 @@ func (p *TvInputProxy) SetTvMessageEnabled(
 	_data.WriteInt32(int32(type_))
 	_data.WriteBool(enabled)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITvInputSetTvMessageEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInput, "setTvMessageEnabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -202,7 +202,7 @@ func (p *TvInputProxy) GetTvMessageQueueDesc(
 	_data.WriteInt32(deviceId)
 	_data.WriteInt32(streamId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITvInputGetTvMessageQueueDesc, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInput, "getTvMessageQueueDesc"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -230,7 +230,7 @@ func (p *TvInputProxy) SetPictureProfileId(
 	_data.WriteInt32(streamId)
 	_data.WriteInt64(profileId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITvInputSetPictureProfileId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInput, "setPictureProfileId"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -255,7 +255,7 @@ func (p *TvInputProxy) SetSoundProfileId(
 	_data.WriteInt32(streamId)
 	_data.WriteInt64(profileId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITvInputSetSoundProfileId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInput, "setSoundProfileId"), 0, _data)
 	if _err != nil {
 		return _err
 	}

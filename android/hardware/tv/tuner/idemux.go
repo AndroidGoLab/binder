@@ -59,7 +59,7 @@ func (p *DemuxProxy) SetFrontendDataSource(
 	_data.WriteInterfaceToken(DescriptorIDemux)
 	_data.WriteInt32(frontendId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDemuxSetFrontendDataSource, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDemux, "setFrontendDataSource"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -87,7 +87,7 @@ func (p *DemuxProxy) OpenFilter(
 	_data.WriteInt32(bufferSize)
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDemuxOpenFilter, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDemux, "openFilter"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -112,7 +112,7 @@ func (p *DemuxProxy) OpenTimeFilter(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDemux)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDemuxOpenTimeFilter, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDemux, "openTimeFilter"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -139,7 +139,7 @@ func (p *DemuxProxy) GetAvSyncHwId(
 	_data.WriteInterfaceToken(DescriptorIDemux)
 	_data.WriteStrongBinder(filter.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDemuxGetAvSyncHwId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDemux, "getAvSyncHwId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -165,7 +165,7 @@ func (p *DemuxProxy) GetAvSyncTime(
 	_data.WriteInterfaceToken(DescriptorIDemux)
 	_data.WriteInt32(avSyncHwId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDemuxGetAvSyncTime, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDemux, "getAvSyncTime"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -188,7 +188,7 @@ func (p *DemuxProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDemux)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDemuxClose, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDemux, "close"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -214,7 +214,7 @@ func (p *DemuxProxy) OpenDvr(
 	_data.WriteInt32(bufferSize)
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDemuxOpenDvr, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDemux, "openDvr"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -240,7 +240,7 @@ func (p *DemuxProxy) ConnectCiCam(
 	_data.WriteInterfaceToken(DescriptorIDemux)
 	_data.WriteInt32(ciCamId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDemuxConnectCiCam, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDemux, "connectCiCam"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -259,7 +259,7 @@ func (p *DemuxProxy) DisconnectCiCam(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDemux)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDemuxDisconnectCiCam, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDemux, "disconnectCiCam"), 0, _data)
 	if _err != nil {
 		return _err
 	}

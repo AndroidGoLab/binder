@@ -47,7 +47,7 @@ func (p *LcnV2ChannelListProxy) GetLcnV2ChannelLists(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILcnV2ChannelList)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionILcnV2ChannelListGetLcnV2ChannelLists, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILcnV2ChannelList, "getLcnV2ChannelLists"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -84,7 +84,7 @@ func (p *LcnV2ChannelListProxy) SetLcnV2ChannelList(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionILcnV2ChannelListSetLcnV2ChannelList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILcnV2ChannelList, "setLcnV2ChannelList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -110,7 +110,7 @@ func (p *LcnV2ChannelListProxy) SetListener(
 	_data.WriteInterfaceToken(DescriptorILcnV2ChannelList)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionILcnV2ChannelListSetListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILcnV2ChannelList, "setListener"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

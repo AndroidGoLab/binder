@@ -52,6 +52,6 @@ func (p *OnAssociationsChangedListenerProxy) OnAssociationsChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnAssociationsChangedListenerOnAssociationsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnAssociationsChangedListener, "onAssociationsChanged"), binder.FlagOneway, _data)
 	return _err
 }

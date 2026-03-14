@@ -47,7 +47,7 @@ func (p *TokenInfoCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITokenInfoCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITokenInfoCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +62,6 @@ func (p *TokenInfoCallbackProxy) OnFailure(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
 
-	_, _err := p.remote.Transact(ctx, TransactionITokenInfoCallbackOnFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITokenInfoCallback, "onFailure"), binder.FlagOneway, _data)
 	return _err
 }

@@ -141,7 +141,7 @@ func (p *ConnectionServiceProxy) AddConnectionServiceAdapter(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceAddConnectionServiceAdapter, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "addConnectionServiceAdapter"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -157,7 +157,7 @@ func (p *ConnectionServiceProxy) RemoveConnectionServiceAdapter(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceRemoveConnectionServiceAdapter, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "removeConnectionServiceAdapter"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -185,7 +185,7 @@ func (p *ConnectionServiceProxy) CreateConnection(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceCreateConnection, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "createConnection"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -201,7 +201,7 @@ func (p *ConnectionServiceProxy) CreateConnectionComplete(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceCreateConnectionComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "createConnectionComplete"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -227,7 +227,7 @@ func (p *ConnectionServiceProxy) CreateConnectionFailed(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceCreateConnectionFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "createConnectionFailed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -255,7 +255,7 @@ func (p *ConnectionServiceProxy) CreateConference(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceCreateConference, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "createConference"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -271,7 +271,7 @@ func (p *ConnectionServiceProxy) CreateConferenceComplete(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceCreateConferenceComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "createConferenceComplete"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -297,7 +297,7 @@ func (p *ConnectionServiceProxy) CreateConferenceFailed(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceCreateConferenceFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "createConferenceFailed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -313,7 +313,7 @@ func (p *ConnectionServiceProxy) Abort(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceAbort, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "abort"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -331,7 +331,7 @@ func (p *ConnectionServiceProxy) AnswerVideo(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceAnswerVideo, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "answerVideo"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -347,7 +347,7 @@ func (p *ConnectionServiceProxy) Answer(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceAnswer, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "answer"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -367,7 +367,7 @@ func (p *ConnectionServiceProxy) Deflect(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceDeflect, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "deflect"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -383,7 +383,7 @@ func (p *ConnectionServiceProxy) Reject(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceReject, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "reject"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -401,7 +401,7 @@ func (p *ConnectionServiceProxy) RejectWithReason(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceRejectWithReason, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "rejectWithReason"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -419,7 +419,7 @@ func (p *ConnectionServiceProxy) RejectWithMessage(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceRejectWithMessage, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "rejectWithMessage"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -441,7 +441,7 @@ func (p *ConnectionServiceProxy) Transfer(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceTransfer, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "transfer"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -459,7 +459,7 @@ func (p *ConnectionServiceProxy) ConsultativeTransfer(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceConsultativeTransfer, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "consultativeTransfer"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -475,7 +475,7 @@ func (p *ConnectionServiceProxy) Disconnect(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceDisconnect, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "disconnect"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -491,7 +491,7 @@ func (p *ConnectionServiceProxy) Silence(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceSilence, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "silence"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -507,7 +507,7 @@ func (p *ConnectionServiceProxy) Hold(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceHold, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "hold"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -523,7 +523,7 @@ func (p *ConnectionServiceProxy) Unhold(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceUnhold, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "unhold"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -543,7 +543,7 @@ func (p *ConnectionServiceProxy) OnCallAudioStateChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceOnCallAudioStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "onCallAudioStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -563,7 +563,7 @@ func (p *ConnectionServiceProxy) OnCallEndpointChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceOnCallEndpointChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "onCallEndpointChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -590,7 +590,7 @@ func (p *ConnectionServiceProxy) OnAvailableCallEndpointsChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceOnAvailableCallEndpointsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "onAvailableCallEndpointsChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -608,7 +608,7 @@ func (p *ConnectionServiceProxy) OnMuteStateChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceOnMuteStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "onMuteStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -626,7 +626,7 @@ func (p *ConnectionServiceProxy) PlayDtmfTone(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServicePlayDtmfTone, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "playDtmfTone"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -642,7 +642,7 @@ func (p *ConnectionServiceProxy) StopDtmfTone(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceStopDtmfTone, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "stopDtmfTone"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -660,7 +660,7 @@ func (p *ConnectionServiceProxy) Conference(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceConference, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "conference"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -676,7 +676,7 @@ func (p *ConnectionServiceProxy) SplitFromConference(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceSplitFromConference, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "splitFromConference"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -692,7 +692,7 @@ func (p *ConnectionServiceProxy) MergeConference(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceMergeConference, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "mergeConference"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -708,7 +708,7 @@ func (p *ConnectionServiceProxy) SwapConference(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceSwapConference, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "swapConference"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -735,7 +735,7 @@ func (p *ConnectionServiceProxy) AddConferenceParticipants(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceAddConferenceParticipants, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "addConferenceParticipants"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -753,7 +753,7 @@ func (p *ConnectionServiceProxy) OnPostDialContinue(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceOnPostDialContinue, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "onPostDialContinue"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -769,7 +769,7 @@ func (p *ConnectionServiceProxy) PullExternalCall(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServicePullExternalCall, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "pullExternalCall"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -791,7 +791,7 @@ func (p *ConnectionServiceProxy) SendCallEvent(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceSendCallEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "sendCallEvent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -811,7 +811,7 @@ func (p *ConnectionServiceProxy) OnCallFilteringCompleted(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceOnCallFilteringCompleted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "onCallFilteringCompleted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -831,7 +831,7 @@ func (p *ConnectionServiceProxy) OnExtrasChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceOnExtrasChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "onExtrasChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -851,7 +851,7 @@ func (p *ConnectionServiceProxy) StartRtt(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceStartRtt, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "startRtt"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -867,7 +867,7 @@ func (p *ConnectionServiceProxy) StopRtt(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceStopRtt, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "stopRtt"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -887,7 +887,7 @@ func (p *ConnectionServiceProxy) RespondToRttUpgradeRequest(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceRespondToRttUpgradeRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "respondToRttUpgradeRequest"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -901,7 +901,7 @@ func (p *ConnectionServiceProxy) ConnectionServiceFocusLost(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceConnectionServiceFocusLost, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "connectionServiceFocusLost"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -915,7 +915,7 @@ func (p *ConnectionServiceProxy) ConnectionServiceFocusGained(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceConnectionServiceFocusGained, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "connectionServiceFocusGained"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -937,7 +937,7 @@ func (p *ConnectionServiceProxy) HandoverFailed(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceHandoverFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "handoverFailed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -953,7 +953,7 @@ func (p *ConnectionServiceProxy) HandoverComplete(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceHandoverComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "handoverComplete"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -971,7 +971,7 @@ func (p *ConnectionServiceProxy) OnUsingAlternativeUi(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceOnUsingAlternativeUi, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "onUsingAlternativeUi"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -989,6 +989,6 @@ func (p *ConnectionServiceProxy) OnTrackedByNonUiService(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConnectionServiceOnTrackedByNonUiService, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnectionService, "onTrackedByNonUiService"), binder.FlagOneway, _data)
 	return _err
 }

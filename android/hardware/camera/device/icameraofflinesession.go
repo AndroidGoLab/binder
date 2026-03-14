@@ -46,7 +46,7 @@ func (p *CameraOfflineSessionProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraOfflineSession)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICameraOfflineSessionClose, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICameraOfflineSession, "close"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -66,7 +66,7 @@ func (p *CameraOfflineSessionProxy) GetCaptureResultMetadataQueue(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraOfflineSession)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICameraOfflineSessionGetCaptureResultMetadataQueue, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICameraOfflineSession, "getCaptureResultMetadataQueue"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -90,7 +90,7 @@ func (p *CameraOfflineSessionProxy) SetCallback(
 	_data.WriteInterfaceToken(DescriptorICameraOfflineSession)
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICameraOfflineSessionSetCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICameraOfflineSession, "setCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}

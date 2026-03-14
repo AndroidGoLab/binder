@@ -48,6 +48,6 @@ func (p *GetProfileCallbackProxy) OnComplete(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIGetProfileCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGetProfileCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

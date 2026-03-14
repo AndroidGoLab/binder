@@ -45,7 +45,7 @@ func (p *SignificantPlaceProviderProxy) SetSignificantPlaceProviderManager(
 	_data.WriteInterfaceToken(DescriptorISignificantPlaceProvider)
 	_data.WriteStrongBinder(manager.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISignificantPlaceProviderSetSignificantPlaceProviderManager, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISignificantPlaceProvider, "setSignificantPlaceProviderManager"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -55,6 +55,6 @@ func (p *SignificantPlaceProviderProxy) OnSignificantPlaceCheck(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISignificantPlaceProvider)
 
-	_, _err := p.remote.Transact(ctx, TransactionISignificantPlaceProviderOnSignificantPlaceCheck, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISignificantPlaceProvider, "onSignificantPlaceCheck"), binder.FlagOneway, _data)
 	return _err
 }

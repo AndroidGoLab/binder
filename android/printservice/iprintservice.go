@@ -63,7 +63,7 @@ func (p *PrintServiceProxy) SetClient(
 	_data.WriteInterfaceToken(DescriptorIPrintService)
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintServiceSetClient, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintService, "setClient"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,7 +74,7 @@ func (p *PrintServiceProxy) RequestCancelPrintJob(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintServiceRequestCancelPrintJob, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintService, "requestCancelPrintJob"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,7 +85,7 @@ func (p *PrintServiceProxy) OnPrintJobQueued(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintServiceOnPrintJobQueued, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintService, "onPrintJobQueued"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,7 +95,7 @@ func (p *PrintServiceProxy) CreatePrinterDiscoverySession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintServiceCreatePrinterDiscoverySession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintService, "createPrinterDiscoverySession"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,7 +111,7 @@ func (p *PrintServiceProxy) StartPrinterDiscovery(
 		_data.WriteInt32(int32(len(priorityList)))
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintServiceStartPrinterDiscovery, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintService, "startPrinterDiscovery"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -121,7 +121,7 @@ func (p *PrintServiceProxy) StopPrinterDiscovery(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintServiceStopPrinterDiscovery, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintService, "stopPrinterDiscovery"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -137,7 +137,7 @@ func (p *PrintServiceProxy) ValidatePrinters(
 		_data.WriteInt32(int32(len(printerIds)))
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintServiceValidatePrinters, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintService, "validatePrinters"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -148,7 +148,7 @@ func (p *PrintServiceProxy) StartPrinterStateTracking(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintServiceStartPrinterStateTracking, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintService, "startPrinterStateTracking"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -159,7 +159,7 @@ func (p *PrintServiceProxy) RequestCustomPrinterIcon(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintServiceRequestCustomPrinterIcon, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintService, "requestCustomPrinterIcon"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -170,7 +170,7 @@ func (p *PrintServiceProxy) StopPrinterStateTracking(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintServiceStopPrinterStateTracking, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintService, "stopPrinterStateTracking"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -180,6 +180,6 @@ func (p *PrintServiceProxy) DestroyPrinterDiscoverySession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintServiceDestroyPrinterDiscoverySession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintService, "destroyPrinterDiscoverySession"), binder.FlagOneway, _data)
 	return _err
 }

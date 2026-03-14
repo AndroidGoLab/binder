@@ -45,7 +45,7 @@ func (p *AdbTransportProxy) OnAdbEnabled(
 	_data.WriteBool(enabled)
 	_data.WritePaddedByte(byte(type_))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdbTransportOnAdbEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdbTransport, "onAdbEnabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}

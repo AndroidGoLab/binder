@@ -43,7 +43,7 @@ func (p *ResultReceiverProxy) OnResult(
 	_data.WriteInterfaceToken(DescriptorIResultReceiver)
 	_data.WriteBool(success)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIResultReceiverOnResult, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIResultReceiver, "onResult"), 0, _data)
 	if _err != nil {
 		return _err
 	}

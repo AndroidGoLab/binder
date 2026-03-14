@@ -48,7 +48,7 @@ func (p *OutputSurfaceConfigurationProxy) GetPreviewOutputSurface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOutputSurfaceConfiguration)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOutputSurfaceConfigurationGetPreviewOutputSurface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOutputSurfaceConfiguration, "getPreviewOutputSurface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -71,7 +71,7 @@ func (p *OutputSurfaceConfigurationProxy) GetImageCaptureOutputSurface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOutputSurfaceConfiguration)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOutputSurfaceConfigurationGetImageCaptureOutputSurface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOutputSurfaceConfiguration, "getImageCaptureOutputSurface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -94,7 +94,7 @@ func (p *OutputSurfaceConfigurationProxy) GetImageAnalysisOutputSurface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOutputSurfaceConfiguration)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOutputSurfaceConfigurationGetImageAnalysisOutputSurface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOutputSurfaceConfiguration, "getImageAnalysisOutputSurface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -117,7 +117,7 @@ func (p *OutputSurfaceConfigurationProxy) GetPostviewOutputSurface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOutputSurfaceConfiguration)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOutputSurfaceConfigurationGetPostviewOutputSurface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOutputSurfaceConfiguration, "getPostviewOutputSurface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

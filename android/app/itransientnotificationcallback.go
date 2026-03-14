@@ -43,7 +43,7 @@ func (p *TransientNotificationCallbackProxy) OnToastShown(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransientNotificationCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionITransientNotificationCallbackOnToastShown, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITransientNotificationCallback, "onToastShown"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -53,6 +53,6 @@ func (p *TransientNotificationCallbackProxy) OnToastHidden(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransientNotificationCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionITransientNotificationCallbackOnToastHidden, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITransientNotificationCallback, "onToastHidden"), binder.FlagOneway, _data)
 	return _err
 }

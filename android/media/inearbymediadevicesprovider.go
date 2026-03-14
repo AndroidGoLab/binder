@@ -45,7 +45,7 @@ func (p *NearbyMediaDevicesProviderProxy) RegisterNearbyDevicesCallback(
 	_data.WriteInterfaceToken(DescriptorINearbyMediaDevicesProvider)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionINearbyMediaDevicesProviderRegisterNearbyDevicesCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINearbyMediaDevicesProvider, "registerNearbyDevicesCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -57,6 +57,6 @@ func (p *NearbyMediaDevicesProviderProxy) UnregisterNearbyDevicesCallback(
 	_data.WriteInterfaceToken(DescriptorINearbyMediaDevicesProvider)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionINearbyMediaDevicesProviderUnregisterNearbyDevicesCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINearbyMediaDevicesProvider, "unregisterNearbyDevicesCallback"), binder.FlagOneway, _data)
 	return _err
 }

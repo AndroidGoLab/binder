@@ -49,7 +49,7 @@ func (p *GeocodeProviderProxy) ForwardGeocode(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIGeocodeProviderForwardGeocode, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGeocodeProvider, "forwardGeocode"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,6 +65,6 @@ func (p *GeocodeProviderProxy) ReverseGeocode(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIGeocodeProviderReverseGeocode, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGeocodeProvider, "reverseGeocode"), binder.FlagOneway, _data)
 	return _err
 }

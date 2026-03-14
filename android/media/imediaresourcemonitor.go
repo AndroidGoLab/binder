@@ -45,6 +45,6 @@ func (p *MediaResourceMonitorProxy) NotifyResourceGranted(
 	_data.WriteInt32(pid)
 	_data.WriteInt32(type_)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaResourceMonitorNotifyResourceGranted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaResourceMonitor, "notifyResourceGranted"), binder.FlagOneway, _data)
 	return _err
 }

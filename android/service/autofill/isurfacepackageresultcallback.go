@@ -42,6 +42,6 @@ func (p *SurfacePackageResultCallbackProxy) OnResult(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfacePackageResultCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionISurfacePackageResultCallbackOnResult, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISurfacePackageResultCallback, "onResult"), binder.FlagOneway, _data)
 	return _err
 }

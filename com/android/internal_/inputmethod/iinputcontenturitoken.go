@@ -43,7 +43,7 @@ func (p *InputContentUriTokenProxy) Take(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputContentUriToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInputContentUriTokenTake, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputContentUriToken, "take"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -62,7 +62,7 @@ func (p *InputContentUriTokenProxy) Release(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputContentUriToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInputContentUriTokenRelease, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputContentUriToken, "release"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -51,7 +51,7 @@ func (p *ControlsSubscriberProxy) OnSubscribe(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteStrongBinder(cs.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIControlsSubscriberOnSubscribe, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIControlsSubscriber, "onSubscribe"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,7 +67,7 @@ func (p *ControlsSubscriberProxy) OnNext(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIControlsSubscriberOnNext, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIControlsSubscriber, "onNext"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,7 +81,7 @@ func (p *ControlsSubscriberProxy) OnError(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteString16(s)
 
-	_, _err := p.remote.Transact(ctx, TransactionIControlsSubscriberOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIControlsSubscriber, "onError"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -93,6 +93,6 @@ func (p *ControlsSubscriberProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorIControlsSubscriber)
 	_data.WriteStrongBinder(token.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIControlsSubscriberOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIControlsSubscriber, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

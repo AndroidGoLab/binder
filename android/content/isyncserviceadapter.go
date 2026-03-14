@@ -46,7 +46,7 @@ func (p *SyncServiceAdapterProxy) StartSync(
 	_data.WriteInterfaceToken(DescriptorISyncServiceAdapter)
 	_data.WriteStrongBinder(syncContext.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISyncServiceAdapterStartSync, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISyncServiceAdapter, "startSync"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +58,6 @@ func (p *SyncServiceAdapterProxy) CancelSync(
 	_data.WriteInterfaceToken(DescriptorISyncServiceAdapter)
 	_data.WriteStrongBinder(syncContext.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISyncServiceAdapterCancelSync, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISyncServiceAdapter, "cancelSync"), binder.FlagOneway, _data)
 	return _err
 }

@@ -46,7 +46,7 @@ func (p *FooProviderProxy) CreateFoo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFooProvider)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFooProviderCreateFoo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFooProvider, "createFoo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -71,7 +71,7 @@ func (p *FooProviderProxy) IsFooGarbageCollected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFooProvider)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFooProviderIsFooGarbageCollected, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFooProvider, "isFooGarbageCollected"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -94,6 +94,6 @@ func (p *FooProviderProxy) KillProcess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFooProvider)
 
-	_, _err := p.remote.Transact(ctx, TransactionIFooProviderKillProcess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFooProvider, "killProcess"), binder.FlagOneway, _data)
 	return _err
 }

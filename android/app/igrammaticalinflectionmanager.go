@@ -53,7 +53,7 @@ func (p *GrammaticalInflectionManagerProxy) SetRequestedApplicationGrammaticalGe
 	_data.WriteInt32(userId)
 	_data.WriteInt32(gender)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGrammaticalInflectionManagerSetRequestedApplicationGrammaticalGender, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGrammaticalInflectionManager, "setRequestedApplicationGrammaticalGender"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -76,7 +76,7 @@ func (p *GrammaticalInflectionManagerProxy) SetSystemWideGrammaticalGender(
 	_data.WriteInt32(gender)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGrammaticalInflectionManagerSetSystemWideGrammaticalGender, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGrammaticalInflectionManager, "setSystemWideGrammaticalGender"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -99,7 +99,7 @@ func (p *GrammaticalInflectionManagerProxy) GetSystemGrammaticalGender(
 	_data.WriteInterfaceToken(DescriptorIGrammaticalInflectionManager)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGrammaticalInflectionManagerGetSystemGrammaticalGender, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGrammaticalInflectionManager, "getSystemGrammaticalGender"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -126,7 +126,7 @@ func (p *GrammaticalInflectionManagerProxy) PeekSystemGrammaticalGenderByUserId(
 	_data.WriteInterfaceToken(DescriptorIGrammaticalInflectionManager)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGrammaticalInflectionManagerPeekSystemGrammaticalGenderByUserId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGrammaticalInflectionManager, "peekSystemGrammaticalGenderByUserId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

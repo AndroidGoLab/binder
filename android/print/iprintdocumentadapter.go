@@ -52,7 +52,7 @@ func (p *PrintDocumentAdapterProxy) SetObserver(
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
 	_data.WriteStrongBinder(observer.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintDocumentAdapterSetObserver, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintDocumentAdapter, "setObserver"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,7 +62,7 @@ func (p *PrintDocumentAdapterProxy) Start(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintDocumentAdapterStart, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintDocumentAdapter, "start"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,7 +88,7 @@ func (p *PrintDocumentAdapterProxy) Layout(
 	}
 	_data.WriteInt32(sequence)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintDocumentAdapterLayout, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintDocumentAdapter, "layout"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,7 +115,7 @@ func (p *PrintDocumentAdapterProxy) Write(
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteInt32(sequence)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintDocumentAdapterWrite, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintDocumentAdapter, "write"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -125,6 +125,6 @@ func (p *PrintDocumentAdapterProxy) Finish(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintDocumentAdapterFinish, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintDocumentAdapter, "finish"), binder.FlagOneway, _data)
 	return _err
 }

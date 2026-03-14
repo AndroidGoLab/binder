@@ -45,7 +45,7 @@ func (p *SecureElementCallbackProxy) OnStateChange(
 	_data.WriteBool(connected)
 	_data.WriteString16(debugReason)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureElementCallbackOnStateChange, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureElementCallback, "onStateChange"), 0, _data)
 	if _err != nil {
 		return _err
 	}

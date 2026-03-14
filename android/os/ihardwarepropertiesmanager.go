@@ -52,7 +52,7 @@ func (p *HardwarePropertiesManagerProxy) GetDeviceTemperatures(
 	_data.WriteInt32(type_)
 	_data.WriteInt32(source)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHardwarePropertiesManagerGetDeviceTemperatures, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHardwarePropertiesManager, "getDeviceTemperatures"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -88,7 +88,7 @@ func (p *HardwarePropertiesManagerProxy) GetCpuUsages(
 	_data.WriteInterfaceToken(DescriptorIHardwarePropertiesManager)
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHardwarePropertiesManagerGetCpuUsages, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHardwarePropertiesManager, "getCpuUsages"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -123,7 +123,7 @@ func (p *HardwarePropertiesManagerProxy) GetFanSpeeds(
 	_data.WriteInterfaceToken(DescriptorIHardwarePropertiesManager)
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHardwarePropertiesManagerGetFanSpeeds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHardwarePropertiesManager, "getFanSpeeds"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

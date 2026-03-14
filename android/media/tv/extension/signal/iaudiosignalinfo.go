@@ -53,7 +53,7 @@ func (p *AudioSignalInfoProxy) GetAudioSignalInfo(
 	_data.WriteInterfaceToken(DescriptorIAudioSignalInfo)
 	_data.WriteString16(sessionToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioSignalInfoGetAudioSignalInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioSignalInfo, "getAudioSignalInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -77,7 +77,7 @@ func (p *AudioSignalInfoProxy) NotifyMtsSelectTrackFlag(
 	_data.WriteInterfaceToken(DescriptorIAudioSignalInfo)
 	_data.WriteBool(mtsFlag)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioSignalInfoNotifyMtsSelectTrackFlag, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioSignalInfo, "notifyMtsSelectTrackFlag"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -97,7 +97,7 @@ func (p *AudioSignalInfoProxy) GetMtsSelectedTrackId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioSignalInfo)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioSignalInfoGetMtsSelectedTrackId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioSignalInfo, "getMtsSelectedTrackId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -124,7 +124,7 @@ func (p *AudioSignalInfoProxy) AddAudioSignalInfoListener(
 	_data.WriteString16(clientToken)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioSignalInfoAddAudioSignalInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioSignalInfo, "addAudioSignalInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -145,7 +145,7 @@ func (p *AudioSignalInfoProxy) RemoveAudioSignalInfoListener(
 	_data.WriteInterfaceToken(DescriptorIAudioSignalInfo)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioSignalInfoRemoveAudioSignalInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioSignalInfo, "removeAudioSignalInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}

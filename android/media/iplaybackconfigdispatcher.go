@@ -54,6 +54,6 @@ func (p *PlaybackConfigDispatcherProxy) DispatchPlaybackConfigChange(
 	}
 	_data.WriteBool(flush)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPlaybackConfigDispatcherDispatchPlaybackConfigChange, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPlaybackConfigDispatcher, "dispatchPlaybackConfigChange"), binder.FlagOneway, _data)
 	return _err
 }

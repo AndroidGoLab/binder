@@ -73,7 +73,7 @@ func (p *BlobStoreManagerProxy) CreateSession(
 	}
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBlobStoreManagerCreateSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBlobStoreManager, "createSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -101,7 +101,7 @@ func (p *BlobStoreManagerProxy) OpenSession(
 	_data.WriteInt64(sessionId)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBlobStoreManagerOpenSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBlobStoreManager, "openSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -132,7 +132,7 @@ func (p *BlobStoreManagerProxy) OpenBlob(
 	}
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBlobStoreManagerOpenBlob, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBlobStoreManager, "openBlob"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -159,7 +159,7 @@ func (p *BlobStoreManagerProxy) AbandonSession(
 	_data.WriteInt64(sessionId)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBlobStoreManagerAbandonSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBlobStoreManager, "abandonSession"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -189,7 +189,7 @@ func (p *BlobStoreManagerProxy) AcquireLease(
 	_data.WriteInt64(leaseTimeoutMillis)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBlobStoreManagerAcquireLease, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBlobStoreManager, "acquireLease"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -214,7 +214,7 @@ func (p *BlobStoreManagerProxy) ReleaseLease(
 	}
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBlobStoreManagerReleaseLease, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBlobStoreManager, "releaseLease"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -235,7 +235,7 @@ func (p *BlobStoreManagerProxy) ReleaseAllLeases(
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBlobStoreManagerReleaseAllLeases, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBlobStoreManager, "releaseAllLeases"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -257,7 +257,7 @@ func (p *BlobStoreManagerProxy) GetRemainingLeaseQuotaBytes(
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBlobStoreManagerGetRemainingLeaseQuotaBytes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBlobStoreManager, "getRemainingLeaseQuotaBytes"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -284,7 +284,7 @@ func (p *BlobStoreManagerProxy) WaitForIdle(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBlobStoreManagerWaitForIdle, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBlobStoreManager, "waitForIdle"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -306,7 +306,7 @@ func (p *BlobStoreManagerProxy) QueryBlobsForUser(
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBlobStoreManagerQueryBlobsForUser, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBlobStoreManager, "queryBlobsForUser"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -340,7 +340,7 @@ func (p *BlobStoreManagerProxy) DeleteBlob(
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteInt64(blobId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBlobStoreManagerDeleteBlob, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBlobStoreManager, "deleteBlob"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -362,7 +362,7 @@ func (p *BlobStoreManagerProxy) GetLeasedBlobs(
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBlobStoreManagerGetLeasedBlobs, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBlobStoreManager, "getLeasedBlobs"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -401,7 +401,7 @@ func (p *BlobStoreManagerProxy) GetLeaseInfo(
 	}
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBlobStoreManagerGetLeaseInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBlobStoreManager, "getLeaseInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

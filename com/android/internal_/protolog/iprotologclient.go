@@ -52,7 +52,7 @@ func (p *ProtoLogClientProxy) ToggleLogcat(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIProtoLogClientToggleLogcat, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProtoLogClient, "toggleLogcat"), 0, _data)
 	if _err != nil {
 		return _err
 	}

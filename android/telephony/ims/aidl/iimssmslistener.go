@@ -57,7 +57,7 @@ func (p *ImsSmsListenerProxy) OnSendSmsResult(
 	_data.WriteInt32(reason)
 	_data.WriteInt32(networkErrorCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsSmsListenerOnSendSmsResult, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsSmsListener, "onSendSmsResult"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,7 +80,7 @@ func (p *ImsSmsListenerProxy) OnSmsStatusReportReceived(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsSmsListenerOnSmsStatusReportReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsSmsListener, "onSmsStatusReportReceived"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,7 +103,7 @@ func (p *ImsSmsListenerProxy) OnSmsReceived(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsSmsListenerOnSmsReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsSmsListener, "onSmsReceived"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,6 +119,6 @@ func (p *ImsSmsListenerProxy) OnMemoryAvailableResult(
 	_data.WriteInt32(status)
 	_data.WriteInt32(networkErrorCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsSmsListenerOnMemoryAvailableResult, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsSmsListener, "onMemoryAvailableResult"), binder.FlagOneway, _data)
 	return _err
 }

@@ -60,7 +60,7 @@ func (p *EventMonitorProxy) GetPresentEventInfo(
 	_data.WriteInterfaceToken(DescriptorIEventMonitor)
 	_data.WriteInt64(channelDbId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEventMonitorGetPresentEventInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEventMonitor, "getPresentEventInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -84,7 +84,7 @@ func (p *EventMonitorProxy) AddPresentEventInfoListener(
 	_data.WriteInterfaceToken(DescriptorIEventMonitor)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEventMonitorAddPresentEventInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEventMonitor, "addPresentEventInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -105,7 +105,7 @@ func (p *EventMonitorProxy) RemovePresentEventInfoListener(
 	_data.WriteInterfaceToken(DescriptorIEventMonitor)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEventMonitorRemovePresentEventInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEventMonitor, "removePresentEventInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -127,7 +127,7 @@ func (p *EventMonitorProxy) GetFollowingEventInfo(
 	_data.WriteInterfaceToken(DescriptorIEventMonitor)
 	_data.WriteInt64(channelDbId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEventMonitorGetFollowingEventInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEventMonitor, "getFollowingEventInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -151,7 +151,7 @@ func (p *EventMonitorProxy) AddFollowingEventInfoListener(
 	_data.WriteInterfaceToken(DescriptorIEventMonitor)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEventMonitorAddFollowingEventInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEventMonitor, "addFollowingEventInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -172,7 +172,7 @@ func (p *EventMonitorProxy) RemoveFollowingEventInfoListener(
 	_data.WriteInterfaceToken(DescriptorIEventMonitor)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEventMonitorRemoveFollowingEventInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEventMonitor, "removeFollowingEventInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -194,7 +194,7 @@ func (p *EventMonitorProxy) GetSdtGuidanceInfo(
 	_data.WriteInterfaceToken(DescriptorIEventMonitor)
 	_data.WriteInt64(channelDbId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEventMonitorGetSdtGuidanceInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEventMonitor, "getSdtGuidanceInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -227,7 +227,7 @@ func (p *EventMonitorProxy) SetBgmTuneChannelInfo(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEventMonitorSetBgmTuneChannelInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEventMonitor, "setBgmTuneChannelInfo"), 0, _data)
 	if _err != nil {
 		return _err
 	}

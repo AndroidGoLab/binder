@@ -47,6 +47,6 @@ func (p *EraserCallbackProxy) OnClassifierUpdate(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIEraserCallbackOnClassifierUpdate, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEraserCallback, "onClassifierUpdate"), binder.FlagOneway, _data)
 	return _err
 }

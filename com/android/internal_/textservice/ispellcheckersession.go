@@ -63,7 +63,7 @@ func (p *SpellCheckerSessionProxy) OnGetSuggestionsMultiple(
 	_data.WriteInt32(suggestionsLimit)
 	_data.WriteBool(multipleWords)
 
-	_, _err := p.remote.Transact(ctx, TransactionISpellCheckerSessionOnGetSuggestionsMultiple, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISpellCheckerSession, "onGetSuggestionsMultiple"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,7 +86,7 @@ func (p *SpellCheckerSessionProxy) OnGetSentenceSuggestionsMultiple(
 	}
 	_data.WriteInt32(suggestionsLimit)
 
-	_, _err := p.remote.Transact(ctx, TransactionISpellCheckerSessionOnGetSentenceSuggestionsMultiple, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISpellCheckerSession, "onGetSentenceSuggestionsMultiple"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,7 +96,7 @@ func (p *SpellCheckerSessionProxy) OnCancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpellCheckerSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionISpellCheckerSessionOnCancel, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISpellCheckerSession, "onCancel"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,6 +106,6 @@ func (p *SpellCheckerSessionProxy) OnClose(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISpellCheckerSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionISpellCheckerSessionOnClose, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISpellCheckerSession, "onClose"), binder.FlagOneway, _data)
 	return _err
 }

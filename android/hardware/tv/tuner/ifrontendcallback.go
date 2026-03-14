@@ -45,7 +45,7 @@ func (p *FrontendCallbackProxy) OnEvent(
 	_data.WriteInterfaceToken(DescriptorIFrontendCallback)
 	_data.WriteInt32(int32(frontendEventType))
 
-	_, _err := p.remote.Transact(ctx, TransactionIFrontendCallbackOnEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFrontendCallback, "onEvent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,6 +61,6 @@ func (p *FrontendCallbackProxy) OnScanMessage(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIFrontendCallbackOnScanMessage, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFrontendCallback, "onScanMessage"), binder.FlagOneway, _data)
 	return _err
 }

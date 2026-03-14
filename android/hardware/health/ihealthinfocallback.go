@@ -45,6 +45,6 @@ func (p *HealthInfoCallbackProxy) HealthInfoChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIHealthInfoCallbackHealthInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealthInfoCallback, "healthInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }

@@ -57,7 +57,7 @@ func (p *NetworkPolicyListenerProxy) OnUidRulesChanged(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(uidRules)
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkPolicyListenerOnUidRulesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onUidRulesChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,7 +76,7 @@ func (p *NetworkPolicyListenerProxy) OnMeteredIfacesChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkPolicyListenerOnMeteredIfacesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onMeteredIfacesChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,7 +88,7 @@ func (p *NetworkPolicyListenerProxy) OnRestrictBackgroundChanged(
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
 	_data.WriteBool(restrictBackground)
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkPolicyListenerOnRestrictBackgroundChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onRestrictBackgroundChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,7 +102,7 @@ func (p *NetworkPolicyListenerProxy) OnUidPoliciesChanged(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(uidPolicies)
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkPolicyListenerOnUidPoliciesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onUidPoliciesChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -127,7 +127,7 @@ func (p *NetworkPolicyListenerProxy) OnSubscriptionOverride(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkPolicyListenerOnSubscriptionOverride, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onSubscriptionOverride"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -145,7 +145,7 @@ func (p *NetworkPolicyListenerProxy) OnSubscriptionPlansChanged(
 		_data.WriteInt32(int32(len(plans)))
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkPolicyListenerOnSubscriptionPlansChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onSubscriptionPlansChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -161,6 +161,6 @@ func (p *NetworkPolicyListenerProxy) OnBlockedReasonChanged(
 	_data.WriteInt32(oldBlockedReason)
 	_data.WriteInt32(newBlockedReason)
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkPolicyListenerOnBlockedReasonChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onBlockedReasonChanged"), binder.FlagOneway, _data)
 	return _err
 }

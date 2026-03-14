@@ -47,7 +47,7 @@ func (p *DataShareReadAdapterProxy) Start(
 	_data.WriteInterfaceToken(DescriptorIDataShareReadAdapter)
 	_data.WriteFileDescriptor(fd)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataShareReadAdapterStart, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataShareReadAdapter, "start"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,7 +59,7 @@ func (p *DataShareReadAdapterProxy) Error(
 	_data.WriteInterfaceToken(DescriptorIDataShareReadAdapter)
 	_data.WriteInt32(errorCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataShareReadAdapterError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataShareReadAdapter, "error"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +69,6 @@ func (p *DataShareReadAdapterProxy) Finish(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataShareReadAdapter)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataShareReadAdapterFinish, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataShareReadAdapter, "finish"), binder.FlagOneway, _data)
 	return _err
 }

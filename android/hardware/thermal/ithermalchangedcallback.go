@@ -47,7 +47,7 @@ func (p *ThermalChangedCallbackProxy) NotifyThrottling(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIThermalChangedCallbackNotifyThrottling, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalChangedCallback, "notifyThrottling"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,6 +61,6 @@ func (p *ThermalChangedCallbackProxy) NotifyThresholdChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIThermalChangedCallbackNotifyThresholdChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalChangedCallback, "notifyThresholdChanged"), binder.FlagOneway, _data)
 	return _err
 }

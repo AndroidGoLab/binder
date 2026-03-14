@@ -43,6 +43,6 @@ func (p *SpellCheckerServiceCallbackProxy) OnSessionCreated(
 	_data.WriteInterfaceToken(DescriptorISpellCheckerServiceCallback)
 	_data.WriteStrongBinder(newSession.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISpellCheckerServiceCallbackOnSessionCreated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISpellCheckerServiceCallback, "onSessionCreated"), binder.FlagOneway, _data)
 	return _err
 }

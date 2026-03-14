@@ -45,6 +45,6 @@ func (p *ServiceCallbackProxy) OnRegistration(
 	_data.WriteString16(name)
 	_data.WriteStrongBinder(binder_.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIServiceCallbackOnRegistration, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceCallback, "onRegistration"), binder.FlagOneway, _data)
 	return _err
 }

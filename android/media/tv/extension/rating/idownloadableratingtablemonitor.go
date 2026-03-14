@@ -43,7 +43,7 @@ func (p *DownloadableRatingTableMonitorProxy) GetTable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDownloadableRatingTableMonitor)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDownloadableRatingTableMonitorGetTable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDownloadableRatingTableMonitor, "getTable"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

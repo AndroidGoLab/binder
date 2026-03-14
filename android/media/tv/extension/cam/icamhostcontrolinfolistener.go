@@ -45,6 +45,6 @@ func (p *CamHostControlInfoListenerProxy) OnCamHostControlInfoChanged(
 	_data.WriteString16(sessionToken)
 	_data.WriteInt32(sessionStatus)
 
-	_, _err := p.remote.Transact(ctx, TransactionICamHostControlInfoListenerOnCamHostControlInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamHostControlInfoListener, "onCamHostControlInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }

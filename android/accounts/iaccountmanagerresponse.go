@@ -44,7 +44,7 @@ func (p *AccountManagerResponseProxy) OnResult(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManagerResponse)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccountManagerResponseOnResult, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccountManagerResponse, "onResult"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +58,6 @@ func (p *AccountManagerResponseProxy) OnError(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccountManagerResponseOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccountManagerResponse, "onError"), binder.FlagOneway, _data)
 	return _err
 }

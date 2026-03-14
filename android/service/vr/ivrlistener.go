@@ -50,6 +50,6 @@ func (p *VrListenerProxy) FocusedActivityChanged(
 	_data.WriteBool(running2dInVr)
 	_data.WriteInt32(pid)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVrListenerFocusedActivityChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVrListener, "focusedActivityChanged"), binder.FlagOneway, _data)
 	return _err
 }

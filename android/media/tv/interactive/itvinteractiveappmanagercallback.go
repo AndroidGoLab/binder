@@ -51,7 +51,7 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnInteractiveAppServiceAdded(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManagerCallback)
 	_data.WriteString16(iAppServiceId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvInteractiveAppManagerCallbackOnInteractiveAppServiceAdded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInteractiveAppManagerCallback, "onInteractiveAppServiceAdded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,7 +63,7 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnInteractiveAppServiceRemoved(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManagerCallback)
 	_data.WriteString16(iAppServiceId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvInteractiveAppManagerCallbackOnInteractiveAppServiceRemoved, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInteractiveAppManagerCallback, "onInteractiveAppServiceRemoved"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,7 +75,7 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnInteractiveAppServiceUpdated(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManagerCallback)
 	_data.WriteString16(iAppServiceId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvInteractiveAppManagerCallbackOnInteractiveAppServiceUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInteractiveAppManagerCallback, "onInteractiveAppServiceUpdated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,7 +89,7 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnTvInteractiveAppServiceInfoUpda
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITvInteractiveAppManagerCallbackOnTvInteractiveAppServiceInfoUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInteractiveAppManagerCallback, "onTvInteractiveAppServiceInfoUpdated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,6 +107,6 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnStateChanged(
 	_data.WriteInt32(state)
 	_data.WriteInt32(err)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvInteractiveAppManagerCallbackOnStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInteractiveAppManagerCallback, "onStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

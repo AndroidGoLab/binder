@@ -52,6 +52,6 @@ func (p *NearbyMediaDevicesUpdateCallbackProxy) OnDevicesUpdated(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINearbyMediaDevicesUpdateCallbackOnDevicesUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINearbyMediaDevicesUpdateCallback, "onDevicesUpdated"), binder.FlagOneway, _data)
 	return _err
 }

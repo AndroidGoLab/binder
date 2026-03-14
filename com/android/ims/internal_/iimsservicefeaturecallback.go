@@ -54,7 +54,7 @@ func (p *ImsServiceFeatureCallbackProxy) ImsFeatureCreated(
 	}
 	_data.WriteInt32(subId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsServiceFeatureCallbackImsFeatureCreated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsServiceFeatureCallback, "imsFeatureCreated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,7 +66,7 @@ func (p *ImsServiceFeatureCallbackProxy) ImsFeatureRemoved(
 	_data.WriteInterfaceToken(DescriptorIImsServiceFeatureCallback)
 	_data.WriteInt32(reason)
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsServiceFeatureCallbackImsFeatureRemoved, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsServiceFeatureCallback, "imsFeatureRemoved"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,7 +80,7 @@ func (p *ImsServiceFeatureCallbackProxy) ImsStatusChanged(
 	_data.WriteInt32(status)
 	_data.WriteInt32(subId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsServiceFeatureCallbackImsStatusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsServiceFeatureCallback, "imsStatusChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,6 +92,6 @@ func (p *ImsServiceFeatureCallbackProxy) UpdateCapabilities(
 	_data.WriteInterfaceToken(DescriptorIImsServiceFeatureCallback)
 	_data.WriteInt64(capabilities)
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsServiceFeatureCallbackUpdateCapabilities, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsServiceFeatureCallback, "updateCapabilities"), binder.FlagOneway, _data)
 	return _err
 }

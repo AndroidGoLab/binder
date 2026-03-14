@@ -43,7 +43,7 @@ func (p *GnssPsdsCallbackProxy) DownloadRequestCb(
 	_data.WriteInterfaceToken(DescriptorIGnssPsdsCallback)
 	_data.WriteInt32(int32(psdsType))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssPsdsCallbackDownloadRequestCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssPsdsCallback, "downloadRequestCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}

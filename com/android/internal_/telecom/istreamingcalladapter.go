@@ -43,6 +43,6 @@ func (p *StreamingCallAdapterProxy) SetStreamingState(
 	_data.WriteInterfaceToken(DescriptorIStreamingCallAdapter)
 	_data.WriteInt32(state)
 
-	_, _err := p.remote.Transact(ctx, TransactionIStreamingCallAdapterSetStreamingState, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamingCallAdapter, "setStreamingState"), binder.FlagOneway, _data)
 	return _err
 }

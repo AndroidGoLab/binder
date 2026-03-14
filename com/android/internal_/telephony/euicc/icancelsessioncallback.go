@@ -52,6 +52,6 @@ func (p *CancelSessionCallbackProxy) OnComplete(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICancelSessionCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICancelSessionCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

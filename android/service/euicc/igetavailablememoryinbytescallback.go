@@ -45,7 +45,7 @@ func (p *GetAvailableMemoryInBytesCallbackProxy) OnSuccess(
 	_data.WriteInterfaceToken(DescriptorIGetAvailableMemoryInBytesCallback)
 	_data.WriteInt64(availableMemoryInBytes)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGetAvailableMemoryInBytesCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGetAvailableMemoryInBytesCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -57,6 +57,6 @@ func (p *GetAvailableMemoryInBytesCallbackProxy) OnUnsupportedOperationException
 	_data.WriteInterfaceToken(DescriptorIGetAvailableMemoryInBytesCallback)
 	_data.WriteString16(message)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGetAvailableMemoryInBytesCallbackOnUnsupportedOperationException, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGetAvailableMemoryInBytesCallback, "onUnsupportedOperationException"), binder.FlagOneway, _data)
 	return _err
 }

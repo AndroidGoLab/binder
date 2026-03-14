@@ -53,7 +53,7 @@ func (p *AppOpsUserClientProxy) NoteSyncOpNative(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserClient)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsUserClientNoteSyncOpNative, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteSyncOpNative"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,7 +72,7 @@ func (p *AppOpsUserClientProxy) NoteNonPermissionSyncOpNative(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserClient)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsUserClientNoteNonPermissionSyncOpNative, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteNonPermissionSyncOpNative"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -91,7 +91,7 @@ func (p *AppOpsUserClientProxy) NoteSyncOpOnewayNative(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserClient)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAppOpsUserClientNoteSyncOpOnewayNative, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteSyncOpOnewayNative"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,7 +101,7 @@ func (p *AppOpsUserClientProxy) FreezeAndNoteSyncOp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserClient)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsUserClientFreezeAndNoteSyncOp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsUserClient, "freezeAndNoteSyncOp"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -120,7 +120,7 @@ func (p *AppOpsUserClientProxy) NoteSyncOpOtherUidNative(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserClient)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsUserClientNoteSyncOpOtherUidNative, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteSyncOpOtherUidNative"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -139,7 +139,7 @@ func (p *AppOpsUserClientProxy) NoteAsyncOpNative(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserClient)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsUserClientNoteAsyncOpNative, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteAsyncOpNative"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -158,7 +158,7 @@ func (p *AppOpsUserClientProxy) NoteAsyncOpNativeWithCustomMessage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserClient)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsUserClientNoteAsyncOpNativeWithCustomMessage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteAsyncOpNativeWithCustomMessage"), 0, _data)
 	if _err != nil {
 		return _err
 	}

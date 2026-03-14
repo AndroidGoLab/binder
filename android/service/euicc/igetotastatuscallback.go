@@ -43,6 +43,6 @@ func (p *GetOtaStatusCallbackProxy) OnSuccess(
 	_data.WriteInterfaceToken(DescriptorIGetOtaStatusCallback)
 	_data.WriteInt32(status)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGetOtaStatusCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGetOtaStatusCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }

@@ -113,7 +113,7 @@ func (p *IncrementalServiceProxy) OpenStorage(
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteString(path)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceOpenStorage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "openStorage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -142,7 +142,7 @@ func (p *IncrementalServiceProxy) CreateStorage(
 	_data.WriteString(path)
 	_data.WriteInt32(createMode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceCreateStorage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "createStorage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -172,7 +172,7 @@ func (p *IncrementalServiceProxy) CreateLinkedStorage(
 	_data.WriteInt32(otherStorageId)
 	_data.WriteInt32(createMode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceCreateLinkedStorage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "createLinkedStorage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -217,7 +217,7 @@ func (p *IncrementalServiceProxy) StartLoading(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceStartLoading, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "startLoading"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -242,7 +242,7 @@ func (p *IncrementalServiceProxy) OnInstallationComplete(
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceOnInstallationComplete, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "onInstallationComplete"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -270,7 +270,7 @@ func (p *IncrementalServiceProxy) MakeBindMount(
 	_data.WriteString(targetFullPath)
 	_data.WriteInt32(bindType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceMakeBindMount, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "makeBindMount"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -298,7 +298,7 @@ func (p *IncrementalServiceProxy) DeleteBindMount(
 	_data.WriteInt32(storageId)
 	_data.WriteString(targetFullPath)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceDeleteBindMount, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "deleteBindMount"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -326,7 +326,7 @@ func (p *IncrementalServiceProxy) MakeDirectory(
 	_data.WriteInt32(storageId)
 	_data.WriteString(path)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceMakeDirectory, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "makeDirectory"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -354,7 +354,7 @@ func (p *IncrementalServiceProxy) MakeDirectories(
 	_data.WriteInt32(storageId)
 	_data.WriteString(path)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceMakeDirectories, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "makeDirectories"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -397,7 +397,7 @@ func (p *IncrementalServiceProxy) MakeFile(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceMakeFile, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "makeFile"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -431,7 +431,7 @@ func (p *IncrementalServiceProxy) MakeFileFromRange(
 	_data.WriteInt64(start)
 	_data.WriteInt64(end)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceMakeFileFromRange, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "makeFileFromRange"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -463,7 +463,7 @@ func (p *IncrementalServiceProxy) MakeLink(
 	_data.WriteInt32(destStorageId)
 	_data.WriteString(destPath)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceMakeLink, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "makeLink"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -491,7 +491,7 @@ func (p *IncrementalServiceProxy) Unlink(
 	_data.WriteInt32(storageId)
 	_data.WriteString(path)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceUnlink, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "unlink"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -519,7 +519,7 @@ func (p *IncrementalServiceProxy) IsFileFullyLoaded(
 	_data.WriteInt32(storageId)
 	_data.WriteString(path)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceIsFileFullyLoaded, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "isFileFullyLoaded"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -545,7 +545,7 @@ func (p *IncrementalServiceProxy) IsFullyLoaded(
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceIsFullyLoaded, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "isFullyLoaded"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -571,7 +571,7 @@ func (p *IncrementalServiceProxy) GetLoadingProgress(
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceGetLoadingProgress, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "getLoadingProgress"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -599,7 +599,7 @@ func (p *IncrementalServiceProxy) GetMetadataByPath(
 	_data.WriteInt32(storageId)
 	_data.WriteString(path)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceGetMetadataByPath, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "getMetadataByPath"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -644,7 +644,7 @@ func (p *IncrementalServiceProxy) GetMetadataById(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceGetMetadataById, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "getMetadataById"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -679,7 +679,7 @@ func (p *IncrementalServiceProxy) DeleteStorage(
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceDeleteStorage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "deleteStorage"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -700,7 +700,7 @@ func (p *IncrementalServiceProxy) DisallowReadLogs(
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceDisallowReadLogs, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "disallowReadLogs"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -730,7 +730,7 @@ func (p *IncrementalServiceProxy) ConfigureNativeBinaries(
 	_data.WriteString(abi)
 	_data.WriteBool(extractNativeLibs)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceConfigureNativeBinaries, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "configureNativeBinaries"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -756,7 +756,7 @@ func (p *IncrementalServiceProxy) WaitForNativeBinariesExtraction(
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceWaitForNativeBinariesExtraction, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "waitForNativeBinariesExtraction"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -784,7 +784,7 @@ func (p *IncrementalServiceProxy) RegisterLoadingProgressListener(
 	_data.WriteInt32(storageId)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceRegisterLoadingProgressListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "registerLoadingProgressListener"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -810,7 +810,7 @@ func (p *IncrementalServiceProxy) UnregisterLoadingProgressListener(
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceUnregisterLoadingProgressListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "unregisterLoadingProgressListener"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -836,7 +836,7 @@ func (p *IncrementalServiceProxy) GetMetrics(
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncrementalServiceGetMetrics, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncrementalService, "getMetrics"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

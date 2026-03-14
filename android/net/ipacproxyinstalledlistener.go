@@ -43,6 +43,6 @@ func (p *PacProxyInstalledListenerProxy) OnPacProxyInstalled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPacProxyInstalledListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPacProxyInstalledListenerOnPacProxyInstalled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPacProxyInstalledListener, "onPacProxyInstalled"), binder.FlagOneway, _data)
 	return _err
 }

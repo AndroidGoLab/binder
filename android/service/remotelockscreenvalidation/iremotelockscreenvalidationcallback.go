@@ -48,7 +48,7 @@ func (p *RemoteLockscreenValidationCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteLockscreenValidationCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteLockscreenValidationCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +60,6 @@ func (p *RemoteLockscreenValidationCallbackProxy) OnFailure(
 	_data.WriteInterfaceToken(DescriptorIRemoteLockscreenValidationCallback)
 	_data.WriteString16(message)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteLockscreenValidationCallbackOnFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteLockscreenValidationCallback, "onFailure"), binder.FlagOneway, _data)
 	return _err
 }

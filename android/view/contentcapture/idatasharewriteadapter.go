@@ -49,7 +49,7 @@ func (p *DataShareWriteAdapterProxy) Write(
 	_data.WriteInterfaceToken(DescriptorIDataShareWriteAdapter)
 	_data.WriteFileDescriptor(destination)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataShareWriteAdapterWrite, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataShareWriteAdapter, "write"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,7 +61,7 @@ func (p *DataShareWriteAdapterProxy) Error(
 	_data.WriteInterfaceToken(DescriptorIDataShareWriteAdapter)
 	_data.WriteInt32(errorCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataShareWriteAdapterError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataShareWriteAdapter, "error"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,7 +71,7 @@ func (p *DataShareWriteAdapterProxy) Rejected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataShareWriteAdapter)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataShareWriteAdapterRejected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataShareWriteAdapter, "rejected"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,6 +81,6 @@ func (p *DataShareWriteAdapterProxy) Finish(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataShareWriteAdapter)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataShareWriteAdapterFinish, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataShareWriteAdapter, "finish"), binder.FlagOneway, _data)
 	return _err
 }

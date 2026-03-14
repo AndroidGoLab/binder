@@ -43,6 +43,6 @@ func (p *EuiccServiceDumpResultCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorIEuiccServiceDumpResultCallback)
 	_data.WriteString16(logs)
 
-	_, _err := p.remote.Transact(ctx, TransactionIEuiccServiceDumpResultCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEuiccServiceDumpResultCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

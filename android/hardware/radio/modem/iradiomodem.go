@@ -79,7 +79,7 @@ func (p *RadioModemProxy) EnableModem(
 	_data.WriteInt32(serial)
 	_data.WriteBool(on)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemEnableModem, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "enableModem"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,7 +91,7 @@ func (p *RadioModemProxy) GetBasebandVersion(
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemGetBasebandVersion, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "getBasebandVersion"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,7 +103,7 @@ func (p *RadioModemProxy) GetDeviceIdentity(
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemGetDeviceIdentity, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "getDeviceIdentity"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,7 +115,7 @@ func (p *RadioModemProxy) GetHardwareConfig(
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemGetHardwareConfig, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "getHardwareConfig"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -127,7 +127,7 @@ func (p *RadioModemProxy) GetModemActivityInfo(
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemGetModemActivityInfo, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "getModemActivityInfo"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -139,7 +139,7 @@ func (p *RadioModemProxy) GetModemStackStatus(
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemGetModemStackStatus, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "getModemStackStatus"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -151,7 +151,7 @@ func (p *RadioModemProxy) GetRadioCapability(
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemGetRadioCapability, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "getRadioCapability"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -165,7 +165,7 @@ func (p *RadioModemProxy) NvReadItem(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(itemId))
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemNvReadItem, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "nvReadItem"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -179,7 +179,7 @@ func (p *RadioModemProxy) NvResetConfig(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(resetType))
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemNvResetConfig, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "nvResetConfig"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -200,7 +200,7 @@ func (p *RadioModemProxy) NvWriteCdmaPrl(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemNvWriteCdmaPrl, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "nvWriteCdmaPrl"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -216,7 +216,7 @@ func (p *RadioModemProxy) NvWriteItem(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemNvWriteItem, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "nvWriteItem"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -228,7 +228,7 @@ func (p *RadioModemProxy) RequestShutdown(
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemRequestShutdown, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "requestShutdown"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -238,7 +238,7 @@ func (p *RadioModemProxy) ResponseAcknowledgement(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemResponseAcknowledgement, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "responseAcknowledgement"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -254,7 +254,7 @@ func (p *RadioModemProxy) SendDeviceState(
 	_data.WriteInt32(int32(deviceStateType))
 	_data.WriteBool(state)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemSendDeviceState, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "sendDeviceState"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -270,7 +270,7 @@ func (p *RadioModemProxy) SetRadioCapability(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemSetRadioCapability, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "setRadioCapability"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -288,7 +288,7 @@ func (p *RadioModemProxy) SetRadioPower(
 	_data.WriteBool(forEmergencyCall)
 	_data.WriteBool(preferredForEmergencyCall)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemSetRadioPower, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "setRadioPower"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -302,7 +302,7 @@ func (p *RadioModemProxy) SetResponseFunctions(
 	_data.WriteStrongBinder(radioModemResponse.AsBinder().Handle())
 	_data.WriteStrongBinder(radioModemIndication.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemSetResponseFunctions, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "setResponseFunctions"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -314,6 +314,6 @@ func (p *RadioModemProxy) GetImei(
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemGetImei, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModem, "getImei"), binder.FlagOneway, _data)
 	return _err
 }

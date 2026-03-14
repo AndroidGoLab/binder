@@ -54,7 +54,7 @@ func (p *DeviceStateManagerProxy) GetDeviceStateInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceStateManagerGetDeviceStateInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceStateManager, "getDeviceStateInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -79,7 +79,7 @@ func (p *DeviceStateManagerProxy) RegisterCallback(
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceStateManagerRegisterCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceStateManager, "registerCallback"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -107,7 +107,7 @@ func (p *DeviceStateManagerProxy) RequestState(
 	_data.WriteInt32(state)
 	_data.WriteInt32(flags)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceStateManagerRequestState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceStateManager, "requestState"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -126,7 +126,7 @@ func (p *DeviceStateManagerProxy) CancelStateRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceStateManagerCancelStateRequest, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceStateManager, "cancelStateRequest"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -151,7 +151,7 @@ func (p *DeviceStateManagerProxy) RequestBaseStateOverride(
 	_data.WriteInt32(state)
 	_data.WriteInt32(flags)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceStateManagerRequestBaseStateOverride, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceStateManager, "requestBaseStateOverride"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -170,7 +170,7 @@ func (p *DeviceStateManagerProxy) CancelBaseStateOverride(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceStateManagerCancelBaseStateOverride, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceStateManager, "cancelBaseStateOverride"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -191,7 +191,7 @@ func (p *DeviceStateManagerProxy) OnStateRequestOverlayDismissed(
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManager)
 	_data.WriteBool(shouldCancelRequest)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceStateManagerOnStateRequestOverlayDismissed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceStateManager, "onStateRequestOverlayDismissed"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -47,7 +47,7 @@ func (p *ExecuteAppFunctionCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIExecuteAppFunctionCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIExecuteAppFunctionCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,6 +61,6 @@ func (p *ExecuteAppFunctionCallbackProxy) OnError(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIExecuteAppFunctionCallbackOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIExecuteAppFunctionCallback, "onError"), binder.FlagOneway, _data)
 	return _err
 }

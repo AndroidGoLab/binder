@@ -56,7 +56,7 @@ func (p *DreamServiceProxy) Attach(
 	_data.WriteBool(isPreviewMode)
 	_data.WriteStrongBinder(started.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIDreamServiceAttach, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDreamService, "attach"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,7 +66,7 @@ func (p *DreamServiceProxy) Detach(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDreamServiceDetach, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDreamService, "detach"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,7 +76,7 @@ func (p *DreamServiceProxy) WakeUp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDreamServiceWakeUp, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDreamService, "wakeUp"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,6 +86,6 @@ func (p *DreamServiceProxy) ComeToFront(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDreamServiceComeToFront, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDreamService, "comeToFront"), binder.FlagOneway, _data)
 	return _err
 }

@@ -45,7 +45,7 @@ func (p *GnssPowerIndicationProxy) SetCallback(
 	_data.WriteInterfaceToken(DescriptorIGnssPowerIndication)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssPowerIndicationSetCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssPowerIndication, "setCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -64,6 +64,6 @@ func (p *GnssPowerIndicationProxy) RequestGnssPowerStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssPowerIndication)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGnssPowerIndicationRequestGnssPowerStats, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssPowerIndication, "requestGnssPowerStats"), binder.FlagOneway, _data)
 	return _err
 }

@@ -43,6 +43,6 @@ func (p *TaskFpsCallbackProxy) OnFpsReported(
 	_data.WriteInterfaceToken(DescriptorITaskFpsCallback)
 	_data.WriteFloat32(fps)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskFpsCallbackOnFpsReported, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskFpsCallback, "onFpsReported"), binder.FlagOneway, _data)
 	return _err
 }

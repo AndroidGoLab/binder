@@ -74,7 +74,7 @@ func (p *RadioDataProxy) AllocatePduSessionId(
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataAllocatePduSessionId, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioData, "allocatePduSessionId"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,7 +88,7 @@ func (p *RadioDataProxy) CancelHandover(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(callId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataCancelHandover, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioData, "cancelHandover"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -104,7 +104,7 @@ func (p *RadioDataProxy) DeactivateDataCall(
 	_data.WriteInt32(cid)
 	_data.WriteInt32(int32(reason))
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataDeactivateDataCall, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioData, "deactivateDataCall"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,7 +116,7 @@ func (p *RadioDataProxy) GetDataCallList(
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataGetDataCallList, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioData, "getDataCallList"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -128,7 +128,7 @@ func (p *RadioDataProxy) GetSlicingConfig(
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataGetSlicingConfig, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioData, "getSlicingConfig"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -142,7 +142,7 @@ func (p *RadioDataProxy) ReleasePduSessionId(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(id)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataReleasePduSessionId, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioData, "releasePduSessionId"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -152,7 +152,7 @@ func (p *RadioDataProxy) ResponseAcknowledgement(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataResponseAcknowledgement, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioData, "responseAcknowledgement"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -166,7 +166,7 @@ func (p *RadioDataProxy) SetDataAllowed(
 	_data.WriteInt32(serial)
 	_data.WriteBool(allow)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataSetDataAllowed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioData, "setDataAllowed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -189,7 +189,7 @@ func (p *RadioDataProxy) SetDataProfile(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataSetDataProfile, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioData, "setDataProfile"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -205,7 +205,7 @@ func (p *RadioDataProxy) SetDataThrottling(
 	_data.WritePaddedByte(byte(dataThrottlingAction))
 	_data.WriteInt64(completionDurationMillis)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataSetDataThrottling, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioData, "setDataThrottling"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -225,7 +225,7 @@ func (p *RadioDataProxy) SetInitialAttachApn(
 		_data.WriteInt32(-1)
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataSetInitialAttachApn, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioData, "setInitialAttachApn"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -239,7 +239,7 @@ func (p *RadioDataProxy) SetResponseFunctions(
 	_data.WriteStrongBinder(radioDataResponse.AsBinder().Handle())
 	_data.WriteStrongBinder(radioDataIndication.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataSetResponseFunctions, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioData, "setResponseFunctions"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -293,7 +293,7 @@ func (p *RadioDataProxy) SetupDataCall(
 	}
 	_data.WriteBool(matchAllRuleAllowed)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataSetupDataCall, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioData, "setupDataCall"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -307,7 +307,7 @@ func (p *RadioDataProxy) StartHandover(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(callId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataStartHandover, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioData, "startHandover"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -323,7 +323,7 @@ func (p *RadioDataProxy) StartKeepalive(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataStartKeepalive, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioData, "startKeepalive"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -337,6 +337,6 @@ func (p *RadioDataProxy) StopKeepalive(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(sessionHandle)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataStopKeepalive, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioData, "stopKeepalive"), binder.FlagOneway, _data)
 	return _err
 }

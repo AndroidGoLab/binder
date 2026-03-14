@@ -51,7 +51,7 @@ func (p *CapabilityExchangeEventListenerProxy) OnRequestPublishCapabilities(
 	_data.WriteInterfaceToken(DescriptorICapabilityExchangeEventListener)
 	_data.WriteInt32(publishTriggerType)
 
-	_, _err := p.remote.Transact(ctx, TransactionICapabilityExchangeEventListenerOnRequestPublishCapabilities, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICapabilityExchangeEventListener, "onRequestPublishCapabilities"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,7 +61,7 @@ func (p *CapabilityExchangeEventListenerProxy) OnUnpublish(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICapabilityExchangeEventListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionICapabilityExchangeEventListenerOnUnpublish, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICapabilityExchangeEventListener, "onUnpublish"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,7 +75,7 @@ func (p *CapabilityExchangeEventListenerProxy) OnPublishUpdated(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICapabilityExchangeEventListenerOnPublishUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICapabilityExchangeEventListener, "onPublishUpdated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,6 +100,6 @@ func (p *CapabilityExchangeEventListenerProxy) OnRemoteCapabilityRequest(
 	}
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionICapabilityExchangeEventListenerOnRemoteCapabilityRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICapabilityExchangeEventListener, "onRemoteCapabilityRequest"), binder.FlagOneway, _data)
 	return _err
 }

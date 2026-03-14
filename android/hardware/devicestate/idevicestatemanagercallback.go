@@ -49,7 +49,7 @@ func (p *DeviceStateManagerCallbackProxy) OnDeviceStateInfoChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIDeviceStateManagerCallbackOnDeviceStateInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceStateManagerCallback, "onDeviceStateInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,7 +61,7 @@ func (p *DeviceStateManagerCallbackProxy) OnRequestActive(
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManagerCallback)
 	_data.WriteStrongBinder(token.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIDeviceStateManagerCallbackOnRequestActive, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceStateManagerCallback, "onRequestActive"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,6 +73,6 @@ func (p *DeviceStateManagerCallbackProxy) OnRequestCanceled(
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManagerCallback)
 	_data.WriteStrongBinder(token.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIDeviceStateManagerCallbackOnRequestCanceled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceStateManagerCallback, "onRequestCanceled"), binder.FlagOneway, _data)
 	return _err
 }

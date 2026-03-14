@@ -50,6 +50,6 @@ func (p *RegionChannelListListenerProxy) OnDetectRegionChannelList(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRegionChannelListListenerOnDetectRegionChannelList, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRegionChannelListListener, "onDetectRegionChannelList"), binder.FlagOneway, _data)
 	return _err
 }

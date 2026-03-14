@@ -66,7 +66,7 @@ func (p *HdmiCecProxy) AddLogicalAddress(
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 	_data.WritePaddedByte(byte(addr))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiCecAddLogicalAddress, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiCec, "addLogicalAddress"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -90,7 +90,7 @@ func (p *HdmiCecProxy) ClearLogicalAddress(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiCecClearLogicalAddress, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiCec, "clearLogicalAddress"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -113,7 +113,7 @@ func (p *HdmiCecProxy) EnableAudioReturnChannel(
 	_data.WriteInt32(portId)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiCecEnableAudioReturnChannel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiCec, "enableAudioReturnChannel"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -133,7 +133,7 @@ func (p *HdmiCecProxy) GetCecVersion(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiCecGetCecVersion, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiCec, "getCecVersion"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -157,7 +157,7 @@ func (p *HdmiCecProxy) GetPhysicalAddress(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiCecGetPhysicalAddress, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiCec, "getPhysicalAddress"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -181,7 +181,7 @@ func (p *HdmiCecProxy) GetVendorId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiCecGetVendorId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiCec, "getVendorId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -209,7 +209,7 @@ func (p *HdmiCecProxy) SendMessage(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiCecSendMessage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiCec, "sendMessage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -239,7 +239,7 @@ func (p *HdmiCecProxy) SetCallback(
 		_data.WriteInt32(-1)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiCecSetCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiCec, "setCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -260,7 +260,7 @@ func (p *HdmiCecProxy) SetLanguage(
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 	_data.WriteString16(language)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiCecSetLanguage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiCec, "setLanguage"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -281,7 +281,7 @@ func (p *HdmiCecProxy) EnableWakeupByOtp(
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 	_data.WriteBool(value)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiCecEnableWakeupByOtp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiCec, "enableWakeupByOtp"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -302,7 +302,7 @@ func (p *HdmiCecProxy) EnableCec(
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 	_data.WriteBool(value)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiCecEnableCec, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiCec, "enableCec"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -323,7 +323,7 @@ func (p *HdmiCecProxy) EnableSystemCecControl(
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
 	_data.WriteBool(value)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiCecEnableSystemCecControl, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiCec, "enableSystemCecControl"), 0, _data)
 	if _err != nil {
 		return _err
 	}

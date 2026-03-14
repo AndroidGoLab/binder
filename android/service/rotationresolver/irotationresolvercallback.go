@@ -48,7 +48,7 @@ func (p *RotationResolverCallbackProxy) OnCancellable(
 	_data.WriteInterfaceToken(DescriptorIRotationResolverCallback)
 	_data.WriteStrongBinder(cancellation.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIRotationResolverCallbackOnCancellable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRotationResolverCallback, "onCancellable"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,7 +60,7 @@ func (p *RotationResolverCallbackProxy) OnSuccess(
 	_data.WriteInterfaceToken(DescriptorIRotationResolverCallback)
 	_data.WriteInt32(recommendedRotation)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRotationResolverCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRotationResolverCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,6 +72,6 @@ func (p *RotationResolverCallbackProxy) OnFailure(
 	_data.WriteInterfaceToken(DescriptorIRotationResolverCallback)
 	_data.WriteInt32(error_)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRotationResolverCallbackOnFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRotationResolverCallback, "onFailure"), binder.FlagOneway, _data)
 	return _err
 }

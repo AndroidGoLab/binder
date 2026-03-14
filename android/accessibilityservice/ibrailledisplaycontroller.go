@@ -58,7 +58,7 @@ func (p *BrailleDisplayControllerProxy) OnConnected(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIBrailleDisplayControllerOnConnected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBrailleDisplayController, "onConnected"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,7 +70,7 @@ func (p *BrailleDisplayControllerProxy) OnConnectionFailed(
 	_data.WriteInterfaceToken(DescriptorIBrailleDisplayController)
 	_data.WriteInt32(error_)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBrailleDisplayControllerOnConnectionFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBrailleDisplayController, "onConnectionFailed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,7 +89,7 @@ func (p *BrailleDisplayControllerProxy) OnInput(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIBrailleDisplayControllerOnInput, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBrailleDisplayController, "onInput"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,6 +99,6 @@ func (p *BrailleDisplayControllerProxy) OnDisconnected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBrailleDisplayController)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBrailleDisplayControllerOnDisconnected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBrailleDisplayController, "onDisconnected"), binder.FlagOneway, _data)
 	return _err
 }

@@ -52,6 +52,6 @@ func (p *AnnouncementListenerProxy) OnListUpdated(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAnnouncementListenerOnListUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAnnouncementListener, "onListUpdated"), binder.FlagOneway, _data)
 	return _err
 }

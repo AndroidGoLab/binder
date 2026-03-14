@@ -46,7 +46,7 @@ func (p *MuxTuneProxy) CreateSession(
 	_data.WriteInt32(broadcastType)
 	_data.WriteString16(clientToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMuxTuneCreateSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMuxTune, "createSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

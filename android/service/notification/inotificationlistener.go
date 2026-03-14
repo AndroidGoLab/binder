@@ -95,7 +95,7 @@ func (p *NotificationListenerProxy) OnListenerConnected(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnListenerConnected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onListenerConnected"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,7 +111,7 @@ func (p *NotificationListenerProxy) OnNotificationPosted(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationPosted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationPosted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,7 +129,7 @@ func (p *NotificationListenerProxy) OnNotificationPostedFull(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationPostedFull, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationPostedFull"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -141,7 +141,7 @@ func (p *NotificationListenerProxy) OnStatusBarIconsBehaviorChanged(
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteBool(hideSilentStatusIcons)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnStatusBarIconsBehaviorChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onStatusBarIconsBehaviorChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -163,7 +163,7 @@ func (p *NotificationListenerProxy) OnNotificationRemoved(
 	}
 	_data.WriteInt32(reason)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationRemoved, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationRemoved"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -187,7 +187,7 @@ func (p *NotificationListenerProxy) OnNotificationRemovedFull(
 	}
 	_data.WriteInt32(reason)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationRemovedFull, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationRemovedFull"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -201,7 +201,7 @@ func (p *NotificationListenerProxy) OnNotificationRankingUpdate(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationRankingUpdate, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationRankingUpdate"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -213,7 +213,7 @@ func (p *NotificationListenerProxy) OnListenerHintsChanged(
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteInt32(hints)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnListenerHintsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onListenerHintsChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -225,7 +225,7 @@ func (p *NotificationListenerProxy) OnInterruptionFilterChanged(
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteInt32(interruptionFilter)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnInterruptionFilterChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onInterruptionFilterChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -241,7 +241,7 @@ func (p *NotificationListenerProxy) OnNotificationChannelModification(
 	_data.WriteString16(pkgName)
 	_data.WriteInt32(modificationType)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationChannelModification, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationChannelModification"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -257,7 +257,7 @@ func (p *NotificationListenerProxy) OnNotificationChannelGroupModification(
 	_data.WriteString16(pkgName)
 	_data.WriteInt32(modificationType)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationChannelGroupModification, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationChannelGroupModification"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -274,7 +274,7 @@ func (p *NotificationListenerProxy) OnNotificationEnqueuedWithChannel(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationEnqueuedWithChannel, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationEnqueuedWithChannel"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -293,7 +293,7 @@ func (p *NotificationListenerProxy) OnNotificationEnqueuedWithChannelFull(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationEnqueuedWithChannelFull, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationEnqueuedWithChannelFull"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -307,7 +307,7 @@ func (p *NotificationListenerProxy) OnNotificationSnoozedUntilContext(
 	_data.WriteStrongBinder(notificationHolder.AsBinder().Handle())
 	_data.WriteString16(snoozeCriterionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationSnoozedUntilContext, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationSnoozedUntilContext"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -323,7 +323,7 @@ func (p *NotificationListenerProxy) OnNotificationSnoozedUntilContextFull(
 	}
 	_data.WriteString16(snoozeCriterionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationSnoozedUntilContextFull, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationSnoozedUntilContextFull"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -342,7 +342,7 @@ func (p *NotificationListenerProxy) OnNotificationsSeen(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationsSeen, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationsSeen"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -354,7 +354,7 @@ func (p *NotificationListenerProxy) OnPanelRevealed(
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteInt32(items)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnPanelRevealed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onPanelRevealed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -364,7 +364,7 @@ func (p *NotificationListenerProxy) OnPanelHidden(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnPanelHidden, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onPanelHidden"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -378,7 +378,7 @@ func (p *NotificationListenerProxy) OnNotificationVisibilityChanged(
 	_data.WriteString16(key)
 	_data.WriteBool(isVisible)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationVisibilityChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationVisibilityChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -394,7 +394,7 @@ func (p *NotificationListenerProxy) OnNotificationExpansionChanged(
 	_data.WriteBool(userAction)
 	_data.WriteBool(expanded)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationExpansionChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationExpansionChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -406,7 +406,7 @@ func (p *NotificationListenerProxy) OnNotificationDirectReply(
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(key)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationDirectReply, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationDirectReply"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -421,7 +421,7 @@ func (p *NotificationListenerProxy) OnSuggestedReplySent(
 	_data.WriteString16(key)
 	_data.WriteInt32(source)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnSuggestedReplySent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onSuggestedReplySent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -436,7 +436,7 @@ func (p *NotificationListenerProxy) OnActionClicked(
 	_data.WriteString16(key)
 	_data.WriteInt32(source)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnActionClicked, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onActionClicked"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -448,7 +448,7 @@ func (p *NotificationListenerProxy) OnNotificationClicked(
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(key)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationClicked, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationClicked"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -458,7 +458,7 @@ func (p *NotificationListenerProxy) OnAllowedAdjustmentsChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnAllowedAdjustmentsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onAllowedAdjustmentsChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -475,6 +475,6 @@ func (p *NotificationListenerProxy) OnNotificationFeedbackReceived(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINotificationListenerOnNotificationFeedbackReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationFeedbackReceived"), binder.FlagOneway, _data)
 	return _err
 }

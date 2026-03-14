@@ -76,7 +76,7 @@ func (p *StreamOutProxy) GetStreamCommon(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamOutGetStreamCommon, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamOut, "getStreamCommon"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -104,7 +104,7 @@ func (p *StreamOutProxy) UpdateMetadata(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamOutUpdateMetadata, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamOut, "updateMetadata"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -127,7 +127,7 @@ func (p *StreamOutProxy) UpdateOffloadMetadata(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamOutUpdateOffloadMetadata, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamOut, "updateOffloadMetadata"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -147,7 +147,7 @@ func (p *StreamOutProxy) GetHwVolume(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamOutGetHwVolume, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamOut, "getHwVolume"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -189,7 +189,7 @@ func (p *StreamOutProxy) SetHwVolume(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamOutSetHwVolume, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamOut, "setHwVolume"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -209,7 +209,7 @@ func (p *StreamOutProxy) GetAudioDescriptionMixLevel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamOutGetAudioDescriptionMixLevel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamOut, "getAudioDescriptionMixLevel"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -234,7 +234,7 @@ func (p *StreamOutProxy) SetAudioDescriptionMixLevel(
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 	_data.WriteFloat32(leveldB)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamOutSetAudioDescriptionMixLevel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamOut, "setAudioDescriptionMixLevel"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -254,7 +254,7 @@ func (p *StreamOutProxy) GetDualMonoMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamOutGetDualMonoMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamOut, "getDualMonoMode"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -280,7 +280,7 @@ func (p *StreamOutProxy) SetDualMonoMode(
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 	_data.WriteInt32(int32(mode))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamOutSetDualMonoMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamOut, "setDualMonoMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -300,7 +300,7 @@ func (p *StreamOutProxy) GetRecommendedLatencyModes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamOutGetRecommendedLatencyModes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamOut, "getRecommendedLatencyModes"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -336,7 +336,7 @@ func (p *StreamOutProxy) SetLatencyMode(
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 	_data.WritePaddedByte(byte(mode))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamOutSetLatencyMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamOut, "setLatencyMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -356,7 +356,7 @@ func (p *StreamOutProxy) GetPlaybackRateParameters(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamOutGetPlaybackRateParameters, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamOut, "getPlaybackRateParameters"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -382,7 +382,7 @@ func (p *StreamOutProxy) SetPlaybackRateParameters(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamOutSetPlaybackRateParameters, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamOut, "setPlaybackRateParameters"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -405,7 +405,7 @@ func (p *StreamOutProxy) SelectPresentation(
 	_data.WriteInt32(presentationId)
 	_data.WriteInt32(programId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamOutSelectPresentation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamOut, "selectPresentation"), 0, _data)
 	if _err != nil {
 		return _err
 	}

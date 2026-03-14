@@ -51,7 +51,7 @@ func (p *DescramblerProxy) SetDemuxSource(
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
 	_data.WriteInt32(demuxId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDescramblerSetDemuxSource, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDescrambler, "setDemuxSource"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -79,7 +79,7 @@ func (p *DescramblerProxy) SetKeyToken(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDescramblerSetKeyToken, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDescrambler, "setKeyToken"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -104,7 +104,7 @@ func (p *DescramblerProxy) AddPid(
 	}
 	_data.WriteStrongBinder(optionalSourceFilter.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDescramblerAddPid, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDescrambler, "addPid"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -129,7 +129,7 @@ func (p *DescramblerProxy) RemovePid(
 	}
 	_data.WriteStrongBinder(optionalSourceFilter.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDescramblerRemovePid, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDescrambler, "removePid"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -148,7 +148,7 @@ func (p *DescramblerProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDescramblerClose, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDescrambler, "close"), 0, _data)
 	if _err != nil {
 		return _err
 	}

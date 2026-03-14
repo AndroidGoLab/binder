@@ -49,6 +49,6 @@ func (p *BufferOwnerProxy) OnBufferReleased(
 		_data.WriteInt32(-1)
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIBufferOwnerOnBufferReleased, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBufferOwner, "onBufferReleased"), binder.FlagOneway, _data)
 	return _err
 }

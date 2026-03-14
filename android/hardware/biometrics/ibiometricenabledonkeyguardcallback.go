@@ -45,6 +45,6 @@ func (p *BiometricEnabledOnKeyguardCallbackProxy) OnChanged(
 	_data.WriteBool(enabled)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricEnabledOnKeyguardCallbackOnChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricEnabledOnKeyguardCallback, "onChanged"), binder.FlagOneway, _data)
 	return _err
 }

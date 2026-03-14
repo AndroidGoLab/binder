@@ -47,7 +47,7 @@ func (p *PacProxyManagerProxy) AddListener(
 	_data.WriteInterfaceToken(DescriptorIPacProxyManager)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPacProxyManagerAddListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPacProxyManager, "addListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -68,7 +68,7 @@ func (p *PacProxyManagerProxy) RemoveListener(
 	_data.WriteInterfaceToken(DescriptorIPacProxyManager)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPacProxyManagerRemoveListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPacProxyManager, "removeListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -88,7 +88,7 @@ func (p *PacProxyManagerProxy) SetCurrentProxyScriptUrl(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPacProxyManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPacProxyManagerSetCurrentProxyScriptUrl, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPacProxyManager, "setCurrentProxyScriptUrl"), 0, _data)
 	if _err != nil {
 		return _err
 	}

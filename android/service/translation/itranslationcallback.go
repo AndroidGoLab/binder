@@ -42,6 +42,6 @@ func (p *TranslationCallbackProxy) OnTranslationResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionITranslationCallbackOnTranslationResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITranslationCallback, "onTranslationResponse"), binder.FlagOneway, _data)
 	return _err
 }

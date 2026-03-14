@@ -51,7 +51,7 @@ func (p *BinaryTransparencyServiceProxy) GetSignedImageInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBinaryTransparencyServiceGetSignedImageInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBinaryTransparencyService, "getSignedImageInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,7 +74,7 @@ func (p *BinaryTransparencyServiceProxy) RecordMeasurementsForAllPackages(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBinaryTransparencyServiceRecordMeasurementsForAllPackages, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBinaryTransparencyService, "recordMeasurementsForAllPackages"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -96,7 +96,7 @@ func (p *BinaryTransparencyServiceProxy) CollectAllApexInfo(
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
 	_data.WriteBool(includeTestOnly)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBinaryTransparencyServiceCollectAllApexInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBinaryTransparencyService, "collectAllApexInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -130,7 +130,7 @@ func (p *BinaryTransparencyServiceProxy) CollectAllUpdatedPreloadInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBinaryTransparencyServiceCollectAllUpdatedPreloadInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBinaryTransparencyService, "collectAllUpdatedPreloadInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -164,7 +164,7 @@ func (p *BinaryTransparencyServiceProxy) CollectAllSilentInstalledMbaInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinaryTransparencyService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBinaryTransparencyServiceCollectAllSilentInstalledMbaInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBinaryTransparencyService, "collectAllSilentInstalledMbaInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

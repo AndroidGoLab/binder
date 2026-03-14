@@ -43,6 +43,6 @@ func (p *UserInitializationCompleteCallbackProxy) OnUserInitializationComplete(
 	_data.WriteInterfaceToken(DescriptorIUserInitializationCompleteCallback)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUserInitializationCompleteCallbackOnUserInitializationComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUserInitializationCompleteCallback, "onUserInitializationComplete"), binder.FlagOneway, _data)
 	return _err
 }

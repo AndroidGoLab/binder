@@ -50,7 +50,7 @@ func (p *RecognitionServiceManagerProxy) CreateSession(
 	_data.WriteBool(onDevice)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIRecognitionServiceManagerCreateSession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecognitionServiceManager, "createSession"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,6 +61,6 @@ func (p *RecognitionServiceManagerProxy) SetTemporaryComponent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionServiceManager)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRecognitionServiceManagerSetTemporaryComponent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecognitionServiceManager, "setTemporaryComponent"), binder.FlagOneway, _data)
 	return _err
 }

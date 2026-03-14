@@ -55,7 +55,7 @@ func (p *AutoFillServiceProxy) OnConnectedStateChanged(
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
 	_data.WriteBool(connected)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillServiceOnConnectedStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillService, "onConnectedStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,7 +71,7 @@ func (p *AutoFillServiceProxy) OnFillRequest(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillServiceOnFillRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillService, "onFillRequest"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,7 +89,7 @@ func (p *AutoFillServiceProxy) OnFillCredentialRequest(
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteStrongBinder(client.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillServiceOnFillCredentialRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillService, "onFillCredentialRequest"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,7 +105,7 @@ func (p *AutoFillServiceProxy) OnSaveRequest(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillServiceOnSaveRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillService, "onSaveRequest"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,7 +116,7 @@ func (p *AutoFillServiceProxy) OnSavedPasswordCountRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillServiceOnSavedPasswordCountRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillService, "onSavedPasswordCountRequest"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -132,7 +132,7 @@ func (p *AutoFillServiceProxy) OnConvertCredentialRequest(
 	}
 	_data.WriteStrongBinder(convertCredentialCallback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillServiceOnConvertCredentialRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillService, "onConvertCredentialRequest"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -146,6 +146,6 @@ func (p *AutoFillServiceProxy) OnSessionDestroyed(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillServiceOnSessionDestroyed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillService, "onSessionDestroyed"), binder.FlagOneway, _data)
 	return _err
 }

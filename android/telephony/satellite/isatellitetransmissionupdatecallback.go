@@ -55,7 +55,7 @@ func (p *SatelliteTransmissionUpdateCallbackProxy) OnSendDatagramStateChanged(
 	_data.WriteInt32(sendPendingCount)
 	_data.WriteInt32(errorCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteTransmissionUpdateCallbackOnSendDatagramStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteTransmissionUpdateCallback, "onSendDatagramStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,7 +71,7 @@ func (p *SatelliteTransmissionUpdateCallbackProxy) OnReceiveDatagramStateChanged
 	_data.WriteInt32(receivePendingCount)
 	_data.WriteInt32(errorCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteTransmissionUpdateCallbackOnReceiveDatagramStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteTransmissionUpdateCallback, "onReceiveDatagramStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,7 +85,7 @@ func (p *SatelliteTransmissionUpdateCallbackProxy) OnSatellitePositionChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteTransmissionUpdateCallbackOnSatellitePositionChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteTransmissionUpdateCallback, "onSatellitePositionChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,6 +97,6 @@ func (p *SatelliteTransmissionUpdateCallbackProxy) OnSendDatagramRequested(
 	_data.WriteInterfaceToken(DescriptorISatelliteTransmissionUpdateCallback)
 	_data.WriteInt32(datagramType)
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteTransmissionUpdateCallbackOnSendDatagramRequested, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteTransmissionUpdateCallback, "onSendDatagramRequested"), binder.FlagOneway, _data)
 	return _err
 }

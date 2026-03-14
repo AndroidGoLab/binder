@@ -45,6 +45,6 @@ func (p *DownloadSubscriptionCallbackProxy) OnComplete(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIDownloadSubscriptionCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDownloadSubscriptionCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

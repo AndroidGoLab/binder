@@ -43,6 +43,6 @@ func (p *SelectedNbIotSatelliteSubscriptionCallbackProxy) OnSelectedNbIotSatelli
 	_data.WriteInterfaceToken(DescriptorISelectedNbIotSatelliteSubscriptionCallback)
 	_data.WriteInt32(selectedSubId)
 
-	_, _err := p.remote.Transact(ctx, TransactionISelectedNbIotSatelliteSubscriptionCallbackOnSelectedNbIotSatelliteSubscriptionChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISelectedNbIotSatelliteSubscriptionCallback, "onSelectedNbIotSatelliteSubscriptionChanged"), binder.FlagOneway, _data)
 	return _err
 }

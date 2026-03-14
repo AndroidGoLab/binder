@@ -45,7 +45,7 @@ func (p *AGnssRilCallbackProxy) RequestSetIdCb(
 	_data.WriteInterfaceToken(DescriptorIAGnssRilCallback)
 	_data.WriteInt32(setIdflag)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAGnssRilCallbackRequestSetIdCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAGnssRilCallback, "requestSetIdCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -64,7 +64,7 @@ func (p *AGnssRilCallbackProxy) RequestRefLocCb(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAGnssRilCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAGnssRilCallbackRequestRefLocCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAGnssRilCallback, "requestRefLocCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}

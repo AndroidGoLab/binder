@@ -49,7 +49,7 @@ func (p *AppTaskProxy) FinishAndRemoveTask(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppTask)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppTaskFinishAndRemoveTask, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppTask, "finishAndRemoveTask"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -69,7 +69,7 @@ func (p *AppTaskProxy) GetTaskInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppTask)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppTaskGetTaskInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppTask, "getTaskInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -95,7 +95,7 @@ func (p *AppTaskProxy) MoveToFront(
 	_data.WriteStrongBinder(appThread.AsBinder().Handle())
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppTaskMoveToFront, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppTask, "moveToFront"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -125,7 +125,7 @@ func (p *AppTaskProxy) StartActivity(
 	_data.WriteString16(callingFeatureId)
 	_data.WriteString16(resolvedType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppTaskStartActivity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppTask, "startActivity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -150,7 +150,7 @@ func (p *AppTaskProxy) SetExcludeFromRecents(
 	_data.WriteInterfaceToken(DescriptorIAppTask)
 	_data.WriteBool(exclude)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppTaskSetExcludeFromRecents, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppTask, "setExcludeFromRecents"), 0, _data)
 	if _err != nil {
 		return _err
 	}

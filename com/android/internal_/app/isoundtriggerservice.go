@@ -58,7 +58,7 @@ func (p *SoundTriggerServiceProxy) AttachAsOriginator(
 	}
 	_data.WriteStrongBinder(client.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISoundTriggerServiceAttachAsOriginator, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerService, "attachAsOriginator"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -91,7 +91,7 @@ func (p *SoundTriggerServiceProxy) AttachAsMiddleman(
 	}
 	_data.WriteStrongBinder(client.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISoundTriggerServiceAttachAsMiddleman, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerService, "attachAsMiddleman"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -117,7 +117,7 @@ func (p *SoundTriggerServiceProxy) ListModuleProperties(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISoundTriggerServiceListModuleProperties, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerService, "listModuleProperties"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -150,7 +150,7 @@ func (p *SoundTriggerServiceProxy) AttachInjection(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISoundTriggerServiceAttachInjection, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerService, "attachInjection"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -171,7 +171,7 @@ func (p *SoundTriggerServiceProxy) SetInPhoneCallState(
 	_data.WriteInterfaceToken(DescriptorISoundTriggerService)
 	_data.WriteBool(isInPhoneCall)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISoundTriggerServiceSetInPhoneCallState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerService, "setInPhoneCallState"), 0, _data)
 	if _err != nil {
 		return _err
 	}

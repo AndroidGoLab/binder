@@ -118,7 +118,7 @@ func (p *VirtualHalProxy) SetEnrollments(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetEnrollments, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setEnrollments"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -139,7 +139,7 @@ func (p *VirtualHalProxy) SetEnrollmentHit(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteInt32(hit_id)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetEnrollmentHit, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setEnrollmentHit"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -162,7 +162,7 @@ func (p *VirtualHalProxy) SetNextEnrollment(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetNextEnrollment, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setNextEnrollment"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -183,7 +183,7 @@ func (p *VirtualHalProxy) SetAuthenticatorId(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteInt64(id)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetAuthenticatorId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setAuthenticatorId"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -204,7 +204,7 @@ func (p *VirtualHalProxy) SetChallenge(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteInt64(challenge)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetChallenge, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setChallenge"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -225,7 +225,7 @@ func (p *VirtualHalProxy) SetOperationAuthenticateFails(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteBool(fail)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetOperationAuthenticateFails, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationAuthenticateFails"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -253,7 +253,7 @@ func (p *VirtualHalProxy) SetOperationAuthenticateLatency(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetOperationAuthenticateLatency, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationAuthenticateLatency"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -274,7 +274,7 @@ func (p *VirtualHalProxy) SetOperationAuthenticateDuration(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteInt32(durationMs)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetOperationAuthenticateDuration, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationAuthenticateDuration"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -295,7 +295,7 @@ func (p *VirtualHalProxy) SetOperationAuthenticateError(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteInt32(error_)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetOperationAuthenticateError, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationAuthenticateError"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -325,7 +325,7 @@ func (p *VirtualHalProxy) SetOperationAuthenticateAcquired(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetOperationAuthenticateAcquired, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationAuthenticateAcquired"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -346,7 +346,7 @@ func (p *VirtualHalProxy) SetOperationEnrollError(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteInt32(error_)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetOperationEnrollError, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationEnrollError"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -374,7 +374,7 @@ func (p *VirtualHalProxy) SetOperationEnrollLatency(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetOperationEnrollLatency, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationEnrollLatency"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -402,7 +402,7 @@ func (p *VirtualHalProxy) SetOperationDetectInteractionLatency(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetOperationDetectInteractionLatency, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationDetectInteractionLatency"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -423,7 +423,7 @@ func (p *VirtualHalProxy) SetOperationDetectInteractionError(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteInt32(error_)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetOperationDetectInteractionError, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationDetectInteractionError"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -444,7 +444,7 @@ func (p *VirtualHalProxy) SetOperationDetectInteractionDuration(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteInt32(durationMs)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetOperationDetectInteractionDuration, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationDetectInteractionDuration"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -474,7 +474,7 @@ func (p *VirtualHalProxy) SetOperationDetectInteractionAcquired(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetOperationDetectInteractionAcquired, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationDetectInteractionAcquired"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -495,7 +495,7 @@ func (p *VirtualHalProxy) SetLockout(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteBool(lockout)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetLockout, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setLockout"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -516,7 +516,7 @@ func (p *VirtualHalProxy) SetLockoutEnable(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetLockoutEnable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setLockoutEnable"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -537,7 +537,7 @@ func (p *VirtualHalProxy) SetLockoutTimedThreshold(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteInt32(threshold)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetLockoutTimedThreshold, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setLockoutTimedThreshold"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -558,7 +558,7 @@ func (p *VirtualHalProxy) SetLockoutTimedDuration(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteInt32(durationMs)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetLockoutTimedDuration, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setLockoutTimedDuration"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -579,7 +579,7 @@ func (p *VirtualHalProxy) SetLockoutPermanentThreshold(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteInt32(threshold)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetLockoutPermanentThreshold, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setLockoutPermanentThreshold"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -598,7 +598,7 @@ func (p *VirtualHalProxy) ResetConfigurations(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalResetConfigurations, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "resetConfigurations"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -619,7 +619,7 @@ func (p *VirtualHalProxy) SetType(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WritePaddedByte(byte(type_))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetType, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setType"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -640,7 +640,7 @@ func (p *VirtualHalProxy) SetSensorId(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteInt32(id)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetSensorId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setSensorId"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -661,7 +661,7 @@ func (p *VirtualHalProxy) SetSensorStrength(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WritePaddedByte(byte(strength))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetSensorStrength, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setSensorStrength"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -682,7 +682,7 @@ func (p *VirtualHalProxy) SetMaxEnrollmentPerUser(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteInt32(max)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetMaxEnrollmentPerUser, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setMaxEnrollmentPerUser"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -705,7 +705,7 @@ func (p *VirtualHalProxy) SetSensorLocation(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetSensorLocation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setSensorLocation"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -726,7 +726,7 @@ func (p *VirtualHalProxy) SetNavigationGuesture(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteBool(v)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetNavigationGuesture, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setNavigationGuesture"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -747,7 +747,7 @@ func (p *VirtualHalProxy) SetDetectInteraction(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteBool(v)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetDetectInteraction, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setDetectInteraction"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -768,7 +768,7 @@ func (p *VirtualHalProxy) SetDisplayTouch(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteBool(v)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetDisplayTouch, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setDisplayTouch"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -789,7 +789,7 @@ func (p *VirtualHalProxy) SetControlIllumination(
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 	_data.WriteBool(v)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalSetControlIllumination, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "setControlIllumination"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -809,7 +809,7 @@ func (p *VirtualHalProxy) GetFingerprintHal(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVirtualHalGetFingerprintHal, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualHal, "getFingerprintHal"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

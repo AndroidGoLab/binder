@@ -50,7 +50,7 @@ func (p *GpsGeofenceHardwareProxy) IsHardwareGeofenceSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGpsGeofenceHardware)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGpsGeofenceHardwareIsHardwareGeofenceSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGpsGeofenceHardware, "isHardwareGeofenceSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -90,7 +90,7 @@ func (p *GpsGeofenceHardwareProxy) AddCircularHardwareGeofence(
 	_data.WriteInt32(notificationResponsiveness)
 	_data.WriteInt32(unknownTimer)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGpsGeofenceHardwareAddCircularHardwareGeofence, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGpsGeofenceHardware, "addCircularHardwareGeofence"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -116,7 +116,7 @@ func (p *GpsGeofenceHardwareProxy) RemoveHardwareGeofence(
 	_data.WriteInterfaceToken(DescriptorIGpsGeofenceHardware)
 	_data.WriteInt32(geofenceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGpsGeofenceHardwareRemoveHardwareGeofence, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGpsGeofenceHardware, "removeHardwareGeofence"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -142,7 +142,7 @@ func (p *GpsGeofenceHardwareProxy) PauseHardwareGeofence(
 	_data.WriteInterfaceToken(DescriptorIGpsGeofenceHardware)
 	_data.WriteInt32(geofenceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGpsGeofenceHardwarePauseHardwareGeofence, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGpsGeofenceHardware, "pauseHardwareGeofence"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -170,7 +170,7 @@ func (p *GpsGeofenceHardwareProxy) ResumeHardwareGeofence(
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(monitorTransition)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGpsGeofenceHardwareResumeHardwareGeofence, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGpsGeofenceHardware, "resumeHardwareGeofence"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

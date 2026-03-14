@@ -46,6 +46,6 @@ func (p *ImsServiceControllerListenerProxy) OnUpdateSupportedImsFeatures(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsServiceControllerListenerOnUpdateSupportedImsFeatures, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsServiceControllerListener, "onUpdateSupportedImsFeatures"), binder.FlagOneway, _data)
 	return _err
 }

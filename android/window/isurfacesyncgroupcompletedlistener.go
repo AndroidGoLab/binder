@@ -41,6 +41,6 @@ func (p *SurfaceSyncGroupCompletedListenerProxy) OnSurfaceSyncGroupComplete(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceSyncGroupCompletedListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionISurfaceSyncGroupCompletedListenerOnSurfaceSyncGroupComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISurfaceSyncGroupCompletedListener, "onSurfaceSyncGroupComplete"), binder.FlagOneway, _data)
 	return _err
 }

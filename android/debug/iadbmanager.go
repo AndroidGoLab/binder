@@ -73,7 +73,7 @@ func (p *AdbManagerProxy) AllowDebugging(
 	_data.WriteBool(alwaysAllow)
 	_data.WriteString16(publicKey)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdbManagerAllowDebugging, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdbManager, "allowDebugging"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -92,7 +92,7 @@ func (p *AdbManagerProxy) DenyDebugging(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdbManagerDenyDebugging, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdbManager, "denyDebugging"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -111,7 +111,7 @@ func (p *AdbManagerProxy) ClearDebuggingKeys(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdbManagerClearDebuggingKeys, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdbManager, "clearDebuggingKeys"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -134,7 +134,7 @@ func (p *AdbManagerProxy) AllowWirelessDebugging(
 	_data.WriteBool(alwaysAllow)
 	_data.WriteString16(bssid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdbManagerAllowWirelessDebugging, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdbManager, "allowWirelessDebugging"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -153,7 +153,7 @@ func (p *AdbManagerProxy) DenyWirelessDebugging(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdbManagerDenyWirelessDebugging, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdbManager, "denyWirelessDebugging"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -173,7 +173,7 @@ func (p *AdbManagerProxy) GetPairedDevices(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdbManagerGetPairedDevices, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdbManager, "getPairedDevices"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -207,7 +207,7 @@ func (p *AdbManagerProxy) UnpairDevice(
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 	_data.WriteString16(fingerprint)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdbManagerUnpairDevice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdbManager, "unpairDevice"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -226,7 +226,7 @@ func (p *AdbManagerProxy) EnablePairingByPairingCode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdbManagerEnablePairingByPairingCode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdbManager, "enablePairingByPairingCode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -249,7 +249,7 @@ func (p *AdbManagerProxy) EnablePairingByQrCode(
 	_data.WriteString16(serviceName)
 	_data.WriteString16(password)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdbManagerEnablePairingByQrCode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdbManager, "enablePairingByQrCode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -269,7 +269,7 @@ func (p *AdbManagerProxy) GetAdbWirelessPort(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdbManagerGetAdbWirelessPort, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdbManager, "getAdbWirelessPort"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -292,7 +292,7 @@ func (p *AdbManagerProxy) DisablePairing(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdbManagerDisablePairing, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdbManager, "disablePairing"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -312,7 +312,7 @@ func (p *AdbManagerProxy) IsAdbWifiSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdbManagerIsAdbWifiSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdbManager, "isAdbWifiSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -336,7 +336,7 @@ func (p *AdbManagerProxy) IsAdbWifiQrSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdbManagerIsAdbWifiQrSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdbManager, "isAdbWifiQrSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -361,7 +361,7 @@ func (p *AdbManagerProxy) RegisterCallback(
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdbManagerRegisterCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdbManager, "registerCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -382,7 +382,7 @@ func (p *AdbManagerProxy) UnregisterCallback(
 	_data.WriteInterfaceToken(DescriptorIAdbManager)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdbManagerUnregisterCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdbManager, "unregisterCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}

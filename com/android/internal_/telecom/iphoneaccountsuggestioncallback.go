@@ -55,6 +55,6 @@ func (p *PhoneAccountSuggestionCallbackProxy) SuggestPhoneAccounts(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneAccountSuggestionCallbackSuggestPhoneAccounts, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneAccountSuggestionCallback, "suggestPhoneAccounts"), binder.FlagOneway, _data)
 	return _err
 }

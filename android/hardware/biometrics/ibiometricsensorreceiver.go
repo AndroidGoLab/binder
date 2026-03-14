@@ -58,7 +58,7 @@ func (p *BiometricSensorReceiverProxy) OnAuthenticationSucceeded(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricSensorReceiverOnAuthenticationSucceeded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricSensorReceiver, "onAuthenticationSucceeded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,7 +70,7 @@ func (p *BiometricSensorReceiverProxy) OnAuthenticationFailed(
 	_data.WriteInterfaceToken(DescriptorIBiometricSensorReceiver)
 	_data.WriteInt32(sensorId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricSensorReceiverOnAuthenticationFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricSensorReceiver, "onAuthenticationFailed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,7 +88,7 @@ func (p *BiometricSensorReceiverProxy) OnError(
 	_data.WriteInt32(error_)
 	_data.WriteInt32(vendorCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricSensorReceiverOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricSensorReceiver, "onError"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -104,6 +104,6 @@ func (p *BiometricSensorReceiverProxy) OnAcquired(
 	_data.WriteInt32(acquiredInfo)
 	_data.WriteInt32(vendorCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricSensorReceiverOnAcquired, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricSensorReceiver, "onAcquired"), binder.FlagOneway, _data)
 	return _err
 }

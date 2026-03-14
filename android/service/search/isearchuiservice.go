@@ -60,7 +60,7 @@ func (p *SearchUiServiceProxy) OnCreateSearchSession(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISearchUiServiceOnCreateSearchSession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchUiService, "onCreateSearchSession"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,7 +80,7 @@ func (p *SearchUiServiceProxy) OnQuery(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISearchUiServiceOnQuery, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchUiService, "onQuery"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,7 +102,7 @@ func (p *SearchUiServiceProxy) OnNotifyEvent(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISearchUiServiceOnNotifyEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchUiService, "onNotifyEvent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -118,7 +118,7 @@ func (p *SearchUiServiceProxy) OnRegisterEmptyQueryResultUpdateCallback(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISearchUiServiceOnRegisterEmptyQueryResultUpdateCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchUiService, "onRegisterEmptyQueryResultUpdateCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -134,7 +134,7 @@ func (p *SearchUiServiceProxy) OnUnregisterEmptyQueryResultUpdateCallback(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISearchUiServiceOnUnregisterEmptyQueryResultUpdateCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchUiService, "onUnregisterEmptyQueryResultUpdateCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -148,6 +148,6 @@ func (p *SearchUiServiceProxy) OnDestroy(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISearchUiServiceOnDestroy, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchUiService, "onDestroy"), binder.FlagOneway, _data)
 	return _err
 }

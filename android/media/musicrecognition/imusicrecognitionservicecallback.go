@@ -53,7 +53,7 @@ func (p *MusicRecognitionServiceCallbackProxy) OnRecognitionSucceeded(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMusicRecognitionServiceCallbackOnRecognitionSucceeded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMusicRecognitionServiceCallback, "onRecognitionSucceeded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,6 +65,6 @@ func (p *MusicRecognitionServiceCallbackProxy) OnRecognitionFailed(
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionServiceCallback)
 	_data.WriteInt32(failureCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMusicRecognitionServiceCallbackOnRecognitionFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMusicRecognitionServiceCallback, "onRecognitionFailed"), binder.FlagOneway, _data)
 	return _err
 }

@@ -46,7 +46,7 @@ func (p *SystemSuspendProxy) AcquireWakeLock(
 	_data.WriteInt32(int32(type_))
 	_data.WriteString16(name)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISystemSuspendAcquireWakeLock, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISystemSuspend, "acquireWakeLock"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

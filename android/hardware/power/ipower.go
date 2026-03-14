@@ -71,7 +71,7 @@ func (p *PowerProxy) SetMode(
 	_data.WriteInt32(int32(type_))
 	_data.WriteBool(enabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPowerSetMode, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPower, "setMode"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,7 +84,7 @@ func (p *PowerProxy) IsModeSupported(
 	_data.WriteInterfaceToken(DescriptorIPower)
 	_data.WriteInt32(int32(type_))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPowerIsModeSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPower, "isModeSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -111,7 +111,7 @@ func (p *PowerProxy) SetBoost(
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(durationMs)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPowerSetBoost, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPower, "setBoost"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -124,7 +124,7 @@ func (p *PowerProxy) IsBoostSupported(
 	_data.WriteInterfaceToken(DescriptorIPower)
 	_data.WriteInt32(int32(type_))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPowerIsBoostSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPower, "isBoostSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -163,7 +163,7 @@ func (p *PowerProxy) CreateHintSession(
 	}
 	_data.WriteInt64(durationNanos)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPowerCreateHintSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPower, "createHintSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -188,7 +188,7 @@ func (p *PowerProxy) GetHintSessionPreferredRate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPower)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPowerGetHintSessionPreferredRate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPower, "getHintSessionPreferredRate"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -230,7 +230,7 @@ func (p *PowerProxy) CreateHintSessionWithConfig(
 	_data.WriteInt64(durationNanos)
 	_data.WriteInt32(int32(tag))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPowerCreateHintSessionWithConfig, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPower, "createHintSessionWithConfig"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -262,7 +262,7 @@ func (p *PowerProxy) GetSessionChannel(
 	_data.WriteInt32(tgid)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPowerGetSessionChannel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPower, "getSessionChannel"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -288,7 +288,7 @@ func (p *PowerProxy) CloseSessionChannel(
 	_data.WriteInt32(tgid)
 	_data.WriteInt32(uid)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPowerCloseSessionChannel, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPower, "closeSessionChannel"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -299,7 +299,7 @@ func (p *PowerProxy) GetSupportInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPower)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPowerGetSupportInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPower, "getSupportInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -326,7 +326,7 @@ func (p *PowerProxy) GetCpuHeadroom(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPowerGetCpuHeadroom, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPower, "getCpuHeadroom"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -353,7 +353,7 @@ func (p *PowerProxy) GetGpuHeadroom(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPowerGetGpuHeadroom, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPower, "getGpuHeadroom"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -386,7 +386,7 @@ func (p *PowerProxy) SendCompositionData(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPowerSendCompositionData, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPower, "sendCompositionData"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -400,6 +400,6 @@ func (p *PowerProxy) SendCompositionUpdate(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPowerSendCompositionUpdate, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPower, "sendCompositionUpdate"), binder.FlagOneway, _data)
 	return _err
 }

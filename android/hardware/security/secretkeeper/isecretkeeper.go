@@ -57,7 +57,7 @@ func (p *SecretkeeperProxy) GetAuthGraphKe(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecretkeeper)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecretkeeperGetAuthGraphKe, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecretkeeper, "getAuthGraphKe"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -91,7 +91,7 @@ func (p *SecretkeeperProxy) ProcessSecretManagementRequest(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecretkeeperProcessSecretManagementRequest, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecretkeeper, "processSecretManagementRequest"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -135,7 +135,7 @@ func (p *SecretkeeperProxy) DeleteIds(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecretkeeperDeleteIds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecretkeeper, "deleteIds"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -154,7 +154,7 @@ func (p *SecretkeeperProxy) DeleteAll(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecretkeeper)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecretkeeperDeleteAll, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecretkeeper, "deleteAll"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -174,7 +174,7 @@ func (p *SecretkeeperProxy) GetSecretkeeperIdentity(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecretkeeper)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecretkeeperGetSecretkeeperIdentity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecretkeeper, "getSecretkeeperIdentity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

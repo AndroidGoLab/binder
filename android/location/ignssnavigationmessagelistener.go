@@ -47,7 +47,7 @@ func (p *GnssNavigationMessageListenerProxy) OnGnssNavigationMessageReceived(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIGnssNavigationMessageListenerOnGnssNavigationMessageReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssNavigationMessageListener, "onGnssNavigationMessageReceived"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,6 +59,6 @@ func (p *GnssNavigationMessageListenerProxy) OnStatusChanged(
 	_data.WriteInterfaceToken(DescriptorIGnssNavigationMessageListener)
 	_data.WriteInt32(status)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGnssNavigationMessageListenerOnStatusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssNavigationMessageListener, "onStatusChanged"), binder.FlagOneway, _data)
 	return _err
 }

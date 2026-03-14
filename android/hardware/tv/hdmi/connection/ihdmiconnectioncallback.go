@@ -45,6 +45,6 @@ func (p *HdmiConnectionCallbackProxy) OnHotplugEvent(
 	_data.WriteBool(connected)
 	_data.WriteInt32(portId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIHdmiConnectionCallbackOnHotplugEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiConnectionCallback, "onHotplugEvent"), binder.FlagOneway, _data)
 	return _err
 }

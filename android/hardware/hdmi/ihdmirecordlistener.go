@@ -50,7 +50,7 @@ func (p *HdmiRecordListenerProxy) GetOneTouchRecordSource(
 	_data.WriteInterfaceToken(DescriptorIHdmiRecordListener)
 	_data.WriteInt32(recorderAddress)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiRecordListenerGetOneTouchRecordSource, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiRecordListener, "getOneTouchRecordSource"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -87,7 +87,7 @@ func (p *HdmiRecordListenerProxy) OnOneTouchRecordResult(
 	_data.WriteInt32(recorderAddress)
 	_data.WriteInt32(result)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiRecordListenerOnOneTouchRecordResult, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiRecordListener, "onOneTouchRecordResult"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -110,7 +110,7 @@ func (p *HdmiRecordListenerProxy) OnTimerRecordingResult(
 	_data.WriteInt32(recorderAddress)
 	_data.WriteInt32(result)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiRecordListenerOnTimerRecordingResult, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiRecordListener, "onTimerRecordingResult"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -133,7 +133,7 @@ func (p *HdmiRecordListenerProxy) OnClearTimerRecordingResult(
 	_data.WriteInt32(recorderAddress)
 	_data.WriteInt32(result)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiRecordListenerOnClearTimerRecordingResult, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiRecordListener, "onClearTimerRecordingResult"), 0, _data)
 	if _err != nil {
 		return _err
 	}

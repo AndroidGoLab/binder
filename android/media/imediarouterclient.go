@@ -45,7 +45,7 @@ func (p *MediaRouterClientProxy) OnStateChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterClient)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRouterClientOnStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRouterClient, "onStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -55,7 +55,7 @@ func (p *MediaRouterClientProxy) OnRestoreRoute(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterClient)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRouterClientOnRestoreRoute, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRouterClient, "onRestoreRoute"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +67,6 @@ func (p *MediaRouterClientProxy) OnGroupRouteSelected(
 	_data.WriteInterfaceToken(DescriptorIMediaRouterClient)
 	_data.WriteString16(routeId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRouterClientOnGroupRouteSelected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRouterClient, "onGroupRouteSelected"), binder.FlagOneway, _data)
 	return _err
 }

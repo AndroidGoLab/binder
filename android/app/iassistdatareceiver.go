@@ -45,7 +45,7 @@ func (p *AssistDataReceiverProxy) OnHandleAssistData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAssistDataReceiver)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAssistDataReceiverOnHandleAssistData, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAssistDataReceiver, "onHandleAssistData"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,6 +59,6 @@ func (p *AssistDataReceiverProxy) OnHandleAssistScreenshot(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAssistDataReceiverOnHandleAssistScreenshot, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAssistDataReceiver, "onHandleAssistScreenshot"), binder.FlagOneway, _data)
 	return _err
 }

@@ -44,7 +44,7 @@ func (p *AppClipsScreenshotHelperServiceProxy) TakeScreenshot(
 	_data.WriteInterfaceToken(DescriptorIAppClipsScreenshotHelperService)
 	_data.WriteInt32(displayId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppClipsScreenshotHelperServiceTakeScreenshot, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppClipsScreenshotHelperService, "takeScreenshot"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

@@ -53,7 +53,7 @@ func (p *OpaqueKeyProxy) ExportWrappedKey(
 	_data.WriteInterfaceToken(DescriptorIOpaqueKey)
 	_data.WriteStrongBinder(wrappingKey.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOpaqueKeyExportWrappedKey, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOpaqueKey, "exportWrappedKey"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -87,7 +87,7 @@ func (p *OpaqueKeyProxy) GetKeyPolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOpaqueKey)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOpaqueKeyGetKeyPolicy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOpaqueKey, "getKeyPolicy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -110,7 +110,7 @@ func (p *OpaqueKeyProxy) GetPublicKey(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOpaqueKey)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOpaqueKeyGetPublicKey, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOpaqueKey, "getPublicKey"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -153,7 +153,7 @@ func (p *OpaqueKeyProxy) GetShareableToken(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOpaqueKeyGetShareableToken, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOpaqueKey, "getShareableToken"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -182,7 +182,7 @@ func (p *OpaqueKeyProxy) SetProtectionId(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOpaqueKeySetProtectionId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOpaqueKey, "setProtectionId"), 0, _data)
 	if _err != nil {
 		return _err
 	}

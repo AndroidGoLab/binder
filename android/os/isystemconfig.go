@@ -58,7 +58,7 @@ func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierApps(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISystemConfigGetDisabledUntilUsedPreinstalledCarrierApps, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISystemConfig, "getDisabledUntilUsedPreinstalledCarrierApps"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -92,7 +92,7 @@ func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierAssociatedApp
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISystemConfigGetDisabledUntilUsedPreinstalledCarrierAssociatedApps, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISystemConfig, "getDisabledUntilUsedPreinstalledCarrierAssociatedApps"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -130,7 +130,7 @@ func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierAssociatedApp
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISystemConfigGetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISystemConfig, "getDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -170,7 +170,7 @@ func (p *SystemConfigProxy) GetSystemPermissionUids(
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 	_data.WriteString16(permissionName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISystemConfigGetSystemPermissionUids, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISystemConfig, "getSystemPermissionUids"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -206,7 +206,7 @@ func (p *SystemConfigProxy) GetEnabledComponentOverrides(
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISystemConfigGetEnabledComponentOverrides, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISystemConfig, "getEnabledComponentOverrides"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -236,7 +236,7 @@ func (p *SystemConfigProxy) GetDefaultVrComponents(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISystemConfigGetDefaultVrComponents, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISystemConfig, "getDefaultVrComponents"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -266,7 +266,7 @@ func (p *SystemConfigProxy) GetPreventUserDisablePackages(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISystemConfigGetPreventUserDisablePackages, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISystemConfig, "getPreventUserDisablePackages"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -300,7 +300,7 @@ func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedPackages(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISystemConfigGetEnhancedConfirmationTrustedPackages, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISystemConfig, "getEnhancedConfirmationTrustedPackages"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -330,7 +330,7 @@ func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedInstallers(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISystemConfigGetEnhancedConfirmationTrustedInstallers, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISystemConfig, "getEnhancedConfirmationTrustedInstallers"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

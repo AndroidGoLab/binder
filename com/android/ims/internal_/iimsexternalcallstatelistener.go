@@ -53,6 +53,6 @@ func (p *ImsExternalCallStateListenerProxy) OnImsExternalCallStateUpdate(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsExternalCallStateListenerOnImsExternalCallStateUpdate, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsExternalCallStateListener, "onImsExternalCallStateUpdate"), binder.FlagOneway, _data)
 	return _err
 }

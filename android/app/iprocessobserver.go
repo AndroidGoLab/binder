@@ -57,7 +57,7 @@ func (p *ProcessObserverProxy) OnProcessStarted(
 	_data.WriteString16(packageName)
 	_data.WriteString16(processName)
 
-	_, _err := p.remote.Transact(ctx, TransactionIProcessObserverOnProcessStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProcessObserver, "onProcessStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,7 +73,7 @@ func (p *ProcessObserverProxy) OnForegroundActivitiesChanged(
 	_data.WriteInt32(uid)
 	_data.WriteBool(foregroundActivities)
 
-	_, _err := p.remote.Transact(ctx, TransactionIProcessObserverOnForegroundActivitiesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProcessObserver, "onForegroundActivitiesChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,7 +89,7 @@ func (p *ProcessObserverProxy) OnForegroundServicesChanged(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(serviceTypes)
 
-	_, _err := p.remote.Transact(ctx, TransactionIProcessObserverOnForegroundServicesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProcessObserver, "onForegroundServicesChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,6 +103,6 @@ func (p *ProcessObserverProxy) OnProcessDied(
 	_data.WriteInt32(pid)
 	_data.WriteInt32(uid)
 
-	_, _err := p.remote.Transact(ctx, TransactionIProcessObserverOnProcessDied, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProcessObserver, "onProcessDied"), binder.FlagOneway, _data)
 	return _err
 }

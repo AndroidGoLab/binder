@@ -59,6 +59,6 @@ func (p *TrustedPresentationListenerProxy) OnTrustedPresentationChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITrustedPresentationListenerOnTrustedPresentationChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITrustedPresentationListener, "onTrustedPresentationChanged"), binder.FlagOneway, _data)
 	return _err
 }

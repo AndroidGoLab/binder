@@ -45,6 +45,6 @@ func (p *ActivityRecognitionHardwareClientProxy) OnAvailabilityChanged(
 	_data.WriteBool(isSupported)
 	_data.WriteStrongBinder(instance.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityRecognitionHardwareClientOnAvailabilityChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityRecognitionHardwareClient, "onAvailabilityChanged"), binder.FlagOneway, _data)
 	return _err
 }

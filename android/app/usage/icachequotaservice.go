@@ -57,6 +57,6 @@ func (p *CacheQuotaServiceProxy) ComputeCacheQuotaHints(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICacheQuotaServiceComputeCacheQuotaHints, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICacheQuotaService, "computeCacheQuotaHints"), binder.FlagOneway, _data)
 	return _err
 }

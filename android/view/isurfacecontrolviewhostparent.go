@@ -54,7 +54,7 @@ func (p *SurfaceControlViewHostParentProxy) UpdateParams(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISurfaceControlViewHostParentUpdateParams, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISurfaceControlViewHostParent, "updateParams"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,6 +68,6 @@ func (p *SurfaceControlViewHostParentProxy) ForwardBackKeyToParent(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISurfaceControlViewHostParentForwardBackKeyToParent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISurfaceControlViewHostParent, "forwardBackKeyToParent"), binder.FlagOneway, _data)
 	return _err
 }

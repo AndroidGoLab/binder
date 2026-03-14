@@ -47,6 +47,6 @@ func (p *StartingWindowListenerProxy) OnTaskLaunching(
 	_data.WriteInt32(supportedType)
 	_data.WriteInt32(splashScreenBackgroundColor)
 
-	_, _err := p.remote.Transact(ctx, TransactionIStartingWindowListenerOnTaskLaunching, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStartingWindowListener, "onTaskLaunching"), binder.FlagOneway, _data)
 	return _err
 }

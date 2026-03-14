@@ -59,6 +59,6 @@ func (p *DeleteRecordedContentsCallbackProxy) OnRecordedContentsDeleted(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIDeleteRecordedContentsCallbackOnRecordedContentsDeleted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeleteRecordedContentsCallback, "onRecordedContentsDeleted"), binder.FlagOneway, _data)
 	return _err
 }

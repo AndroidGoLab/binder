@@ -45,7 +45,7 @@ func (p *GnssNavigationMessageInterfaceProxy) SetCallback(
 	_data.WriteInterfaceToken(DescriptorIGnssNavigationMessageInterface)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssNavigationMessageInterfaceSetCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssNavigationMessageInterface, "setCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -64,7 +64,7 @@ func (p *GnssNavigationMessageInterfaceProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssNavigationMessageInterface)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssNavigationMessageInterfaceClose, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssNavigationMessageInterface, "close"), 0, _data)
 	if _err != nil {
 		return _err
 	}

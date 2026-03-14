@@ -47,7 +47,7 @@ func (p *ConvertCredentialCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConvertCredentialCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConvertCredentialCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +58,6 @@ func (p *ConvertCredentialCallbackProxy) OnFailure(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConvertCredentialCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIConvertCredentialCallbackOnFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConvertCredentialCallback, "onFailure"), binder.FlagOneway, _data)
 	return _err
 }

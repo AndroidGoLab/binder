@@ -43,6 +43,6 @@ func (p *SpatializerOutputCallbackProxy) DispatchSpatializerOutputChanged(
 	_data.WriteInterfaceToken(DescriptorISpatializerOutputCallback)
 	_data.WriteInt32(output)
 
-	_, _err := p.remote.Transact(ctx, TransactionISpatializerOutputCallbackDispatchSpatializerOutputChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISpatializerOutputCallback, "dispatchSpatializerOutputChanged"), binder.FlagOneway, _data)
 	return _err
 }

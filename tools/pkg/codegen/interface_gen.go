@@ -60,7 +60,7 @@ func GenerateInterface(
 
 	// Proxy methods.
 	for i, m := range decl.Methods {
-		writeProxyMethod(f, proxyName, descriptorConst, interfaceName, m, i, decl.Oneway, opts, typeRef)
+		writeProxyMethod(f, proxyName, descriptorConst, m, i, decl.Oneway, opts, typeRef)
 	}
 
 	return f.Bytes()
@@ -148,7 +148,6 @@ func writeProxyMethod(
 	f *GoFile,
 	proxyName string,
 	descriptorConst string,
-	interfaceName string,
 	m *parser.MethodDecl,
 	index int,
 	interfaceOneway bool,
@@ -156,7 +155,6 @@ func writeProxyMethod(
 	typeRef *TypeRefResolver,
 ) {
 	goName := AIDLToGoName(m.MethodName)
-	transactionConst := "Transaction" + interfaceName + goName
 	isOneway := m.Oneway || interfaceOneway
 	hasReturn := m.ReturnType != nil && m.ReturnType.Name != "void"
 
@@ -197,17 +195,19 @@ func writeProxyMethod(
 	}
 
 	// Transact call and reply handling.
+	// Use ResolveCode so the proxy asks the transport for the correct
+	// transaction code instead of relying on a compile-time constant.
 	f.P("")
 	if isOneway {
 		// Oneway methods do not receive a reply from the kernel.
-		f.P("\t_, _err := p.remote.Transact(ctx, %s, %s, _data)", transactionConst, flags)
+		f.P("\t_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(%s, %q), %s, _data)", descriptorConst, m.MethodName, flags)
 		if hasReturn {
 			f.P("\treturn _result, _err")
 		} else {
 			f.P("\treturn _err")
 		}
 	} else {
-		f.P("\t_reply, _err := p.remote.Transact(ctx, %s, %s, _data)", transactionConst, flags)
+		f.P("\t_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(%s, %q), %s, _data)", descriptorConst, m.MethodName, flags)
 		if hasReturn {
 			f.P("\tif _err != nil {")
 			f.P("\t\treturn _result, _err")

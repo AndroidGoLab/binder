@@ -47,7 +47,7 @@ func (p *ScanBackgroundServiceUpdateProxy) AddBackgroundServiceUpdateListener(
 	_data.WriteString16(clientToken)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIScanBackgroundServiceUpdateAddBackgroundServiceUpdateListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScanBackgroundServiceUpdate, "addBackgroundServiceUpdateListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -68,7 +68,7 @@ func (p *ScanBackgroundServiceUpdateProxy) RemoveBackgroundServiceUpdateListener
 	_data.WriteInterfaceToken(DescriptorIScanBackgroundServiceUpdate)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIScanBackgroundServiceUpdateRemoveBackgroundServiceUpdateListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScanBackgroundServiceUpdate, "removeBackgroundServiceUpdateListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -43,6 +43,6 @@ func (p *HdmiSystemAudioModeChangeListenerProxy) OnStatusChanged(
 	_data.WriteInterfaceToken(DescriptorIHdmiSystemAudioModeChangeListener)
 	_data.WriteBool(enabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionIHdmiSystemAudioModeChangeListenerOnStatusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiSystemAudioModeChangeListener, "onStatusChanged"), binder.FlagOneway, _data)
 	return _err
 }

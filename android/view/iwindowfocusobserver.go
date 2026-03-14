@@ -45,7 +45,7 @@ func (p *WindowFocusObserverProxy) FocusGained(
 	_data.WriteInterfaceToken(DescriptorIWindowFocusObserver)
 	_data.WriteStrongBinder(inputToken.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIWindowFocusObserverFocusGained, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowFocusObserver, "focusGained"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -57,6 +57,6 @@ func (p *WindowFocusObserverProxy) FocusLost(
 	_data.WriteInterfaceToken(DescriptorIWindowFocusObserver)
 	_data.WriteStrongBinder(inputToken.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIWindowFocusObserverFocusLost, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowFocusObserver, "focusLost"), binder.FlagOneway, _data)
 	return _err
 }

@@ -47,6 +47,6 @@ func (p *PackageStatsObserverProxy) OnGetStatsCompleted(
 	}
 	_data.WriteBool(succeeded)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPackageStatsObserverOnGetStatsCompleted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageStatsObserver, "onGetStatsCompleted"), binder.FlagOneway, _data)
 	return _err
 }

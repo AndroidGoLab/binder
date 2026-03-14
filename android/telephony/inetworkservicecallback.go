@@ -49,7 +49,7 @@ func (p *NetworkServiceCallbackProxy) OnRequestNetworkRegistrationInfoComplete(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkServiceCallbackOnRequestNetworkRegistrationInfoComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkServiceCallback, "onRequestNetworkRegistrationInfoComplete"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,6 +59,6 @@ func (p *NetworkServiceCallbackProxy) OnNetworkStateChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkServiceCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkServiceCallbackOnNetworkStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkServiceCallback, "onNetworkStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

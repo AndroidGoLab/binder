@@ -45,7 +45,7 @@ func (p *TimeReceiverCallbackProxy) SendTime(
 	_data.WriteString16(type_)
 	_data.WriteInt64(timeNs)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeReceiverCallbackSendTime, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeReceiverCallback, "sendTime"), 0, _data)
 	if _err != nil {
 		return _err
 	}

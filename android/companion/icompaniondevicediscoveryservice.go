@@ -56,7 +56,7 @@ func (p *CompanionDeviceDiscoveryServiceProxy) StartDiscovery(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICompanionDeviceDiscoveryServiceStartDiscovery, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICompanionDeviceDiscoveryService, "startDiscovery"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +66,6 @@ func (p *CompanionDeviceDiscoveryServiceProxy) OnAssociationCreated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceDiscoveryService)
 
-	_, _err := p.remote.Transact(ctx, TransactionICompanionDeviceDiscoveryServiceOnAssociationCreated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICompanionDeviceDiscoveryService, "onAssociationCreated"), binder.FlagOneway, _data)
 	return _err
 }

@@ -46,7 +46,7 @@ func (p *AccountAuthenticatorResponseProxy) OnResult(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticatorResponse)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccountAuthenticatorResponseOnResult, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccountAuthenticatorResponse, "onResult"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -56,7 +56,7 @@ func (p *AccountAuthenticatorResponseProxy) OnRequestContinued(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticatorResponse)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccountAuthenticatorResponseOnRequestContinued, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccountAuthenticatorResponse, "onRequestContinued"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,6 +70,6 @@ func (p *AccountAuthenticatorResponseProxy) OnError(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccountAuthenticatorResponseOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccountAuthenticatorResponse, "onError"), binder.FlagOneway, _data)
 	return _err
 }

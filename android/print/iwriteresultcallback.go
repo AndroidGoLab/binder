@@ -52,7 +52,7 @@ func (p *WriteResultCallbackProxy) OnWriteStarted(
 	_data.WriteStrongBinder(cancellation.AsBinder().Handle())
 	_data.WriteInt32(sequence)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWriteResultCallbackOnWriteStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWriteResultCallback, "onWriteStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,7 +75,7 @@ func (p *WriteResultCallbackProxy) OnWriteFinished(
 	}
 	_data.WriteInt32(sequence)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWriteResultCallbackOnWriteFinished, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWriteResultCallback, "onWriteFinished"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,7 +88,7 @@ func (p *WriteResultCallbackProxy) OnWriteFailed(
 	_data.WriteInterfaceToken(DescriptorIWriteResultCallback)
 	_data.WriteInt32(sequence)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWriteResultCallbackOnWriteFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWriteResultCallback, "onWriteFailed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,6 +100,6 @@ func (p *WriteResultCallbackProxy) OnWriteCanceled(
 	_data.WriteInterfaceToken(DescriptorIWriteResultCallback)
 	_data.WriteInt32(sequence)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWriteResultCallbackOnWriteCanceled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWriteResultCallback, "onWriteCanceled"), binder.FlagOneway, _data)
 	return _err
 }

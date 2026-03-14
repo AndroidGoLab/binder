@@ -41,7 +41,7 @@ func (p *VoiceInteractorRequestProxy) Cancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractorRequest)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVoiceInteractorRequestCancel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractorRequest, "cancel"), 0, _data)
 	if _err != nil {
 		return _err
 	}

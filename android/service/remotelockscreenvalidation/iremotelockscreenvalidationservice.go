@@ -52,7 +52,7 @@ func (p *RemoteLockscreenValidationServiceProxy) ValidateLockscreenGuess(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRemoteLockscreenValidationServiceValidateLockscreenGuess, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteLockscreenValidationService, "validateLockscreenGuess"), 0, _data)
 	if _err != nil {
 		return _err
 	}

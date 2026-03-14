@@ -43,6 +43,6 @@ func (p *SetOpportunisticDataCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorISetOpportunisticDataCallback)
 	_data.WriteInt32(result)
 
-	_, _err := p.remote.Transact(ctx, TransactionISetOpportunisticDataCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISetOpportunisticDataCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

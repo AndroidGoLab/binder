@@ -46,7 +46,7 @@ func (p *ScrollCaptureCallbacksProxy) OnCaptureStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureCallbacks)
 
-	_, _err := p.remote.Transact(ctx, TransactionIScrollCaptureCallbacksOnCaptureStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScrollCaptureCallbacks, "onCaptureStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,7 +62,7 @@ func (p *ScrollCaptureCallbacksProxy) OnImageRequestCompleted(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIScrollCaptureCallbacksOnImageRequestCompleted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScrollCaptureCallbacks, "onImageRequestCompleted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,6 +72,6 @@ func (p *ScrollCaptureCallbacksProxy) OnCaptureEnded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureCallbacks)
 
-	_, _err := p.remote.Transact(ctx, TransactionIScrollCaptureCallbacksOnCaptureEnded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScrollCaptureCallbacks, "onCaptureEnded"), binder.FlagOneway, _data)
 	return _err
 }

@@ -48,7 +48,7 @@ func (p *StreamingResponseCallbackProxy) OnNewContent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamingResponseCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIStreamingResponseCallbackOnNewContent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamingResponseCallback, "onNewContent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,7 +59,7 @@ func (p *StreamingResponseCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamingResponseCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIStreamingResponseCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamingResponseCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,7 +74,7 @@ func (p *StreamingResponseCallbackProxy) OnFailure(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
 
-	_, _err := p.remote.Transact(ctx, TransactionIStreamingResponseCallbackOnFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamingResponseCallback, "onFailure"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,6 +86,6 @@ func (p *StreamingResponseCallbackProxy) OnDataAugmentRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamingResponseCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIStreamingResponseCallbackOnDataAugmentRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamingResponseCallback, "onDataAugmentRequest"), binder.FlagOneway, _data)
 	return _err
 }

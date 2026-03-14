@@ -50,7 +50,7 @@ func (p *BackgroundInstallControlServiceProxy) GetBackgroundInstalledPackages(
 	_data.WriteInt64(flags)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBackgroundInstallControlServiceGetBackgroundInstalledPackages, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackgroundInstallControlService, "getBackgroundInstalledPackages"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -73,7 +73,7 @@ func (p *BackgroundInstallControlServiceProxy) RegisterBackgroundInstallCallback
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackgroundInstallControlService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBackgroundInstallControlServiceRegisterBackgroundInstallCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackgroundInstallControlService, "registerBackgroundInstallCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -93,7 +93,7 @@ func (p *BackgroundInstallControlServiceProxy) UnregisterBackgroundInstallCallba
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackgroundInstallControlService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBackgroundInstallControlServiceUnregisterBackgroundInstallCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackgroundInstallControlService, "unregisterBackgroundInstallCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}

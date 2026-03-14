@@ -63,7 +63,7 @@ func (p *RemoteViewsFactoryProxy) OnDataSetChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRemoteViewsFactoryOnDataSetChanged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteViewsFactory, "onDataSetChanged"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -82,7 +82,7 @@ func (p *RemoteViewsFactoryProxy) OnDataSetChangedAsync(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteViewsFactoryOnDataSetChangedAsync, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteViewsFactory, "onDataSetChangedAsync"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,7 +96,7 @@ func (p *RemoteViewsFactoryProxy) OnDestroy(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteViewsFactoryOnDestroy, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteViewsFactory, "onDestroy"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,7 +107,7 @@ func (p *RemoteViewsFactoryProxy) GetCount(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRemoteViewsFactoryGetCount, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteViewsFactory, "getCount"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -133,7 +133,7 @@ func (p *RemoteViewsFactoryProxy) GetViewAt(
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 	_data.WriteInt32(position)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRemoteViewsFactoryGetViewAt, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteViewsFactory, "getViewAt"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -156,7 +156,7 @@ func (p *RemoteViewsFactoryProxy) GetLoadingView(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRemoteViewsFactoryGetLoadingView, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteViewsFactory, "getLoadingView"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -179,7 +179,7 @@ func (p *RemoteViewsFactoryProxy) GetViewTypeCount(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRemoteViewsFactoryGetViewTypeCount, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteViewsFactory, "getViewTypeCount"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -205,7 +205,7 @@ func (p *RemoteViewsFactoryProxy) GetItemId(
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 	_data.WriteInt32(position)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRemoteViewsFactoryGetItemId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteViewsFactory, "getItemId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -229,7 +229,7 @@ func (p *RemoteViewsFactoryProxy) HasStableIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRemoteViewsFactoryHasStableIds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteViewsFactory, "hasStableIds"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -253,7 +253,7 @@ func (p *RemoteViewsFactoryProxy) IsCreated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRemoteViewsFactoryIsCreated, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteViewsFactory, "isCreated"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -281,7 +281,7 @@ func (p *RemoteViewsFactoryProxy) GetRemoteCollectionItems(
 	_data.WriteInt32(capSize)
 	_data.WriteInt32(capBitmapSize)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRemoteViewsFactoryGetRemoteCollectionItems, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteViewsFactory, "getRemoteCollectionItems"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

@@ -53,7 +53,7 @@ func (p *EvsUltrasonicsArrayProxy) DoneWithDataFrame(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsUltrasonicsArrayDoneWithDataFrame, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsUltrasonicsArray, "doneWithDataFrame"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,7 +73,7 @@ func (p *EvsUltrasonicsArrayProxy) GetUltrasonicArrayInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsUltrasonicsArrayGetUltrasonicArrayInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsUltrasonicsArray, "getUltrasonicArrayInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -97,7 +97,7 @@ func (p *EvsUltrasonicsArrayProxy) SetMaxFramesInFlight(
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
 	_data.WriteInt32(bufferCount)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsUltrasonicsArraySetMaxFramesInFlight, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsUltrasonicsArray, "setMaxFramesInFlight"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -118,7 +118,7 @@ func (p *EvsUltrasonicsArrayProxy) StartStream(
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
 	_data.WriteStrongBinder(stream.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsUltrasonicsArrayStartStream, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsUltrasonicsArray, "startStream"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -137,7 +137,7 @@ func (p *EvsUltrasonicsArrayProxy) StopStream(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsUltrasonicsArrayStopStream, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsUltrasonicsArray, "stopStream"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -46,6 +46,6 @@ func (p *VoiceInteractionSessionServiceProxy) NewSession(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteInt32(startFlags)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionSessionServiceNewSession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionSessionService, "newSession"), binder.FlagOneway, _data)
 	return _err
 }

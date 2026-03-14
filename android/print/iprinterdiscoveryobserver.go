@@ -48,7 +48,7 @@ func (p *PrinterDiscoveryObserverProxy) OnPrintersAdded(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrinterDiscoveryObserverOnPrintersAdded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrinterDiscoveryObserver, "onPrintersAdded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +62,6 @@ func (p *PrinterDiscoveryObserverProxy) OnPrintersRemoved(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrinterDiscoveryObserverOnPrintersRemoved, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrinterDiscoveryObserver, "onPrintersRemoved"), binder.FlagOneway, _data)
 	return _err
 }

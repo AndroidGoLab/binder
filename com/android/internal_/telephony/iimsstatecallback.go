@@ -45,7 +45,7 @@ func (p *ImsStateCallbackProxy) OnUnavailable(
 	_data.WriteInterfaceToken(DescriptorIImsStateCallback)
 	_data.WriteInt32(reason)
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsStateCallbackOnUnavailable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsStateCallback, "onUnavailable"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -55,6 +55,6 @@ func (p *ImsStateCallbackProxy) OnAvailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsStateCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsStateCallbackOnAvailable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsStateCallback, "onAvailable"), binder.FlagOneway, _data)
 	return _err
 }

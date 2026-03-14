@@ -47,6 +47,6 @@ func (p *OnMediaKeyEventSessionChangedListenerProxy) OnMediaKeyEventSessionChang
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnMediaKeyEventSessionChangedListenerOnMediaKeyEventSessionChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnMediaKeyEventSessionChangedListener, "onMediaKeyEventSessionChanged"), binder.FlagOneway, _data)
 	return _err
 }

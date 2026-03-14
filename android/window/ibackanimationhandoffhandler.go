@@ -58,6 +58,6 @@ func (p *BackAnimationHandoffHandlerProxy) HandOffAnimation(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIBackAnimationHandoffHandlerHandOffAnimation, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackAnimationHandoffHandler, "handOffAnimation"), binder.FlagOneway, _data)
 	return _err
 }

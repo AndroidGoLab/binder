@@ -56,7 +56,7 @@ func (p *ConnectionProxy) Fetch(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIConnectionFetch, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnection, "fetch"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -88,7 +88,7 @@ func (p *ConnectionProxy) Sync(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnection)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIConnectionSync, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConnection, "sync"), 0, _data)
 	if _err != nil {
 		return _err
 	}

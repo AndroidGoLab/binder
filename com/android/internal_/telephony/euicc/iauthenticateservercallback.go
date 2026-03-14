@@ -52,6 +52,6 @@ func (p *AuthenticateServerCallbackProxy) OnComplete(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAuthenticateServerCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAuthenticateServerCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

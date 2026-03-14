@@ -43,6 +43,6 @@ func (p *FingerprintClientActiveCallbackProxy) OnClientActiveChanged(
 	_data.WriteInterfaceToken(DescriptorIFingerprintClientActiveCallback)
 	_data.WriteBool(isActive)
 
-	_, _err := p.remote.Transact(ctx, TransactionIFingerprintClientActiveCallbackOnClientActiveChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFingerprintClientActiveCallback, "onClientActiveChanged"), binder.FlagOneway, _data)
 	return _err
 }

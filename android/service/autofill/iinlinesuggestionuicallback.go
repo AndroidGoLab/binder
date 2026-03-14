@@ -51,7 +51,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnClick(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInlineSuggestionUiCallbackOnClick, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onClick"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,7 +61,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnLongClick(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInlineSuggestionUiCallbackOnLongClick, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onLongClick"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,7 +78,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnContent(
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInlineSuggestionUiCallbackOnContent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onContent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,7 +88,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnError(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInlineSuggestionUiCallbackOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onError"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,7 +102,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnTransferTouchFocusToImeWindow(
 	_data.WriteStrongBinder(sourceInputToken.Handle())
 	_data.WriteInt32(displayId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInlineSuggestionUiCallbackOnTransferTouchFocusToImeWindow, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onTransferTouchFocusToImeWindow"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,6 +113,6 @@ func (p *InlineSuggestionUiCallbackProxy) OnStartIntentSender(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInlineSuggestionUiCallbackOnStartIntentSender, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onStartIntentSender"), binder.FlagOneway, _data)
 	return _err
 }

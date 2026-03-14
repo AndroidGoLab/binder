@@ -67,7 +67,7 @@ func (p *BootControlProxy) GetActiveBootSlot(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBootControlGetActiveBootSlot, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBootControl, "getActiveBootSlot"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -91,7 +91,7 @@ func (p *BootControlProxy) GetCurrentSlot(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBootControlGetCurrentSlot, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBootControl, "getCurrentSlot"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -115,7 +115,7 @@ func (p *BootControlProxy) GetNumberSlots(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBootControlGetNumberSlots, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBootControl, "getNumberSlots"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -139,7 +139,7 @@ func (p *BootControlProxy) GetSnapshotMergeStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBootControlGetSnapshotMergeStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBootControl, "getSnapshotMergeStatus"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -166,7 +166,7 @@ func (p *BootControlProxy) GetSuffix(
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 	_data.WriteInt32(slot)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBootControlGetSuffix, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBootControl, "getSuffix"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -192,7 +192,7 @@ func (p *BootControlProxy) IsSlotBootable(
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 	_data.WriteInt32(slot)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBootControlIsSlotBootable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBootControl, "isSlotBootable"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -218,7 +218,7 @@ func (p *BootControlProxy) IsSlotMarkedSuccessful(
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 	_data.WriteInt32(slot)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBootControlIsSlotMarkedSuccessful, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBootControl, "isSlotMarkedSuccessful"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -241,7 +241,7 @@ func (p *BootControlProxy) MarkBootSuccessful(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBootControlMarkBootSuccessful, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBootControl, "markBootSuccessful"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -262,7 +262,7 @@ func (p *BootControlProxy) SetActiveBootSlot(
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 	_data.WriteInt32(slot)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBootControlSetActiveBootSlot, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBootControl, "setActiveBootSlot"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -283,7 +283,7 @@ func (p *BootControlProxy) SetSlotAsUnbootable(
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 	_data.WriteInt32(slot)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBootControlSetSlotAsUnbootable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBootControl, "setSlotAsUnbootable"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -304,7 +304,7 @@ func (p *BootControlProxy) SetSnapshotMergeStatus(
 	_data.WriteInterfaceToken(DescriptorIBootControl)
 	_data.WriteInt32(int32(status))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBootControlSetSnapshotMergeStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBootControl, "setSnapshotMergeStatus"), 0, _data)
 	if _err != nil {
 		return _err
 	}

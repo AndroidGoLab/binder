@@ -43,6 +43,6 @@ func (p *SyncAdapterUnsyncableAccountCallbackProxy) OnUnsyncableAccountDone(
 	_data.WriteInterfaceToken(DescriptorISyncAdapterUnsyncableAccountCallback)
 	_data.WriteBool(isReady)
 
-	_, _err := p.remote.Transact(ctx, TransactionISyncAdapterUnsyncableAccountCallbackOnUnsyncableAccountDone, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISyncAdapterUnsyncableAccountCallback, "onUnsyncableAccountDone"), binder.FlagOneway, _data)
 	return _err
 }

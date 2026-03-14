@@ -55,7 +55,7 @@ func (p *MbmsGroupCallServiceProxy) Initialize(
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMbmsGroupCallServiceInitialize, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMbmsGroupCallService, "initialize"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,7 +82,7 @@ func (p *MbmsGroupCallServiceProxy) StopGroupCall(
 	_data.WriteInt32(subId)
 	_data.WriteInt64(tmgi)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMbmsGroupCallServiceStopGroupCall, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMbmsGroupCallService, "stopGroupCall"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -117,7 +117,7 @@ func (p *MbmsGroupCallServiceProxy) UpdateGroupCall(
 		_data.WriteInt32(int32(len(frequencyList)))
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMbmsGroupCallServiceUpdateGroupCall, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMbmsGroupCallService, "updateGroupCall"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -155,7 +155,7 @@ func (p *MbmsGroupCallServiceProxy) StartGroupCall(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMbmsGroupCallServiceStartGroupCall, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMbmsGroupCallService, "startGroupCall"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -180,7 +180,7 @@ func (p *MbmsGroupCallServiceProxy) Dispose(
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallService)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMbmsGroupCallServiceDispose, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMbmsGroupCallService, "dispose"), 0, _data)
 	if _err != nil {
 		return _err
 	}

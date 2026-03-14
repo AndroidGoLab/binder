@@ -44,7 +44,7 @@ func (p *ProcessingUpdateStatusCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProcessingUpdateStatusCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIProcessingUpdateStatusCallbackOnSuccess, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProcessingUpdateStatusCallback, "onSuccess"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -67,7 +67,7 @@ func (p *ProcessingUpdateStatusCallbackProxy) OnFailure(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIProcessingUpdateStatusCallbackOnFailure, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProcessingUpdateStatusCallback, "onFailure"), 0, _data)
 	if _err != nil {
 		return _err
 	}

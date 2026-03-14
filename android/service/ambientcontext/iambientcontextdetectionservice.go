@@ -61,7 +61,7 @@ func (p *AmbientContextDetectionServiceProxy) StartDetection(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAmbientContextDetectionServiceStartDetection, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAmbientContextDetectionService, "startDetection"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,7 +73,7 @@ func (p *AmbientContextDetectionServiceProxy) StopDetection(
 	_data.WriteInterfaceToken(DescriptorIAmbientContextDetectionService)
 	_data.WriteString16(packageName)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAmbientContextDetectionServiceStopDetection, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAmbientContextDetectionService, "stopDetection"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,6 +98,6 @@ func (p *AmbientContextDetectionServiceProxy) QueryServiceStatus(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAmbientContextDetectionServiceQueryServiceStatus, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAmbientContextDetectionService, "queryServiceStatus"), binder.FlagOneway, _data)
 	return _err
 }

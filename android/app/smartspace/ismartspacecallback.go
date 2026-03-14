@@ -46,6 +46,6 @@ func (p *SmartspaceCallbackProxy) OnResult(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISmartspaceCallbackOnResult, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISmartspaceCallback, "onResult"), binder.FlagOneway, _data)
 	return _err
 }

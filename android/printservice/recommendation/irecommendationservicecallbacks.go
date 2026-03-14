@@ -52,6 +52,6 @@ func (p *RecommendationServiceCallbacksProxy) OnRecommendationsUpdated(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRecommendationServiceCallbacksOnRecommendationsUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecommendationServiceCallbacks, "onRecommendationsUpdated"), binder.FlagOneway, _data)
 	return _err
 }

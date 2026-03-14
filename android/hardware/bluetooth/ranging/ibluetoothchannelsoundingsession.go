@@ -58,7 +58,7 @@ func (p *BluetoothChannelSoundingSessionProxy) GetVendorSpecificReplies(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSession)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBluetoothChannelSoundingSessionGetVendorSpecificReplies, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBluetoothChannelSoundingSession, "getVendorSpecificReplies"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -91,7 +91,7 @@ func (p *BluetoothChannelSoundingSessionProxy) GetSupportedResultTypes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSession)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBluetoothChannelSoundingSessionGetSupportedResultTypes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBluetoothChannelSoundingSession, "getSupportedResultTypes"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -126,7 +126,7 @@ func (p *BluetoothChannelSoundingSessionProxy) IsAbortedProcedureRequired(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSession)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBluetoothChannelSoundingSessionIsAbortedProcedureRequired, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBluetoothChannelSoundingSession, "isAbortedProcedureRequired"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -153,7 +153,7 @@ func (p *BluetoothChannelSoundingSessionProxy) WriteRawData(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBluetoothChannelSoundingSessionWriteRawData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBluetoothChannelSoundingSession, "writeRawData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -174,7 +174,7 @@ func (p *BluetoothChannelSoundingSessionProxy) Close(
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSession)
 	_data.WriteInt32(int32(reason))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBluetoothChannelSoundingSessionClose, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBluetoothChannelSoundingSession, "close"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -197,7 +197,7 @@ func (p *BluetoothChannelSoundingSessionProxy) WriteProcedureData(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBluetoothChannelSoundingSessionWriteProcedureData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBluetoothChannelSoundingSession, "writeProcedureData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -220,7 +220,7 @@ func (p *BluetoothChannelSoundingSessionProxy) UpdateChannelSoundingConfig(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBluetoothChannelSoundingSessionUpdateChannelSoundingConfig, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBluetoothChannelSoundingSession, "updateChannelSoundingConfig"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -243,7 +243,7 @@ func (p *BluetoothChannelSoundingSessionProxy) UpdateProcedureEnableConfig(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBluetoothChannelSoundingSessionUpdateProcedureEnableConfig, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBluetoothChannelSoundingSession, "updateProcedureEnableConfig"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -264,7 +264,7 @@ func (p *BluetoothChannelSoundingSessionProxy) UpdateBleConnInterval(
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSession)
 	_data.WriteInt32(bleConnInterval)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBluetoothChannelSoundingSessionUpdateBleConnInterval, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBluetoothChannelSoundingSession, "updateBleConnInterval"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -49,6 +49,6 @@ func (p *LocationCallbackProxy) OnLocation(
 		_data.WriteInt32(-1)
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionILocationCallbackOnLocation, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILocationCallback, "onLocation"), binder.FlagOneway, _data)
 	return _err
 }

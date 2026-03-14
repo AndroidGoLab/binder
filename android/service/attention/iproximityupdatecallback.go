@@ -43,6 +43,6 @@ func (p *ProximityUpdateCallbackProxy) OnProximityUpdate(
 	_data.WriteInterfaceToken(DescriptorIProximityUpdateCallback)
 	_data.WriteFloat64(distance)
 
-	_, _err := p.remote.Transact(ctx, TransactionIProximityUpdateCallbackOnProximityUpdate, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProximityUpdateCallback, "onProximityUpdate"), binder.FlagOneway, _data)
 	return _err
 }

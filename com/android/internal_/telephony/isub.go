@@ -166,7 +166,7 @@ func (p *SubProxy) GetAllSubInfoList(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(callingFeatureId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetAllSubInfoList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getAllSubInfoList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -205,7 +205,7 @@ func (p *SubProxy) GetActiveSubscriptionInfo(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(callingFeatureId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetActiveSubscriptionInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getActiveSubscriptionInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -234,7 +234,7 @@ func (p *SubProxy) GetActiveSubscriptionInfoForIccId(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(callingFeatureId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetActiveSubscriptionInfoForIccId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getActiveSubscriptionInfoForIccId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -263,7 +263,7 @@ func (p *SubProxy) GetActiveSubscriptionInfoForSimSlotIndex(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(callingFeatureId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetActiveSubscriptionInfoForSimSlotIndex, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getActiveSubscriptionInfoForSimSlotIndex"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -292,7 +292,7 @@ func (p *SubProxy) GetActiveSubscriptionInfoList(
 	_data.WriteString16(callingFeatureId)
 	_data.WriteBool(isForAllProfiles)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetActiveSubscriptionInfoList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getActiveSubscriptionInfoList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -331,7 +331,7 @@ func (p *SubProxy) GetActiveSubInfoCount(
 	_data.WriteString16(callingFeatureId)
 	_data.WriteBool(isForAllProfile)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetActiveSubInfoCount, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getActiveSubInfoCount"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -355,7 +355,7 @@ func (p *SubProxy) GetActiveSubInfoCountMax(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISub)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetActiveSubInfoCountMax, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getActiveSubInfoCountMax"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -383,7 +383,7 @@ func (p *SubProxy) GetAvailableSubscriptionInfoList(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(callingFeatureId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetAvailableSubscriptionInfoList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getAvailableSubscriptionInfoList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -418,7 +418,7 @@ func (p *SubProxy) GetAccessibleSubscriptionInfoList(
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetAccessibleSubscriptionInfoList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getAccessibleSubscriptionInfoList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -452,7 +452,7 @@ func (p *SubProxy) RequestEmbeddedSubscriptionInfoListRefresh(
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(cardId)
 
-	_, _err := p.remote.Transact(ctx, TransactionISubRequestEmbeddedSubscriptionInfoListRefresh, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "requestEmbeddedSubscriptionInfoListRefresh"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -471,7 +471,7 @@ func (p *SubProxy) AddSubInfo(
 	_data.WriteInt32(slotIndex)
 	_data.WriteInt32(subscriptionType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubAddSubInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "addSubInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -499,7 +499,7 @@ func (p *SubProxy) RemoveSubInfo(
 	_data.WriteString16(uniqueId)
 	_data.WriteInt32(subscriptionType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubRemoveSubInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "removeSubInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -527,7 +527,7 @@ func (p *SubProxy) SetIconTint(
 	_data.WriteInt32(subId)
 	_data.WriteInt32(tint)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetIconTint, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setIconTint"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -557,7 +557,7 @@ func (p *SubProxy) SetDisplayNameUsingSrc(
 	_data.WriteInt32(subId)
 	_data.WriteInt32(nameSource)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetDisplayNameUsingSrc, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setDisplayNameUsingSrc"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -585,7 +585,7 @@ func (p *SubProxy) SetDisplayNumber(
 	_data.WriteString16(number)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetDisplayNumber, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setDisplayNumber"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -613,7 +613,7 @@ func (p *SubProxy) SetDataRoaming(
 	_data.WriteInt32(roaming)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetDataRoaming, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setDataRoaming"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -643,7 +643,7 @@ func (p *SubProxy) SetOpportunistic(
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetOpportunistic, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setOpportunistic"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -678,7 +678,7 @@ func (p *SubProxy) CreateSubscriptionGroup(
 	}
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubCreateSubscriptionGroup, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "createSubscriptionGroup"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -703,7 +703,7 @@ func (p *SubProxy) SetPreferredDataSubscriptionId(
 	_data.WriteBool(needValidation)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetPreferredDataSubscriptionId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setPreferredDataSubscriptionId"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -723,7 +723,7 @@ func (p *SubProxy) GetPreferredDataSubscriptionId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISub)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetPreferredDataSubscriptionId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getPreferredDataSubscriptionId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -751,7 +751,7 @@ func (p *SubProxy) GetOpportunisticSubscriptions(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(callingFeatureId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetOpportunisticSubscriptions, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getOpportunisticSubscriptions"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -795,7 +795,7 @@ func (p *SubProxy) RemoveSubscriptionsFromGroup(
 	}
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubRemoveSubscriptionsFromGroup, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "removeSubscriptionsFromGroup"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -826,7 +826,7 @@ func (p *SubProxy) AddSubscriptionsIntoGroup(
 	}
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubAddSubscriptionsIntoGroup, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "addSubscriptionsIntoGroup"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -851,7 +851,7 @@ func (p *SubProxy) GetSubscriptionsInGroup(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(callingFeatureId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetSubscriptionsInGroup, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getSubscriptionsInGroup"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -886,7 +886,7 @@ func (p *SubProxy) GetSlotIndex(
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetSlotIndex, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getSlotIndex"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -912,7 +912,7 @@ func (p *SubProxy) GetSubId(
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(slotIndex)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetSubId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getSubId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -936,7 +936,7 @@ func (p *SubProxy) GetDefaultSubId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISub)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetDefaultSubId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getDefaultSubId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -962,7 +962,7 @@ func (p *SubProxy) GetDefaultSubIdAsUser(
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetDefaultSubIdAsUser, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getDefaultSubIdAsUser"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -988,7 +988,7 @@ func (p *SubProxy) GetPhoneId(
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetPhoneId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getPhoneId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1012,7 +1012,7 @@ func (p *SubProxy) GetDefaultDataSubId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISub)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetDefaultDataSubId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getDefaultDataSubId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1037,7 +1037,7 @@ func (p *SubProxy) SetDefaultDataSubId(
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetDefaultDataSubId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setDefaultDataSubId"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1057,7 +1057,7 @@ func (p *SubProxy) GetDefaultVoiceSubId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISub)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetDefaultVoiceSubId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getDefaultVoiceSubId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1083,7 +1083,7 @@ func (p *SubProxy) GetDefaultVoiceSubIdAsUser(
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetDefaultVoiceSubIdAsUser, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getDefaultVoiceSubIdAsUser"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1108,7 +1108,7 @@ func (p *SubProxy) SetDefaultVoiceSubId(
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetDefaultVoiceSubId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setDefaultVoiceSubId"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1128,7 +1128,7 @@ func (p *SubProxy) GetDefaultSmsSubId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISub)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetDefaultSmsSubId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getDefaultSmsSubId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1154,7 +1154,7 @@ func (p *SubProxy) GetDefaultSmsSubIdAsUser(
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetDefaultSmsSubIdAsUser, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getDefaultSmsSubIdAsUser"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1179,7 +1179,7 @@ func (p *SubProxy) SetDefaultSmsSubId(
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetDefaultSmsSubId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setDefaultSmsSubId"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1201,7 +1201,7 @@ func (p *SubProxy) GetActiveSubIdList(
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteBool(visibleOnly)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetActiveSubIdList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getActiveSubIdList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1240,7 +1240,7 @@ func (p *SubProxy) SetSubscriptionProperty(
 	_data.WriteString16(propKey)
 	_data.WriteString16(propValue)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetSubscriptionProperty, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setSubscriptionProperty"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1268,7 +1268,7 @@ func (p *SubProxy) GetSubscriptionProperty(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(callingFeatureId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetSubscriptionProperty, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getSubscriptionProperty"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1294,7 +1294,7 @@ func (p *SubProxy) IsSubscriptionEnabled(
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubIsSubscriptionEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "isSubscriptionEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1320,7 +1320,7 @@ func (p *SubProxy) GetEnabledSubscriptionId(
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(slotIndex)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetEnabledSubscriptionId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getEnabledSubscriptionId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1350,7 +1350,7 @@ func (p *SubProxy) IsActiveSubId(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(callingFeatureId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubIsActiveSubId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "isActiveSubId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1374,7 +1374,7 @@ func (p *SubProxy) GetActiveDataSubscriptionId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISub)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetActiveDataSubscriptionId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getActiveDataSubscriptionId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1398,7 +1398,7 @@ func (p *SubProxy) CanDisablePhysicalSubscription(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISub)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubCanDisablePhysicalSubscription, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "canDisablePhysicalSubscription"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1425,7 +1425,7 @@ func (p *SubProxy) SetUiccApplicationsEnabled(
 	_data.WriteBool(enabled)
 	_data.WriteInt32(subscriptionId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetUiccApplicationsEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setUiccApplicationsEnabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1449,7 +1449,7 @@ func (p *SubProxy) SetDeviceToDeviceStatusSharing(
 	_data.WriteInt32(sharing)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetDeviceToDeviceStatusSharing, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setDeviceToDeviceStatusSharing"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1477,7 +1477,7 @@ func (p *SubProxy) SetDeviceToDeviceStatusSharingContacts(
 	_data.WriteString16(contacts)
 	_data.WriteInt32(subscriptionId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetDeviceToDeviceStatusSharingContacts, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setDeviceToDeviceStatusSharingContacts"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1509,7 +1509,7 @@ func (p *SubProxy) GetPhoneNumber(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(callingFeatureId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetPhoneNumber, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getPhoneNumber"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1539,7 +1539,7 @@ func (p *SubProxy) GetPhoneNumberFromFirstAvailableSource(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(callingFeatureId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetPhoneNumberFromFirstAvailableSource, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getPhoneNumberFromFirstAvailableSource"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1572,7 +1572,7 @@ func (p *SubProxy) SetPhoneNumber(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(callingFeatureId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetPhoneNumber, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setPhoneNumber"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1598,7 +1598,7 @@ func (p *SubProxy) SetUsageSetting(
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetUsageSetting, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setUsageSetting"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1625,7 +1625,7 @@ func (p *SubProxy) SetGroupOwner(
 	_data.WriteInt32(subId)
 	_data.WriteString16(groupOwner)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetGroupOwner, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setGroupOwner"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1651,7 +1651,7 @@ func (p *SubProxy) SetSubscriptionUserHandle(
 	}
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetSubscriptionUserHandle, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setSubscriptionUserHandle"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1677,7 +1677,7 @@ func (p *SubProxy) GetSubscriptionUserHandle(
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetSubscriptionUserHandle, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getSubscriptionUserHandle"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1702,7 +1702,7 @@ func (p *SubProxy) IsSubscriptionAssociatedWithCallingUser(
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subscriptionId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubIsSubscriptionAssociatedWithCallingUser, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "isSubscriptionAssociatedWithCallingUser"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1732,7 +1732,7 @@ func (p *SubProxy) IsSubscriptionAssociatedWithUser(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubIsSubscriptionAssociatedWithUser, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "isSubscriptionAssociatedWithUser"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1760,7 +1760,7 @@ func (p *SubProxy) GetSubscriptionInfoListAssociatedWithUser(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubGetSubscriptionInfoListAssociatedWithUser, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "getSubscriptionInfoListAssociatedWithUser"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1801,7 +1801,7 @@ func (p *SubProxy) RestoreAllSimSpecificSettingsFromBackup(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubRestoreAllSimSpecificSettingsFromBackup, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "restoreAllSimSpecificSettingsFromBackup"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1824,7 +1824,7 @@ func (p *SubProxy) SetTransferStatus(
 	_data.WriteInt32(subId)
 	_data.WriteInt32(status)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISubSetTransferStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISub, "setTransferStatus"), 0, _data)
 	if _err != nil {
 		return _err
 	}

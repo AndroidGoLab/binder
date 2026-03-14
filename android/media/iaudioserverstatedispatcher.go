@@ -43,6 +43,6 @@ func (p *AudioServerStateDispatcherProxy) DispatchAudioServerStateChange(
 	_data.WriteInterfaceToken(DescriptorIAudioServerStateDispatcher)
 	_data.WriteBool(state)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServerStateDispatcherDispatchAudioServerStateChange, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioServerStateDispatcher, "dispatchAudioServerStateChange"), binder.FlagOneway, _data)
 	return _err
 }

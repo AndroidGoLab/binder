@@ -45,6 +45,6 @@ func (p *CamHostControlAskReleaseReplyCallbackProxy) OnAskReleaseReply(
 	_data.WriteString16(sessionToken)
 	_data.WriteInt32(replyStatus)
 
-	_, _err := p.remote.Transact(ctx, TransactionICamHostControlAskReleaseReplyCallbackOnAskReleaseReply, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamHostControlAskReleaseReplyCallback, "onAskReleaseReply"), binder.FlagOneway, _data)
 	return _err
 }

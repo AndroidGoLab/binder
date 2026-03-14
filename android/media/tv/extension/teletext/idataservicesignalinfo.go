@@ -49,7 +49,7 @@ func (p *DataServiceSignalInfoProxy) GetDataServiceSignalInfo(
 	_data.WriteInterfaceToken(DescriptorIDataServiceSignalInfo)
 	_data.WriteString16(sessionToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDataServiceSignalInfoGetDataServiceSignalInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataServiceSignalInfo, "getDataServiceSignalInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -75,7 +75,7 @@ func (p *DataServiceSignalInfoProxy) AddDataServiceSignalInfoListener(
 	_data.WriteString16(clientToken)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDataServiceSignalInfoAddDataServiceSignalInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataServiceSignalInfo, "addDataServiceSignalInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -98,7 +98,7 @@ func (p *DataServiceSignalInfoProxy) RemoveDataServiceSignalInfoListener(
 	_data.WriteString16(clientToken)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDataServiceSignalInfoRemoveDataServiceSignalInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataServiceSignalInfo, "removeDataServiceSignalInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -44,6 +44,6 @@ func (p *UnsafeIntentStrictModeCallbackProxy) OnUnsafeIntent(
 	_data.WriteInterfaceToken(DescriptorIUnsafeIntentStrictModeCallback)
 	_data.WriteInt32(type_)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUnsafeIntentStrictModeCallbackOnUnsafeIntent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUnsafeIntentStrictModeCallback, "onUnsafeIntent"), binder.FlagOneway, _data)
 	return _err
 }

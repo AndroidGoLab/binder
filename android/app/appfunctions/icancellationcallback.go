@@ -44,6 +44,6 @@ func (p *CancellationCallbackProxy) SendCancellationTransport(
 	_data.WriteInterfaceToken(DescriptorICancellationCallback)
 	_data.WriteStrongBinder(cancellationTransport.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionICancellationCallbackSendCancellationTransport, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICancellationCallback, "sendCancellationTransport"), binder.FlagOneway, _data)
 	return _err
 }

@@ -45,7 +45,7 @@ func (p *BufferSubscriptionProxy) Request(
 	_data.WriteInterfaceToken(DescriptorIBufferSubscription)
 	_data.WriteInt64(n)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBufferSubscriptionRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBufferSubscription, "request"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -55,6 +55,6 @@ func (p *BufferSubscriptionProxy) Cancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBufferSubscription)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBufferSubscriptionCancel, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBufferSubscription, "cancel"), binder.FlagOneway, _data)
 	return _err
 }

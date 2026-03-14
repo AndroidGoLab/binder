@@ -55,7 +55,7 @@ func (p *TextToSpeechCallbackProxy) OnStart(
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
 	_data.WriteString16(utteranceId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITextToSpeechCallbackOnStart, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onStart"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,7 +67,7 @@ func (p *TextToSpeechCallbackProxy) OnSuccess(
 	_data.WriteInterfaceToken(DescriptorITextToSpeechCallback)
 	_data.WriteString16(utteranceId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITextToSpeechCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,7 +81,7 @@ func (p *TextToSpeechCallbackProxy) OnStop(
 	_data.WriteString16(utteranceId)
 	_data.WriteBool(isStarted)
 
-	_, _err := p.remote.Transact(ctx, TransactionITextToSpeechCallbackOnStop, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onStop"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,7 +95,7 @@ func (p *TextToSpeechCallbackProxy) OnError(
 	_data.WriteString16(utteranceId)
 	_data.WriteInt32(errorCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionITextToSpeechCallbackOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onError"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,7 +113,7 @@ func (p *TextToSpeechCallbackProxy) OnBeginSynthesis(
 	_data.WriteInt32(audioFormat)
 	_data.WriteInt32(channelCount)
 
-	_, _err := p.remote.Transact(ctx, TransactionITextToSpeechCallbackOnBeginSynthesis, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onBeginSynthesis"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -134,7 +134,7 @@ func (p *TextToSpeechCallbackProxy) OnAudioAvailable(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITextToSpeechCallbackOnAudioAvailable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onAudioAvailable"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -152,6 +152,6 @@ func (p *TextToSpeechCallbackProxy) OnRangeStart(
 	_data.WriteInt32(end)
 	_data.WriteInt32(frame)
 
-	_, _err := p.remote.Transact(ctx, TransactionITextToSpeechCallbackOnRangeStart, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onRangeStart"), binder.FlagOneway, _data)
 	return _err
 }

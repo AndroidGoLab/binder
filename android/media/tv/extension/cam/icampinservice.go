@@ -50,7 +50,7 @@ func (p *CamPinServiceProxy) AddCamPinCapabilityListener(
 	_data.WriteInterfaceToken(DescriptorICamPinService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamPinServiceAddCamPinCapabilityListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamPinService, "addCamPinCapabilityListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -71,7 +71,7 @@ func (p *CamPinServiceProxy) RemoveCamPinCapabilityListener(
 	_data.WriteInterfaceToken(DescriptorICamPinService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamPinServiceRemoveCamPinCapabilityListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamPinService, "removeCamPinCapabilityListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -104,7 +104,7 @@ func (p *CamPinServiceProxy) RequestCamPinValidation(
 	}
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamPinServiceRequestCamPinValidation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamPinService, "requestCamPinValidation"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -131,7 +131,7 @@ func (p *CamPinServiceProxy) GetCamPinCapability(
 	_data.WriteInterfaceToken(DescriptorICamPinService)
 	_data.WriteInt32(slotId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamPinServiceGetCamPinCapability, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamPinService, "getCamPinCapability"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

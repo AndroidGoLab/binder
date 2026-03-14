@@ -41,6 +41,6 @@ func (p *PrintServicesChangeListenerProxy) OnPrintServicesChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintServicesChangeListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintServicesChangeListenerOnPrintServicesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintServicesChangeListener, "onPrintServicesChanged"), binder.FlagOneway, _data)
 	return _err
 }

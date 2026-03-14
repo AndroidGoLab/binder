@@ -45,6 +45,6 @@ func (p *RemoteProvisioningProxy) GetRegistration(
 	_data.WriteString16(irpcName)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteProvisioningGetRegistration, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteProvisioning, "getRegistration"), binder.FlagOneway, _data)
 	return _err
 }

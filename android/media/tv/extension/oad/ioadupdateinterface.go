@@ -59,7 +59,7 @@ func (p *OadUpdateInterfaceProxy) SetOadStatus(
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOadUpdateInterfaceSetOadStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOadUpdateInterface, "setOadStatus"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -79,7 +79,7 @@ func (p *OadUpdateInterfaceProxy) GetOadStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOadUpdateInterfaceGetOadStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOadUpdateInterface, "getOadStatus"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -102,7 +102,7 @@ func (p *OadUpdateInterfaceProxy) StartScan(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOadUpdateInterfaceStartScan, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOadUpdateInterface, "startScan"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -121,7 +121,7 @@ func (p *OadUpdateInterfaceProxy) StopScan(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOadUpdateInterfaceStopScan, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOadUpdateInterface, "stopScan"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -140,7 +140,7 @@ func (p *OadUpdateInterfaceProxy) StartDetect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOadUpdateInterfaceStartDetect, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOadUpdateInterface, "startDetect"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -159,7 +159,7 @@ func (p *OadUpdateInterfaceProxy) StopDetect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOadUpdateInterfaceStopDetect, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOadUpdateInterface, "stopDetect"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -178,7 +178,7 @@ func (p *OadUpdateInterfaceProxy) StartDownload(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOadUpdateInterfaceStartDownload, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOadUpdateInterface, "startDownload"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -197,7 +197,7 @@ func (p *OadUpdateInterfaceProxy) StopDownload(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOadUpdateInterfaceStopDownload, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOadUpdateInterface, "stopDownload"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -217,7 +217,7 @@ func (p *OadUpdateInterfaceProxy) GetSoftwareVersion(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOadUpdateInterface)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOadUpdateInterfaceGetSoftwareVersion, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOadUpdateInterface, "getSoftwareVersion"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

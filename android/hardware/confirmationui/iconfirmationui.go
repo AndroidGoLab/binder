@@ -63,7 +63,7 @@ func (p *ConfirmationUIProxy) Abort(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfirmationUI)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIConfirmationUIAbort, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConfirmationUI, "abort"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -86,7 +86,7 @@ func (p *ConfirmationUIProxy) DeliverSecureInputEvent(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIConfirmationUIDeliverSecureInputEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConfirmationUI, "deliverSecureInputEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -136,7 +136,7 @@ func (p *ConfirmationUIProxy) PromptUserConfirmation(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIConfirmationUIPromptUserConfirmation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConfirmationUI, "promptUserConfirmation"), 0, _data)
 	if _err != nil {
 		return _err
 	}

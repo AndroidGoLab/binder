@@ -51,7 +51,7 @@ func (p *FactoryProxy) QueryEffects(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFactory)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFactoryQueryEffects, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFactory, "queryEffects"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -85,7 +85,7 @@ func (p *FactoryProxy) QueryProcessing(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFactory)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFactoryQueryProcessing, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFactory, "queryProcessing"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -119,7 +119,7 @@ func (p *FactoryProxy) CreateEffect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFactory)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFactoryCreateEffect, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFactory, "createEffect"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -145,7 +145,7 @@ func (p *FactoryProxy) DestroyEffect(
 	_data.WriteInterfaceToken(DescriptorIFactory)
 	_data.WriteStrongBinder(handle.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFactoryDestroyEffect, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFactory, "destroyEffect"), 0, _data)
 	if _err != nil {
 		return _err
 	}

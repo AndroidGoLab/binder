@@ -43,6 +43,6 @@ func (p *KeyguardLockedStateListenerProxy) OnKeyguardLockedStateChanged(
 	_data.WriteInterfaceToken(DescriptorIKeyguardLockedStateListener)
 	_data.WriteBool(isKeyguardLocked)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardLockedStateListenerOnKeyguardLockedStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardLockedStateListener, "onKeyguardLockedStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

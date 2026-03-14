@@ -182,7 +182,7 @@ func (p *ActivityClientControllerProxy) ActivityIdle(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteBool(stopProfiling)
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerActivityIdle, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "activityIdle"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -196,7 +196,7 @@ func (p *ActivityClientControllerProxy) ActivityResumed(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteBool(handleSplashScreenExit)
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerActivityResumed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "activityResumed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -208,7 +208,7 @@ func (p *ActivityClientControllerProxy) ActivityRefreshed(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerActivityRefreshed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "activityRefreshed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -218,7 +218,7 @@ func (p *ActivityClientControllerProxy) ActivityTopResumedStateLost(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerActivityTopResumedStateLost, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "activityTopResumedStateLost"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -239,7 +239,7 @@ func (p *ActivityClientControllerProxy) ActivityPaused(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerActivityPaused, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "activityPaused"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -263,7 +263,7 @@ func (p *ActivityClientControllerProxy) ActivityStopped(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerActivityStopped, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "activityStopped"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -275,7 +275,7 @@ func (p *ActivityClientControllerProxy) ActivityDestroyed(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerActivityDestroyed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "activityDestroyed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -287,7 +287,7 @@ func (p *ActivityClientControllerProxy) ActivityLocalRelaunch(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerActivityLocalRelaunch, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "activityLocalRelaunch"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -299,7 +299,7 @@ func (p *ActivityClientControllerProxy) ActivityRelaunched(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerActivityRelaunched, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "activityRelaunched"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -312,7 +312,7 @@ func (p *ActivityClientControllerProxy) ReportSizeConfigurations(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerReportSizeConfigurations, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "reportSizeConfigurations"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -327,7 +327,7 @@ func (p *ActivityClientControllerProxy) MoveActivityTaskToBack(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteBool(nonRoot)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerMoveActivityTaskToBack, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "moveActivityTaskToBack"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -355,7 +355,7 @@ func (p *ActivityClientControllerProxy) ShouldUpRecreateTask(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteString16(destAffinity)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerShouldUpRecreateTask, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "shouldUpRecreateTask"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -387,7 +387,7 @@ func (p *ActivityClientControllerProxy) NavigateUpTo(
 	_data.WriteString16(resolvedType)
 	_data.WriteInt32(resultCode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerNavigateUpTo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "navigateUpTo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -413,7 +413,7 @@ func (p *ActivityClientControllerProxy) ReleaseActivityInstance(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerReleaseActivityInstance, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "releaseActivityInstance"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -444,7 +444,7 @@ func (p *ActivityClientControllerProxy) FinishActivity(
 	_data.WriteInt32(code)
 	_data.WriteInt32(finishTask)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerFinishActivity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "finishActivity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -470,7 +470,7 @@ func (p *ActivityClientControllerProxy) FinishActivityAffinity(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerFinishActivityAffinity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "finishActivityAffinity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -499,7 +499,7 @@ func (p *ActivityClientControllerProxy) FinishSubActivity(
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerFinishSubActivity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "finishSubActivity"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -520,7 +520,7 @@ func (p *ActivityClientControllerProxy) SetForceSendResultForMediaProjection(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerSetForceSendResultForMediaProjection, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "setForceSendResultForMediaProjection"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -542,7 +542,7 @@ func (p *ActivityClientControllerProxy) IsTopOfTask(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerIsTopOfTask, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "isTopOfTask"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -568,7 +568,7 @@ func (p *ActivityClientControllerProxy) WillActivityBeVisible(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerWillActivityBeVisible, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "willActivityBeVisible"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -594,7 +594,7 @@ func (p *ActivityClientControllerProxy) GetDisplayId(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(activityToken.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerGetDisplayId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "getDisplayId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -622,7 +622,7 @@ func (p *ActivityClientControllerProxy) GetTaskForActivity(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteBool(onlyRoot)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerGetTaskForActivity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "getTaskForActivity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -648,7 +648,7 @@ func (p *ActivityClientControllerProxy) GetTaskConfiguration(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(activityToken.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerGetTaskConfiguration, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "getTaskConfiguration"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -670,7 +670,7 @@ func (p *ActivityClientControllerProxy) GetActivityTokenBelow(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerGetActivityTokenBelow, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "getActivityTokenBelow"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -697,7 +697,7 @@ func (p *ActivityClientControllerProxy) GetCallingActivity(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerGetCallingActivity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "getCallingActivity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -719,7 +719,7 @@ func (p *ActivityClientControllerProxy) GetCallingPackage(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerGetCallingPackage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "getCallingPackage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -745,7 +745,7 @@ func (p *ActivityClientControllerProxy) GetLaunchedFromUid(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerGetLaunchedFromUid, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "getLaunchedFromUid"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -773,7 +773,7 @@ func (p *ActivityClientControllerProxy) GetActivityCallerUid(
 	_data.WriteStrongBinder(activityToken.Handle())
 	_data.WriteStrongBinder(callerToken.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerGetActivityCallerUid, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "getActivityCallerUid"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -799,7 +799,7 @@ func (p *ActivityClientControllerProxy) GetLaunchedFromPackage(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerGetLaunchedFromPackage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "getLaunchedFromPackage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -827,7 +827,7 @@ func (p *ActivityClientControllerProxy) GetActivityCallerPackage(
 	_data.WriteStrongBinder(activityToken.Handle())
 	_data.WriteStrongBinder(callerToken.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerGetActivityCallerPackage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "getActivityCallerPackage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -860,7 +860,7 @@ func (p *ActivityClientControllerProxy) CheckActivityCallerContentUriPermission(
 	_data.WriteInt32(modeFlags)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerCheckActivityCallerContentUriPermission, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "checkActivityCallerContentUriPermission"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -887,7 +887,7 @@ func (p *ActivityClientControllerProxy) SetRequestedOrientation(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteInt32(requestedOrientation)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerSetRequestedOrientation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "setRequestedOrientation"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -909,7 +909,7 @@ func (p *ActivityClientControllerProxy) GetRequestedOrientation(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerGetRequestedOrientation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "getRequestedOrientation"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -935,7 +935,7 @@ func (p *ActivityClientControllerProxy) ConvertFromTranslucent(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerConvertFromTranslucent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "convertFromTranslucent"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -962,7 +962,7 @@ func (p *ActivityClientControllerProxy) ConvertToTranslucent(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerConvertToTranslucent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "convertToTranslucent"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -988,7 +988,7 @@ func (p *ActivityClientControllerProxy) IsImmersive(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerIsImmersive, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "isImmersive"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1015,7 +1015,7 @@ func (p *ActivityClientControllerProxy) SetImmersive(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteBool(immersive)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerSetImmersive, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "setImmersive"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1041,7 +1041,7 @@ func (p *ActivityClientControllerProxy) EnterPictureInPictureMode(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerEnterPictureInPictureMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "enterPictureInPictureMode"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1070,7 +1070,7 @@ func (p *ActivityClientControllerProxy) SetPictureInPictureParams(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerSetPictureInPictureParams, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "setPictureInPictureParams"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1093,7 +1093,7 @@ func (p *ActivityClientControllerProxy) SetShouldDockBigOverlays(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteBool(shouldDockBigOverlays)
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerSetShouldDockBigOverlays, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "setShouldDockBigOverlays"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1105,7 +1105,7 @@ func (p *ActivityClientControllerProxy) ToggleFreeformWindowingMode(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerToggleFreeformWindowingMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "toggleFreeformWindowingMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1129,7 +1129,7 @@ func (p *ActivityClientControllerProxy) RequestMultiwindowFullscreen(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteInt32(request)
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerRequestMultiwindowFullscreen, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "requestMultiwindowFullscreen"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1141,7 +1141,7 @@ func (p *ActivityClientControllerProxy) StartLockTaskModeByToken(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerStartLockTaskModeByToken, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "startLockTaskModeByToken"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1162,7 +1162,7 @@ func (p *ActivityClientControllerProxy) StopLockTaskModeByToken(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerStopLockTaskModeByToken, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "stopLockTaskModeByToken"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1183,7 +1183,7 @@ func (p *ActivityClientControllerProxy) ShowLockTaskEscapeMessage(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerShowLockTaskEscapeMessage, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "showLockTaskEscapeMessage"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1199,7 +1199,7 @@ func (p *ActivityClientControllerProxy) SetTaskDescription(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerSetTaskDescription, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "setTaskDescription"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1222,7 +1222,7 @@ func (p *ActivityClientControllerProxy) ShowAssistFromActivity(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerShowAssistFromActivity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "showAssistFromActivity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1248,7 +1248,7 @@ func (p *ActivityClientControllerProxy) IsRootVoiceInteraction(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerIsRootVoiceInteraction, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "isRootVoiceInteraction"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1274,7 +1274,7 @@ func (p *ActivityClientControllerProxy) StartLocalVoiceInteraction(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerStartLocalVoiceInteraction, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "startLocalVoiceInteraction"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1295,7 +1295,7 @@ func (p *ActivityClientControllerProxy) StopLocalVoiceInteraction(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerStopLocalVoiceInteraction, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "stopLocalVoiceInteraction"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1318,7 +1318,7 @@ func (p *ActivityClientControllerProxy) SetShowWhenLocked(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteBool(showWhenLocked)
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerSetShowWhenLocked, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "setShowWhenLocked"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1332,7 +1332,7 @@ func (p *ActivityClientControllerProxy) SetInheritShowWhenLocked(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteBool(setInheritShownWhenLocked)
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerSetInheritShowWhenLocked, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "setInheritShowWhenLocked"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1346,7 +1346,7 @@ func (p *ActivityClientControllerProxy) SetTurnScreenOn(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteBool(turnScreenOn)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerSetTurnScreenOn, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "setTurnScreenOn"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1369,7 +1369,7 @@ func (p *ActivityClientControllerProxy) SetAllowCrossUidActivitySwitchFromBelow(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteBool(allowed)
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerSetAllowCrossUidActivitySwitchFromBelow, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "setAllowCrossUidActivitySwitchFromBelow"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1383,7 +1383,7 @@ func (p *ActivityClientControllerProxy) ReportActivityFullyDrawn(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteBool(restoredFromBundle)
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerReportActivityFullyDrawn, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "reportActivityFullyDrawn"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1403,7 +1403,7 @@ func (p *ActivityClientControllerProxy) OverrideActivityTransition(
 	_data.WriteInt32(exitAnim)
 	_data.WriteInt32(backgroundColor)
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerOverrideActivityTransition, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "overrideActivityTransition"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1417,7 +1417,7 @@ func (p *ActivityClientControllerProxy) ClearOverrideActivityTransition(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteBool(open)
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerClearOverrideActivityTransition, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "clearOverrideActivityTransition"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1437,7 +1437,7 @@ func (p *ActivityClientControllerProxy) OverridePendingTransition(
 	_data.WriteInt32(exitAnim)
 	_data.WriteInt32(backgroundColor)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerOverridePendingTransition, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "overridePendingTransition"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1462,7 +1462,7 @@ func (p *ActivityClientControllerProxy) SetVrMode(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteBool(enabled)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerSetVrMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "setVrMode"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1489,7 +1489,7 @@ func (p *ActivityClientControllerProxy) SetRecentsScreenshotEnabled(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteBool(enabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerSetRecentsScreenshotEnabled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "setRecentsScreenshotEnabled"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1501,7 +1501,7 @@ func (p *ActivityClientControllerProxy) InvalidateHomeTaskSnapshot(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(homeToken.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerInvalidateHomeTaskSnapshot, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "invalidateHomeTaskSnapshot"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1524,7 +1524,7 @@ func (p *ActivityClientControllerProxy) DismissKeyguard(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerDismissKeyguard, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "dismissKeyguard"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1546,7 +1546,7 @@ func (p *ActivityClientControllerProxy) RegisterRemoteAnimations(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerRegisterRemoteAnimations, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "registerRemoteAnimations"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1567,7 +1567,7 @@ func (p *ActivityClientControllerProxy) UnregisterRemoteAnimations(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerUnregisterRemoteAnimations, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "unregisterRemoteAnimations"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1590,7 +1590,7 @@ func (p *ActivityClientControllerProxy) OnBackPressed(
 	_data.WriteStrongBinder(activityToken.Handle())
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerOnBackPressed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "onBackPressed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1602,7 +1602,7 @@ func (p *ActivityClientControllerProxy) SplashScreenAttached(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerSplashScreenAttached, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "splashScreenAttached"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1614,7 +1614,7 @@ func (p *ActivityClientControllerProxy) EnableTaskLocaleOverride(
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerEnableTaskLocaleOverride, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "enableTaskLocaleOverride"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1638,7 +1638,7 @@ func (p *ActivityClientControllerProxy) IsRequestedToLaunchInTaskFragment(
 	_data.WriteStrongBinder(activityToken.Handle())
 	_data.WriteStrongBinder(taskFragmentToken.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerIsRequestedToLaunchInTaskFragment, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "isRequestedToLaunchInTaskFragment"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1665,6 +1665,6 @@ func (p *ActivityClientControllerProxy) SetActivityRecordInputSinkEnabled(
 	_data.WriteStrongBinder(activityToken.Handle())
 	_data.WriteBool(enabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivityClientControllerSetActivityRecordInputSinkEnabled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityClientController, "setActivityRecordInputSinkEnabled"), binder.FlagOneway, _data)
 	return _err
 }

@@ -45,6 +45,6 @@ func (p *StatsBootstrapAtomServiceProxy) ReportBootstrapAtom(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIStatsBootstrapAtomServiceReportBootstrapAtom, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStatsBootstrapAtomService, "reportBootstrapAtom"), binder.FlagOneway, _data)
 	return _err
 }

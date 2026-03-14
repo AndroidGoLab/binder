@@ -52,7 +52,7 @@ func (p *DrmFactoryProxy) CreateDrmPlugin(
 	}
 	_data.WriteString16(appPackageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmFactoryCreateDrmPlugin, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmFactory, "createDrmPlugin"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -90,7 +90,7 @@ func (p *DrmFactoryProxy) CreateCryptoPlugin(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmFactoryCreateCryptoPlugin, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmFactory, "createCryptoPlugin"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -115,7 +115,7 @@ func (p *DrmFactoryProxy) GetSupportedCryptoSchemes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmFactory)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmFactoryGetSupportedCryptoSchemes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmFactory, "getSupportedCryptoSchemes"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

@@ -41,6 +41,6 @@ func (p *WakeLockProxy) Release(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWakeLock)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWakeLockRelease, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWakeLock, "release"), binder.FlagOneway, _data)
 	return _err
 }

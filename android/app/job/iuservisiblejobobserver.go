@@ -47,6 +47,6 @@ func (p *UserVisibleJobObserverProxy) OnUserVisibleJobStateChanged(
 	}
 	_data.WriteBool(isRunning)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUserVisibleJobObserverOnUserVisibleJobStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUserVisibleJobObserver, "onUserVisibleJobStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

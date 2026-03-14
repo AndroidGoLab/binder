@@ -59,7 +59,7 @@ func (p *TimeZoneDetectorServiceProxy) GetCapabilitiesAndConfig(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeZoneDetectorServiceGetCapabilitiesAndConfig, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "getCapabilitiesAndConfig"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -83,7 +83,7 @@ func (p *TimeZoneDetectorServiceProxy) AddListener(
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeZoneDetectorServiceAddListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "addListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -104,7 +104,7 @@ func (p *TimeZoneDetectorServiceProxy) RemoveListener(
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeZoneDetectorServiceRemoveListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "removeListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -128,7 +128,7 @@ func (p *TimeZoneDetectorServiceProxy) UpdateConfiguration(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeZoneDetectorServiceUpdateConfiguration, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "updateConfiguration"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -152,7 +152,7 @@ func (p *TimeZoneDetectorServiceProxy) GetTimeZoneState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeZoneDetectorServiceGetTimeZoneState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "getTimeZoneState"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -177,7 +177,7 @@ func (p *TimeZoneDetectorServiceProxy) ConfirmTimeZone(
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
 	_data.WriteString16(timeZoneId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeZoneDetectorServiceConfirmTimeZone, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "confirmTimeZone"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -205,7 +205,7 @@ func (p *TimeZoneDetectorServiceProxy) SetManualTimeZone(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeZoneDetectorServiceSetManualTimeZone, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "setManualTimeZone"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -233,7 +233,7 @@ func (p *TimeZoneDetectorServiceProxy) SuggestManualTimeZone(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeZoneDetectorServiceSuggestManualTimeZone, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "suggestManualTimeZone"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -260,7 +260,7 @@ func (p *TimeZoneDetectorServiceProxy) SuggestTelephonyTimeZone(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeZoneDetectorServiceSuggestTelephonyTimeZone, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "suggestTelephonyTimeZone"), 0, _data)
 	if _err != nil {
 		return _err
 	}

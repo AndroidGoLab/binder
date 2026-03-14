@@ -62,7 +62,7 @@ func (p *OnAppsChangedListenerProxy) OnPackageRemoved(
 	_data.WriteInterfaceToken(DescriptorIOnAppsChangedListener)
 	_data.WriteString16(packageName)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnAppsChangedListenerOnPackageRemoved, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnAppsChangedListener, "onPackageRemoved"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,7 +75,7 @@ func (p *OnAppsChangedListenerProxy) OnPackageAdded(
 	_data.WriteInterfaceToken(DescriptorIOnAppsChangedListener)
 	_data.WriteString16(packageName)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnAppsChangedListenerOnPackageAdded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnAppsChangedListener, "onPackageAdded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,7 +88,7 @@ func (p *OnAppsChangedListenerProxy) OnPackageChanged(
 	_data.WriteInterfaceToken(DescriptorIOnAppsChangedListener)
 	_data.WriteString16(packageName)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnAppsChangedListenerOnPackageChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnAppsChangedListener, "onPackageChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -110,7 +110,7 @@ func (p *OnAppsChangedListenerProxy) OnPackagesAvailable(
 	}
 	_data.WriteBool(replacing)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnAppsChangedListenerOnPackagesAvailable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnAppsChangedListener, "onPackagesAvailable"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -132,7 +132,7 @@ func (p *OnAppsChangedListenerProxy) OnPackagesUnavailable(
 	}
 	_data.WriteBool(replacing)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnAppsChangedListenerOnPackagesUnavailable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnAppsChangedListener, "onPackagesUnavailable"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -153,7 +153,7 @@ func (p *OnAppsChangedListenerProxy) OnPackagesSuspended(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnAppsChangedListenerOnPackagesSuspended, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnAppsChangedListener, "onPackagesSuspended"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -173,7 +173,7 @@ func (p *OnAppsChangedListenerProxy) OnPackagesUnsuspended(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnAppsChangedListenerOnPackagesUnsuspended, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnAppsChangedListener, "onPackagesUnsuspended"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -190,7 +190,7 @@ func (p *OnAppsChangedListenerProxy) OnShortcutChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnAppsChangedListenerOnShortcutChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnAppsChangedListener, "onShortcutChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -205,7 +205,7 @@ func (p *OnAppsChangedListenerProxy) OnPackageLoadingProgressChanged(
 	_data.WriteString16(packageName)
 	_data.WriteFloat32(progress)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnAppsChangedListenerOnPackageLoadingProgressChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnAppsChangedListener, "onPackageLoadingProgressChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -219,6 +219,6 @@ func (p *OnAppsChangedListenerProxy) OnUserConfigChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnAppsChangedListenerOnUserConfigChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnAppsChangedListener, "onUserConfigChanged"), binder.FlagOneway, _data)
 	return _err
 }

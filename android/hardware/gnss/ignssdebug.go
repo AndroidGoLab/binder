@@ -42,7 +42,7 @@ func (p *GnssDebugProxy) GetDebugData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssDebug)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssDebugGetDebugData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssDebug, "getDebugData"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

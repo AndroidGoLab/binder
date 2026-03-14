@@ -52,6 +52,6 @@ func (p *GetEuiccChallengeCallbackProxy) OnComplete(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIGetEuiccChallengeCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGetEuiccChallengeCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

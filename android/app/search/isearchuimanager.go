@@ -61,7 +61,7 @@ func (p *SearchUiManagerProxy) CreateSearchSession(
 	}
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISearchUiManagerCreateSearchSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchUiManager, "createSearchSession"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -90,7 +90,7 @@ func (p *SearchUiManagerProxy) Query(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISearchUiManagerQuery, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchUiManager, "query"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -121,7 +121,7 @@ func (p *SearchUiManagerProxy) NotifyEvent(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISearchUiManagerNotifyEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchUiManager, "notifyEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -146,7 +146,7 @@ func (p *SearchUiManagerProxy) RegisterEmptyQueryResultUpdateCallback(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISearchUiManagerRegisterEmptyQueryResultUpdateCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchUiManager, "registerEmptyQueryResultUpdateCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -171,7 +171,7 @@ func (p *SearchUiManagerProxy) UnregisterEmptyQueryResultUpdateCallback(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISearchUiManagerUnregisterEmptyQueryResultUpdateCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchUiManager, "unregisterEmptyQueryResultUpdateCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -194,7 +194,7 @@ func (p *SearchUiManagerProxy) DestroySearchSession(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISearchUiManagerDestroySearchSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchUiManager, "destroySearchSession"), 0, _data)
 	if _err != nil {
 		return _err
 	}

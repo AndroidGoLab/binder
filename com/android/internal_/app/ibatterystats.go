@@ -248,7 +248,7 @@ func (p *BatteryStatsProxy) NoteStartSensor(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(sensor)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteStartSensor, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteStartSensor"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -271,7 +271,7 @@ func (p *BatteryStatsProxy) NoteStopSensor(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(sensor)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteStopSensor, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteStopSensor"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -292,7 +292,7 @@ func (p *BatteryStatsProxy) NoteStartVideo(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteStartVideo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteStartVideo"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -313,7 +313,7 @@ func (p *BatteryStatsProxy) NoteStopVideo(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteStopVideo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteStopVideo"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -334,7 +334,7 @@ func (p *BatteryStatsProxy) NoteStartAudio(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteStartAudio, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteStartAudio"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -346,7 +346,7 @@ func (p *BatteryStatsProxy) NoteStopAudio(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteStopAudio, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteStopAudio"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -356,7 +356,7 @@ func (p *BatteryStatsProxy) NoteResetVideo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteResetVideo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteResetVideo"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -375,7 +375,7 @@ func (p *BatteryStatsProxy) NoteResetAudio(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteResetAudio, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteResetAudio"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -387,7 +387,7 @@ func (p *BatteryStatsProxy) NoteFlashlightOn(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteFlashlightOn, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteFlashlightOn"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -408,7 +408,7 @@ func (p *BatteryStatsProxy) NoteFlashlightOff(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteFlashlightOff, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteFlashlightOff"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -429,7 +429,7 @@ func (p *BatteryStatsProxy) NoteStartCamera(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteStartCamera, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteStartCamera"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -450,7 +450,7 @@ func (p *BatteryStatsProxy) NoteStopCamera(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteStopCamera, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteStopCamera"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -469,7 +469,7 @@ func (p *BatteryStatsProxy) NoteResetCamera(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteResetCamera, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteResetCamera"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -488,7 +488,7 @@ func (p *BatteryStatsProxy) NoteResetFlashlight(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteResetFlashlight, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteResetFlashlight"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -513,7 +513,7 @@ func (p *BatteryStatsProxy) NoteWakeupSensorEvent(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(handle)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWakeupSensorEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWakeupSensorEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -539,7 +539,7 @@ func (p *BatteryStatsProxy) GetBatteryUsageStats(
 		_data.WriteInt32(int32(len(queries)))
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsGetBatteryUsageStats, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "getBatteryUsageStats"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -569,7 +569,7 @@ func (p *BatteryStatsProxy) IsCharging(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsIsCharging, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "isCharging"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -593,7 +593,7 @@ func (p *BatteryStatsProxy) ComputeBatteryTimeRemaining(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsComputeBatteryTimeRemaining, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "computeBatteryTimeRemaining"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -617,7 +617,7 @@ func (p *BatteryStatsProxy) ComputeChargeTimeRemaining(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsComputeChargeTimeRemaining, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "computeChargeTimeRemaining"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -641,7 +641,7 @@ func (p *BatteryStatsProxy) ComputeBatteryScreenOffRealtimeMs(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsComputeBatteryScreenOffRealtimeMs, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "computeBatteryScreenOffRealtimeMs"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -665,7 +665,7 @@ func (p *BatteryStatsProxy) GetScreenOffDischargeMah(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsGetScreenOffDischargeMah, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "getScreenOffDischargeMah"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -694,7 +694,7 @@ func (p *BatteryStatsProxy) NoteEvent(
 	_data.WriteString16(name)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -717,7 +717,7 @@ func (p *BatteryStatsProxy) NoteSyncStart(
 	_data.WriteString16(name)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteSyncStart, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteSyncStart"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -740,7 +740,7 @@ func (p *BatteryStatsProxy) NoteSyncFinish(
 	_data.WriteString16(name)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteSyncFinish, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteSyncFinish"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -763,7 +763,7 @@ func (p *BatteryStatsProxy) NoteJobStart(
 	_data.WriteString16(name)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteJobStart, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteJobStart"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -788,7 +788,7 @@ func (p *BatteryStatsProxy) NoteJobFinish(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(stopReason)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteJobFinish, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteJobFinish"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -819,7 +819,7 @@ func (p *BatteryStatsProxy) NoteStartWakelock(
 	_data.WriteInt32(type_)
 	_data.WriteBool(unimportantForLogging)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteStartWakelock, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteStartWakelock"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -848,7 +848,7 @@ func (p *BatteryStatsProxy) NoteStopWakelock(
 	_data.WriteString16(historyName)
 	_data.WriteInt32(type_)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteStopWakelock, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteStopWakelock"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -878,7 +878,7 @@ func (p *BatteryStatsProxy) NoteStartWakelockFromSource(
 	_data.WriteInt32(type_)
 	_data.WriteBool(unimportantForLogging)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteStartWakelockFromSource, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteStartWakelockFromSource"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -917,7 +917,7 @@ func (p *BatteryStatsProxy) NoteChangeWakelockFromSource(
 	_data.WriteInt32(newType)
 	_data.WriteBool(newUnimportantForLogging)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteChangeWakelockFromSource, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteChangeWakelockFromSource"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -945,7 +945,7 @@ func (p *BatteryStatsProxy) NoteStopWakelockFromSource(
 	_data.WriteString16(historyName)
 	_data.WriteInt32(type_)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteStopWakelockFromSource, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteStopWakelockFromSource"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -970,7 +970,7 @@ func (p *BatteryStatsProxy) NoteLongPartialWakelockStart(
 	_data.WriteString16(historyName)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteLongPartialWakelockStart, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteLongPartialWakelockStart"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -994,7 +994,7 @@ func (p *BatteryStatsProxy) NoteLongPartialWakelockStartFromSource(
 	_data.WriteString16(name)
 	_data.WriteString16(historyName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteLongPartialWakelockStartFromSource, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteLongPartialWakelockStartFromSource"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1019,7 +1019,7 @@ func (p *BatteryStatsProxy) NoteLongPartialWakelockFinish(
 	_data.WriteString16(historyName)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteLongPartialWakelockFinish, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteLongPartialWakelockFinish"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1043,7 +1043,7 @@ func (p *BatteryStatsProxy) NoteLongPartialWakelockFinishFromSource(
 	_data.WriteString16(name)
 	_data.WriteString16(historyName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteLongPartialWakelockFinishFromSource, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteLongPartialWakelockFinishFromSource"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1066,7 +1066,7 @@ func (p *BatteryStatsProxy) NoteVibratorOn(
 	_data.WriteInt32(uid)
 	_data.WriteInt64(durationMillis)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteVibratorOn, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteVibratorOn"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1087,7 +1087,7 @@ func (p *BatteryStatsProxy) NoteVibratorOff(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteVibratorOff, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteVibratorOff"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1108,7 +1108,7 @@ func (p *BatteryStatsProxy) NoteGpsChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteGpsChanged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteGpsChanged"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1129,7 +1129,7 @@ func (p *BatteryStatsProxy) NoteGpsSignalQuality(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(signalLevel)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteGpsSignalQuality, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteGpsSignalQuality"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1154,7 +1154,7 @@ func (p *BatteryStatsProxy) NoteScreenState(
 	_data.WriteInt32(state)
 	_data.WriteInt32(reason)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteScreenState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteScreenState"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1177,7 +1177,7 @@ func (p *BatteryStatsProxy) NoteScreenBrightness(
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(brightness)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteScreenBrightness, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteScreenBrightness"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1200,7 +1200,7 @@ func (p *BatteryStatsProxy) NoteUserActivity(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(event)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteUserActivity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteUserActivity"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1223,7 +1223,7 @@ func (p *BatteryStatsProxy) NoteWakeUp(
 	_data.WriteString16(reason)
 	_data.WriteInt32(reasonUid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWakeUp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWakeUp"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1244,7 +1244,7 @@ func (p *BatteryStatsProxy) NoteInteractive(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteBool(interactive)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteInteractive, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteInteractive"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1267,7 +1267,7 @@ func (p *BatteryStatsProxy) NoteConnectivityChanged(
 	_data.WriteInt32(type_)
 	_data.WriteString16(extra)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteConnectivityChanged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteConnectivityChanged"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1292,7 +1292,7 @@ func (p *BatteryStatsProxy) NoteMobileRadioPowerState(
 	_data.WriteInt64(timestampNs)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteMobileRadioPowerState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteMobileRadioPowerState"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1311,7 +1311,7 @@ func (p *BatteryStatsProxy) NotePhoneOn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNotePhoneOn, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "notePhoneOn"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1330,7 +1330,7 @@ func (p *BatteryStatsProxy) NotePhoneOff(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNotePhoneOff, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "notePhoneOff"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1353,7 +1353,7 @@ func (p *BatteryStatsProxy) NotePhoneSignalStrength(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNotePhoneSignalStrength, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "notePhoneSignalStrength"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1382,7 +1382,7 @@ func (p *BatteryStatsProxy) NotePhoneDataConnectionState(
 	_data.WriteInt32(nrState)
 	_data.WriteInt32(nrFrequency)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNotePhoneDataConnectionState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "notePhoneDataConnectionState"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1403,7 +1403,7 @@ func (p *BatteryStatsProxy) NotePhoneState(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(phoneState)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNotePhoneState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "notePhoneState"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1422,7 +1422,7 @@ func (p *BatteryStatsProxy) NoteWifiOn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiOn, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiOn"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1441,7 +1441,7 @@ func (p *BatteryStatsProxy) NoteWifiOff(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiOff, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiOff"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1461,7 +1461,7 @@ func (p *BatteryStatsProxy) NoteWifiRunning(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiRunning, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiRunning"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1482,7 +1482,7 @@ func (p *BatteryStatsProxy) NoteWifiRunningChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiRunningChanged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiRunningChanged"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1502,7 +1502,7 @@ func (p *BatteryStatsProxy) NoteWifiStopped(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiStopped, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiStopped"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1525,7 +1525,7 @@ func (p *BatteryStatsProxy) NoteWifiState(
 	_data.WriteInt32(wifiState)
 	_data.WriteString16(accessPoint)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiState"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1548,7 +1548,7 @@ func (p *BatteryStatsProxy) NoteWifiSupplicantStateChanged(
 	_data.WriteInt32(supplState)
 	_data.WriteBool(failedAuth)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiSupplicantStateChanged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiSupplicantStateChanged"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1569,7 +1569,7 @@ func (p *BatteryStatsProxy) NoteWifiRssiChanged(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(newRssi)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiRssiChanged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiRssiChanged"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1590,7 +1590,7 @@ func (p *BatteryStatsProxy) NoteFullWifiLockAcquired(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteFullWifiLockAcquired, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteFullWifiLockAcquired"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1611,7 +1611,7 @@ func (p *BatteryStatsProxy) NoteFullWifiLockReleased(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteFullWifiLockReleased, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteFullWifiLockReleased"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1632,7 +1632,7 @@ func (p *BatteryStatsProxy) NoteWifiScanStarted(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiScanStarted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiScanStarted"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1653,7 +1653,7 @@ func (p *BatteryStatsProxy) NoteWifiScanStopped(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiScanStopped, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiScanStopped"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1674,7 +1674,7 @@ func (p *BatteryStatsProxy) NoteWifiMulticastEnabled(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiMulticastEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiMulticastEnabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1695,7 +1695,7 @@ func (p *BatteryStatsProxy) NoteWifiMulticastDisabled(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiMulticastDisabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiMulticastDisabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1715,7 +1715,7 @@ func (p *BatteryStatsProxy) NoteFullWifiLockAcquiredFromSource(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteFullWifiLockAcquiredFromSource, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteFullWifiLockAcquiredFromSource"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1735,7 +1735,7 @@ func (p *BatteryStatsProxy) NoteFullWifiLockReleasedFromSource(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteFullWifiLockReleasedFromSource, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteFullWifiLockReleasedFromSource"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1755,7 +1755,7 @@ func (p *BatteryStatsProxy) NoteWifiScanStartedFromSource(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiScanStartedFromSource, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiScanStartedFromSource"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1775,7 +1775,7 @@ func (p *BatteryStatsProxy) NoteWifiScanStoppedFromSource(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiScanStoppedFromSource, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiScanStoppedFromSource"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1797,7 +1797,7 @@ func (p *BatteryStatsProxy) NoteWifiBatchedScanStartedFromSource(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(csph)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiBatchedScanStartedFromSource, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiBatchedScanStartedFromSource"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1817,7 +1817,7 @@ func (p *BatteryStatsProxy) NoteWifiBatchedScanStoppedFromSource(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiBatchedScanStoppedFromSource, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiBatchedScanStoppedFromSource"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1842,7 +1842,7 @@ func (p *BatteryStatsProxy) NoteWifiRadioPowerState(
 	_data.WriteInt64(timestampNs)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiRadioPowerState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiRadioPowerState"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1872,7 +1872,7 @@ func (p *BatteryStatsProxy) NoteNetworkInterfaceForTransports(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteNetworkInterfaceForTransports, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteNetworkInterfaceForTransports"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1891,7 +1891,7 @@ func (p *BatteryStatsProxy) NoteNetworkStatsEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteNetworkStatsEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteNetworkStatsEnabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1916,7 +1916,7 @@ func (p *BatteryStatsProxy) NoteDeviceIdleMode(
 	_data.WriteString16(activeReason)
 	_data.WriteInt32(activeUid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteDeviceIdleMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteDeviceIdleMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1953,7 +1953,7 @@ func (p *BatteryStatsProxy) SetBatteryState(
 	_data.WriteInt32(chargeFullUAh)
 	_data.WriteInt64(chargeTimeToFullSeconds)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsSetBatteryState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "setBatteryState"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1973,7 +1973,7 @@ func (p *BatteryStatsProxy) GetAwakeTimeBattery(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsGetAwakeTimeBattery, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "getAwakeTimeBattery"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1997,7 +1997,7 @@ func (p *BatteryStatsProxy) GetAwakeTimePlugged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsGetAwakeTimePlugged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "getAwakeTimePlugged"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2023,7 +2023,7 @@ func (p *BatteryStatsProxy) NoteBleScanStarted(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteBool(isUnoptimized)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteBleScanStarted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteBleScanStarted"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2045,7 +2045,7 @@ func (p *BatteryStatsProxy) NoteBleScanStopped(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteBool(isUnoptimized)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteBleScanStopped, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteBleScanStopped"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2064,7 +2064,7 @@ func (p *BatteryStatsProxy) NoteBleScanReset(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteBleScanReset, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteBleScanReset"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2086,7 +2086,7 @@ func (p *BatteryStatsProxy) NoteBleScanResults(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(numNewResults)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteBleScanResults, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteBleScanResults"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2106,7 +2106,7 @@ func (p *BatteryStatsProxy) GetCellularBatteryStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsGetCellularBatteryStats, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "getCellularBatteryStats"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2129,7 +2129,7 @@ func (p *BatteryStatsProxy) GetWifiBatteryStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsGetWifiBatteryStats, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "getWifiBatteryStats"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2152,7 +2152,7 @@ func (p *BatteryStatsProxy) GetGpsBatteryStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsGetGpsBatteryStats, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "getGpsBatteryStats"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2175,7 +2175,7 @@ func (p *BatteryStatsProxy) GetWakeLockStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsGetWakeLockStats, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "getWakeLockStats"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2195,7 +2195,7 @@ func (p *BatteryStatsProxy) GetBluetoothBatteryStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsGetBluetoothBatteryStats, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "getBluetoothBatteryStats"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2217,7 +2217,7 @@ func (p *BatteryStatsProxy) TakeUidSnapshot(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsTakeUidSnapshot, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "takeUidSnapshot"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2249,7 +2249,7 @@ func (p *BatteryStatsProxy) TakeUidSnapshots(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsTakeUidSnapshots, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "takeUidSnapshots"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2291,7 +2291,7 @@ func (p *BatteryStatsProxy) TakeUidSnapshotsAsync(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIBatteryStatsTakeUidSnapshotsAsync, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "takeUidSnapshotsAsync"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -2302,7 +2302,7 @@ func (p *BatteryStatsProxy) NoteBluetoothControllerActivity(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteBluetoothControllerActivity, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteBluetoothControllerActivity"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -2313,7 +2313,7 @@ func (p *BatteryStatsProxy) NoteModemControllerActivity(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteModemControllerActivity, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteModemControllerActivity"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -2327,7 +2327,7 @@ func (p *BatteryStatsProxy) NoteWifiControllerActivity(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIBatteryStatsNoteWifiControllerActivity, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "noteWifiControllerActivity"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -2340,7 +2340,7 @@ func (p *BatteryStatsProxy) SetChargingStateUpdateDelayMillis(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(delay)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsSetChargingStateUpdateDelayMillis, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "setChargingStateUpdateDelayMillis"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2367,7 +2367,7 @@ func (p *BatteryStatsProxy) SetChargerAcOnline(
 	_data.WriteBool(online)
 	_data.WriteBool(forceUpdate)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsSetChargerAcOnline, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "setChargerAcOnline"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2390,7 +2390,7 @@ func (p *BatteryStatsProxy) SetBatteryLevel(
 	_data.WriteInt32(level)
 	_data.WriteBool(forceUpdate)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsSetBatteryLevel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "setBatteryLevel"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2411,7 +2411,7 @@ func (p *BatteryStatsProxy) UnplugBattery(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteBool(forceUpdate)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsUnplugBattery, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "unplugBattery"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2432,7 +2432,7 @@ func (p *BatteryStatsProxy) ResetBattery(
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteBool(forceUpdate)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsResetBattery, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "resetBattery"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2451,7 +2451,7 @@ func (p *BatteryStatsProxy) SuspendBatteryInput(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBatteryStatsSuspendBatteryInput, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBatteryStats, "suspendBatteryInput"), 0, _data)
 	if _err != nil {
 		return _err
 	}

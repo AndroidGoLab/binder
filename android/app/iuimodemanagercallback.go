@@ -43,6 +43,6 @@ func (p *UiModeManagerCallbackProxy) NotifyContrastChanged(
 	_data.WriteInterfaceToken(DescriptorIUiModeManagerCallback)
 	_data.WriteFloat32(contrast)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUiModeManagerCallbackNotifyContrastChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUiModeManagerCallback, "notifyContrastChanged"), binder.FlagOneway, _data)
 	return _err
 }

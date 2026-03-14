@@ -75,7 +75,7 @@ func (p *SplitScreenProxy) RegisterSplitScreenListener(
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISplitScreenRegisterSplitScreenListener, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitScreen, "registerSplitScreenListener"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,7 +87,7 @@ func (p *SplitScreenProxy) UnregisterSplitScreenListener(
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISplitScreenUnregisterSplitScreenListener, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitScreen, "unregisterSplitScreenListener"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,7 +99,7 @@ func (p *SplitScreenProxy) RegisterSplitSelectListener(
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISplitScreenRegisterSplitSelectListener, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitScreen, "registerSplitSelectListener"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,7 +111,7 @@ func (p *SplitScreenProxy) UnregisterSplitSelectListener(
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISplitScreenUnregisterSplitSelectListener, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitScreen, "unregisterSplitSelectListener"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -123,7 +123,7 @@ func (p *SplitScreenProxy) ExitSplitScreen(
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteInt32(toTopTaskId)
 
-	_, _err := p.remote.Transact(ctx, TransactionISplitScreenExitSplitScreen, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitScreen, "exitSplitScreen"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -135,7 +135,7 @@ func (p *SplitScreenProxy) ExitSplitScreenOnHide(
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteBool(exitSplitScreenOnHide)
 
-	_, _err := p.remote.Transact(ctx, TransactionISplitScreenExitSplitScreenOnHide, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitScreen, "exitSplitScreenOnHide"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -153,7 +153,7 @@ func (p *SplitScreenProxy) StartTask(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISplitScreenStartTask, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitScreen, "startTask"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -181,7 +181,7 @@ func (p *SplitScreenProxy) StartShortcut(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISplitScreenStartShortcut, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitScreen, "startShortcut"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -211,7 +211,7 @@ func (p *SplitScreenProxy) StartIntent(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISplitScreenStartIntent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitScreen, "startIntent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -245,7 +245,7 @@ func (p *SplitScreenProxy) StartTasks(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISplitScreenStartTasks, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitScreen, "startTasks"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -283,7 +283,7 @@ func (p *SplitScreenProxy) StartIntentAndTask(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISplitScreenStartIntentAndTask, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitScreen, "startIntentAndTask"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -319,7 +319,7 @@ func (p *SplitScreenProxy) StartShortcutAndTask(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISplitScreenStartShortcutAndTask, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitScreen, "startShortcutAndTask"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -369,7 +369,7 @@ func (p *SplitScreenProxy) StartIntents(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISplitScreenStartIntents, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitScreen, "startIntents"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -379,6 +379,6 @@ func (p *SplitScreenProxy) SwitchSplitPosition(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 
-	_, _err := p.remote.Transact(ctx, TransactionISplitScreenSwitchSplitPosition, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitScreen, "switchSplitPosition"), binder.FlagOneway, _data)
 	return _err
 }

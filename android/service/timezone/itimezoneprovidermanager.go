@@ -45,6 +45,6 @@ func (p *TimeZoneProviderManagerProxy) OnTimeZoneProviderEvent(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITimeZoneProviderManagerOnTimeZoneProviderEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeZoneProviderManager, "onTimeZoneProviderEvent"), binder.FlagOneway, _data)
 	return _err
 }

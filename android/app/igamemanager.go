@@ -42,7 +42,7 @@ func (p *GameManagerProxy) GetGameMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGameManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGameManagerGetGameMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGameManager, "getGameMode"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

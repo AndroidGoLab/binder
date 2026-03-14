@@ -49,7 +49,7 @@ func (p *PackageInstallerSessionFileSystemConnectorProxy) WriteData(
 	_data.WriteInt64(lengthBytes)
 	_data.WriteFileDescriptor(fd)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPackageInstallerSessionFileSystemConnectorWriteData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageInstallerSessionFileSystemConnector, "writeData"), 0, _data)
 	if _err != nil {
 		return _err
 	}

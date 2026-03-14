@@ -43,6 +43,6 @@ func (p *AlarmListenerProxy) DoAlarm(
 	_data.WriteInterfaceToken(DescriptorIAlarmListener)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAlarmListenerDoAlarm, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAlarmListener, "doAlarm"), binder.FlagOneway, _data)
 	return _err
 }

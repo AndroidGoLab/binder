@@ -151,7 +151,7 @@ func (p *WifiChipProxy) ConfigureChip(
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 	_data.WriteInt32(modeId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipConfigureChip, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "configureChip"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -171,7 +171,7 @@ func (p *WifiChipProxy) CreateApIface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipCreateApIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "createApIface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -196,7 +196,7 @@ func (p *WifiChipProxy) CreateBridgedApIface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipCreateBridgedApIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "createBridgedApIface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -221,7 +221,7 @@ func (p *WifiChipProxy) CreateNanIface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipCreateNanIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "createNanIface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -246,7 +246,7 @@ func (p *WifiChipProxy) CreateP2pIface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipCreateP2pIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "createP2pIface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -273,7 +273,7 @@ func (p *WifiChipProxy) CreateRttController(
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 	_data.WriteStrongBinder(boundIface.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipCreateRttController, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "createRttController"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -298,7 +298,7 @@ func (p *WifiChipProxy) CreateStaIface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipCreateStaIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "createStaIface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -324,7 +324,7 @@ func (p *WifiChipProxy) EnableDebugErrorAlerts(
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipEnableDebugErrorAlerts, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "enableDebugErrorAlerts"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -343,7 +343,7 @@ func (p *WifiChipProxy) FlushRingBufferToFile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipFlushRingBufferToFile, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "flushRingBufferToFile"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -364,7 +364,7 @@ func (p *WifiChipProxy) ForceDumpToDebugRingBuffer(
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 	_data.WriteString16(ringName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipForceDumpToDebugRingBuffer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "forceDumpToDebugRingBuffer"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -386,7 +386,7 @@ func (p *WifiChipProxy) GetApIface(
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 	_data.WriteString16(ifname)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetApIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getApIface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -411,7 +411,7 @@ func (p *WifiChipProxy) GetApIfaceNames(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetApIfaceNames, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getApIfaceNames"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -445,7 +445,7 @@ func (p *WifiChipProxy) GetAvailableModes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetAvailableModes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getAvailableModes"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -475,7 +475,7 @@ func (p *WifiChipProxy) GetFeatureSet(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetFeatureSet, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getFeatureSet"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -499,7 +499,7 @@ func (p *WifiChipProxy) GetDebugHostWakeReasonStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetDebugHostWakeReasonStats, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getDebugHostWakeReasonStats"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -522,7 +522,7 @@ func (p *WifiChipProxy) GetDebugRingBuffersStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetDebugRingBuffersStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getDebugRingBuffersStatus"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -555,7 +555,7 @@ func (p *WifiChipProxy) GetId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -579,7 +579,7 @@ func (p *WifiChipProxy) GetMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getMode"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -605,7 +605,7 @@ func (p *WifiChipProxy) GetNanIface(
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 	_data.WriteString16(ifname)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetNanIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getNanIface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -630,7 +630,7 @@ func (p *WifiChipProxy) GetNanIfaceNames(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetNanIfaceNames, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getNanIfaceNames"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -666,7 +666,7 @@ func (p *WifiChipProxy) GetP2pIface(
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 	_data.WriteString16(ifname)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetP2pIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getP2pIface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -691,7 +691,7 @@ func (p *WifiChipProxy) GetP2pIfaceNames(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetP2pIfaceNames, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getP2pIfaceNames"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -727,7 +727,7 @@ func (p *WifiChipProxy) GetStaIface(
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 	_data.WriteString16(ifname)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetStaIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getStaIface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -752,7 +752,7 @@ func (p *WifiChipProxy) GetStaIfaceNames(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetStaIfaceNames, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getStaIfaceNames"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -786,7 +786,7 @@ func (p *WifiChipProxy) GetSupportedRadioCombinations(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetSupportedRadioCombinations, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getSupportedRadioCombinations"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -819,7 +819,7 @@ func (p *WifiChipProxy) GetWifiChipCapabilities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetWifiChipCapabilities, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getWifiChipCapabilities"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -848,7 +848,7 @@ func (p *WifiChipProxy) GetUsableChannels(
 	_data.WriteInt32(ifaceModeMask)
 	_data.WriteInt32(filterMask)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipGetUsableChannels, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "getUsableChannels"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -884,7 +884,7 @@ func (p *WifiChipProxy) SetAfcChannelAllowance(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipSetAfcChannelAllowance, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "setAfcChannelAllowance"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -905,7 +905,7 @@ func (p *WifiChipProxy) RegisterEventCallback(
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipRegisterEventCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "registerEventCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -926,7 +926,7 @@ func (p *WifiChipProxy) RemoveApIface(
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 	_data.WriteString16(ifname)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipRemoveApIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "removeApIface"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -949,7 +949,7 @@ func (p *WifiChipProxy) RemoveIfaceInstanceFromBridgedApIface(
 	_data.WriteString16(brIfaceName)
 	_data.WriteString16(ifaceInstanceName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipRemoveIfaceInstanceFromBridgedApIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "removeIfaceInstanceFromBridgedApIface"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -970,7 +970,7 @@ func (p *WifiChipProxy) RemoveNanIface(
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 	_data.WriteString16(ifname)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipRemoveNanIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "removeNanIface"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -991,7 +991,7 @@ func (p *WifiChipProxy) RemoveP2pIface(
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 	_data.WriteString16(ifname)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipRemoveP2pIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "removeP2pIface"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1012,7 +1012,7 @@ func (p *WifiChipProxy) RemoveStaIface(
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 	_data.WriteString16(ifname)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipRemoveStaIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "removeStaIface"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1032,7 +1032,7 @@ func (p *WifiChipProxy) RequestChipDebugInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipRequestChipDebugInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "requestChipDebugInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1052,7 +1052,7 @@ func (p *WifiChipProxy) RequestDriverDebugDump(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipRequestDriverDebugDump, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "requestDriverDebugDump"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1086,7 +1086,7 @@ func (p *WifiChipProxy) RequestFirmwareDebugDump(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipRequestFirmwareDebugDump, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "requestFirmwareDebugDump"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1119,7 +1119,7 @@ func (p *WifiChipProxy) ResetTxPowerScenario(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipResetTxPowerScenario, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "resetTxPowerScenario"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1139,7 +1139,7 @@ func (p *WifiChipProxy) SelectTxPowerScenario(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipSelectTxPowerScenario, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "selectTxPowerScenario"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1166,7 +1166,7 @@ func (p *WifiChipProxy) SetCoexUnsafeChannels(
 	}
 	_data.WriteInt32(restrictions)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipSetCoexUnsafeChannels, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "setCoexUnsafeChannels"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1194,7 +1194,7 @@ func (p *WifiChipProxy) SetCountryCode(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipSetCountryCode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "setCountryCode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1215,7 +1215,7 @@ func (p *WifiChipProxy) SetLatencyMode(
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 	_data.WriteInt32(int32(mode))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipSetLatencyMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "setLatencyMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1236,7 +1236,7 @@ func (p *WifiChipProxy) SetMultiStaPrimaryConnection(
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 	_data.WriteString16(ifName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipSetMultiStaPrimaryConnection, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "setMultiStaPrimaryConnection"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1256,7 +1256,7 @@ func (p *WifiChipProxy) SetMultiStaUseCase(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipSetMultiStaUseCase, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "setMultiStaUseCase"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1283,7 +1283,7 @@ func (p *WifiChipProxy) StartLoggingToDebugRingBuffer(
 	_data.WriteInt32(maxIntervalInSec)
 	_data.WriteInt32(minDataSizeInBytes)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipStartLoggingToDebugRingBuffer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "startLoggingToDebugRingBuffer"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1302,7 +1302,7 @@ func (p *WifiChipProxy) StopLoggingToDebugRingBuffer(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipStopLoggingToDebugRingBuffer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "stopLoggingToDebugRingBuffer"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1321,7 +1321,7 @@ func (p *WifiChipProxy) TriggerSubsystemRestart(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipTriggerSubsystemRestart, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "triggerSubsystemRestart"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1342,7 +1342,7 @@ func (p *WifiChipProxy) EnableStaChannelForPeerNetwork(
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 	_data.WriteInt32(channelCategoryEnableFlag)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipEnableStaChannelForPeerNetwork, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "enableStaChannelForPeerNetwork"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1362,7 +1362,7 @@ func (p *WifiChipProxy) SetMloMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipSetMloMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "setMloMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1395,7 +1395,7 @@ func (p *WifiChipProxy) CreateApOrBridgedApIface(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipCreateApOrBridgedApIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "createApOrBridgedApIface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1420,7 +1420,7 @@ func (p *WifiChipProxy) SetVoipMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipSetVoipMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "setVoipMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1441,7 +1441,7 @@ func (p *WifiChipProxy) CreateApOrBridgedApIfaceWithParams(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiChipCreateApOrBridgedApIfaceWithParams, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChip, "createApOrBridgedApIfaceWithParams"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

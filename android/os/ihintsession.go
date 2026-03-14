@@ -56,7 +56,7 @@ func (p *HintSessionProxy) UpdateTargetWorkDuration(
 	_data.WriteInterfaceToken(DescriptorIHintSession)
 	_data.WriteInt64(targetDurationNanos)
 
-	_, _err := p.remote.Transact(ctx, TransactionIHintSessionUpdateTargetWorkDuration, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHintSession, "updateTargetWorkDuration"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,7 +84,7 @@ func (p *HintSessionProxy) ReportActualWorkDuration(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIHintSessionReportActualWorkDuration, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHintSession, "reportActualWorkDuration"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -94,7 +94,7 @@ func (p *HintSessionProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHintSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionIHintSessionClose, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHintSession, "close"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,7 +106,7 @@ func (p *HintSessionProxy) SendHint(
 	_data.WriteInterfaceToken(DescriptorIHintSession)
 	_data.WriteInt32(hint)
 
-	_, _err := p.remote.Transact(ctx, TransactionIHintSessionSendHint, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHintSession, "sendHint"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -120,7 +120,7 @@ func (p *HintSessionProxy) SetMode(
 	_data.WriteInt32(mode)
 	_data.WriteBool(enabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionIHintSessionSetMode, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHintSession, "setMode"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -141,7 +141,7 @@ func (p *HintSessionProxy) ReportActualWorkDuration2(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIHintSessionReportActualWorkDuration2, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHintSession, "reportActualWorkDuration2"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -160,6 +160,6 @@ func (p *HintSessionProxy) AssociateToLayers(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIHintSessionAssociateToLayers, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHintSession, "associateToLayers"), binder.FlagOneway, _data)
 	return _err
 }

@@ -54,7 +54,7 @@ func (p *FileProxy) Read(
 	_data.WriteInt64(size)
 	_data.WriteInt64(offset)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFileRead, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFile, "read"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -99,7 +99,7 @@ func (p *FileProxy) Write(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFileWrite, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFile, "write"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -123,7 +123,7 @@ func (p *FileProxy) GetSize(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFile)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFileGetSize, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFile, "getSize"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -148,7 +148,7 @@ func (p *FileProxy) SetSize(
 	_data.WriteInterfaceToken(DescriptorIFile)
 	_data.WriteInt64(newSize)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFileSetSize, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFile, "setSize"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -171,7 +171,7 @@ func (p *FileProxy) Rename(
 	_data.WriteString(destPath)
 	_data.WriteInt32(int32(destCreateMode))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFileRename, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFile, "rename"), 0, _data)
 	if _err != nil {
 		return _err
 	}

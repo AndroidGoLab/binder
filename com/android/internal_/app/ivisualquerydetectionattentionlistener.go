@@ -44,7 +44,7 @@ func (p *VisualQueryDetectionAttentionListenerProxy) OnAttentionGained(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionAttentionListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVisualQueryDetectionAttentionListenerOnAttentionGained, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVisualQueryDetectionAttentionListener, "onAttentionGained"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -56,6 +56,6 @@ func (p *VisualQueryDetectionAttentionListenerProxy) OnAttentionLost(
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionAttentionListener)
 	_data.WriteInt32(interactionIntention)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVisualQueryDetectionAttentionListenerOnAttentionLost, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVisualQueryDetectionAttentionListener, "onAttentionLost"), binder.FlagOneway, _data)
 	return _err
 }

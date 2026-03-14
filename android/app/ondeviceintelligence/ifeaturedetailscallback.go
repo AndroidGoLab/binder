@@ -47,7 +47,7 @@ func (p *FeatureDetailsCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIFeatureDetailsCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFeatureDetailsCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +62,6 @@ func (p *FeatureDetailsCallbackProxy) OnFailure(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorMessage)
 
-	_, _err := p.remote.Transact(ctx, TransactionIFeatureDetailsCallbackOnFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFeatureDetailsCallback, "onFailure"), binder.FlagOneway, _data)
 	return _err
 }

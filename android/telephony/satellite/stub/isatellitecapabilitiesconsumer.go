@@ -45,6 +45,6 @@ func (p *SatelliteCapabilitiesConsumerProxy) Accept(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteCapabilitiesConsumerAccept, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteCapabilitiesConsumer, "accept"), binder.FlagOneway, _data)
 	return _err
 }

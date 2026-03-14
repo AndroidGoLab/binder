@@ -42,7 +42,7 @@ func (p *ClientTokenProxy) GenerateClientToken(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIClientToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIClientTokenGenerateClientToken, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClientToken, "generateClientToken"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

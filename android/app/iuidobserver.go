@@ -55,7 +55,7 @@ func (p *UidObserverProxy) OnUidGone(
 	_data.WriteInt32(uid)
 	_data.WriteBool(disabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUidObserverOnUidGone, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUidObserver, "onUidGone"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,7 +67,7 @@ func (p *UidObserverProxy) OnUidActive(
 	_data.WriteInterfaceToken(DescriptorIUidObserver)
 	_data.WriteInt32(uid)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUidObserverOnUidActive, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUidObserver, "onUidActive"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,7 +81,7 @@ func (p *UidObserverProxy) OnUidIdle(
 	_data.WriteInt32(uid)
 	_data.WriteBool(disabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUidObserverOnUidIdle, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUidObserver, "onUidIdle"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,7 +99,7 @@ func (p *UidObserverProxy) OnUidStateChanged(
 	_data.WriteInt64(procStateSeq)
 	_data.WriteInt32(capability)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUidObserverOnUidStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUidObserver, "onUidStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,7 +113,7 @@ func (p *UidObserverProxy) OnUidProcAdjChanged(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(adj)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUidObserverOnUidProcAdjChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUidObserver, "onUidProcAdjChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -127,6 +127,6 @@ func (p *UidObserverProxy) OnUidCachedChanged(
 	_data.WriteInt32(uid)
 	_data.WriteBool(cached)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUidObserverOnUidCachedChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUidObserver, "onUidCachedChanged"), binder.FlagOneway, _data)
 	return _err
 }

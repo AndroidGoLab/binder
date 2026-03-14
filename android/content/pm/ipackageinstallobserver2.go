@@ -44,7 +44,7 @@ func (p *PackageInstallObserver2Proxy) OnUserActionRequired(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallObserver2)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPackageInstallObserver2OnUserActionRequired, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageInstallObserver2, "onUserActionRequired"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,6 +61,6 @@ func (p *PackageInstallObserver2Proxy) OnPackageInstalled(
 	_data.WriteInt32(returnCode)
 	_data.WriteString16(msg)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPackageInstallObserver2OnPackageInstalled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageInstallObserver2, "onPackageInstalled"), binder.FlagOneway, _data)
 	return _err
 }

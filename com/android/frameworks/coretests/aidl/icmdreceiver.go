@@ -47,7 +47,7 @@ func (p *CmdReceiverProxy) DoSomeWork(
 	_data.WriteInterfaceToken(DescriptorICmdReceiver)
 	_data.WriteInt32(durationMs)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICmdReceiverDoSomeWork, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICmdReceiver, "doSomeWork"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -66,7 +66,7 @@ func (p *CmdReceiverProxy) ShowApplicationOverlay(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICmdReceiver)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICmdReceiverShowApplicationOverlay, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICmdReceiver, "showApplicationOverlay"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -85,7 +85,7 @@ func (p *CmdReceiverProxy) FinishHost(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICmdReceiver)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICmdReceiverFinishHost, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICmdReceiver, "finishHost"), 0, _data)
 	if _err != nil {
 		return _err
 	}

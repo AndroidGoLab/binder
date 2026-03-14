@@ -45,6 +45,6 @@ func (p *ConversationListenerProxy) OnConversationUpdate(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConversationListenerOnConversationUpdate, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConversationListener, "onConversationUpdate"), binder.FlagOneway, _data)
 	return _err
 }

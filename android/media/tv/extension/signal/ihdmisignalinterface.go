@@ -54,7 +54,7 @@ func (p *HdmiSignalInterfaceProxy) AddHdmiSignalInfoListener(
 	_data.WriteString16(inputId)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiSignalInterfaceAddHdmiSignalInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiSignalInterface, "addHdmiSignalInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -77,7 +77,7 @@ func (p *HdmiSignalInterfaceProxy) RemoveHdmiSignalInfoListener(
 	_data.WriteString16(inputId)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiSignalInterfaceRemoveHdmiSignalInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiSignalInterface, "removeHdmiSignalInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -99,7 +99,7 @@ func (p *HdmiSignalInterfaceProxy) GetHdmiSignalInfo(
 	_data.WriteInterfaceToken(DescriptorIHdmiSignalInterface)
 	_data.WriteString16(sessionToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiSignalInterfaceGetHdmiSignalInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiSignalInterface, "getHdmiSignalInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -125,7 +125,7 @@ func (p *HdmiSignalInterfaceProxy) SetLowLatency(
 	_data.WriteString16(sessionToken)
 	_data.WriteInt32(mode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiSignalInterfaceSetLowLatency, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiSignalInterface, "setLowLatency"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -148,7 +148,7 @@ func (p *HdmiSignalInterfaceProxy) SetForceVrr(
 	_data.WriteString16(sessionToken)
 	_data.WriteInt32(mode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiSignalInterfaceSetForceVrr, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiSignalInterface, "setForceVrr"), 0, _data)
 	if _err != nil {
 		return _err
 	}

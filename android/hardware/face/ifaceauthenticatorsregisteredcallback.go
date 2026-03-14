@@ -52,6 +52,6 @@ func (p *FaceAuthenticatorsRegisteredCallbackProxy) OnAllAuthenticatorsRegistere
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIFaceAuthenticatorsRegisteredCallbackOnAllAuthenticatorsRegistered, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFaceAuthenticatorsRegisteredCallback, "onAllAuthenticatorsRegistered"), binder.FlagOneway, _data)
 	return _err
 }

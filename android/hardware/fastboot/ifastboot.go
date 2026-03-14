@@ -58,7 +58,7 @@ func (p *FastbootProxy) DoOemCommand(
 	_data.WriteInterfaceToken(DescriptorIFastboot)
 	_data.WriteString16(oemCmd)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFastbootDoOemCommand, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFastboot, "doOemCommand"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -81,7 +81,7 @@ func (p *FastbootProxy) DoOemSpecificErase(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFastboot)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFastbootDoOemSpecificErase, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFastboot, "doOemSpecificErase"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -101,7 +101,7 @@ func (p *FastbootProxy) GetBatteryVoltageFlashingThreshold(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFastboot)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFastbootGetBatteryVoltageFlashingThreshold, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFastboot, "getBatteryVoltageFlashingThreshold"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -125,7 +125,7 @@ func (p *FastbootProxy) GetOffModeChargeState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFastboot)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFastbootGetOffModeChargeState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFastboot, "getOffModeChargeState"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -151,7 +151,7 @@ func (p *FastbootProxy) GetPartitionType(
 	_data.WriteInterfaceToken(DescriptorIFastboot)
 	_data.WriteString16(partitionName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFastbootGetPartitionType, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFastboot, "getPartitionType"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -176,7 +176,7 @@ func (p *FastbootProxy) GetVariant(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFastboot)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFastbootGetVariant, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFastboot, "getVariant"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

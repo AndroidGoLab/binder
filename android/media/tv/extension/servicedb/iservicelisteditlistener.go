@@ -45,6 +45,6 @@ func (p *ServiceListEditListenerProxy) OnCompleted(
 	_data.WriteInt32(requestId)
 	_data.WriteInt32(result)
 
-	_, _err := p.remote.Transact(ctx, TransactionIServiceListEditListenerOnCompleted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEditListener, "onCompleted"), binder.FlagOneway, _data)
 	return _err
 }

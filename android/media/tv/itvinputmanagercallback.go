@@ -53,7 +53,7 @@ func (p *TvInputManagerCallbackProxy) OnInputAdded(
 	_data.WriteInterfaceToken(DescriptorITvInputManagerCallback)
 	_data.WriteString16(inputId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvInputManagerCallbackOnInputAdded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onInputAdded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,7 +65,7 @@ func (p *TvInputManagerCallbackProxy) OnInputRemoved(
 	_data.WriteInterfaceToken(DescriptorITvInputManagerCallback)
 	_data.WriteString16(inputId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvInputManagerCallbackOnInputRemoved, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onInputRemoved"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,7 +77,7 @@ func (p *TvInputManagerCallbackProxy) OnInputUpdated(
 	_data.WriteInterfaceToken(DescriptorITvInputManagerCallback)
 	_data.WriteString16(inputId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvInputManagerCallbackOnInputUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onInputUpdated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,7 +91,7 @@ func (p *TvInputManagerCallbackProxy) OnInputStateChanged(
 	_data.WriteString16(inputId)
 	_data.WriteInt32(state)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvInputManagerCallbackOnInputStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onInputStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,7 +105,7 @@ func (p *TvInputManagerCallbackProxy) OnTvInputInfoUpdated(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITvInputManagerCallbackOnTvInputInfoUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onTvInputInfoUpdated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -126,6 +126,6 @@ func (p *TvInputManagerCallbackProxy) OnCurrentTunedInfosUpdated(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITvInputManagerCallbackOnCurrentTunedInfosUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onCurrentTunedInfosUpdated"), binder.FlagOneway, _data)
 	return _err
 }

@@ -69,7 +69,7 @@ func (p *ComponentProxy) ConfigureVideoTunnel(
 	_data.WriteInterfaceToken(DescriptorIComponent)
 	_data.WriteInt32(avSyncHwId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentConfigureVideoTunnel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponent, "configureVideoTunnel"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -93,7 +93,7 @@ func (p *ComponentProxy) CreateBlockPool(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentCreateBlockPool, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponent, "createBlockPool"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -114,7 +114,7 @@ func (p *ComponentProxy) DestroyBlockPool(
 	_data.WriteInterfaceToken(DescriptorIComponent)
 	_data.WriteInt64(blockPoolId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentDestroyBlockPool, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponent, "destroyBlockPool"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -135,7 +135,7 @@ func (p *ComponentProxy) Drain(
 	_data.WriteInterfaceToken(DescriptorIComponent)
 	_data.WriteBool(withEos)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentDrain, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponent, "drain"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -155,7 +155,7 @@ func (p *ComponentProxy) Flush(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentFlush, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponent, "flush"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -178,7 +178,7 @@ func (p *ComponentProxy) GetInterface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentGetInterface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponent, "getInterface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -206,7 +206,7 @@ func (p *ComponentProxy) Queue(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentQueue, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponent, "queue"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -225,7 +225,7 @@ func (p *ComponentProxy) Release(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentRelease, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponent, "release"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -244,7 +244,7 @@ func (p *ComponentProxy) Reset(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentReset, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponent, "reset"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -263,7 +263,7 @@ func (p *ComponentProxy) Start(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentStart, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponent, "start"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -282,7 +282,7 @@ func (p *ComponentProxy) Stop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentStop, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponent, "stop"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -304,7 +304,7 @@ func (p *ComponentProxy) ConnectToInputSurface(
 	_data.WriteInterfaceToken(DescriptorIComponent)
 	_data.WriteStrongBinder(inputSurface.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentConnectToInputSurface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponent, "connectToInputSurface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -329,7 +329,7 @@ func (p *ComponentProxy) AsInputSink(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentAsInputSink, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponent, "asInputSink"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

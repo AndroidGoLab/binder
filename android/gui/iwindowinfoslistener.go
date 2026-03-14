@@ -42,6 +42,6 @@ func (p *WindowInfosListenerProxy) OnWindowInfosChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowInfosListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWindowInfosListenerOnWindowInfosChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowInfosListener, "onWindowInfosChanged"), binder.FlagOneway, _data)
 	return _err
 }

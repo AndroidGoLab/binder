@@ -54,6 +54,6 @@ func (p *SpellCheckerServiceProxy) GetISpellCheckerSession(
 	_data.WriteInt32(supportedAttributes)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISpellCheckerServiceGetISpellCheckerSession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISpellCheckerService, "getISpellCheckerSession"), binder.FlagOneway, _data)
 	return _err
 }

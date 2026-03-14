@@ -47,7 +47,7 @@ func (p *GnssMeasurementsListenerProxy) OnGnssMeasurementsReceived(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIGnssMeasurementsListenerOnGnssMeasurementsReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssMeasurementsListener, "onGnssMeasurementsReceived"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,6 +59,6 @@ func (p *GnssMeasurementsListenerProxy) OnStatusChanged(
 	_data.WriteInterfaceToken(DescriptorIGnssMeasurementsListener)
 	_data.WriteInt32(status)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGnssMeasurementsListenerOnStatusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssMeasurementsListener, "onStatusChanged"), binder.FlagOneway, _data)
 	return _err
 }

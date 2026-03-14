@@ -54,7 +54,7 @@ func (p *SoundTriggerDetectionServiceProxy) SetClient(
 	_data.WriteInterfaceToken(DescriptorISoundTriggerDetectionService)
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerDetectionServiceSetClient, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerDetectionService, "setClient"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,7 +65,7 @@ func (p *SoundTriggerDetectionServiceProxy) RemoveClient(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerDetectionService)
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerDetectionServiceRemoveClient, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerDetectionService, "removeClient"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,7 +82,7 @@ func (p *SoundTriggerDetectionServiceProxy) OnGenericRecognitionEvent(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerDetectionServiceOnGenericRecognitionEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerDetectionService, "onGenericRecognitionEvent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,7 +97,7 @@ func (p *SoundTriggerDetectionServiceProxy) OnError(
 	_data.WriteInt32(opId)
 	_data.WriteInt32(status)
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerDetectionServiceOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerDetectionService, "onError"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -110,6 +110,6 @@ func (p *SoundTriggerDetectionServiceProxy) OnStopOperation(
 	_data.WriteInterfaceToken(DescriptorISoundTriggerDetectionService)
 	_data.WriteInt32(opId)
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerDetectionServiceOnStopOperation, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerDetectionService, "onStopOperation"), binder.FlagOneway, _data)
 	return _err
 }

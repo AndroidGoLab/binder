@@ -53,7 +53,7 @@ func (p *DesktopTaskListenerProxy) OnTasksVisibilityChanged(
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(visibleTasksCount)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDesktopTaskListenerOnTasksVisibilityChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDesktopTaskListener, "onTasksVisibilityChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,7 +67,7 @@ func (p *DesktopTaskListenerProxy) OnStashedChanged(
 	_data.WriteInt32(displayId)
 	_data.WriteBool(stashed)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDesktopTaskListenerOnStashedChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDesktopTaskListener, "onStashedChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,7 +79,7 @@ func (p *DesktopTaskListenerProxy) OnTaskbarCornerRoundingUpdate(
 	_data.WriteInterfaceToken(DescriptorIDesktopTaskListener)
 	_data.WriteBool(hasTasksRequiringTaskbarRounding)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDesktopTaskListenerOnTaskbarCornerRoundingUpdate, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDesktopTaskListener, "onTaskbarCornerRoundingUpdate"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,7 +91,7 @@ func (p *DesktopTaskListenerProxy) OnEnterDesktopModeTransitionStarted(
 	_data.WriteInterfaceToken(DescriptorIDesktopTaskListener)
 	_data.WriteInt32(transitionDuration)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDesktopTaskListenerOnEnterDesktopModeTransitionStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDesktopTaskListener, "onEnterDesktopModeTransitionStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,6 +103,6 @@ func (p *DesktopTaskListenerProxy) OnExitDesktopModeTransitionStarted(
 	_data.WriteInterfaceToken(DescriptorIDesktopTaskListener)
 	_data.WriteInt32(transitionDuration)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDesktopTaskListenerOnExitDesktopModeTransitionStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDesktopTaskListener, "onExitDesktopModeTransitionStarted"), binder.FlagOneway, _data)
 	return _err
 }

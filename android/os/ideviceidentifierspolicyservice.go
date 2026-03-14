@@ -44,7 +44,7 @@ func (p *DeviceIdentifiersPolicyServiceProxy) GetSerial(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdentifiersPolicyService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdentifiersPolicyServiceGetSerial, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdentifiersPolicyService, "getSerial"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -72,7 +72,7 @@ func (p *DeviceIdentifiersPolicyServiceProxy) GetSerialForPackage(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(callingFeatureId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdentifiersPolicyServiceGetSerialForPackage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdentifiersPolicyService, "getSerialForPackage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

@@ -51,7 +51,7 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnQueryDetected(
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionVoiceInteractionCallback)
 	_data.WriteString16(partialQuery)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVisualQueryDetectionVoiceInteractionCallbackOnQueryDetected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVisualQueryDetectionVoiceInteractionCallback, "onQueryDetected"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,7 +65,7 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnResultDetected(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIVisualQueryDetectionVoiceInteractionCallbackOnResultDetected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVisualQueryDetectionVoiceInteractionCallback, "onResultDetected"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,7 +75,7 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnQueryFinished(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionVoiceInteractionCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVisualQueryDetectionVoiceInteractionCallbackOnQueryFinished, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVisualQueryDetectionVoiceInteractionCallback, "onQueryFinished"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,7 +85,7 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnQueryRejected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionVoiceInteractionCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVisualQueryDetectionVoiceInteractionCallbackOnQueryRejected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVisualQueryDetectionVoiceInteractionCallback, "onQueryRejected"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,6 +99,6 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnVisualQueryDetecti
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIVisualQueryDetectionVoiceInteractionCallbackOnVisualQueryDetectionServiceFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVisualQueryDetectionVoiceInteractionCallback, "onVisualQueryDetectionServiceFailure"), binder.FlagOneway, _data)
 	return _err
 }

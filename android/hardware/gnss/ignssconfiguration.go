@@ -65,7 +65,7 @@ func (p *GnssConfigurationProxy) SetSuplVersion(
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteInt32(version)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssConfigurationSetSuplVersion, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssConfiguration, "setSuplVersion"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -86,7 +86,7 @@ func (p *GnssConfigurationProxy) SetSuplMode(
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteInt32(mode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssConfigurationSetSuplMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssConfiguration, "setSuplMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -107,7 +107,7 @@ func (p *GnssConfigurationProxy) SetLppProfile(
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteInt32(lppProfile)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssConfigurationSetLppProfile, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssConfiguration, "setLppProfile"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -128,7 +128,7 @@ func (p *GnssConfigurationProxy) SetGlonassPositioningProtocol(
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteInt32(protocol)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssConfigurationSetGlonassPositioningProtocol, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssConfiguration, "setGlonassPositioningProtocol"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -149,7 +149,7 @@ func (p *GnssConfigurationProxy) SetEmergencySuplPdn(
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssConfigurationSetEmergencySuplPdn, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssConfiguration, "setEmergencySuplPdn"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -170,7 +170,7 @@ func (p *GnssConfigurationProxy) SetEsExtensionSec(
 	_data.WriteInterfaceToken(DescriptorIGnssConfiguration)
 	_data.WriteInt32(emergencyExtensionSeconds)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssConfigurationSetEsExtensionSec, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssConfiguration, "setEsExtensionSec"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -200,7 +200,7 @@ func (p *GnssConfigurationProxy) SetBlocklist(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssConfigurationSetBlocklist, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssConfiguration, "setBlocklist"), 0, _data)
 	if _err != nil {
 		return _err
 	}

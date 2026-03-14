@@ -43,6 +43,6 @@ func (p *TunerFrontendSignalInfoListenerProxy) OnFrontendStatusChanged(
 	_data.WriteInterfaceToken(DescriptorITunerFrontendSignalInfoListener)
 	_data.WriteInt32(frontendStatus)
 
-	_, _err := p.remote.Transact(ctx, TransactionITunerFrontendSignalInfoListenerOnFrontendStatusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITunerFrontendSignalInfoListener, "onFrontendStatusChanged"), binder.FlagOneway, _data)
 	return _err
 }

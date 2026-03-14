@@ -45,6 +45,6 @@ func (p *StickyModifierStateListenerProxy) OnStickyModifierStateChanged(
 	_data.WriteInt32(modifierState)
 	_data.WriteInt32(lockedModifierState)
 
-	_, _err := p.remote.Transact(ctx, TransactionIStickyModifierStateListenerOnStickyModifierStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStickyModifierStateListener, "onStickyModifierStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

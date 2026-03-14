@@ -48,6 +48,6 @@ func (p *DetectorSessionStorageServiceProxy) OpenFile(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIDetectorSessionStorageServiceOpenFile, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDetectorSessionStorageService, "openFile"), binder.FlagOneway, _data)
 	return _err
 }

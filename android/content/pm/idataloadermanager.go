@@ -56,7 +56,7 @@ func (p *DataLoaderManagerProxy) BindToDataLoader(
 	_data.WriteInt64(bindDelayMs)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDataLoaderManagerBindToDataLoader, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataLoaderManager, "bindToDataLoader"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,7 +82,7 @@ func (p *DataLoaderManagerProxy) GetDataLoader(
 	_data.WriteInterfaceToken(DescriptorIDataLoaderManager)
 	_data.WriteInt32(dataLoaderId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDataLoaderManagerGetDataLoader, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataLoaderManager, "getDataLoader"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -108,7 +108,7 @@ func (p *DataLoaderManagerProxy) UnbindFromDataLoader(
 	_data.WriteInterfaceToken(DescriptorIDataLoaderManager)
 	_data.WriteInt32(dataLoaderId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDataLoaderManagerUnbindFromDataLoader, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataLoaderManager, "unbindFromDataLoader"), 0, _data)
 	if _err != nil {
 		return _err
 	}

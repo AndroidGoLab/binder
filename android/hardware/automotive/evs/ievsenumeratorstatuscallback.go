@@ -52,6 +52,6 @@ func (p *EvsEnumeratorStatusCallbackProxy) DeviceStatusChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIEvsEnumeratorStatusCallbackDeviceStatusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsEnumeratorStatusCallback, "deviceStatusChanged"), binder.FlagOneway, _data)
 	return _err
 }

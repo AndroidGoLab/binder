@@ -48,7 +48,7 @@ func (p *SecureClockProxy) GenerateTimeStamp(
 	_data.WriteInterfaceToken(DescriptorISecureClock)
 	_data.WriteInt64(challenge)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureClockGenerateTimeStamp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureClock, "generateTimeStamp"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

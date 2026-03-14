@@ -45,7 +45,7 @@ func (p *HomeControlsRemoteProxyProxy) RegisterListenerForCurrentUser(
 	_data.WriteInterfaceToken(DescriptorIHomeControlsRemoteProxy)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIHomeControlsRemoteProxyRegisterListenerForCurrentUser, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHomeControlsRemoteProxy, "registerListenerForCurrentUser"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -57,6 +57,6 @@ func (p *HomeControlsRemoteProxyProxy) UnregisterListenerForCurrentUser(
 	_data.WriteInterfaceToken(DescriptorIHomeControlsRemoteProxy)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIHomeControlsRemoteProxyUnregisterListenerForCurrentUser, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHomeControlsRemoteProxy, "unregisterListenerForCurrentUser"), binder.FlagOneway, _data)
 	return _err
 }

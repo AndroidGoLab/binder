@@ -47,6 +47,6 @@ func (p *DisplayPortAltModeInfoListenerProxy) OnDisplayPortAltModeInfoChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIDisplayPortAltModeInfoListenerOnDisplayPortAltModeInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayPortAltModeInfoListener, "onDisplayPortAltModeInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }

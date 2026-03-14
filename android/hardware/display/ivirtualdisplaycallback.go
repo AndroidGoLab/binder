@@ -45,7 +45,7 @@ func (p *VirtualDisplayCallbackProxy) OnPaused(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDisplayCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVirtualDisplayCallbackOnPaused, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualDisplayCallback, "onPaused"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -55,7 +55,7 @@ func (p *VirtualDisplayCallbackProxy) OnResumed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDisplayCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVirtualDisplayCallbackOnResumed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualDisplayCallback, "onResumed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,6 +65,6 @@ func (p *VirtualDisplayCallbackProxy) OnStopped(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDisplayCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVirtualDisplayCallbackOnStopped, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualDisplayCallback, "onStopped"), binder.FlagOneway, _data)
 	return _err
 }

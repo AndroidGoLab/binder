@@ -50,7 +50,7 @@ func (p *DisplayEventConnectionProxy) StealReceiveChannel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayEventConnection)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDisplayEventConnectionStealReceiveChannel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayEventConnection, "stealReceiveChannel"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -71,7 +71,7 @@ func (p *DisplayEventConnectionProxy) SetVsyncRate(
 	_data.WriteInterfaceToken(DescriptorIDisplayEventConnection)
 	_data.WriteInt32(count)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDisplayEventConnectionSetVsyncRate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayEventConnection, "setVsyncRate"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -90,7 +90,7 @@ func (p *DisplayEventConnectionProxy) RequestNextVsync(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayEventConnection)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDisplayEventConnectionRequestNextVsync, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayEventConnection, "requestNextVsync"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,7 +101,7 @@ func (p *DisplayEventConnectionProxy) GetLatestVsyncEventData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayEventConnection)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDisplayEventConnectionGetLatestVsyncEventData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayEventConnection, "getLatestVsyncEventData"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -121,7 +121,7 @@ func (p *DisplayEventConnectionProxy) GetSchedulingPolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayEventConnection)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDisplayEventConnectionGetSchedulingPolicy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayEventConnection, "getSchedulingPolicy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

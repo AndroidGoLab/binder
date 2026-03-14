@@ -72,7 +72,7 @@ func (p *ImsConfigProxy) AddImsConfigCallback(
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigAddImsConfigCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "addImsConfigCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -93,7 +93,7 @@ func (p *ImsConfigProxy) RemoveImsConfigCallback(
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigRemoveImsConfigCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "removeImsConfigCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -115,7 +115,7 @@ func (p *ImsConfigProxy) GetConfigInt(
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigGetConfigInt, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "getConfigInt"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -141,7 +141,7 @@ func (p *ImsConfigProxy) GetConfigString(
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigGetConfigString, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "getConfigString"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -169,7 +169,7 @@ func (p *ImsConfigProxy) SetConfigInt(
 	_data.WriteInt32(item)
 	_data.WriteInt32(value)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigSetConfigInt, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "setConfigInt"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -197,7 +197,7 @@ func (p *ImsConfigProxy) SetConfigString(
 	_data.WriteInt32(item)
 	_data.WriteString16(value)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigSetConfigString, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "setConfigString"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -221,7 +221,7 @@ func (p *ImsConfigProxy) UpdateImsCarrierConfigs(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigUpdateImsCarrierConfigs, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "updateImsCarrierConfigs"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -251,7 +251,7 @@ func (p *ImsConfigProxy) NotifyRcsAutoConfigurationReceived(
 	}
 	_data.WriteBool(isCompressed)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigNotifyRcsAutoConfigurationReceived, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "notifyRcsAutoConfigurationReceived"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -270,7 +270,7 @@ func (p *ImsConfigProxy) NotifyRcsAutoConfigurationRemoved(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigNotifyRcsAutoConfigurationRemoved, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "notifyRcsAutoConfigurationRemoved"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -291,7 +291,7 @@ func (p *ImsConfigProxy) AddRcsConfigCallback(
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigAddRcsConfigCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "addRcsConfigCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -312,7 +312,7 @@ func (p *ImsConfigProxy) RemoveRcsConfigCallback(
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigRemoveRcsConfigCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "removeRcsConfigCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -331,7 +331,7 @@ func (p *ImsConfigProxy) TriggerRcsReconfiguration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigTriggerRcsReconfiguration, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "triggerRcsReconfiguration"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -354,7 +354,7 @@ func (p *ImsConfigProxy) SetRcsClientConfiguration(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigSetRcsClientConfiguration, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "setRcsClientConfiguration"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -377,7 +377,7 @@ func (p *ImsConfigProxy) NotifyIntImsConfigChanged(
 	_data.WriteInt32(item)
 	_data.WriteInt32(value)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigNotifyIntImsConfigChanged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "notifyIntImsConfigChanged"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -400,7 +400,7 @@ func (p *ImsConfigProxy) NotifyStringImsConfigChanged(
 	_data.WriteInt32(item)
 	_data.WriteString16(value)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigNotifyStringImsConfigChanged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "notifyStringImsConfigChanged"), 0, _data)
 	if _err != nil {
 		return _err
 	}

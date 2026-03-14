@@ -75,7 +75,7 @@ func (p *ClipboardProxy) SetPrimaryClip(
 	_data.WriteInt32(userId)
 	_data.WriteInt32(deviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIClipboardSetPrimaryClip, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClipboard, "setPrimaryClip"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -108,7 +108,7 @@ func (p *ClipboardProxy) SetPrimaryClipAsPackage(
 	_data.WriteInt32(deviceId)
 	_data.WriteString16(sourcePackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIClipboardSetPrimaryClipAsPackage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClipboard, "setPrimaryClipAsPackage"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -135,7 +135,7 @@ func (p *ClipboardProxy) ClearPrimaryClip(
 	_data.WriteInt32(userId)
 	_data.WriteInt32(deviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIClipboardClearPrimaryClip, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClipboard, "clearPrimaryClip"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -163,7 +163,7 @@ func (p *ClipboardProxy) GetPrimaryClip(
 	_data.WriteInt32(userId)
 	_data.WriteInt32(deviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIClipboardGetPrimaryClip, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClipboard, "getPrimaryClip"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -194,7 +194,7 @@ func (p *ClipboardProxy) GetPrimaryClipDescription(
 	_data.WriteInt32(userId)
 	_data.WriteInt32(deviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIClipboardGetPrimaryClipDescription, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClipboard, "getPrimaryClipDescription"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -225,7 +225,7 @@ func (p *ClipboardProxy) HasPrimaryClip(
 	_data.WriteInt32(userId)
 	_data.WriteInt32(deviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIClipboardHasPrimaryClip, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClipboard, "hasPrimaryClip"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -258,7 +258,7 @@ func (p *ClipboardProxy) AddPrimaryClipChangedListener(
 	_data.WriteInt32(userId)
 	_data.WriteInt32(deviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIClipboardAddPrimaryClipChangedListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClipboard, "addPrimaryClipChangedListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -287,7 +287,7 @@ func (p *ClipboardProxy) RemovePrimaryClipChangedListener(
 	_data.WriteInt32(userId)
 	_data.WriteInt32(deviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIClipboardRemovePrimaryClipChangedListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClipboard, "removePrimaryClipChangedListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -315,7 +315,7 @@ func (p *ClipboardProxy) HasClipboardText(
 	_data.WriteInt32(userId)
 	_data.WriteInt32(deviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIClipboardHasClipboardText, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClipboard, "hasClipboardText"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -347,7 +347,7 @@ func (p *ClipboardProxy) GetPrimaryClipSource(
 	_data.WriteInt32(userId)
 	_data.WriteInt32(deviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIClipboardGetPrimaryClipSource, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClipboard, "getPrimaryClipSource"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -373,7 +373,7 @@ func (p *ClipboardProxy) AreClipboardAccessNotificationsEnabledForUser(
 	_data.WriteInterfaceToken(DescriptorIClipboard)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIClipboardAreClipboardAccessNotificationsEnabledForUser, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClipboard, "areClipboardAccessNotificationsEnabledForUser"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -400,7 +400,7 @@ func (p *ClipboardProxy) SetClipboardAccessNotificationsEnabledForUser(
 	_data.WriteBool(enable)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIClipboardSetClipboardAccessNotificationsEnabledForUser, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClipboard, "setClipboardAccessNotificationsEnabledForUser"), 0, _data)
 	if _err != nil {
 		return _err
 	}

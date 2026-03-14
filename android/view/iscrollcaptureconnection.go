@@ -52,7 +52,7 @@ func (p *ScrollCaptureConnectionProxy) StartCapture(
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
 	_data.WriteStrongBinder(callbacks.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIScrollCaptureConnectionStartCapture, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScrollCaptureConnection, "startCapture"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -76,7 +76,7 @@ func (p *ScrollCaptureConnectionProxy) RequestImage(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIScrollCaptureConnectionRequestImage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScrollCaptureConnection, "requestImage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -96,7 +96,7 @@ func (p *ScrollCaptureConnectionProxy) EndCapture(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIScrollCaptureConnectionEndCapture, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScrollCaptureConnection, "endCapture"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -115,6 +115,6 @@ func (p *ScrollCaptureConnectionProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
 
-	_, _err := p.remote.Transact(ctx, TransactionIScrollCaptureConnectionClose, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScrollCaptureConnection, "close"), binder.FlagOneway, _data)
 	return _err
 }

@@ -47,7 +47,7 @@ func (p *SetValueCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISetValueCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISetValueCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -57,6 +57,6 @@ func (p *SetValueCallbackProxy) OnFailure(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISetValueCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionISetValueCallbackOnFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISetValueCallback, "onFailure"), binder.FlagOneway, _data)
 	return _err
 }

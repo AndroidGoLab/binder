@@ -46,7 +46,7 @@ func (p *RegionChannelListProxy) SetRegionChannelList(
 	_data.WriteInterfaceToken(DescriptorIRegionChannelList)
 	_data.WriteString16(regionChannelList)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRegionChannelListSetRegionChannelList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRegionChannelList, "setRegionChannelList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -72,7 +72,7 @@ func (p *RegionChannelListProxy) SetListener(
 	_data.WriteInterfaceToken(DescriptorIRegionChannelList)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRegionChannelListSetListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRegionChannelList, "setListener"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

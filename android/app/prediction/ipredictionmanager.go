@@ -69,7 +69,7 @@ func (p *PredictionManagerProxy) CreatePredictionSession(
 	}
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPredictionManagerCreatePredictionSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPredictionManager, "createPredictionSession"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -96,7 +96,7 @@ func (p *PredictionManagerProxy) NotifyAppTargetEvent(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPredictionManagerNotifyAppTargetEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPredictionManager, "notifyAppTargetEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -125,7 +125,7 @@ func (p *PredictionManagerProxy) NotifyLaunchLocationShown(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPredictionManagerNotifyLaunchLocationShown, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPredictionManager, "notifyLaunchLocationShown"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -154,7 +154,7 @@ func (p *PredictionManagerProxy) SortAppTargets(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPredictionManagerSortAppTargets, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPredictionManager, "sortAppTargets"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -179,7 +179,7 @@ func (p *PredictionManagerProxy) RegisterPredictionUpdates(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPredictionManagerRegisterPredictionUpdates, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPredictionManager, "registerPredictionUpdates"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -204,7 +204,7 @@ func (p *PredictionManagerProxy) UnregisterPredictionUpdates(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPredictionManagerUnregisterPredictionUpdates, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPredictionManager, "unregisterPredictionUpdates"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -227,7 +227,7 @@ func (p *PredictionManagerProxy) RequestPredictionUpdate(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPredictionManagerRequestPredictionUpdate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPredictionManager, "requestPredictionUpdate"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -250,7 +250,7 @@ func (p *PredictionManagerProxy) OnDestroyPredictionSession(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPredictionManagerOnDestroyPredictionSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPredictionManager, "onDestroyPredictionSession"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -275,7 +275,7 @@ func (p *PredictionManagerProxy) RequestServiceFeatures(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPredictionManagerRequestServiceFeatures, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPredictionManager, "requestServiceFeatures"), 0, _data)
 	if _err != nil {
 		return _err
 	}

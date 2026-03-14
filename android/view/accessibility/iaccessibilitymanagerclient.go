@@ -49,7 +49,7 @@ func (p *AccessibilityManagerClientProxy) SetState(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManagerClient)
 	_data.WriteInt32(stateFlags)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerClientSetState, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManagerClient, "setState"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,7 +61,7 @@ func (p *AccessibilityManagerClientProxy) NotifyServicesStateChanged(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManagerClient)
 	_data.WriteInt64(updatedUiTimeout)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerClientNotifyServicesStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManagerClient, "notifyServicesStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,7 +73,7 @@ func (p *AccessibilityManagerClientProxy) SetRelevantEventTypes(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManagerClient)
 	_data.WriteInt32(eventTypes)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerClientSetRelevantEventTypes, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManagerClient, "setRelevantEventTypes"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,6 +87,6 @@ func (p *AccessibilityManagerClientProxy) SetFocusAppearance(
 	_data.WriteInt32(strokeWidth)
 	_data.WriteInt32(color)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerClientSetFocusAppearance, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManagerClient, "setFocusAppearance"), binder.FlagOneway, _data)
 	return _err
 }

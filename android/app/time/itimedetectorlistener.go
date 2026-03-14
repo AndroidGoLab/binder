@@ -41,6 +41,6 @@ func (p *TimeDetectorListenerProxy) OnChange(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionITimeDetectorListenerOnChange, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeDetectorListener, "onChange"), binder.FlagOneway, _data)
 	return _err
 }

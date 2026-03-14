@@ -41,7 +41,7 @@ func (p *SoundTriggerHwGlobalCallbackProxy) OnResourcesAvailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHwGlobalCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISoundTriggerHwGlobalCallbackOnResourcesAvailable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerHwGlobalCallback, "onResourcesAvailable"), 0, _data)
 	if _err != nil {
 		return _err
 	}

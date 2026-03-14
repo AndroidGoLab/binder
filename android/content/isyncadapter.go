@@ -47,7 +47,7 @@ func (p *SyncAdapterProxy) OnUnsyncableAccount(
 	_data.WriteInterfaceToken(DescriptorISyncAdapter)
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISyncAdapterOnUnsyncableAccount, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISyncAdapter, "onUnsyncableAccount"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,7 +63,7 @@ func (p *SyncAdapterProxy) StartSync(
 	_data.WriteStrongBinder(syncContext.AsBinder().Handle())
 	_data.WriteString16(authority)
 
-	_, _err := p.remote.Transact(ctx, TransactionISyncAdapterStartSync, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISyncAdapter, "startSync"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +75,6 @@ func (p *SyncAdapterProxy) CancelSync(
 	_data.WriteInterfaceToken(DescriptorISyncAdapter)
 	_data.WriteStrongBinder(syncContext.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISyncAdapterCancelSync, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISyncAdapter, "cancelSync"), binder.FlagOneway, _data)
 	return _err
 }

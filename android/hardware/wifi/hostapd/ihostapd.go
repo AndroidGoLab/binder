@@ -61,7 +61,7 @@ func (p *HostapdProxy) AddAccessPoint(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHostapdAddAccessPoint, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHostapd, "addAccessPoint"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -93,7 +93,7 @@ func (p *HostapdProxy) ForceClientDisconnect(
 	}
 	_data.WriteInt32(int32(reasonCode))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHostapdForceClientDisconnect, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHostapd, "forceClientDisconnect"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -114,7 +114,7 @@ func (p *HostapdProxy) RegisterCallback(
 	_data.WriteInterfaceToken(DescriptorIHostapd)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHostapdRegisterCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHostapd, "registerCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -135,7 +135,7 @@ func (p *HostapdProxy) RemoveAccessPoint(
 	_data.WriteInterfaceToken(DescriptorIHostapd)
 	_data.WriteString16(ifaceName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHostapdRemoveAccessPoint, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHostapd, "removeAccessPoint"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -156,7 +156,7 @@ func (p *HostapdProxy) SetDebugParams(
 	_data.WriteInterfaceToken(DescriptorIHostapd)
 	_data.WriteInt32(int32(level))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHostapdSetDebugParams, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHostapd, "setDebugParams"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -175,7 +175,7 @@ func (p *HostapdProxy) Terminate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHostapd)
 
-	_, _err := p.remote.Transact(ctx, TransactionIHostapdTerminate, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHostapd, "terminate"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -189,7 +189,7 @@ func (p *HostapdProxy) RemoveLinkFromMultipleLinkBridgedApIface(
 	_data.WriteString16(ifaceName)
 	_data.WriteString16(linkIdentity)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHostapdRemoveLinkFromMultipleLinkBridgedApIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHostapd, "removeLinkFromMultipleLinkBridgedApIface"), 0, _data)
 	if _err != nil {
 		return _err
 	}

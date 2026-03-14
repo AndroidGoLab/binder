@@ -75,7 +75,7 @@ func (p *PersistentDataBlockServiceProxy) Write(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPersistentDataBlockServiceWrite, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "write"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -99,7 +99,7 @@ func (p *PersistentDataBlockServiceProxy) Read(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPersistentDataBlockServiceRead, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "read"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -132,7 +132,7 @@ func (p *PersistentDataBlockServiceProxy) Wipe(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPersistentDataBlockServiceWipe, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "wipe"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -152,7 +152,7 @@ func (p *PersistentDataBlockServiceProxy) GetDataBlockSize(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPersistentDataBlockServiceGetDataBlockSize, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "getDataBlockSize"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -176,7 +176,7 @@ func (p *PersistentDataBlockServiceProxy) GetMaximumDataBlockSize(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPersistentDataBlockServiceGetMaximumDataBlockSize, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "getMaximumDataBlockSize"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -201,7 +201,7 @@ func (p *PersistentDataBlockServiceProxy) SetOemUnlockEnabled(
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 	_data.WriteBool(enabled)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPersistentDataBlockServiceSetOemUnlockEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "setOemUnlockEnabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -221,7 +221,7 @@ func (p *PersistentDataBlockServiceProxy) GetOemUnlockEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPersistentDataBlockServiceGetOemUnlockEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "getOemUnlockEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -245,7 +245,7 @@ func (p *PersistentDataBlockServiceProxy) GetFlashLockState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPersistentDataBlockServiceGetFlashLockState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "getFlashLockState"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -269,7 +269,7 @@ func (p *PersistentDataBlockServiceProxy) HasFrpCredentialHandle(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPersistentDataBlockServiceHasFrpCredentialHandle, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "hasFrpCredentialHandle"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -293,7 +293,7 @@ func (p *PersistentDataBlockServiceProxy) GetPersistentDataPackageName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPersistentDataBlockServiceGetPersistentDataPackageName, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "getPersistentDataPackageName"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -317,7 +317,7 @@ func (p *PersistentDataBlockServiceProxy) IsFactoryResetProtectionActive(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPersistentDataBlockService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPersistentDataBlockServiceIsFactoryResetProtectionActive, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "isFactoryResetProtectionActive"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -350,7 +350,7 @@ func (p *PersistentDataBlockServiceProxy) DeactivateFactoryResetProtection(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPersistentDataBlockServiceDeactivateFactoryResetProtection, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "deactivateFactoryResetProtection"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -383,7 +383,7 @@ func (p *PersistentDataBlockServiceProxy) SetFactoryResetProtectionSecret(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPersistentDataBlockServiceSetFactoryResetProtectionSecret, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "setFactoryResetProtectionSecret"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

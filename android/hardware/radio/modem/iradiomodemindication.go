@@ -65,7 +65,7 @@ func (p *RadioModemIndicationProxy) HardwareConfigChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemIndicationHardwareConfigChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModemIndication, "hardwareConfigChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,7 +79,7 @@ func (p *RadioModemIndicationProxy) ModemReset(
 	_data.WriteInt32(int32(type_))
 	_data.WriteString16(reason)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemIndicationModemReset, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModemIndication, "modemReset"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,7 +95,7 @@ func (p *RadioModemIndicationProxy) RadioCapabilityIndication(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemIndicationRadioCapabilityIndication, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModemIndication, "radioCapabilityIndication"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -109,7 +109,7 @@ func (p *RadioModemIndicationProxy) RadioStateChanged(
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(int32(radioState))
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemIndicationRadioStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModemIndication, "radioStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -121,7 +121,7 @@ func (p *RadioModemIndicationProxy) RilConnected(
 	_data.WriteInterfaceToken(DescriptorIRadioModemIndication)
 	_data.WriteInt32(int32(type_))
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemIndicationRilConnected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModemIndication, "rilConnected"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -137,6 +137,6 @@ func (p *RadioModemIndicationProxy) OnImeiMappingChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioModemIndicationOnImeiMappingChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioModemIndication, "onImeiMappingChanged"), binder.FlagOneway, _data)
 	return _err
 }

@@ -51,7 +51,7 @@ func (p *ImageProcessorImplProxy) OnNextImageAvailable(
 	}
 	_data.WriteString16(physicalCameraId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImageProcessorImplOnNextImageAvailable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImageProcessorImpl, "onNextImageAvailable"), 0, _data)
 	if _err != nil {
 		return _err
 	}

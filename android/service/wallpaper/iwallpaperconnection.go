@@ -55,7 +55,7 @@ func (p *WallpaperConnectionProxy) AttachEngine(
 	_data.WriteStrongBinder(engine.AsBinder().Handle())
 	_data.WriteInt32(displayId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWallpaperConnectionAttachEngine, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWallpaperConnection, "attachEngine"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -76,7 +76,7 @@ func (p *WallpaperConnectionProxy) EngineShown(
 	_data.WriteInterfaceToken(DescriptorIWallpaperConnection)
 	_data.WriteStrongBinder(engine.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWallpaperConnectionEngineShown, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWallpaperConnection, "engineShown"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -98,7 +98,7 @@ func (p *WallpaperConnectionProxy) SetWallpaper(
 	_data.WriteInterfaceToken(DescriptorIWallpaperConnection)
 	_data.WriteString16(name)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWallpaperConnectionSetWallpaper, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWallpaperConnection, "setWallpaper"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -127,7 +127,7 @@ func (p *WallpaperConnectionProxy) OnWallpaperColorsChanged(
 	}
 	_data.WriteInt32(displayId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWallpaperConnectionOnWallpaperColorsChanged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWallpaperConnection, "onWallpaperColorsChanged"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -156,7 +156,7 @@ func (p *WallpaperConnectionProxy) OnLocalWallpaperColorsChanged(
 	}
 	_data.WriteInt32(displayId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWallpaperConnectionOnLocalWallpaperColorsChanged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWallpaperConnection, "onLocalWallpaperColorsChanged"), 0, _data)
 	if _err != nil {
 		return _err
 	}

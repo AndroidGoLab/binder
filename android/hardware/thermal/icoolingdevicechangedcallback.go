@@ -45,6 +45,6 @@ func (p *CoolingDeviceChangedCallbackProxy) NotifyCoolingDeviceChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICoolingDeviceChangedCallbackNotifyCoolingDeviceChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICoolingDeviceChangedCallback, "notifyCoolingDeviceChanged"), binder.FlagOneway, _data)
 	return _err
 }

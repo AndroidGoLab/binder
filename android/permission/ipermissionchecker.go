@@ -69,7 +69,7 @@ func (p *PermissionCheckerProxy) CheckPermission(
 	_data.WriteBool(fromDatasource)
 	_data.WriteInt32(attributedOp)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPermissionCheckerCheckPermission, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionChecker, "checkPermission"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -100,7 +100,7 @@ func (p *PermissionCheckerProxy) FinishDataDelivery(
 	}
 	_data.WriteBool(fromDatasource)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPermissionCheckerFinishDataDelivery, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionChecker, "finishDataDelivery"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -132,7 +132,7 @@ func (p *PermissionCheckerProxy) CheckOp(
 	_data.WriteBool(forDataDelivery)
 	_data.WriteBool(startDataDelivery)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPermissionCheckerCheckOp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionChecker, "checkOp"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

@@ -45,6 +45,6 @@ func (p *AudioRoutesObserverProxy) DispatchAudioRoutesChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioRoutesObserverDispatchAudioRoutesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioRoutesObserver, "dispatchAudioRoutesChanged"), binder.FlagOneway, _data)
 	return _err
 }

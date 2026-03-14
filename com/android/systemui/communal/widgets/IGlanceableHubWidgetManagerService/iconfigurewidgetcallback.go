@@ -46,6 +46,6 @@ func (p *ConfigureWidgetCallbackProxy) OnConfigureWidget(
 	_data.WriteInt32(appWidgetId)
 	_data.WriteStrongBinder(resultReceiver.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIConfigureWidgetCallbackOnConfigureWidget, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConfigureWidgetCallback, "onConfigureWidget"), binder.FlagOneway, _data)
 	return _err
 }

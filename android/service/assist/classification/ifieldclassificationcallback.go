@@ -52,7 +52,7 @@ func (p *FieldClassificationCallbackProxy) OnCancellable(
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationCallback)
 	_data.WriteStrongBinder(cancellation.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFieldClassificationCallbackOnCancellable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFieldClassificationCallback, "onCancellable"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -75,7 +75,7 @@ func (p *FieldClassificationCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFieldClassificationCallbackOnSuccess, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFieldClassificationCallback, "onSuccess"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -94,7 +94,7 @@ func (p *FieldClassificationCallbackProxy) OnFailure(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFieldClassificationCallbackOnFailure, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFieldClassificationCallback, "onFailure"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -114,7 +114,7 @@ func (p *FieldClassificationCallbackProxy) IsCompleted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFieldClassificationCallbackIsCompleted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFieldClassificationCallback, "isCompleted"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -137,7 +137,7 @@ func (p *FieldClassificationCallbackProxy) Cancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFieldClassificationCallbackCancel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFieldClassificationCallback, "cancel"), 0, _data)
 	if _err != nil {
 		return _err
 	}

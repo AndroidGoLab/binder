@@ -43,7 +43,7 @@ func (p *BrailleDisplayConnectionProxy) Disconnect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBrailleDisplayConnection)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBrailleDisplayConnectionDisconnect, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBrailleDisplayConnection, "disconnect"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +62,6 @@ func (p *BrailleDisplayConnectionProxy) Write(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIBrailleDisplayConnectionWrite, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBrailleDisplayConnection, "write"), binder.FlagOneway, _data)
 	return _err
 }

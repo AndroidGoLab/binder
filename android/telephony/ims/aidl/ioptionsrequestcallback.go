@@ -50,7 +50,7 @@ func (p *OptionsRequestCallbackProxy) RespondToCapabilityRequest(
 	}
 	_data.WriteBool(isBlocked)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOptionsRequestCallbackRespondToCapabilityRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOptionsRequestCallback, "respondToCapabilityRequest"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +64,6 @@ func (p *OptionsRequestCallbackProxy) RespondToCapabilityRequestWithError(
 	_data.WriteInt32(code)
 	_data.WriteString16(reason)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOptionsRequestCallbackRespondToCapabilityRequestWithError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOptionsRequestCallback, "respondToCapabilityRequestWithError"), binder.FlagOneway, _data)
 	return _err
 }

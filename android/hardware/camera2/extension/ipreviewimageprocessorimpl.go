@@ -50,7 +50,7 @@ func (p *PreviewImageProcessorImplProxy) OnOutputSurface(
 	_data.WriteInterfaceToken(DescriptorIPreviewImageProcessorImpl)
 	_data.WriteInt32(imageFormat)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPreviewImageProcessorImplOnOutputSurface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPreviewImageProcessorImpl, "onOutputSurface"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,7 +73,7 @@ func (p *PreviewImageProcessorImplProxy) OnResolutionUpdate(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPreviewImageProcessorImplOnResolutionUpdate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPreviewImageProcessorImpl, "onResolutionUpdate"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -94,7 +94,7 @@ func (p *PreviewImageProcessorImplProxy) OnImageFormatUpdate(
 	_data.WriteInterfaceToken(DescriptorIPreviewImageProcessorImpl)
 	_data.WriteInt32(imageFormat)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPreviewImageProcessorImplOnImageFormatUpdate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPreviewImageProcessorImpl, "onImageFormatUpdate"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -122,7 +122,7 @@ func (p *PreviewImageProcessorImplProxy) Process(
 	_data.WriteInt32(sequenceId)
 	_data.WriteStrongBinder(resultCallback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPreviewImageProcessorImplProcess, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPreviewImageProcessorImpl, "process"), 0, _data)
 	if _err != nil {
 		return _err
 	}

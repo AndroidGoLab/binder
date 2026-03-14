@@ -47,7 +47,7 @@ func (p *RecognitionSupportCallbackProxy) OnSupportResult(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRecognitionSupportCallbackOnSupportResult, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecognitionSupportCallback, "onSupportResult"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,6 +59,6 @@ func (p *RecognitionSupportCallbackProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorIRecognitionSupportCallback)
 	_data.WriteInt32(error_)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRecognitionSupportCallbackOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecognitionSupportCallback, "onError"), binder.FlagOneway, _data)
 	return _err
 }

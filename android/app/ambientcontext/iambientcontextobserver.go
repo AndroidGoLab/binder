@@ -54,7 +54,7 @@ func (p *AmbientContextObserverProxy) OnEvents(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAmbientContextObserverOnEvents, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAmbientContextObserver, "onEvents"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +66,6 @@ func (p *AmbientContextObserverProxy) OnRegistrationComplete(
 	_data.WriteInterfaceToken(DescriptorIAmbientContextObserver)
 	_data.WriteInt32(statusCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAmbientContextObserverOnRegistrationComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAmbientContextObserver, "onRegistrationComplete"), binder.FlagOneway, _data)
 	return _err
 }

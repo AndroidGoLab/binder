@@ -43,6 +43,6 @@ func (p *RemoteMagnificationAnimationCallbackProxy) OnResult(
 	_data.WriteInterfaceToken(DescriptorIRemoteMagnificationAnimationCallback)
 	_data.WriteBool(success)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteMagnificationAnimationCallbackOnResult, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteMagnificationAnimationCallback, "onResult"), binder.FlagOneway, _data)
 	return _err
 }

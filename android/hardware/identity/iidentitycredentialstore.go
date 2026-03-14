@@ -67,7 +67,7 @@ func (p *IdentityCredentialStoreProxy) GetHardwareInformation(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredentialStore)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialStoreGetHardwareInformation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredentialStore, "getHardwareInformation"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -94,7 +94,7 @@ func (p *IdentityCredentialStoreProxy) CreateCredential(
 	_data.WriteString(docType)
 	_data.WriteBool(testCredential)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialStoreCreateCredential, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredentialStore, "createCredential"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -130,7 +130,7 @@ func (p *IdentityCredentialStoreProxy) GetCredential(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialStoreGetCredential, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredentialStore, "getCredential"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -157,7 +157,7 @@ func (p *IdentityCredentialStoreProxy) CreatePresentationSession(
 	_data.WriteInterfaceToken(DescriptorIIdentityCredentialStore)
 	_data.WriteInt32(int32(cipherSuite))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialStoreCreatePresentationSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredentialStore, "createPresentationSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -182,7 +182,7 @@ func (p *IdentityCredentialStoreProxy) GetRemotelyProvisionedComponent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredentialStore)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialStoreGetRemotelyProvisionedComponent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredentialStore, "getRemotelyProvisionedComponent"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

@@ -49,7 +49,7 @@ func (p *TestServiceProxy) SetIntData(
 	_data.WriteInterfaceToken(DescriptorITestService)
 	_data.WriteInt32(input)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITestServiceSetIntData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestService, "setIntData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,7 +70,7 @@ func (p *TestServiceProxy) SetCharData(
 	_data.WriteInterfaceToken(DescriptorITestService)
 	_data.WriteInt32(int32(input))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITestServiceSetCharData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestService, "setCharData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -91,7 +91,7 @@ func (p *TestServiceProxy) SetBooleanData(
 	_data.WriteInterfaceToken(DescriptorITestService)
 	_data.WriteBool(input)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITestServiceSetBooleanData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestService, "setBooleanData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -112,7 +112,7 @@ func (p *TestServiceProxy) SetService(
 	_data.WriteInterfaceToken(DescriptorITestService)
 	_data.WriteStrongBinder(service.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITestServiceSetService, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestService, "setService"), 0, _data)
 	if _err != nil {
 		return _err
 	}

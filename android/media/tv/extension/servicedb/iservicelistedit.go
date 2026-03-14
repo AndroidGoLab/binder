@@ -87,7 +87,7 @@ func (p *ServiceListEditProxy) Open(
 	_data.WriteInterfaceToken(DescriptorIServiceListEdit)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditOpen, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "open"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -111,7 +111,7 @@ func (p *ServiceListEditProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceListEdit)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditClose, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "close"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -135,7 +135,7 @@ func (p *ServiceListEditProxy) Commit(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceListEdit)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditCommit, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "commit"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -159,7 +159,7 @@ func (p *ServiceListEditProxy) UserEditCommit(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceListEdit)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditUserEditCommit, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "userEditCommit"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -194,7 +194,7 @@ func (p *ServiceListEditProxy) GetServiceInfoFromDatabase(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditGetServiceInfoFromDatabase, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "getServiceInfoFromDatabase"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -228,7 +228,7 @@ func (p *ServiceListEditProxy) GetServiceInfoListFromDatabase(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditGetServiceInfoListFromDatabase, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "getServiceInfoListFromDatabase"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -253,7 +253,7 @@ func (p *ServiceListEditProxy) GetServiceInfoIdsFromDatabase(
 	_data.WriteInterfaceToken(DescriptorIServiceListEdit)
 	_data.WriteString16(inServiceListId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditGetServiceInfoIdsFromDatabase, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "getServiceInfoIdsFromDatabase"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -291,7 +291,7 @@ func (p *ServiceListEditProxy) UpdateServiceInfoFromDatabase(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditUpdateServiceInfoFromDatabase, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "updateServiceInfoFromDatabase"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -326,7 +326,7 @@ func (p *ServiceListEditProxy) UpdateServiceInfoByListFromDatabase(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditUpdateServiceInfoByListFromDatabase, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "updateServiceInfoByListFromDatabase"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -352,7 +352,7 @@ func (p *ServiceListEditProxy) RemoveServiceInfoFromDatabase(
 	_data.WriteInterfaceToken(DescriptorIServiceListEdit)
 	_data.WriteString16(serviceInfoId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditRemoveServiceInfoFromDatabase, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "removeServiceInfoFromDatabase"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -385,7 +385,7 @@ func (p *ServiceListEditProxy) RemoveServiceInfoByListFromDatabase(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditRemoveServiceInfoByListFromDatabase, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "removeServiceInfoByListFromDatabase"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -409,7 +409,7 @@ func (p *ServiceListEditProxy) GetServiceListChannelIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceListEdit)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditGetServiceListChannelIds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "getServiceListChannelIds"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -454,7 +454,7 @@ func (p *ServiceListEditProxy) GetServiceListInfoByChannelId(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditGetServiceListInfoByChannelId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "getServiceListInfoByChannelId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -488,7 +488,7 @@ func (p *ServiceListEditProxy) GetTransportStreamInfoList(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditGetTransportStreamInfoList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "getTransportStreamInfoList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -522,7 +522,7 @@ func (p *ServiceListEditProxy) GetTransportStreamInfoListForce(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditGetTransportStreamInfoListForce, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "getTransportStreamInfoListForce"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -556,7 +556,7 @@ func (p *ServiceListEditProxy) GetNetworkInfoList(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditGetNetworkInfoList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "getNetworkInfoList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -590,7 +590,7 @@ func (p *ServiceListEditProxy) GetSatelliteInfoList(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditGetSatelliteInfoList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "getSatelliteInfoList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -619,7 +619,7 @@ func (p *ServiceListEditProxy) ToRecordInfoByType(
 	}
 	_data.WriteString16(recordType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditToRecordInfoByType, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "toRecordInfoByType"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -651,7 +651,7 @@ func (p *ServiceListEditProxy) PutRecordIdList(
 	}
 	_data.WriteInt32(optType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditPutRecordIdList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "putRecordIdList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -685,7 +685,7 @@ func (p *ServiceListEditProxy) AddPredefinedServiceListInfo(
 	_data.WriteString16(countryCode)
 	_data.WriteInt32(operatorId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditAddPredefinedServiceListInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "addPredefinedServiceListInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -722,7 +722,7 @@ func (p *ServiceListEditProxy) AddPredefinedChannelList(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditAddPredefinedChannelList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "addPredefinedChannelList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -752,7 +752,7 @@ func (p *ServiceListEditProxy) AddPredefinedSatInfo(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListEditAddPredefinedSatInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListEdit, "addPredefinedSatInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

@@ -52,6 +52,6 @@ func (p *RemoteTaskCallbackProxy) OnRemoteTaskRequested(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteTaskCallbackOnRemoteTaskRequested, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteTaskCallback, "onRemoteTaskRequested"), binder.FlagOneway, _data)
 	return _err
 }

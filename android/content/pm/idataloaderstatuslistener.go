@@ -58,6 +58,6 @@ func (p *DataLoaderStatusListenerProxy) OnStatusChanged(
 	_data.WriteInt32(dataLoaderId)
 	_data.WriteInt32(status)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataLoaderStatusListenerOnStatusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataLoaderStatusListener, "onStatusChanged"), binder.FlagOneway, _data)
 	return _err
 }

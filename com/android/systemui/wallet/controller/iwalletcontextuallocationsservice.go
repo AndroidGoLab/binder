@@ -45,7 +45,7 @@ func (p *WalletContextualLocationsServiceProxy) AddWalletCardsUpdatedListener(
 	_data.WriteInterfaceToken(DescriptorIWalletContextualLocationsService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWalletContextualLocationsServiceAddWalletCardsUpdatedListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWalletContextualLocationsService, "addWalletCardsUpdatedListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,7 +73,7 @@ func (p *WalletContextualLocationsServiceProxy) OnWalletContextualLocationsState
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWalletContextualLocationsServiceOnWalletContextualLocationsStateUpdated, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWalletContextualLocationsService, "onWalletContextualLocationsStateUpdated"), 0, _data)
 	if _err != nil {
 		return _err
 	}

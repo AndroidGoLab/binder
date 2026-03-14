@@ -50,7 +50,7 @@ func (p *BluetoothChannelSoundingProxy) GetVendorSpecificData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSounding)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBluetoothChannelSoundingGetVendorSpecificData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBluetoothChannelSounding, "getVendorSpecificData"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -83,7 +83,7 @@ func (p *BluetoothChannelSoundingProxy) GetSupportedSessionTypes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSounding)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBluetoothChannelSoundingGetSupportedSessionTypes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBluetoothChannelSounding, "getSupportedSessionTypes"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -118,7 +118,7 @@ func (p *BluetoothChannelSoundingProxy) GetMaxSupportedCsSecurityLevel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSounding)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBluetoothChannelSoundingGetMaxSupportedCsSecurityLevel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBluetoothChannelSounding, "getMaxSupportedCsSecurityLevel"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -149,7 +149,7 @@ func (p *BluetoothChannelSoundingProxy) OpenSession(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBluetoothChannelSoundingOpenSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBluetoothChannelSounding, "openSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -174,7 +174,7 @@ func (p *BluetoothChannelSoundingProxy) GetSupportedCsSecurityLevels(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSounding)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBluetoothChannelSoundingGetSupportedCsSecurityLevels, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBluetoothChannelSounding, "getSupportedCsSecurityLevels"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

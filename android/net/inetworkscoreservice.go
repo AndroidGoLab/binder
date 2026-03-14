@@ -73,7 +73,7 @@ func (p *NetworkScoreServiceProxy) UpdateScores(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINetworkScoreServiceUpdateScores, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkScoreService, "updateScores"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -97,7 +97,7 @@ func (p *NetworkScoreServiceProxy) ClearScores(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINetworkScoreServiceClearScores, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkScoreService, "clearScores"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -123,7 +123,7 @@ func (p *NetworkScoreServiceProxy) SetActiveScorer(
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINetworkScoreServiceSetActiveScorer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkScoreService, "setActiveScorer"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -146,7 +146,7 @@ func (p *NetworkScoreServiceProxy) DisableScoring(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINetworkScoreServiceDisableScoring, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkScoreService, "disableScoring"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -171,7 +171,7 @@ func (p *NetworkScoreServiceProxy) RegisterNetworkScoreCache(
 	_data.WriteStrongBinder(scoreCache.AsBinder().Handle())
 	_data.WriteInt32(filterType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINetworkScoreServiceRegisterNetworkScoreCache, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkScoreService, "registerNetworkScoreCache"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -194,7 +194,7 @@ func (p *NetworkScoreServiceProxy) UnregisterNetworkScoreCache(
 	_data.WriteInt32(networkType)
 	_data.WriteStrongBinder(scoreCache.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINetworkScoreServiceUnregisterNetworkScoreCache, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkScoreService, "unregisterNetworkScoreCache"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -225,7 +225,7 @@ func (p *NetworkScoreServiceProxy) RequestScores(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINetworkScoreServiceRequestScores, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkScoreService, "requestScores"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -251,7 +251,7 @@ func (p *NetworkScoreServiceProxy) IsCallerActiveScorer(
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 	_data.WriteInt32(callingUid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINetworkScoreServiceIsCallerActiveScorer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkScoreService, "isCallerActiveScorer"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -275,7 +275,7 @@ func (p *NetworkScoreServiceProxy) GetActiveScorerPackage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINetworkScoreServiceGetActiveScorerPackage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkScoreService, "getActiveScorerPackage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -299,7 +299,7 @@ func (p *NetworkScoreServiceProxy) GetActiveScorer(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINetworkScoreServiceGetActiveScorer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkScoreService, "getActiveScorer"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -322,7 +322,7 @@ func (p *NetworkScoreServiceProxy) GetAllValidScorers(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINetworkScoreServiceGetAllValidScorers, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkScoreService, "getAllValidScorers"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

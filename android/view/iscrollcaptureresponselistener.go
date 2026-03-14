@@ -45,6 +45,6 @@ func (p *ScrollCaptureResponseListenerProxy) OnScrollCaptureResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIScrollCaptureResponseListenerOnScrollCaptureResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScrollCaptureResponseListener, "onScrollCaptureResponse"), binder.FlagOneway, _data)
 	return _err
 }

@@ -56,7 +56,7 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusGrant(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
 	_data.WriteInt32(requestResult)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioPolicyCallbackNotifyAudioFocusGrant, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyAudioFocusGrant"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,7 +69,7 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusLoss(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
 	_data.WriteBool(wasNotified)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioPolicyCallbackNotifyAudioFocusLoss, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyAudioFocusLoss"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,7 +82,7 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusRequest(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
 	_data.WriteInt32(requestResult)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioPolicyCallbackNotifyAudioFocusRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyAudioFocusRequest"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -93,7 +93,7 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusAbandon(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioPolicyCallbackNotifyAudioFocusAbandon, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyAudioFocusAbandon"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,7 +107,7 @@ func (p *AudioPolicyCallbackProxy) NotifyMixStateUpdate(
 	_data.WriteString16(regId)
 	_data.WriteInt32(state)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioPolicyCallbackNotifyMixStateUpdate, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyMixStateUpdate"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,7 +119,7 @@ func (p *AudioPolicyCallbackProxy) NotifyVolumeAdjust(
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
 	_data.WriteInt32(adjustment)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioPolicyCallbackNotifyVolumeAdjust, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyVolumeAdjust"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,6 +129,6 @@ func (p *AudioPolicyCallbackProxy) NotifyUnregistration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioPolicyCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioPolicyCallbackNotifyUnregistration, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyUnregistration"), binder.FlagOneway, _data)
 	return _err
 }

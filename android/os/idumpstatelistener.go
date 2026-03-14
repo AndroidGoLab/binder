@@ -60,7 +60,7 @@ func (p *DumpstateListenerProxy) OnProgress(
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
 	_data.WriteInt32(progress)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDumpstateListenerOnProgress, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDumpstateListener, "onProgress"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,7 +72,7 @@ func (p *DumpstateListenerProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
 	_data.WriteInt32(errorCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDumpstateListenerOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDumpstateListener, "onError"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,7 +84,7 @@ func (p *DumpstateListenerProxy) OnFinished(
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
 	_data.WriteString16(bugreportFile)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDumpstateListenerOnFinished, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDumpstateListener, "onFinished"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,7 +96,7 @@ func (p *DumpstateListenerProxy) OnScreenshotTaken(
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
 	_data.WriteBool(success)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDumpstateListenerOnScreenshotTaken, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDumpstateListener, "onScreenshotTaken"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,6 +106,6 @@ func (p *DumpstateListenerProxy) OnUiIntensiveBugreportDumpsFinished(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDumpstateListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDumpstateListenerOnUiIntensiveBugreportDumpsFinished, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDumpstateListener, "onUiIntensiveBugreportDumpsFinished"), binder.FlagOneway, _data)
 	return _err
 }

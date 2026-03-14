@@ -50,7 +50,7 @@ func (p *RequestUpdateProcessorImplProxy) OnOutputSurface(
 	_data.WriteInterfaceToken(DescriptorIRequestUpdateProcessorImpl)
 	_data.WriteInt32(imageFormat)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRequestUpdateProcessorImplOnOutputSurface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRequestUpdateProcessorImpl, "onOutputSurface"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,7 +73,7 @@ func (p *RequestUpdateProcessorImplProxy) OnResolutionUpdate(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRequestUpdateProcessorImplOnResolutionUpdate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRequestUpdateProcessorImpl, "onResolutionUpdate"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -94,7 +94,7 @@ func (p *RequestUpdateProcessorImplProxy) OnImageFormatUpdate(
 	_data.WriteInterfaceToken(DescriptorIRequestUpdateProcessorImpl)
 	_data.WriteInt32(imageFormat)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRequestUpdateProcessorImplOnImageFormatUpdate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRequestUpdateProcessorImpl, "onImageFormatUpdate"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -117,7 +117,7 @@ func (p *RequestUpdateProcessorImplProxy) Process(
 	_data.WriteInterfaceToken(DescriptorIRequestUpdateProcessorImpl)
 	_data.WriteInt32(sequenceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRequestUpdateProcessorImplProcess, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRequestUpdateProcessorImpl, "process"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

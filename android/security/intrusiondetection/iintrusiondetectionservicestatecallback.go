@@ -44,6 +44,6 @@ func (p *IntrusionDetectionServiceStateCallbackProxy) OnStateChange(
 	_data.WriteInterfaceToken(DescriptorIIntrusionDetectionServiceStateCallback)
 	_data.WriteInt32(int32(state))
 
-	_, _err := p.remote.Transact(ctx, TransactionIIntrusionDetectionServiceStateCallbackOnStateChange, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIntrusionDetectionServiceStateCallback, "onStateChange"), binder.FlagOneway, _data)
 	return _err
 }

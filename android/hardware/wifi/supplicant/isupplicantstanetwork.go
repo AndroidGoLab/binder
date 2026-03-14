@@ -243,7 +243,7 @@ func (p *SupplicantStaNetworkProxy) Disable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkDisable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "disable"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -264,7 +264,7 @@ func (p *SupplicantStaNetworkProxy) Enable(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(noConnect)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkEnable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "enable"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -285,7 +285,7 @@ func (p *SupplicantStaNetworkProxy) EnableSaePkOnlyMode(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkEnableSaePkOnlyMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "enableSaePkOnlyMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -304,7 +304,7 @@ func (p *SupplicantStaNetworkProxy) EnableSuiteBEapOpenSslCiphers(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkEnableSuiteBEapOpenSslCiphers, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "enableSuiteBEapOpenSslCiphers"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -325,7 +325,7 @@ func (p *SupplicantStaNetworkProxy) EnableTlsSuiteBEapPhase1Param(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkEnableTlsSuiteBEapPhase1Param, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "enableTlsSuiteBEapPhase1Param"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -345,7 +345,7 @@ func (p *SupplicantStaNetworkProxy) GetAuthAlg(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetAuthAlg, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getAuthAlg"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -370,7 +370,7 @@ func (p *SupplicantStaNetworkProxy) GetBssid(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetBssid, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getBssid"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -404,7 +404,7 @@ func (p *SupplicantStaNetworkProxy) GetEapAltSubjectMatch(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetEapAltSubjectMatch, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapAltSubjectMatch"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -428,7 +428,7 @@ func (p *SupplicantStaNetworkProxy) GetEapAnonymousIdentity(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetEapAnonymousIdentity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapAnonymousIdentity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -462,7 +462,7 @@ func (p *SupplicantStaNetworkProxy) GetEapCACert(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetEapCACert, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapCACert"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -486,7 +486,7 @@ func (p *SupplicantStaNetworkProxy) GetEapCAPath(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetEapCAPath, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapCAPath"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -510,7 +510,7 @@ func (p *SupplicantStaNetworkProxy) GetEapClientCert(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetEapClientCert, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapClientCert"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -534,7 +534,7 @@ func (p *SupplicantStaNetworkProxy) GetEapDomainSuffixMatch(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetEapDomainSuffixMatch, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapDomainSuffixMatch"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -558,7 +558,7 @@ func (p *SupplicantStaNetworkProxy) GetEapEngine(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetEapEngine, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapEngine"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -582,7 +582,7 @@ func (p *SupplicantStaNetworkProxy) GetEapEngineId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetEapEngineId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapEngineId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -606,7 +606,7 @@ func (p *SupplicantStaNetworkProxy) GetEapIdentity(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetEapIdentity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapIdentity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -640,7 +640,7 @@ func (p *SupplicantStaNetworkProxy) GetEapMethod(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetEapMethod, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapMethod"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -665,7 +665,7 @@ func (p *SupplicantStaNetworkProxy) GetEapPassword(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetEapPassword, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapPassword"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -699,7 +699,7 @@ func (p *SupplicantStaNetworkProxy) GetEapPhase2Method(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetEapPhase2Method, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapPhase2Method"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -724,7 +724,7 @@ func (p *SupplicantStaNetworkProxy) GetEapPrivateKeyId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetEapPrivateKeyId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapPrivateKeyId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -748,7 +748,7 @@ func (p *SupplicantStaNetworkProxy) GetEapSubjectMatch(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetEapSubjectMatch, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapSubjectMatch"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -772,7 +772,7 @@ func (p *SupplicantStaNetworkProxy) GetEdmg(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetEdmg, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEdmg"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -796,7 +796,7 @@ func (p *SupplicantStaNetworkProxy) GetGroupCipher(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetGroupCipher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getGroupCipher"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -821,7 +821,7 @@ func (p *SupplicantStaNetworkProxy) GetGroupMgmtCipher(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetGroupMgmtCipher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getGroupMgmtCipher"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -846,7 +846,7 @@ func (p *SupplicantStaNetworkProxy) GetId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -870,7 +870,7 @@ func (p *SupplicantStaNetworkProxy) GetIdStr(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetIdStr, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getIdStr"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -894,7 +894,7 @@ func (p *SupplicantStaNetworkProxy) GetInterfaceName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetInterfaceName, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getInterfaceName"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -918,7 +918,7 @@ func (p *SupplicantStaNetworkProxy) GetKeyMgmt(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetKeyMgmt, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getKeyMgmt"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -943,7 +943,7 @@ func (p *SupplicantStaNetworkProxy) GetOcsp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetOcsp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getOcsp"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -968,7 +968,7 @@ func (p *SupplicantStaNetworkProxy) GetPairwiseCipher(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetPairwiseCipher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getPairwiseCipher"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -993,7 +993,7 @@ func (p *SupplicantStaNetworkProxy) GetProto(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetProto, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getProto"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1018,7 +1018,7 @@ func (p *SupplicantStaNetworkProxy) GetPsk(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetPsk, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getPsk"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1052,7 +1052,7 @@ func (p *SupplicantStaNetworkProxy) GetPskPassphrase(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetPskPassphrase, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getPskPassphrase"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1076,7 +1076,7 @@ func (p *SupplicantStaNetworkProxy) GetRequirePmf(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetRequirePmf, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getRequirePmf"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1100,7 +1100,7 @@ func (p *SupplicantStaNetworkProxy) GetSaePassword(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetSaePassword, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getSaePassword"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1124,7 +1124,7 @@ func (p *SupplicantStaNetworkProxy) GetSaePasswordId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetSaePasswordId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getSaePasswordId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1148,7 +1148,7 @@ func (p *SupplicantStaNetworkProxy) GetScanSsid(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetScanSsid, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getScanSsid"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1172,7 +1172,7 @@ func (p *SupplicantStaNetworkProxy) GetSsid(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetSsid, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getSsid"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1206,7 +1206,7 @@ func (p *SupplicantStaNetworkProxy) GetType(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetType, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getType"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1231,7 +1231,7 @@ func (p *SupplicantStaNetworkProxy) GetWapiCertSuite(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetWapiCertSuite, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getWapiCertSuite"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1257,7 +1257,7 @@ func (p *SupplicantStaNetworkProxy) GetWepKey(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(keyIdx)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetWepKey, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getWepKey"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1291,7 +1291,7 @@ func (p *SupplicantStaNetworkProxy) GetWepTxKeyIdx(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetWepTxKeyIdx, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getWepTxKeyIdx"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1315,7 +1315,7 @@ func (p *SupplicantStaNetworkProxy) GetWpsNfcConfigurationToken(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkGetWpsNfcConfigurationToken, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getWpsNfcConfigurationToken"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1350,7 +1350,7 @@ func (p *SupplicantStaNetworkProxy) RegisterCallback(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkRegisterCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "registerCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1369,7 +1369,7 @@ func (p *SupplicantStaNetworkProxy) Select(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSelect, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "select"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1406,7 +1406,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapIdentityResponse(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSendNetworkEapIdentityResponse, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "sendNetworkEapIdentityResponse"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1425,7 +1425,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapSimGsmAuthFailure(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSendNetworkEapSimGsmAuthFailure, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "sendNetworkEapSimGsmAuthFailure"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1455,7 +1455,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapSimGsmAuthResponse(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSendNetworkEapSimGsmAuthResponse, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "sendNetworkEapSimGsmAuthResponse"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1474,7 +1474,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapSimUmtsAuthFailure(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSendNetworkEapSimUmtsAuthFailure, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "sendNetworkEapSimUmtsAuthFailure"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1497,7 +1497,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapSimUmtsAuthResponse(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSendNetworkEapSimUmtsAuthResponse, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "sendNetworkEapSimUmtsAuthResponse"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1525,7 +1525,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapSimUmtsAutsResponse(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSendNetworkEapSimUmtsAutsResponse, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "sendNetworkEapSimUmtsAutsResponse"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1546,7 +1546,7 @@ func (p *SupplicantStaNetworkProxy) SetAuthAlg(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(authAlgMask))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetAuthAlg, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setAuthAlg"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1574,7 +1574,7 @@ func (p *SupplicantStaNetworkProxy) SetBssid(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetBssid, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setBssid"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1597,7 +1597,7 @@ func (p *SupplicantStaNetworkProxy) SetDppKeys(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetDppKeys, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setDppKeys"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1618,7 +1618,7 @@ func (p *SupplicantStaNetworkProxy) SetEapAltSubjectMatch(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(match)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEapAltSubjectMatch, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapAltSubjectMatch"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1646,7 +1646,7 @@ func (p *SupplicantStaNetworkProxy) SetEapAnonymousIdentity(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEapAnonymousIdentity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapAnonymousIdentity"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1667,7 +1667,7 @@ func (p *SupplicantStaNetworkProxy) SetEapCACert(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(path)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEapCACert, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapCACert"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1688,7 +1688,7 @@ func (p *SupplicantStaNetworkProxy) SetEapCAPath(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(path)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEapCAPath, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapCAPath"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1709,7 +1709,7 @@ func (p *SupplicantStaNetworkProxy) SetEapClientCert(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(path)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEapClientCert, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapClientCert"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1730,7 +1730,7 @@ func (p *SupplicantStaNetworkProxy) SetEapDomainSuffixMatch(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(match)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEapDomainSuffixMatch, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapDomainSuffixMatch"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1758,7 +1758,7 @@ func (p *SupplicantStaNetworkProxy) SetEapEncryptedImsiIdentity(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEapEncryptedImsiIdentity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapEncryptedImsiIdentity"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1779,7 +1779,7 @@ func (p *SupplicantStaNetworkProxy) SetEapEngine(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEapEngine, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapEngine"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1800,7 +1800,7 @@ func (p *SupplicantStaNetworkProxy) SetEapEngineID(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(id)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEapEngineID, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapEngineID"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1821,7 +1821,7 @@ func (p *SupplicantStaNetworkProxy) SetEapErp(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEapErp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapErp"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1849,7 +1849,7 @@ func (p *SupplicantStaNetworkProxy) SetEapIdentity(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEapIdentity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapIdentity"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1870,7 +1870,7 @@ func (p *SupplicantStaNetworkProxy) SetEapMethod(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(method))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEapMethod, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapMethod"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1898,7 +1898,7 @@ func (p *SupplicantStaNetworkProxy) SetEapPassword(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEapPassword, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapPassword"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1919,7 +1919,7 @@ func (p *SupplicantStaNetworkProxy) SetEapPhase2Method(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(method))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEapPhase2Method, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapPhase2Method"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1940,7 +1940,7 @@ func (p *SupplicantStaNetworkProxy) SetEapPrivateKeyId(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(id)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEapPrivateKeyId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapPrivateKeyId"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1961,7 +1961,7 @@ func (p *SupplicantStaNetworkProxy) SetEapSubjectMatch(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(match)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEapSubjectMatch, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapSubjectMatch"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1982,7 +1982,7 @@ func (p *SupplicantStaNetworkProxy) SetEdmg(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetEdmg, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEdmg"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2003,7 +2003,7 @@ func (p *SupplicantStaNetworkProxy) SetGroupCipher(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(groupCipherMask))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetGroupCipher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setGroupCipher"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2024,7 +2024,7 @@ func (p *SupplicantStaNetworkProxy) SetGroupMgmtCipher(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(groupMgmtCipherMask))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetGroupMgmtCipher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setGroupMgmtCipher"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2045,7 +2045,7 @@ func (p *SupplicantStaNetworkProxy) SetIdStr(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(idStr)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetIdStr, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setIdStr"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2066,7 +2066,7 @@ func (p *SupplicantStaNetworkProxy) SetKeyMgmt(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(keyMgmtMask))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetKeyMgmt, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setKeyMgmt"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2087,7 +2087,7 @@ func (p *SupplicantStaNetworkProxy) SetOcsp(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(ocspType))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetOcsp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setOcsp"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2108,7 +2108,7 @@ func (p *SupplicantStaNetworkProxy) SetPairwiseCipher(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(pairwiseCipherMask))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetPairwiseCipher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setPairwiseCipher"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2136,7 +2136,7 @@ func (p *SupplicantStaNetworkProxy) SetPmkCache(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetPmkCache, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setPmkCache"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2157,7 +2157,7 @@ func (p *SupplicantStaNetworkProxy) SetProactiveKeyCaching(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetProactiveKeyCaching, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setProactiveKeyCaching"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2178,7 +2178,7 @@ func (p *SupplicantStaNetworkProxy) SetProto(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(protoMask))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetProto, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setProto"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2206,7 +2206,7 @@ func (p *SupplicantStaNetworkProxy) SetPsk(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetPsk, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setPsk"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2227,7 +2227,7 @@ func (p *SupplicantStaNetworkProxy) SetPskPassphrase(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(psk)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetPskPassphrase, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setPskPassphrase"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2248,7 +2248,7 @@ func (p *SupplicantStaNetworkProxy) SetRequirePmf(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetRequirePmf, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setRequirePmf"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2269,7 +2269,7 @@ func (p *SupplicantStaNetworkProxy) SetSaeH2eMode(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WritePaddedByte(byte(mode))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetSaeH2eMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setSaeH2eMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2290,7 +2290,7 @@ func (p *SupplicantStaNetworkProxy) SetSaePassword(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(saePassword)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetSaePassword, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setSaePassword"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2311,7 +2311,7 @@ func (p *SupplicantStaNetworkProxy) SetSaePasswordId(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(saePasswordId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetSaePasswordId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setSaePasswordId"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2332,7 +2332,7 @@ func (p *SupplicantStaNetworkProxy) SetScanSsid(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetScanSsid, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setScanSsid"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2360,7 +2360,7 @@ func (p *SupplicantStaNetworkProxy) SetSsid(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetSsid, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setSsid"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2381,7 +2381,7 @@ func (p *SupplicantStaNetworkProxy) SetUpdateIdentifier(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(id)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetUpdateIdentifier, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setUpdateIdentifier"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2402,7 +2402,7 @@ func (p *SupplicantStaNetworkProxy) SetWapiCertSuite(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteString16(suite)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetWapiCertSuite, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setWapiCertSuite"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2432,7 +2432,7 @@ func (p *SupplicantStaNetworkProxy) SetWepKey(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetWepKey, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setWepKey"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2453,7 +2453,7 @@ func (p *SupplicantStaNetworkProxy) SetWepTxKeyIdx(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(keyIdx)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetWepTxKeyIdx, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setWepTxKeyIdx"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2481,7 +2481,7 @@ func (p *SupplicantStaNetworkProxy) SetRoamingConsortiumSelection(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetRoamingConsortiumSelection, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setRoamingConsortiumSelection"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2502,7 +2502,7 @@ func (p *SupplicantStaNetworkProxy) SetMinimumTlsVersionEapPhase1Param(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteInt32(int32(tlsVersion))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetMinimumTlsVersionEapPhase1Param, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setMinimumTlsVersionEapPhase1Param"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2523,7 +2523,7 @@ func (p *SupplicantStaNetworkProxy) SetStrictConservativePeerMode(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetStrictConservativePeerMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setStrictConservativePeerMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2542,7 +2542,7 @@ func (p *SupplicantStaNetworkProxy) DisableEht(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkDisableEht, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "disableEht"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2572,7 +2572,7 @@ func (p *SupplicantStaNetworkProxy) SetVendorData(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkSetVendorData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setVendorData"), 0, _data)
 	if _err != nil {
 		return _err
 	}

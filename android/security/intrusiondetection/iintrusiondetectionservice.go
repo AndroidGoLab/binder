@@ -49,7 +49,7 @@ func (p *IntrusionDetectionServiceProxy) AddStateCallback(
 	_data.WriteInterfaceToken(DescriptorIIntrusionDetectionService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIntrusionDetectionServiceAddStateCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIntrusionDetectionService, "addStateCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,7 +70,7 @@ func (p *IntrusionDetectionServiceProxy) RemoveStateCallback(
 	_data.WriteInterfaceToken(DescriptorIIntrusionDetectionService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIntrusionDetectionServiceRemoveStateCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIntrusionDetectionService, "removeStateCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -91,7 +91,7 @@ func (p *IntrusionDetectionServiceProxy) Enable(
 	_data.WriteInterfaceToken(DescriptorIIntrusionDetectionService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIntrusionDetectionServiceEnable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIntrusionDetectionService, "enable"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -112,7 +112,7 @@ func (p *IntrusionDetectionServiceProxy) Disable(
 	_data.WriteInterfaceToken(DescriptorIIntrusionDetectionService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIntrusionDetectionServiceDisable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIntrusionDetectionService, "disable"), 0, _data)
 	if _err != nil {
 		return _err
 	}

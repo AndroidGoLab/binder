@@ -52,6 +52,6 @@ func (p *LoadBoundProfilePackageCallbackProxy) OnComplete(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionILoadBoundProfilePackageCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILoadBoundProfilePackageCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

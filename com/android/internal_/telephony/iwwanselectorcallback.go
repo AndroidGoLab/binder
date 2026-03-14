@@ -60,7 +60,7 @@ func (p *WwanSelectorCallbackProxy) OnRequestEmergencyNetworkScan(
 	_data.WriteBool(resetScan)
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIWwanSelectorCallbackOnRequestEmergencyNetworkScan, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWwanSelectorCallback, "onRequestEmergencyNetworkScan"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,7 +74,7 @@ func (p *WwanSelectorCallbackProxy) OnDomainSelected(
 	_data.WriteInt32(domain)
 	_data.WriteBool(useEmergencyPdn)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWwanSelectorCallbackOnDomainSelected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWwanSelectorCallback, "onDomainSelected"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,6 +84,6 @@ func (p *WwanSelectorCallbackProxy) OnCancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWwanSelectorCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWwanSelectorCallbackOnCancel, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWwanSelectorCallback, "onCancel"), binder.FlagOneway, _data)
 	return _err
 }

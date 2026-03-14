@@ -83,7 +83,7 @@ func (p *ImsMMTelFeatureProxy) StartSession(
 	}
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureStartSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "startSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -108,7 +108,7 @@ func (p *ImsMMTelFeatureProxy) EndSession(
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 	_data.WriteInt32(sessionId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureEndSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "endSession"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -132,7 +132,7 @@ func (p *ImsMMTelFeatureProxy) IsConnected(
 	_data.WriteInt32(callSessionType)
 	_data.WriteInt32(callType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureIsConnected, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "isConnected"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -156,7 +156,7 @@ func (p *ImsMMTelFeatureProxy) IsOpened(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureIsOpened, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "isOpened"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -180,7 +180,7 @@ func (p *ImsMMTelFeatureProxy) GetFeatureStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureGetFeatureStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "getFeatureStatus"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -205,7 +205,7 @@ func (p *ImsMMTelFeatureProxy) AddRegistrationListener(
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureAddRegistrationListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "addRegistrationListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -226,7 +226,7 @@ func (p *ImsMMTelFeatureProxy) RemoveRegistrationListener(
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureRemoveRegistrationListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "removeRegistrationListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -252,7 +252,7 @@ func (p *ImsMMTelFeatureProxy) CreateCallProfile(
 	_data.WriteInt32(callSessionType)
 	_data.WriteInt32(callType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureCreateCallProfile, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "createCallProfile"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -281,7 +281,7 @@ func (p *ImsMMTelFeatureProxy) CreateCallSession(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureCreateCallSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "createCallSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -310,7 +310,7 @@ func (p *ImsMMTelFeatureProxy) GetPendingCallSession(
 	_data.WriteInt32(sessionId)
 	_data.WriteString16(callId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureGetPendingCallSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "getPendingCallSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -335,7 +335,7 @@ func (p *ImsMMTelFeatureProxy) GetUtInterface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureGetUtInterface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "getUtInterface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -360,7 +360,7 @@ func (p *ImsMMTelFeatureProxy) GetConfigInterface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureGetConfigInterface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "getConfigInterface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -384,7 +384,7 @@ func (p *ImsMMTelFeatureProxy) TurnOnIms(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureTurnOnIms, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "turnOnIms"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -403,7 +403,7 @@ func (p *ImsMMTelFeatureProxy) TurnOffIms(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureTurnOffIms, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "turnOffIms"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -423,7 +423,7 @@ func (p *ImsMMTelFeatureProxy) GetEcbmInterface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureGetEcbmInterface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "getEcbmInterface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -453,7 +453,7 @@ func (p *ImsMMTelFeatureProxy) SetUiTTYMode(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureSetUiTTYMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "setUiTTYMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -473,7 +473,7 @@ func (p *ImsMMTelFeatureProxy) GetMultiEndpointInterface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMMTelFeatureGetMultiEndpointInterface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMMTelFeature, "getMultiEndpointInterface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

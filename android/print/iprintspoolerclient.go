@@ -52,7 +52,7 @@ func (p *PrintSpoolerClientProxy) OnPrintJobQueued(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintSpoolerClientOnPrintJobQueued, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintSpoolerClient, "onPrintJobQueued"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,7 +66,7 @@ func (p *PrintSpoolerClientProxy) OnAllPrintJobsForServiceHandled(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintSpoolerClientOnAllPrintJobsForServiceHandled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintSpoolerClient, "onAllPrintJobsForServiceHandled"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,7 +76,7 @@ func (p *PrintSpoolerClientProxy) OnAllPrintJobsHandled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerClient)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintSpoolerClientOnAllPrintJobsHandled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintSpoolerClient, "onAllPrintJobsHandled"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,6 +90,6 @@ func (p *PrintSpoolerClientProxy) OnPrintJobStateChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintSpoolerClientOnPrintJobStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintSpoolerClient, "onPrintJobStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

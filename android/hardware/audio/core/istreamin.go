@@ -69,7 +69,7 @@ func (p *StreamInProxy) GetStreamCommon(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamInGetStreamCommon, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamIn, "getStreamCommon"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -94,7 +94,7 @@ func (p *StreamInProxy) GetActiveMicrophones(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamInGetActiveMicrophones, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamIn, "getActiveMicrophones"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -127,7 +127,7 @@ func (p *StreamInProxy) GetMicrophoneDirection(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamInGetMicrophoneDirection, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamIn, "getMicrophoneDirection"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -153,7 +153,7 @@ func (p *StreamInProxy) SetMicrophoneDirection(
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 	_data.WriteInt32(int32(direction))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamInSetMicrophoneDirection, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamIn, "setMicrophoneDirection"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -173,7 +173,7 @@ func (p *StreamInProxy) GetMicrophoneFieldDimension(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamInGetMicrophoneFieldDimension, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamIn, "getMicrophoneFieldDimension"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -198,7 +198,7 @@ func (p *StreamInProxy) SetMicrophoneFieldDimension(
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 	_data.WriteFloat32(zoom)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamInSetMicrophoneFieldDimension, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamIn, "setMicrophoneFieldDimension"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -221,7 +221,7 @@ func (p *StreamInProxy) UpdateMetadata(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamInUpdateMetadata, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamIn, "updateMetadata"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -241,7 +241,7 @@ func (p *StreamInProxy) GetHwGain(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamInGetHwGain, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamIn, "getHwGain"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -283,7 +283,7 @@ func (p *StreamInProxy) SetHwGain(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStreamInSetHwGain, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamIn, "setHwGain"), 0, _data)
 	if _err != nil {
 		return _err
 	}

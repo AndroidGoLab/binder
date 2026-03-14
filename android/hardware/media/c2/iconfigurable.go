@@ -58,7 +58,7 @@ func (p *ConfigurableProxy) Config(
 	}
 	_data.WriteBool(mayBlock)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIConfigurableConfig, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConfigurable, "config"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -78,7 +78,7 @@ func (p *ConfigurableProxy) GetId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIConfigurableGetId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConfigurable, "getId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -102,7 +102,7 @@ func (p *ConfigurableProxy) GetName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIConfigurableGetName, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConfigurable, "getName"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -137,7 +137,7 @@ func (p *ConfigurableProxy) Query(
 	}
 	_data.WriteBool(mayBlock)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIConfigurableQuery, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConfigurable, "query"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -161,7 +161,7 @@ func (p *ConfigurableProxy) QuerySupportedParams(
 	_data.WriteInt32(start)
 	_data.WriteInt32(count)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIConfigurableQuerySupportedParams, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConfigurable, "querySupportedParams"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -207,7 +207,7 @@ func (p *ConfigurableProxy) QuerySupportedValues(
 	}
 	_data.WriteBool(mayBlock)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIConfigurableQuerySupportedValues, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConfigurable, "querySupportedValues"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

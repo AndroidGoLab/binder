@@ -59,7 +59,7 @@ func (p *AuthMgrAuthorizationProxy) InitAuthentication(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAuthMgrAuthorizationInitAuthentication, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAuthMgrAuthorization, "initAuthentication"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -100,7 +100,7 @@ func (p *AuthMgrAuthorizationProxy) CompleteAuthentication(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAuthMgrAuthorizationCompleteAuthentication, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAuthMgrAuthorization, "completeAuthentication"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -143,7 +143,7 @@ func (p *AuthMgrAuthorizationProxy) AuthorizeAndConnectClientToTrustedService(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAuthMgrAuthorizationAuthorizeAndConnectClientToTrustedService, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAuthMgrAuthorization, "authorizeAndConnectClientToTrustedService"), 0, _data)
 	if _err != nil {
 		return _err
 	}

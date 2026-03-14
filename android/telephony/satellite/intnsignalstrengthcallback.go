@@ -45,6 +45,6 @@ func (p *NtnSignalStrengthCallbackProxy) OnNtnSignalStrengthChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINtnSignalStrengthCallbackOnNtnSignalStrengthChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINtnSignalStrengthCallback, "onNtnSignalStrengthChanged"), binder.FlagOneway, _data)
 	return _err
 }

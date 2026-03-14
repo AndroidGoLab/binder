@@ -60,7 +60,7 @@ func (p *LauncherUnlockAnimationControllerProxy) PrepareForUnlock(
 	}
 	_data.WriteInt32(selectedPage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionILauncherUnlockAnimationControllerPrepareForUnlock, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILauncherUnlockAnimationController, "prepareForUnlock"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -83,7 +83,7 @@ func (p *LauncherUnlockAnimationControllerProxy) SetUnlockAmount(
 	_data.WriteFloat32(amount)
 	_data.WriteBool(forceIfAnimating)
 
-	_, _err := p.remote.Transact(ctx, TransactionILauncherUnlockAnimationControllerSetUnlockAmount, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILauncherUnlockAnimationController, "setUnlockAmount"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,7 +99,7 @@ func (p *LauncherUnlockAnimationControllerProxy) PlayUnlockAnimation(
 	_data.WriteInt64(duration)
 	_data.WriteInt64(startDelay)
 
-	_, _err := p.remote.Transact(ctx, TransactionILauncherUnlockAnimationControllerPlayUnlockAnimation, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILauncherUnlockAnimationController, "playUnlockAnimation"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,7 +111,7 @@ func (p *LauncherUnlockAnimationControllerProxy) SetSmartspaceSelectedPage(
 	_data.WriteInterfaceToken(DescriptorILauncherUnlockAnimationController)
 	_data.WriteInt32(selectedPage)
 
-	_, _err := p.remote.Transact(ctx, TransactionILauncherUnlockAnimationControllerSetSmartspaceSelectedPage, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILauncherUnlockAnimationController, "setSmartspaceSelectedPage"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -123,7 +123,7 @@ func (p *LauncherUnlockAnimationControllerProxy) SetSmartspaceVisibility(
 	_data.WriteInterfaceToken(DescriptorILauncherUnlockAnimationController)
 	_data.WriteInt32(visibility)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionILauncherUnlockAnimationControllerSetSmartspaceVisibility, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILauncherUnlockAnimationController, "setSmartspaceVisibility"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -142,6 +142,6 @@ func (p *LauncherUnlockAnimationControllerProxy) DispatchSmartspaceStateToSysui(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILauncherUnlockAnimationController)
 
-	_, _err := p.remote.Transact(ctx, TransactionILauncherUnlockAnimationControllerDispatchSmartspaceStateToSysui, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILauncherUnlockAnimationController, "dispatchSmartspaceStateToSysui"), binder.FlagOneway, _data)
 	return _err
 }

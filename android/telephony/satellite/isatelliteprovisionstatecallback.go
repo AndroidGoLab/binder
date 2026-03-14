@@ -45,7 +45,7 @@ func (p *SatelliteProvisionStateCallbackProxy) OnSatelliteProvisionStateChanged(
 	_data.WriteInterfaceToken(DescriptorISatelliteProvisionStateCallback)
 	_data.WriteBool(provisioned)
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteProvisionStateCallbackOnSatelliteProvisionStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteProvisionStateCallback, "onSatelliteProvisionStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,6 +66,6 @@ func (p *SatelliteProvisionStateCallbackProxy) OnSatelliteSubscriptionProvisionS
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteProvisionStateCallbackOnSatelliteSubscriptionProvisionStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteProvisionStateCallback, "onSatelliteSubscriptionProvisionStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

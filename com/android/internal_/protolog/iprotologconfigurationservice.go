@@ -46,7 +46,7 @@ func (p *ProtoLogConfigurationServiceProxy) RegisterClient(
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 	_data.WriteStrongBinder(args.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIProtoLogConfigurationServiceRegisterClient, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProtoLogConfigurationService, "registerClient"), 0, _data)
 	if _err != nil {
 		return _err
 	}

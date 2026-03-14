@@ -42,6 +42,6 @@ func (p *ScreenCaptureListenerProxy) OnScreenCaptureCompleted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScreenCaptureListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIScreenCaptureListenerOnScreenCaptureCompleted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScreenCaptureListener, "onScreenCaptureCompleted"), binder.FlagOneway, _data)
 	return _err
 }

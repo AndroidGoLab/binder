@@ -52,6 +52,6 @@ func (p *OnChecksumsReadyListenerProxy) OnChecksumsReady(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnChecksumsReadyListenerOnChecksumsReady, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnChecksumsReadyListener, "onChecksumsReady"), binder.FlagOneway, _data)
 	return _err
 }

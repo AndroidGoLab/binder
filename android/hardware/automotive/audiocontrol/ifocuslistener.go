@@ -52,7 +52,7 @@ func (p *FocusListenerProxy) AbandonAudioFocus(
 	_data.WriteString16(usage)
 	_data.WriteInt32(zoneId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIFocusListenerAbandonAudioFocus, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFocusListener, "abandonAudioFocus"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,7 +68,7 @@ func (p *FocusListenerProxy) RequestAudioFocus(
 	_data.WriteInt32(zoneId)
 	_data.WriteInt32(int32(focusGain))
 
-	_, _err := p.remote.Transact(ctx, TransactionIFocusListenerRequestAudioFocus, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFocusListener, "requestAudioFocus"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,7 +84,7 @@ func (p *FocusListenerProxy) AbandonAudioFocusWithMetaData(
 	}
 	_data.WriteInt32(zoneId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIFocusListenerAbandonAudioFocusWithMetaData, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFocusListener, "abandonAudioFocusWithMetaData"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,6 +102,6 @@ func (p *FocusListenerProxy) RequestAudioFocusWithMetaData(
 	_data.WriteInt32(zoneId)
 	_data.WriteInt32(int32(focusGain))
 
-	_, _err := p.remote.Transact(ctx, TransactionIFocusListenerRequestAudioFocusWithMetaData, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFocusListener, "requestAudioFocusWithMetaData"), binder.FlagOneway, _data)
 	return _err
 }

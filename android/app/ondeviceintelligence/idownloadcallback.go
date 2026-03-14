@@ -49,7 +49,7 @@ func (p *DownloadCallbackProxy) OnDownloadStarted(
 	_data.WriteInterfaceToken(DescriptorIDownloadCallback)
 	_data.WriteInt64(bytesToDownload)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDownloadCallbackOnDownloadStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDownloadCallback, "onDownloadStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,7 +61,7 @@ func (p *DownloadCallbackProxy) OnDownloadProgress(
 	_data.WriteInterfaceToken(DescriptorIDownloadCallback)
 	_data.WriteInt64(bytesDownloaded)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDownloadCallbackOnDownloadProgress, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDownloadCallback, "onDownloadProgress"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,7 +76,7 @@ func (p *DownloadCallbackProxy) OnDownloadFailed(
 	_data.WriteInt32(failureStatus)
 	_data.WriteString16(errorMessage)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDownloadCallbackOnDownloadFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDownloadCallback, "onDownloadFailed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,6 +87,6 @@ func (p *DownloadCallbackProxy) OnDownloadCompleted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDownloadCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDownloadCallbackOnDownloadCompleted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDownloadCallback, "onDownloadCompleted"), binder.FlagOneway, _data)
 	return _err
 }

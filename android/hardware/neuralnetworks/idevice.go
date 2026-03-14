@@ -106,7 +106,7 @@ func (p *DeviceProxy) Allocate(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceAllocate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDevice, "allocate"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -129,7 +129,7 @@ func (p *DeviceProxy) GetCapabilities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevice)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceGetCapabilities, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDevice, "getCapabilities"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -152,7 +152,7 @@ func (p *DeviceProxy) GetNumberOfCacheFilesNeeded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevice)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceGetNumberOfCacheFilesNeeded, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDevice, "getNumberOfCacheFilesNeeded"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -175,7 +175,7 @@ func (p *DeviceProxy) GetSupportedExtensions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevice)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceGetSupportedExtensions, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDevice, "getSupportedExtensions"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -212,7 +212,7 @@ func (p *DeviceProxy) GetSupportedOperations(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceGetSupportedOperations, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDevice, "getSupportedOperations"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -246,7 +246,7 @@ func (p *DeviceProxy) GetType(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevice)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceGetType, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDevice, "getType"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -271,7 +271,7 @@ func (p *DeviceProxy) GetVersionString(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevice)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceGetVersionString, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDevice, "getVersionString"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -333,7 +333,7 @@ func (p *DeviceProxy) PrepareModel(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDevicePrepareModel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDevice, "prepareModel"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -383,7 +383,7 @@ func (p *DeviceProxy) PrepareModelFromCache(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDevicePrepareModelFromCache, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDevice, "prepareModelFromCache"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -412,7 +412,7 @@ func (p *DeviceProxy) PrepareModelWithConfig(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDevicePrepareModelWithConfig, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDevice, "prepareModelWithConfig"), 0, _data)
 	if _err != nil {
 		return _err
 	}

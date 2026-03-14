@@ -48,6 +48,6 @@ func (p *ChannelTunedListenerProxy) OnChannelTuned(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIChannelTunedListenerOnChannelTuned, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIChannelTunedListener, "onChannelTuned"), binder.FlagOneway, _data)
 	return _err
 }

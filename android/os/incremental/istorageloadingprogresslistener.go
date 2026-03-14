@@ -45,6 +45,6 @@ func (p *StorageLoadingProgressListenerProxy) OnStorageLoadingProgressChanged(
 	_data.WriteInt32(storageId)
 	_data.WriteFloat32(progress)
 
-	_, _err := p.remote.Transact(ctx, TransactionIStorageLoadingProgressListenerOnStorageLoadingProgressChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStorageLoadingProgressListener, "onStorageLoadingProgressChanged"), binder.FlagOneway, _data)
 	return _err
 }

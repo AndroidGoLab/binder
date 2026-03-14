@@ -594,7 +594,7 @@ func (p *AudioServiceProxy) TrackPlayer(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceTrackPlayer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "trackPlayer"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -623,7 +623,7 @@ func (p *AudioServiceProxy) PlayerAttributes(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServicePlayerAttributes, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "playerAttributes"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -646,7 +646,7 @@ func (p *AudioServiceProxy) PlayerEvent(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServicePlayerEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "playerEvent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -658,7 +658,7 @@ func (p *AudioServiceProxy) ReleasePlayer(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(piid)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceReleasePlayer, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "releasePlayer"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -671,7 +671,7 @@ func (p *AudioServiceProxy) TrackRecorder(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(recorder.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceTrackRecorder, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "trackRecorder"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -698,7 +698,7 @@ func (p *AudioServiceProxy) RecorderEvent(
 	_data.WriteInt32(riid)
 	_data.WriteInt32(event)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceRecorderEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "recorderEvent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -710,7 +710,7 @@ func (p *AudioServiceProxy) ReleaseRecorder(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(riid)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceReleaseRecorder, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "releaseRecorder"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -724,7 +724,7 @@ func (p *AudioServiceProxy) PlayerSessionId(
 	_data.WriteInt32(piid)
 	_data.WriteInt32(sessionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServicePlayerSessionId, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "playerSessionId"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -739,7 +739,7 @@ func (p *AudioServiceProxy) PortEvent(
 	_data.WriteInt32(portId)
 	_data.WriteInt32(event)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServicePortEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "portEvent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -749,7 +749,7 @@ func (p *AudioServiceProxy) PermissionUpdateBarrier(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServicePermissionUpdateBarrier, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "permissionUpdateBarrier"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -776,7 +776,7 @@ func (p *AudioServiceProxy) AdjustStreamVolume(
 	_data.WriteInt32(flags)
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceAdjustStreamVolume, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "adjustStreamVolume"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -805,7 +805,7 @@ func (p *AudioServiceProxy) AdjustStreamVolumeWithAttribution(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(attributionTag)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceAdjustStreamVolumeWithAttribution, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "adjustStreamVolumeWithAttribution"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -832,7 +832,7 @@ func (p *AudioServiceProxy) SetStreamVolume(
 	_data.WriteInt32(flags)
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetStreamVolume, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setStreamVolume"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -861,7 +861,7 @@ func (p *AudioServiceProxy) SetStreamVolumeWithAttribution(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(attributionTag)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetStreamVolumeWithAttribution, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setStreamVolumeWithAttribution"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -890,7 +890,7 @@ func (p *AudioServiceProxy) SetDeviceVolume(
 	}
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetDeviceVolume, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setDeviceVolume"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -920,7 +920,7 @@ func (p *AudioServiceProxy) GetDeviceVolume(
 	}
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetDeviceVolume, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getDeviceVolume"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -949,7 +949,7 @@ func (p *AudioServiceProxy) HandleVolumeKey(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(caller)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceHandleVolumeKey, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "handleVolumeKey"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -962,7 +962,7 @@ func (p *AudioServiceProxy) IsStreamMute(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(streamType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsStreamMute, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isStreamMute"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -989,7 +989,7 @@ func (p *AudioServiceProxy) ForceRemoteSubmixFullVolume(
 	_data.WriteBool(startForcing)
 	_data.WriteStrongBinder(cb.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceForceRemoteSubmixFullVolume, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "forceRemoteSubmixFullVolume"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1009,7 +1009,7 @@ func (p *AudioServiceProxy) IsMasterMute(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsMasterMute, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isMasterMute"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1042,7 +1042,7 @@ func (p *AudioServiceProxy) SetMasterMute(
 	_data.WriteInt32(userId)
 	_data.WriteString16(attributionTag)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetMasterMute, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setMasterMute"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1064,7 +1064,7 @@ func (p *AudioServiceProxy) GetStreamVolume(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(streamType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetStreamVolume, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getStreamVolume"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1090,7 +1090,7 @@ func (p *AudioServiceProxy) GetStreamMinVolume(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(streamType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetStreamMinVolume, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getStreamMinVolume"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1116,7 +1116,7 @@ func (p *AudioServiceProxy) GetStreamMaxVolume(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(streamType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetStreamMaxVolume, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getStreamMaxVolume"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1140,7 +1140,7 @@ func (p *AudioServiceProxy) GetAudioVolumeGroups(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetAudioVolumeGroups, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getAudioVolumeGroups"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1179,7 +1179,7 @@ func (p *AudioServiceProxy) SetVolumeGroupVolumeIndex(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(attributionTag)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetVolumeGroupVolumeIndex, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setVolumeGroupVolumeIndex"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1201,7 +1201,7 @@ func (p *AudioServiceProxy) GetVolumeGroupVolumeIndex(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(groupId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetVolumeGroupVolumeIndex, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getVolumeGroupVolumeIndex"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1227,7 +1227,7 @@ func (p *AudioServiceProxy) GetVolumeGroupMaxVolumeIndex(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(groupId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetVolumeGroupMaxVolumeIndex, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getVolumeGroupMaxVolumeIndex"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1253,7 +1253,7 @@ func (p *AudioServiceProxy) GetVolumeGroupMinVolumeIndex(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(groupId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetVolumeGroupMinVolumeIndex, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getVolumeGroupMinVolumeIndex"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1279,7 +1279,7 @@ func (p *AudioServiceProxy) GetLastAudibleVolumeForVolumeGroup(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(groupId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetLastAudibleVolumeForVolumeGroup, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getLastAudibleVolumeForVolumeGroup"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1305,7 +1305,7 @@ func (p *AudioServiceProxy) IsVolumeGroupMuted(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(groupId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsVolumeGroupMuted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isVolumeGroupMuted"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1336,7 +1336,7 @@ func (p *AudioServiceProxy) AdjustVolumeGroupVolume(
 	_data.WriteInt32(flags)
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceAdjustVolumeGroupVolume, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "adjustVolumeGroupVolume"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1358,7 +1358,7 @@ func (p *AudioServiceProxy) GetLastAudibleStreamVolume(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(streamType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetLastAudibleStreamVolume, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getLastAudibleStreamVolume"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1390,7 +1390,7 @@ func (p *AudioServiceProxy) SetSupportedSystemUsages(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetSupportedSystemUsages, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setSupportedSystemUsages"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1410,7 +1410,7 @@ func (p *AudioServiceProxy) GetSupportedSystemUsages(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetSupportedSystemUsages, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getSupportedSystemUsages"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1444,7 +1444,7 @@ func (p *AudioServiceProxy) GetAudioProductStrategies(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetAudioProductStrategies, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getAudioProductStrategies"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1474,7 +1474,7 @@ func (p *AudioServiceProxy) IsMicrophoneMuted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsMicrophoneMuted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isMicrophoneMuted"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1498,7 +1498,7 @@ func (p *AudioServiceProxy) IsUltrasoundSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsUltrasoundSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isUltrasoundSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1524,7 +1524,7 @@ func (p *AudioServiceProxy) IsHotwordStreamSupported(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(lookbackAudio)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsHotwordStreamSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isHotwordStreamSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1555,7 +1555,7 @@ func (p *AudioServiceProxy) SetMicrophoneMute(
 	_data.WriteInt32(userId)
 	_data.WriteString16(attributionTag)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetMicrophoneMute, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setMicrophoneMute"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1580,7 +1580,7 @@ func (p *AudioServiceProxy) SetInputGainIndex(
 	}
 	_data.WriteInt32(index)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetInputGainIndex, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setInputGainIndex"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1604,7 +1604,7 @@ func (p *AudioServiceProxy) GetInputGainIndex(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetInputGainIndex, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getInputGainIndex"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1628,7 +1628,7 @@ func (p *AudioServiceProxy) GetMaxInputGainIndex(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetMaxInputGainIndex, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getMaxInputGainIndex"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1652,7 +1652,7 @@ func (p *AudioServiceProxy) GetMinInputGainIndex(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetMinInputGainIndex, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getMinInputGainIndex"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1680,7 +1680,7 @@ func (p *AudioServiceProxy) IsInputGainFixed(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsInputGainFixed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isInputGainFixed"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1705,7 +1705,7 @@ func (p *AudioServiceProxy) SetMicrophoneMuteFromSwitch(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(on)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetMicrophoneMuteFromSwitch, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setMicrophoneMuteFromSwitch"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1719,7 +1719,7 @@ func (p *AudioServiceProxy) SetRingerModeExternal(
 	_data.WriteInt32(ringerMode)
 	_data.WriteString16(caller)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetRingerModeExternal, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setRingerModeExternal"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1742,7 +1742,7 @@ func (p *AudioServiceProxy) SetRingerModeInternal(
 	_data.WriteInt32(ringerMode)
 	_data.WriteString16(caller)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetRingerModeInternal, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setRingerModeInternal"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1762,7 +1762,7 @@ func (p *AudioServiceProxy) GetRingerModeExternal(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetRingerModeExternal, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getRingerModeExternal"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1786,7 +1786,7 @@ func (p *AudioServiceProxy) GetRingerModeInternal(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetRingerModeInternal, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getRingerModeInternal"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1812,7 +1812,7 @@ func (p *AudioServiceProxy) IsValidRingerMode(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(ringerMode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsValidRingerMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isValidRingerMode"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1839,7 +1839,7 @@ func (p *AudioServiceProxy) SetVibrateSetting(
 	_data.WriteInt32(vibrateType)
 	_data.WriteInt32(vibrateSetting)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetVibrateSetting, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setVibrateSetting"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1861,7 +1861,7 @@ func (p *AudioServiceProxy) GetVibrateSetting(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(vibrateType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetVibrateSetting, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getVibrateSetting"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1887,7 +1887,7 @@ func (p *AudioServiceProxy) ShouldVibrate(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(vibrateType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceShouldVibrate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "shouldVibrate"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1916,7 +1916,7 @@ func (p *AudioServiceProxy) SetMode(
 	_data.WriteStrongBinder(cb.Handle())
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1936,7 +1936,7 @@ func (p *AudioServiceProxy) GetMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getMode"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1963,7 +1963,7 @@ func (p *AudioServiceProxy) PlaySoundEffect(
 	_data.WriteInt32(effectType)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServicePlaySoundEffect, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "playSoundEffect"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1977,7 +1977,7 @@ func (p *AudioServiceProxy) PlaySoundEffectVolume(
 	_data.WriteInt32(effectType)
 	_data.WriteFloat32(volume)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServicePlaySoundEffectVolume, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "playSoundEffectVolume"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1988,7 +1988,7 @@ func (p *AudioServiceProxy) LoadSoundEffects(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceLoadSoundEffects, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "loadSoundEffects"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2011,7 +2011,7 @@ func (p *AudioServiceProxy) UnloadSoundEffects(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnloadSoundEffects, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unloadSoundEffects"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -2021,7 +2021,7 @@ func (p *AudioServiceProxy) ReloadAudioSettings(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceReloadAudioSettings, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "reloadAudioSettings"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -2032,7 +2032,7 @@ func (p *AudioServiceProxy) GetSurroundFormats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetSurroundFormats, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getSurroundFormats"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2070,7 +2070,7 @@ func (p *AudioServiceProxy) GetReportedSurroundFormats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetReportedSurroundFormats, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getReportedSurroundFormats"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2104,7 +2104,7 @@ func (p *AudioServiceProxy) SetSurroundFormatEnabled(
 	_data.WriteInt32(audioFormat)
 	_data.WriteBool(enabled)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetSurroundFormatEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setSurroundFormatEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2130,7 +2130,7 @@ func (p *AudioServiceProxy) IsSurroundFormatEnabled(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(audioFormat)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsSurroundFormatEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isSurroundFormatEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2156,7 +2156,7 @@ func (p *AudioServiceProxy) SetEncodedSurroundMode(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(mode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetEncodedSurroundMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setEncodedSurroundMode"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2182,7 +2182,7 @@ func (p *AudioServiceProxy) GetEncodedSurroundMode(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(targetSdkVersion)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetEncodedSurroundMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getEncodedSurroundMode"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2210,7 +2210,7 @@ func (p *AudioServiceProxy) SetSpeakerphoneOn(
 	_data.WriteStrongBinder(cb.Handle())
 	_data.WriteBool(on)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetSpeakerphoneOn, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setSpeakerphoneOn"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2230,7 +2230,7 @@ func (p *AudioServiceProxy) IsSpeakerphoneOn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsSpeakerphoneOn, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isSpeakerphoneOn"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2255,7 +2255,7 @@ func (p *AudioServiceProxy) SetBluetoothScoOn(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(on)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetBluetoothScoOn, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setBluetoothScoOn"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2276,7 +2276,7 @@ func (p *AudioServiceProxy) SetA2dpSuspended(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(on)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetA2dpSuspended, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setA2dpSuspended"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2297,7 +2297,7 @@ func (p *AudioServiceProxy) SetLeAudioSuspended(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetLeAudioSuspended, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setLeAudioSuspended"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2317,7 +2317,7 @@ func (p *AudioServiceProxy) IsBluetoothScoOn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsBluetoothScoOn, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isBluetoothScoOn"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2342,7 +2342,7 @@ func (p *AudioServiceProxy) SetBluetoothA2dpOn(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(on)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetBluetoothA2dpOn, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setBluetoothA2dpOn"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2362,7 +2362,7 @@ func (p *AudioServiceProxy) IsBluetoothA2dpOn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsBluetoothA2dpOn, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isBluetoothA2dpOn"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2407,7 +2407,7 @@ func (p *AudioServiceProxy) RequestAudioFocus(
 	_data.WriteInt32(flags)
 	_data.WriteInt32(sdk)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRequestAudioFocus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "requestAudioFocus"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2441,7 +2441,7 @@ func (p *AudioServiceProxy) AbandonAudioFocus(
 	}
 	_data.WriteString16(callingPackageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceAbandonAudioFocus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "abandonAudioFocus"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2466,7 +2466,7 @@ func (p *AudioServiceProxy) UnregisterAudioFocusClient(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteString16(clientId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterAudioFocusClient, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterAudioFocusClient"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2486,7 +2486,7 @@ func (p *AudioServiceProxy) GetCurrentAudioFocus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetCurrentAudioFocus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getCurrentAudioFocus"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2514,7 +2514,7 @@ func (p *AudioServiceProxy) StartBluetoothSco(
 	_data.WriteStrongBinder(cb.Handle())
 	_data.WriteInt32(targetSdkVersion)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceStartBluetoothSco, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "startBluetoothSco"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2536,7 +2536,7 @@ func (p *AudioServiceProxy) StartBluetoothScoVirtualCall(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(cb.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceStartBluetoothScoVirtualCall, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "startBluetoothScoVirtualCall"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2558,7 +2558,7 @@ func (p *AudioServiceProxy) StopBluetoothSco(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(cb.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceStopBluetoothSco, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "stopBluetoothSco"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2581,7 +2581,7 @@ func (p *AudioServiceProxy) ForceVolumeControlStream(
 	_data.WriteInt32(streamType)
 	_data.WriteStrongBinder(cb.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceForceVolumeControlStream, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "forceVolumeControlStream"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2602,7 +2602,7 @@ func (p *AudioServiceProxy) SetRingtonePlayer(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(player.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetRingtonePlayer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setRingtonePlayer"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2622,7 +2622,7 @@ func (p *AudioServiceProxy) GetRingtonePlayer(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetRingtonePlayer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getRingtonePlayer"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2647,7 +2647,7 @@ func (p *AudioServiceProxy) GetUiSoundsStreamType(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetUiSoundsStreamType, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getUiSoundsStreamType"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2671,7 +2671,7 @@ func (p *AudioServiceProxy) GetIndependentStreamTypes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetIndependentStreamTypes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getIndependentStreamTypes"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2703,7 +2703,7 @@ func (p *AudioServiceProxy) GetStreamTypeAlias(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(streamType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetStreamTypeAlias, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getStreamTypeAlias"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2727,7 +2727,7 @@ func (p *AudioServiceProxy) IsVolumeControlUsingVolumeGroups(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsVolumeControlUsingVolumeGroups, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isVolumeControlUsingVolumeGroups"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2754,7 +2754,7 @@ func (p *AudioServiceProxy) RegisterStreamAliasingDispatcher(
 	_data.WriteStrongBinder(isad.AsBinder().Handle())
 	_data.WriteBool(register)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterStreamAliasingDispatcher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerStreamAliasingDispatcher"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2775,7 +2775,7 @@ func (p *AudioServiceProxy) SetNotifAliasRingForTest(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(alias)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetNotifAliasRingForTest, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setNotifAliasRingForTest"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2802,7 +2802,7 @@ func (p *AudioServiceProxy) SetWiredDeviceConnectionState(
 	_data.WriteInt32(state)
 	_data.WriteString16(caller)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetWiredDeviceConnectionState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setWiredDeviceConnectionState"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2824,7 +2824,7 @@ func (p *AudioServiceProxy) StartWatchingRoutes(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(observer.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceStartWatchingRoutes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "startWatchingRoutes"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2847,7 +2847,7 @@ func (p *AudioServiceProxy) IsCameraSoundForced(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsCameraSoundForced, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isCameraSoundForced"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2872,7 +2872,7 @@ func (p *AudioServiceProxy) SetVolumeController(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(controller.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetVolumeController, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setVolumeController"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2892,7 +2892,7 @@ func (p *AudioServiceProxy) GetVolumeController(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetVolumeController, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getVolumeController"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2920,7 +2920,7 @@ func (p *AudioServiceProxy) NotifyVolumeControllerVisible(
 	_data.WriteStrongBinder(controller.AsBinder().Handle())
 	_data.WriteBool(visible)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceNotifyVolumeControllerVisible, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "notifyVolumeControllerVisible"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -2941,7 +2941,7 @@ func (p *AudioServiceProxy) SetVolumeControllerLongPressTimeoutEnabled(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(enable)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetVolumeControllerLongPressTimeoutEnabled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setVolumeControllerLongPressTimeoutEnabled"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -2954,7 +2954,7 @@ func (p *AudioServiceProxy) IsStreamAffectedByRingerMode(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(streamType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsStreamAffectedByRingerMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isStreamAffectedByRingerMode"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -2980,7 +2980,7 @@ func (p *AudioServiceProxy) IsStreamAffectedByMute(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(streamType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsStreamAffectedByMute, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isStreamAffectedByMute"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3006,7 +3006,7 @@ func (p *AudioServiceProxy) IsStreamMutableByUi(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(streamType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsStreamMutableByUi, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isStreamMutableByUi"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3031,7 +3031,7 @@ func (p *AudioServiceProxy) DisableSafeMediaVolume(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceDisableSafeMediaVolume, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "disableSafeMediaVolume"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3052,7 +3052,7 @@ func (p *AudioServiceProxy) LowerVolumeToRs1(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteString16(callingPackage)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceLowerVolumeToRs1, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "lowerVolumeToRs1"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -3063,7 +3063,7 @@ func (p *AudioServiceProxy) GetOutputRs2UpperBound(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetOutputRs2UpperBound, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getOutputRs2UpperBound"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3088,7 +3088,7 @@ func (p *AudioServiceProxy) SetOutputRs2UpperBound(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteFloat32(rs2Value)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetOutputRs2UpperBound, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setOutputRs2UpperBound"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -3099,7 +3099,7 @@ func (p *AudioServiceProxy) GetCsd(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetCsd, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getCsd"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3124,7 +3124,7 @@ func (p *AudioServiceProxy) SetCsd(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteFloat32(csd)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetCsd, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setCsd"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -3136,7 +3136,7 @@ func (p *AudioServiceProxy) ForceUseFrameworkMel(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(useFrameworkMel)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceForceUseFrameworkMel, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "forceUseFrameworkMel"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -3148,7 +3148,7 @@ func (p *AudioServiceProxy) ForceComputeCsdOnAllDevices(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(computeCsdOnAllDevices)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceForceComputeCsdOnAllDevices, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "forceComputeCsdOnAllDevices"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -3159,7 +3159,7 @@ func (p *AudioServiceProxy) IsCsdEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsCsdEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isCsdEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3183,7 +3183,7 @@ func (p *AudioServiceProxy) IsCsdAsAFeatureAvailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsCsdAsAFeatureAvailable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isCsdAsAFeatureAvailable"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3207,7 +3207,7 @@ func (p *AudioServiceProxy) IsCsdAsAFeatureEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsCsdAsAFeatureEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isCsdAsAFeatureEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3232,7 +3232,7 @@ func (p *AudioServiceProxy) SetCsdAsAFeatureEnabled(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(csdToggleValue)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetCsdAsAFeatureEnabled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setCsdAsAFeatureEnabled"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -3248,7 +3248,7 @@ func (p *AudioServiceProxy) SetBluetoothAudioDeviceCategory_legacy(
 	_data.WriteBool(isBle)
 	_data.WriteInt32(deviceCategory)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetBluetoothAudioDeviceCategory_legacy, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setBluetoothAudioDeviceCategory_legacy"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -3263,7 +3263,7 @@ func (p *AudioServiceProxy) GetBluetoothAudioDeviceCategory_legacy(
 	_data.WriteString16(address)
 	_data.WriteBool(isBle)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetBluetoothAudioDeviceCategory_legacy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getBluetoothAudioDeviceCategory_legacy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3291,7 +3291,7 @@ func (p *AudioServiceProxy) SetBluetoothAudioDeviceCategory(
 	_data.WriteString16(address)
 	_data.WriteInt32(deviceCategory)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetBluetoothAudioDeviceCategory, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setBluetoothAudioDeviceCategory"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3317,7 +3317,7 @@ func (p *AudioServiceProxy) GetBluetoothAudioDeviceCategory(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteString16(address)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetBluetoothAudioDeviceCategory, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getBluetoothAudioDeviceCategory"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3343,7 +3343,7 @@ func (p *AudioServiceProxy) IsBluetoothAudioDeviceCategoryFixed(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteString16(address)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsBluetoothAudioDeviceCategoryFixed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isBluetoothAudioDeviceCategoryFixed"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3369,7 +3369,7 @@ func (p *AudioServiceProxy) SetHdmiSystemAudioSupported(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(on)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetHdmiSystemAudioSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setHdmiSystemAudioSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3393,7 +3393,7 @@ func (p *AudioServiceProxy) IsHdmiSystemAudioSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsHdmiSystemAudioSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isHdmiSystemAudioSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3429,7 +3429,7 @@ func (p *AudioServiceProxy) RegisterAudioPolicy(
 	_data.WriteBool(isTestFocusPolicy)
 	_data.WriteBool(isVolumeController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterAudioPolicy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerAudioPolicy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3453,7 +3453,7 @@ func (p *AudioServiceProxy) UnregisterAudioPolicyAsync(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterAudioPolicyAsync, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterAudioPolicyAsync"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -3464,7 +3464,7 @@ func (p *AudioServiceProxy) GetRegisteredPolicyMixes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetRegisteredPolicyMixes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getRegisteredPolicyMixes"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3494,7 +3494,7 @@ func (p *AudioServiceProxy) UnregisterAudioPolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterAudioPolicy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterAudioPolicy"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3516,7 +3516,7 @@ func (p *AudioServiceProxy) AddMixForPolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceAddMixForPolicy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "addMixForPolicy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3542,7 +3542,7 @@ func (p *AudioServiceProxy) RemoveMixForPolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRemoveMixForPolicy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "removeMixForPolicy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3579,7 +3579,7 @@ func (p *AudioServiceProxy) UpdateMixingRulesForPolicy(
 		_data.WriteInt32(int32(len(updatedMixingRules)))
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceUpdateMixingRulesForPolicy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "updateMixingRulesForPolicy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3606,7 +3606,7 @@ func (p *AudioServiceProxy) SetFocusPropertiesForPolicy(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(duckingBehavior)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetFocusPropertiesForPolicy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setFocusPropertiesForPolicy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3633,7 +3633,7 @@ func (p *AudioServiceProxy) SetVolumePolicy(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetVolumePolicy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setVolumePolicy"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3653,7 +3653,7 @@ func (p *AudioServiceProxy) GetVolumePolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetVolumePolicy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getVolumePolicy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3676,7 +3676,7 @@ func (p *AudioServiceProxy) HasRegisteredDynamicPolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceHasRegisteredDynamicPolicy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "hasRegisteredDynamicPolicy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3701,7 +3701,7 @@ func (p *AudioServiceProxy) RegisterRecordingCallback(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(rcdb.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterRecordingCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerRecordingCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3722,7 +3722,7 @@ func (p *AudioServiceProxy) UnregisterRecordingCallback(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(rcdb.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterRecordingCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterRecordingCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -3733,7 +3733,7 @@ func (p *AudioServiceProxy) GetActiveRecordingConfigurations(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetActiveRecordingConfigurations, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getActiveRecordingConfigurations"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3767,7 +3767,7 @@ func (p *AudioServiceProxy) RegisterPlaybackCallback(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(pcdb.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterPlaybackCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerPlaybackCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3788,7 +3788,7 @@ func (p *AudioServiceProxy) UnregisterPlaybackCallback(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(pcdb.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterPlaybackCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterPlaybackCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -3799,7 +3799,7 @@ func (p *AudioServiceProxy) GetActivePlaybackConfigurations(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetActivePlaybackConfigurations, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getActivePlaybackConfigurations"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3838,7 +3838,7 @@ func (p *AudioServiceProxy) GetFocusRampTimeMs(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetFocusRampTimeMs, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getFocusRampTimeMs"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3869,7 +3869,7 @@ func (p *AudioServiceProxy) DispatchFocusChange(
 	}
 	_data.WriteInt32(focusChange)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceDispatchFocusChange, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "dispatchFocusChange"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3915,7 +3915,7 @@ func (p *AudioServiceProxy) DispatchFocusChangeWithFade(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceDispatchFocusChangeWithFade, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "dispatchFocusChangeWithFade"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -3942,7 +3942,7 @@ func (p *AudioServiceProxy) PlayerHasOpPlayAudio(
 	_data.WriteInt32(piid)
 	_data.WriteBool(hasOpPlayAudio)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServicePlayerHasOpPlayAudio, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "playerHasOpPlayAudio"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -3958,7 +3958,7 @@ func (p *AudioServiceProxy) HandleBluetoothActiveDeviceChanged(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceHandleBluetoothActiveDeviceChanged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "handleBluetoothActiveDeviceChanged"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -3984,7 +3984,7 @@ func (p *AudioServiceProxy) SetFocusRequestResultFromExtPolicy(
 	}
 	_data.WriteInt32(requestResult)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetFocusRequestResultFromExtPolicy, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setFocusRequestResultFromExtPolicy"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -3996,7 +3996,7 @@ func (p *AudioServiceProxy) RegisterAudioServerStateDispatcher(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(asd.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterAudioServerStateDispatcher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerAudioServerStateDispatcher"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -4017,7 +4017,7 @@ func (p *AudioServiceProxy) UnregisterAudioServerStateDispatcher(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(asd.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterAudioServerStateDispatcher, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterAudioServerStateDispatcher"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -4028,7 +4028,7 @@ func (p *AudioServiceProxy) IsAudioServerRunning(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsAudioServerRunning, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isAudioServerRunning"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4073,7 +4073,7 @@ func (p *AudioServiceProxy) SetUidDeviceAffinity(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetUidDeviceAffinity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setUidDeviceAffinity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4100,7 +4100,7 @@ func (p *AudioServiceProxy) RemoveUidDeviceAffinity(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRemoveUidDeviceAffinity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "removeUidDeviceAffinity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4145,7 +4145,7 @@ func (p *AudioServiceProxy) SetUserIdDeviceAffinity(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetUserIdDeviceAffinity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setUserIdDeviceAffinity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4172,7 +4172,7 @@ func (p *AudioServiceProxy) RemoveUserIdDeviceAffinity(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRemoveUserIdDeviceAffinity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "removeUserIdDeviceAffinity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4197,7 +4197,7 @@ func (p *AudioServiceProxy) HasHapticChannels(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceHasHapticChannels, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "hasHapticChannels"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4221,7 +4221,7 @@ func (p *AudioServiceProxy) IsCallScreeningModeSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsCallScreeningModeSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isCallScreeningModeSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4258,7 +4258,7 @@ func (p *AudioServiceProxy) SetPreferredDevicesForStrategy(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetPreferredDevicesForStrategy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setPreferredDevicesForStrategy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4284,7 +4284,7 @@ func (p *AudioServiceProxy) RemovePreferredDevicesForStrategy(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(strategy)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRemovePreferredDevicesForStrategy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "removePreferredDevicesForStrategy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4310,7 +4310,7 @@ func (p *AudioServiceProxy) GetPreferredDevicesForStrategy(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(strategy)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetPreferredDevicesForStrategy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getPreferredDevicesForStrategy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4349,7 +4349,7 @@ func (p *AudioServiceProxy) SetDeviceAsNonDefaultForStrategy(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetDeviceAsNonDefaultForStrategy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setDeviceAsNonDefaultForStrategy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4379,7 +4379,7 @@ func (p *AudioServiceProxy) RemoveDeviceAsNonDefaultForStrategy(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRemoveDeviceAsNonDefaultForStrategy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "removeDeviceAsNonDefaultForStrategy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4405,7 +4405,7 @@ func (p *AudioServiceProxy) GetNonDefaultDevicesForStrategy(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(strategy)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetNonDefaultDevicesForStrategy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getNonDefaultDevicesForStrategy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4442,7 +4442,7 @@ func (p *AudioServiceProxy) GetDevicesForAttributes(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetDevicesForAttributes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getDevicesForAttributes"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4479,7 +4479,7 @@ func (p *AudioServiceProxy) GetDevicesForAttributesUnprotected(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetDevicesForAttributesUnprotected, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getDevicesForAttributesUnprotected"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4517,7 +4517,7 @@ func (p *AudioServiceProxy) AddOnDevicesForAttributesChangedListener(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceAddOnDevicesForAttributesChangedListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "addOnDevicesForAttributesChangedListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -4538,7 +4538,7 @@ func (p *AudioServiceProxy) RemoveOnDevicesForAttributesChangedListener(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceRemoveOnDevicesForAttributesChangedListener, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "removeOnDevicesForAttributesChangedListener"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -4551,7 +4551,7 @@ func (p *AudioServiceProxy) SetAllowedCapturePolicy(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(capturePolicy)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetAllowedCapturePolicy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setAllowedCapturePolicy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4575,7 +4575,7 @@ func (p *AudioServiceProxy) GetAllowedCapturePolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetAllowedCapturePolicy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getAllowedCapturePolicy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4600,7 +4600,7 @@ func (p *AudioServiceProxy) RegisterStrategyPreferredDevicesDispatcher(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(dispatcher.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterStrategyPreferredDevicesDispatcher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerStrategyPreferredDevicesDispatcher"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -4621,7 +4621,7 @@ func (p *AudioServiceProxy) UnregisterStrategyPreferredDevicesDispatcher(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(dispatcher.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterStrategyPreferredDevicesDispatcher, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterStrategyPreferredDevicesDispatcher"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -4633,7 +4633,7 @@ func (p *AudioServiceProxy) RegisterStrategyNonDefaultDevicesDispatcher(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(dispatcher.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterStrategyNonDefaultDevicesDispatcher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerStrategyNonDefaultDevicesDispatcher"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -4654,7 +4654,7 @@ func (p *AudioServiceProxy) UnregisterStrategyNonDefaultDevicesDispatcher(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(dispatcher.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterStrategyNonDefaultDevicesDispatcher, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterStrategyNonDefaultDevicesDispatcher"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -4666,7 +4666,7 @@ func (p *AudioServiceProxy) SetRttEnabled(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(rttEnabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetRttEnabled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setRttEnabled"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -4684,7 +4684,7 @@ func (p *AudioServiceProxy) SetDeviceVolumeBehavior(
 	_data.WriteInt32(deviceVolumeBehavior)
 	_data.WriteString16(pkgName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetDeviceVolumeBehavior, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setDeviceVolumeBehavior"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -4708,7 +4708,7 @@ func (p *AudioServiceProxy) GetDeviceVolumeBehavior(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetDeviceVolumeBehavior, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getDeviceVolumeBehavior"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4733,7 +4733,7 @@ func (p *AudioServiceProxy) SetMultiAudioFocusEnabled(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(enabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetMultiAudioFocusEnabled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setMultiAudioFocusEnabled"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -4757,7 +4757,7 @@ func (p *AudioServiceProxy) SetPreferredDevicesForCapturePreset(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetPreferredDevicesForCapturePreset, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setPreferredDevicesForCapturePreset"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4783,7 +4783,7 @@ func (p *AudioServiceProxy) ClearPreferredDevicesForCapturePreset(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(capturePreset)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceClearPreferredDevicesForCapturePreset, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "clearPreferredDevicesForCapturePreset"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4809,7 +4809,7 @@ func (p *AudioServiceProxy) GetPreferredDevicesForCapturePreset(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(capturePreset)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetPreferredDevicesForCapturePreset, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getPreferredDevicesForCapturePreset"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -4843,7 +4843,7 @@ func (p *AudioServiceProxy) RegisterCapturePresetDevicesRoleDispatcher(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(dispatcher.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterCapturePresetDevicesRoleDispatcher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerCapturePresetDevicesRoleDispatcher"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -4864,7 +4864,7 @@ func (p *AudioServiceProxy) UnregisterCapturePresetDevicesRoleDispatcher(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(dispatcher.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterCapturePresetDevicesRoleDispatcher, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterCapturePresetDevicesRoleDispatcher"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -4889,7 +4889,7 @@ func (p *AudioServiceProxy) AdjustStreamVolumeForUid(
 	_data.WriteInt32(pid)
 	_data.WriteInt32(targetSdkVersion)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceAdjustStreamVolumeForUid, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "adjustStreamVolumeForUid"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -4914,7 +4914,7 @@ func (p *AudioServiceProxy) AdjustSuggestedStreamVolumeForUid(
 	_data.WriteInt32(pid)
 	_data.WriteInt32(targetSdkVersion)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceAdjustSuggestedStreamVolumeForUid, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "adjustSuggestedStreamVolumeForUid"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -4939,7 +4939,7 @@ func (p *AudioServiceProxy) SetStreamVolumeForUid(
 	_data.WriteInt32(pid)
 	_data.WriteInt32(targetSdkVersion)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetStreamVolumeForUid, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setStreamVolumeForUid"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -4953,7 +4953,7 @@ func (p *AudioServiceProxy) AdjustVolume(
 	_data.WriteInt32(direction)
 	_data.WriteInt32(flags)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceAdjustVolume, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "adjustVolume"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -4969,7 +4969,7 @@ func (p *AudioServiceProxy) AdjustSuggestedStreamVolume(
 	_data.WriteInt32(suggestedStreamType)
 	_data.WriteInt32(flags)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceAdjustSuggestedStreamVolume, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "adjustSuggestedStreamVolume"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -4982,7 +4982,7 @@ func (p *AudioServiceProxy) IsMusicActive(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(remotely)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsMusicActive, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isMusicActive"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5008,7 +5008,7 @@ func (p *AudioServiceProxy) GetDeviceMaskForStream(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(streamType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetDeviceMaskForStream, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getDeviceMaskForStream"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5032,7 +5032,7 @@ func (p *AudioServiceProxy) GetAvailableCommunicationDeviceIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetAvailableCommunicationDeviceIds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getAvailableCommunicationDeviceIds"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5071,7 +5071,7 @@ func (p *AudioServiceProxy) SetCommunicationDevice(
 	_data.WriteStrongBinder(cb.Handle())
 	_data.WriteInt32(portId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetCommunicationDevice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setCommunicationDevice"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5095,7 +5095,7 @@ func (p *AudioServiceProxy) GetCommunicationDevice(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetCommunicationDevice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getCommunicationDevice"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5120,7 +5120,7 @@ func (p *AudioServiceProxy) RegisterCommunicationDeviceDispatcher(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(dispatcher.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterCommunicationDeviceDispatcher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerCommunicationDeviceDispatcher"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -5141,7 +5141,7 @@ func (p *AudioServiceProxy) UnregisterCommunicationDeviceDispatcher(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(dispatcher.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterCommunicationDeviceDispatcher, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterCommunicationDeviceDispatcher"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -5152,7 +5152,7 @@ func (p *AudioServiceProxy) AreNavigationRepeatSoundEffectsEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceAreNavigationRepeatSoundEffectsEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "areNavigationRepeatSoundEffectsEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5177,7 +5177,7 @@ func (p *AudioServiceProxy) SetNavigationRepeatSoundEffectsEnabled(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(enabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetNavigationRepeatSoundEffectsEnabled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setNavigationRepeatSoundEffectsEnabled"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -5188,7 +5188,7 @@ func (p *AudioServiceProxy) IsHomeSoundEffectEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsHomeSoundEffectEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isHomeSoundEffectEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5213,7 +5213,7 @@ func (p *AudioServiceProxy) SetHomeSoundEffectEnabled(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(enabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetHomeSoundEffectEnabled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setHomeSoundEffectEnabled"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -5230,7 +5230,7 @@ func (p *AudioServiceProxy) SetAdditionalOutputDeviceDelay(
 	}
 	_data.WriteInt64(delayMillis)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetAdditionalOutputDeviceDelay, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setAdditionalOutputDeviceDelay"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5258,7 +5258,7 @@ func (p *AudioServiceProxy) GetAdditionalOutputDeviceDelay(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetAdditionalOutputDeviceDelay, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getAdditionalOutputDeviceDelay"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5286,7 +5286,7 @@ func (p *AudioServiceProxy) GetMaxAdditionalOutputDeviceDelay(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetMaxAdditionalOutputDeviceDelay, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getMaxAdditionalOutputDeviceDelay"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5330,7 +5330,7 @@ func (p *AudioServiceProxy) RequestAudioFocusForTest(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(sdk)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRequestAudioFocusForTest, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "requestAudioFocusForTest"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5364,7 +5364,7 @@ func (p *AudioServiceProxy) AbandonAudioFocusForTest(
 	}
 	_data.WriteString16(callingPackageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceAbandonAudioFocusForTest, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "abandonAudioFocusForTest"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5392,7 +5392,7 @@ func (p *AudioServiceProxy) GetFadeOutDurationOnFocusLossMillis(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetFadeOutDurationOnFocusLossMillis, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getFadeOutDurationOnFocusLossMillis"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5416,7 +5416,7 @@ func (p *AudioServiceProxy) GetFocusDuckedUidsForTest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetFocusDuckedUidsForTest, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getFocusDuckedUidsForTest"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5446,7 +5446,7 @@ func (p *AudioServiceProxy) GetFocusFadeOutDurationForTest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetFocusFadeOutDurationForTest, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getFocusFadeOutDurationForTest"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5470,7 +5470,7 @@ func (p *AudioServiceProxy) GetFocusUnmuteDelayAfterFadeOutForTest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetFocusUnmuteDelayAfterFadeOutForTest, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getFocusUnmuteDelayAfterFadeOutForTest"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5505,7 +5505,7 @@ func (p *AudioServiceProxy) EnterAudioFocusFreezeForTest(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceEnterAudioFocusFreezeForTest, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "enterAudioFocusFreezeForTest"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5531,7 +5531,7 @@ func (p *AudioServiceProxy) ExitAudioFocusFreezeForTest(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(cb.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceExitAudioFocusFreezeForTest, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "exitAudioFocusFreezeForTest"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5556,7 +5556,7 @@ func (p *AudioServiceProxy) RegisterModeDispatcher(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(dispatcher.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterModeDispatcher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerModeDispatcher"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -5577,7 +5577,7 @@ func (p *AudioServiceProxy) UnregisterModeDispatcher(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(dispatcher.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterModeDispatcher, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterModeDispatcher"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -5588,7 +5588,7 @@ func (p *AudioServiceProxy) GetSpatializerImmersiveAudioLevel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetSpatializerImmersiveAudioLevel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getSpatializerImmersiveAudioLevel"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5612,7 +5612,7 @@ func (p *AudioServiceProxy) IsSpatializerEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsSpatializerEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isSpatializerEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5636,7 +5636,7 @@ func (p *AudioServiceProxy) IsSpatializerAvailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsSpatializerAvailable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isSpatializerAvailable"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5664,7 +5664,7 @@ func (p *AudioServiceProxy) IsSpatializerAvailableForDevice(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsSpatializerAvailableForDevice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isSpatializerAvailableForDevice"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5692,7 +5692,7 @@ func (p *AudioServiceProxy) HasHeadTracker(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceHasHeadTracker, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "hasHeadTracker"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5721,7 +5721,7 @@ func (p *AudioServiceProxy) SetHeadTrackerEnabled(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetHeadTrackerEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setHeadTrackerEnabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -5745,7 +5745,7 @@ func (p *AudioServiceProxy) IsHeadTrackerEnabled(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsHeadTrackerEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isHeadTrackerEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5769,7 +5769,7 @@ func (p *AudioServiceProxy) IsHeadTrackerAvailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsHeadTrackerAvailable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isHeadTrackerAvailable"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5796,7 +5796,7 @@ func (p *AudioServiceProxy) RegisterSpatializerHeadTrackerAvailableCallback(
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 	_data.WriteBool(register)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterSpatializerHeadTrackerAvailableCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerSpatializerHeadTrackerAvailableCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -5817,7 +5817,7 @@ func (p *AudioServiceProxy) SetSpatializerEnabled(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(enabled)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetSpatializerEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setSpatializerEnabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -5845,7 +5845,7 @@ func (p *AudioServiceProxy) CanBeSpatialized(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceCanBeSpatialized, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "canBeSpatialized"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5869,7 +5869,7 @@ func (p *AudioServiceProxy) GetSpatializedChannelMasks(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetSpatializedChannelMasks, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getSpatializedChannelMasks"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -5900,7 +5900,7 @@ func (p *AudioServiceProxy) RegisterSpatializerCallback(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterSpatializerCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerSpatializerCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -5921,7 +5921,7 @@ func (p *AudioServiceProxy) UnregisterSpatializerCallback(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterSpatializerCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterSpatializerCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -5942,7 +5942,7 @@ func (p *AudioServiceProxy) RegisterSpatializerHeadTrackingCallback(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterSpatializerHeadTrackingCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerSpatializerHeadTrackingCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -5963,7 +5963,7 @@ func (p *AudioServiceProxy) UnregisterSpatializerHeadTrackingCallback(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterSpatializerHeadTrackingCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterSpatializerHeadTrackingCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -5984,7 +5984,7 @@ func (p *AudioServiceProxy) RegisterHeadToSoundstagePoseCallback(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterHeadToSoundstagePoseCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerHeadToSoundstagePoseCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6005,7 +6005,7 @@ func (p *AudioServiceProxy) UnregisterHeadToSoundstagePoseCallback(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterHeadToSoundstagePoseCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterHeadToSoundstagePoseCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6025,7 +6025,7 @@ func (p *AudioServiceProxy) GetSpatializerCompatibleAudioDevices(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetSpatializerCompatibleAudioDevices, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getSpatializerCompatibleAudioDevices"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6061,7 +6061,7 @@ func (p *AudioServiceProxy) AddSpatializerCompatibleAudioDevice(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceAddSpatializerCompatibleAudioDevice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "addSpatializerCompatibleAudioDevice"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6084,7 +6084,7 @@ func (p *AudioServiceProxy) RemoveSpatializerCompatibleAudioDevice(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRemoveSpatializerCompatibleAudioDevice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "removeSpatializerCompatibleAudioDevice"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6105,7 +6105,7 @@ func (p *AudioServiceProxy) SetDesiredHeadTrackingMode(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(mode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetDesiredHeadTrackingMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setDesiredHeadTrackingMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6125,7 +6125,7 @@ func (p *AudioServiceProxy) GetDesiredHeadTrackingMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetDesiredHeadTrackingMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getDesiredHeadTrackingMode"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6149,7 +6149,7 @@ func (p *AudioServiceProxy) GetSupportedHeadTrackingModes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetSupportedHeadTrackingModes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getSupportedHeadTrackingModes"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6183,7 +6183,7 @@ func (p *AudioServiceProxy) GetActualHeadTrackingMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetActualHeadTrackingMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getActualHeadTrackingMode"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6215,7 +6215,7 @@ func (p *AudioServiceProxy) SetSpatializerGlobalTransform(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetSpatializerGlobalTransform, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setSpatializerGlobalTransform"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -6225,7 +6225,7 @@ func (p *AudioServiceProxy) RecenterHeadTracker(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceRecenterHeadTracker, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "recenterHeadTracker"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -6246,7 +6246,7 @@ func (p *AudioServiceProxy) SetSpatializerParameter(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetSpatializerParameter, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setSpatializerParameter"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6276,7 +6276,7 @@ func (p *AudioServiceProxy) GetSpatializerParameter(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetSpatializerParameter, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getSpatializerParameter"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6309,7 +6309,7 @@ func (p *AudioServiceProxy) GetSpatializerOutput(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetSpatializerOutput, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getSpatializerOutput"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6334,7 +6334,7 @@ func (p *AudioServiceProxy) RegisterSpatializerOutputCallback(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterSpatializerOutputCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerSpatializerOutputCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6355,7 +6355,7 @@ func (p *AudioServiceProxy) UnregisterSpatializerOutputCallback(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterSpatializerOutputCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterSpatializerOutputCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6375,7 +6375,7 @@ func (p *AudioServiceProxy) IsVolumeFixed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsVolumeFixed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isVolumeFixed"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6399,7 +6399,7 @@ func (p *AudioServiceProxy) GetDefaultVolumeInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetDefaultVolumeInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getDefaultVolumeInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6422,7 +6422,7 @@ func (p *AudioServiceProxy) IsPstnCallAudioInterceptable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsPstnCallAudioInterceptable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isPstnCallAudioInterceptable"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6460,7 +6460,7 @@ func (p *AudioServiceProxy) MuteAwaitConnection(
 	}
 	_data.WriteInt64(timeOutMs)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceMuteAwaitConnection, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "muteAwaitConnection"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -6474,7 +6474,7 @@ func (p *AudioServiceProxy) CancelMuteAwaitConnection(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceCancelMuteAwaitConnection, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "cancelMuteAwaitConnection"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -6485,7 +6485,7 @@ func (p *AudioServiceProxy) GetMutingExpectedDevice(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetMutingExpectedDevice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getMutingExpectedDevice"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6511,7 +6511,7 @@ func (p *AudioServiceProxy) RegisterMuteAwaitConnectionDispatcher(
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 	_data.WriteBool(register)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterMuteAwaitConnectionDispatcher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerMuteAwaitConnectionDispatcher"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6536,7 +6536,7 @@ func (p *AudioServiceProxy) SetTestDeviceConnectionState(
 	}
 	_data.WriteBool(connected)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetTestDeviceConnectionState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setTestDeviceConnectionState"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6559,7 +6559,7 @@ func (p *AudioServiceProxy) RegisterDeviceVolumeBehaviorDispatcher(
 	_data.WriteBool(register)
 	_data.WriteStrongBinder(dispatcher.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterDeviceVolumeBehaviorDispatcher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerDeviceVolumeBehaviorDispatcher"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6579,7 +6579,7 @@ func (p *AudioServiceProxy) GetFocusStack(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetFocusStack, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getFocusStack"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6616,7 +6616,7 @@ func (p *AudioServiceProxy) SendFocusLossAndUpdate(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceSendFocusLossAndUpdate, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "sendFocusLossAndUpdate"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -6632,7 +6632,7 @@ func (p *AudioServiceProxy) SendFocusLoss(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSendFocusLoss, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "sendFocusLoss"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6664,7 +6664,7 @@ func (p *AudioServiceProxy) AddAssistantServicesUids(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceAddAssistantServicesUids, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "addAssistantServicesUids"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6692,7 +6692,7 @@ func (p *AudioServiceProxy) RemoveAssistantServicesUids(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRemoveAssistantServicesUids, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "removeAssistantServicesUids"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6720,7 +6720,7 @@ func (p *AudioServiceProxy) SetActiveAssistantServiceUids(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetActiveAssistantServiceUids, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setActiveAssistantServiceUids"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6740,7 +6740,7 @@ func (p *AudioServiceProxy) GetAssistantServicesUids(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetAssistantServicesUids, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getAssistantServicesUids"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6774,7 +6774,7 @@ func (p *AudioServiceProxy) GetActiveAssistantServiceUids(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetActiveAssistantServiceUids, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getActiveAssistantServiceUids"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6832,7 +6832,7 @@ func (p *AudioServiceProxy) RegisterDeviceVolumeDispatcherForAbsoluteVolume(
 	_data.WriteBool(handlesvolumeAdjustment)
 	_data.WriteInt32(volumeBehavior)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterDeviceVolumeDispatcherForAbsoluteVolume, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerDeviceVolumeDispatcherForAbsoluteVolume"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6852,7 +6852,7 @@ func (p *AudioServiceProxy) GetHalVersion(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetHalVersion, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getHalVersion"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6885,7 +6885,7 @@ func (p *AudioServiceProxy) SetPreferredMixerAttributes(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetPreferredMixerAttributes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setPreferredMixerAttributes"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6915,7 +6915,7 @@ func (p *AudioServiceProxy) ClearPreferredMixerAttributes(
 	}
 	_data.WriteInt32(portId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceClearPreferredMixerAttributes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "clearPreferredMixerAttributes"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6940,7 +6940,7 @@ func (p *AudioServiceProxy) RegisterPreferredMixerAttributesDispatcher(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(dispatcher.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterPreferredMixerAttributesDispatcher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerPreferredMixerAttributesDispatcher"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -6961,7 +6961,7 @@ func (p *AudioServiceProxy) UnregisterPreferredMixerAttributesDispatcher(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(dispatcher.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterPreferredMixerAttributesDispatcher, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterPreferredMixerAttributesDispatcher"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -6972,7 +6972,7 @@ func (p *AudioServiceProxy) SupportsBluetoothVariableLatency(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSupportsBluetoothVariableLatency, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "supportsBluetoothVariableLatency"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -6997,7 +6997,7 @@ func (p *AudioServiceProxy) SetBluetoothVariableLatencyEnabled(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(enabled)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetBluetoothVariableLatencyEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setBluetoothVariableLatencyEnabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -7017,7 +7017,7 @@ func (p *AudioServiceProxy) IsBluetoothVariableLatencyEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceIsBluetoothVariableLatencyEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "isBluetoothVariableLatencyEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -7042,7 +7042,7 @@ func (p *AudioServiceProxy) RegisterLoudnessCodecUpdatesDispatcher(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(dispatcher.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRegisterLoudnessCodecUpdatesDispatcher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "registerLoudnessCodecUpdatesDispatcher"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -7063,7 +7063,7 @@ func (p *AudioServiceProxy) UnregisterLoudnessCodecUpdatesDispatcher(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(dispatcher.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceUnregisterLoudnessCodecUpdatesDispatcher, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "unregisterLoudnessCodecUpdatesDispatcher"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -7084,7 +7084,7 @@ func (p *AudioServiceProxy) StartLoudnessCodecUpdates(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(sessionId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceStartLoudnessCodecUpdates, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "startLoudnessCodecUpdates"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -7105,7 +7105,7 @@ func (p *AudioServiceProxy) StopLoudnessCodecUpdates(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(sessionId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceStopLoudnessCodecUpdates, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "stopLoudnessCodecUpdates"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -7132,7 +7132,7 @@ func (p *AudioServiceProxy) AddLoudnessCodecInfo(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceAddLoudnessCodecInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "addLoudnessCodecInfo"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -7157,7 +7157,7 @@ func (p *AudioServiceProxy) RemoveLoudnessCodecInfo(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceRemoveLoudnessCodecInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "removeLoudnessCodecInfo"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -7181,7 +7181,7 @@ func (p *AudioServiceProxy) GetLoudnessParams(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetLoudnessParams, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getLoudnessParams"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -7205,7 +7205,7 @@ func (p *AudioServiceProxy) SetFadeManagerConfigurationForFocusLoss(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceSetFadeManagerConfigurationForFocusLoss, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "setFadeManagerConfigurationForFocusLoss"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -7229,7 +7229,7 @@ func (p *AudioServiceProxy) ClearFadeManagerConfigurationForFocusLoss(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceClearFadeManagerConfigurationForFocusLoss, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "clearFadeManagerConfigurationForFocusLoss"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -7253,7 +7253,7 @@ func (p *AudioServiceProxy) GetFadeManagerConfigurationForFocusLoss(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceGetFadeManagerConfigurationForFocusLoss, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "getFadeManagerConfigurationForFocusLoss"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -7280,7 +7280,7 @@ func (p *AudioServiceProxy) ShouldNotificationSoundPlay(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAudioServiceShouldNotificationSoundPlay, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioService, "shouldNotificationSoundPlay"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

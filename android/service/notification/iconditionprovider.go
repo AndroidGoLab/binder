@@ -45,7 +45,7 @@ func (p *ConditionProviderProxy) OnConnected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConditionProvider)
 
-	_, _err := p.remote.Transact(ctx, TransactionIConditionProviderOnConnected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConditionProvider, "onConnected"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -56,7 +56,7 @@ func (p *ConditionProviderProxy) OnSubscribe(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConditionProvider)
 
-	_, _err := p.remote.Transact(ctx, TransactionIConditionProviderOnSubscribe, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConditionProvider, "onSubscribe"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +67,6 @@ func (p *ConditionProviderProxy) OnUnsubscribe(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConditionProvider)
 
-	_, _err := p.remote.Transact(ctx, TransactionIConditionProviderOnUnsubscribe, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConditionProvider, "onUnsubscribe"), binder.FlagOneway, _data)
 	return _err
 }

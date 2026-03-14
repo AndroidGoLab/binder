@@ -52,6 +52,6 @@ func (p *ChooserTargetResultProxy) SendResult(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIChooserTargetResultSendResult, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIChooserTargetResult, "sendResult"), binder.FlagOneway, _data)
 	return _err
 }

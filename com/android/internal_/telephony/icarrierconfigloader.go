@@ -58,7 +58,7 @@ func (p *CarrierConfigLoaderProxy) GetConfigForSubId(
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICarrierConfigLoaderGetConfigForSubId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICarrierConfigLoader, "getConfigForSubId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -84,7 +84,7 @@ func (p *CarrierConfigLoaderProxy) GetConfigForSubIdWithFeature(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(callingFeatureId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICarrierConfigLoaderGetConfigForSubIdWithFeature, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICarrierConfigLoader, "getConfigForSubIdWithFeature"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -108,7 +108,7 @@ func (p *CarrierConfigLoaderProxy) OverrideConfig(
 	_data.WriteInt32(subId)
 	_data.WriteBool(persistent)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICarrierConfigLoaderOverrideConfig, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICarrierConfigLoader, "overrideConfig"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -129,7 +129,7 @@ func (p *CarrierConfigLoaderProxy) NotifyConfigChangedForSubId(
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICarrierConfigLoaderNotifyConfigChangedForSubId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICarrierConfigLoader, "notifyConfigChangedForSubId"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -152,7 +152,7 @@ func (p *CarrierConfigLoaderProxy) UpdateConfigForPhoneId(
 	_data.WriteInt32(phoneId)
 	_data.WriteString16(simState)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICarrierConfigLoaderUpdateConfigForPhoneId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICarrierConfigLoader, "updateConfigForPhoneId"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -172,7 +172,7 @@ func (p *CarrierConfigLoaderProxy) GetDefaultCarrierServicePackageName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICarrierConfigLoader)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICarrierConfigLoaderGetDefaultCarrierServicePackageName, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICarrierConfigLoader, "getDefaultCarrierServicePackageName"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -211,7 +211,7 @@ func (p *CarrierConfigLoaderProxy) GetConfigSubsetForSubIdWithFeature(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICarrierConfigLoaderGetConfigSubsetForSubIdWithFeature, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICarrierConfigLoader, "getConfigSubsetForSubIdWithFeature"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

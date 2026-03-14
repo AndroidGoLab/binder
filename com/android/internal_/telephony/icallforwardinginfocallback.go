@@ -48,7 +48,7 @@ func (p *CallForwardingInfoCallbackProxy) OnCallForwardingInfoAvailable(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICallForwardingInfoCallbackOnCallForwardingInfoAvailable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallForwardingInfoCallback, "onCallForwardingInfoAvailable"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +60,6 @@ func (p *CallForwardingInfoCallbackProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorICallForwardingInfoCallback)
 	_data.WriteInt32(error_)
 
-	_, _err := p.remote.Transact(ctx, TransactionICallForwardingInfoCallbackOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallForwardingInfoCallback, "onError"), binder.FlagOneway, _data)
 	return _err
 }

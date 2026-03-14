@@ -43,6 +43,6 @@ func (p *TextServicesSessionListenerProxy) OnServiceConnected(
 	_data.WriteInterfaceToken(DescriptorITextServicesSessionListener)
 	_data.WriteStrongBinder(spellCheckerSession.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionITextServicesSessionListenerOnServiceConnected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextServicesSessionListener, "onServiceConnected"), binder.FlagOneway, _data)
 	return _err
 }

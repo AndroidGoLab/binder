@@ -68,7 +68,7 @@ func (p *VibratorManagerProxy) GetCapabilities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVibratorManagerGetCapabilities, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVibratorManager, "getCapabilities"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -92,7 +92,7 @@ func (p *VibratorManagerProxy) GetVibratorIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVibratorManagerGetVibratorIds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVibratorManager, "getVibratorIds"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -128,7 +128,7 @@ func (p *VibratorManagerProxy) GetVibrator(
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
 	_data.WriteInt32(vibratorId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVibratorManagerGetVibrator, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVibratorManager, "getVibrator"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -161,7 +161,7 @@ func (p *VibratorManagerProxy) PrepareSynced(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVibratorManagerPrepareSynced, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVibratorManager, "prepareSynced"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -182,7 +182,7 @@ func (p *VibratorManagerProxy) TriggerSynced(
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVibratorManagerTriggerSynced, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVibratorManager, "triggerSynced"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -201,7 +201,7 @@ func (p *VibratorManagerProxy) CancelSynced(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVibratorManagerCancelSynced, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVibratorManager, "cancelSynced"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -236,7 +236,7 @@ func (p *VibratorManagerProxy) StartSession(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVibratorManagerStartSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVibratorManager, "startSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -260,7 +260,7 @@ func (p *VibratorManagerProxy) ClearSessions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVibratorManagerClearSessions, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVibratorManager, "clearSessions"), 0, _data)
 	if _err != nil {
 		return _err
 	}

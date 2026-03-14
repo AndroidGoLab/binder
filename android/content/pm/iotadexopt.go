@@ -51,7 +51,7 @@ func (p *OtaDexoptProxy) Prepare(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOtaDexoptPrepare, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOtaDexopt, "prepare"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,7 +70,7 @@ func (p *OtaDexoptProxy) Cleanup(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOtaDexoptCleanup, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOtaDexopt, "cleanup"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -90,7 +90,7 @@ func (p *OtaDexoptProxy) IsDone(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOtaDexoptIsDone, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOtaDexopt, "isDone"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -114,7 +114,7 @@ func (p *OtaDexoptProxy) GetProgress(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOtaDexoptGetProgress, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOtaDexopt, "getProgress"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -137,7 +137,7 @@ func (p *OtaDexoptProxy) DexoptNextPackage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOtaDexoptDexoptNextPackage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOtaDexopt, "dexoptNextPackage"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -157,7 +157,7 @@ func (p *OtaDexoptProxy) NextDexoptCommand(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOtaDexopt)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOtaDexoptNextDexoptCommand, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOtaDexopt, "nextDexoptCommand"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

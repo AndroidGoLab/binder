@@ -43,6 +43,6 @@ func (p *AddTileResultCallbackProxy) OnTileRequest(
 	_data.WriteInterfaceToken(DescriptorIAddTileResultCallback)
 	_data.WriteInt32(userResponse)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAddTileResultCallbackOnTileRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAddTileResultCallback, "onTileRequest"), binder.FlagOneway, _data)
 	return _err
 }

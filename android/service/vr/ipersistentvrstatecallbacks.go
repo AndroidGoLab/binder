@@ -43,6 +43,6 @@ func (p *PersistentVrStateCallbacksProxy) OnPersistentVrStateChanged(
 	_data.WriteInterfaceToken(DescriptorIPersistentVrStateCallbacks)
 	_data.WriteBool(enabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPersistentVrStateCallbacksOnPersistentVrStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPersistentVrStateCallbacks, "onPersistentVrStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

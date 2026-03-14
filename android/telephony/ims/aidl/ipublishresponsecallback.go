@@ -46,7 +46,7 @@ func (p *PublishResponseCallbackProxy) OnCommandError(
 	_data.WriteInterfaceToken(DescriptorIPublishResponseCallback)
 	_data.WriteInt32(code)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPublishResponseCallbackOnCommandError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPublishResponseCallback, "onCommandError"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +60,6 @@ func (p *PublishResponseCallbackProxy) OnNetworkResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPublishResponseCallbackOnNetworkResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPublishResponseCallback, "onNetworkResponse"), binder.FlagOneway, _data)
 	return _err
 }

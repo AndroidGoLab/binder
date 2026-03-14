@@ -49,6 +49,6 @@ func (p *GameStateListenerProxy) OnGameStateChanged(
 	}
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGameStateListenerOnGameStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGameStateListener, "onGameStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

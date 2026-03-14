@@ -52,6 +52,6 @@ func (p *ActiveSessionsListenerProxy) OnActiveSessionsChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIActiveSessionsListenerOnActiveSessionsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActiveSessionsListener, "onActiveSessionsChanged"), binder.FlagOneway, _data)
 	return _err
 }

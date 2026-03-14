@@ -93,7 +93,7 @@ func (p *MmsProxy) SendMessage(
 	_data.WriteInt64(messageId)
 	_data.WriteString16(attributionTag)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMmsSendMessage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMms, "sendMessage"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -136,7 +136,7 @@ func (p *MmsProxy) DownloadMessage(
 	_data.WriteInt64(messageId)
 	_data.WriteString16(attributionTag)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMmsDownloadMessage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMms, "downloadMessage"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -170,7 +170,7 @@ func (p *MmsProxy) ImportTextMessage(
 	_data.WriteBool(seen)
 	_data.WriteBool(read)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMmsImportTextMessage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMms, "importTextMessage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -209,7 +209,7 @@ func (p *MmsProxy) ImportMultimediaMessage(
 	_data.WriteBool(seen)
 	_data.WriteBool(read)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMmsImportMultimediaMessage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMms, "importMultimediaMessage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -238,7 +238,7 @@ func (p *MmsProxy) DeleteStoredMessage(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMmsDeleteStoredMessage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMms, "deleteStoredMessage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -266,7 +266,7 @@ func (p *MmsProxy) DeleteStoredConversation(
 	_data.WriteString16(callingPkg)
 	_data.WriteInt64(conversationId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMmsDeleteStoredConversation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMms, "deleteStoredConversation"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -300,7 +300,7 @@ func (p *MmsProxy) UpdateStoredMessageStatus(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMmsUpdateStoredMessageStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMms, "updateStoredMessageStatus"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -330,7 +330,7 @@ func (p *MmsProxy) ArchiveStoredConversation(
 	_data.WriteInt64(conversationId)
 	_data.WriteBool(archived)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMmsArchiveStoredConversation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMms, "archiveStoredConversation"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -360,7 +360,7 @@ func (p *MmsProxy) AddTextMessageDraft(
 	_data.WriteString16(address)
 	_data.WriteString16(text)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMmsAddTextMessageDraft, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMms, "addTextMessageDraft"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -391,7 +391,7 @@ func (p *MmsProxy) AddMultimediaMessageDraft(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMmsAddMultimediaMessageDraft, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMms, "addMultimediaMessageDraft"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -429,7 +429,7 @@ func (p *MmsProxy) SendStoredMessage(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMmsSendStoredMessage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMms, "sendStoredMessage"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -452,7 +452,7 @@ func (p *MmsProxy) SetAutoPersisting(
 	_data.WriteString16(callingPkg)
 	_data.WriteBool(enabled)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMmsSetAutoPersisting, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMms, "setAutoPersisting"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -472,7 +472,7 @@ func (p *MmsProxy) GetAutoPersisting(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMms)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMmsGetAutoPersisting, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMms, "getAutoPersisting"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

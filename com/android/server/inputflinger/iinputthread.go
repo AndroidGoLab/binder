@@ -45,7 +45,7 @@ func (p *InputThreadProxy) Finish(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputThread)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInputThreadFinish, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputThread, "finish"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -64,7 +64,7 @@ func (p *InputThreadProxy) Wake(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputThread)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInputThreadWake, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputThread, "wake"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -85,7 +85,7 @@ func (p *InputThreadProxy) SleepUntil(
 	_data.WriteInterfaceToken(DescriptorIInputThread)
 	_data.WriteInt64(whenNanos)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInputThreadSleepUntil, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputThread, "sleepUntil"), 0, _data)
 	if _err != nil {
 		return _err
 	}

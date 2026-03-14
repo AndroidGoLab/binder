@@ -41,6 +41,6 @@ func (p *OnPrimaryClipChangedListenerProxy) DispatchPrimaryClipChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnPrimaryClipChangedListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnPrimaryClipChangedListenerDispatchPrimaryClipChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnPrimaryClipChangedListener, "dispatchPrimaryClipChanged"), binder.FlagOneway, _data)
 	return _err
 }

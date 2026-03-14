@@ -48,6 +48,6 @@ func (p *CamDrmInfoListenerProxy) OnCamDrmInfoChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICamDrmInfoListenerOnCamDrmInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamDrmInfoListener, "onCamDrmInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }

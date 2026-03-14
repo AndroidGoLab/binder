@@ -53,6 +53,6 @@ func (p *SipDialogStateCallbackProxy) OnActiveSipDialogsChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISipDialogStateCallbackOnActiveSipDialogsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISipDialogStateCallback, "onActiveSipDialogsChanged"), binder.FlagOneway, _data)
 	return _err
 }

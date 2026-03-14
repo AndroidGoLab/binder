@@ -84,7 +84,7 @@ func (p *SensorsProxy) Activate(
 	_data.WriteInt32(sensorHandle)
 	_data.WriteBool(enabled)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISensorsActivate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISensors, "activate"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -109,7 +109,7 @@ func (p *SensorsProxy) Batch(
 	_data.WriteInt64(samplingPeriodNs)
 	_data.WriteInt64(maxReportLatencyNs)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISensorsBatch, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISensors, "batch"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -135,7 +135,7 @@ func (p *SensorsProxy) ConfigDirectReport(
 	_data.WriteInt32(channelHandle)
 	_data.WriteInt32(int32(rate))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISensorsConfigDirectReport, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISensors, "configDirectReport"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -160,7 +160,7 @@ func (p *SensorsProxy) Flush(
 	_data.WriteInterfaceToken(DescriptorISensors)
 	_data.WriteInt32(sensorHandle)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISensorsFlush, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISensors, "flush"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -180,7 +180,7 @@ func (p *SensorsProxy) GetSensorsList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISensors)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISensorsGetSensorsList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISensors, "getSensorsList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -222,7 +222,7 @@ func (p *SensorsProxy) Initialize(
 	}
 	_data.WriteStrongBinder(sensorsCallback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISensorsInitialize, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISensors, "initialize"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -245,7 +245,7 @@ func (p *SensorsProxy) InjectSensorData(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISensorsInjectSensorData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISensors, "injectSensorData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -269,7 +269,7 @@ func (p *SensorsProxy) RegisterDirectChannel(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISensorsRegisterDirectChannel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISensors, "registerDirectChannel"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -294,7 +294,7 @@ func (p *SensorsProxy) SetOperationMode(
 	_data.WriteInterfaceToken(DescriptorISensors)
 	_data.WriteInt32(int32(mode))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISensorsSetOperationMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISensors, "setOperationMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -315,7 +315,7 @@ func (p *SensorsProxy) UnregisterDirectChannel(
 	_data.WriteInterfaceToken(DescriptorISensors)
 	_data.WriteInt32(channelHandle)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISensorsUnregisterDirectChannel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISensors, "unregisterDirectChannel"), 0, _data)
 	if _err != nil {
 		return _err
 	}

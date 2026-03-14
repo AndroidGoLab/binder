@@ -45,7 +45,7 @@ func (p *ContextualSearchManagerProxy) StartContextualSearch(
 	_data.WriteInterfaceToken(DescriptorIContextualSearchManager)
 	_data.WriteInt32(entrypoint)
 
-	_, _err := p.remote.Transact(ctx, TransactionIContextualSearchManagerStartContextualSearch, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIContextualSearchManager, "startContextualSearch"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,6 +59,6 @@ func (p *ContextualSearchManagerProxy) GetContextualSearchState(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIContextualSearchManagerGetContextualSearchState, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIContextualSearchManager, "getContextualSearchState"), binder.FlagOneway, _data)
 	return _err
 }

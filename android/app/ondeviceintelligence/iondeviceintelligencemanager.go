@@ -61,7 +61,7 @@ func (p *OnDeviceIntelligenceManagerProxy) GetVersion(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOnDeviceIntelligenceManagerGetVersion, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "getVersion"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -84,7 +84,7 @@ func (p *OnDeviceIntelligenceManagerProxy) GetFeature(
 	_data.WriteInt32(featureId)
 	_data.WriteStrongBinder(remoteCallback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOnDeviceIntelligenceManagerGetFeature, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "getFeature"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -105,7 +105,7 @@ func (p *OnDeviceIntelligenceManagerProxy) ListFeatures(
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
 	_data.WriteStrongBinder(listFeaturesCallback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOnDeviceIntelligenceManagerListFeatures, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "listFeatures"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -130,7 +130,7 @@ func (p *OnDeviceIntelligenceManagerProxy) GetFeatureDetails(
 	}
 	_data.WriteStrongBinder(featureDetailsCallback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOnDeviceIntelligenceManagerGetFeatureDetails, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "getFeatureDetails"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -159,7 +159,7 @@ func (p *OnDeviceIntelligenceManagerProxy) RequestFeatureDownload(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOnDeviceIntelligenceManagerRequestFeatureDownload, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "requestFeatureDownload"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -189,7 +189,7 @@ func (p *OnDeviceIntelligenceManagerProxy) RequestTokenInfo(
 	}
 	_data.WriteStrongBinder(tokenInfocallback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOnDeviceIntelligenceManagerRequestTokenInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "requestTokenInfo"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -225,7 +225,7 @@ func (p *OnDeviceIntelligenceManagerProxy) ProcessRequest(
 	}
 	_data.WriteStrongBinder(responseCallback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOnDeviceIntelligenceManagerProcessRequest, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "processRequest"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -261,7 +261,7 @@ func (p *OnDeviceIntelligenceManagerProxy) ProcessRequestStreaming(
 	}
 	_data.WriteStrongBinder(streamingCallback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOnDeviceIntelligenceManagerProcessRequestStreaming, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "processRequestStreaming"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -281,7 +281,7 @@ func (p *OnDeviceIntelligenceManagerProxy) GetRemoteServicePackageName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOnDeviceIntelligenceManagerGetRemoteServicePackageName, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "getRemoteServicePackageName"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -307,7 +307,7 @@ func (p *OnDeviceIntelligenceManagerProxy) GetLatestInferenceInfo(
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
 	_data.WriteInt64(startTimeEpochMillis)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOnDeviceIntelligenceManagerGetLatestInferenceInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "getLatestInferenceInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

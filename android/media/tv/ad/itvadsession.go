@@ -77,7 +77,7 @@ func (p *TvAdSessionProxy) Release(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionRelease, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "release"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,7 +87,7 @@ func (p *TvAdSessionProxy) StartAdService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionStartAdService, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "startAdService"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,7 +97,7 @@ func (p *TvAdSessionProxy) StopAdService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionStopAdService, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "stopAdService"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,7 +107,7 @@ func (p *TvAdSessionProxy) ResetAdService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionResetAdService, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "resetAdService"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -118,7 +118,7 @@ func (p *TvAdSessionProxy) SetSurface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionSetSurface, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "setSurface"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -134,7 +134,7 @@ func (p *TvAdSessionProxy) DispatchSurfaceChanged(
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionDispatchSurfaceChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "dispatchSurfaceChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -148,7 +148,7 @@ func (p *TvAdSessionProxy) SendCurrentVideoBounds(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionSendCurrentVideoBounds, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "sendCurrentVideoBounds"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -162,7 +162,7 @@ func (p *TvAdSessionProxy) SendCurrentChannelUri(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionSendCurrentChannelUri, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "sendCurrentChannelUri"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -183,7 +183,7 @@ func (p *TvAdSessionProxy) SendTrackInfoList(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionSendTrackInfoList, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "sendTrackInfoList"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -195,7 +195,7 @@ func (p *TvAdSessionProxy) SendCurrentTvInputId(
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 	_data.WriteString16(inputId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionSendCurrentTvInputId, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "sendCurrentTvInputId"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -216,7 +216,7 @@ func (p *TvAdSessionProxy) SendSigningResult(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionSendSigningResult, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "sendSigningResult"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -232,7 +232,7 @@ func (p *TvAdSessionProxy) NotifyError(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionNotifyError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "notifyError"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -248,7 +248,7 @@ func (p *TvAdSessionProxy) NotifyTvMessage(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionNotifyTvMessage, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "notifyTvMessage"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -264,7 +264,7 @@ func (p *TvAdSessionProxy) CreateMediaView(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionCreateMediaView, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "createMediaView"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -278,7 +278,7 @@ func (p *TvAdSessionProxy) RelayoutMediaView(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionRelayoutMediaView, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "relayoutMediaView"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -288,7 +288,7 @@ func (p *TvAdSessionProxy) RemoveMediaView(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionRemoveMediaView, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "removeMediaView"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -304,6 +304,6 @@ func (p *TvAdSessionProxy) NotifyTvInputSessionData(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdSessionNotifyTvInputSessionData, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdSession, "notifyTvInputSessionData"), binder.FlagOneway, _data)
 	return _err
 }

@@ -42,7 +42,7 @@ func (p *StatusBarNotificationHolderProxy) Get(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStatusBarNotificationHolder)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStatusBarNotificationHolderGet, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStatusBarNotificationHolder, "get"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

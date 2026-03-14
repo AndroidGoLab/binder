@@ -54,7 +54,7 @@ func (p *WifiProxy) GetChip(
 	_data.WriteInterfaceToken(DescriptorIWifi)
 	_data.WriteInt32(chipId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiGetChip, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifi, "getChip"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -79,7 +79,7 @@ func (p *WifiProxy) GetChipIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifi)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiGetChipIds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifi, "getChipIds"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -113,7 +113,7 @@ func (p *WifiProxy) IsStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifi)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiIsStarted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifi, "isStarted"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -138,7 +138,7 @@ func (p *WifiProxy) RegisterEventCallback(
 	_data.WriteInterfaceToken(DescriptorIWifi)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiRegisterEventCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifi, "registerEventCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -157,7 +157,7 @@ func (p *WifiProxy) Start(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifi)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiStart, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifi, "start"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -176,7 +176,7 @@ func (p *WifiProxy) Stop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifi)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiStop, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifi, "stop"), 0, _data)
 	if _err != nil {
 		return _err
 	}

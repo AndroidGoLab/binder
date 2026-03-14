@@ -46,6 +46,6 @@ func (p *WwanSelectorResultCallbackProxy) OnComplete(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIWwanSelectorResultCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWwanSelectorResultCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

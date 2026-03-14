@@ -61,6 +61,6 @@ func (p *AudioGainCallbackProxy) OnAudioDeviceGainsChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioGainCallbackOnAudioDeviceGainsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioGainCallback, "onAudioDeviceGainsChanged"), binder.FlagOneway, _data)
 	return _err
 }

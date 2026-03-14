@@ -51,7 +51,7 @@ func (p *UserSwitchObserverProxy) OnBeforeUserSwitching(
 	_data.WriteInterfaceToken(DescriptorIUserSwitchObserver)
 	_data.WriteInt32(newUserId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIUserSwitchObserverOnBeforeUserSwitching, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUserSwitchObserver, "onBeforeUserSwitching"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -73,7 +73,7 @@ func (p *UserSwitchObserverProxy) OnUserSwitching(
 	_data.WriteInterfaceToken(DescriptorIUserSwitchObserver)
 	_data.WriteInt32(newUserId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUserSwitchObserverOnUserSwitching, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUserSwitchObserver, "onUserSwitching"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,7 +85,7 @@ func (p *UserSwitchObserverProxy) OnUserSwitchComplete(
 	_data.WriteInterfaceToken(DescriptorIUserSwitchObserver)
 	_data.WriteInt32(newUserId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUserSwitchObserverOnUserSwitchComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUserSwitchObserver, "onUserSwitchComplete"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,7 +97,7 @@ func (p *UserSwitchObserverProxy) OnForegroundProfileSwitch(
 	_data.WriteInterfaceToken(DescriptorIUserSwitchObserver)
 	_data.WriteInt32(newProfileId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUserSwitchObserverOnForegroundProfileSwitch, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUserSwitchObserver, "onForegroundProfileSwitch"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -109,6 +109,6 @@ func (p *UserSwitchObserverProxy) OnLockedBootComplete(
 	_data.WriteInterfaceToken(DescriptorIUserSwitchObserver)
 	_data.WriteInt32(newUserId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUserSwitchObserverOnLockedBootComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUserSwitchObserver, "onLockedBootComplete"), binder.FlagOneway, _data)
 	return _err
 }

@@ -60,7 +60,7 @@ func (p *PresenceListenerProxy) GetVersionCb(
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
 	_data.WriteString16(version)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPresenceListenerGetVersionCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPresenceListener, "getVersionCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -81,7 +81,7 @@ func (p *PresenceListenerProxy) ServiceAvailable(
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
 	_data.WriteInt32(int32(statusCode))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPresenceListenerServiceAvailable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPresenceListener, "serviceAvailable"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -102,7 +102,7 @@ func (p *PresenceListenerProxy) ServiceUnAvailable(
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
 	_data.WriteInt32(int32(statusCode))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPresenceListenerServiceUnAvailable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPresenceListener, "serviceUnAvailable"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -125,7 +125,7 @@ func (p *PresenceListenerProxy) PublishTriggering(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPresenceListenerPublishTriggering, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPresenceListener, "publishTriggering"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -148,7 +148,7 @@ func (p *PresenceListenerProxy) CmdStatus(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPresenceListenerCmdStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPresenceListener, "cmdStatus"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -171,7 +171,7 @@ func (p *PresenceListenerProxy) SipResponseReceived(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPresenceListenerSipResponseReceived, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPresenceListener, "sipResponseReceived"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -203,7 +203,7 @@ func (p *PresenceListenerProxy) CapInfoReceived(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPresenceListenerCapInfoReceived, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPresenceListener, "capInfoReceived"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -237,7 +237,7 @@ func (p *PresenceListenerProxy) ListCapInfoReceived(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPresenceListenerListCapInfoReceived, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPresenceListener, "listCapInfoReceived"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -256,7 +256,7 @@ func (p *PresenceListenerProxy) UnpublishMessageSent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPresenceListenerUnpublishMessageSent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPresenceListener, "unpublishMessageSent"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -46,7 +46,7 @@ func (p *SecureElementServiceProxy) GetReaders(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureElementServiceGetReaders, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureElementService, "getReaders"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,7 +82,7 @@ func (p *SecureElementServiceProxy) GetReader(
 	_data.WriteInterfaceToken(DescriptorISecureElementService)
 	_data.WriteString16(reader)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureElementServiceGetReader, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureElementService, "getReader"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -129,7 +129,7 @@ func (p *SecureElementServiceProxy) IsNfcEventAllowed(
 	}
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureElementServiceIsNfcEventAllowed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureElementService, "isNfcEventAllowed"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

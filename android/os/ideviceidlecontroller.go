@@ -85,7 +85,7 @@ func (p *DeviceIdleControllerProxy) AddPowerSaveWhitelistApp(
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(name)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerAddPowerSaveWhitelistApp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "addPowerSaveWhitelistApp"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -114,7 +114,7 @@ func (p *DeviceIdleControllerProxy) AddPowerSaveWhitelistApps(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerAddPowerSaveWhitelistApps, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "addPowerSaveWhitelistApps"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -139,7 +139,7 @@ func (p *DeviceIdleControllerProxy) RemovePowerSaveWhitelistApp(
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(name)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerRemovePowerSaveWhitelistApp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "removePowerSaveWhitelistApp"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -160,7 +160,7 @@ func (p *DeviceIdleControllerProxy) RemoveSystemPowerWhitelistApp(
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(name)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerRemoveSystemPowerWhitelistApp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "removeSystemPowerWhitelistApp"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -181,7 +181,7 @@ func (p *DeviceIdleControllerProxy) RestoreSystemPowerWhitelistApp(
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(name)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerRestoreSystemPowerWhitelistApp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "restoreSystemPowerWhitelistApp"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -201,7 +201,7 @@ func (p *DeviceIdleControllerProxy) GetRemovedSystemPowerWhitelistApps(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerGetRemovedSystemPowerWhitelistApps, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "getRemovedSystemPowerWhitelistApps"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -235,7 +235,7 @@ func (p *DeviceIdleControllerProxy) GetSystemPowerWhitelistExceptIdle(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerGetSystemPowerWhitelistExceptIdle, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "getSystemPowerWhitelistExceptIdle"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -269,7 +269,7 @@ func (p *DeviceIdleControllerProxy) GetSystemPowerWhitelist(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerGetSystemPowerWhitelist, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "getSystemPowerWhitelist"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -303,7 +303,7 @@ func (p *DeviceIdleControllerProxy) GetUserPowerWhitelist(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerGetUserPowerWhitelist, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "getUserPowerWhitelist"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -337,7 +337,7 @@ func (p *DeviceIdleControllerProxy) GetFullPowerWhitelistExceptIdle(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerGetFullPowerWhitelistExceptIdle, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "getFullPowerWhitelistExceptIdle"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -371,7 +371,7 @@ func (p *DeviceIdleControllerProxy) GetFullPowerWhitelist(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerGetFullPowerWhitelist, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "getFullPowerWhitelist"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -405,7 +405,7 @@ func (p *DeviceIdleControllerProxy) GetAppIdWhitelistExceptIdle(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerGetAppIdWhitelistExceptIdle, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "getAppIdWhitelistExceptIdle"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -439,7 +439,7 @@ func (p *DeviceIdleControllerProxy) GetAppIdWhitelist(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerGetAppIdWhitelist, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "getAppIdWhitelist"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -473,7 +473,7 @@ func (p *DeviceIdleControllerProxy) GetAppIdUserWhitelist(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerGetAppIdUserWhitelist, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "getAppIdUserWhitelist"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -507,7 +507,7 @@ func (p *DeviceIdleControllerProxy) GetAppIdTempWhitelist(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerGetAppIdTempWhitelist, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "getAppIdTempWhitelist"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -543,7 +543,7 @@ func (p *DeviceIdleControllerProxy) IsPowerSaveWhitelistExceptIdleApp(
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(name)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerIsPowerSaveWhitelistExceptIdleApp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "isPowerSaveWhitelistExceptIdleApp"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -569,7 +569,7 @@ func (p *DeviceIdleControllerProxy) IsPowerSaveWhitelistApp(
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(name)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerIsPowerSaveWhitelistApp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "isPowerSaveWhitelistApp"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -602,7 +602,7 @@ func (p *DeviceIdleControllerProxy) AddPowerSaveTempWhitelistApp(
 	_data.WriteInt32(reasonCode)
 	_data.WriteString16(reason)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerAddPowerSaveTempWhitelistApp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "addPowerSaveTempWhitelistApp"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -630,7 +630,7 @@ func (p *DeviceIdleControllerProxy) AddPowerSaveTempWhitelistAppForMms(
 	_data.WriteInt32(reasonCode)
 	_data.WriteString16(reason)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerAddPowerSaveTempWhitelistAppForMms, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "addPowerSaveTempWhitelistAppForMms"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -662,7 +662,7 @@ func (p *DeviceIdleControllerProxy) AddPowerSaveTempWhitelistAppForSms(
 	_data.WriteInt32(reasonCode)
 	_data.WriteString16(reason)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerAddPowerSaveTempWhitelistAppForSms, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "addPowerSaveTempWhitelistAppForSms"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -694,7 +694,7 @@ func (p *DeviceIdleControllerProxy) WhitelistAppTemporarily(
 	_data.WriteInt32(reasonCode)
 	_data.WriteString16(reason)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerWhitelistAppTemporarily, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "whitelistAppTemporarily"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -719,7 +719,7 @@ func (p *DeviceIdleControllerProxy) ExitIdle(
 	_data.WriteInterfaceToken(DescriptorIDeviceIdleController)
 	_data.WriteString16(reason)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerExitIdle, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleController, "exitIdle"), 0, _data)
 	if _err != nil {
 		return _err
 	}

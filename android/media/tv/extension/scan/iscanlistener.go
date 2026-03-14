@@ -52,7 +52,7 @@ func (p *ScanListenerProxy) OnEvent(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIScanListenerOnEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScanListener, "onEvent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,7 +68,7 @@ func (p *ScanListenerProxy) OnScanProgress(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIScanListenerOnScanProgress, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScanListener, "onScanProgress"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,7 +80,7 @@ func (p *ScanListenerProxy) OnScanCompleted(
 	_data.WriteInterfaceToken(DescriptorIScanListener)
 	_data.WriteInt32(scanResult)
 
-	_, _err := p.remote.Transact(ctx, TransactionIScanListenerOnScanCompleted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScanListener, "onScanCompleted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,6 +92,6 @@ func (p *ScanListenerProxy) OnStoreCompleted(
 	_data.WriteInterfaceToken(DescriptorIScanListener)
 	_data.WriteInt32(storeResult)
 
-	_, _err := p.remote.Transact(ctx, TransactionIScanListenerOnStoreCompleted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScanListener, "onStoreCompleted"), binder.FlagOneway, _data)
 	return _err
 }

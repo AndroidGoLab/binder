@@ -42,7 +42,7 @@ func (p *SecurityStateManagerProxy) GetGlobalSecurityState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecurityStateManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecurityStateManagerGetGlobalSecurityState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecurityStateManager, "getGlobalSecurityState"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

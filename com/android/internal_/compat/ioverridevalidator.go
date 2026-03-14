@@ -46,7 +46,7 @@ func (p *OverrideValidatorProxy) GetOverrideAllowedState(
 	_data.WriteInt64(changeId)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOverrideValidatorGetOverrideAllowedState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOverrideValidator, "getOverrideAllowedState"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

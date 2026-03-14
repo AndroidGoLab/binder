@@ -45,7 +45,7 @@ func (p *DataShareCallbackProxy) Accept(
 	_data.WriteInterfaceToken(DescriptorIDataShareCallback)
 	_data.WriteStrongBinder(adapter.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataShareCallbackAccept, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataShareCallback, "accept"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -55,6 +55,6 @@ func (p *DataShareCallbackProxy) Reject(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataShareCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataShareCallbackReject, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataShareCallback, "reject"), binder.FlagOneway, _data)
 	return _err
 }

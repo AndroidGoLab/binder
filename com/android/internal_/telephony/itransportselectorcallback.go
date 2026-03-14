@@ -49,7 +49,7 @@ func (p *TransportSelectorCallbackProxy) OnCreated(
 	_data.WriteInterfaceToken(DescriptorITransportSelectorCallback)
 	_data.WriteStrongBinder(selector.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionITransportSelectorCallbackOnCreated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITransportSelectorCallback, "onCreated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,7 +61,7 @@ func (p *TransportSelectorCallbackProxy) OnWlanSelected(
 	_data.WriteInterfaceToken(DescriptorITransportSelectorCallback)
 	_data.WriteBool(useEmergencyPdn)
 
-	_, _err := p.remote.Transact(ctx, TransactionITransportSelectorCallbackOnWlanSelected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITransportSelectorCallback, "onWlanSelected"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,7 +73,7 @@ func (p *TransportSelectorCallbackProxy) OnWwanSelectedAsync(
 	_data.WriteInterfaceToken(DescriptorITransportSelectorCallback)
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionITransportSelectorCallbackOnWwanSelectedAsync, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITransportSelectorCallback, "onWwanSelectedAsync"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,6 +85,6 @@ func (p *TransportSelectorCallbackProxy) OnSelectionTerminated(
 	_data.WriteInterfaceToken(DescriptorITransportSelectorCallback)
 	_data.WriteInt32(cause)
 
-	_, _err := p.remote.Transact(ctx, TransactionITransportSelectorCallbackOnSelectionTerminated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITransportSelectorCallback, "onSelectionTerminated"), binder.FlagOneway, _data)
 	return _err
 }

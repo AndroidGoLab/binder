@@ -44,7 +44,7 @@ func (p *UsbSerialReaderProxy) GetSerial(
 	_data.WriteInterfaceToken(DescriptorIUsbSerialReader)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIUsbSerialReaderGetSerial, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUsbSerialReader, "getSerial"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

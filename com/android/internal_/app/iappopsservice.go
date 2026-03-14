@@ -164,7 +164,7 @@ func (p *AppOpsServiceProxy) CheckOperation(
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceCheckOperation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "checkOperation"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -202,7 +202,7 @@ func (p *AppOpsServiceProxy) NoteOperation(
 	_data.WriteString16(message)
 	_data.WriteBool(shouldCollectMessage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceNoteOperation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "noteOperation"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -244,7 +244,7 @@ func (p *AppOpsServiceProxy) StartOperation(
 	_data.WriteInt32(attributionFlags)
 	_data.WriteInt32(attributionChainId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceStartOperation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "startOperation"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -273,7 +273,7 @@ func (p *AppOpsServiceProxy) FinishOperation(
 	_data.WriteString16(packageName)
 	_data.WriteString16(attributionTag)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceFinishOperation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "finishOperation"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -298,7 +298,7 @@ func (p *AppOpsServiceProxy) StartWatchingMode(
 	_data.WriteString16(packageName)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceStartWatchingMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "startWatchingMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -319,7 +319,7 @@ func (p *AppOpsServiceProxy) StopWatchingMode(
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceStopWatchingMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "stopWatchingMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -341,7 +341,7 @@ func (p *AppOpsServiceProxy) PermissionToOpCode(
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteString16(permission)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServicePermissionToOpCode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "permissionToOpCode"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -373,7 +373,7 @@ func (p *AppOpsServiceProxy) CheckAudioOperation(
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceCheckAudioOperation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "checkAudioOperation"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -399,7 +399,7 @@ func (p *AppOpsServiceProxy) ShouldCollectNotes(
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(opCode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceShouldCollectNotes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "shouldCollectNotes"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -424,7 +424,7 @@ func (p *AppOpsServiceProxy) SetCameraAudioRestriction(
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(mode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceSetCameraAudioRestriction, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "setCameraAudioRestriction"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -451,7 +451,7 @@ func (p *AppOpsServiceProxy) StartWatchingModeWithFlags(
 	_data.WriteInt32(flags)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceStartWatchingModeWithFlags, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "startWatchingModeWithFlags"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -482,7 +482,7 @@ func (p *AppOpsServiceProxy) NoteProxyOperation(
 	_data.WriteBool(shouldCollectMessage)
 	_data.WriteBool(skipProxyOperation)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceNoteProxyOperation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "noteProxyOperation"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -523,7 +523,7 @@ func (p *AppOpsServiceProxy) StartProxyOperation(
 	_data.WriteInt32(proxiedAttributionFlags)
 	_data.WriteInt32(attributionChainId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceStartProxyOperation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "startProxyOperation"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -549,7 +549,7 @@ func (p *AppOpsServiceProxy) FinishProxyOperation(
 	_data.WriteInt32(code)
 	_data.WriteBool(skipProxyOperation)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceFinishProxyOperation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "finishProxyOperation"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -573,7 +573,7 @@ func (p *AppOpsServiceProxy) CheckPackage(
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceCheckPackage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "checkPackage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -597,7 +597,7 @@ func (p *AppOpsServiceProxy) CollectRuntimeAppOpAccessMessage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceCollectRuntimeAppOpAccessMessage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "collectRuntimeAppOpAccessMessage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -622,7 +622,7 @@ func (p *AppOpsServiceProxy) ReportRuntimeAppOpAccessMessageAndGetConfig(
 	_data.WriteString16(packageName)
 	_data.WriteString16(message)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceReportRuntimeAppOpAccessMessageAndGetConfig, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "reportRuntimeAppOpAccessMessageAndGetConfig"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -654,7 +654,7 @@ func (p *AppOpsServiceProxy) GetPackagesForOps(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceGetPackagesForOps, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "getPackagesForOps"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -697,7 +697,7 @@ func (p *AppOpsServiceProxy) GetOpsForPackage(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceGetOpsForPackage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "getOpsForPackage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -752,7 +752,7 @@ func (p *AppOpsServiceProxy) GetHistoricalOps(
 	_data.WriteInt64(endTimeMillis)
 	_data.WriteInt32(flags)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceGetHistoricalOps, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "getHistoricalOps"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -797,7 +797,7 @@ func (p *AppOpsServiceProxy) GetHistoricalOpsFromDiskRaw(
 	_data.WriteInt64(endTimeMillis)
 	_data.WriteInt32(flags)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceGetHistoricalOpsFromDiskRaw, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "getHistoricalOpsFromDiskRaw"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -818,7 +818,7 @@ func (p *AppOpsServiceProxy) OffsetHistory(
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt64(duration)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceOffsetHistory, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "offsetHistory"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -843,7 +843,7 @@ func (p *AppOpsServiceProxy) SetHistoryParameters(
 	_data.WriteInt64(baseSnapshotInterval)
 	_data.WriteInt32(compressionStep)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceSetHistoryParameters, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "setHistoryParameters"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -863,7 +863,7 @@ func (p *AppOpsServiceProxy) AddHistoricalOps(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceAddHistoricalOps, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "addHistoricalOps"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -882,7 +882,7 @@ func (p *AppOpsServiceProxy) ResetHistoryParameters(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceResetHistoryParameters, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "resetHistoryParameters"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -903,7 +903,7 @@ func (p *AppOpsServiceProxy) ResetPackageOpsNoHistory(
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceResetPackageOpsNoHistory, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "resetPackageOpsNoHistory"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -922,7 +922,7 @@ func (p *AppOpsServiceProxy) ClearHistory(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceClearHistory, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "clearHistory"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -943,7 +943,7 @@ func (p *AppOpsServiceProxy) RebootHistory(
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt64(offlineDurationMillis)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceRebootHistory, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "rebootHistory"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -974,7 +974,7 @@ func (p *AppOpsServiceProxy) GetUidOps(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceGetUidOps, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "getUidOps"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1009,7 +1009,7 @@ func (p *AppOpsServiceProxy) SetUidMode(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(mode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceSetUidMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "setUidMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1036,7 +1036,7 @@ func (p *AppOpsServiceProxy) SetMode(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(mode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceSetMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "setMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1059,7 +1059,7 @@ func (p *AppOpsServiceProxy) ResetAllModes(
 	_data.WriteInt32(reqUserId)
 	_data.WriteString16(reqPackageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceResetAllModes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "resetAllModes"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1095,7 +1095,7 @@ func (p *AppOpsServiceProxy) SetAudioRestriction(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceSetAudioRestriction, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "setAudioRestriction"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1119,7 +1119,7 @@ func (p *AppOpsServiceProxy) SetUserRestrictions(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteInt32(userHandle)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceSetUserRestrictions, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "setUserRestrictions"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1147,7 +1147,7 @@ func (p *AppOpsServiceProxy) SetUserRestriction(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteInt32(userHandle)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceSetUserRestriction, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "setUserRestriction"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1168,7 +1168,7 @@ func (p *AppOpsServiceProxy) RemoveUser(
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(userHandle)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceRemoveUser, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "removeUser"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1198,7 +1198,7 @@ func (p *AppOpsServiceProxy) StartWatchingActive(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceStartWatchingActive, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "startWatchingActive"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1219,7 +1219,7 @@ func (p *AppOpsServiceProxy) StopWatchingActive(
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceStopWatchingActive, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "stopWatchingActive"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1245,7 +1245,7 @@ func (p *AppOpsServiceProxy) IsOperationActive(
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceIsOperationActive, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "isOperationActive"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1279,7 +1279,7 @@ func (p *AppOpsServiceProxy) IsProxying(
 	_data.WriteInt32(proxiedUid)
 	_data.WriteString16(proxiedPackageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceIsProxying, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "isProxying"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1313,7 +1313,7 @@ func (p *AppOpsServiceProxy) StartWatchingStarted(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceStartWatchingStarted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "startWatchingStarted"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1334,7 +1334,7 @@ func (p *AppOpsServiceProxy) StopWatchingStarted(
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceStopWatchingStarted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "stopWatchingStarted"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1364,7 +1364,7 @@ func (p *AppOpsServiceProxy) StartWatchingNoted(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceStartWatchingNoted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "startWatchingNoted"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1385,7 +1385,7 @@ func (p *AppOpsServiceProxy) StopWatchingNoted(
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceStopWatchingNoted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "stopWatchingNoted"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1408,7 +1408,7 @@ func (p *AppOpsServiceProxy) StartWatchingAsyncNoted(
 	_data.WriteString16(packageName)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceStartWatchingAsyncNoted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "startWatchingAsyncNoted"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1431,7 +1431,7 @@ func (p *AppOpsServiceProxy) StopWatchingAsyncNoted(
 	_data.WriteString16(packageName)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceStopWatchingAsyncNoted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "stopWatchingAsyncNoted"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1453,7 +1453,7 @@ func (p *AppOpsServiceProxy) ExtractAsyncOps(
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceExtractAsyncOps, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "extractAsyncOps"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1491,7 +1491,7 @@ func (p *AppOpsServiceProxy) CheckOperationRaw(
 	_data.WriteString16(packageName)
 	_data.WriteString16(attributionTag)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceCheckOperationRaw, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "checkOperationRaw"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1514,7 +1514,7 @@ func (p *AppOpsServiceProxy) ReloadNonHistoricalState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceReloadNonHistoricalState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "reloadNonHistoricalState"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1541,7 +1541,7 @@ func (p *AppOpsServiceProxy) CollectNoteOpCallsForValidation(
 	_data.WriteString16(packageName)
 	_data.WriteInt64(version)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceCollectNoteOpCallsForValidation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "collectNoteOpCallsForValidation"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1572,7 +1572,7 @@ func (p *AppOpsServiceProxy) NoteProxyOperationWithState(
 	_data.WriteBool(shouldCollectMessage)
 	_data.WriteBool(skipProxyOperation)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceNoteProxyOperationWithState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "noteProxyOperationWithState"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1613,7 +1613,7 @@ func (p *AppOpsServiceProxy) StartProxyOperationWithState(
 	_data.WriteInt32(proxiedAttributionFlags)
 	_data.WriteInt32(attributionChainId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceStartProxyOperationWithState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "startProxyOperationWithState"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1639,7 +1639,7 @@ func (p *AppOpsServiceProxy) FinishProxyOperationWithState(
 	_data.WriteInt32(code)
 	_data.WriteBool(skipProxyOperation)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceFinishProxyOperationWithState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "finishProxyOperationWithState"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1669,7 +1669,7 @@ func (p *AppOpsServiceProxy) CheckOperationRawForDevice(
 	_data.WriteString16(attributionTag)
 	_data.WriteInt32(virtualDeviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceCheckOperationRawForDevice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "checkOperationRawForDevice"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1703,7 +1703,7 @@ func (p *AppOpsServiceProxy) CheckOperationForDevice(
 	_data.WriteString16(attributionTag)
 	_data.WriteInt32(virtualDeviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceCheckOperationForDevice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "checkOperationForDevice"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1743,7 +1743,7 @@ func (p *AppOpsServiceProxy) NoteOperationForDevice(
 	_data.WriteString16(message)
 	_data.WriteBool(shouldCollectMessage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceNoteOperationForDevice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "noteOperationForDevice"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1787,7 +1787,7 @@ func (p *AppOpsServiceProxy) StartOperationForDevice(
 	_data.WriteInt32(attributionFlags)
 	_data.WriteInt32(attributionChainId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceStartOperationForDevice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "startOperationForDevice"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1818,7 +1818,7 @@ func (p *AppOpsServiceProxy) FinishOperationForDevice(
 	_data.WriteString16(attributionTag)
 	_data.WriteInt32(virtualDeviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceFinishOperationForDevice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "finishOperationForDevice"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1849,7 +1849,7 @@ func (p *AppOpsServiceProxy) GetPackagesForOpsForDevice(
 	}
 	_data.WriteString16(persistentDeviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsServiceGetPackagesForOpsForDevice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsService, "getPackagesForOpsForDevice"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

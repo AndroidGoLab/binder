@@ -53,7 +53,7 @@ func (p *SearchManagerProxy) GetSearchableInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISearchManagerGetSearchableInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchManager, "getSearchableInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -76,7 +76,7 @@ func (p *SearchManagerProxy) GetSearchablesInGlobalSearch(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISearchManagerGetSearchablesInGlobalSearch, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchManager, "getSearchablesInGlobalSearch"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -109,7 +109,7 @@ func (p *SearchManagerProxy) GetGlobalSearchActivities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISearchManagerGetGlobalSearchActivities, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchManager, "getGlobalSearchActivities"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -139,7 +139,7 @@ func (p *SearchManagerProxy) GetGlobalSearchActivity(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISearchManagerGetGlobalSearchActivity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchManager, "getGlobalSearchActivity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -159,7 +159,7 @@ func (p *SearchManagerProxy) GetWebSearchActivity(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISearchManagerGetWebSearchActivity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchManager, "getWebSearchActivity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -181,7 +181,7 @@ func (p *SearchManagerProxy) LaunchAssist(
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 	_data.WriteInt32(userHandle)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISearchManagerLaunchAssist, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchManager, "launchAssist"), 0, _data)
 	if _err != nil {
 		return _err
 	}

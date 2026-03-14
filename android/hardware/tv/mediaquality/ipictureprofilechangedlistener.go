@@ -45,6 +45,6 @@ func (p *PictureProfileChangedListenerProxy) OnPictureProfileChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPictureProfileChangedListenerOnPictureProfileChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPictureProfileChangedListener, "onPictureProfileChanged"), binder.FlagOneway, _data)
 	return _err
 }

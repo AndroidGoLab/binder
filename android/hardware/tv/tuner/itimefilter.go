@@ -51,7 +51,7 @@ func (p *TimeFilterProxy) SetTimeStamp(
 	_data.WriteInterfaceToken(DescriptorITimeFilter)
 	_data.WriteInt64(timeStamp)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeFilterSetTimeStamp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeFilter, "setTimeStamp"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,7 +70,7 @@ func (p *TimeFilterProxy) ClearTimeStamp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeFilter)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeFilterClearTimeStamp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeFilter, "clearTimeStamp"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -90,7 +90,7 @@ func (p *TimeFilterProxy) GetTimeStamp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeFilter)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeFilterGetTimeStamp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeFilter, "getTimeStamp"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -114,7 +114,7 @@ func (p *TimeFilterProxy) GetSourceTime(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeFilter)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeFilterGetSourceTime, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeFilter, "getSourceTime"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -137,7 +137,7 @@ func (p *TimeFilterProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeFilter)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeFilterClose, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeFilter, "close"), 0, _data)
 	if _err != nil {
 		return _err
 	}

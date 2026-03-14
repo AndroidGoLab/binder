@@ -45,7 +45,7 @@ func (p *StopUserCallbackProxy) UserStopped(
 	_data.WriteInterfaceToken(DescriptorIStopUserCallback)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStopUserCallbackUserStopped, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStopUserCallback, "userStopped"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -66,7 +66,7 @@ func (p *StopUserCallbackProxy) UserStopAborted(
 	_data.WriteInterfaceToken(DescriptorIStopUserCallback)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStopUserCallbackUserStopAborted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStopUserCallback, "userStopAborted"), 0, _data)
 	if _err != nil {
 		return _err
 	}

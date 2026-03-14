@@ -41,6 +41,6 @@ func (p *VibratorCallbackProxy) OnComplete(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibratorCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVibratorCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVibratorCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

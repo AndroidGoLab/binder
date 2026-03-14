@@ -45,6 +45,6 @@ func (p *CinematicEffectListenerProxy) OnCinematicEffectGenerated(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICinematicEffectListenerOnCinematicEffectGenerated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICinematicEffectListener, "onCinematicEffectGenerated"), binder.FlagOneway, _data)
 	return _err
 }

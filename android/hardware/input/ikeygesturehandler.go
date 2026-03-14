@@ -50,7 +50,7 @@ func (p *KeyGestureHandlerProxy) HandleKeyGesture(
 	}
 	_data.WriteStrongBinder(focusedToken.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyGestureHandlerHandleKeyGesture, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyGestureHandler, "handleKeyGesture"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -76,7 +76,7 @@ func (p *KeyGestureHandlerProxy) IsKeyGestureSupported(
 	_data.WriteInterfaceToken(DescriptorIKeyGestureHandler)
 	_data.WriteInt32(gestureType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyGestureHandlerIsKeyGestureSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyGestureHandler, "isKeyGestureSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

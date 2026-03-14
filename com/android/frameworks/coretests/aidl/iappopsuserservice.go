@@ -57,7 +57,7 @@ func (p *AppOpsUserServiceProxy) CallApiThatNotesSyncOpNativelyAndCheckLog(
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserService)
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsUserServiceCallApiThatNotesSyncOpNativelyAndCheckLog, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsUserService, "callApiThatNotesSyncOpNativelyAndCheckLog"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,7 +78,7 @@ func (p *AppOpsUserServiceProxy) CallApiThatNotesNonPermissionSyncOpNativelyAndC
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserService)
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsUserServiceCallApiThatNotesNonPermissionSyncOpNativelyAndCheckLog, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsUserService, "callApiThatNotesNonPermissionSyncOpNativelyAndCheckLog"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -99,7 +99,7 @@ func (p *AppOpsUserServiceProxy) CallOnewayApiThatNotesSyncOpNativelyAndCheckLog
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserService)
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsUserServiceCallOnewayApiThatNotesSyncOpNativelyAndCheckLog, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsUserService, "callOnewayApiThatNotesSyncOpNativelyAndCheckLog"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -120,7 +120,7 @@ func (p *AppOpsUserServiceProxy) CallApiThatNotesSyncOpOtherUidNativelyAndCheckL
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserService)
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsUserServiceCallApiThatNotesSyncOpOtherUidNativelyAndCheckLog, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsUserService, "callApiThatNotesSyncOpOtherUidNativelyAndCheckLog"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -141,7 +141,7 @@ func (p *AppOpsUserServiceProxy) CallApiThatNotesAsyncOpNativelyAndCheckCustomMe
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserService)
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsUserServiceCallApiThatNotesAsyncOpNativelyAndCheckCustomMessage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsUserService, "callApiThatNotesAsyncOpNativelyAndCheckCustomMessage"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -162,7 +162,7 @@ func (p *AppOpsUserServiceProxy) CallApiThatNotesAsyncOpNativelyAndCheckLog(
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserService)
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsUserServiceCallApiThatNotesAsyncOpNativelyAndCheckLog, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsUserService, "callApiThatNotesAsyncOpNativelyAndCheckLog"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -183,7 +183,7 @@ func (p *AppOpsUserServiceProxy) CallFreezeAndNoteSyncOp(
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserService)
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsUserServiceCallFreezeAndNoteSyncOp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsUserService, "callFreezeAndNoteSyncOp"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -202,7 +202,7 @@ func (p *AppOpsUserServiceProxy) AssertEmptyAsyncNoted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsUserService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppOpsUserServiceAssertEmptyAsyncNoted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsUserService, "assertEmptyAsyncNoted"), 0, _data)
 	if _err != nil {
 		return _err
 	}

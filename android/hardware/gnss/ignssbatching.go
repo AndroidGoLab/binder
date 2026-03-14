@@ -58,7 +58,7 @@ func (p *GnssBatchingProxy) Init(
 	_data.WriteInterfaceToken(DescriptorIGnssBatching)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssBatchingInit, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssBatching, "init"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,7 +78,7 @@ func (p *GnssBatchingProxy) GetBatchSize(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssBatching)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssBatchingGetBatchSize, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssBatching, "getBatchSize"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -105,7 +105,7 @@ func (p *GnssBatchingProxy) Start(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssBatchingStart, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssBatching, "start"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -124,7 +124,7 @@ func (p *GnssBatchingProxy) Flush(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssBatching)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssBatchingFlush, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssBatching, "flush"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -143,7 +143,7 @@ func (p *GnssBatchingProxy) Stop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssBatching)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssBatchingStop, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssBatching, "stop"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -162,7 +162,7 @@ func (p *GnssBatchingProxy) Cleanup(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssBatching)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssBatchingCleanup, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssBatching, "cleanup"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -55,7 +55,7 @@ func (p *VoiceInteractionServiceProxy) Ready(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionServiceReady, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionService, "ready"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,7 +65,7 @@ func (p *VoiceInteractionServiceProxy) SoundModelsChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionServiceSoundModelsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionService, "soundModelsChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,7 +75,7 @@ func (p *VoiceInteractionServiceProxy) Shutdown(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionServiceShutdown, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionService, "shutdown"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,7 +85,7 @@ func (p *VoiceInteractionServiceProxy) LaunchVoiceAssistFromKeyguard(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionServiceLaunchVoiceAssistFromKeyguard, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionService, "launchVoiceAssistFromKeyguard"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,7 +105,7 @@ func (p *VoiceInteractionServiceProxy) GetActiveServiceSupportedActions(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionServiceGetActiveServiceSupportedActions, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionService, "getActiveServiceSupportedActions"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -118,7 +118,7 @@ func (p *VoiceInteractionServiceProxy) PrepareToShowSession(
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 	_data.WriteInt32(flags)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionServicePrepareToShowSession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionService, "prepareToShowSession"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,7 +129,7 @@ func (p *VoiceInteractionServiceProxy) ShowSessionFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionServiceShowSessionFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionService, "showSessionFailed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -143,6 +143,6 @@ func (p *VoiceInteractionServiceProxy) DetectorRemoteExceptionOccurred(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteInt32(detectorType)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionServiceDetectorRemoteExceptionOccurred, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionService, "detectorRemoteExceptionOccurred"), binder.FlagOneway, _data)
 	return _err
 }

@@ -55,7 +55,7 @@ func (p *AudioConfigChangedCallbackProxy) OnPlaybackConfigChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioConfigChangedCallbackOnPlaybackConfigChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioConfigChangedCallback, "onPlaybackConfigChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,6 +76,6 @@ func (p *AudioConfigChangedCallbackProxy) OnRecordingConfigChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioConfigChangedCallbackOnRecordingConfigChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioConfigChangedCallback, "onRecordingConfigChanged"), binder.FlagOneway, _data)
 	return _err
 }

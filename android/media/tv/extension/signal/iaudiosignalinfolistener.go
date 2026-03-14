@@ -48,6 +48,6 @@ func (p *AudioSignalInfoListenerProxy) OnAudioSignalInfoChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioSignalInfoListenerOnAudioSignalInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioSignalInfoListener, "onAudioSignalInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }

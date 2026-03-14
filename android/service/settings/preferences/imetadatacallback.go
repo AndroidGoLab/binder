@@ -47,7 +47,7 @@ func (p *MetadataCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMetadataCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMetadataCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -57,6 +57,6 @@ func (p *MetadataCallbackProxy) OnFailure(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMetadataCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMetadataCallbackOnFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMetadataCallback, "onFailure"), binder.FlagOneway, _data)
 	return _err
 }

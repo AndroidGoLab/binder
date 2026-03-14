@@ -47,7 +47,7 @@ func (p *RatingInterfaceProxy) GetRRTRatingInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRatingInterface)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRatingInterfaceGetRRTRatingInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRatingInterface, "getRRTRatingInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,7 +74,7 @@ func (p *RatingInterfaceProxy) SetRRTRatingInfo(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRatingInterfaceSetRRTRatingInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRatingInterface, "setRRTRatingInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -98,7 +98,7 @@ func (p *RatingInterfaceProxy) SetResetRrt5(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRatingInterface)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRatingInterfaceSetResetRrt5, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRatingInterface, "setResetRrt5"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

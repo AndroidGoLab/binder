@@ -55,7 +55,7 @@ func (p *RecentTasksProxy) RegisterRecentTasksListener(
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIRecentTasksRegisterRecentTasksListener, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecentTasks, "registerRecentTasksListener"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,7 +67,7 @@ func (p *RecentTasksProxy) UnregisterRecentTasksListener(
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIRecentTasksUnregisterRecentTasksListener, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecentTasks, "unregisterRecentTasksListener"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,7 +84,7 @@ func (p *RecentTasksProxy) GetRecentTasks(
 	_data.WriteInt32(flags)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRecentTasksGetRecentTasks, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecentTasks, "getRecentTasks"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -119,7 +119,7 @@ func (p *RecentTasksProxy) GetRunningTasks(
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
 	_data.WriteInt32(maxNum)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRecentTasksGetRunningTasks, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecentTasks, "getRunningTasks"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -167,6 +167,6 @@ func (p *RecentTasksProxy) StartRecentsTransition(
 	_data.WriteStrongBinder(appThread.AsBinder().Handle())
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIRecentTasksStartRecentsTransition, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecentTasks, "startRecentsTransition"), binder.FlagOneway, _data)
 	return _err
 }

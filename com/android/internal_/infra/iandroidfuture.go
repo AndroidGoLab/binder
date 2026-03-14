@@ -45,6 +45,6 @@ func (p *AndroidFutureProxy) Complete(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAndroidFutureComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAndroidFuture, "complete"), binder.FlagOneway, _data)
 	return _err
 }

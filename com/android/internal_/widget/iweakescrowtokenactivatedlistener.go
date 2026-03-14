@@ -45,6 +45,6 @@ func (p *WeakEscrowTokenActivatedListenerProxy) OnWeakEscrowTokenActivated(
 	_data.WriteInt64(handle)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWeakEscrowTokenActivatedListenerOnWeakEscrowTokenActivated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWeakEscrowTokenActivatedListener, "onWeakEscrowTokenActivated"), binder.FlagOneway, _data)
 	return _err
 }

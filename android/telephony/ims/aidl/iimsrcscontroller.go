@@ -93,7 +93,7 @@ func (p *ImsRcsControllerProxy) RegisterImsRegistrationCallback(
 	_data.WriteInt32(subId)
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerRegisterImsRegistrationCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "registerImsRegistrationCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -116,7 +116,7 @@ func (p *ImsRcsControllerProxy) UnregisterImsRegistrationCallback(
 	_data.WriteInt32(subId)
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerUnregisterImsRegistrationCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "unregisterImsRegistrationCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -139,7 +139,7 @@ func (p *ImsRcsControllerProxy) GetImsRcsRegistrationState(
 	_data.WriteInt32(subId)
 	_data.WriteStrongBinder(consumer.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerGetImsRcsRegistrationState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "getImsRcsRegistrationState"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -162,7 +162,7 @@ func (p *ImsRcsControllerProxy) GetImsRcsRegistrationTransportType(
 	_data.WriteInt32(subId)
 	_data.WriteStrongBinder(consumer.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerGetImsRcsRegistrationTransportType, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "getImsRcsRegistrationTransportType"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -185,7 +185,7 @@ func (p *ImsRcsControllerProxy) RegisterRcsAvailabilityCallback(
 	_data.WriteInt32(subId)
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerRegisterRcsAvailabilityCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "registerRcsAvailabilityCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -208,7 +208,7 @@ func (p *ImsRcsControllerProxy) UnregisterRcsAvailabilityCallback(
 	_data.WriteInt32(subId)
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerUnregisterRcsAvailabilityCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "unregisterRcsAvailabilityCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -234,7 +234,7 @@ func (p *ImsRcsControllerProxy) IsCapable(
 	_data.WriteInt32(capability)
 	_data.WriteInt32(radioTech)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerIsCapable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "isCapable"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -264,7 +264,7 @@ func (p *ImsRcsControllerProxy) IsAvailable(
 	_data.WriteInt32(capability)
 	_data.WriteInt32(radioTech)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerIsAvailable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "isAvailable"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -306,7 +306,7 @@ func (p *ImsRcsControllerProxy) RequestCapabilities(
 	}
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerRequestCapabilities, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "requestCapabilities"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -337,7 +337,7 @@ func (p *ImsRcsControllerProxy) RequestAvailability(
 	}
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerRequestAvailability, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "requestAvailability"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -359,7 +359,7 @@ func (p *ImsRcsControllerProxy) GetUcePublishState(
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerGetUcePublishState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "getUcePublishState"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -389,7 +389,7 @@ func (p *ImsRcsControllerProxy) IsUceSettingEnabled(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(callingFeatureId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerIsUceSettingEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "isUceSettingEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -416,7 +416,7 @@ func (p *ImsRcsControllerProxy) SetUceSettingEnabled(
 	_data.WriteInt32(subId)
 	_data.WriteBool(isEnabled)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerSetUceSettingEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "setUceSettingEnabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -439,7 +439,7 @@ func (p *ImsRcsControllerProxy) RegisterUcePublishStateCallback(
 	_data.WriteInt32(subId)
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerRegisterUcePublishStateCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "registerUcePublishStateCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -462,7 +462,7 @@ func (p *ImsRcsControllerProxy) UnregisterUcePublishStateCallback(
 	_data.WriteInt32(subId)
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerUnregisterUcePublishStateCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "unregisterUcePublishStateCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -484,7 +484,7 @@ func (p *ImsRcsControllerProxy) IsSipDelegateSupported(
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerIsSipDelegateSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "isSipDelegateSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -519,7 +519,7 @@ func (p *ImsRcsControllerProxy) CreateSipDelegate(
 	_data.WriteStrongBinder(delegateState.AsBinder().Handle())
 	_data.WriteStrongBinder(delegateMessage.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerCreateSipDelegate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "createSipDelegate"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -544,7 +544,7 @@ func (p *ImsRcsControllerProxy) DestroySipDelegate(
 	_data.WriteStrongBinder(connection.AsBinder().Handle())
 	_data.WriteInt32(reason)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerDestroySipDelegate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "destroySipDelegate"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -571,7 +571,7 @@ func (p *ImsRcsControllerProxy) TriggerNetworkRegistration(
 	_data.WriteInt32(sipCode)
 	_data.WriteString16(sipReason)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerTriggerNetworkRegistration, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "triggerNetworkRegistration"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -593,7 +593,7 @@ func (p *ImsRcsControllerProxy) RegisterSipDialogStateCallback(
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerRegisterSipDialogStateCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "registerSipDialogStateCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -615,7 +615,7 @@ func (p *ImsRcsControllerProxy) UnregisterSipDialogStateCallback(
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerUnregisterSipDialogStateCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "unregisterSipDialogStateCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -638,7 +638,7 @@ func (p *ImsRcsControllerProxy) RegisterRcsFeatureCallback(
 	_data.WriteInt32(slotId)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerRegisterRcsFeatureCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "registerRcsFeatureCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -659,7 +659,7 @@ func (p *ImsRcsControllerProxy) UnregisterImsFeatureCallback(
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRcsControllerUnregisterImsFeatureCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRcsController, "unregisterImsFeatureCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}

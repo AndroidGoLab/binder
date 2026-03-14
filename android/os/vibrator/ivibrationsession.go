@@ -57,7 +57,7 @@ func (p *VibrationSessionProxy) Vibrate(
 	_data.WriteInterfaceToken(DescriptorIVibrationSession)
 	_data.WriteString16(reason)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVibrationSessionVibrate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVibrationSession, "vibrate"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -76,7 +76,7 @@ func (p *VibrationSessionProxy) FinishSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrationSession)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVibrationSessionFinishSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVibrationSession, "finishSession"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -95,7 +95,7 @@ func (p *VibrationSessionProxy) CancelSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrationSession)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVibrationSessionCancelSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVibrationSession, "cancelSession"), 0, _data)
 	if _err != nil {
 		return _err
 	}

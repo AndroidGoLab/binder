@@ -48,7 +48,7 @@ func (p *ContentProtectionServiceProxy) OnLoginDetected(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIContentProtectionServiceOnLoginDetected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIContentProtectionService, "onLoginDetected"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,6 +60,6 @@ func (p *ContentProtectionServiceProxy) OnUpdateAllowlistRequest(
 	_data.WriteInterfaceToken(DescriptorIContentProtectionService)
 	_data.WriteStrongBinder(callback.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIContentProtectionServiceOnUpdateAllowlistRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIContentProtectionService, "onUpdateAllowlistRequest"), binder.FlagOneway, _data)
 	return _err
 }

@@ -81,7 +81,7 @@ func (p *KeyMintDeviceProxy) GetHardwareInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceGetHardwareInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "getHardwareInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -112,7 +112,7 @@ func (p *KeyMintDeviceProxy) AddRngEntropy(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceAddRngEntropy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "addRngEntropy"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -151,7 +151,7 @@ func (p *KeyMintDeviceProxy) GenerateKey(
 		_data.WriteInt32(-1)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceGenerateKey, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "generateKey"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -204,7 +204,7 @@ func (p *KeyMintDeviceProxy) ImportKey(
 		_data.WriteInt32(-1)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceImportKey, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "importKey"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -269,7 +269,7 @@ func (p *KeyMintDeviceProxy) ImportWrappedKey(
 	_data.WriteInt64(passwordSid)
 	_data.WriteInt64(biometricSid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceImportWrappedKey, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "importWrappedKey"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -312,7 +312,7 @@ func (p *KeyMintDeviceProxy) UpgradeKey(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceUpgradeKey, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "upgradeKey"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -354,7 +354,7 @@ func (p *KeyMintDeviceProxy) DeleteKey(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceDeleteKey, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "deleteKey"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -373,7 +373,7 @@ func (p *KeyMintDeviceProxy) DeleteAllKeys(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceDeleteAllKeys, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "deleteAllKeys"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -392,7 +392,7 @@ func (p *KeyMintDeviceProxy) DestroyAttestationIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceDestroyAttestationIds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "destroyAttestationIds"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -442,7 +442,7 @@ func (p *KeyMintDeviceProxy) Begin(
 		_data.WriteInt32(-1)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceBegin, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "begin"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -474,7 +474,7 @@ func (p *KeyMintDeviceProxy) DeviceLocked(
 		_data.WriteInt32(-1)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceDeviceLocked, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "deviceLocked"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -493,7 +493,7 @@ func (p *KeyMintDeviceProxy) EarlyBootEnded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceEarlyBootEnded, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "earlyBootEnded"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -522,7 +522,7 @@ func (p *KeyMintDeviceProxy) ConvertStorageKeyToEphemeral(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceConvertStorageKeyToEphemeral, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "convertStorageKeyToEphemeral"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -583,7 +583,7 @@ func (p *KeyMintDeviceProxy) GetKeyCharacteristics(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceGetKeyCharacteristics, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "getKeyCharacteristics"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -616,7 +616,7 @@ func (p *KeyMintDeviceProxy) GetRootOfTrustChallenge(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyMintDevice)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceGetRootOfTrustChallenge, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "getRootOfTrustChallenge"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -659,7 +659,7 @@ func (p *KeyMintDeviceProxy) GetRootOfTrust(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceGetRootOfTrust, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "getRootOfTrust"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -701,7 +701,7 @@ func (p *KeyMintDeviceProxy) SendRootOfTrust(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceSendRootOfTrust, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "sendRootOfTrust"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -731,7 +731,7 @@ func (p *KeyMintDeviceProxy) SetAdditionalAttestationInfo(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeyMintDeviceSetAdditionalAttestationInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyMintDevice, "setAdditionalAttestationInfo"), 0, _data)
 	if _err != nil {
 		return _err
 	}

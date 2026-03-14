@@ -45,6 +45,6 @@ func (p *GetEuiccProfileInfoListCallbackProxy) OnComplete(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIGetEuiccProfileInfoListCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGetEuiccProfileInfoListCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

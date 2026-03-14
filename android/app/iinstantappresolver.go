@@ -47,7 +47,7 @@ func (p *InstantAppResolverProxy) GetInstantAppResolveInfoList(
 	_data.WriteInterfaceToken(DescriptorIInstantAppResolver)
 	_data.WriteInt32(sequence)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInstantAppResolverGetInstantAppResolveInfoList, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstantAppResolver, "getInstantAppResolveInfoList"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,6 +59,6 @@ func (p *InstantAppResolverProxy) GetInstantAppIntentFilterList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInstantAppResolver)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInstantAppResolverGetInstantAppIntentFilterList, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstantAppResolver, "getInstantAppIntentFilterList"), binder.FlagOneway, _data)
 	return _err
 }

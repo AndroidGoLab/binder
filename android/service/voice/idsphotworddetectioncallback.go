@@ -47,7 +47,7 @@ func (p *DspHotwordDetectionCallbackProxy) OnDetected(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIDspHotwordDetectionCallbackOnDetected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDspHotwordDetectionCallback, "onDetected"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,6 +61,6 @@ func (p *DspHotwordDetectionCallbackProxy) OnRejected(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIDspHotwordDetectionCallbackOnRejected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDspHotwordDetectionCallback, "onRejected"), binder.FlagOneway, _data)
 	return _err
 }

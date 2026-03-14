@@ -50,6 +50,6 @@ func (p *InputDevicesChangedListenerProxy) OnInputDevicesChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputDevicesChangedListenerOnInputDevicesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputDevicesChangedListener, "onInputDevicesChanged"), binder.FlagOneway, _data)
 	return _err
 }

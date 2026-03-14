@@ -57,7 +57,7 @@ func (p *ShortcutChangeCallbackProxy) OnShortcutsAddedOrUpdated(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIShortcutChangeCallbackOnShortcutsAddedOrUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIShortcutChangeCallback, "onShortcutsAddedOrUpdated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,6 +81,6 @@ func (p *ShortcutChangeCallbackProxy) OnShortcutsRemoved(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIShortcutChangeCallbackOnShortcutsRemoved, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIShortcutChangeCallback, "onShortcutsRemoved"), binder.FlagOneway, _data)
 	return _err
 }

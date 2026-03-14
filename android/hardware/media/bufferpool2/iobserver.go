@@ -45,6 +45,6 @@ func (p *ObserverProxy) OnMessage(
 	_data.WriteInt64(connectionId)
 	_data.WriteInt32(msgId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIObserverOnMessage, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIObserver, "onMessage"), binder.FlagOneway, _data)
 	return _err
 }

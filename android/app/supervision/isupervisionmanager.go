@@ -44,7 +44,7 @@ func (p *SupervisionManagerProxy) IsSupervisionEnabledForUser(
 	_data.WriteInterfaceToken(DescriptorISupervisionManager)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISupervisionManagerIsSupervisionEnabledForUser, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupervisionManager, "isSupervisionEnabledForUser"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

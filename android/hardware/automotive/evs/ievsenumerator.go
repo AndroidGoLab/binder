@@ -69,7 +69,7 @@ func (p *EvsEnumeratorProxy) CloseCamera(
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	_data.WriteStrongBinder(carCamera.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsEnumeratorCloseCamera, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsEnumerator, "closeCamera"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -90,7 +90,7 @@ func (p *EvsEnumeratorProxy) CloseDisplay(
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	_data.WriteStrongBinder(display.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsEnumeratorCloseDisplay, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsEnumerator, "closeDisplay"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -111,7 +111,7 @@ func (p *EvsEnumeratorProxy) CloseUltrasonicsArray(
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	_data.WriteStrongBinder(evsUltrasonicsArray.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsEnumeratorCloseUltrasonicsArray, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsEnumerator, "closeUltrasonicsArray"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -131,7 +131,7 @@ func (p *EvsEnumeratorProxy) GetCameraList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsEnumeratorGetCameraList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsEnumerator, "getCameraList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -164,7 +164,7 @@ func (p *EvsEnumeratorProxy) GetDisplayIdList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsEnumeratorGetDisplayIdList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsEnumerator, "getDisplayIdList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -198,7 +198,7 @@ func (p *EvsEnumeratorProxy) GetDisplayState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsEnumeratorGetDisplayState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsEnumerator, "getDisplayState"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -227,7 +227,7 @@ func (p *EvsEnumeratorProxy) GetStreamList(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsEnumeratorGetStreamList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsEnumerator, "getStreamList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -260,7 +260,7 @@ func (p *EvsEnumeratorProxy) GetUltrasonicsArrayList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsEnumeratorGetUltrasonicsArrayList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsEnumerator, "getUltrasonicsArrayList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -293,7 +293,7 @@ func (p *EvsEnumeratorProxy) IsHardware(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsEnumeratorIsHardware, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsEnumerator, "isHardware"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -323,7 +323,7 @@ func (p *EvsEnumeratorProxy) OpenCamera(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsEnumeratorOpenCamera, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsEnumerator, "openCamera"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -350,7 +350,7 @@ func (p *EvsEnumeratorProxy) OpenDisplay(
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	_data.WriteInt32(id)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsEnumeratorOpenDisplay, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsEnumerator, "openDisplay"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -377,7 +377,7 @@ func (p *EvsEnumeratorProxy) OpenUltrasonicsArray(
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	_data.WriteString16(ultrasonicsArrayId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsEnumeratorOpenUltrasonicsArray, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsEnumerator, "openUltrasonicsArray"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -403,7 +403,7 @@ func (p *EvsEnumeratorProxy) RegisterStatusCallback(
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsEnumeratorRegisterStatusCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsEnumerator, "registerStatusCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -425,7 +425,7 @@ func (p *EvsEnumeratorProxy) GetDisplayStateById(
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	_data.WriteInt32(id)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEvsEnumeratorGetDisplayStateById, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsEnumerator, "getDisplayStateById"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

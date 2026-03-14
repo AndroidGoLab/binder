@@ -43,6 +43,6 @@ func (p *IncidentDumpCallbackProxy) OnDumpSection(
 	_data.WriteInterfaceToken(DescriptorIIncidentDumpCallback)
 	_data.WriteFileDescriptor(fd)
 
-	_, _err := p.remote.Transact(ctx, TransactionIIncidentDumpCallbackOnDumpSection, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentDumpCallback, "onDumpSection"), binder.FlagOneway, _data)
 	return _err
 }

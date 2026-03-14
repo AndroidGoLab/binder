@@ -53,7 +53,7 @@ func (p *BinderStabilityTestProxy) SendBinder(
 	_data.WriteInterfaceToken(DescriptorIBinderStabilityTest)
 	_data.WriteStrongBinder(binder_.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBinderStabilityTestSendBinder, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBinderStabilityTest, "sendBinder"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -74,7 +74,7 @@ func (p *BinderStabilityTestProxy) SendAndCallBinder(
 	_data.WriteInterfaceToken(DescriptorIBinderStabilityTest)
 	_data.WriteStrongBinder(binder_.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBinderStabilityTestSendAndCallBinder, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBinderStabilityTest, "sendAndCallBinder"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -94,7 +94,7 @@ func (p *BinderStabilityTestProxy) ReturnNoStabilityBinder(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderStabilityTest)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBinderStabilityTestReturnNoStabilityBinder, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBinderStabilityTest, "returnNoStabilityBinder"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -119,7 +119,7 @@ func (p *BinderStabilityTestProxy) ReturnLocalStabilityBinder(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderStabilityTest)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBinderStabilityTestReturnLocalStabilityBinder, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBinderStabilityTest, "returnLocalStabilityBinder"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -144,7 +144,7 @@ func (p *BinderStabilityTestProxy) ReturnVintfStabilityBinder(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderStabilityTest)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBinderStabilityTestReturnVintfStabilityBinder, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBinderStabilityTest, "returnVintfStabilityBinder"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -169,7 +169,7 @@ func (p *BinderStabilityTestProxy) ReturnVendorStabilityBinder(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderStabilityTest)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBinderStabilityTestReturnVendorStabilityBinder, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBinderStabilityTest, "returnVendorStabilityBinder"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

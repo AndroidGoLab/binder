@@ -50,6 +50,6 @@ func (p *SatelliteDatagramCallbackProxy) OnSatelliteDatagramReceived(
 	}
 	_data.WriteInt32(pendingCount)
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteDatagramCallbackOnSatelliteDatagramReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteDatagramCallback, "onSatelliteDatagramReceived"), binder.FlagOneway, _data)
 	return _err
 }

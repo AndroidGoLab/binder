@@ -43,6 +43,6 @@ func (p *VirtualDeviceSoundEffectListenerProxy) OnPlaySoundEffect(
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceSoundEffectListener)
 	_data.WriteInt32(effectType)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVirtualDeviceSoundEffectListenerOnPlaySoundEffect, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualDeviceSoundEffectListener, "onPlaySoundEffect"), binder.FlagOneway, _data)
 	return _err
 }

@@ -51,7 +51,7 @@ func (p *NetworkServiceProxy) CreateNetworkServiceProvider(
 	_data.WriteInterfaceToken(DescriptorINetworkService)
 	_data.WriteInt32(slotId)
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkServiceCreateNetworkServiceProvider, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkService, "createNetworkServiceProvider"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,7 +63,7 @@ func (p *NetworkServiceProxy) RemoveNetworkServiceProvider(
 	_data.WriteInterfaceToken(DescriptorINetworkService)
 	_data.WriteInt32(slotId)
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkServiceRemoveNetworkServiceProvider, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkService, "removeNetworkServiceProvider"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,7 +79,7 @@ func (p *NetworkServiceProxy) RequestNetworkRegistrationInfo(
 	_data.WriteInt32(domain)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkServiceRequestNetworkRegistrationInfo, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkService, "requestNetworkRegistrationInfo"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -93,7 +93,7 @@ func (p *NetworkServiceProxy) RegisterForNetworkRegistrationInfoChanged(
 	_data.WriteInt32(slotId)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkServiceRegisterForNetworkRegistrationInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkService, "registerForNetworkRegistrationInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,6 +107,6 @@ func (p *NetworkServiceProxy) UnregisterForNetworkRegistrationInfoChanged(
 	_data.WriteInt32(slotId)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkServiceUnregisterForNetworkRegistrationInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkService, "unregisterForNetworkRegistrationInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }

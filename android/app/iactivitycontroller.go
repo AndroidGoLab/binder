@@ -55,7 +55,7 @@ func (p *ActivityControllerProxy) ActivityStarting(
 	_data.WriteInterfaceToken(DescriptorIActivityController)
 	_data.WriteString16(pkg)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityControllerActivityStarting, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityController, "activityStarting"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -81,7 +81,7 @@ func (p *ActivityControllerProxy) ActivityResuming(
 	_data.WriteInterfaceToken(DescriptorIActivityController)
 	_data.WriteString16(pkg)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityControllerActivityResuming, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityController, "activityResuming"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -117,7 +117,7 @@ func (p *ActivityControllerProxy) AppCrashed(
 	_data.WriteInt64(timeMillis)
 	_data.WriteString16(stackTrace)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityControllerAppCrashed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityController, "appCrashed"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -147,7 +147,7 @@ func (p *ActivityControllerProxy) AppEarlyNotResponding(
 	_data.WriteInt32(pid)
 	_data.WriteString16(annotation)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityControllerAppEarlyNotResponding, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityController, "appEarlyNotResponding"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -177,7 +177,7 @@ func (p *ActivityControllerProxy) AppNotResponding(
 	_data.WriteInt32(pid)
 	_data.WriteString16(processStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityControllerAppNotResponding, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityController, "appNotResponding"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -203,7 +203,7 @@ func (p *ActivityControllerProxy) SystemNotResponding(
 	_data.WriteInterfaceToken(DescriptorIActivityController)
 	_data.WriteString16(msg)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityControllerSystemNotResponding, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityController, "systemNotResponding"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

@@ -41,6 +41,6 @@ func (p *PrintDocumentAdapterObserverProxy) OnDestroy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapterObserver)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintDocumentAdapterObserverOnDestroy, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintDocumentAdapterObserver, "onDestroy"), binder.FlagOneway, _data)
 	return _err
 }

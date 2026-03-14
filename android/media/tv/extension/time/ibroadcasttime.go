@@ -51,7 +51,7 @@ func (p *BroadcastTimeProxy) GetUtcTime(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBroadcastTime)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBroadcastTimeGetUtcTime, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBroadcastTime, "getUtcTime"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -75,7 +75,7 @@ func (p *BroadcastTimeProxy) GetLocalTime(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBroadcastTime)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBroadcastTimeGetLocalTime, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBroadcastTime, "getLocalTime"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -99,7 +99,7 @@ func (p *BroadcastTimeProxy) GetTimeZoneInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBroadcastTime)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBroadcastTimeGetTimeZoneInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBroadcastTime, "getTimeZoneInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -124,7 +124,7 @@ func (p *BroadcastTimeProxy) GetUtcTimePerStream(
 	_data.WriteInterfaceToken(DescriptorIBroadcastTime)
 	_data.WriteString16(SessionToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBroadcastTimeGetUtcTimePerStream, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBroadcastTime, "getUtcTimePerStream"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -150,7 +150,7 @@ func (p *BroadcastTimeProxy) GetLocalTimePerStream(
 	_data.WriteInterfaceToken(DescriptorIBroadcastTime)
 	_data.WriteString16(SessionToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBroadcastTimeGetLocalTimePerStream, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBroadcastTime, "getLocalTimePerStream"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

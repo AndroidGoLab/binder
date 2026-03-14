@@ -43,6 +43,6 @@ func (p *MusicRecognitionAttributionTagCallbackProxy) OnAttributionTag(
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionAttributionTagCallback)
 	_data.WriteString16(attributionTag)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMusicRecognitionAttributionTagCallbackOnAttributionTag, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMusicRecognitionAttributionTagCallback, "onAttributionTag"), binder.FlagOneway, _data)
 	return _err
 }

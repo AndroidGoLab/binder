@@ -48,7 +48,7 @@ func (p *CamAppInfoServiceProxy) AddCamAppInfoListener(
 	_data.WriteInterfaceToken(DescriptorICamAppInfoService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamAppInfoServiceAddCamAppInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamAppInfoService, "addCamAppInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -69,7 +69,7 @@ func (p *CamAppInfoServiceProxy) RemoveCamAppInfoListener(
 	_data.WriteInterfaceToken(DescriptorICamAppInfoService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamAppInfoServiceRemoveCamAppInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamAppInfoService, "removeCamAppInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -92,7 +92,7 @@ func (p *CamAppInfoServiceProxy) GetCamAppInfo(
 	_data.WriteInterfaceToken(DescriptorICamAppInfoService)
 	_data.WriteInt32(slotId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamAppInfoServiceGetCamAppInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamAppInfoService, "getCamAppInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

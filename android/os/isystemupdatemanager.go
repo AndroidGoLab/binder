@@ -44,7 +44,7 @@ func (p *SystemUpdateManagerProxy) RetrieveSystemUpdateInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemUpdateManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISystemUpdateManagerRetrieveSystemUpdateInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISystemUpdateManager, "retrieveSystemUpdateInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -67,7 +67,7 @@ func (p *SystemUpdateManagerProxy) UpdateSystemUpdateInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemUpdateManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISystemUpdateManagerUpdateSystemUpdateInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISystemUpdateManager, "updateSystemUpdateInfo"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -54,7 +54,7 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnGetWalletCardsSuccess(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIQuickAccessWalletServiceCallbacksOnGetWalletCardsSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQuickAccessWalletServiceCallbacks, "onGetWalletCardsSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,7 +68,7 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnGetWalletCardsFailure(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIQuickAccessWalletServiceCallbacksOnGetWalletCardsFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQuickAccessWalletServiceCallbacks, "onGetWalletCardsFailure"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,7 +82,7 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnWalletServiceEvent(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIQuickAccessWalletServiceCallbacksOnWalletServiceEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQuickAccessWalletServiceCallbacks, "onWalletServiceEvent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,7 +96,7 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnTargetActivityPendingIntentRe
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIQuickAccessWalletServiceCallbacksOnTargetActivityPendingIntentReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQuickAccessWalletServiceCallbacks, "onTargetActivityPendingIntentReceived"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -110,6 +110,6 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnGestureTargetActivityPendingI
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIQuickAccessWalletServiceCallbacksOnGestureTargetActivityPendingIntentReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQuickAccessWalletServiceCallbacks, "onGestureTargetActivityPendingIntentReceived"), binder.FlagOneway, _data)
 	return _err
 }

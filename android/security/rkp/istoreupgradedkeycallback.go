@@ -43,7 +43,7 @@ func (p *StoreUpgradedKeyCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStoreUpgradedKeyCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIStoreUpgradedKeyCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStoreUpgradedKeyCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -55,6 +55,6 @@ func (p *StoreUpgradedKeyCallbackProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorIStoreUpgradedKeyCallback)
 	_data.WriteString16(error_)
 
-	_, _err := p.remote.Transact(ctx, TransactionIStoreUpgradedKeyCallbackOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStoreUpgradedKeyCallback, "onError"), binder.FlagOneway, _data)
 	return _err
 }

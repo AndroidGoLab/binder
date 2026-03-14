@@ -75,7 +75,7 @@ func (p *BackupAgentProxy) DoBackup(
 	_data.WriteInt64(quotaBytes)
 	_data.WriteInt32(transportFlags)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBackupAgentDoBackup, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackupAgent, "doBackup"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -94,7 +94,7 @@ func (p *BackupAgentProxy) DoRestore(
 	_data.WriteFileDescriptor(newState)
 	_data.WriteInt32(token)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBackupAgentDoRestore, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackupAgent, "doRestore"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,7 +122,7 @@ func (p *BackupAgentProxy) DoRestoreWithExcludedKeys(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIBackupAgentDoRestoreWithExcludedKeys, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackupAgent, "doRestoreWithExcludedKeys"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -141,7 +141,7 @@ func (p *BackupAgentProxy) DoFullBackup(
 	_data.WriteInt32(token)
 	_data.WriteInt32(transportFlags)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBackupAgentDoFullBackup, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackupAgent, "doFullBackup"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -158,7 +158,7 @@ func (p *BackupAgentProxy) DoMeasureFullBackup(
 	_data.WriteInt32(token)
 	_data.WriteInt32(transportFlags)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBackupAgentDoMeasureFullBackup, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackupAgent, "doMeasureFullBackup"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -173,7 +173,7 @@ func (p *BackupAgentProxy) DoQuotaExceeded(
 	_data.WriteInt64(backupDataBytes)
 	_data.WriteInt64(quotaBytes)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBackupAgentDoQuotaExceeded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackupAgent, "doQuotaExceeded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -200,7 +200,7 @@ func (p *BackupAgentProxy) DoRestoreFile(
 	_data.WriteInt64(mtime)
 	_data.WriteInt32(token)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBackupAgentDoRestoreFile, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackupAgent, "doRestoreFile"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -213,7 +213,7 @@ func (p *BackupAgentProxy) DoRestoreFinished(
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 	_data.WriteInt32(token)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBackupAgentDoRestoreFinished, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackupAgent, "doRestoreFinished"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -225,7 +225,7 @@ func (p *BackupAgentProxy) Fail(
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 	_data.WriteString16(message)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBackupAgentFail, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackupAgent, "fail"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -239,7 +239,7 @@ func (p *BackupAgentProxy) GetLoggerResults(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIBackupAgentGetLoggerResults, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackupAgent, "getLoggerResults"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -253,7 +253,7 @@ func (p *BackupAgentProxy) GetOperationType(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIBackupAgentGetOperationType, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackupAgent, "getOperationType"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -263,6 +263,6 @@ func (p *BackupAgentProxy) ClearBackupRestoreEventLogger(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBackupAgentClearBackupRestoreEventLogger, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackupAgent, "clearBackupRestoreEventLogger"), binder.FlagOneway, _data)
 	return _err
 }

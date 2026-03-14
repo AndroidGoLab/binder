@@ -47,7 +47,7 @@ func (p *LcnConflictProxy) GetLcnConflictGroups(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILcnConflict)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionILcnConflictGetLcnConflictGroups, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILcnConflict, "getLcnConflictGroups"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -91,7 +91,7 @@ func (p *LcnConflictProxy) ResolveLcnConflict(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionILcnConflictResolveLcnConflict, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILcnConflict, "resolveLcnConflict"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -117,7 +117,7 @@ func (p *LcnConflictProxy) SetListener(
 	_data.WriteInterfaceToken(DescriptorILcnConflict)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionILcnConflictSetListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILcnConflict, "setListener"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

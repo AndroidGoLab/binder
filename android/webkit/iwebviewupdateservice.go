@@ -56,7 +56,7 @@ func (p *WebViewUpdateServiceProxy) NotifyRelroCreationCompleted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWebViewUpdateServiceNotifyRelroCreationCompleted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWebViewUpdateService, "notifyRelroCreationCompleted"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -76,7 +76,7 @@ func (p *WebViewUpdateServiceProxy) WaitForAndGetProvider(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWebViewUpdateServiceWaitForAndGetProvider, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWebViewUpdateService, "waitForAndGetProvider"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -101,7 +101,7 @@ func (p *WebViewUpdateServiceProxy) ChangeProviderAndSetting(
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 	_data.WriteString16(newProvider)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWebViewUpdateServiceChangeProviderAndSetting, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWebViewUpdateService, "changeProviderAndSetting"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -125,7 +125,7 @@ func (p *WebViewUpdateServiceProxy) GetValidWebViewPackages(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWebViewUpdateServiceGetValidWebViewPackages, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWebViewUpdateService, "getValidWebViewPackages"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -158,7 +158,7 @@ func (p *WebViewUpdateServiceProxy) GetAllWebViewPackages(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWebViewUpdateServiceGetAllWebViewPackages, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWebViewUpdateService, "getAllWebViewPackages"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -191,7 +191,7 @@ func (p *WebViewUpdateServiceProxy) GetCurrentWebViewPackageName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWebViewUpdateServiceGetCurrentWebViewPackageName, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWebViewUpdateService, "getCurrentWebViewPackageName"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -215,7 +215,7 @@ func (p *WebViewUpdateServiceProxy) GetCurrentWebViewPackage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWebViewUpdateServiceGetCurrentWebViewPackage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWebViewUpdateService, "getCurrentWebViewPackage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -238,7 +238,7 @@ func (p *WebViewUpdateServiceProxy) GetDefaultWebViewPackage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWebViewUpdateService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWebViewUpdateServiceGetDefaultWebViewPackage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWebViewUpdateService, "getDefaultWebViewPackage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

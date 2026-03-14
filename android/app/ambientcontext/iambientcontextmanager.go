@@ -63,7 +63,7 @@ func (p *AmbientContextManagerProxy) RegisterObserver(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAmbientContextManagerRegisterObserver, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAmbientContextManager, "registerObserver"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -90,7 +90,7 @@ func (p *AmbientContextManagerProxy) RegisterObserverWithCallback(
 	_data.WriteString16(packageName)
 	_data.WriteStrongBinder(observer.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAmbientContextManagerRegisterObserverWithCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAmbientContextManager, "registerObserverWithCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -111,7 +111,7 @@ func (p *AmbientContextManagerProxy) UnregisterObserver(
 	_data.WriteInterfaceToken(DescriptorIAmbientContextManager)
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAmbientContextManagerUnregisterObserver, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAmbientContextManager, "unregisterObserver"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -145,7 +145,7 @@ func (p *AmbientContextManagerProxy) QueryServiceStatus(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAmbientContextManagerQueryServiceStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAmbientContextManager, "queryServiceStatus"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -175,7 +175,7 @@ func (p *AmbientContextManagerProxy) StartConsentActivity(
 	}
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAmbientContextManagerStartConsentActivity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAmbientContextManager, "startConsentActivity"), 0, _data)
 	if _err != nil {
 		return _err
 	}

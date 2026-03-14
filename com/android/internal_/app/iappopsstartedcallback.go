@@ -61,6 +61,6 @@ func (p *AppOpsStartedCallbackProxy) OpStarted(
 	_data.WriteInt32(attributionFlags)
 	_data.WriteInt32(attributionChainId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAppOpsStartedCallbackOpStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsStartedCallback, "opStarted"), binder.FlagOneway, _data)
 	return _err
 }

@@ -45,7 +45,7 @@ func (p *VcnStatusCallbackProxy) OnVcnStatusChanged(
 	_data.WriteInterfaceToken(DescriptorIVcnStatusCallback)
 	_data.WriteInt32(statusCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVcnStatusCallbackOnVcnStatusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVcnStatusCallback, "onVcnStatusChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +63,6 @@ func (p *VcnStatusCallbackProxy) OnGatewayConnectionError(
 	_data.WriteString16(exceptionClass)
 	_data.WriteString16(exceptionMessage)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVcnStatusCallbackOnGatewayConnectionError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVcnStatusCallback, "onGatewayConnectionError"), binder.FlagOneway, _data)
 	return _err
 }

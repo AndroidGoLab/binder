@@ -44,7 +44,7 @@ func (p *RemoteServiceCallbackProxy) OnError(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorRemoteServiceCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionRemoteServiceCallbackOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorRemoteServiceCallback, "onError"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,6 +74,6 @@ func (p *RemoteServiceCallbackProxy) OnResult(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionRemoteServiceCallbackOnResult, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorRemoteServiceCallback, "onResult"), binder.FlagOneway, _data)
 	return _err
 }

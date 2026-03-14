@@ -46,7 +46,7 @@ func (p *TradeInModeProxy) Start(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITradeInMode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITradeInModeStart, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITradeInMode, "start"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -70,7 +70,7 @@ func (p *TradeInModeProxy) IsEvaluationModeAllowed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITradeInMode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITradeInModeIsEvaluationModeAllowed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITradeInMode, "isEvaluationModeAllowed"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -94,7 +94,7 @@ func (p *TradeInModeProxy) EnterEvaluationMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITradeInMode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITradeInModeEnterEvaluationMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITradeInMode, "enterEvaluationMode"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

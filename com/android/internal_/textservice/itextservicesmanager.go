@@ -58,7 +58,7 @@ func (p *TextServicesManagerProxy) GetCurrentSpellChecker(
 	_data.WriteInt32(userId)
 	_data.WriteString16(locale)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITextServicesManagerGetCurrentSpellChecker, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextServicesManager, "getCurrentSpellChecker"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -85,7 +85,7 @@ func (p *TextServicesManagerProxy) GetCurrentSpellCheckerSubtype(
 	_data.WriteInt32(userId)
 	_data.WriteBool(allowImplicitlySelectedSubtype)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITextServicesManagerGetCurrentSpellCheckerSubtype, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextServicesManager, "getCurrentSpellCheckerSubtype"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -123,7 +123,7 @@ func (p *TextServicesManagerProxy) GetSpellCheckerService(
 	}
 	_data.WriteInt32(supportedAttributes)
 
-	_, _err := p.remote.Transact(ctx, TransactionITextServicesManagerGetSpellCheckerService, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextServicesManager, "getSpellCheckerService"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -137,7 +137,7 @@ func (p *TextServicesManagerProxy) FinishSpellCheckerService(
 	_data.WriteInt32(userId)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionITextServicesManagerFinishSpellCheckerService, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextServicesManager, "finishSpellCheckerService"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -150,7 +150,7 @@ func (p *TextServicesManagerProxy) IsSpellCheckerEnabled(
 	_data.WriteInterfaceToken(DescriptorITextServicesManager)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITextServicesManagerIsSpellCheckerEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextServicesManager, "isSpellCheckerEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -176,7 +176,7 @@ func (p *TextServicesManagerProxy) GetEnabledSpellCheckers(
 	_data.WriteInterfaceToken(DescriptorITextServicesManager)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITextServicesManagerGetEnabledSpellCheckers, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextServicesManager, "getEnabledSpellCheckers"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

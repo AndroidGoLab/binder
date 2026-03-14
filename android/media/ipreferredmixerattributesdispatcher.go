@@ -55,6 +55,6 @@ func (p *PreferredMixerAttributesDispatcherProxy) DispatchPrefMixerAttributesCha
 		_data.WriteInt32(-1)
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPreferredMixerAttributesDispatcherDispatchPrefMixerAttributesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPreferredMixerAttributesDispatcher, "dispatchPrefMixerAttributesChanged"), binder.FlagOneway, _data)
 	return _err
 }

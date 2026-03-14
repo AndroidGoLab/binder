@@ -45,7 +45,7 @@ func (p *ControlsSubscriptionProxy) Request(
 	_data.WriteInterfaceToken(DescriptorIControlsSubscription)
 	_data.WriteInt64(n)
 
-	_, _err := p.remote.Transact(ctx, TransactionIControlsSubscriptionRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIControlsSubscription, "request"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -55,6 +55,6 @@ func (p *ControlsSubscriptionProxy) Cancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIControlsSubscription)
 
-	_, _err := p.remote.Transact(ctx, TransactionIControlsSubscriptionCancel, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIControlsSubscription, "cancel"), binder.FlagOneway, _data)
 	return _err
 }

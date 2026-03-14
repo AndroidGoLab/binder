@@ -45,7 +45,7 @@ func (p *HdmiSignalInfoListenerProxy) OnSignalInfoChanged(
 	_data.WriteInterfaceToken(DescriptorIHdmiSignalInfoListener)
 	_data.WriteString16(sessionToken)
 
-	_, _err := p.remote.Transact(ctx, TransactionIHdmiSignalInfoListenerOnSignalInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiSignalInfoListener, "onSignalInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -57,6 +57,6 @@ func (p *HdmiSignalInfoListenerProxy) OnLowLatencyModeChanged(
 	_data.WriteInterfaceToken(DescriptorIHdmiSignalInfoListener)
 	_data.WriteInt32(enable)
 
-	_, _err := p.remote.Transact(ctx, TransactionIHdmiSignalInfoListenerOnLowLatencyModeChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiSignalInfoListener, "onLowLatencyModeChanged"), binder.FlagOneway, _data)
 	return _err
 }

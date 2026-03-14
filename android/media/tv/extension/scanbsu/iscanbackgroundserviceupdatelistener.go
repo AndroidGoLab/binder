@@ -49,7 +49,7 @@ func (p *ScanBackgroundServiceUpdateListenerProxy) OnChannelListUpdate(
 	_data.WriteInterfaceToken(DescriptorIScanBackgroundServiceUpdateListener)
 	_data.WriteString16(sessionToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIScanBackgroundServiceUpdateListenerOnChannelListUpdate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScanBackgroundServiceUpdateListener, "onChannelListUpdate"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -83,7 +83,7 @@ func (p *ScanBackgroundServiceUpdateListenerProxy) OnNetworkListUpdate(
 	_data.WriteInterfaceToken(DescriptorIScanBackgroundServiceUpdateListener)
 	_data.WriteString16(sessionToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIScanBackgroundServiceUpdateListenerOnNetworkListUpdate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScanBackgroundServiceUpdateListener, "onNetworkListUpdate"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -117,7 +117,7 @@ func (p *ScanBackgroundServiceUpdateListenerProxy) OnTransportStreamingListUpdat
 	_data.WriteInterfaceToken(DescriptorIScanBackgroundServiceUpdateListener)
 	_data.WriteString16(sessionToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIScanBackgroundServiceUpdateListenerOnTransportStreamingListUpdate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIScanBackgroundServiceUpdateListener, "onTransportStreamingListUpdate"), 0, _data)
 	if _err != nil {
 		return _err
 	}

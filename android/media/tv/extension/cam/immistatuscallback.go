@@ -50,7 +50,7 @@ func (p *MmiStatusCallbackProxy) OnMmiEnq(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMmiStatusCallbackOnMmiEnq, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMmiStatusCallback, "onMmiEnq"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,7 +64,7 @@ func (p *MmiStatusCallbackProxy) OnMmiListMenu(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMmiStatusCallbackOnMmiListMenu, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMmiStatusCallback, "onMmiListMenu"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,6 +74,6 @@ func (p *MmiStatusCallbackProxy) OnMmiClose(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMmiStatusCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMmiStatusCallbackOnMmiClose, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMmiStatusCallback, "onMmiClose"), binder.FlagOneway, _data)
 	return _err
 }

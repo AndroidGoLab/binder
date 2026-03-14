@@ -49,7 +49,7 @@ func (p *CompanionDeviceServiceProxy) OnDeviceAppeared(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICompanionDeviceServiceOnDeviceAppeared, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICompanionDeviceService, "onDeviceAppeared"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,7 +63,7 @@ func (p *CompanionDeviceServiceProxy) OnDeviceDisappeared(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICompanionDeviceServiceOnDeviceDisappeared, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICompanionDeviceService, "onDeviceDisappeared"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,6 +77,6 @@ func (p *CompanionDeviceServiceProxy) OnDevicePresenceEvent(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICompanionDeviceServiceOnDevicePresenceEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICompanionDeviceService, "onDevicePresenceEvent"), binder.FlagOneway, _data)
 	return _err
 }

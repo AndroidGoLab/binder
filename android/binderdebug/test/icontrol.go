@@ -41,7 +41,7 @@ func (p *ControlProxy) Continue(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIControl)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIControlContinue, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIControl, "Continue"), 0, _data)
 	if _err != nil {
 		return _err
 	}

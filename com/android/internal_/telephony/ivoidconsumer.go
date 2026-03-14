@@ -41,6 +41,6 @@ func (p *VoidConsumerProxy) Accept(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoidConsumer)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoidConsumerAccept, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoidConsumer, "accept"), binder.FlagOneway, _data)
 	return _err
 }

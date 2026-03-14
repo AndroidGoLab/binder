@@ -81,7 +81,7 @@ func (p *SliceManagerProxy) PinSlice(
 	}
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISliceManagerPinSlice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISliceManager, "pinSlice"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -108,7 +108,7 @@ func (p *SliceManagerProxy) UnpinSlice(
 	}
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISliceManagerUnpinSlice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISliceManager, "unpinSlice"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -130,7 +130,7 @@ func (p *SliceManagerProxy) HasSliceAccess(
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteString16(pkg)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISliceManagerHasSliceAccess, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISliceManager, "hasSliceAccess"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -160,7 +160,7 @@ func (p *SliceManagerProxy) GetPinnedSpecs(
 	}
 	_data.WriteString16(pkg)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISliceManagerGetPinnedSpecs, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISliceManager, "getPinnedSpecs"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -195,7 +195,7 @@ func (p *SliceManagerProxy) GetPinnedSlices(
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteString16(pkg)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISliceManagerGetPinnedSlices, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISliceManager, "getPinnedSlices"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -230,7 +230,7 @@ func (p *SliceManagerProxy) GetBackupPayload(
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteInt32(user)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISliceManagerGetBackupPayload, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISliceManager, "getBackupPayload"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -274,7 +274,7 @@ func (p *SliceManagerProxy) ApplyRestore(
 	}
 	_data.WriteInt32(user)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISliceManagerApplyRestore, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISliceManager, "applyRestore"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -301,7 +301,7 @@ func (p *SliceManagerProxy) GrantSlicePermission(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISliceManagerGrantSlicePermission, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISliceManager, "grantSlicePermission"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -328,7 +328,7 @@ func (p *SliceManagerProxy) RevokeSlicePermission(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISliceManagerRevokeSlicePermission, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISliceManager, "revokeSlicePermission"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -367,7 +367,7 @@ func (p *SliceManagerProxy) CheckSlicePermission(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISliceManagerCheckSlicePermission, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISliceManager, "checkSlicePermission"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -400,7 +400,7 @@ func (p *SliceManagerProxy) GrantPermissionFromUser(
 	_data.WriteString16(callingPkg)
 	_data.WriteBool(allSlices)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISliceManagerGrantPermissionFromUser, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISliceManager, "grantPermissionFromUser"), 0, _data)
 	if _err != nil {
 		return _err
 	}

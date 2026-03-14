@@ -56,7 +56,7 @@ func (p *RemoteTransitionProxy) StartAnimation(
 	}
 	_data.WriteStrongBinder(finishCallback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteTransitionStartAnimation, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteTransition, "startAnimation"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,7 +77,7 @@ func (p *RemoteTransitionProxy) MergeAnimation(
 	_data.WriteStrongBinder(mergeTarget.Handle())
 	_data.WriteStrongBinder(finishCallback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteTransitionMergeAnimation, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteTransition, "mergeAnimation"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,7 +107,7 @@ func (p *RemoteTransitionProxy) TakeOverAnimation(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteTransitionTakeOverAnimation, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteTransition, "takeOverAnimation"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -121,6 +121,6 @@ func (p *RemoteTransitionProxy) OnTransitionConsumed(
 	_data.WriteStrongBinder(transition.Handle())
 	_data.WriteBool(aborted)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteTransitionOnTransitionConsumed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteTransition, "onTransitionConsumed"), binder.FlagOneway, _data)
 	return _err
 }

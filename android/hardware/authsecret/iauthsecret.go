@@ -50,6 +50,6 @@ func (p *AuthSecretProxy) SetPrimaryUserCredential(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAuthSecretSetPrimaryUserCredential, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAuthSecret, "setPrimaryUserCredential"), binder.FlagOneway, _data)
 	return _err
 }

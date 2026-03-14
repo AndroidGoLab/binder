@@ -51,7 +51,7 @@ func (p *SecureElementChannelProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureElementChannelClose, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureElementChannel, "close"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -71,7 +71,7 @@ func (p *SecureElementChannelProxy) IsClosed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureElementChannelIsClosed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureElementChannel, "isClosed"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -95,7 +95,7 @@ func (p *SecureElementChannelProxy) IsBasicChannel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureElementChannelIsBasicChannel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureElementChannel, "isBasicChannel"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -119,7 +119,7 @@ func (p *SecureElementChannelProxy) GetSelectResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureElementChannelGetSelectResponse, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureElementChannel, "getSelectResponse"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -162,7 +162,7 @@ func (p *SecureElementChannelProxy) Transmit(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureElementChannelTransmit, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureElementChannel, "transmit"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -196,7 +196,7 @@ func (p *SecureElementChannelProxy) SelectNext(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementChannel)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureElementChannelSelectNext, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureElementChannel, "selectNext"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

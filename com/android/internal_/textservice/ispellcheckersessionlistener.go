@@ -55,7 +55,7 @@ func (p *SpellCheckerSessionListenerProxy) OnGetSuggestions(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISpellCheckerSessionListenerOnGetSuggestions, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISpellCheckerSessionListener, "onGetSuggestions"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,6 +76,6 @@ func (p *SpellCheckerSessionListenerProxy) OnGetSentenceSuggestions(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISpellCheckerSessionListenerOnGetSentenceSuggestions, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISpellCheckerSessionListener, "onGetSentenceSuggestions"), binder.FlagOneway, _data)
 	return _err
 }

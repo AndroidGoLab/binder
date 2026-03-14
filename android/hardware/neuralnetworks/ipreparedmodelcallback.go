@@ -45,7 +45,7 @@ func (p *PreparedModelCallbackProxy) Notify(
 	_data.WriteInt32(int32(status))
 	_data.WriteStrongBinder(preparedModel.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPreparedModelCallbackNotify, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPreparedModelCallback, "notify"), 0, _data)
 	if _err != nil {
 		return _err
 	}

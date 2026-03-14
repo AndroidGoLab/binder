@@ -46,6 +46,6 @@ func (p *LcnV2ChannelListListenerProxy) OnDetectLcnV2ChannelList(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionILcnV2ChannelListListenerOnDetectLcnV2ChannelList, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILcnV2ChannelListListener, "onDetectLcnV2ChannelList"), binder.FlagOneway, _data)
 	return _err
 }

@@ -48,7 +48,7 @@ func (p *MemtrackProxy) GetMemory(
 	_data.WriteInt32(pid)
 	_data.WriteInt32(int32(type_))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMemtrackGetMemory, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMemtrack, "getMemory"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -81,7 +81,7 @@ func (p *MemtrackProxy) GetGpuDeviceInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMemtrack)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMemtrackGetGpuDeviceInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMemtrack, "getGpuDeviceInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

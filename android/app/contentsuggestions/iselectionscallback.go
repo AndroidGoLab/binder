@@ -54,6 +54,6 @@ func (p *SelectionsCallbackProxy) OnContentSelectionsAvailable(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISelectionsCallbackOnContentSelectionsAvailable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISelectionsCallback, "onContentSelectionsAvailable"), binder.FlagOneway, _data)
 	return _err
 }

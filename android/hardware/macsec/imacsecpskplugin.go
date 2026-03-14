@@ -76,7 +76,7 @@ func (p *MacsecPskPluginProxy) AddTestKey(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMacsecPskPluginAddTestKey, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMacsecPskPlugin, "addTestKey"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -114,7 +114,7 @@ func (p *MacsecPskPluginProxy) CalcIcv(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMacsecPskPluginCalcIcv, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMacsecPskPlugin, "calcIcv"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -168,7 +168,7 @@ func (p *MacsecPskPluginProxy) GenerateSak(
 	}
 	_data.WriteInt32(sakLength)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMacsecPskPluginGenerateSak, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMacsecPskPlugin, "generateSak"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -220,7 +220,7 @@ func (p *MacsecPskPluginProxy) WrapSak(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMacsecPskPluginWrapSak, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMacsecPskPlugin, "wrapSak"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -272,7 +272,7 @@ func (p *MacsecPskPluginProxy) UnwrapSak(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMacsecPskPluginUnwrapSak, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMacsecPskPlugin, "unwrapSak"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

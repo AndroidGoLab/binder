@@ -58,7 +58,7 @@ func (p *InjectRecognitionEventProxy) TriggerRecognitionEvent(
 		_data.WriteInt32(int32(len(phraseExtras)))
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIInjectRecognitionEventTriggerRecognitionEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInjectRecognitionEvent, "triggerRecognitionEvent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,6 +68,6 @@ func (p *InjectRecognitionEventProxy) TriggerAbortRecognition(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInjectRecognitionEvent)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInjectRecognitionEventTriggerAbortRecognition, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInjectRecognitionEvent, "triggerAbortRecognition"), binder.FlagOneway, _data)
 	return _err
 }

@@ -46,7 +46,7 @@ func (p *NonStandardCertCallbackProxy) GetBlob(
 	_data.WriteInterfaceToken(DescriptorINonStandardCertCallback)
 	_data.WriteString16(alias)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINonStandardCertCallbackGetBlob, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINonStandardCertCallback, "getBlob"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -82,7 +82,7 @@ func (p *NonStandardCertCallbackProxy) ListAliases(
 	_data.WriteInterfaceToken(DescriptorINonStandardCertCallback)
 	_data.WriteString16(prefix)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINonStandardCertCallbackListAliases, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINonStandardCertCallback, "listAliases"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

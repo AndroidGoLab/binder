@@ -45,6 +45,6 @@ func (p *KeyGestureEventListenerProxy) OnKeyGestureEvent(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyGestureEventListenerOnKeyGestureEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyGestureEventListener, "onKeyGestureEvent"), binder.FlagOneway, _data)
 	return _err
 }

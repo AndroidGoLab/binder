@@ -56,7 +56,7 @@ func (p *BootstrapAuthenticationCallbackProxy) OnKeysAvailable(
 	}
 	_data.WriteString16(btId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBootstrapAuthenticationCallbackOnKeysAvailable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBootstrapAuthenticationCallback, "onKeysAvailable"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,6 +70,6 @@ func (p *BootstrapAuthenticationCallbackProxy) OnAuthenticationFailure(
 	_data.WriteInt32(token)
 	_data.WriteInt32(reason)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBootstrapAuthenticationCallbackOnAuthenticationFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBootstrapAuthenticationCallback, "onAuthenticationFailure"), binder.FlagOneway, _data)
 	return _err
 }

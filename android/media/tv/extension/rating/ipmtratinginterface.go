@@ -48,7 +48,7 @@ func (p *PmtRatingInterfaceProxy) GetPmtRating(
 	_data.WriteInterfaceToken(DescriptorIPmtRatingInterface)
 	_data.WriteString16(sessionToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPmtRatingInterfaceGetPmtRating, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPmtRatingInterface, "getPmtRating"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -75,7 +75,7 @@ func (p *PmtRatingInterfaceProxy) AddPmtRatingListener(
 	_data.WriteString16(clientToken)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPmtRatingInterfaceAddPmtRatingListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPmtRatingInterface, "addPmtRatingListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -96,7 +96,7 @@ func (p *PmtRatingInterfaceProxy) RemovePmtRatingListener(
 	_data.WriteInterfaceToken(DescriptorIPmtRatingInterface)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPmtRatingInterfaceRemovePmtRatingListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPmtRatingInterface, "removePmtRatingListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}

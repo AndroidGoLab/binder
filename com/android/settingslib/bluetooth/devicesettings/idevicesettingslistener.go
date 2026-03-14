@@ -52,6 +52,6 @@ func (p *DeviceSettingsListenerProxy) OnDeviceSettingsChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIDeviceSettingsListenerOnDeviceSettingsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceSettingsListener, "onDeviceSettingsChanged"), binder.FlagOneway, _data)
 	return _err
 }

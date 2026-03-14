@@ -57,7 +57,7 @@ func (p *TunerCallbackProxy) OnTuneFailed(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITunerCallbackOnTuneFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITunerCallback, "onTuneFailed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,7 +71,7 @@ func (p *TunerCallbackProxy) OnCurrentProgramInfoChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITunerCallbackOnCurrentProgramInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITunerCallback, "onCurrentProgramInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,7 +85,7 @@ func (p *TunerCallbackProxy) OnProgramListUpdated(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITunerCallbackOnProgramListUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITunerCallback, "onProgramListUpdated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,7 +97,7 @@ func (p *TunerCallbackProxy) OnAntennaStateChange(
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteBool(connected)
 
-	_, _err := p.remote.Transact(ctx, TransactionITunerCallbackOnAntennaStateChange, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITunerCallback, "onAntennaStateChange"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,7 +111,7 @@ func (p *TunerCallbackProxy) OnConfigFlagUpdated(
 	_data.WriteInt32(int32(flag))
 	_data.WriteBool(value)
 
-	_, _err := p.remote.Transact(ctx, TransactionITunerCallbackOnConfigFlagUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITunerCallback, "onConfigFlagUpdated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -132,6 +132,6 @@ func (p *TunerCallbackProxy) OnParametersUpdated(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITunerCallbackOnParametersUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITunerCallback, "onParametersUpdated"), binder.FlagOneway, _data)
 	return _err
 }

@@ -48,7 +48,7 @@ func (p *BiometricContextListenerProxy) OnFoldChanged(
 	_data.WriteInterfaceToken(DescriptorIBiometricContextListener)
 	_data.WriteInt32(int32(FoldState))
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricContextListenerOnFoldChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricContextListener, "onFoldChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,7 +60,7 @@ func (p *BiometricContextListenerProxy) OnDisplayStateChanged(
 	_data.WriteInterfaceToken(DescriptorIBiometricContextListener)
 	_data.WriteInt32(displayState)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricContextListenerOnDisplayStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricContextListener, "onDisplayStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,6 +72,6 @@ func (p *BiometricContextListenerProxy) OnHardwareIgnoreTouchesChanged(
 	_data.WriteInterfaceToken(DescriptorIBiometricContextListener)
 	_data.WriteBool(shouldIgnore)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricContextListenerOnHardwareIgnoreTouchesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricContextListener, "onHardwareIgnoreTouchesChanged"), binder.FlagOneway, _data)
 	return _err
 }

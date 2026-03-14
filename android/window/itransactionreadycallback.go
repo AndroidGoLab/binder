@@ -42,7 +42,7 @@ func (p *TransactionReadyCallbackProxy) OnTransactionReady(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransactionReadyCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITransactionReadyCallbackOnTransactionReady, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITransactionReadyCallback, "onTransactionReady"), 0, _data)
 	if _err != nil {
 		return _err
 	}

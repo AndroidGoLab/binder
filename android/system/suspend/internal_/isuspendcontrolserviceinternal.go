@@ -70,7 +70,7 @@ func (p *SuspendControlServiceInternalProxy) EnableAutosuspend(
 	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISuspendControlServiceInternalEnableAutosuspend, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "enableAutosuspend"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -94,7 +94,7 @@ func (p *SuspendControlServiceInternalProxy) ForceSuspend(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISuspendControlServiceInternalForceSuspend, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "forceSuspend"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -118,7 +118,7 @@ func (p *SuspendControlServiceInternalProxy) GetWakeLockStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISuspendControlServiceInternalGetWakeLockStats, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "getWakeLockStats"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -153,7 +153,7 @@ func (p *SuspendControlServiceInternalProxy) GetWakeLockStatsFiltered(
 	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
 	_data.WriteInt32(wakeLockInfoFieldBitMask)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISuspendControlServiceInternalGetWakeLockStatsFiltered, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "getWakeLockStatsFiltered"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -186,7 +186,7 @@ func (p *SuspendControlServiceInternalProxy) GetWakeupStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISuspendControlServiceInternalGetWakeupStats, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "getWakeupStats"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -219,7 +219,7 @@ func (p *SuspendControlServiceInternalProxy) GetSuspendStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISuspendControlServiceInternal)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISuspendControlServiceInternalGetSuspendStats, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "getSuspendStats"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

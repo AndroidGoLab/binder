@@ -47,6 +47,6 @@ func (p *Session2TokensListenerProxy) OnSession2TokensChanged(
 		_data.WriteInt32(int32(len(tokens)))
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISession2TokensListenerOnSession2TokensChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISession2TokensListener, "onSession2TokensChanged"), binder.FlagOneway, _data)
 	return _err
 }

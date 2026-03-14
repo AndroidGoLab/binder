@@ -57,6 +57,6 @@ func (p *AppOpsActiveCallbackProxy) OpActiveChanged(
 	_data.WriteInt32(attributionFlags)
 	_data.WriteInt32(attributionChainId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAppOpsActiveCallbackOpActiveChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppOpsActiveCallback, "opActiveChanged"), binder.FlagOneway, _data)
 	return _err
 }

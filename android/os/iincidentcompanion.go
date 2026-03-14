@@ -71,7 +71,7 @@ func (p *IncidentCompanionProxy) AuthorizeReport(
 	_data.WriteInt32(flags)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIIncidentCompanionAuthorizeReport, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentCompanion, "authorizeReport"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,7 +83,7 @@ func (p *IncidentCompanionProxy) CancelAuthorization(
 	_data.WriteInterfaceToken(DescriptorIIncidentCompanion)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIIncidentCompanionCancelAuthorization, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentCompanion, "cancelAuthorization"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,7 +97,7 @@ func (p *IncidentCompanionProxy) SendReportReadyBroadcast(
 	_data.WriteString16(pkg)
 	_data.WriteString16(cls)
 
-	_, _err := p.remote.Transact(ctx, TransactionIIncidentCompanionSendReportReadyBroadcast, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentCompanion, "sendReportReadyBroadcast"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -108,7 +108,7 @@ func (p *IncidentCompanionProxy) GetPendingReports(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIncidentCompanion)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncidentCompanionGetPendingReports, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentCompanion, "getPendingReports"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -143,7 +143,7 @@ func (p *IncidentCompanionProxy) ApproveReport(
 	_data.WriteInterfaceToken(DescriptorIIncidentCompanion)
 	_data.WriteString16(uri)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncidentCompanionApproveReport, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentCompanion, "approveReport"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -164,7 +164,7 @@ func (p *IncidentCompanionProxy) DenyReport(
 	_data.WriteInterfaceToken(DescriptorIIncidentCompanion)
 	_data.WriteString16(uri)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncidentCompanionDenyReport, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentCompanion, "denyReport"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -188,7 +188,7 @@ func (p *IncidentCompanionProxy) GetIncidentReportList(
 	_data.WriteString16(pkg)
 	_data.WriteString16(cls)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncidentCompanionGetIncidentReportList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentCompanion, "getIncidentReportList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -228,7 +228,7 @@ func (p *IncidentCompanionProxy) GetIncidentReport(
 	_data.WriteString16(cls)
 	_data.WriteString16(id)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncidentCompanionGetIncidentReport, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentCompanion, "getIncidentReport"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -253,7 +253,7 @@ func (p *IncidentCompanionProxy) DeleteIncidentReports(
 	_data.WriteString16(cls)
 	_data.WriteString16(id)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncidentCompanionDeleteIncidentReports, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentCompanion, "deleteIncidentReports"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -274,7 +274,7 @@ func (p *IncidentCompanionProxy) DeleteAllIncidentReports(
 	_data.WriteInterfaceToken(DescriptorIIncidentCompanion)
 	_data.WriteString16(pkg)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncidentCompanionDeleteAllIncidentReports, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentCompanion, "deleteAllIncidentReports"), 0, _data)
 	if _err != nil {
 		return _err
 	}

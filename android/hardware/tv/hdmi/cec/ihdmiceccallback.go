@@ -45,6 +45,6 @@ func (p *HdmiCecCallbackProxy) OnCecMessage(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIHdmiCecCallbackOnCecMessage, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiCecCallback, "onCecMessage"), binder.FlagOneway, _data)
 	return _err
 }

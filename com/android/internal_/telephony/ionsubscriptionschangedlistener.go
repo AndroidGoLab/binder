@@ -41,6 +41,6 @@ func (p *OnSubscriptionsChangedListenerProxy) OnSubscriptionsChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnSubscriptionsChangedListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnSubscriptionsChangedListenerOnSubscriptionsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnSubscriptionsChangedListener, "onSubscriptionsChanged"), binder.FlagOneway, _data)
 	return _err
 }

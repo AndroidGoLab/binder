@@ -51,7 +51,7 @@ func (p *SurfaceControlViewHostProxy) OnConfigurationChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHost)
 
-	_, _err := p.remote.Transact(ctx, TransactionISurfaceControlViewHostOnConfigurationChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISurfaceControlViewHost, "onConfigurationChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,7 +61,7 @@ func (p *SurfaceControlViewHostProxy) OnDispatchDetachedFromWindow(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHost)
 
-	_, _err := p.remote.Transact(ctx, TransactionISurfaceControlViewHostOnDispatchDetachedFromWindow, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISurfaceControlViewHost, "onDispatchDetachedFromWindow"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,7 +79,7 @@ func (p *SurfaceControlViewHostProxy) OnInsetsChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISurfaceControlViewHostOnInsetsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISurfaceControlViewHost, "onInsetsChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,7 +90,7 @@ func (p *SurfaceControlViewHostProxy) GetSurfaceSyncGroup(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHost)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISurfaceControlViewHostGetSurfaceSyncGroup, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISurfaceControlViewHost, "getSurfaceSyncGroup"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -115,6 +115,6 @@ func (p *SurfaceControlViewHostProxy) AttachParentInterface(
 		_data.WriteInt32(-1)
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISurfaceControlViewHostAttachParentInterface, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISurfaceControlViewHost, "attachParentInterface"), binder.FlagOneway, _data)
 	return _err
 }

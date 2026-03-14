@@ -50,7 +50,7 @@ func (p *ProgramRatingInfoProxy) AddProgramRatingInfoListener(
 	_data.WriteString16(clientToken)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIProgramRatingInfoAddProgramRatingInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProgramRatingInfo, "addProgramRatingInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -71,7 +71,7 @@ func (p *ProgramRatingInfoProxy) RemoveProgramRatingInfoListener(
 	_data.WriteInterfaceToken(DescriptorIProgramRatingInfo)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIProgramRatingInfoRemoveProgramRatingInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProgramRatingInfo, "removeProgramRatingInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -93,7 +93,7 @@ func (p *ProgramRatingInfoProxy) GetProgramRatingInfo(
 	_data.WriteInterfaceToken(DescriptorIProgramRatingInfo)
 	_data.WriteString16(sessionToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIProgramRatingInfoGetProgramRatingInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProgramRatingInfo, "getProgramRatingInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

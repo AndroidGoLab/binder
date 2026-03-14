@@ -47,6 +47,6 @@ func (p *ControlsActionCallbackProxy) Accept(
 	_data.WriteString16(controlId)
 	_data.WriteInt32(response)
 
-	_, _err := p.remote.Transact(ctx, TransactionIControlsActionCallbackAccept, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIControlsActionCallback, "accept"), binder.FlagOneway, _data)
 	return _err
 }

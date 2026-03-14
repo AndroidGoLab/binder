@@ -68,7 +68,7 @@ func (p *RecentsAnimationRunnerProxy) OnAnimationCanceled(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRecentsAnimationRunnerOnAnimationCanceled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecentsAnimationRunner, "onAnimationCanceled"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -114,7 +114,7 @@ func (p *RecentsAnimationRunnerProxy) OnAnimationStart(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRecentsAnimationRunnerOnAnimationStart, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecentsAnimationRunner, "onAnimationStart"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -135,6 +135,6 @@ func (p *RecentsAnimationRunnerProxy) OnTasksAppeared(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRecentsAnimationRunnerOnTasksAppeared, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecentsAnimationRunner, "onTasksAppeared"), binder.FlagOneway, _data)
 	return _err
 }

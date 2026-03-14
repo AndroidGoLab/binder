@@ -47,7 +47,7 @@ func (p *AudioFocusDispatcherProxy) DispatchAudioFocusChange(
 	_data.WriteInt32(focusChange)
 	_data.WriteString16(clientId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioFocusDispatcherDispatchAudioFocusChange, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioFocusDispatcher, "dispatchAudioFocusChange"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,6 +61,6 @@ func (p *AudioFocusDispatcherProxy) DispatchFocusResultFromExtPolicy(
 	_data.WriteInt32(requestResult)
 	_data.WriteString16(clientId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioFocusDispatcherDispatchFocusResultFromExtPolicy, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioFocusDispatcher, "dispatchFocusResultFromExtPolicy"), binder.FlagOneway, _data)
 	return _err
 }

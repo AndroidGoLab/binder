@@ -98,7 +98,7 @@ func (p *TaskStackListenerProxy) OnTaskStackChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnTaskStackChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskStackChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,7 +116,7 @@ func (p *TaskStackListenerProxy) OnActivityPinned(
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(stackId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnActivityPinned, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityPinned"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -126,7 +126,7 @@ func (p *TaskStackListenerProxy) OnActivityUnpinned(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnActivityUnpinned, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityUnpinned"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -146,7 +146,7 @@ func (p *TaskStackListenerProxy) OnActivityRestartAttempt(
 	_data.WriteBool(clearedTask)
 	_data.WriteBool(wasVisible)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnActivityRestartAttempt, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityRestartAttempt"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -162,7 +162,7 @@ func (p *TaskStackListenerProxy) OnActivityForcedResizable(
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(reason)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnActivityForcedResizable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityForcedResizable"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -172,7 +172,7 @@ func (p *TaskStackListenerProxy) OnActivityDismissingDockedTask(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnActivityDismissingDockedTask, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityDismissingDockedTask"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -188,7 +188,7 @@ func (p *TaskStackListenerProxy) OnActivityLaunchOnSecondaryDisplayFailed(
 	}
 	_data.WriteInt32(requestedDisplayId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnActivityLaunchOnSecondaryDisplayFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityLaunchOnSecondaryDisplayFailed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -204,7 +204,7 @@ func (p *TaskStackListenerProxy) OnActivityLaunchOnSecondaryDisplayRerouted(
 	}
 	_data.WriteInt32(requestedDisplayId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnActivityLaunchOnSecondaryDisplayRerouted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityLaunchOnSecondaryDisplayRerouted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -217,7 +217,7 @@ func (p *TaskStackListenerProxy) OnTaskCreated(
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(taskId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnTaskCreated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskCreated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -229,7 +229,7 @@ func (p *TaskStackListenerProxy) OnTaskRemoved(
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(taskId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnTaskRemoved, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskRemoved"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -243,7 +243,7 @@ func (p *TaskStackListenerProxy) OnTaskMovedToFront(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnTaskMovedToFront, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskMovedToFront"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -257,7 +257,7 @@ func (p *TaskStackListenerProxy) OnTaskDescriptionChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnTaskDescriptionChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskDescriptionChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -271,7 +271,7 @@ func (p *TaskStackListenerProxy) OnActivityRequestedOrientationChanged(
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(requestedOrientation)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnActivityRequestedOrientationChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityRequestedOrientationChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -285,7 +285,7 @@ func (p *TaskStackListenerProxy) OnTaskRemovalStarted(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnTaskRemovalStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskRemovalStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -301,7 +301,7 @@ func (p *TaskStackListenerProxy) OnTaskProfileLocked(
 	}
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnTaskProfileLocked, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskProfileLocked"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -314,7 +314,7 @@ func (p *TaskStackListenerProxy) OnTaskSnapshotChanged(
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(taskId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnTaskSnapshotChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskSnapshotChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -326,7 +326,7 @@ func (p *TaskStackListenerProxy) OnTaskSnapshotInvalidated(
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(taskId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnTaskSnapshotInvalidated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskSnapshotInvalidated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -340,7 +340,7 @@ func (p *TaskStackListenerProxy) OnBackPressedOnTaskRoot(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnBackPressedOnTaskRoot, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onBackPressedOnTaskRoot"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -354,7 +354,7 @@ func (p *TaskStackListenerProxy) OnTaskDisplayChanged(
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(newDisplayId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnTaskDisplayChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskDisplayChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -364,7 +364,7 @@ func (p *TaskStackListenerProxy) OnRecentTaskListUpdated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnRecentTaskListUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onRecentTaskListUpdated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -376,7 +376,7 @@ func (p *TaskStackListenerProxy) OnRecentTaskListFrozenChanged(
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteBool(frozen)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnRecentTaskListFrozenChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onRecentTaskListFrozenChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -388,7 +388,7 @@ func (p *TaskStackListenerProxy) OnRecentTaskRemovedForAddTask(
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(taskId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnRecentTaskRemovedForAddTask, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onRecentTaskRemovedForAddTask"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -402,7 +402,7 @@ func (p *TaskStackListenerProxy) OnTaskFocusChanged(
 	_data.WriteInt32(taskId)
 	_data.WriteBool(focused)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnTaskFocusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskFocusChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -416,7 +416,7 @@ func (p *TaskStackListenerProxy) OnTaskRequestedOrientationChanged(
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(requestedOrientation)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnTaskRequestedOrientationChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskRequestedOrientationChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -428,7 +428,7 @@ func (p *TaskStackListenerProxy) OnActivityRotation(
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(displayId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnActivityRotation, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityRotation"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -442,7 +442,7 @@ func (p *TaskStackListenerProxy) OnTaskMovedToBack(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnTaskMovedToBack, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskMovedToBack"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -454,6 +454,6 @@ func (p *TaskStackListenerProxy) OnLockTaskModeChanged(
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
 	_data.WriteInt32(mode)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskStackListenerOnLockTaskModeChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskStackListener, "onLockTaskModeChanged"), binder.FlagOneway, _data)
 	return _err
 }

@@ -54,7 +54,7 @@ func (p *NetworkScoreCacheProxy) UpdateScores(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkScoreCacheUpdateScores, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkScoreCache, "updateScores"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +64,6 @@ func (p *NetworkScoreCacheProxy) ClearScores(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkScoreCache)
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkScoreCacheClearScores, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkScoreCache, "clearScores"), binder.FlagOneway, _data)
 	return _err
 }

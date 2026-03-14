@@ -89,6 +89,6 @@ func (p *AutofillFieldClassificationServiceProxy) CalculateScores(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutofillFieldClassificationServiceCalculateScores, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutofillFieldClassificationService, "calculateScores"), binder.FlagOneway, _data)
 	return _err
 }

@@ -47,7 +47,7 @@ func (p *BiometricStateListenerProxy) OnStateChanged(
 	_data.WriteInterfaceToken(DescriptorIBiometricStateListener)
 	_data.WriteInt32(newState)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricStateListenerOnStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricStateListener, "onStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,7 +59,7 @@ func (p *BiometricStateListenerProxy) OnBiometricAction(
 	_data.WriteInterfaceToken(DescriptorIBiometricStateListener)
 	_data.WriteInt32(action)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricStateListenerOnBiometricAction, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricStateListener, "onBiometricAction"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +75,6 @@ func (p *BiometricStateListenerProxy) OnEnrollmentsChanged(
 	_data.WriteInt32(sensorId)
 	_data.WriteBool(hasEnrollments)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricStateListenerOnEnrollmentsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricStateListener, "onEnrollmentsChanged"), binder.FlagOneway, _data)
 	return _err
 }

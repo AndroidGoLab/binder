@@ -67,7 +67,7 @@ func (p *MidiManagerProxy) GetDevices(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMidiManagerGetDevices, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMidiManager, "getDevices"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -99,7 +99,7 @@ func (p *MidiManagerProxy) GetDevicesForTransport(
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 	_data.WriteInt32(transport)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMidiManagerGetDevicesForTransport, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMidiManager, "getDevicesForTransport"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -132,7 +132,7 @@ func (p *MidiManagerProxy) RegisterListener(
 	_data.WriteStrongBinder(clientToken.Handle())
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMidiManagerRegisterListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMidiManager, "registerListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -155,7 +155,7 @@ func (p *MidiManagerProxy) UnregisterListener(
 	_data.WriteStrongBinder(clientToken.Handle())
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMidiManagerUnregisterListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMidiManager, "unregisterListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -179,7 +179,7 @@ func (p *MidiManagerProxy) OpenDevice(
 	_data.WriteStrongBinder(clientToken.Handle())
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMidiManagerOpenDevice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMidiManager, "openDevice"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -203,7 +203,7 @@ func (p *MidiManagerProxy) OpenBluetoothDevice(
 	_data.WriteStrongBinder(clientToken.Handle())
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMidiManagerOpenBluetoothDevice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMidiManager, "openBluetoothDevice"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -226,7 +226,7 @@ func (p *MidiManagerProxy) CloseDevice(
 	_data.WriteStrongBinder(clientToken.Handle())
 	_data.WriteStrongBinder(deviceToken.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMidiManagerCloseDevice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMidiManager, "closeDevice"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -278,7 +278,7 @@ func (p *MidiManagerProxy) RegisterDeviceServer(
 	_data.WriteInt32(type_)
 	_data.WriteInt32(defaultProtocol)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMidiManagerRegisterDeviceServer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMidiManager, "registerDeviceServer"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -299,7 +299,7 @@ func (p *MidiManagerProxy) UnregisterDeviceServer(
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 	_data.WriteStrongBinder(server.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMidiManagerUnregisterDeviceServer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMidiManager, "unregisterDeviceServer"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -323,7 +323,7 @@ func (p *MidiManagerProxy) GetServiceDeviceInfo(
 	_data.WriteString16(packageName)
 	_data.WriteString16(className)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMidiManagerGetServiceDeviceInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMidiManager, "getServiceDeviceInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -344,7 +344,7 @@ func (p *MidiManagerProxy) GetDeviceStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMidiManagerGetDeviceStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMidiManager, "getDeviceStatus"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -372,7 +372,7 @@ func (p *MidiManagerProxy) SetDeviceStatus(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMidiManagerSetDeviceStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMidiManager, "setDeviceStatus"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -397,7 +397,7 @@ func (p *MidiManagerProxy) UpdateTotalBytes(
 	_data.WriteInt32(inputBytes)
 	_data.WriteInt32(outputBytes)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMidiManagerUpdateTotalBytes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMidiManager, "updateTotalBytes"), 0, _data)
 	if _err != nil {
 		return _err
 	}

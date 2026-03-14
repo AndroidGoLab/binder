@@ -43,6 +43,6 @@ func (p *ShortcutServiceProxy) NotifyShortcutKeyPressed(
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteInt64(shortcutCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIShortcutServiceNotifyShortcutKeyPressed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIShortcutService, "notifyShortcutKeyPressed"), binder.FlagOneway, _data)
 	return _err
 }

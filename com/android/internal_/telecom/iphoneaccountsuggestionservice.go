@@ -45,6 +45,6 @@ func (p *PhoneAccountSuggestionServiceProxy) OnAccountSuggestionRequest(
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteString16(number)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneAccountSuggestionServiceOnAccountSuggestionRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneAccountSuggestionService, "onAccountSuggestionRequest"), binder.FlagOneway, _data)
 	return _err
 }

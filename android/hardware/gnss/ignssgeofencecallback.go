@@ -75,7 +75,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceTransitionCb(
 	_data.WriteInt32(transition)
 	_data.WriteInt64(timestampMillis)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssGeofenceCallbackGnssGeofenceTransitionCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssGeofenceCallback, "gnssGeofenceTransitionCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -100,7 +100,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceStatusCb(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssGeofenceCallbackGnssGeofenceStatusCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssGeofenceCallback, "gnssGeofenceStatusCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -123,7 +123,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceAddCb(
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(status)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssGeofenceCallbackGnssGeofenceAddCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssGeofenceCallback, "gnssGeofenceAddCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -146,7 +146,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceRemoveCb(
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(status)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssGeofenceCallbackGnssGeofenceRemoveCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssGeofenceCallback, "gnssGeofenceRemoveCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -169,7 +169,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofencePauseCb(
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(status)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssGeofenceCallbackGnssGeofencePauseCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssGeofenceCallback, "gnssGeofencePauseCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -192,7 +192,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceResumeCb(
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(status)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssGeofenceCallbackGnssGeofenceResumeCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssGeofenceCallback, "gnssGeofenceResumeCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}

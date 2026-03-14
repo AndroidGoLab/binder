@@ -61,7 +61,7 @@ func (p *ImsMediaSessionListenerProxy) OnModifySessionResponse(
 	}
 	_data.WriteInt32(int32(error_))
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsMediaSessionListenerOnModifySessionResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMediaSessionListener, "onModifySessionResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,7 +75,7 @@ func (p *ImsMediaSessionListenerProxy) OnFirstMediaPacketReceived(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsMediaSessionListenerOnFirstMediaPacketReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMediaSessionListener, "onFirstMediaPacketReceived"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -96,7 +96,7 @@ func (p *ImsMediaSessionListenerProxy) OnHeaderExtensionReceived(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsMediaSessionListenerOnHeaderExtensionReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMediaSessionListener, "onHeaderExtensionReceived"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -110,7 +110,7 @@ func (p *ImsMediaSessionListenerProxy) NotifyMediaQualityStatus(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsMediaSessionListenerNotifyMediaQualityStatus, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMediaSessionListener, "notifyMediaQualityStatus"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -124,7 +124,7 @@ func (p *ImsMediaSessionListenerProxy) TriggerAnbrQuery(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsMediaSessionListenerTriggerAnbrQuery, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMediaSessionListener, "triggerAnbrQuery"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -138,7 +138,7 @@ func (p *ImsMediaSessionListenerProxy) OnDtmfReceived(
 	_data.WriteInt32(int32(dtmfDigit))
 	_data.WriteInt32(durationMs)
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsMediaSessionListenerOnDtmfReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMediaSessionListener, "onDtmfReceived"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -152,7 +152,7 @@ func (p *ImsMediaSessionListenerProxy) OnCallQualityChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsMediaSessionListenerOnCallQualityChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMediaSessionListener, "onCallQualityChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -166,6 +166,6 @@ func (p *ImsMediaSessionListenerProxy) NotifyRtpReceptionStats(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsMediaSessionListenerNotifyRtpReceptionStats, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMediaSessionListener, "notifyRtpReceptionStats"), binder.FlagOneway, _data)
 	return _err
 }

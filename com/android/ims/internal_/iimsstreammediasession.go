@@ -41,7 +41,7 @@ func (p *ImsStreamMediaSessionProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsStreamMediaSession)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsStreamMediaSessionClose, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsStreamMediaSession, "close"), 0, _data)
 	if _err != nil {
 		return _err
 	}

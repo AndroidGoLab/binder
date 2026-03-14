@@ -47,7 +47,7 @@ func (p *GnssAssistanceInterfaceProxy) InjectGnssAssistance(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssAssistanceInterfaceInjectGnssAssistance, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssAssistanceInterface, "injectGnssAssistance"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -68,7 +68,7 @@ func (p *GnssAssistanceInterfaceProxy) SetCallback(
 	_data.WriteInterfaceToken(DescriptorIGnssAssistanceInterface)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssAssistanceInterfaceSetCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssAssistanceInterface, "setCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}

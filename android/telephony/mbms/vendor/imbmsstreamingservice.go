@@ -58,7 +58,7 @@ func (p *MbmsStreamingServiceProxy) Initialize(
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMbmsStreamingServiceInitialize, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMbmsStreamingService, "initialize"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -93,7 +93,7 @@ func (p *MbmsStreamingServiceProxy) RequestUpdateStreamingServices(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMbmsStreamingServiceRequestUpdateStreamingServices, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMbmsStreamingService, "requestUpdateStreamingServices"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -123,7 +123,7 @@ func (p *MbmsStreamingServiceProxy) StartStreaming(
 	_data.WriteString16(serviceId)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMbmsStreamingServiceStartStreaming, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMbmsStreamingService, "startStreaming"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -151,7 +151,7 @@ func (p *MbmsStreamingServiceProxy) GetPlaybackUri(
 	_data.WriteInt32(subId)
 	_data.WriteString16(serviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMbmsStreamingServiceGetPlaybackUri, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMbmsStreamingService, "getPlaybackUri"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -177,7 +177,7 @@ func (p *MbmsStreamingServiceProxy) StopStreaming(
 	_data.WriteInt32(subId)
 	_data.WriteString16(serviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMbmsStreamingServiceStopStreaming, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMbmsStreamingService, "stopStreaming"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -198,7 +198,7 @@ func (p *MbmsStreamingServiceProxy) Dispose(
 	_data.WriteInterfaceToken(DescriptorIMbmsStreamingService)
 	_data.WriteInt32(subId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMbmsStreamingServiceDispose, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMbmsStreamingService, "dispose"), 0, _data)
 	if _err != nil {
 		return _err
 	}

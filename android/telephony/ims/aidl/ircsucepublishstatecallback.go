@@ -46,6 +46,6 @@ func (p *RcsUcePublishStateCallbackProxy) OnPublishUpdated(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRcsUcePublishStateCallbackOnPublishUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRcsUcePublishStateCallback, "onPublishUpdated"), binder.FlagOneway, _data)
 	return _err
 }

@@ -54,6 +54,6 @@ func (p *StrategyNonDefaultDevicesDispatcherProxy) DispatchNonDefDevicesChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIStrategyNonDefaultDevicesDispatcherDispatchNonDefDevicesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStrategyNonDefaultDevicesDispatcher, "dispatchNonDefDevicesChanged"), binder.FlagOneway, _data)
 	return _err
 }

@@ -52,7 +52,7 @@ func (p *CaptureProcessorImplProxy) OnOutputSurface(
 	_data.WriteInterfaceToken(DescriptorICaptureProcessorImpl)
 	_data.WriteInt32(imageFormat)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICaptureProcessorImplOnOutputSurface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICaptureProcessorImpl, "onOutputSurface"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -72,7 +72,7 @@ func (p *CaptureProcessorImplProxy) OnPostviewOutputSurface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICaptureProcessorImpl)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICaptureProcessorImplOnPostviewOutputSurface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICaptureProcessorImpl, "onPostviewOutputSurface"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -99,7 +99,7 @@ func (p *CaptureProcessorImplProxy) OnResolutionUpdate(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICaptureProcessorImplOnResolutionUpdate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICaptureProcessorImpl, "onResolutionUpdate"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -120,7 +120,7 @@ func (p *CaptureProcessorImplProxy) OnImageFormatUpdate(
 	_data.WriteInterfaceToken(DescriptorICaptureProcessorImpl)
 	_data.WriteInt32(imageFormat)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICaptureProcessorImplOnImageFormatUpdate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICaptureProcessorImpl, "onImageFormatUpdate"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -154,7 +154,7 @@ func (p *CaptureProcessorImplProxy) Process(
 	_data.WriteStrongBinder(resultCallback.AsBinder().Handle())
 	_data.WriteBool(isPostviewRequested)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICaptureProcessorImplProcess, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICaptureProcessorImpl, "process"), 0, _data)
 	if _err != nil {
 		return _err
 	}

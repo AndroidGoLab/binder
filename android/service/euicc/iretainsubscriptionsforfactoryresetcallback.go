@@ -43,6 +43,6 @@ func (p *RetainSubscriptionsForFactoryResetCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorIRetainSubscriptionsForFactoryResetCallback)
 	_data.WriteInt32(result)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRetainSubscriptionsForFactoryResetCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRetainSubscriptionsForFactoryResetCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

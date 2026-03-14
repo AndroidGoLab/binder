@@ -42,6 +42,6 @@ func (p *ProcessingSignalProxy) SendSignal(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProcessingSignal)
 
-	_, _err := p.remote.Transact(ctx, TransactionIProcessingSignalSendSignal, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProcessingSignal, "sendSignal"), binder.FlagOneway, _data)
 	return _err
 }

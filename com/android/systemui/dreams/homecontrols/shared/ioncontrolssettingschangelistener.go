@@ -48,6 +48,6 @@ func (p *OnControlsSettingsChangeListenerProxy) OnControlsSettingsChanged(
 	}
 	_data.WriteBool(allowTrivialControlsOnLockscreen)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnControlsSettingsChangeListenerOnControlsSettingsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnControlsSettingsChangeListener, "onControlsSettingsChanged"), binder.FlagOneway, _data)
 	return _err
 }

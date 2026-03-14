@@ -52,7 +52,7 @@ func (p *LayoutResultCallbackProxy) OnLayoutStarted(
 	_data.WriteStrongBinder(cancellation.AsBinder().Handle())
 	_data.WriteInt32(sequence)
 
-	_, _err := p.remote.Transact(ctx, TransactionILayoutResultCallbackOnLayoutStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILayoutResultCallback, "onLayoutStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,7 +70,7 @@ func (p *LayoutResultCallbackProxy) OnLayoutFinished(
 	_data.WriteBool(changed)
 	_data.WriteInt32(sequence)
 
-	_, _err := p.remote.Transact(ctx, TransactionILayoutResultCallbackOnLayoutFinished, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILayoutResultCallback, "onLayoutFinished"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,7 +83,7 @@ func (p *LayoutResultCallbackProxy) OnLayoutFailed(
 	_data.WriteInterfaceToken(DescriptorILayoutResultCallback)
 	_data.WriteInt32(sequence)
 
-	_, _err := p.remote.Transact(ctx, TransactionILayoutResultCallbackOnLayoutFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILayoutResultCallback, "onLayoutFailed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,6 +95,6 @@ func (p *LayoutResultCallbackProxy) OnLayoutCanceled(
 	_data.WriteInterfaceToken(DescriptorILayoutResultCallback)
 	_data.WriteInt32(sequence)
 
-	_, _err := p.remote.Transact(ctx, TransactionILayoutResultCallbackOnLayoutCanceled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILayoutResultCallback, "onLayoutCanceled"), binder.FlagOneway, _data)
 	return _err
 }

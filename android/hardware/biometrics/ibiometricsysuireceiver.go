@@ -62,7 +62,7 @@ func (p *BiometricSysuiReceiverProxy) OnDialogDismissed(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricSysuiReceiverOnDialogDismissed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onDialogDismissed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,7 +72,7 @@ func (p *BiometricSysuiReceiverProxy) OnTryAgainPressed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricSysuiReceiverOnTryAgainPressed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onTryAgainPressed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,7 +82,7 @@ func (p *BiometricSysuiReceiverProxy) OnDeviceCredentialPressed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricSysuiReceiverOnDeviceCredentialPressed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onDeviceCredentialPressed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -94,7 +94,7 @@ func (p *BiometricSysuiReceiverProxy) OnSystemEvent(
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
 	_data.WriteInt32(event)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricSysuiReceiverOnSystemEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onSystemEvent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,7 +106,7 @@ func (p *BiometricSysuiReceiverProxy) OnDialogAnimatedIn(
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
 	_data.WriteBool(startFingerprintNow)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricSysuiReceiverOnDialogAnimatedIn, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onDialogAnimatedIn"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,6 +116,6 @@ func (p *BiometricSysuiReceiverProxy) OnStartFingerprintNow(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBiometricSysuiReceiver)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBiometricSysuiReceiverOnStartFingerprintNow, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onStartFingerprintNow"), binder.FlagOneway, _data)
 	return _err
 }

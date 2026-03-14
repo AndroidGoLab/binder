@@ -74,7 +74,7 @@ func (p *KeystoreSecurityLevelProxy) CreateOperation(
 	}
 	_data.WriteBool(forced)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeystoreSecurityLevelCreateOperation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "createOperation"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -131,7 +131,7 @@ func (p *KeystoreSecurityLevelProxy) GenerateKey(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeystoreSecurityLevelGenerateKey, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "generateKey"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -188,7 +188,7 @@ func (p *KeystoreSecurityLevelProxy) ImportKey(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeystoreSecurityLevelImportKey, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "importKey"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -250,7 +250,7 @@ func (p *KeystoreSecurityLevelProxy) ImportWrappedKey(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeystoreSecurityLevelImportWrappedKey, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "importWrappedKey"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -277,7 +277,7 @@ func (p *KeystoreSecurityLevelProxy) ConvertStorageKeyToEphemeral(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeystoreSecurityLevelConvertStorageKeyToEphemeral, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "convertStorageKeyToEphemeral"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -303,7 +303,7 @@ func (p *KeystoreSecurityLevelProxy) DeleteKey(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIKeystoreSecurityLevelDeleteKey, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "deleteKey"), 0, _data)
 	if _err != nil {
 		return _err
 	}

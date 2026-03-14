@@ -72,7 +72,7 @@ func (p *TunerProxy) GetFrontendIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITunerGetFrontendIds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITuner, "getFrontendIds"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -108,7 +108,7 @@ func (p *TunerProxy) OpenFrontendById(
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteInt32(frontendId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITunerOpenFrontendById, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITuner, "openFrontendById"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -134,7 +134,7 @@ func (p *TunerProxy) OpenDemux(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITunerOpenDemux, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITuner, "openDemux"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -172,7 +172,7 @@ func (p *TunerProxy) GetDemuxCaps(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITunerGetDemuxCaps, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITuner, "getDemuxCaps"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -195,7 +195,7 @@ func (p *TunerProxy) OpenDescrambler(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITunerOpenDescrambler, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITuner, "openDescrambler"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -222,7 +222,7 @@ func (p *TunerProxy) GetFrontendInfo(
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteInt32(frontendId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITunerGetFrontendInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITuner, "getFrontendInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -245,7 +245,7 @@ func (p *TunerProxy) GetLnbIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITunerGetLnbIds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITuner, "getLnbIds"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -281,7 +281,7 @@ func (p *TunerProxy) OpenLnbById(
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteInt32(lnbId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITunerOpenLnbById, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITuner, "openLnbById"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -309,7 +309,7 @@ func (p *TunerProxy) OpenLnbByName(
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteString16(lnbName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITunerOpenLnbByName, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITuner, "openLnbByName"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -348,7 +348,7 @@ func (p *TunerProxy) SetLna(
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteBool(bEnable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITunerSetLna, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITuner, "setLna"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -371,7 +371,7 @@ func (p *TunerProxy) SetMaxNumberOfFrontends(
 	_data.WriteInt32(int32(frontendType))
 	_data.WriteInt32(maxNumber)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITunerSetMaxNumberOfFrontends, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITuner, "setMaxNumberOfFrontends"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -393,7 +393,7 @@ func (p *TunerProxy) GetMaxNumberOfFrontends(
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteInt32(int32(frontendType))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITunerGetMaxNumberOfFrontends, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITuner, "getMaxNumberOfFrontends"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -417,7 +417,7 @@ func (p *TunerProxy) IsLnaSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITunerIsLnaSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITuner, "isLnaSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -441,7 +441,7 @@ func (p *TunerProxy) GetDemuxIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITunerGetDemuxIds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITuner, "getDemuxIds"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -477,7 +477,7 @@ func (p *TunerProxy) OpenDemuxById(
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteInt32(demuxId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITunerOpenDemuxById, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITuner, "openDemuxById"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -504,7 +504,7 @@ func (p *TunerProxy) GetDemuxInfo(
 	_data.WriteInterfaceToken(DescriptorITuner)
 	_data.WriteInt32(demuxId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITunerGetDemuxInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITuner, "getDemuxInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

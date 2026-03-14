@@ -73,7 +73,7 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackMetrics(
 	}
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaMetricsManagerReportPlaybackMetrics, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportPlaybackMetrics"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -95,7 +95,7 @@ func (p *MediaMetricsManagerProxy) GetPlaybackSessionId(
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaMetricsManagerGetPlaybackSessionId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaMetricsManager, "getPlaybackSessionId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -121,7 +121,7 @@ func (p *MediaMetricsManagerProxy) GetRecordingSessionId(
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaMetricsManagerGetRecordingSessionId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaMetricsManager, "getRecordingSessionId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -152,7 +152,7 @@ func (p *MediaMetricsManagerProxy) ReportNetworkEvent(
 	}
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaMetricsManagerReportNetworkEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportNetworkEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -179,7 +179,7 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackErrorEvent(
 	}
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaMetricsManagerReportPlaybackErrorEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportPlaybackErrorEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -206,7 +206,7 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackStateEvent(
 	}
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaMetricsManagerReportPlaybackStateEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportPlaybackStateEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -233,7 +233,7 @@ func (p *MediaMetricsManagerProxy) ReportTrackChangeEvent(
 	}
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaMetricsManagerReportTrackChangeEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportTrackChangeEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -260,7 +260,7 @@ func (p *MediaMetricsManagerProxy) ReportEditingEndedEvent(
 	}
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaMetricsManagerReportEditingEndedEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportEditingEndedEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -282,7 +282,7 @@ func (p *MediaMetricsManagerProxy) GetTranscodingSessionId(
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaMetricsManagerGetTranscodingSessionId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaMetricsManager, "getTranscodingSessionId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -308,7 +308,7 @@ func (p *MediaMetricsManagerProxy) GetEditingSessionId(
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaMetricsManagerGetEditingSessionId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaMetricsManager, "getEditingSessionId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -334,7 +334,7 @@ func (p *MediaMetricsManagerProxy) GetBundleSessionId(
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaMetricsManagerGetBundleSessionId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaMetricsManager, "getBundleSessionId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -362,7 +362,7 @@ func (p *MediaMetricsManagerProxy) ReportBundleMetrics(
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaMetricsManagerReportBundleMetrics, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportBundleMetrics"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -385,7 +385,7 @@ func (p *MediaMetricsManagerProxy) ReleaseSessionId(
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaMetricsManagerReleaseSessionId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaMetricsManager, "releaseSessionId"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -61,7 +61,7 @@ func (p *TaskOrganizerProxy) AddStartingWindow(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskOrganizerAddStartingWindow, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizer, "addStartingWindow"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,7 +75,7 @@ func (p *TaskOrganizerProxy) RemoveStartingWindow(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskOrganizerRemoveStartingWindow, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizer, "removeStartingWindow"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,7 +87,7 @@ func (p *TaskOrganizerProxy) CopySplashScreenView(
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
 	_data.WriteInt32(taskId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskOrganizerCopySplashScreenView, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizer, "copySplashScreenView"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,7 +99,7 @@ func (p *TaskOrganizerProxy) OnAppSplashScreenViewRemoved(
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
 	_data.WriteInt32(taskId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskOrganizerOnAppSplashScreenViewRemoved, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizer, "onAppSplashScreenViewRemoved"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,7 +111,7 @@ func (p *TaskOrganizerProxy) OnTaskAppeared(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskOrganizerOnTaskAppeared, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizer, "onTaskAppeared"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,7 +122,7 @@ func (p *TaskOrganizerProxy) OnTaskVanished(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskOrganizerOnTaskVanished, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizer, "onTaskVanished"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -133,7 +133,7 @@ func (p *TaskOrganizerProxy) OnTaskInfoChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskOrganizerOnTaskInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizer, "onTaskInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -144,7 +144,7 @@ func (p *TaskOrganizerProxy) OnBackPressedOnTaskRoot(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskOrganizerOnBackPressedOnTaskRoot, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizer, "onBackPressedOnTaskRoot"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -156,6 +156,6 @@ func (p *TaskOrganizerProxy) OnImeDrawnOnTask(
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
 	_data.WriteInt32(taskId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskOrganizerOnImeDrawnOnTask, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizer, "onImeDrawnOnTask"), binder.FlagOneway, _data)
 	return _err
 }

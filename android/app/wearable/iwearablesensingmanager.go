@@ -67,7 +67,7 @@ func (p *WearableSensingManagerProxy) GetAvailableConnectionCount(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWearableSensingManagerGetAvailableConnectionCount, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWearableSensingManager, "getAvailableConnectionCount"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -98,7 +98,7 @@ func (p *WearableSensingManagerProxy) ProvideConnection(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWearableSensingManagerProvideConnection, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWearableSensingManager, "provideConnection"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -127,7 +127,7 @@ func (p *WearableSensingManagerProxy) ProvideConcurrentConnection(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWearableSensingManagerProvideConcurrentConnection, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWearableSensingManager, "provideConcurrentConnection"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -153,7 +153,7 @@ func (p *WearableSensingManagerProxy) RemoveConnection(
 	_data.WriteInterfaceToken(DescriptorIWearableSensingManager)
 	_data.WriteInt32(connectionId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWearableSensingManagerRemoveConnection, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWearableSensingManager, "removeConnection"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -176,7 +176,7 @@ func (p *WearableSensingManagerProxy) RemoveAllConnections(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWearableSensingManagerRemoveAllConnections, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWearableSensingManager, "removeAllConnections"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -202,7 +202,7 @@ func (p *WearableSensingManagerProxy) ProvideReadOnlyParcelFileDescriptor(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWearableSensingManagerProvideReadOnlyParcelFileDescriptor, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWearableSensingManager, "provideReadOnlyParcelFileDescriptor"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -233,7 +233,7 @@ func (p *WearableSensingManagerProxy) ProvideDataStream(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWearableSensingManagerProvideDataStream, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWearableSensingManager, "provideDataStream"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -261,7 +261,7 @@ func (p *WearableSensingManagerProxy) ProvideData(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWearableSensingManagerProvideData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWearableSensingManager, "provideData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -290,7 +290,7 @@ func (p *WearableSensingManagerProxy) RegisterDataRequestObserver(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWearableSensingManagerRegisterDataRequestObserver, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWearableSensingManager, "registerDataRequestObserver"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -319,7 +319,7 @@ func (p *WearableSensingManagerProxy) UnregisterDataRequestObserver(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWearableSensingManagerUnregisterDataRequestObserver, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWearableSensingManager, "unregisterDataRequestObserver"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -346,7 +346,7 @@ func (p *WearableSensingManagerProxy) StartHotwordRecognition(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWearableSensingManagerStartHotwordRecognition, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWearableSensingManager, "startHotwordRecognition"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -369,7 +369,7 @@ func (p *WearableSensingManagerProxy) StopHotwordRecognition(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWearableSensingManagerStopHotwordRecognition, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWearableSensingManager, "stopHotwordRecognition"), 0, _data)
 	if _err != nil {
 		return _err
 	}

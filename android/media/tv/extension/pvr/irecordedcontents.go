@@ -56,7 +56,7 @@ func (p *RecordedContentsProxy) DeleteRecordedContents(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRecordedContentsDeleteRecordedContents, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecordedContents, "deleteRecordedContents"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -78,7 +78,7 @@ func (p *RecordedContentsProxy) GetRecordedContentsLockInfoSync(
 	_data.WriteInterfaceToken(DescriptorIRecordedContents)
 	_data.WriteString16(contentUri)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRecordedContentsGetRecordedContentsLockInfoSync, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecordedContents, "getRecordedContentsLockInfoSync"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -105,7 +105,7 @@ func (p *RecordedContentsProxy) GetRecordedContentsLockInfoAsync(
 	_data.WriteString16(contentUri)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRecordedContentsGetRecordedContentsLockInfoAsync, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecordedContents, "getRecordedContentsLockInfoAsync"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -43,6 +43,6 @@ func (p *WindowSessionCallbackProxy) OnAnimatorScaleChanged(
 	_data.WriteInterfaceToken(DescriptorIWindowSessionCallback)
 	_data.WriteFloat32(scale)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWindowSessionCallbackOnAnimatorScaleChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowSessionCallback, "onAnimatorScaleChanged"), binder.FlagOneway, _data)
 	return _err
 }

@@ -59,6 +59,6 @@ func (p *UidFrozenStateChangedCallbackProxy) OnUidFrozenStateChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIUidFrozenStateChangedCallbackOnUidFrozenStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUidFrozenStateChangedCallback, "onUidFrozenStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

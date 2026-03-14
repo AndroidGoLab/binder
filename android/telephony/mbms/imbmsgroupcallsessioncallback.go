@@ -51,7 +51,7 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnError(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(message)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMbmsGroupCallSessionCallbackOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMbmsGroupCallSessionCallback, "onError"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,7 +73,7 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnAvailableSaisUpdated(
 		_data.WriteInt32(int32(len(availableSais)))
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMbmsGroupCallSessionCallbackOnAvailableSaisUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMbmsGroupCallSessionCallback, "onAvailableSaisUpdated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,7 +87,7 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnServiceInterfaceAvailable(
 	_data.WriteString16(interfaceName)
 	_data.WriteInt32(index)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMbmsGroupCallSessionCallbackOnServiceInterfaceAvailable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMbmsGroupCallSessionCallback, "onServiceInterfaceAvailable"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,6 +97,6 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnMiddlewareReady(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMbmsGroupCallSessionCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMbmsGroupCallSessionCallbackOnMiddlewareReady, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMbmsGroupCallSessionCallback, "onMiddlewareReady"), binder.FlagOneway, _data)
 	return _err
 }

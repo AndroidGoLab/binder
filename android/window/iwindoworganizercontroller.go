@@ -69,7 +69,7 @@ func (p *WindowOrganizerControllerProxy) ApplyTransaction(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWindowOrganizerControllerApplyTransaction, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowOrganizerController, "applyTransaction"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -95,7 +95,7 @@ func (p *WindowOrganizerControllerProxy) ApplySyncTransaction(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWindowOrganizerControllerApplySyncTransaction, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowOrganizerController, "applySyncTransaction"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -129,7 +129,7 @@ func (p *WindowOrganizerControllerProxy) StartNewTransition(
 		_data.WriteInt32(-1)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWindowOrganizerControllerStartNewTransition, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowOrganizerController, "startNewTransition"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -163,7 +163,7 @@ func (p *WindowOrganizerControllerProxy) StartTransition(
 		_data.WriteInt32(-1)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWindowOrganizerControllerStartTransition, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowOrganizerController, "startTransition"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -192,7 +192,7 @@ func (p *WindowOrganizerControllerProxy) StartLegacyTransition(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWindowOrganizerControllerStartLegacyTransition, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowOrganizerController, "startLegacyTransition"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -225,7 +225,7 @@ func (p *WindowOrganizerControllerProxy) FinishTransition(
 		_data.WriteInt32(-1)
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWindowOrganizerControllerFinishTransition, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowOrganizerController, "finishTransition"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -245,7 +245,7 @@ func (p *WindowOrganizerControllerProxy) GetTaskOrganizerController(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWindowOrganizerControllerGetTaskOrganizerController, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowOrganizerController, "getTaskOrganizerController"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -270,7 +270,7 @@ func (p *WindowOrganizerControllerProxy) GetDisplayAreaOrganizerController(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWindowOrganizerControllerGetDisplayAreaOrganizerController, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowOrganizerController, "getDisplayAreaOrganizerController"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -295,7 +295,7 @@ func (p *WindowOrganizerControllerProxy) GetTaskFragmentOrganizerController(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWindowOrganizerControllerGetTaskFragmentOrganizerController, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowOrganizerController, "getTaskFragmentOrganizerController"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -321,7 +321,7 @@ func (p *WindowOrganizerControllerProxy) RegisterTransitionPlayer(
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 	_data.WriteStrongBinder(player.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWindowOrganizerControllerRegisterTransitionPlayer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowOrganizerController, "registerTransitionPlayer"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -342,7 +342,7 @@ func (p *WindowOrganizerControllerProxy) UnregisterTransitionPlayer(
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 	_data.WriteStrongBinder(player.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWindowOrganizerControllerUnregisterTransitionPlayer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowOrganizerController, "unregisterTransitionPlayer"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -362,7 +362,7 @@ func (p *WindowOrganizerControllerProxy) GetTransitionMetricsReporter(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWindowOrganizerControllerGetTransitionMetricsReporter, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowOrganizerController, "getTransitionMetricsReporter"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -387,7 +387,7 @@ func (p *WindowOrganizerControllerProxy) GetApplyToken(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWindowOrganizerControllerGetApplyToken, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWindowOrganizerController, "getApplyToken"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

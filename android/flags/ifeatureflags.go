@@ -63,7 +63,7 @@ func (p *FeatureFlagsProxy) SyncFlags(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFeatureFlagsSyncFlags, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFeatureFlags, "syncFlags"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -97,7 +97,7 @@ func (p *FeatureFlagsProxy) RegisterCallback(
 	_data.WriteInterfaceToken(DescriptorIFeatureFlags)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFeatureFlagsRegisterCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFeatureFlags, "registerCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -118,7 +118,7 @@ func (p *FeatureFlagsProxy) UnregisterCallback(
 	_data.WriteInterfaceToken(DescriptorIFeatureFlags)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFeatureFlagsUnregisterCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFeatureFlags, "unregisterCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -149,7 +149,7 @@ func (p *FeatureFlagsProxy) QueryFlags(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFeatureFlagsQueryFlags, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFeatureFlags, "queryFlags"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -185,7 +185,7 @@ func (p *FeatureFlagsProxy) OverrideFlag(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFeatureFlagsOverrideFlag, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFeatureFlags, "overrideFlag"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -208,7 +208,7 @@ func (p *FeatureFlagsProxy) ResetFlag(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFeatureFlagsResetFlag, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFeatureFlags, "resetFlag"), 0, _data)
 	if _err != nil {
 		return _err
 	}

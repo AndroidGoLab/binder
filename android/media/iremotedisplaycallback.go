@@ -45,6 +45,6 @@ func (p *RemoteDisplayCallbackProxy) OnStateChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteDisplayCallbackOnStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteDisplayCallback, "onStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

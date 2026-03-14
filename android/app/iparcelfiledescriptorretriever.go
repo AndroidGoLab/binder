@@ -42,7 +42,7 @@ func (p *ParcelFileDescriptorRetrieverProxy) GetPfd(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIParcelFileDescriptorRetriever)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIParcelFileDescriptorRetrieverGetPfd, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIParcelFileDescriptorRetriever, "getPfd"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

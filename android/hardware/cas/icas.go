@@ -72,7 +72,7 @@ func (p *CasProxy) CloseSession(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICasCloseSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICas, "closeSession"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -92,7 +92,7 @@ func (p *CasProxy) OpenSessionDefault(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICas)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICasOpenSessionDefault, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICas, "openSessionDefault"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -130,7 +130,7 @@ func (p *CasProxy) OpenSession(
 	_data.WriteInt32(int32(intent))
 	_data.WriteInt32(int32(mode))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICasOpenSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICas, "openSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -181,7 +181,7 @@ func (p *CasProxy) ProcessEcm(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICasProcessEcm, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICas, "processEcm"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -209,7 +209,7 @@ func (p *CasProxy) ProcessEmm(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICasProcessEmm, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICas, "processEmm"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -230,7 +230,7 @@ func (p *CasProxy) Provision(
 	_data.WriteInterfaceToken(DescriptorICas)
 	_data.WriteString16(provisionString)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICasProvision, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICas, "provision"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -260,7 +260,7 @@ func (p *CasProxy) RefreshEntitlements(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICasRefreshEntitlements, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICas, "refreshEntitlements"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -279,7 +279,7 @@ func (p *CasProxy) Release(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICas)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICasRelease, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICas, "release"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -311,7 +311,7 @@ func (p *CasProxy) SendEvent(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICasSendEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICas, "sendEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -352,7 +352,7 @@ func (p *CasProxy) SendSessionEvent(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICasSendSessionEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICas, "sendSessionEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -380,7 +380,7 @@ func (p *CasProxy) SetPrivateData(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICasSetPrivateData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICas, "setPrivateData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -417,7 +417,7 @@ func (p *CasProxy) SetSessionPrivateData(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICasSetSessionPrivateData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICas, "setSessionPrivateData"), 0, _data)
 	if _err != nil {
 		return _err
 	}

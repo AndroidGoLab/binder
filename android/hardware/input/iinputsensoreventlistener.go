@@ -60,7 +60,7 @@ func (p *InputSensorEventListenerProxy) OnInputSensorChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputSensorEventListenerOnInputSensorChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputSensorEventListener, "onInputSensorChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,6 +76,6 @@ func (p *InputSensorEventListenerProxy) OnInputSensorAccuracyChanged(
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(accuracy)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputSensorEventListenerOnInputSensorAccuracyChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputSensorEventListener, "onInputSensorAccuracyChanged"), binder.FlagOneway, _data)
 	return _err
 }

@@ -53,7 +53,7 @@ func (p *HwCryptoOperationsProxy) ProcessCommandList(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHwCryptoOperationsProcessCommandList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHwCryptoOperations, "processCommandList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

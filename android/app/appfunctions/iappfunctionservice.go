@@ -51,6 +51,6 @@ func (p *AppFunctionServiceProxy) ExecuteAppFunction(
 	_data.WriteStrongBinder(cancellationCallback.AsBinder().Handle())
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAppFunctionServiceExecuteAppFunction, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppFunctionService, "executeAppFunction"), binder.FlagOneway, _data)
 	return _err
 }

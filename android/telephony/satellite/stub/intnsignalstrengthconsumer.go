@@ -45,6 +45,6 @@ func (p *NtnSignalStrengthConsumerProxy) Accept(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINtnSignalStrengthConsumerAccept, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINtnSignalStrengthConsumer, "accept"), binder.FlagOneway, _data)
 	return _err
 }

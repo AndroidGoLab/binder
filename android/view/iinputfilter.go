@@ -47,7 +47,7 @@ func (p *InputFilterProxy) Install(
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
 	_data.WriteStrongBinder(host.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputFilterInstall, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputFilter, "install"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -57,7 +57,7 @@ func (p *InputFilterProxy) Uninstall(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputFilterUninstall, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputFilter, "uninstall"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,6 +73,6 @@ func (p *InputFilterProxy) FilterInputEvent(
 	}
 	_data.WriteInt32(policyFlags)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputFilterFilterInputEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputFilter, "filterInputEvent"), binder.FlagOneway, _data)
 	return _err
 }

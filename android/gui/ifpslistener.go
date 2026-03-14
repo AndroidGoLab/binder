@@ -43,6 +43,6 @@ func (p *FpsListenerProxy) OnFpsReported(
 	_data.WriteInterfaceToken(DescriptorIFpsListener)
 	_data.WriteFloat32(fps)
 
-	_, _err := p.remote.Transact(ctx, TransactionIFpsListenerOnFpsReported, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFpsListener, "onFpsReported"), binder.FlagOneway, _data)
 	return _err
 }

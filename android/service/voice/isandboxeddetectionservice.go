@@ -69,7 +69,7 @@ func (p *SandboxedDetectionServiceProxy) DetectFromDspSource(
 	_data.WriteInt64(timeoutMillis)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISandboxedDetectionServiceDetectFromDspSource, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISandboxedDetectionService, "detectFromDspSource"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,7 +87,7 @@ func (p *SandboxedDetectionServiceProxy) DetectFromMicrophoneSource(
 	_data.WriteInt32(audioSource)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISandboxedDetectionServiceDetectFromMicrophoneSource, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISandboxedDetectionService, "detectFromMicrophoneSource"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,7 +99,7 @@ func (p *SandboxedDetectionServiceProxy) DetectWithVisualSignals(
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISandboxedDetectionServiceDetectWithVisualSignals, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISandboxedDetectionService, "detectWithVisualSignals"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -112,7 +112,7 @@ func (p *SandboxedDetectionServiceProxy) UpdateState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
 
-	_, _err := p.remote.Transact(ctx, TransactionISandboxedDetectionServiceUpdateState, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISandboxedDetectionService, "updateState"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -124,7 +124,7 @@ func (p *SandboxedDetectionServiceProxy) UpdateAudioFlinger(
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
 	_data.WriteStrongBinder(audioFlinger.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISandboxedDetectionServiceUpdateAudioFlinger, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISandboxedDetectionService, "updateAudioFlinger"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -136,7 +136,7 @@ func (p *SandboxedDetectionServiceProxy) UpdateContentCaptureManager(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
 
-	_, _err := p.remote.Transact(ctx, TransactionISandboxedDetectionServiceUpdateContentCaptureManager, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISandboxedDetectionService, "updateContentCaptureManager"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -147,7 +147,7 @@ func (p *SandboxedDetectionServiceProxy) UpdateRecognitionServiceManager(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
 
-	_, _err := p.remote.Transact(ctx, TransactionISandboxedDetectionServiceUpdateRecognitionServiceManager, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISandboxedDetectionService, "updateRecognitionServiceManager"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -158,7 +158,7 @@ func (p *SandboxedDetectionServiceProxy) Ping(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
 
-	_, _err := p.remote.Transact(ctx, TransactionISandboxedDetectionServicePing, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISandboxedDetectionService, "ping"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -168,7 +168,7 @@ func (p *SandboxedDetectionServiceProxy) StopDetection(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
 
-	_, _err := p.remote.Transact(ctx, TransactionISandboxedDetectionServiceStopDetection, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISandboxedDetectionService, "stopDetection"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -180,6 +180,6 @@ func (p *SandboxedDetectionServiceProxy) RegisterRemoteStorageService(
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
 	_data.WriteStrongBinder(detectorSessionStorageService.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISandboxedDetectionServiceRegisterRemoteStorageService, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISandboxedDetectionService, "registerRemoteStorageService"), binder.FlagOneway, _data)
 	return _err
 }

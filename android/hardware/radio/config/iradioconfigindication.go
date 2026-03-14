@@ -57,7 +57,7 @@ func (p *RadioConfigIndicationProxy) SimSlotsStatusChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioConfigIndicationSimSlotsStatusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioConfigIndication, "simSlotsStatusChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,6 +76,6 @@ func (p *RadioConfigIndicationProxy) OnSimultaneousCallingSupportChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioConfigIndicationOnSimultaneousCallingSupportChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioConfigIndication, "onSimultaneousCallingSupportChanged"), binder.FlagOneway, _data)
 	return _err
 }

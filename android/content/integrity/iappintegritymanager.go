@@ -61,7 +61,7 @@ func (p *AppIntegrityManagerProxy) UpdateRuleSet(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppIntegrityManagerUpdateRuleSet, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppIntegrityManager, "updateRuleSet"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -81,7 +81,7 @@ func (p *AppIntegrityManagerProxy) GetCurrentRuleSetVersion(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppIntegrityManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppIntegrityManagerGetCurrentRuleSetVersion, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppIntegrityManager, "getCurrentRuleSetVersion"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -105,7 +105,7 @@ func (p *AppIntegrityManagerProxy) GetCurrentRuleSetProvider(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppIntegrityManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppIntegrityManagerGetCurrentRuleSetProvider, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppIntegrityManager, "getCurrentRuleSetProvider"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -129,7 +129,7 @@ func (p *AppIntegrityManagerProxy) GetCurrentRules(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppIntegrityManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppIntegrityManagerGetCurrentRules, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppIntegrityManager, "getCurrentRules"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -152,7 +152,7 @@ func (p *AppIntegrityManagerProxy) GetWhitelistedRuleProviders(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppIntegrityManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAppIntegrityManagerGetWhitelistedRuleProviders, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAppIntegrityManager, "getWhitelistedRuleProviders"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

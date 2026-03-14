@@ -49,7 +49,7 @@ func (p *DeviceIdleControllerAdapterProxy) ExemptAppTemporarilyForEvent(
 	_data.WriteInt32(userHandle)
 	_data.WriteString16(reason)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDeviceIdleControllerAdapterExemptAppTemporarilyForEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceIdleControllerAdapter, "exemptAppTemporarilyForEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -48,6 +48,6 @@ func (p *CallScreeningServiceProxy) ScreenCall(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICallScreeningServiceScreenCall, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallScreeningService, "screenCall"), binder.FlagOneway, _data)
 	return _err
 }

@@ -43,7 +43,7 @@ func (p *OneHandedProxy) StartOneHanded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOneHanded)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOneHandedStartOneHanded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOneHanded, "startOneHanded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -53,6 +53,6 @@ func (p *OneHandedProxy) StopOneHanded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOneHanded)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOneHandedStopOneHanded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOneHanded, "stopOneHanded"), binder.FlagOneway, _data)
 	return _err
 }

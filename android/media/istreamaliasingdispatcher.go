@@ -41,6 +41,6 @@ func (p *StreamAliasingDispatcherProxy) DispatchStreamAliasingChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamAliasingDispatcher)
 
-	_, _err := p.remote.Transact(ctx, TransactionIStreamAliasingDispatcherDispatchStreamAliasingChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStreamAliasingDispatcher, "dispatchStreamAliasingChanged"), binder.FlagOneway, _data)
 	return _err
 }

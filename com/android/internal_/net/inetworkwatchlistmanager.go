@@ -50,7 +50,7 @@ func (p *NetworkWatchlistManagerProxy) StartWatchlistLogging(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkWatchlistManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINetworkWatchlistManagerStartWatchlistLogging, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkWatchlistManager, "startWatchlistLogging"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,7 +74,7 @@ func (p *NetworkWatchlistManagerProxy) StopWatchlistLogging(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkWatchlistManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINetworkWatchlistManagerStopWatchlistLogging, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkWatchlistManager, "stopWatchlistLogging"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -97,7 +97,7 @@ func (p *NetworkWatchlistManagerProxy) ReloadWatchlist(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkWatchlistManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINetworkWatchlistManagerReloadWatchlist, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkWatchlistManager, "reloadWatchlist"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -116,7 +116,7 @@ func (p *NetworkWatchlistManagerProxy) ReportWatchlistIfNecessary(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkWatchlistManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINetworkWatchlistManagerReportWatchlistIfNecessary, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkWatchlistManager, "reportWatchlistIfNecessary"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -136,7 +136,7 @@ func (p *NetworkWatchlistManagerProxy) GetWatchlistConfigHash(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkWatchlistManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINetworkWatchlistManagerGetWatchlistConfigHash, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkWatchlistManager, "getWatchlistConfigHash"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

@@ -45,7 +45,7 @@ func (p *InputSinkProxy) Queue(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInputSinkQueue, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputSink, "queue"), 0, _data)
 	if _err != nil {
 		return _err
 	}

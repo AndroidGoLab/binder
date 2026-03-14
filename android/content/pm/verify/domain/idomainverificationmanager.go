@@ -58,7 +58,7 @@ func (p *DomainVerificationManagerProxy) QueryValidVerificationPackageNames(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDomainVerificationManagerQueryValidVerificationPackageNames, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDomainVerificationManager, "queryValidVerificationPackageNames"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -94,7 +94,7 @@ func (p *DomainVerificationManagerProxy) GetDomainVerificationInfo(
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDomainVerificationManagerGetDomainVerificationInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDomainVerificationManager, "getDomainVerificationInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -121,7 +121,7 @@ func (p *DomainVerificationManagerProxy) GetDomainVerificationUserState(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDomainVerificationManagerGetDomainVerificationUserState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDomainVerificationManager, "getDomainVerificationUserState"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -148,7 +148,7 @@ func (p *DomainVerificationManagerProxy) GetOwnersForDomain(
 	_data.WriteString16(domain)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDomainVerificationManagerGetOwnersForDomain, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDomainVerificationManager, "getOwnersForDomain"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -189,7 +189,7 @@ func (p *DomainVerificationManagerProxy) SetDomainVerificationStatus(
 	}
 	_data.WriteInt32(state)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDomainVerificationManagerSetDomainVerificationStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDomainVerificationManager, "setDomainVerificationStatus"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -218,7 +218,7 @@ func (p *DomainVerificationManagerProxy) SetDomainVerificationLinkHandlingAllowe
 	_data.WriteBool(allowed)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDomainVerificationManagerSetDomainVerificationLinkHandlingAllowed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDomainVerificationManager, "setDomainVerificationLinkHandlingAllowed"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -248,7 +248,7 @@ func (p *DomainVerificationManagerProxy) SetDomainVerificationUserSelection(
 	_data.WriteBool(enabled)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDomainVerificationManagerSetDomainVerificationUserSelection, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDomainVerificationManager, "setDomainVerificationUserSelection"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -274,7 +274,7 @@ func (p *DomainVerificationManagerProxy) SetUriRelativeFilterGroups(
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDomainVerificationManagerSetUriRelativeFilterGroups, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDomainVerificationManager, "setUriRelativeFilterGroups"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -305,7 +305,7 @@ func (p *DomainVerificationManagerProxy) GetUriRelativeFilterGroups(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDomainVerificationManagerGetUriRelativeFilterGroups, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDomainVerificationManager, "getUriRelativeFilterGroups"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

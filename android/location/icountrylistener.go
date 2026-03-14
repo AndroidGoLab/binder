@@ -45,6 +45,6 @@ func (p *CountryListenerProxy) OnCountryDetected(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICountryListenerOnCountryDetected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICountryListener, "onCountryDetected"), binder.FlagOneway, _data)
 	return _err
 }

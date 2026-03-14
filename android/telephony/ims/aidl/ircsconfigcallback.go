@@ -58,7 +58,7 @@ func (p *RcsConfigCallbackProxy) OnConfigurationChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRcsConfigCallbackOnConfigurationChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRcsConfigCallback, "onConfigurationChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,7 +72,7 @@ func (p *RcsConfigCallbackProxy) OnAutoConfigurationErrorReceived(
 	_data.WriteInt32(errorCode)
 	_data.WriteString16(errorString)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRcsConfigCallbackOnAutoConfigurationErrorReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRcsConfigCallback, "onAutoConfigurationErrorReceived"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,7 +82,7 @@ func (p *RcsConfigCallbackProxy) OnConfigurationReset(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRcsConfigCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRcsConfigCallbackOnConfigurationReset, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRcsConfigCallback, "onConfigurationReset"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,7 +92,7 @@ func (p *RcsConfigCallbackProxy) OnRemoved(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRcsConfigCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRcsConfigCallbackOnRemoved, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRcsConfigCallback, "onRemoved"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,6 +111,6 @@ func (p *RcsConfigCallbackProxy) OnPreProvisioningReceived(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRcsConfigCallbackOnPreProvisioningReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRcsConfigCallback, "onPreProvisioningReceived"), binder.FlagOneway, _data)
 	return _err
 }

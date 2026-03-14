@@ -52,6 +52,6 @@ func (p *ConditionListenerProxy) OnConditionsReceived(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIConditionListenerOnConditionsReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIConditionListener, "onConditionsReceived"), binder.FlagOneway, _data)
 	return _err
 }

@@ -80,7 +80,7 @@ func (p *SessionCallbackProxy) OnChallengeGenerated(
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteInt64(challenge)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnChallengeGenerated, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onChallengeGenerated"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -101,7 +101,7 @@ func (p *SessionCallbackProxy) OnChallengeRevoked(
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteInt64(challenge)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnChallengeRevoked, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onChallengeRevoked"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -124,7 +124,7 @@ func (p *SessionCallbackProxy) OnAuthenticationFrame(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnAuthenticationFrame, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onAuthenticationFrame"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -147,7 +147,7 @@ func (p *SessionCallbackProxy) OnEnrollmentFrame(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnEnrollmentFrame, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onEnrollmentFrame"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -170,7 +170,7 @@ func (p *SessionCallbackProxy) OnError(
 	_data.WritePaddedByte(byte(error_))
 	_data.WriteInt32(vendorCode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnError, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onError"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -193,7 +193,7 @@ func (p *SessionCallbackProxy) OnEnrollmentProgress(
 	_data.WriteInt32(enrollmentId)
 	_data.WriteInt32(remaining)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnEnrollmentProgress, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onEnrollmentProgress"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -218,7 +218,7 @@ func (p *SessionCallbackProxy) OnAuthenticationSucceeded(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnAuthenticationSucceeded, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onAuthenticationSucceeded"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -237,7 +237,7 @@ func (p *SessionCallbackProxy) OnAuthenticationFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnAuthenticationFailed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onAuthenticationFailed"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -258,7 +258,7 @@ func (p *SessionCallbackProxy) OnLockoutTimed(
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteInt64(durationMillis)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnLockoutTimed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onLockoutTimed"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -277,7 +277,7 @@ func (p *SessionCallbackProxy) OnLockoutPermanent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnLockoutPermanent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onLockoutPermanent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -296,7 +296,7 @@ func (p *SessionCallbackProxy) OnLockoutCleared(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnLockoutCleared, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onLockoutCleared"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -315,7 +315,7 @@ func (p *SessionCallbackProxy) OnInteractionDetected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnInteractionDetected, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onInteractionDetected"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -343,7 +343,7 @@ func (p *SessionCallbackProxy) OnEnrollmentsEnumerated(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnEnrollmentsEnumerated, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onEnrollmentsEnumerated"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -371,7 +371,7 @@ func (p *SessionCallbackProxy) OnFeaturesRetrieved(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnFeaturesRetrieved, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onFeaturesRetrieved"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -392,7 +392,7 @@ func (p *SessionCallbackProxy) OnFeatureSet(
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WritePaddedByte(byte(feature))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnFeatureSet, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onFeatureSet"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -420,7 +420,7 @@ func (p *SessionCallbackProxy) OnEnrollmentsRemoved(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnEnrollmentsRemoved, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onEnrollmentsRemoved"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -441,7 +441,7 @@ func (p *SessionCallbackProxy) OnAuthenticatorIdRetrieved(
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteInt64(authenticatorId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnAuthenticatorIdRetrieved, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onAuthenticatorIdRetrieved"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -462,7 +462,7 @@ func (p *SessionCallbackProxy) OnAuthenticatorIdInvalidated(
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteInt64(newAuthenticatorId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnAuthenticatorIdInvalidated, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onAuthenticatorIdInvalidated"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -481,7 +481,7 @@ func (p *SessionCallbackProxy) OnSessionClosed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISessionCallbackOnSessionClosed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISessionCallback, "onSessionClosed"), 0, _data)
 	if _err != nil {
 		return _err
 	}

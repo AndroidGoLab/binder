@@ -45,6 +45,6 @@ func (p *WallpaperVisibilityListenerProxy) OnWallpaperVisibilityChanged(
 	_data.WriteBool(visible)
 	_data.WriteInt32(displayId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWallpaperVisibilityListenerOnWallpaperVisibilityChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWallpaperVisibilityListener, "onWallpaperVisibilityChanged"), binder.FlagOneway, _data)
 	return _err
 }

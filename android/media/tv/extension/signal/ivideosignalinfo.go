@@ -50,7 +50,7 @@ func (p *VideoSignalInfoProxy) AddVideoSignalInfoListener(
 	_data.WriteString16(clientToken)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVideoSignalInfoAddVideoSignalInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVideoSignalInfo, "addVideoSignalInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -71,7 +71,7 @@ func (p *VideoSignalInfoProxy) RemoveVideoSignalInfoListener(
 	_data.WriteInterfaceToken(DescriptorIVideoSignalInfo)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVideoSignalInfoRemoveVideoSignalInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVideoSignalInfo, "removeVideoSignalInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -93,7 +93,7 @@ func (p *VideoSignalInfoProxy) GetVideoSignalInfo(
 	_data.WriteInterfaceToken(DescriptorIVideoSignalInfo)
 	_data.WriteString16(sessionToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVideoSignalInfoGetVideoSignalInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVideoSignalInfo, "getVideoSignalInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

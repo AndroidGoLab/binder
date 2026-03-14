@@ -50,6 +50,6 @@ func (p *AudioRoutingCallbackProxy) OnAppsNeedingAudioRoutingChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAudioRoutingCallbackOnAppsNeedingAudioRoutingChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAudioRoutingCallback, "onAppsNeedingAudioRoutingChanged"), binder.FlagOneway, _data)
 	return _err
 }

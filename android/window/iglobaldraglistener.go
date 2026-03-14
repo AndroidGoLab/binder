@@ -44,7 +44,7 @@ func (p *GlobalDragListenerProxy) OnCrossWindowDrop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGlobalDragListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGlobalDragListenerOnCrossWindowDrop, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGlobalDragListener, "onCrossWindowDrop"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -57,6 +57,6 @@ func (p *GlobalDragListenerProxy) OnUnhandledDrop(
 	_data.WriteInterfaceToken(DescriptorIGlobalDragListener)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIGlobalDragListenerOnUnhandledDrop, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGlobalDragListener, "onUnhandledDrop"), binder.FlagOneway, _data)
 	return _err
 }

@@ -65,7 +65,7 @@ func (p *SharedConnectivityCallbackProxy) OnHotspotNetworksUpdated(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISharedConnectivityCallbackOnHotspotNetworksUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISharedConnectivityCallback, "onHotspotNetworksUpdated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,7 +79,7 @@ func (p *SharedConnectivityCallbackProxy) OnHotspotNetworkConnectionStatusChange
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISharedConnectivityCallbackOnHotspotNetworkConnectionStatusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISharedConnectivityCallback, "onHotspotNetworkConnectionStatusChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,7 +100,7 @@ func (p *SharedConnectivityCallbackProxy) OnKnownNetworksUpdated(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISharedConnectivityCallbackOnKnownNetworksUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISharedConnectivityCallback, "onKnownNetworksUpdated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -114,7 +114,7 @@ func (p *SharedConnectivityCallbackProxy) OnKnownNetworkConnectionStatusChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISharedConnectivityCallbackOnKnownNetworkConnectionStatusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISharedConnectivityCallback, "onKnownNetworkConnectionStatusChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -128,7 +128,7 @@ func (p *SharedConnectivityCallbackProxy) OnSharedConnectivitySettingsChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISharedConnectivityCallbackOnSharedConnectivitySettingsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISharedConnectivityCallback, "onSharedConnectivitySettingsChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -138,7 +138,7 @@ func (p *SharedConnectivityCallbackProxy) OnServiceConnected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionISharedConnectivityCallbackOnServiceConnected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISharedConnectivityCallback, "onServiceConnected"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -148,6 +148,6 @@ func (p *SharedConnectivityCallbackProxy) OnServiceDisconnected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionISharedConnectivityCallbackOnServiceDisconnected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISharedConnectivityCallback, "onServiceDisconnected"), binder.FlagOneway, _data)
 	return _err
 }

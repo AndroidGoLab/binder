@@ -47,7 +47,7 @@ func (p *GetCandidateCredentialsCallbackProxy) OnResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIGetCandidateCredentialsCallbackOnResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGetCandidateCredentialsCallback, "onResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,6 +61,6 @@ func (p *GetCandidateCredentialsCallbackProxy) OnError(
 	_data.WriteString16(errorType)
 	_data.WriteString16(message)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGetCandidateCredentialsCallbackOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGetCandidateCredentialsCallback, "onError"), binder.FlagOneway, _data)
 	return _err
 }

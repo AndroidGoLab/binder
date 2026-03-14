@@ -43,7 +43,7 @@ func (p *ClearCredentialStateCallbackProxy) OnSuccess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIClearCredentialStateCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIClearCredentialStateCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClearCredentialStateCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -57,6 +57,6 @@ func (p *ClearCredentialStateCallbackProxy) OnError(
 	_data.WriteString16(errorType)
 	_data.WriteString16(message)
 
-	_, _err := p.remote.Transact(ctx, TransactionIClearCredentialStateCallbackOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClearCredentialStateCallback, "onError"), binder.FlagOneway, _data)
 	return _err
 }

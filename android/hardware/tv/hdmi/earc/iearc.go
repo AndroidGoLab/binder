@@ -51,7 +51,7 @@ func (p *EArcProxy) SetEArcEnabled(
 	_data.WriteInterfaceToken(DescriptorIEArc)
 	_data.WriteBool(enabled)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEArcSetEArcEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEArc, "setEArcEnabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -71,7 +71,7 @@ func (p *EArcProxy) IsEArcEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEArc)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEArcIsEArcEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEArc, "isEArcEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -96,7 +96,7 @@ func (p *EArcProxy) SetCallback(
 	_data.WriteInterfaceToken(DescriptorIEArc)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEArcSetCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEArc, "setCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -118,7 +118,7 @@ func (p *EArcProxy) GetState(
 	_data.WriteInterfaceToken(DescriptorIEArc)
 	_data.WriteInt32(portId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEArcGetState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEArc, "getState"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -145,7 +145,7 @@ func (p *EArcProxy) GetLastReportedAudioCapabilities(
 	_data.WriteInterfaceToken(DescriptorIEArc)
 	_data.WriteInt32(portId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEArcGetLastReportedAudioCapabilities, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEArc, "getLastReportedAudioCapabilities"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

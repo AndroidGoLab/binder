@@ -44,7 +44,7 @@ func (p *TestServerProxy) CreateProducer(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestServer)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITestServerCreateProducer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestServer, "createProducer"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -63,7 +63,7 @@ func (p *TestServerProxy) KillNow(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestServer)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITestServerKillNow, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestServer, "killNow"), 0, _data)
 	if _err != nil {
 		return _err
 	}

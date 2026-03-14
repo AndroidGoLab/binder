@@ -52,6 +52,6 @@ func (p *AuditLogEventsCallbackProxy) OnNewAuditLogEvents(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAuditLogEventsCallbackOnNewAuditLogEvents, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAuditLogEventsCallback, "onNewAuditLogEvents"), binder.FlagOneway, _data)
 	return _err
 }

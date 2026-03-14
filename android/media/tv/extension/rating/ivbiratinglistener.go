@@ -45,6 +45,6 @@ func (p *VbiRatingListenerProxy) OnVbiRatingChanged(
 	_data.WriteString16(sessionToken)
 	_data.WriteString16(newTvContentRating)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVbiRatingListenerOnVbiRatingChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVbiRatingListener, "onVbiRatingChanged"), binder.FlagOneway, _data)
 	return _err
 }

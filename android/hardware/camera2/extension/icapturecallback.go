@@ -59,7 +59,7 @@ func (p *CaptureCallbackProxy) OnCaptureStarted(
 	_data.WriteInt32(captureSequenceId)
 	_data.WriteInt64(timestamp)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICaptureCallbackOnCaptureStarted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICaptureCallback, "onCaptureStarted"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -80,7 +80,7 @@ func (p *CaptureCallbackProxy) OnCaptureProcessStarted(
 	_data.WriteInterfaceToken(DescriptorICaptureCallback)
 	_data.WriteInt32(captureSequenceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICaptureCallbackOnCaptureProcessStarted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICaptureCallback, "onCaptureProcessStarted"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -101,7 +101,7 @@ func (p *CaptureCallbackProxy) OnCaptureFailed(
 	_data.WriteInterfaceToken(DescriptorICaptureCallback)
 	_data.WriteInt32(captureSequenceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICaptureCallbackOnCaptureFailed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICaptureCallback, "onCaptureFailed"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -122,7 +122,7 @@ func (p *CaptureCallbackProxy) OnCaptureSequenceCompleted(
 	_data.WriteInterfaceToken(DescriptorICaptureCallback)
 	_data.WriteInt32(captureSequenceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICaptureCallbackOnCaptureSequenceCompleted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICaptureCallback, "onCaptureSequenceCompleted"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -143,7 +143,7 @@ func (p *CaptureCallbackProxy) OnCaptureSequenceAborted(
 	_data.WriteInterfaceToken(DescriptorICaptureCallback)
 	_data.WriteInt32(captureSequenceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICaptureCallbackOnCaptureSequenceAborted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICaptureCallback, "onCaptureSequenceAborted"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -167,7 +167,7 @@ func (p *CaptureCallbackProxy) OnCaptureCompleted(
 	_data.WriteInt64(shutterTimestamp)
 	_data.WriteInt32(requestId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICaptureCallbackOnCaptureCompleted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICaptureCallback, "onCaptureCompleted"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -188,7 +188,7 @@ func (p *CaptureCallbackProxy) OnCaptureProcessProgressed(
 	_data.WriteInterfaceToken(DescriptorICaptureCallback)
 	_data.WriteInt32(progress)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICaptureCallbackOnCaptureProcessProgressed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICaptureCallback, "onCaptureProcessProgressed"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -211,7 +211,7 @@ func (p *CaptureCallbackProxy) OnCaptureProcessFailed(
 	_data.WriteInt32(captureSequenceId)
 	_data.WriteInt32(captureFailureReason)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICaptureCallbackOnCaptureProcessFailed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICaptureCallback, "onCaptureProcessFailed"), 0, _data)
 	if _err != nil {
 		return _err
 	}

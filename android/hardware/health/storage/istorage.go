@@ -45,6 +45,6 @@ func (p *StorageProxy) GarbageCollect(
 	_data.WriteInt64(timeoutSeconds)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIStorageGarbageCollect, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStorage, "garbageCollect"), binder.FlagOneway, _data)
 	return _err
 }

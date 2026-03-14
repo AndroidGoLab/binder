@@ -41,6 +41,6 @@ func (p *RecommendationsChangeListenerProxy) OnRecommendationsChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecommendationsChangeListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRecommendationsChangeListenerOnRecommendationsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecommendationsChangeListener, "onRecommendationsChanged"), binder.FlagOneway, _data)
 	return _err
 }

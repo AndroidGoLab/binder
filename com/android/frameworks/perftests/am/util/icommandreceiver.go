@@ -56,6 +56,6 @@ func (p *CommandReceiverProxy) SendCommand(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICommandReceiverSendCommand, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICommandReceiver, "sendCommand"), binder.FlagOneway, _data)
 	return _err
 }

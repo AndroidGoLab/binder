@@ -52,6 +52,6 @@ func (p *ActivePictureListenerProxy) OnActivePicturesChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIActivePictureListenerOnActivePicturesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivePictureListener, "onActivePicturesChanged"), binder.FlagOneway, _data)
 	return _err
 }

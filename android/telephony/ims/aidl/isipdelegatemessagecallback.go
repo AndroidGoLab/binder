@@ -50,7 +50,7 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageReceived(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISipDelegateMessageCallbackOnMessageReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISipDelegateMessageCallback, "onMessageReceived"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,7 +62,7 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageSent(
 	_data.WriteInterfaceToken(DescriptorISipDelegateMessageCallback)
 	_data.WriteString16(viaTransactionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionISipDelegateMessageCallbackOnMessageSent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISipDelegateMessageCallback, "onMessageSent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -76,6 +76,6 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageSendFailure(
 	_data.WriteString16(viaTransactionId)
 	_data.WriteInt32(reason)
 
-	_, _err := p.remote.Transact(ctx, TransactionISipDelegateMessageCallbackOnMessageSendFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISipDelegateMessageCallback, "onMessageSendFailure"), binder.FlagOneway, _data)
 	return _err
 }

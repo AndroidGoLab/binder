@@ -41,6 +41,6 @@ func (p *RequestFinishCallbackProxy) RequestFinish(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRequestFinishCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRequestFinishCallbackRequestFinish, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRequestFinishCallback, "requestFinish"), binder.FlagOneway, _data)
 	return _err
 }

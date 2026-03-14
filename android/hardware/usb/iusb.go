@@ -61,7 +61,7 @@ func (p *UsbProxy) EnableContaminantPresenceDetection(
 	_data.WriteBool(enable)
 	_data.WriteInt64(transactionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUsbEnableContaminantPresenceDetection, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUsb, "enableContaminantPresenceDetection"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,7 +77,7 @@ func (p *UsbProxy) EnableUsbData(
 	_data.WriteBool(enable)
 	_data.WriteInt64(transactionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUsbEnableUsbData, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUsb, "enableUsbData"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,7 +91,7 @@ func (p *UsbProxy) EnableUsbDataWhileDocked(
 	_data.WriteString16(portName)
 	_data.WriteInt64(transactionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUsbEnableUsbDataWhileDocked, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUsb, "enableUsbDataWhileDocked"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,7 +103,7 @@ func (p *UsbProxy) QueryPortStatus(
 	_data.WriteInterfaceToken(DescriptorIUsb)
 	_data.WriteInt64(transactionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUsbQueryPortStatus, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUsb, "queryPortStatus"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,7 +115,7 @@ func (p *UsbProxy) SetCallback(
 	_data.WriteInterfaceToken(DescriptorIUsb)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIUsbSetCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUsb, "setCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -133,7 +133,7 @@ func (p *UsbProxy) SwitchRole(
 	}
 	_data.WriteInt64(transactionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUsbSwitchRole, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUsb, "switchRole"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -149,7 +149,7 @@ func (p *UsbProxy) LimitPowerTransfer(
 	_data.WriteBool(limit)
 	_data.WriteInt64(transactionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUsbLimitPowerTransfer, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUsb, "limitPowerTransfer"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -163,6 +163,6 @@ func (p *UsbProxy) ResetUsbPort(
 	_data.WriteString16(portName)
 	_data.WriteInt64(transactionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUsbResetUsbPort, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUsb, "resetUsbPort"), binder.FlagOneway, _data)
 	return _err
 }

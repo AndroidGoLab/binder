@@ -57,7 +57,7 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnQualifiedNetworkTypesChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIQualifiedNetworksServiceCallbackOnQualifiedNetworkTypesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQualifiedNetworksServiceCallback, "onQualifiedNetworkTypesChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,7 +71,7 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnNetworkValidationRequested(
 	_data.WriteInt32(networkCapability)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIQualifiedNetworksServiceCallbackOnNetworkValidationRequested, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQualifiedNetworksServiceCallback, "onNetworkValidationRequested"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,6 +85,6 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnReconnectQualifiedNetworkType(
 	_data.WriteInt32(apnTypes)
 	_data.WriteInt32(qualifiedNetworkType)
 
-	_, _err := p.remote.Transact(ctx, TransactionIQualifiedNetworksServiceCallbackOnReconnectQualifiedNetworkType, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQualifiedNetworksServiceCallback, "onReconnectQualifiedNetworkType"), binder.FlagOneway, _data)
 	return _err
 }

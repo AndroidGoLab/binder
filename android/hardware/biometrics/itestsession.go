@@ -59,7 +59,7 @@ func (p *TestSessionProxy) SetTestHalEnabled(
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteBool(enableTestHal)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITestSessionSetTestHalEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestSession, "setTestHalEnabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -80,7 +80,7 @@ func (p *TestSessionProxy) StartEnroll(
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITestSessionStartEnroll, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestSession, "startEnroll"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -101,7 +101,7 @@ func (p *TestSessionProxy) FinishEnroll(
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITestSessionFinishEnroll, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestSession, "finishEnroll"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -122,7 +122,7 @@ func (p *TestSessionProxy) AcceptAuthentication(
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITestSessionAcceptAuthentication, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestSession, "acceptAuthentication"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -143,7 +143,7 @@ func (p *TestSessionProxy) RejectAuthentication(
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITestSessionRejectAuthentication, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestSession, "rejectAuthentication"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -166,7 +166,7 @@ func (p *TestSessionProxy) NotifyAcquired(
 	_data.WriteInt32(userId)
 	_data.WriteInt32(acquireInfo)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITestSessionNotifyAcquired, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestSession, "notifyAcquired"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -189,7 +189,7 @@ func (p *TestSessionProxy) NotifyError(
 	_data.WriteInt32(userId)
 	_data.WriteInt32(errorCode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITestSessionNotifyError, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestSession, "notifyError"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -210,7 +210,7 @@ func (p *TestSessionProxy) CleanupInternalState(
 	_data.WriteInterfaceToken(DescriptorITestSession)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITestSessionCleanupInternalState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestSession, "cleanupInternalState"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -230,7 +230,7 @@ func (p *TestSessionProxy) GetSensorId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestSession)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITestSessionGetSensorId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestSession, "getSensorId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

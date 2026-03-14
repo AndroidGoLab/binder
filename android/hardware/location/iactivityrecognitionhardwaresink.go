@@ -45,7 +45,7 @@ func (p *ActivityRecognitionHardwareSinkProxy) OnActivityChanged(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityRecognitionHardwareSinkOnActivityChanged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityRecognitionHardwareSink, "onActivityChanged"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -43,7 +43,7 @@ func (p *StorageShutdownObserverProxy) OnShutDownComplete(
 	_data.WriteInterfaceToken(DescriptorIStorageShutdownObserver)
 	_data.WriteInt32(statusCode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIStorageShutdownObserverOnShutDownComplete, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStorageShutdownObserver, "onShutDownComplete"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -71,7 +71,7 @@ func (p *IdentityCredentialProxy) DeleteCredential(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialDeleteCredential, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredential, "deleteCredential"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -105,7 +105,7 @@ func (p *IdentityCredentialProxy) CreateEphemeralKeyPair(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialCreateEphemeralKeyPair, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredential, "createEphemeralKeyPair"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -147,7 +147,7 @@ func (p *IdentityCredentialProxy) SetReaderEphemeralPublicKey(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialSetReaderEphemeralPublicKey, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredential, "setReaderEphemeralPublicKey"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -167,7 +167,7 @@ func (p *IdentityCredentialProxy) CreateAuthChallenge(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialCreateAuthChallenge, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredential, "createAuthChallenge"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -250,7 +250,7 @@ func (p *IdentityCredentialProxy) StartRetrieval(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialStartRetrieval, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredential, "startRetrieval"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -284,7 +284,7 @@ func (p *IdentityCredentialProxy) StartRetrieveEntryValue(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialStartRetrieveEntryValue, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredential, "startRetrieveEntryValue"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -313,7 +313,7 @@ func (p *IdentityCredentialProxy) RetrieveEntryValue(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialRetrieveEntryValue, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredential, "retrieveEntryValue"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -348,7 +348,7 @@ func (p *IdentityCredentialProxy) FinishRetrieval(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialFinishRetrieval, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredential, "finishRetrieval"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -395,7 +395,7 @@ func (p *IdentityCredentialProxy) GenerateSigningKeyPair(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialGenerateSigningKeyPair, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredential, "generateSigningKeyPair"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -441,7 +441,7 @@ func (p *IdentityCredentialProxy) SetRequestedNamespaces(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialSetRequestedNamespaces, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredential, "setRequestedNamespaces"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -464,7 +464,7 @@ func (p *IdentityCredentialProxy) SetVerificationToken(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialSetVerificationToken, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredential, "setVerificationToken"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -493,7 +493,7 @@ func (p *IdentityCredentialProxy) DeleteCredentialWithChallenge(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialDeleteCredentialWithChallenge, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredential, "deleteCredentialWithChallenge"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -536,7 +536,7 @@ func (p *IdentityCredentialProxy) ProveOwnership(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialProveOwnership, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredential, "proveOwnership"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -570,7 +570,7 @@ func (p *IdentityCredentialProxy) UpdateCredential(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialUpdateCredential, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredential, "updateCredential"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -597,7 +597,7 @@ func (p *IdentityCredentialProxy) FinishRetrievalWithSignature(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIdentityCredentialFinishRetrievalWithSignature, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIdentityCredential, "finishRetrievalWithSignature"), 0, _data)
 	if _err != nil {
 		return _err
 	}

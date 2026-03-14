@@ -65,7 +65,7 @@ func (p *ComponentStoreProxy) CopyBuffer(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentStoreCopyBuffer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponentStore, "copyBuffer"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -91,7 +91,7 @@ func (p *ComponentStoreProxy) CreateComponent(
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 	_data.WriteStrongBinder(pool.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentStoreCreateComponent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponentStore, "createComponent"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -118,7 +118,7 @@ func (p *ComponentStoreProxy) CreateInterface(
 	_data.WriteInterfaceToken(DescriptorIComponentStore)
 	_data.WriteString16(name)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentStoreCreateInterface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponentStore, "createInterface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -143,7 +143,7 @@ func (p *ComponentStoreProxy) GetConfigurable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponentStore)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentStoreGetConfigurable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponentStore, "getConfigurable"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -168,7 +168,7 @@ func (p *ComponentStoreProxy) GetPoolClientManager(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponentStore)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentStoreGetPoolClientManager, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponentStore, "getPoolClientManager"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -202,7 +202,7 @@ func (p *ComponentStoreProxy) GetStructDescriptors(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentStoreGetStructDescriptors, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponentStore, "getStructDescriptors"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -235,7 +235,7 @@ func (p *ComponentStoreProxy) ListComponents(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponentStore)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentStoreListComponents, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponentStore, "listComponents"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -268,7 +268,7 @@ func (p *ComponentStoreProxy) CreateInputSurface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponentStore)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIComponentStoreCreateInputSurface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIComponentStore, "createInputSurface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

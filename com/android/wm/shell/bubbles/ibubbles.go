@@ -72,7 +72,7 @@ func (p *BubblesProxy) RegisterBubbleListener(
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIBubblesRegisterBubbleListener, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBubbles, "registerBubbleListener"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -84,7 +84,7 @@ func (p *BubblesProxy) UnregisterBubbleListener(
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIBubblesUnregisterBubbleListener, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBubbles, "unregisterBubbleListener"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,7 +98,7 @@ func (p *BubblesProxy) ShowBubble(
 	_data.WriteString16(key)
 	_data.WriteInt32(topOnScreen)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBubblesShowBubble, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBubbles, "showBubble"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -112,7 +112,7 @@ func (p *BubblesProxy) DragBubbleToDismiss(
 	_data.WriteString16(key)
 	_data.WriteInt64(timestamp)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBubblesDragBubbleToDismiss, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBubbles, "dragBubbleToDismiss"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -122,7 +122,7 @@ func (p *BubblesProxy) RemoveAllBubbles(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBubblesRemoveAllBubbles, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBubbles, "removeAllBubbles"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -132,7 +132,7 @@ func (p *BubblesProxy) CollapseBubbles(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBubblesCollapseBubbles, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBubbles, "collapseBubbles"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -144,7 +144,7 @@ func (p *BubblesProxy) StartBubbleDrag(
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 	_data.WriteString16(key)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBubblesStartBubbleDrag, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBubbles, "startBubbleDrag"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -158,7 +158,7 @@ func (p *BubblesProxy) ShowUserEducation(
 	_data.WriteInt32(positionX)
 	_data.WriteInt32(positionY)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBubblesShowUserEducation, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBubbles, "showUserEducation"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -174,7 +174,7 @@ func (p *BubblesProxy) SetBubbleBarLocation(
 	}
 	_data.WriteInt32(source)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBubblesSetBubbleBarLocation, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBubbles, "setBubbleBarLocation"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -186,7 +186,7 @@ func (p *BubblesProxy) UpdateBubbleBarTopOnScreen(
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 	_data.WriteInt32(topOnScreen)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBubblesUpdateBubbleBarTopOnScreen, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBubbles, "updateBubbleBarTopOnScreen"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -202,7 +202,7 @@ func (p *BubblesProxy) StopBubbleDrag(
 	}
 	_data.WriteInt32(topOnScreen)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBubblesStopBubbleDrag, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBubbles, "stopBubbleDrag"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -216,7 +216,7 @@ func (p *BubblesProxy) ShowShortcutBubble(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIBubblesShowShortcutBubble, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBubbles, "showShortcutBubble"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -230,7 +230,7 @@ func (p *BubblesProxy) ShowAppBubble(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIBubblesShowAppBubble, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBubbles, "showAppBubble"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -240,6 +240,6 @@ func (p *BubblesProxy) ShowExpandedView(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBubblesShowExpandedView, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBubbles, "showExpandedView"), binder.FlagOneway, _data)
 	return _err
 }

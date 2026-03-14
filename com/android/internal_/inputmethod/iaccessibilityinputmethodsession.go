@@ -60,7 +60,7 @@ func (p *AccessibilityInputMethodSessionProxy) UpdateSelection(
 	_data.WriteInt32(candidatesStart)
 	_data.WriteInt32(candidatesEnd)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityInputMethodSessionUpdateSelection, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityInputMethodSession, "updateSelection"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,7 +70,7 @@ func (p *AccessibilityInputMethodSessionProxy) FinishInput(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInputMethodSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityInputMethodSessionFinishInput, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityInputMethodSession, "finishInput"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,7 +80,7 @@ func (p *AccessibilityInputMethodSessionProxy) FinishSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInputMethodSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityInputMethodSessionFinishSession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityInputMethodSession, "finishSession"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -98,6 +98,6 @@ func (p *AccessibilityInputMethodSessionProxy) InvalidateInput(
 	_data.WriteStrongBinder(connection.AsBinder().Handle())
 	_data.WriteInt32(sessionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityInputMethodSessionInvalidateInput, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityInputMethodSession, "invalidateInput"), binder.FlagOneway, _data)
 	return _err
 }

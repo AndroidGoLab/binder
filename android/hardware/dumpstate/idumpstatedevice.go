@@ -64,7 +64,7 @@ func (p *DumpstateDeviceProxy) DumpstateBoard(
 	_data.WriteInt32(int32(mode))
 	_data.WriteInt64(timeoutMillis)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDumpstateDeviceDumpstateBoard, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDumpstateDevice, "dumpstateBoard"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -84,7 +84,7 @@ func (p *DumpstateDeviceProxy) GetVerboseLoggingEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDumpstateDevice)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDumpstateDeviceGetVerboseLoggingEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDumpstateDevice, "getVerboseLoggingEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -109,7 +109,7 @@ func (p *DumpstateDeviceProxy) SetVerboseLoggingEnabled(
 	_data.WriteInterfaceToken(DescriptorIDumpstateDevice)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDumpstateDeviceSetVerboseLoggingEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDumpstateDevice, "setVerboseLoggingEnabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}

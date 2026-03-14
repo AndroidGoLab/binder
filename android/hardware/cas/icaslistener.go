@@ -58,7 +58,7 @@ func (p *CasListenerProxy) OnEvent(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICasListenerOnEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICasListener, "onEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -99,7 +99,7 @@ func (p *CasListenerProxy) OnSessionEvent(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICasListenerOnSessionEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICasListener, "onSessionEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -122,7 +122,7 @@ func (p *CasListenerProxy) OnStatusUpdate(
 	_data.WritePaddedByte(byte(event))
 	_data.WriteInt32(number)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICasListenerOnStatusUpdate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICasListener, "onStatusUpdate"), 0, _data)
 	if _err != nil {
 		return _err
 	}

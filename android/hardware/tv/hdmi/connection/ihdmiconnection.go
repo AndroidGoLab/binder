@@ -50,7 +50,7 @@ func (p *HdmiConnectionProxy) GetPortInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiConnectionGetPortInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiConnection, "getPortInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -85,7 +85,7 @@ func (p *HdmiConnectionProxy) IsConnected(
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
 	_data.WriteInt32(portId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiConnectionIsConnected, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiConnection, "isConnected"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -110,7 +110,7 @@ func (p *HdmiConnectionProxy) SetCallback(
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiConnectionSetCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiConnection, "setCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -133,7 +133,7 @@ func (p *HdmiConnectionProxy) SetHpdSignal(
 	_data.WritePaddedByte(byte(signal))
 	_data.WriteInt32(portId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiConnectionSetHpdSignal, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiConnection, "setHpdSignal"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -155,7 +155,7 @@ func (p *HdmiConnectionProxy) GetHpdSignal(
 	_data.WriteInterfaceToken(DescriptorIHdmiConnection)
 	_data.WriteInt32(portId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdmiConnectionGetHpdSignal, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiConnection, "getHpdSignal"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

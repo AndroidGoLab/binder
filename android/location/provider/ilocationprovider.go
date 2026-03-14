@@ -49,7 +49,7 @@ func (p *LocationProviderProxy) SetLocationProviderManager(
 	_data.WriteInterfaceToken(DescriptorILocationProvider)
 	_data.WriteStrongBinder(manager.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionILocationProviderSetLocationProviderManager, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILocationProvider, "setLocationProviderManager"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,7 +63,7 @@ func (p *LocationProviderProxy) SetRequest(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionILocationProviderSetRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILocationProvider, "setRequest"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,7 +73,7 @@ func (p *LocationProviderProxy) Flush(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationProvider)
 
-	_, _err := p.remote.Transact(ctx, TransactionILocationProviderFlush, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILocationProvider, "flush"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,6 +86,6 @@ func (p *LocationProviderProxy) SendExtraCommand(
 	_data.WriteInterfaceToken(DescriptorILocationProvider)
 	_data.WriteString16(command)
 
-	_, _err := p.remote.Transact(ctx, TransactionILocationProviderSendExtraCommand, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILocationProvider, "sendExtraCommand"), binder.FlagOneway, _data)
 	return _err
 }

@@ -55,7 +55,7 @@ func (p *SecureStorageProxy) StartSession(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureStorageStartSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureStorage, "startSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

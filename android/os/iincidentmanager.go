@@ -60,7 +60,7 @@ func (p *IncidentManagerProxy) ReportIncident(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
 
-	_, _err := p.remote.Transact(ctx, TransactionIIncidentManagerReportIncident, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentManager, "reportIncident"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,7 +74,7 @@ func (p *IncidentManagerProxy) ReportIncidentToStream(
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIIncidentManagerReportIncidentToStream, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentManager, "reportIncidentToStream"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,7 +87,7 @@ func (p *IncidentManagerProxy) ReportIncidentToDumpstate(
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIIncidentManagerReportIncidentToDumpstate, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentManager, "reportIncidentToDumpstate"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,7 +103,7 @@ func (p *IncidentManagerProxy) RegisterSection(
 	_data.WriteString16(name)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIIncidentManagerRegisterSection, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentManager, "registerSection"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,7 +115,7 @@ func (p *IncidentManagerProxy) UnregisterSection(
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
 	_data.WriteInt32(id)
 
-	_, _err := p.remote.Transact(ctx, TransactionIIncidentManagerUnregisterSection, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentManager, "unregisterSection"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -125,7 +125,7 @@ func (p *IncidentManagerProxy) SystemRunning(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
 
-	_, _err := p.remote.Transact(ctx, TransactionIIncidentManagerSystemRunning, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentManager, "systemRunning"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -140,7 +140,7 @@ func (p *IncidentManagerProxy) GetIncidentReportList(
 	_data.WriteString16(pkg)
 	_data.WriteString16(cls)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncidentManagerGetIncidentReportList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentManager, "getIncidentReportList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -180,7 +180,7 @@ func (p *IncidentManagerProxy) GetIncidentReport(
 	_data.WriteString16(cls)
 	_data.WriteString16(id)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncidentManagerGetIncidentReport, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentManager, "getIncidentReport"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -205,7 +205,7 @@ func (p *IncidentManagerProxy) DeleteIncidentReports(
 	_data.WriteString16(cls)
 	_data.WriteString16(id)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncidentManagerDeleteIncidentReports, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentManager, "deleteIncidentReports"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -226,7 +226,7 @@ func (p *IncidentManagerProxy) DeleteAllIncidentReports(
 	_data.WriteInterfaceToken(DescriptorIIncidentManager)
 	_data.WriteString16(pkg)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIncidentManagerDeleteAllIncidentReports, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentManager, "deleteAllIncidentReports"), 0, _data)
 	if _err != nil {
 		return _err
 	}

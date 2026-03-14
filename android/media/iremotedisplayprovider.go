@@ -53,7 +53,7 @@ func (p *RemoteDisplayProviderProxy) SetCallback(
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteDisplayProviderSetCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "setCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,7 +65,7 @@ func (p *RemoteDisplayProviderProxy) SetDiscoveryMode(
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
 	_data.WriteInt32(mode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteDisplayProviderSetDiscoveryMode, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "setDiscoveryMode"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,7 +77,7 @@ func (p *RemoteDisplayProviderProxy) Connect(
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
 	_data.WriteString16(id)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteDisplayProviderConnect, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "connect"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,7 +89,7 @@ func (p *RemoteDisplayProviderProxy) Disconnect(
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayProvider)
 	_data.WriteString16(id)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteDisplayProviderDisconnect, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "disconnect"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,7 +103,7 @@ func (p *RemoteDisplayProviderProxy) SetVolume(
 	_data.WriteString16(id)
 	_data.WriteInt32(volume)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteDisplayProviderSetVolume, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "setVolume"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -117,6 +117,6 @@ func (p *RemoteDisplayProviderProxy) AdjustVolume(
 	_data.WriteString16(id)
 	_data.WriteInt32(delta)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteDisplayProviderAdjustVolume, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "adjustVolume"), binder.FlagOneway, _data)
 	return _err
 }

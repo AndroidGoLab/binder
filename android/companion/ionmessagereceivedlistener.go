@@ -52,6 +52,6 @@ func (p *OnMessageReceivedListenerProxy) OnMessageReceived(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnMessageReceivedListenerOnMessageReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnMessageReceivedListener, "onMessageReceived"), binder.FlagOneway, _data)
 	return _err
 }

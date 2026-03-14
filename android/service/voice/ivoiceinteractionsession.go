@@ -65,7 +65,7 @@ func (p *VoiceInteractionSessionProxy) Show(
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
 	_data.WriteInt32(flags)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionSessionShow, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "show"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,7 +75,7 @@ func (p *VoiceInteractionSessionProxy) Hide(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionSessionHide, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "hide"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,7 +102,7 @@ func (p *VoiceInteractionSessionProxy) HandleAssist(
 	_data.WriteInt32(index)
 	_data.WriteInt32(count)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionSessionHandleAssist, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "handleAssist"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,7 +116,7 @@ func (p *VoiceInteractionSessionProxy) HandleScreenshot(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionSessionHandleScreenshot, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "handleScreenshot"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -129,7 +129,7 @@ func (p *VoiceInteractionSessionProxy) TaskStarted(
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
 	_data.WriteInt32(taskId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionSessionTaskStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "taskStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -142,7 +142,7 @@ func (p *VoiceInteractionSessionProxy) TaskFinished(
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
 	_data.WriteInt32(taskId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionSessionTaskFinished, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "taskFinished"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -152,7 +152,7 @@ func (p *VoiceInteractionSessionProxy) CloseSystemDialogs(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionSessionCloseSystemDialogs, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "closeSystemDialogs"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -162,7 +162,7 @@ func (p *VoiceInteractionSessionProxy) OnLockscreenShown(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionSessionOnLockscreenShown, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "onLockscreenShown"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -172,7 +172,7 @@ func (p *VoiceInteractionSessionProxy) Destroy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionSessionDestroy, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "destroy"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -188,6 +188,6 @@ func (p *VoiceInteractionSessionProxy) NotifyVisibleActivityInfoChanged(
 	}
 	_data.WriteInt32(type_)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionSessionNotifyVisibleActivityInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "notifyVisibleActivityInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }

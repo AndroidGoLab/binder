@@ -70,7 +70,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) CommitText(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteAccessibilityInputConnectionCommitText, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "commitText"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,7 +88,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) SetSelection(
 	_data.WriteInt32(start)
 	_data.WriteInt32(end)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteAccessibilityInputConnectionSetSelection, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "setSelection"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -112,7 +112,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) GetSurroundingText(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteAccessibilityInputConnectionGetSurroundingText, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "getSurroundingText"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -130,7 +130,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) DeleteSurroundingText(
 	_data.WriteInt32(beforeLength)
 	_data.WriteInt32(afterLength)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteAccessibilityInputConnectionDeleteSurroundingText, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "deleteSurroundingText"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -145,7 +145,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) SendKeyEvent(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteAccessibilityInputConnectionSendKeyEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "sendKeyEvent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -161,7 +161,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) PerformEditorAction(
 	}
 	_data.WriteInt32(actionCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteAccessibilityInputConnectionPerformEditorAction, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "performEditorAction"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -177,7 +177,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) PerformContextMenuAction(
 	}
 	_data.WriteInt32(id)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteAccessibilityInputConnectionPerformContextMenuAction, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "performContextMenuAction"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -197,7 +197,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) GetCursorCapsMode(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteAccessibilityInputConnectionGetCursorCapsMode, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "getCursorCapsMode"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -213,6 +213,6 @@ func (p *RemoteAccessibilityInputConnectionProxy) ClearMetaKeyStates(
 	}
 	_data.WriteInt32(states)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteAccessibilityInputConnectionClearMetaKeyStates, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "clearMetaKeyStates"), binder.FlagOneway, _data)
 	return _err
 }

@@ -75,7 +75,7 @@ func (p *MagnificationConnectionProxy) EnableWindowMagnification(
 	_data.WriteFloat32(magnificationFrameOffsetRatioY)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIMagnificationConnectionEnableWindowMagnification, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMagnificationConnection, "enableWindowMagnification"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,7 +89,7 @@ func (p *MagnificationConnectionProxy) SetScaleForWindowMagnification(
 	_data.WriteInt32(displayId)
 	_data.WriteFloat32(scale)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMagnificationConnectionSetScaleForWindowMagnification, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMagnificationConnection, "setScaleForWindowMagnification"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,7 +103,7 @@ func (p *MagnificationConnectionProxy) DisableWindowMagnification(
 	_data.WriteInt32(displayId)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIMagnificationConnectionDisableWindowMagnification, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMagnificationConnection, "disableWindowMagnification"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,7 +119,7 @@ func (p *MagnificationConnectionProxy) MoveWindowMagnifier(
 	_data.WriteFloat32(offsetX)
 	_data.WriteFloat32(offsetY)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMagnificationConnectionMoveWindowMagnifier, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMagnificationConnection, "moveWindowMagnifier"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -137,7 +137,7 @@ func (p *MagnificationConnectionProxy) MoveWindowMagnifierToPosition(
 	_data.WriteFloat32(positionY)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIMagnificationConnectionMoveWindowMagnifierToPosition, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMagnificationConnection, "moveWindowMagnifierToPosition"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -151,7 +151,7 @@ func (p *MagnificationConnectionProxy) ShowMagnificationButton(
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(magnificationMode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMagnificationConnectionShowMagnificationButton, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMagnificationConnection, "showMagnificationButton"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -163,7 +163,7 @@ func (p *MagnificationConnectionProxy) RemoveMagnificationButton(
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
 	_data.WriteInt32(displayId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMagnificationConnectionRemoveMagnificationButton, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMagnificationConnection, "removeMagnificationButton"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -175,7 +175,7 @@ func (p *MagnificationConnectionProxy) RemoveMagnificationSettingsPanel(
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
 	_data.WriteInt32(displayId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMagnificationConnectionRemoveMagnificationSettingsPanel, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMagnificationConnection, "removeMagnificationSettingsPanel"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -187,7 +187,7 @@ func (p *MagnificationConnectionProxy) SetConnectionCallback(
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnection)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIMagnificationConnectionSetConnectionCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMagnificationConnection, "setConnectionCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -203,7 +203,7 @@ func (p *MagnificationConnectionProxy) OnUserMagnificationScaleChanged(
 	_data.WriteInt32(displayId)
 	_data.WriteFloat32(scale)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMagnificationConnectionOnUserMagnificationScaleChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMagnificationConnection, "onUserMagnificationScaleChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -217,6 +217,6 @@ func (p *MagnificationConnectionProxy) OnFullscreenMagnificationActivationChange
 	_data.WriteInt32(displayId)
 	_data.WriteBool(activated)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMagnificationConnectionOnFullscreenMagnificationActivationChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMagnificationConnection, "onFullscreenMagnificationActivationChanged"), binder.FlagOneway, _data)
 	return _err
 }

@@ -61,7 +61,7 @@ func (p *ImsConfigProxy) GetProvisionedValue(
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigGetProvisionedValue, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "getProvisionedValue"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -87,7 +87,7 @@ func (p *ImsConfigProxy) GetProvisionedStringValue(
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteInt32(item)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigGetProvisionedStringValue, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "getProvisionedStringValue"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -115,7 +115,7 @@ func (p *ImsConfigProxy) SetProvisionedValue(
 	_data.WriteInt32(item)
 	_data.WriteInt32(value)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigSetProvisionedValue, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "setProvisionedValue"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -143,7 +143,7 @@ func (p *ImsConfigProxy) SetProvisionedStringValue(
 	_data.WriteInt32(item)
 	_data.WriteString16(value)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigSetProvisionedStringValue, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "setProvisionedStringValue"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -172,7 +172,7 @@ func (p *ImsConfigProxy) GetFeatureValue(
 	_data.WriteInt32(network)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsConfigGetFeatureValue, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "getFeatureValue"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -190,7 +190,7 @@ func (p *ImsConfigProxy) SetFeatureValue(
 	_data.WriteInt32(value)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsConfigSetFeatureValue, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "setFeatureValue"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -201,7 +201,7 @@ func (p *ImsConfigProxy) GetVolteProvisioned(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsConfigGetVolteProvisioned, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "getVolteProvisioned"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -226,7 +226,7 @@ func (p *ImsConfigProxy) GetVideoQuality(
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsConfigGetVideoQuality, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "getVideoQuality"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -240,6 +240,6 @@ func (p *ImsConfigProxy) SetVideoQuality(
 	_data.WriteInt32(quality)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsConfigSetVideoQuality, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsConfig, "setVideoQuality"), binder.FlagOneway, _data)
 	return _err
 }

@@ -45,6 +45,6 @@ func (p *DisplayFoldListenerProxy) OnDisplayFoldChanged(
 	_data.WriteInt32(displayId)
 	_data.WriteBool(folded)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDisplayFoldListenerOnDisplayFoldChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayFoldListener, "onDisplayFoldChanged"), binder.FlagOneway, _data)
 	return _err
 }

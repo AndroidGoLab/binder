@@ -51,7 +51,7 @@ func (p *CrossProfileServiceProxy) LaunchIntent(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICrossProfileServiceLaunchIntent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICrossProfileService, "launchIntent"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -85,7 +85,7 @@ func (p *ImsServiceProxy) Open(
 	}
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsServiceOpen, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsService, "open"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -110,7 +110,7 @@ func (p *ImsServiceProxy) Close(
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsServiceClose, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsService, "close"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -136,7 +136,7 @@ func (p *ImsServiceProxy) IsConnected(
 	_data.WriteInt32(serviceType)
 	_data.WriteInt32(callType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsServiceIsConnected, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsService, "isConnected"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -162,7 +162,7 @@ func (p *ImsServiceProxy) IsOpened(
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsServiceIsOpened, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsService, "isOpened"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -189,7 +189,7 @@ func (p *ImsServiceProxy) SetRegistrationListener(
 	_data.WriteInt32(serviceId)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsServiceSetRegistrationListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsService, "setRegistrationListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -214,7 +214,7 @@ func (p *ImsServiceProxy) AddRegistrationListener(
 	_data.WriteInt32(serviceClass)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsServiceAddRegistrationListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsService, "addRegistrationListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -240,7 +240,7 @@ func (p *ImsServiceProxy) CreateCallProfile(
 	_data.WriteInt32(serviceType)
 	_data.WriteInt32(callType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsServiceCreateCallProfile, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsService, "createCallProfile"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -271,7 +271,7 @@ func (p *ImsServiceProxy) CreateCallSession(
 	}
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsServiceCreateCallSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsService, "createCallSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -300,7 +300,7 @@ func (p *ImsServiceProxy) GetPendingCallSession(
 	_data.WriteInt32(serviceId)
 	_data.WriteString16(callId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsServiceGetPendingCallSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsService, "getPendingCallSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -327,7 +327,7 @@ func (p *ImsServiceProxy) GetUtInterface(
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsServiceGetUtInterface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsService, "getUtInterface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -354,7 +354,7 @@ func (p *ImsServiceProxy) GetConfigInterface(
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(phoneId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsServiceGetConfigInterface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsService, "getConfigInterface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -380,7 +380,7 @@ func (p *ImsServiceProxy) TurnOnIms(
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(phoneId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsServiceTurnOnIms, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsService, "turnOnIms"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -401,7 +401,7 @@ func (p *ImsServiceProxy) TurnOffIms(
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(phoneId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsServiceTurnOffIms, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsService, "turnOffIms"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -423,7 +423,7 @@ func (p *ImsServiceProxy) GetEcbmInterface(
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsServiceGetEcbmInterface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsService, "getEcbmInterface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -455,7 +455,7 @@ func (p *ImsServiceProxy) SetUiTTYMode(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsServiceSetUiTTYMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsService, "setUiTTYMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -477,7 +477,7 @@ func (p *ImsServiceProxy) GetMultiEndpointInterface(
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsServiceGetMultiEndpointInterface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsService, "getMultiEndpointInterface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

@@ -53,7 +53,7 @@ func (p *ArtManagerProxy) SnapshotRuntimeProfile(
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIArtManagerSnapshotRuntimeProfile, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIArtManager, "snapshotRuntimeProfile"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -77,7 +77,7 @@ func (p *ArtManagerProxy) IsRuntimeProfilingEnabled(
 	_data.WriteInt32(profileType)
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIArtManagerIsRuntimeProfilingEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIArtManager, "isRuntimeProfilingEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

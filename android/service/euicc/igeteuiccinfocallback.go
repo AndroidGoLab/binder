@@ -46,6 +46,6 @@ func (p *GetEuiccInfoCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIGetEuiccInfoCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGetEuiccInfoCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }

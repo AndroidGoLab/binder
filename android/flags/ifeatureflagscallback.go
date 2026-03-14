@@ -45,6 +45,6 @@ func (p *FeatureFlagsCallbackProxy) OnFlagChange(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIFeatureFlagsCallbackOnFlagChange, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFeatureFlagsCallback, "onFlagChange"), binder.FlagOneway, _data)
 	return _err
 }

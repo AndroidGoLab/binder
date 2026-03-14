@@ -47,7 +47,7 @@ func (p *TvInputCallbackProxy) Notify(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITvInputCallbackNotify, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInputCallback, "notify"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,7 +70,7 @@ func (p *TvInputCallbackProxy) NotifyTvMessageEvent(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITvInputCallbackNotifyTvMessageEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInputCallback, "notifyTvMessageEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}

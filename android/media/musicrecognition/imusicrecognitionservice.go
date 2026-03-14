@@ -52,7 +52,7 @@ func (p *MusicRecognitionServiceProxy) OnAudioStreamStarted(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIMusicRecognitionServiceOnAudioStreamStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMusicRecognitionService, "onAudioStreamStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +64,6 @@ func (p *MusicRecognitionServiceProxy) GetAttributionTag(
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIMusicRecognitionServiceGetAttributionTag, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMusicRecognitionService, "getAttributionTag"), binder.FlagOneway, _data)
 	return _err
 }

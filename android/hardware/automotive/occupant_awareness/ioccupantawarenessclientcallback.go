@@ -47,7 +47,7 @@ func (p *OccupantAwarenessClientCallbackProxy) OnSystemStatusChanged(
 	_data.WriteInt32(detectionFlags)
 	_data.WritePaddedByte(byte(status))
 
-	_, _err := p.remote.Transact(ctx, TransactionIOccupantAwarenessClientCallbackOnSystemStatusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOccupantAwarenessClientCallback, "onSystemStatusChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,6 +61,6 @@ func (p *OccupantAwarenessClientCallbackProxy) OnDetectionEvent(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIOccupantAwarenessClientCallbackOnDetectionEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOccupantAwarenessClientCallback, "onDetectionEvent"), binder.FlagOneway, _data)
 	return _err
 }

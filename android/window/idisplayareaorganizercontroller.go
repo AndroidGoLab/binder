@@ -52,7 +52,7 @@ func (p *DisplayAreaOrganizerControllerProxy) RegisterOrganizer(
 	_data.WriteStrongBinder(organizer.AsBinder().Handle())
 	_data.WriteInt32(displayAreaFeature)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDisplayAreaOrganizerControllerRegisterOrganizer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayAreaOrganizerController, "registerOrganizer"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -73,7 +73,7 @@ func (p *DisplayAreaOrganizerControllerProxy) UnregisterOrganizer(
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizerController)
 	_data.WriteStrongBinder(organizer.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDisplayAreaOrganizerControllerUnregisterOrganizer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayAreaOrganizerController, "unregisterOrganizer"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -101,7 +101,7 @@ func (p *DisplayAreaOrganizerControllerProxy) CreateTaskDisplayArea(
 	_data.WriteInt32(parentFeatureId)
 	_data.WriteString16(name)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDisplayAreaOrganizerControllerCreateTaskDisplayArea, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayAreaOrganizerController, "createTaskDisplayArea"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -127,7 +127,7 @@ func (p *DisplayAreaOrganizerControllerProxy) DeleteTaskDisplayArea(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDisplayAreaOrganizerControllerDeleteTaskDisplayArea, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayAreaOrganizerController, "deleteTaskDisplayArea"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -55,7 +55,7 @@ func (p *UsbGadgetProxy) SetCurrentUsbFunctions(
 	_data.WriteInt64(timeoutMs)
 	_data.WriteInt64(transactionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUsbGadgetSetCurrentUsbFunctions, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUsbGadget, "setCurrentUsbFunctions"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,7 +69,7 @@ func (p *UsbGadgetProxy) GetCurrentUsbFunctions(
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteInt64(transactionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUsbGadgetGetCurrentUsbFunctions, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUsbGadget, "getCurrentUsbFunctions"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,7 +83,7 @@ func (p *UsbGadgetProxy) GetUsbSpeed(
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteInt64(transactionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUsbGadgetGetUsbSpeed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUsbGadget, "getUsbSpeed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,6 +97,6 @@ func (p *UsbGadgetProxy) Reset(
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteInt64(transactionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUsbGadgetReset, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUsbGadget, "reset"), binder.FlagOneway, _data)
 	return _err
 }

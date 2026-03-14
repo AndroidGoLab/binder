@@ -42,6 +42,6 @@ func (p *ThermalEventListenerProxy) NotifyThrottling(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIThermalEventListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIThermalEventListenerNotifyThrottling, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalEventListener, "notifyThrottling"), binder.FlagOneway, _data)
 	return _err
 }

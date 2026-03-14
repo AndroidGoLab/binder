@@ -43,6 +43,6 @@ func (p *InputMethodSessionCallbackProxy) SessionCreated(
 	_data.WriteInterfaceToken(DescriptorIInputMethodSessionCallback)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputMethodSessionCallbackSessionCreated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputMethodSessionCallback, "sessionCreated"), binder.FlagOneway, _data)
 	return _err
 }

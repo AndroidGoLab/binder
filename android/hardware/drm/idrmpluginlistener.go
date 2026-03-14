@@ -67,7 +67,7 @@ func (p *DrmPluginListenerProxy) OnEvent(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIDrmPluginListenerOnEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPluginListener, "onEvent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,7 +88,7 @@ func (p *DrmPluginListenerProxy) OnExpirationUpdate(
 	}
 	_data.WriteInt64(expiryTimeInMS)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDrmPluginListenerOnExpirationUpdate, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPluginListener, "onExpirationUpdate"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -120,7 +120,7 @@ func (p *DrmPluginListenerProxy) OnKeysChange(
 	}
 	_data.WriteBool(hasNewUsableKey)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDrmPluginListenerOnKeysChange, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPluginListener, "onKeysChange"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -139,6 +139,6 @@ func (p *DrmPluginListenerProxy) OnSessionLostState(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIDrmPluginListenerOnSessionLostState, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPluginListener, "onSessionLostState"), binder.FlagOneway, _data)
 	return _err
 }

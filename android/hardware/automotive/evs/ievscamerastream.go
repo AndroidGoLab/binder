@@ -54,7 +54,7 @@ func (p *EvsCameraStreamProxy) DeliverFrame(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIEvsCameraStreamDeliverFrame, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsCameraStream, "deliverFrame"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,6 +68,6 @@ func (p *EvsCameraStreamProxy) Notify(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIEvsCameraStreamNotify, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEvsCameraStream, "notify"), binder.FlagOneway, _data)
 	return _err
 }

@@ -74,7 +74,7 @@ func (p *SapCallbackProxy) ApduResponse(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISapCallbackApduResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISapCallback, "apduResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,7 +90,7 @@ func (p *SapCallbackProxy) ConnectResponse(
 	_data.WriteInt32(int32(sapConnectRsp))
 	_data.WriteInt32(maxMsgSizeBytes)
 
-	_, _err := p.remote.Transact(ctx, TransactionISapCallbackConnectResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISapCallback, "connectResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -104,7 +104,7 @@ func (p *SapCallbackProxy) DisconnectIndication(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(disconnectType))
 
-	_, _err := p.remote.Transact(ctx, TransactionISapCallbackDisconnectIndication, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISapCallback, "disconnectIndication"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -116,7 +116,7 @@ func (p *SapCallbackProxy) DisconnectResponse(
 	_data.WriteInterfaceToken(DescriptorISapCallback)
 	_data.WriteInt32(serial)
 
-	_, _err := p.remote.Transact(ctx, TransactionISapCallbackDisconnectResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISapCallback, "disconnectResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -128,7 +128,7 @@ func (p *SapCallbackProxy) ErrorResponse(
 	_data.WriteInterfaceToken(DescriptorISapCallback)
 	_data.WriteInt32(serial)
 
-	_, _err := p.remote.Transact(ctx, TransactionISapCallbackErrorResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISapCallback, "errorResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -142,7 +142,7 @@ func (p *SapCallbackProxy) PowerResponse(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(resultCode))
 
-	_, _err := p.remote.Transact(ctx, TransactionISapCallbackPowerResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISapCallback, "powerResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -156,7 +156,7 @@ func (p *SapCallbackProxy) ResetSimResponse(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(resultCode))
 
-	_, _err := p.remote.Transact(ctx, TransactionISapCallbackResetSimResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISapCallback, "resetSimResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -170,7 +170,7 @@ func (p *SapCallbackProxy) StatusIndication(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(status))
 
-	_, _err := p.remote.Transact(ctx, TransactionISapCallbackStatusIndication, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISapCallback, "statusIndication"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -193,7 +193,7 @@ func (p *SapCallbackProxy) TransferAtrResponse(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISapCallbackTransferAtrResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISapCallback, "transferAtrResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -209,7 +209,7 @@ func (p *SapCallbackProxy) TransferCardReaderStatusResponse(
 	_data.WriteInt32(int32(resultCode))
 	_data.WriteInt32(cardReaderStatus)
 
-	_, _err := p.remote.Transact(ctx, TransactionISapCallbackTransferCardReaderStatusResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISapCallback, "transferCardReaderStatusResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -223,6 +223,6 @@ func (p *SapCallbackProxy) TransferProtocolResponse(
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(resultCode))
 
-	_, _err := p.remote.Transact(ctx, TransactionISapCallbackTransferProtocolResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISapCallback, "transferProtocolResponse"), binder.FlagOneway, _data)
 	return _err
 }

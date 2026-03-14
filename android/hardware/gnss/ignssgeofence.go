@@ -51,7 +51,7 @@ func (p *GnssGeofenceProxy) SetCallback(
 	_data.WriteInterfaceToken(DescriptorIGnssGeofence)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssGeofenceSetCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssGeofence, "setCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -86,7 +86,7 @@ func (p *GnssGeofenceProxy) AddGeofence(
 	_data.WriteInt32(notificationResponsivenessMs)
 	_data.WriteInt32(unknownTimerMs)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssGeofenceAddGeofence, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssGeofence, "addGeofence"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -107,7 +107,7 @@ func (p *GnssGeofenceProxy) PauseGeofence(
 	_data.WriteInterfaceToken(DescriptorIGnssGeofence)
 	_data.WriteInt32(geofenceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssGeofencePauseGeofence, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssGeofence, "pauseGeofence"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -130,7 +130,7 @@ func (p *GnssGeofenceProxy) ResumeGeofence(
 	_data.WriteInt32(geofenceId)
 	_data.WriteInt32(monitorTransitions)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssGeofenceResumeGeofence, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssGeofence, "resumeGeofence"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -151,7 +151,7 @@ func (p *GnssGeofenceProxy) RemoveGeofence(
 	_data.WriteInterfaceToken(DescriptorIGnssGeofence)
 	_data.WriteInt32(geofenceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssGeofenceRemoveGeofence, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssGeofence, "removeGeofence"), 0, _data)
 	if _err != nil {
 		return _err
 	}

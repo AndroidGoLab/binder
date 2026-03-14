@@ -53,7 +53,7 @@ func (p *JobServiceProxy) StartJob(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIJobServiceStartJob, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIJobService, "startJob"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,7 +67,7 @@ func (p *JobServiceProxy) StopJob(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIJobServiceStopJob, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIJobService, "stopJob"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,7 +81,7 @@ func (p *JobServiceProxy) OnNetworkChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIJobServiceOnNetworkChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIJobService, "onNetworkChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,7 +99,7 @@ func (p *JobServiceProxy) GetTransferredDownloadBytes(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIJobServiceGetTransferredDownloadBytes, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIJobService, "getTransferredDownloadBytes"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -117,6 +117,6 @@ func (p *JobServiceProxy) GetTransferredUploadBytes(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIJobServiceGetTransferredUploadBytes, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIJobService, "getTransferredUploadBytes"), binder.FlagOneway, _data)
 	return _err
 }

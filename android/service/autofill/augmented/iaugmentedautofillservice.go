@@ -54,7 +54,7 @@ func (p *AugmentedAutofillServiceProxy) OnConnected(
 	_data.WriteBool(debug)
 	_data.WriteBool(verbose)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAugmentedAutofillServiceOnConnected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAugmentedAutofillService, "onConnected"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,7 +64,7 @@ func (p *AugmentedAutofillServiceProxy) OnDisconnected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAugmentedAutofillServiceOnDisconnected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAugmentedAutofillService, "onDisconnected"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,7 +100,7 @@ func (p *AugmentedAutofillServiceProxy) OnFillRequest(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAugmentedAutofillServiceOnFillRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAugmentedAutofillService, "onFillRequest"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -110,6 +110,6 @@ func (p *AugmentedAutofillServiceProxy) OnDestroyAllFillWindowsRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAugmentedAutofillServiceOnDestroyAllFillWindowsRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAugmentedAutofillService, "onDestroyAllFillWindowsRequest"), binder.FlagOneway, _data)
 	return _err
 }

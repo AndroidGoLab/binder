@@ -49,7 +49,7 @@ func (p *WallpaperEffectsGenerationManagerProxy) GenerateCinematicEffect(
 	}
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIWallpaperEffectsGenerationManagerGenerateCinematicEffect, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWallpaperEffectsGenerationManager, "generateCinematicEffect"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +63,6 @@ func (p *WallpaperEffectsGenerationManagerProxy) ReturnCinematicEffectResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIWallpaperEffectsGenerationManagerReturnCinematicEffectResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWallpaperEffectsGenerationManager, "returnCinematicEffectResponse"), binder.FlagOneway, _data)
 	return _err
 }

@@ -67,7 +67,7 @@ func (p *FrontendProxy) SetCallback(
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFrontendSetCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFrontend, "setCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -90,7 +90,7 @@ func (p *FrontendProxy) Tune(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFrontendTune, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFrontend, "tune"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -109,7 +109,7 @@ func (p *FrontendProxy) StopTune(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFrontendStopTune, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFrontend, "stopTune"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -128,7 +128,7 @@ func (p *FrontendProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFrontendClose, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFrontend, "close"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -153,7 +153,7 @@ func (p *FrontendProxy) Scan(
 	}
 	_data.WriteInt32(int32(type_))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFrontendScan, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFrontend, "scan"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -172,7 +172,7 @@ func (p *FrontendProxy) StopScan(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFrontendStopScan, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFrontend, "stopScan"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -201,7 +201,7 @@ func (p *FrontendProxy) GetStatus(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFrontendGetStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFrontend, "getStatus"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -235,7 +235,7 @@ func (p *FrontendProxy) SetLnb(
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 	_data.WriteInt32(lnbId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFrontendSetLnb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFrontend, "setLnb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -257,7 +257,7 @@ func (p *FrontendProxy) LinkCiCam(
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 	_data.WriteInt32(ciCamId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFrontendLinkCiCam, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFrontend, "linkCiCam"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -282,7 +282,7 @@ func (p *FrontendProxy) UnlinkCiCam(
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 	_data.WriteInt32(ciCamId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFrontendUnlinkCiCam, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFrontend, "unlinkCiCam"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -302,7 +302,7 @@ func (p *FrontendProxy) GetHardwareInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFrontendGetHardwareInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFrontend, "getHardwareInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -327,7 +327,7 @@ func (p *FrontendProxy) RemoveOutputPid(
 	_data.WriteInterfaceToken(DescriptorIFrontend)
 	_data.WriteInt32(pid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFrontendRemoveOutputPid, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFrontend, "removeOutputPid"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -356,7 +356,7 @@ func (p *FrontendProxy) GetFrontendStatusReadiness(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFrontendGetFrontendStatusReadiness, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFrontend, "getFrontendStatusReadiness"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

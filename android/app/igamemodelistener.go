@@ -49,7 +49,7 @@ func (p *GameModeListenerProxy) OnGameModeChanged(
 	_data.WriteInt32(gameModeTo)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGameModeListenerOnGameModeChanged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGameModeListener, "onGameModeChanged"), 0, _data)
 	if _err != nil {
 		return _err
 	}

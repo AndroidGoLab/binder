@@ -42,7 +42,7 @@ func (p *DragAndDropProxy) IsReadyToHandleDrag(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDragAndDrop)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDragAndDropIsReadyToHandleDrag, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDragAndDrop, "isReadyToHandleDrag"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

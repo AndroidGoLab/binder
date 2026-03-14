@@ -43,6 +43,6 @@ func (p *ProxyPortListenerProxy) SetProxyPort(
 	_data.WriteInterfaceToken(DescriptorIProxyPortListener)
 	_data.WriteInt32(port)
 
-	_, _err := p.remote.Transact(ctx, TransactionIProxyPortListenerSetProxyPort, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProxyPortListener, "setProxyPort"), binder.FlagOneway, _data)
 	return _err
 }

@@ -51,7 +51,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnNetworkEapIdentityRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkCallbackOnNetworkEapIdentityRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onNetworkEapIdentityRequest"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,7 +65,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnNetworkEapSimGsmAuthRequest(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkCallbackOnNetworkEapSimGsmAuthRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onNetworkEapSimGsmAuthRequest"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,7 +79,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnNetworkEapSimUmtsAuthRequest(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkCallbackOnNetworkEapSimUmtsAuthRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onNetworkEapSimUmtsAuthRequest"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,7 +91,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnTransitionDisable(
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
 	_data.WriteInt32(int32(ind))
 
-	_, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkCallbackOnTransitionDisable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onTransitionDisable"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -130,7 +130,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnServerCertificateAvailable(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkCallbackOnServerCertificateAvailable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onServerCertificateAvailable"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -140,6 +140,6 @@ func (p *SupplicantStaNetworkCallbackProxy) OnPermanentIdReqDenied(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionISupplicantStaNetworkCallbackOnPermanentIdReqDenied, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onPermanentIdReqDenied"), binder.FlagOneway, _data)
 	return _err
 }

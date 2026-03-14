@@ -51,7 +51,7 @@ func (p *LogcatManagerServiceProxy) StartThread(
 	_data.WriteInt32(pid)
 	_data.WriteInt32(fd)
 
-	_, _err := p.remote.Transact(ctx, TransactionILogcatManagerServiceStartThread, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILogcatManagerService, "startThread"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +69,6 @@ func (p *LogcatManagerServiceProxy) FinishThread(
 	_data.WriteInt32(pid)
 	_data.WriteInt32(fd)
 
-	_, _err := p.remote.Transact(ctx, TransactionILogcatManagerServiceFinishThread, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILogcatManagerService, "finishThread"), binder.FlagOneway, _data)
 	return _err
 }

@@ -52,6 +52,6 @@ func (p *RecordingConfigDispatcherProxy) DispatchRecordingConfigChange(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRecordingConfigDispatcherDispatchRecordingConfigChange, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecordingConfigDispatcher, "dispatchRecordingConfigChange"), binder.FlagOneway, _data)
 	return _err
 }

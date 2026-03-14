@@ -56,6 +56,6 @@ func (p *IntentReceiverProxy) PerformReceive(
 	_data.WriteBool(sticky)
 	_data.WriteInt32(sendingUser)
 
-	_, _err := p.remote.Transact(ctx, TransactionIIntentReceiverPerformReceive, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIntentReceiver, "performReceive"), binder.FlagOneway, _data)
 	return _err
 }

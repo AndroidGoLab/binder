@@ -46,7 +46,7 @@ func (p *GetCredentialCallbackProxy) OnPendingIntent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGetCredentialCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGetCredentialCallbackOnPendingIntent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGetCredentialCallback, "onPendingIntent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -60,7 +60,7 @@ func (p *GetCredentialCallbackProxy) OnResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIGetCredentialCallbackOnResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGetCredentialCallback, "onResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,6 +74,6 @@ func (p *GetCredentialCallbackProxy) OnError(
 	_data.WriteString16(errorType)
 	_data.WriteString16(message)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGetCredentialCallbackOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGetCredentialCallback, "onError"), binder.FlagOneway, _data)
 	return _err
 }

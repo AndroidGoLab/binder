@@ -43,6 +43,6 @@ func (p *VibratorStateListenerProxy) OnVibrating(
 	_data.WriteInterfaceToken(DescriptorIVibratorStateListener)
 	_data.WriteBool(vibrating)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVibratorStateListenerOnVibrating, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVibratorStateListener, "onVibrating"), binder.FlagOneway, _data)
 	return _err
 }

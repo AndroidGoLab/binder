@@ -44,6 +44,6 @@ func (p *LoudnessCodecUpdatesDispatcherProxy) DispatchLoudnessCodecParameterChan
 	_data.WriteInterfaceToken(DescriptorILoudnessCodecUpdatesDispatcher)
 	_data.WriteInt32(sessionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionILoudnessCodecUpdatesDispatcherDispatchLoudnessCodecParameterChange, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILoudnessCodecUpdatesDispatcher, "dispatchLoudnessCodecParameterChange"), binder.FlagOneway, _data)
 	return _err
 }

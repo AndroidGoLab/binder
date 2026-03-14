@@ -61,7 +61,7 @@ func (p *CarrierPrivilegesCallbackProxy) OnCarrierPrivilegesChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICarrierPrivilegesCallbackOnCarrierPrivilegesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICarrierPrivilegesCallback, "onCarrierPrivilegesChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +75,6 @@ func (p *CarrierPrivilegesCallbackProxy) OnCarrierServiceChanged(
 	_data.WriteString16(carrierServicePackageName)
 	_data.WriteInt32(carrierServiceUid)
 
-	_, _err := p.remote.Transact(ctx, TransactionICarrierPrivilegesCallbackOnCarrierServiceChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICarrierPrivilegesCallback, "onCarrierServiceChanged"), binder.FlagOneway, _data)
 	return _err
 }

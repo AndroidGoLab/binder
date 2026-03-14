@@ -59,7 +59,7 @@ func (p *QuickAccessWalletServiceProxy) OnWalletCardsRequested(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIQuickAccessWalletServiceOnWalletCardsRequested, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "onWalletCardsRequested"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,7 +73,7 @@ func (p *QuickAccessWalletServiceProxy) OnWalletCardSelected(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIQuickAccessWalletServiceOnWalletCardSelected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "onWalletCardSelected"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,7 +83,7 @@ func (p *QuickAccessWalletServiceProxy) OnWalletDismissed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIQuickAccessWalletServiceOnWalletDismissed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "onWalletDismissed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,7 +99,7 @@ func (p *QuickAccessWalletServiceProxy) RegisterWalletServiceEventListener(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIQuickAccessWalletServiceRegisterWalletServiceEventListener, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "registerWalletServiceEventListener"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,7 +113,7 @@ func (p *QuickAccessWalletServiceProxy) UnregisterWalletServiceEventListener(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIQuickAccessWalletServiceUnregisterWalletServiceEventListener, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "unregisterWalletServiceEventListener"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -125,7 +125,7 @@ func (p *QuickAccessWalletServiceProxy) OnTargetActivityIntentRequested(
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletService)
 	_data.WriteStrongBinder(callbacks.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIQuickAccessWalletServiceOnTargetActivityIntentRequested, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "onTargetActivityIntentRequested"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -137,6 +137,6 @@ func (p *QuickAccessWalletServiceProxy) OnGestureTargetActivityIntentRequested(
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletService)
 	_data.WriteStrongBinder(callbacks.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIQuickAccessWalletServiceOnGestureTargetActivityIntentRequested, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "onGestureTargetActivityIntentRequested"), binder.FlagOneway, _data)
 	return _err
 }

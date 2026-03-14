@@ -44,7 +44,7 @@ func (p *ImsTrafficSessionCallbackProxy) OnReady(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsTrafficSessionCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsTrafficSessionCallbackOnReady, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsTrafficSessionCallback, "onReady"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +58,6 @@ func (p *ImsTrafficSessionCallbackProxy) OnError(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsTrafficSessionCallbackOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsTrafficSessionCallback, "onError"), binder.FlagOneway, _data)
 	return _err
 }

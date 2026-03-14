@@ -52,6 +52,6 @@ func (p *FingerprintAuthenticatorsRegisteredCallbackProxy) OnAllAuthenticatorsRe
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIFingerprintAuthenticatorsRegisteredCallbackOnAllAuthenticatorsRegistered, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFingerprintAuthenticatorsRegisteredCallback, "onAllAuthenticatorsRegistered"), binder.FlagOneway, _data)
 	return _err
 }

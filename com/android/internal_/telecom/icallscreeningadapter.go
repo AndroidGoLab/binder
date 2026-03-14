@@ -53,6 +53,6 @@ func (p *CallScreeningAdapterProxy) OnScreeningResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICallScreeningAdapterOnScreeningResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallScreeningAdapter, "onScreeningResponse"), binder.FlagOneway, _data)
 	return _err
 }

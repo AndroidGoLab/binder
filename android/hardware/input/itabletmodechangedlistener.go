@@ -45,6 +45,6 @@ func (p *TabletModeChangedListenerProxy) OnTabletModeChanged(
 	_data.WriteInt64(whenNanos)
 	_data.WriteBool(inTabletMode)
 
-	_, _err := p.remote.Transact(ctx, TransactionITabletModeChangedListenerOnTabletModeChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITabletModeChangedListener, "onTabletModeChanged"), binder.FlagOneway, _data)
 	return _err
 }

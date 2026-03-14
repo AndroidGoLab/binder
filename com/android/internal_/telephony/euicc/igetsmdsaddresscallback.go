@@ -45,6 +45,6 @@ func (p *GetSmdsAddressCallbackProxy) OnComplete(
 	_data.WriteInt32(resultCode)
 	_data.WriteString16(address)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGetSmdsAddressCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGetSmdsAddressCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

@@ -52,7 +52,7 @@ func (p *MediaCasServiceProxy) CreateDescrambler(
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
 	_data.WriteInt32(CA_system_id)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaCasServiceCreateDescrambler, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaCasService, "createDescrambler"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -81,7 +81,7 @@ func (p *MediaCasServiceProxy) CreatePlugin(
 	_data.WriteInt32(CA_system_id)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaCasServiceCreatePlugin, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaCasService, "createPlugin"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -106,7 +106,7 @@ func (p *MediaCasServiceProxy) EnumeratePlugins(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaCasServiceEnumeratePlugins, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaCasService, "enumeratePlugins"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -141,7 +141,7 @@ func (p *MediaCasServiceProxy) IsDescramblerSupported(
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
 	_data.WriteInt32(CA_system_id)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaCasServiceIsDescramblerSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaCasService, "isDescramblerSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -167,7 +167,7 @@ func (p *MediaCasServiceProxy) IsSystemIdSupported(
 	_data.WriteInterfaceToken(DescriptorIMediaCasService)
 	_data.WriteInt32(CA_system_id)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaCasServiceIsSystemIdSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaCasService, "isSystemIdSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

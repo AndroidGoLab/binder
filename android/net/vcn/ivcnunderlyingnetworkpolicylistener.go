@@ -41,6 +41,6 @@ func (p *VcnUnderlyingNetworkPolicyListenerProxy) OnPolicyChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVcnUnderlyingNetworkPolicyListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVcnUnderlyingNetworkPolicyListenerOnPolicyChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVcnUnderlyingNetworkPolicyListener, "onPolicyChanged"), binder.FlagOneway, _data)
 	return _err
 }

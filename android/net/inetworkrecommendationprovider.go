@@ -52,6 +52,6 @@ func (p *NetworkRecommendationProviderProxy) RequestScores(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionINetworkRecommendationProviderRequestScores, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINetworkRecommendationProvider, "requestScores"), binder.FlagOneway, _data)
 	return _err
 }

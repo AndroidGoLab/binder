@@ -50,6 +50,6 @@ func (p *SpatializerHeadToSoundStagePoseCallbackProxy) DispatchPoseChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISpatializerHeadToSoundStagePoseCallbackDispatchPoseChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISpatializerHeadToSoundStagePoseCallback, "dispatchPoseChanged"), binder.FlagOneway, _data)
 	return _err
 }

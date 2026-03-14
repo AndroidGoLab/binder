@@ -48,6 +48,6 @@ func (p *EventMonitorListenerProxy) OnInfoChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIEventMonitorListenerOnInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEventMonitorListener, "onInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }

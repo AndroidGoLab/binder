@@ -70,7 +70,7 @@ func (p *DataServiceProxy) CreateDataServiceProvider(
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataServiceCreateDataServiceProvider, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataService, "createDataServiceProvider"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,7 +82,7 @@ func (p *DataServiceProxy) RemoveDataServiceProvider(
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataServiceRemoveDataServiceProvider, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataService, "removeDataServiceProvider"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -121,7 +121,7 @@ func (p *DataServiceProxy) SetupDataCall(
 	_data.WriteBool(matchAllRuleAllowed)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataServiceSetupDataCall, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataService, "setupDataCall"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -139,7 +139,7 @@ func (p *DataServiceProxy) DeactivateDataCall(
 	_data.WriteInt32(reason)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataServiceDeactivateDataCall, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataService, "deactivateDataCall"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -159,7 +159,7 @@ func (p *DataServiceProxy) SetInitialAttachApn(
 	_data.WriteBool(isRoaming)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataServiceSetInitialAttachApn, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataService, "setInitialAttachApn"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -186,7 +186,7 @@ func (p *DataServiceProxy) SetDataProfile(
 	_data.WriteBool(isRoaming)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataServiceSetDataProfile, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataService, "setDataProfile"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -200,7 +200,7 @@ func (p *DataServiceProxy) RequestDataCallList(
 	_data.WriteInt32(slotId)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataServiceRequestDataCallList, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataService, "requestDataCallList"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -214,7 +214,7 @@ func (p *DataServiceProxy) RegisterForDataCallListChanged(
 	_data.WriteInt32(slotId)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataServiceRegisterForDataCallListChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataService, "registerForDataCallListChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -228,7 +228,7 @@ func (p *DataServiceProxy) UnregisterForDataCallListChanged(
 	_data.WriteInt32(slotId)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataServiceUnregisterForDataCallListChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataService, "unregisterForDataCallListChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -244,7 +244,7 @@ func (p *DataServiceProxy) StartHandover(
 	_data.WriteInt32(cid)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataServiceStartHandover, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataService, "startHandover"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -260,7 +260,7 @@ func (p *DataServiceProxy) CancelHandover(
 	_data.WriteInt32(cid)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataServiceCancelHandover, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataService, "cancelHandover"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -274,7 +274,7 @@ func (p *DataServiceProxy) RegisterForUnthrottleApn(
 	_data.WriteInt32(slotIndex)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataServiceRegisterForUnthrottleApn, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataService, "registerForUnthrottleApn"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -288,7 +288,7 @@ func (p *DataServiceProxy) UnregisterForUnthrottleApn(
 	_data.WriteInt32(slotIndex)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataServiceUnregisterForUnthrottleApn, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataService, "unregisterForUnthrottleApn"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -304,6 +304,6 @@ func (p *DataServiceProxy) RequestNetworkValidation(
 	_data.WriteInt32(cid)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIDataServiceRequestNetworkValidation, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDataService, "requestNetworkValidation"), binder.FlagOneway, _data)
 	return _err
 }

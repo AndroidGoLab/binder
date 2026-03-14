@@ -48,7 +48,7 @@ func (p *GnssVisibilityControlCallbackProxy) NfwNotifyCb(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssVisibilityControlCallbackNfwNotifyCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssVisibilityControlCallback, "nfwNotifyCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -68,7 +68,7 @@ func (p *GnssVisibilityControlCallbackProxy) IsInEmergencySession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssVisibilityControlCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssVisibilityControlCallbackIsInEmergencySession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssVisibilityControlCallback, "isInEmergencySession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

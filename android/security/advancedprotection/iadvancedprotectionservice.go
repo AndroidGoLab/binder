@@ -50,7 +50,7 @@ func (p *AdvancedProtectionServiceProxy) IsAdvancedProtectionEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdvancedProtectionService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedProtectionServiceIsAdvancedProtectionEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedProtectionService, "isAdvancedProtectionEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -75,7 +75,7 @@ func (p *AdvancedProtectionServiceProxy) RegisterAdvancedProtectionCallback(
 	_data.WriteInterfaceToken(DescriptorIAdvancedProtectionService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedProtectionServiceRegisterAdvancedProtectionCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedProtectionService, "registerAdvancedProtectionCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -96,7 +96,7 @@ func (p *AdvancedProtectionServiceProxy) UnregisterAdvancedProtectionCallback(
 	_data.WriteInterfaceToken(DescriptorIAdvancedProtectionService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedProtectionServiceUnregisterAdvancedProtectionCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedProtectionService, "unregisterAdvancedProtectionCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -117,7 +117,7 @@ func (p *AdvancedProtectionServiceProxy) SetAdvancedProtectionEnabled(
 	_data.WriteInterfaceToken(DescriptorIAdvancedProtectionService)
 	_data.WriteBool(enabled)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedProtectionServiceSetAdvancedProtectionEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedProtectionService, "setAdvancedProtectionEnabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -137,7 +137,7 @@ func (p *AdvancedProtectionServiceProxy) GetAdvancedProtectionFeatures(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdvancedProtectionService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedProtectionServiceGetAdvancedProtectionFeatures, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedProtectionService, "getAdvancedProtectionFeatures"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

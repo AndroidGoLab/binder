@@ -114,7 +114,7 @@ func (p *RadioSimResponseProxy) AcknowledgeRequest(
 	_data.WriteInterfaceToken(DescriptorIRadioSimResponse)
 	_data.WriteInt32(serial)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseAcknowledgeRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "acknowledgeRequest"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -130,7 +130,7 @@ func (p *RadioSimResponseProxy) AreUiccApplicationsEnabledResponse(
 	}
 	_data.WriteBool(enabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseAreUiccApplicationsEnabledResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "areUiccApplicationsEnabledResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -146,7 +146,7 @@ func (p *RadioSimResponseProxy) ChangeIccPin2ForAppResponse(
 	}
 	_data.WriteInt32(remainingRetries)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseChangeIccPin2ForAppResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "changeIccPin2ForAppResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -162,7 +162,7 @@ func (p *RadioSimResponseProxy) ChangeIccPinForAppResponse(
 	}
 	_data.WriteInt32(remainingRetries)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseChangeIccPinForAppResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "changeIccPinForAppResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -176,7 +176,7 @@ func (p *RadioSimResponseProxy) EnableUiccApplicationsResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseEnableUiccApplicationsResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "enableUiccApplicationsResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -196,7 +196,7 @@ func (p *RadioSimResponseProxy) GetAllowedCarriersResponse(
 	}
 	_data.WriteInt32(int32(multiSimPolicy))
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseGetAllowedCarriersResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "getAllowedCarriersResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -220,7 +220,7 @@ func (p *RadioSimResponseProxy) GetCdmaSubscriptionResponse(
 	_data.WriteString16(min)
 	_data.WriteString16(prl)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseGetCdmaSubscriptionResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "getCdmaSubscriptionResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -236,7 +236,7 @@ func (p *RadioSimResponseProxy) GetCdmaSubscriptionSourceResponse(
 	}
 	_data.WriteInt32(int32(source))
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseGetCdmaSubscriptionSourceResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "getCdmaSubscriptionSourceResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -252,7 +252,7 @@ func (p *RadioSimResponseProxy) GetFacilityLockForAppResponse(
 	}
 	_data.WriteInt32(response)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseGetFacilityLockForAppResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "getFacilityLockForAppResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -270,7 +270,7 @@ func (p *RadioSimResponseProxy) GetIccCardStatusResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseGetIccCardStatusResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "getIccCardStatusResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -286,7 +286,7 @@ func (p *RadioSimResponseProxy) GetImsiForAppResponse(
 	}
 	_data.WriteString16(imsi)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseGetImsiForAppResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "getImsiForAppResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -304,7 +304,7 @@ func (p *RadioSimResponseProxy) GetSimPhonebookCapacityResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseGetSimPhonebookCapacityResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "getSimPhonebookCapacityResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -318,7 +318,7 @@ func (p *RadioSimResponseProxy) GetSimPhonebookRecordsResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseGetSimPhonebookRecordsResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "getSimPhonebookRecordsResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -332,7 +332,7 @@ func (p *RadioSimResponseProxy) IccCloseLogicalChannelResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseIccCloseLogicalChannelResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "iccCloseLogicalChannelResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -350,7 +350,7 @@ func (p *RadioSimResponseProxy) IccIoForAppResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseIccIoForAppResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "iccIoForAppResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -375,7 +375,7 @@ func (p *RadioSimResponseProxy) IccOpenLogicalChannelResponse(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseIccOpenLogicalChannelResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "iccOpenLogicalChannelResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -393,7 +393,7 @@ func (p *RadioSimResponseProxy) IccTransmitApduBasicChannelResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseIccTransmitApduBasicChannelResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "iccTransmitApduBasicChannelResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -411,7 +411,7 @@ func (p *RadioSimResponseProxy) IccTransmitApduLogicalChannelResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseIccTransmitApduLogicalChannelResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "iccTransmitApduLogicalChannelResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -425,7 +425,7 @@ func (p *RadioSimResponseProxy) ReportStkServiceIsRunningResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseReportStkServiceIsRunningResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "reportStkServiceIsRunningResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -443,7 +443,7 @@ func (p *RadioSimResponseProxy) RequestIccSimAuthenticationResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseRequestIccSimAuthenticationResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "requestIccSimAuthenticationResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -459,7 +459,7 @@ func (p *RadioSimResponseProxy) SendEnvelopeResponse(
 	}
 	_data.WriteString16(commandResponse)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseSendEnvelopeResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "sendEnvelopeResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -477,7 +477,7 @@ func (p *RadioSimResponseProxy) SendEnvelopeWithStatusResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseSendEnvelopeWithStatusResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "sendEnvelopeWithStatusResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -491,7 +491,7 @@ func (p *RadioSimResponseProxy) SendTerminalResponseToSimResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseSendTerminalResponseToSimResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "sendTerminalResponseToSimResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -505,7 +505,7 @@ func (p *RadioSimResponseProxy) SetAllowedCarriersResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseSetAllowedCarriersResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "setAllowedCarriersResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -519,7 +519,7 @@ func (p *RadioSimResponseProxy) SetCarrierInfoForImsiEncryptionResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseSetCarrierInfoForImsiEncryptionResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "setCarrierInfoForImsiEncryptionResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -533,7 +533,7 @@ func (p *RadioSimResponseProxy) SetCdmaSubscriptionSourceResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseSetCdmaSubscriptionSourceResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "setCdmaSubscriptionSourceResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -549,7 +549,7 @@ func (p *RadioSimResponseProxy) SetFacilityLockForAppResponse(
 	}
 	_data.WriteInt32(retry)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseSetFacilityLockForAppResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "setFacilityLockForAppResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -563,7 +563,7 @@ func (p *RadioSimResponseProxy) SetSimCardPowerResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseSetSimCardPowerResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "setSimCardPowerResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -577,7 +577,7 @@ func (p *RadioSimResponseProxy) SetUiccSubscriptionResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseSetUiccSubscriptionResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "setUiccSubscriptionResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -593,7 +593,7 @@ func (p *RadioSimResponseProxy) SupplyIccPin2ForAppResponse(
 	}
 	_data.WriteInt32(remainingRetries)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseSupplyIccPin2ForAppResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "supplyIccPin2ForAppResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -609,7 +609,7 @@ func (p *RadioSimResponseProxy) SupplyIccPinForAppResponse(
 	}
 	_data.WriteInt32(remainingRetries)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseSupplyIccPinForAppResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "supplyIccPinForAppResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -625,7 +625,7 @@ func (p *RadioSimResponseProxy) SupplyIccPuk2ForAppResponse(
 	}
 	_data.WriteInt32(remainingRetries)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseSupplyIccPuk2ForAppResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "supplyIccPuk2ForAppResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -641,7 +641,7 @@ func (p *RadioSimResponseProxy) SupplyIccPukForAppResponse(
 	}
 	_data.WriteInt32(remainingRetries)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseSupplyIccPukForAppResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "supplyIccPukForAppResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -659,7 +659,7 @@ func (p *RadioSimResponseProxy) SupplySimDepersonalizationResponse(
 	_data.WriteInt32(int32(persoType))
 	_data.WriteInt32(remainingRetries)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseSupplySimDepersonalizationResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "supplySimDepersonalizationResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -675,7 +675,7 @@ func (p *RadioSimResponseProxy) UpdateSimPhonebookRecordsResponse(
 	}
 	_data.WriteInt32(updatedRecordIndex)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseUpdateSimPhonebookRecordsResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "updateSimPhonebookRecordsResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -689,6 +689,6 @@ func (p *RadioSimResponseProxy) IccCloseLogicalChannelWithSessionInfoResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioSimResponseIccCloseLogicalChannelWithSessionInfoResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioSimResponse, "iccCloseLogicalChannelWithSessionInfoResponse"), binder.FlagOneway, _data)
 	return _err
 }

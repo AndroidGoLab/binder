@@ -46,7 +46,7 @@ func (p *CountryDetectorProxy) DetectCountry(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICountryDetector)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICountryDetectorDetectCountry, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICountryDetector, "detectCountry"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -70,7 +70,7 @@ func (p *CountryDetectorProxy) AddCountryListener(
 	_data.WriteInterfaceToken(DescriptorICountryDetector)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICountryDetectorAddCountryListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICountryDetector, "addCountryListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -91,7 +91,7 @@ func (p *CountryDetectorProxy) RemoveCountryListener(
 	_data.WriteInterfaceToken(DescriptorICountryDetector)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICountryDetectorRemoveCountryListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICountryDetector, "removeCountryListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}

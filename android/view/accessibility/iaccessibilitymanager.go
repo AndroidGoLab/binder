@@ -137,7 +137,7 @@ func (p *AccessibilityManagerProxy) Interrupt(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerInterrupt, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "interrupt"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -153,7 +153,7 @@ func (p *AccessibilityManagerProxy) SendAccessibilityEvent(
 	}
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerSendAccessibilityEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "sendAccessibilityEvent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -168,7 +168,7 @@ func (p *AccessibilityManagerProxy) AddClient(
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerAddClient, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "addClient"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -196,7 +196,7 @@ func (p *AccessibilityManagerProxy) RemoveClient(
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerRemoveClient, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "removeClient"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -222,7 +222,7 @@ func (p *AccessibilityManagerProxy) GetInstalledAccessibilityServiceList(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerGetInstalledAccessibilityServiceList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "getInstalledAccessibilityServiceList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -246,7 +246,7 @@ func (p *AccessibilityManagerProxy) GetEnabledAccessibilityServiceList(
 	_data.WriteInt32(feedbackType)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerGetEnabledAccessibilityServiceList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "getEnabledAccessibilityServiceList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -285,7 +285,7 @@ func (p *AccessibilityManagerProxy) AddAccessibilityInteractionConnection(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerAddAccessibilityInteractionConnection, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "addAccessibilityInteractionConnection"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -309,7 +309,7 @@ func (p *AccessibilityManagerProxy) RemoveAccessibilityInteractionConnection(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerRemoveAccessibilityInteractionConnection, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "removeAccessibilityInteractionConnection"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -330,7 +330,7 @@ func (p *AccessibilityManagerProxy) SetPictureInPictureActionReplacingConnection
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteStrongBinder(connection.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerSetPictureInPictureActionReplacingConnection, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "setPictureInPictureActionReplacingConnection"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -357,7 +357,7 @@ func (p *AccessibilityManagerProxy) RegisterUiTestAutomationService(
 	_data.WriteInt32(userId)
 	_data.WriteInt32(flags)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerRegisterUiTestAutomationService, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "registerUiTestAutomationService"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -377,7 +377,7 @@ func (p *AccessibilityManagerProxy) UnregisterUiTestAutomationService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerUnregisterUiTestAutomationService, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "unregisterUiTestAutomationService"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -401,7 +401,7 @@ func (p *AccessibilityManagerProxy) GetWindowToken(
 	_data.WriteInt32(windowId)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerGetWindowToken, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "getWindowToken"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -429,7 +429,7 @@ func (p *AccessibilityManagerProxy) NotifyAccessibilityButtonClicked(
 	_data.WriteInt32(displayId)
 	_data.WriteString16(targetName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerNotifyAccessibilityButtonClicked, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "notifyAccessibilityButtonClicked"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -450,7 +450,7 @@ func (p *AccessibilityManagerProxy) NotifyAccessibilityButtonLongClicked(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(displayId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerNotifyAccessibilityButtonLongClicked, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "notifyAccessibilityButtonLongClicked"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -471,7 +471,7 @@ func (p *AccessibilityManagerProxy) NotifyAccessibilityButtonVisibilityChanged(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteBool(available)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerNotifyAccessibilityButtonVisibilityChanged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "notifyAccessibilityButtonVisibilityChanged"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -496,7 +496,7 @@ func (p *AccessibilityManagerProxy) PerformAccessibilityShortcut(
 	_data.WriteInt32(shortcutType)
 	_data.WriteString16(targetName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerPerformAccessibilityShortcut, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "performAccessibilityShortcut"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -518,7 +518,7 @@ func (p *AccessibilityManagerProxy) GetAccessibilityShortcutTargets(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(shortcutType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerGetAccessibilityShortcutTargets, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "getAccessibilityShortcutTargets"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -554,7 +554,7 @@ func (p *AccessibilityManagerProxy) SendFingerprintGesture(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(gestureKeyCode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerSendFingerprintGesture, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "sendFingerprintGesture"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -580,7 +580,7 @@ func (p *AccessibilityManagerProxy) GetAccessibilityWindowId(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteStrongBinder(windowToken.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerGetAccessibilityWindowId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "getAccessibilityWindowId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -604,7 +604,7 @@ func (p *AccessibilityManagerProxy) GetRecommendedTimeoutMillis(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerGetRecommendedTimeoutMillis, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "getRecommendedTimeoutMillis"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -630,7 +630,7 @@ func (p *AccessibilityManagerProxy) RegisterSystemAction(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(actionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerRegisterSystemAction, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "registerSystemAction"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -642,7 +642,7 @@ func (p *AccessibilityManagerProxy) UnregisterSystemAction(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(actionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerUnregisterSystemAction, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "unregisterSystemAction"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -654,7 +654,7 @@ func (p *AccessibilityManagerProxy) SetMagnificationConnection(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteStrongBinder(connection.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerSetMagnificationConnection, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "setMagnificationConnection"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -668,7 +668,7 @@ func (p *AccessibilityManagerProxy) AssociateEmbeddedHierarchy(
 	_data.WriteStrongBinder(host.Handle())
 	_data.WriteStrongBinder(embedded.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerAssociateEmbeddedHierarchy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "associateEmbeddedHierarchy"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -689,7 +689,7 @@ func (p *AccessibilityManagerProxy) DisassociateEmbeddedHierarchy(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerDisassociateEmbeddedHierarchy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "disassociateEmbeddedHierarchy"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -709,7 +709,7 @@ func (p *AccessibilityManagerProxy) GetFocusStrokeWidth(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerGetFocusStrokeWidth, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "getFocusStrokeWidth"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -733,7 +733,7 @@ func (p *AccessibilityManagerProxy) GetFocusColor(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerGetFocusColor, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "getFocusColor"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -757,7 +757,7 @@ func (p *AccessibilityManagerProxy) IsAudioDescriptionByDefaultEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerIsAudioDescriptionByDefaultEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "isAudioDescriptionByDefaultEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -784,7 +784,7 @@ func (p *AccessibilityManagerProxy) SetSystemAudioCaptioningEnabled(
 	_data.WriteBool(isEnabled)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerSetSystemAudioCaptioningEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "setSystemAudioCaptioningEnabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -806,7 +806,7 @@ func (p *AccessibilityManagerProxy) IsSystemAudioCaptioningUiEnabled(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerIsSystemAudioCaptioningUiEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "isSystemAudioCaptioningUiEnabled"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -833,7 +833,7 @@ func (p *AccessibilityManagerProxy) SetSystemAudioCaptioningUiEnabled(
 	_data.WriteBool(isEnabled)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerSetSystemAudioCaptioningUiEnabled, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "setSystemAudioCaptioningUiEnabled"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -862,7 +862,7 @@ func (p *AccessibilityManagerProxy) SetAccessibilityWindowAttributes(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerSetAccessibilityWindowAttributes, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "setAccessibilityWindowAttributes"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -876,7 +876,7 @@ func (p *AccessibilityManagerProxy) RegisterProxyForDisplay(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(displayId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerRegisterProxyForDisplay, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "registerProxyForDisplay"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -902,7 +902,7 @@ func (p *AccessibilityManagerProxy) UnregisterProxyForDisplay(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(displayId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerUnregisterProxyForDisplay, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "unregisterProxyForDisplay"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -926,7 +926,7 @@ func (p *AccessibilityManagerProxy) InjectInputEventToInputFilter(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerInjectInputEventToInputFilter, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "injectInputEventToInputFilter"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -952,7 +952,7 @@ func (p *AccessibilityManagerProxy) StartFlashNotificationSequence(
 	_data.WriteInt32(reason)
 	_data.WriteStrongBinder(token.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerStartFlashNotificationSequence, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "startFlashNotificationSequence"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -978,7 +978,7 @@ func (p *AccessibilityManagerProxy) StopFlashNotificationSequence(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteString16(opPkg)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerStopFlashNotificationSequence, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "stopFlashNotificationSequence"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1008,7 +1008,7 @@ func (p *AccessibilityManagerProxy) StartFlashNotificationEvent(
 	_data.WriteInt32(reason)
 	_data.WriteString16(reasonPkg)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerStartFlashNotificationEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "startFlashNotificationEvent"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1038,7 +1038,7 @@ func (p *AccessibilityManagerProxy) IsAccessibilityTargetAllowed(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerIsAccessibilityTargetAllowed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "isAccessibilityTargetAllowed"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1068,7 +1068,7 @@ func (p *AccessibilityManagerProxy) SendRestrictedDialogIntent(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerSendRestrictedDialogIntent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "sendRestrictedDialogIntent"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1093,7 +1093,7 @@ func (p *AccessibilityManagerProxy) IsAccessibilityServiceWarningRequired(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerIsAccessibilityServiceWarningRequired, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "isAccessibilityServiceWarningRequired"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1119,7 +1119,7 @@ func (p *AccessibilityManagerProxy) GetWindowTransformationSpec(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(windowId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerGetWindowTransformationSpec, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "getWindowTransformationSpec"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1141,7 +1141,7 @@ func (p *AccessibilityManagerProxy) AttachAccessibilityOverlayToDisplay(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(displayId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerAttachAccessibilityOverlayToDisplay, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "attachAccessibilityOverlayToDisplay"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1168,7 +1168,7 @@ func (p *AccessibilityManagerProxy) NotifyQuickSettingsTilesChanged(
 		_data.WriteInt32(int32(len(tileComponentNames)))
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerNotifyQuickSettingsTilesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "notifyQuickSettingsTilesChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1193,7 +1193,7 @@ func (p *AccessibilityManagerProxy) EnableShortcutsForTargets(
 	}
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerEnableShortcutsForTargets, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "enableShortcutsForTargets"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -1206,7 +1206,7 @@ func (p *AccessibilityManagerProxy) GetA11yFeatureToTileMap(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerGetA11yFeatureToTileMap, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "getA11yFeatureToTileMap"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1227,7 +1227,7 @@ func (p *AccessibilityManagerProxy) RegisterUserInitializationCompleteCallback(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerRegisterUserInitializationCompleteCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "registerUserInitializationCompleteCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1248,7 +1248,7 @@ func (p *AccessibilityManagerProxy) UnregisterUserInitializationCompleteCallback
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityManagerUnregisterUserInitializationCompleteCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityManager, "unregisterUserInitializationCompleteCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}

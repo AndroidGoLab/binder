@@ -57,7 +57,7 @@ func (p *RcsUceControllerCallbackProxy) OnCapabilitiesReceived(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRcsUceControllerCallbackOnCapabilitiesReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRcsUceControllerCallback, "onCapabilitiesReceived"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,7 +71,7 @@ func (p *RcsUceControllerCallbackProxy) OnComplete(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRcsUceControllerCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRcsUceControllerCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,6 +89,6 @@ func (p *RcsUceControllerCallbackProxy) OnError(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRcsUceControllerCallbackOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRcsUceControllerCallback, "onError"), binder.FlagOneway, _data)
 	return _err
 }

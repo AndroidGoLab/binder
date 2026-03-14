@@ -50,7 +50,7 @@ func (p *AccessibilityEmbeddedConnectionProxy) AssociateEmbeddedHierarchy(
 	_data.WriteStrongBinder(hostToken.Handle())
 	_data.WriteInt32(sourceId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityEmbeddedConnectionAssociateEmbeddedHierarchy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityEmbeddedConnection, "associateEmbeddedHierarchy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -74,7 +74,7 @@ func (p *AccessibilityEmbeddedConnectionProxy) DisassociateEmbeddedHierarchy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityEmbeddedConnection)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAccessibilityEmbeddedConnectionDisassociateEmbeddedHierarchy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityEmbeddedConnection, "disassociateEmbeddedHierarchy"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -102,6 +102,6 @@ func (p *AccessibilityEmbeddedConnectionProxy) SetWindowMatrix(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAccessibilityEmbeddedConnectionSetWindowMatrix, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAccessibilityEmbeddedConnection, "setWindowMatrix"), binder.FlagOneway, _data)
 	return _err
 }

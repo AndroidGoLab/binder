@@ -43,6 +43,6 @@ func (p *GameServiceControllerProxy) CreateGameSession(
 	_data.WriteInterfaceToken(DescriptorIGameServiceController)
 	_data.WriteInt32(taskId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGameServiceControllerCreateGameSession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGameServiceController, "createGameSession"), binder.FlagOneway, _data)
 	return _err
 }

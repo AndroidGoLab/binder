@@ -44,7 +44,7 @@ func (p *SerialManagerProxy) GetSerialPorts(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISerialManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISerialManagerGetSerialPorts, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISerialManager, "getSerialPorts"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -80,7 +80,7 @@ func (p *SerialManagerProxy) OpenSerialPort(
 	_data.WriteInterfaceToken(DescriptorISerialManager)
 	_data.WriteString16(name)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISerialManagerOpenSerialPort, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISerialManager, "openSerialPort"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

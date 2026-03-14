@@ -59,7 +59,7 @@ func (p *VirtualDeviceActivityListenerProxy) OnTopActivityChanged(
 	}
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVirtualDeviceActivityListenerOnTopActivityChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualDeviceActivityListener, "onTopActivityChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,7 +71,7 @@ func (p *VirtualDeviceActivityListenerProxy) OnDisplayEmpty(
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceActivityListener)
 	_data.WriteInt32(displayId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVirtualDeviceActivityListenerOnDisplayEmpty, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualDeviceActivityListener, "onDisplayEmpty"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,7 +95,7 @@ func (p *VirtualDeviceActivityListenerProxy) OnActivityLaunchBlocked(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIVirtualDeviceActivityListenerOnActivityLaunchBlocked, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualDeviceActivityListener, "onActivityLaunchBlocked"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,7 +115,7 @@ func (p *VirtualDeviceActivityListenerProxy) OnSecureWindowShown(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIVirtualDeviceActivityListenerOnSecureWindowShown, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualDeviceActivityListener, "onSecureWindowShown"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -127,6 +127,6 @@ func (p *VirtualDeviceActivityListenerProxy) OnSecureWindowHidden(
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceActivityListener)
 	_data.WriteInt32(displayId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVirtualDeviceActivityListenerOnSecureWindowHidden, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVirtualDeviceActivityListener, "onSecureWindowHidden"), binder.FlagOneway, _data)
 	return _err
 }

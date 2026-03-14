@@ -62,7 +62,7 @@ func (p *VoiceInteractorProxy) StartConfirmation(
 	_data.WriteString16(callingPackage)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVoiceInteractorStartConfirmation, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractor, "startConfirmation"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -99,7 +99,7 @@ func (p *VoiceInteractorProxy) StartPickOption(
 		_data.WriteInt32(int32(len(options)))
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVoiceInteractorStartPickOption, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractor, "startPickOption"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -130,7 +130,7 @@ func (p *VoiceInteractorProxy) StartCompleteVoice(
 	_data.WriteString16(callingPackage)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVoiceInteractorStartCompleteVoice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractor, "startCompleteVoice"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -161,7 +161,7 @@ func (p *VoiceInteractorProxy) StartAbortVoice(
 	_data.WriteString16(callingPackage)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVoiceInteractorStartAbortVoice, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractor, "startAbortVoice"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -193,7 +193,7 @@ func (p *VoiceInteractorProxy) StartCommand(
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteString16(command)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVoiceInteractorStartCommand, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractor, "startCommand"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -229,7 +229,7 @@ func (p *VoiceInteractorProxy) SupportsCommands(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVoiceInteractorSupportsCommands, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractor, "supportsCommands"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -266,7 +266,7 @@ func (p *VoiceInteractorProxy) NotifyDirectActionsChanged(
 	_data.WriteInt32(taskId)
 	_data.WriteStrongBinder(assistToken.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVoiceInteractorNotifyDirectActionsChanged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractor, "notifyDirectActionsChanged"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -286,7 +286,7 @@ func (p *VoiceInteractorProxy) SetKillCallback(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractor)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIVoiceInteractorSetKillCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractor, "setKillCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}

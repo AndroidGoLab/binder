@@ -43,7 +43,7 @@ func (p *BackAnimationRunnerProxy) OnAnimationCancelled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackAnimationRunner)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBackAnimationRunnerOnAnimationCancelled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackAnimationRunner, "onAnimationCancelled"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +63,6 @@ func (p *BackAnimationRunnerProxy) OnAnimationStart(
 	_data.WriteStrongBinder(prepareOpenTransition.Handle())
 	_data.WriteStrongBinder(finishedCallback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIBackAnimationRunnerOnAnimationStart, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackAnimationRunner, "onAnimationStart"), binder.FlagOneway, _data)
 	return _err
 }

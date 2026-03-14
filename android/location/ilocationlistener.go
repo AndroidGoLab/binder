@@ -57,7 +57,7 @@ func (p *LocationListenerProxy) OnLocationChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionILocationListenerOnLocationChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILocationListener, "onLocationChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,7 +71,7 @@ func (p *LocationListenerProxy) OnProviderEnabledChanged(
 	_data.WriteString16(provider)
 	_data.WriteBool(enabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionILocationListenerOnProviderEnabledChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILocationListener, "onProviderEnabledChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,6 +83,6 @@ func (p *LocationListenerProxy) OnFlushComplete(
 	_data.WriteInterfaceToken(DescriptorILocationListener)
 	_data.WriteInt32(requestCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionILocationListenerOnFlushComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILocationListener, "onFlushComplete"), binder.FlagOneway, _data)
 	return _err
 }

@@ -56,7 +56,7 @@ func (p *CryptoPluginProxy) Decrypt(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICryptoPluginDecrypt, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICryptoPlugin, "decrypt"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -80,7 +80,7 @@ func (p *CryptoPluginProxy) GetLogMessages(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICryptoPluginGetLogMessages, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICryptoPlugin, "getLogMessages"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -116,7 +116,7 @@ func (p *CryptoPluginProxy) NotifyResolution(
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICryptoPluginNotifyResolution, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICryptoPlugin, "notifyResolution"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -138,7 +138,7 @@ func (p *CryptoPluginProxy) RequiresSecureDecoderComponent(
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
 	_data.WriteString16(mime)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICryptoPluginRequiresSecureDecoderComponent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICryptoPlugin, "requiresSecureDecoderComponent"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -170,7 +170,7 @@ func (p *CryptoPluginProxy) SetMediaDrmSession(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICryptoPluginSetMediaDrmSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICryptoPlugin, "setMediaDrmSession"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -193,7 +193,7 @@ func (p *CryptoPluginProxy) SetSharedBufferBase(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICryptoPluginSetSharedBufferBase, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICryptoPlugin, "setSharedBufferBase"), 0, _data)
 	if _err != nil {
 		return _err
 	}

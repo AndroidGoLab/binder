@@ -49,7 +49,7 @@ func (p *SensorPrivacyListenerProxy) OnSensorPrivacyChanged(
 	_data.WriteInt32(sensor)
 	_data.WriteBool(enabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionISensorPrivacyListenerOnSensorPrivacyChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISensorPrivacyListener, "onSensorPrivacyChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,6 +65,6 @@ func (p *SensorPrivacyListenerProxy) OnSensorPrivacyStateChanged(
 	_data.WriteInt32(sensor)
 	_data.WriteInt32(state)
 
-	_, _err := p.remote.Transact(ctx, TransactionISensorPrivacyListenerOnSensorPrivacyStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISensorPrivacyListener, "onSensorPrivacyStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

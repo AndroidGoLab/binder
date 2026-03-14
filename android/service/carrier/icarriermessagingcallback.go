@@ -51,7 +51,7 @@ func (p *CarrierMessagingCallbackProxy) OnFilterComplete(
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingCallback)
 	_data.WriteInt32(result)
 
-	_, _err := p.remote.Transact(ctx, TransactionICarrierMessagingCallbackOnFilterComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICarrierMessagingCallback, "onFilterComplete"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,7 +65,7 @@ func (p *CarrierMessagingCallbackProxy) OnSendSmsComplete(
 	_data.WriteInt32(result)
 	_data.WriteInt32(messageRef)
 
-	_, _err := p.remote.Transact(ctx, TransactionICarrierMessagingCallbackOnSendSmsComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICarrierMessagingCallback, "onSendSmsComplete"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,7 +86,7 @@ func (p *CarrierMessagingCallbackProxy) OnSendMultipartSmsComplete(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICarrierMessagingCallbackOnSendMultipartSmsComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICarrierMessagingCallback, "onSendMultipartSmsComplete"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,7 +107,7 @@ func (p *CarrierMessagingCallbackProxy) OnSendMmsComplete(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICarrierMessagingCallbackOnSendMmsComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICarrierMessagingCallback, "onSendMmsComplete"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,6 +119,6 @@ func (p *CarrierMessagingCallbackProxy) OnDownloadMmsComplete(
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingCallback)
 	_data.WriteInt32(result)
 
-	_, _err := p.remote.Transact(ctx, TransactionICarrierMessagingCallbackOnDownloadMmsComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICarrierMessagingCallback, "onDownloadMmsComplete"), binder.FlagOneway, _data)
 	return _err
 }

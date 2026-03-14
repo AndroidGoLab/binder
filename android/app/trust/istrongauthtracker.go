@@ -47,7 +47,7 @@ func (p *StrongAuthTrackerProxy) OnStrongAuthRequiredChanged(
 	_data.WriteInt32(strongAuthRequired)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIStrongAuthTrackerOnStrongAuthRequiredChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStrongAuthTracker, "onStrongAuthRequiredChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,6 +61,6 @@ func (p *StrongAuthTrackerProxy) OnIsNonStrongBiometricAllowedChanged(
 	_data.WriteBool(allowed)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIStrongAuthTrackerOnIsNonStrongBiometricAllowedChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStrongAuthTracker, "onIsNonStrongBiometricAllowedChanged"), binder.FlagOneway, _data)
 	return _err
 }

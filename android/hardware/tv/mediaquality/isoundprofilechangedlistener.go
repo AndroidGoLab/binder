@@ -45,6 +45,6 @@ func (p *SoundProfileChangedListenerProxy) OnSoundProfileChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundProfileChangedListenerOnSoundProfileChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundProfileChangedListener, "onSoundProfileChanged"), binder.FlagOneway, _data)
 	return _err
 }

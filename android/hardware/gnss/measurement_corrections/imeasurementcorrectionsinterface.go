@@ -47,7 +47,7 @@ func (p *MeasurementCorrectionsInterfaceProxy) SetCorrections(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMeasurementCorrectionsInterfaceSetCorrections, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMeasurementCorrectionsInterface, "setCorrections"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -68,7 +68,7 @@ func (p *MeasurementCorrectionsInterfaceProxy) SetCallback(
 	_data.WriteInterfaceToken(DescriptorIMeasurementCorrectionsInterface)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMeasurementCorrectionsInterfaceSetCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMeasurementCorrectionsInterface, "setCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}

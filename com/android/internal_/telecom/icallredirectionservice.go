@@ -57,7 +57,7 @@ func (p *CallRedirectionServiceProxy) PlaceCall(
 	}
 	_data.WriteBool(allowInteractiveResponse)
 
-	_, _err := p.remote.Transact(ctx, TransactionICallRedirectionServicePlaceCall, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallRedirectionService, "placeCall"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +67,6 @@ func (p *CallRedirectionServiceProxy) NotifyTimeout(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallRedirectionService)
 
-	_, _err := p.remote.Transact(ctx, TransactionICallRedirectionServiceNotifyTimeout, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallRedirectionService, "notifyTimeout"), binder.FlagOneway, _data)
 	return _err
 }

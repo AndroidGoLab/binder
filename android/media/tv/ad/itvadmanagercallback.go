@@ -47,7 +47,7 @@ func (p *TvAdManagerCallbackProxy) OnAdServiceAdded(
 	_data.WriteInterfaceToken(DescriptorITvAdManagerCallback)
 	_data.WriteString16(serviceId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdManagerCallbackOnAdServiceAdded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdManagerCallback, "onAdServiceAdded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,7 +59,7 @@ func (p *TvAdManagerCallbackProxy) OnAdServiceRemoved(
 	_data.WriteInterfaceToken(DescriptorITvAdManagerCallback)
 	_data.WriteString16(serviceId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdManagerCallbackOnAdServiceRemoved, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdManagerCallback, "onAdServiceRemoved"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,6 +71,6 @@ func (p *TvAdManagerCallbackProxy) OnAdServiceUpdated(
 	_data.WriteInterfaceToken(DescriptorITvAdManagerCallback)
 	_data.WriteString16(serviceId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvAdManagerCallbackOnAdServiceUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvAdManagerCallback, "onAdServiceUpdated"), binder.FlagOneway, _data)
 	return _err
 }

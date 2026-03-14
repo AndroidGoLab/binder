@@ -43,7 +43,7 @@ func (p *CmdCallbackProxy) OnLaunched(
 	_data.WriteInterfaceToken(DescriptorICmdCallback)
 	_data.WriteStrongBinder(receiver.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICmdCallbackOnLaunched, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICmdCallback, "onLaunched"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -45,7 +45,7 @@ func (p *ImsMultiEndpointProxy) SetListener(
 	_data.WriteInterfaceToken(DescriptorIImsMultiEndpoint)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMultiEndpointSetListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMultiEndpoint, "setListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -64,7 +64,7 @@ func (p *ImsMultiEndpointProxy) RequestImsExternalCallStateInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMultiEndpoint)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsMultiEndpointRequestImsExternalCallStateInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsMultiEndpoint, "requestImsExternalCallStateInfo"), 0, _data)
 	if _err != nil {
 		return _err
 	}

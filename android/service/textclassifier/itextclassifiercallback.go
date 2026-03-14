@@ -48,7 +48,7 @@ func (p *TextClassifierCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITextClassifierCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextClassifierCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -58,6 +58,6 @@ func (p *TextClassifierCallbackProxy) OnFailure(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextClassifierCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionITextClassifierCallbackOnFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextClassifierCallback, "onFailure"), binder.FlagOneway, _data)
 	return _err
 }

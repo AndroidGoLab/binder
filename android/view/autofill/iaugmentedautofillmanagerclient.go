@@ -58,7 +58,7 @@ func (p *AugmentedAutofillManagerClientProxy) GetViewCoordinates(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAugmentedAutofillManagerClientGetViewCoordinates, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "getViewCoordinates"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -85,7 +85,7 @@ func (p *AugmentedAutofillManagerClientProxy) GetViewNodeParcelable(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAugmentedAutofillManagerClientGetViewNodeParcelable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "getViewNodeParcelable"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -133,7 +133,7 @@ func (p *AugmentedAutofillManagerClientProxy) Autofill(
 	}
 	_data.WriteBool(hideHighlight)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAugmentedAutofillManagerClientAutofill, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "autofill"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -168,7 +168,7 @@ func (p *AugmentedAutofillManagerClientProxy) RequestShowFillUi(
 	}
 	_data.WriteStrongBinder(presenter.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAugmentedAutofillManagerClientRequestShowFillUi, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "requestShowFillUi"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -193,7 +193,7 @@ func (p *AugmentedAutofillManagerClientProxy) RequestHideFillUi(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAugmentedAutofillManagerClientRequestHideFillUi, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "requestHideFillUi"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -219,7 +219,7 @@ func (p *AugmentedAutofillManagerClientProxy) RequestAutofill(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAugmentedAutofillManagerClientRequestAutofill, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "requestAutofill"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

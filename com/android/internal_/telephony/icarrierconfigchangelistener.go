@@ -49,6 +49,6 @@ func (p *CarrierConfigChangeListenerProxy) OnCarrierConfigChanged(
 	_data.WriteInt32(carrierId)
 	_data.WriteInt32(specificCarrierId)
 
-	_, _err := p.remote.Transact(ctx, TransactionICarrierConfigChangeListenerOnCarrierConfigChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICarrierConfigChangeListener, "onCarrierConfigChanged"), binder.FlagOneway, _data)
 	return _err
 }

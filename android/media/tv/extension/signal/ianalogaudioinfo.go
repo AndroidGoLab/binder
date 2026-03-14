@@ -45,7 +45,7 @@ func (p *AnalogAudioInfoProxy) GetAnalogAudioInfo(
 	_data.WriteInterfaceToken(DescriptorIAnalogAudioInfo)
 	_data.WriteString16(sessionToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAnalogAudioInfoGetAnalogAudioInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAnalogAudioInfo, "getAnalogAudioInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

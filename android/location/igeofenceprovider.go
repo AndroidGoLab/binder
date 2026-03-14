@@ -42,6 +42,6 @@ func (p *GeofenceProviderProxy) SetGeofenceHardware(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGeofenceProvider)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGeofenceProviderSetGeofenceHardware, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGeofenceProvider, "setGeofenceHardware"), binder.FlagOneway, _data)
 	return _err
 }

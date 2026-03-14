@@ -63,7 +63,7 @@ func (p *TimeDetectorServiceProxy) GetCapabilitiesAndConfig(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeDetectorServiceGetCapabilitiesAndConfig, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeDetectorService, "getCapabilitiesAndConfig"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -87,7 +87,7 @@ func (p *TimeDetectorServiceProxy) AddListener(
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeDetectorServiceAddListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeDetectorService, "addListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -108,7 +108,7 @@ func (p *TimeDetectorServiceProxy) RemoveListener(
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeDetectorServiceRemoveListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeDetectorService, "removeListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -132,7 +132,7 @@ func (p *TimeDetectorServiceProxy) UpdateConfiguration(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeDetectorServiceUpdateConfiguration, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeDetectorService, "updateConfiguration"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -156,7 +156,7 @@ func (p *TimeDetectorServiceProxy) GetTimeState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeDetectorServiceGetTimeState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeDetectorService, "getTimeState"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -183,7 +183,7 @@ func (p *TimeDetectorServiceProxy) ConfirmTime(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeDetectorServiceConfirmTime, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeDetectorService, "confirmTime"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -211,7 +211,7 @@ func (p *TimeDetectorServiceProxy) SetManualTime(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeDetectorServiceSetManualTime, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeDetectorService, "setManualTime"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -238,7 +238,7 @@ func (p *TimeDetectorServiceProxy) SuggestExternalTime(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeDetectorServiceSuggestExternalTime, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeDetectorService, "suggestExternalTime"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -262,7 +262,7 @@ func (p *TimeDetectorServiceProxy) SuggestManualTime(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeDetectorServiceSuggestManualTime, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeDetectorService, "suggestManualTime"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -289,7 +289,7 @@ func (p *TimeDetectorServiceProxy) SuggestTelephonyTime(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeDetectorServiceSuggestTelephonyTime, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeDetectorService, "suggestTelephonyTime"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -309,7 +309,7 @@ func (p *TimeDetectorServiceProxy) LatestNetworkTime(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITimeDetectorServiceLatestNetworkTime, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITimeDetectorService, "latestNetworkTime"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

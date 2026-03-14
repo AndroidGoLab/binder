@@ -52,6 +52,6 @@ func (p *SystemGestureExclusionListenerProxy) OnSystemGestureExclusionChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISystemGestureExclusionListenerOnSystemGestureExclusionChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISystemGestureExclusionListener, "onSystemGestureExclusionChanged"), binder.FlagOneway, _data)
 	return _err
 }

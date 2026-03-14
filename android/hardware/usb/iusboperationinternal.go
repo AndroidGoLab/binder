@@ -43,6 +43,6 @@ func (p *UsbOperationInternalProxy) OnOperationComplete(
 	_data.WriteInterfaceToken(DescriptorIUsbOperationInternal)
 	_data.WriteInt32(status)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUsbOperationInternalOnOperationComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUsbOperationInternal, "onOperationComplete"), binder.FlagOneway, _data)
 	return _err
 }

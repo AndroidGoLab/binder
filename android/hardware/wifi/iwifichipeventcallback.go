@@ -55,7 +55,7 @@ func (p *WifiChipEventCallbackProxy) OnChipReconfigureFailure(
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
 	_data.WriteInt32(int32(status))
 
-	_, _err := p.remote.Transact(ctx, TransactionIWifiChipEventCallbackOnChipReconfigureFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChipEventCallback, "onChipReconfigureFailure"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,7 +67,7 @@ func (p *WifiChipEventCallbackProxy) OnChipReconfigured(
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
 	_data.WriteInt32(modeId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWifiChipEventCallbackOnChipReconfigured, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChipEventCallback, "onChipReconfigured"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -88,7 +88,7 @@ func (p *WifiChipEventCallbackProxy) OnDebugErrorAlert(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIWifiChipEventCallbackOnDebugErrorAlert, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChipEventCallback, "onDebugErrorAlert"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,7 +111,7 @@ func (p *WifiChipEventCallbackProxy) OnDebugRingBufferDataAvailable(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIWifiChipEventCallbackOnDebugRingBufferDataAvailable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChipEventCallback, "onDebugRingBufferDataAvailable"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -125,7 +125,7 @@ func (p *WifiChipEventCallbackProxy) OnIfaceAdded(
 	_data.WriteInt32(int32(type_))
 	_data.WriteString16(name)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWifiChipEventCallbackOnIfaceAdded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChipEventCallback, "onIfaceAdded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -139,7 +139,7 @@ func (p *WifiChipEventCallbackProxy) OnIfaceRemoved(
 	_data.WriteInt32(int32(type_))
 	_data.WriteString16(name)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWifiChipEventCallbackOnIfaceRemoved, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChipEventCallback, "onIfaceRemoved"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -155,6 +155,6 @@ func (p *WifiChipEventCallbackProxy) OnRadioModeChange(
 		_data.WriteInt32(int32(len(radioModeInfos)))
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIWifiChipEventCallbackOnRadioModeChange, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiChipEventCallback, "onRadioModeChange"), binder.FlagOneway, _data)
 	return _err
 }

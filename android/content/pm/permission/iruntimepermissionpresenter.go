@@ -48,6 +48,6 @@ func (p *RuntimePermissionPresenterProxy) GetAppPermissions(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRuntimePermissionPresenterGetAppPermissions, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRuntimePermissionPresenter, "getAppPermissions"), binder.FlagOneway, _data)
 	return _err
 }

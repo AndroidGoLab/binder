@@ -61,7 +61,7 @@ func (p *WifiRttControllerProxy) DisableResponder(
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 	_data.WriteInt32(cmdId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiRttControllerDisableResponder, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiRttController, "disableResponder"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -92,7 +92,7 @@ func (p *WifiRttControllerProxy) EnableResponder(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiRttControllerEnableResponder, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiRttController, "enableResponder"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -112,7 +112,7 @@ func (p *WifiRttControllerProxy) GetBoundIface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiRttControllerGetBoundIface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiRttController, "getBoundIface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -137,7 +137,7 @@ func (p *WifiRttControllerProxy) GetCapabilities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiRttControllerGetCapabilities, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiRttController, "getCapabilities"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -160,7 +160,7 @@ func (p *WifiRttControllerProxy) GetResponderInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiRttControllerGetResponderInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiRttController, "getResponderInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -195,7 +195,7 @@ func (p *WifiRttControllerProxy) RangeCancel(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiRttControllerRangeCancel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiRttController, "rangeCancel"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -227,7 +227,7 @@ func (p *WifiRttControllerProxy) RangeRequest(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiRttControllerRangeRequest, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiRttController, "rangeRequest"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -248,7 +248,7 @@ func (p *WifiRttControllerProxy) RegisterEventCallback(
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiRttControllerRegisterEventCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiRttController, "registerEventCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -273,7 +273,7 @@ func (p *WifiRttControllerProxy) SetLci(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiRttControllerSetLci, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiRttController, "setLci"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -298,7 +298,7 @@ func (p *WifiRttControllerProxy) SetLcr(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIWifiRttControllerSetLcr, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiRttController, "setLcr"), 0, _data)
 	if _err != nil {
 		return _err
 	}

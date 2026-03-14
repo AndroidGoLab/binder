@@ -60,7 +60,7 @@ func (p *GlanceableHubWidgetManagerServiceProxy) AddWidgetsListener(
 	_data.WriteInterfaceToken(DescriptorIGlanceableHubWidgetManagerService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIGlanceableHubWidgetManagerServiceAddWidgetsListener, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGlanceableHubWidgetManagerService, "addWidgetsListener"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,7 +72,7 @@ func (p *GlanceableHubWidgetManagerServiceProxy) RemoveWidgetsListener(
 	_data.WriteInterfaceToken(DescriptorIGlanceableHubWidgetManagerService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIGlanceableHubWidgetManagerServiceRemoveWidgetsListener, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGlanceableHubWidgetManagerService, "removeWidgetsListener"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,7 +86,7 @@ func (p *GlanceableHubWidgetManagerServiceProxy) SetAppWidgetHostListener(
 	_data.WriteInt32(appWidgetId)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIGlanceableHubWidgetManagerServiceSetAppWidgetHostListener, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGlanceableHubWidgetManagerService, "setAppWidgetHostListener"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -108,7 +108,7 @@ func (p *GlanceableHubWidgetManagerServiceProxy) AddWidget(
 	_data.WriteInt32(rank)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIGlanceableHubWidgetManagerServiceAddWidget, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGlanceableHubWidgetManagerService, "addWidget"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -120,7 +120,7 @@ func (p *GlanceableHubWidgetManagerServiceProxy) DeleteWidget(
 	_data.WriteInterfaceToken(DescriptorIGlanceableHubWidgetManagerService)
 	_data.WriteInt32(appWidgetId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGlanceableHubWidgetManagerServiceDeleteWidget, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGlanceableHubWidgetManagerService, "deleteWidget"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -148,7 +148,7 @@ func (p *GlanceableHubWidgetManagerServiceProxy) UpdateWidgetOrder(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIGlanceableHubWidgetManagerServiceUpdateWidgetOrder, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGlanceableHubWidgetManagerService, "updateWidgetOrder"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -180,7 +180,7 @@ func (p *GlanceableHubWidgetManagerServiceProxy) ResizeWidget(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIGlanceableHubWidgetManagerServiceResizeWidget, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGlanceableHubWidgetManagerService, "resizeWidget"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -193,7 +193,7 @@ func (p *GlanceableHubWidgetManagerServiceProxy) GetIntentSenderForConfigureActi
 	_data.WriteInterfaceToken(DescriptorIGlanceableHubWidgetManagerService)
 	_data.WriteInt32(appWidgetId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGlanceableHubWidgetManagerServiceGetIntentSenderForConfigureActivity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGlanceableHubWidgetManagerService, "getIntentSenderForConfigureActivity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

@@ -47,6 +47,6 @@ func (p *RotationResolverServiceProxy) ResolveRotation(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRotationResolverServiceResolveRotation, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRotationResolverService, "resolveRotation"), binder.FlagOneway, _data)
 	return _err
 }

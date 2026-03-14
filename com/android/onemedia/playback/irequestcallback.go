@@ -46,6 +46,6 @@ func (p *RequestCallbackProxy) OnResult(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRequestCallbackOnResult, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRequestCallback, "onResult"), binder.FlagOneway, _data)
 	return _err
 }

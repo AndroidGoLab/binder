@@ -65,7 +65,7 @@ func (p *OffloadProxy) InitOffload(
 	_data.WriteFileDescriptor(fd2)
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOffloadInitOffload, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOffload, "initOffload"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -84,7 +84,7 @@ func (p *OffloadProxy) StopOffload(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOffload)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOffloadStopOffload, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOffload, "stopOffload"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -112,7 +112,7 @@ func (p *OffloadProxy) SetLocalPrefixes(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOffloadSetLocalPrefixes, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOffload, "setLocalPrefixes"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -134,7 +134,7 @@ func (p *OffloadProxy) GetForwardedStats(
 	_data.WriteInterfaceToken(DescriptorIOffload)
 	_data.WriteString16(upstream)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOffloadGetForwardedStats, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOffload, "getForwardedStats"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -162,7 +162,7 @@ func (p *OffloadProxy) SetDataWarningAndLimit(
 	_data.WriteInt64(warningBytes)
 	_data.WriteInt64(limitBytes)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOffloadSetDataWarningAndLimit, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOffload, "setDataWarningAndLimit"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -196,7 +196,7 @@ func (p *OffloadProxy) SetUpstreamParameters(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOffloadSetUpstreamParameters, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOffload, "setUpstreamParameters"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -219,7 +219,7 @@ func (p *OffloadProxy) AddDownstream(
 	_data.WriteString16(iface)
 	_data.WriteString16(prefix)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOffloadAddDownstream, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOffload, "addDownstream"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -242,7 +242,7 @@ func (p *OffloadProxy) RemoveDownstream(
 	_data.WriteString16(iface)
 	_data.WriteString16(prefix)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIOffloadRemoveDownstream, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOffload, "removeDownstream"), 0, _data)
 	if _err != nil {
 		return _err
 	}

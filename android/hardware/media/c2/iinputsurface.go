@@ -46,7 +46,7 @@ func (p *InputSurfaceProxy) GetSurface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputSurface)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInputSurfaceGetSurface, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputSurface, "getSurface"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -66,7 +66,7 @@ func (p *InputSurfaceProxy) GetConfigurable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputSurface)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInputSurfaceGetConfigurable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputSurface, "getConfigurable"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -93,7 +93,7 @@ func (p *InputSurfaceProxy) Connect(
 	_data.WriteInterfaceToken(DescriptorIInputSurface)
 	_data.WriteStrongBinder(sink.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInputSurfaceConnect, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputSurface, "connect"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

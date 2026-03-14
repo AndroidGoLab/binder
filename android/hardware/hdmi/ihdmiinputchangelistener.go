@@ -45,6 +45,6 @@ func (p *HdmiInputChangeListenerProxy) OnChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIHdmiInputChangeListenerOnChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiInputChangeListener, "onChanged"), binder.FlagOneway, _data)
 	return _err
 }

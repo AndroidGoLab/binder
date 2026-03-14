@@ -50,6 +50,6 @@ func (p *SatelliteDisallowedReasonsCallbackProxy) OnSatelliteDisallowedReasonsCh
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteDisallowedReasonsCallbackOnSatelliteDisallowedReasonsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteDisallowedReasonsCallback, "onSatelliteDisallowedReasonsChanged"), binder.FlagOneway, _data)
 	return _err
 }

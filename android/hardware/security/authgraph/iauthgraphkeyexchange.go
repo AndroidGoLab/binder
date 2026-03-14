@@ -48,7 +48,7 @@ func (p *AuthGraphKeyExchangeProxy) Create(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthGraphKeyExchange)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAuthGraphKeyExchangeCreate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAuthGraphKeyExchange, "create"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -90,7 +90,7 @@ func (p *AuthGraphKeyExchangeProxy) Init(
 	}
 	_data.WriteInt32(peerVersion)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAuthGraphKeyExchangeInit, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAuthGraphKeyExchange, "init"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -140,7 +140,7 @@ func (p *AuthGraphKeyExchangeProxy) Finish(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAuthGraphKeyExchangeFinish, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAuthGraphKeyExchange, "finish"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -178,7 +178,7 @@ func (p *AuthGraphKeyExchangeProxy) AuthenticationComplete(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAuthGraphKeyExchangeAuthenticationComplete, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAuthGraphKeyExchange, "authenticationComplete"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

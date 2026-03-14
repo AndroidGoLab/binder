@@ -47,6 +47,6 @@ func (p *HdmiDeviceEventListenerProxy) OnStatusChanged(
 	}
 	_data.WriteInt32(status)
 
-	_, _err := p.remote.Transact(ctx, TransactionIHdmiDeviceEventListenerOnStatusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiDeviceEventListener, "onStatusChanged"), binder.FlagOneway, _data)
 	return _err
 }

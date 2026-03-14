@@ -43,6 +43,6 @@ func (p *GetEidCallbackProxy) OnSuccess(
 	_data.WriteInterfaceToken(DescriptorIGetEidCallback)
 	_data.WriteString16(eid)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGetEidCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGetEidCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }

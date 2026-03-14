@@ -48,7 +48,7 @@ func (p *ContentObserverProxy) OnChange(
 	_data.WriteBool(selfUpdate)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIContentObserverOnChange, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIContentObserver, "onChange"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,6 +70,6 @@ func (p *ContentObserverProxy) OnChangeEtc(
 	_data.WriteInt32(flags)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIContentObserverOnChangeEtc, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIContentObserver, "onChangeEtc"), binder.FlagOneway, _data)
 	return _err
 }

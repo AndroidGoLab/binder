@@ -50,7 +50,7 @@ func (p *CallStreamingServiceProxy) SetStreamingCallAdapter(
 	_data.WriteInterfaceToken(DescriptorICallStreamingService)
 	_data.WriteStrongBinder(streamingCallAdapter.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionICallStreamingServiceSetStreamingCallAdapter, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallStreamingService, "setStreamingCallAdapter"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,7 +64,7 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStarted(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICallStreamingServiceOnCallStreamingStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallStreamingService, "onCallStreamingStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -74,7 +74,7 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStopped(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallStreamingService)
 
-	_, _err := p.remote.Transact(ctx, TransactionICallStreamingServiceOnCallStreamingStopped, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallStreamingService, "onCallStreamingStopped"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,6 +86,6 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStateChanged(
 	_data.WriteInterfaceToken(DescriptorICallStreamingService)
 	_data.WriteInt32(state)
 
-	_, _err := p.remote.Transact(ctx, TransactionICallStreamingServiceOnCallStreamingStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallStreamingService, "onCallStreamingStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

@@ -45,6 +45,6 @@ func (p *TextToSpeechManagerProxy) CreateSession(
 	_data.WriteString16(engine)
 	_data.WriteStrongBinder(managerCallback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionITextToSpeechManagerCreateSession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextToSpeechManager, "createSession"), binder.FlagOneway, _data)
 	return _err
 }

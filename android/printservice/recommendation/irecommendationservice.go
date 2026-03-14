@@ -43,6 +43,6 @@ func (p *RecommendationServiceProxy) RegisterCallbacks(
 	_data.WriteInterfaceToken(DescriptorIRecommendationService)
 	_data.WriteStrongBinder(callbacks.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIRecommendationServiceRegisterCallbacks, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecommendationService, "registerCallbacks"), binder.FlagOneway, _data)
 	return _err
 }

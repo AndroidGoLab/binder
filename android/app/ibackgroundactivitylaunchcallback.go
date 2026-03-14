@@ -43,6 +43,6 @@ func (p *BackgroundActivityLaunchCallbackProxy) OnBackgroundActivityLaunchAborte
 	_data.WriteInterfaceToken(DescriptorIBackgroundActivityLaunchCallback)
 	_data.WriteString16(message)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBackgroundActivityLaunchCallbackOnBackgroundActivityLaunchAborted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBackgroundActivityLaunchCallback, "onBackgroundActivityLaunchAborted"), binder.FlagOneway, _data)
 	return _err
 }

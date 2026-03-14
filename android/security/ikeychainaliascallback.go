@@ -43,6 +43,6 @@ func (p *KeyChainAliasCallbackProxy) Alias(
 	_data.WriteInterfaceToken(DescriptorIKeyChainAliasCallback)
 	_data.WriteString16(alias)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyChainAliasCallbackAlias, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyChainAliasCallback, "alias"), binder.FlagOneway, _data)
 	return _err
 }

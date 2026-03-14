@@ -57,7 +57,7 @@ func (p *SoundTriggerCallbackProxy) OnRecognition(
 	}
 	_data.WriteInt32(captureSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerCallbackOnRecognition, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerCallback, "onRecognition"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,7 +75,7 @@ func (p *SoundTriggerCallbackProxy) OnPhraseRecognition(
 	}
 	_data.WriteInt32(captureSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerCallbackOnPhraseRecognition, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerCallback, "onPhraseRecognition"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,7 +85,7 @@ func (p *SoundTriggerCallbackProxy) OnResourcesAvailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerCallbackOnResourcesAvailable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerCallback, "onResourcesAvailable"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,7 +97,7 @@ func (p *SoundTriggerCallbackProxy) OnModelUnloaded(
 	_data.WriteInterfaceToken(DescriptorISoundTriggerCallback)
 	_data.WriteInt32(modelHandle)
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerCallbackOnModelUnloaded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerCallback, "onModelUnloaded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,6 +107,6 @@ func (p *SoundTriggerCallbackProxy) OnModuleDied(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerCallbackOnModuleDied, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerCallback, "onModuleDied"), binder.FlagOneway, _data)
 	return _err
 }

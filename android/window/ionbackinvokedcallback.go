@@ -55,7 +55,7 @@ func (p *OnBackInvokedCallbackProxy) OnBackStarted(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnBackInvokedCallbackOnBackStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "onBackStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,7 +69,7 @@ func (p *OnBackInvokedCallbackProxy) OnBackProgressed(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnBackInvokedCallbackOnBackProgressed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "onBackProgressed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,7 +79,7 @@ func (p *OnBackInvokedCallbackProxy) OnBackCancelled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnBackInvokedCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnBackInvokedCallbackOnBackCancelled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "onBackCancelled"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,7 +89,7 @@ func (p *OnBackInvokedCallbackProxy) OnBackInvoked(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnBackInvokedCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnBackInvokedCallbackOnBackInvoked, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "onBackInvoked"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,7 +101,7 @@ func (p *OnBackInvokedCallbackProxy) SetTriggerBack(
 	_data.WriteInterfaceToken(DescriptorIOnBackInvokedCallback)
 	_data.WriteBool(triggerBack)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnBackInvokedCallbackSetTriggerBack, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "setTriggerBack"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -113,6 +113,6 @@ func (p *OnBackInvokedCallbackProxy) SetHandoffHandler(
 	_data.WriteInterfaceToken(DescriptorIOnBackInvokedCallback)
 	_data.WriteStrongBinder(handoffHandler.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnBackInvokedCallbackSetHandoffHandler, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "setHandoffHandler"), binder.FlagOneway, _data)
 	return _err
 }

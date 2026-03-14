@@ -49,7 +49,7 @@ func (p *MeasurementCorrectionsCallbackProxy) SetCapabilitiesCb(
 	_data.WriteInterfaceToken(DescriptorIMeasurementCorrectionsCallback)
 	_data.WriteInt32(capabilities)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMeasurementCorrectionsCallbackSetCapabilitiesCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMeasurementCorrectionsCallback, "setCapabilitiesCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}

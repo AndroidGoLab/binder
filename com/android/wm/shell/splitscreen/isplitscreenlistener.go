@@ -47,7 +47,7 @@ func (p *SplitScreenListenerProxy) OnStagePositionChanged(
 	_data.WriteInt32(stage)
 	_data.WriteInt32(position)
 
-	_, _err := p.remote.Transact(ctx, TransactionISplitScreenListenerOnStagePositionChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitScreenListener, "onStagePositionChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,6 +63,6 @@ func (p *SplitScreenListenerProxy) OnTaskStageChanged(
 	_data.WriteInt32(stage)
 	_data.WriteBool(visible)
 
-	_, _err := p.remote.Transact(ctx, TransactionISplitScreenListenerOnTaskStageChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitScreenListener, "onTaskStageChanged"), binder.FlagOneway, _data)
 	return _err
 }

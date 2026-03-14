@@ -49,7 +49,7 @@ func (p *ModelDownloadListenerProxy) OnProgress(
 	_data.WriteInterfaceToken(DescriptorIModelDownloadListener)
 	_data.WriteInt32(completedPercent)
 
-	_, _err := p.remote.Transact(ctx, TransactionIModelDownloadListenerOnProgress, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIModelDownloadListener, "onProgress"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,7 +59,7 @@ func (p *ModelDownloadListenerProxy) OnSuccess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIModelDownloadListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIModelDownloadListenerOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIModelDownloadListener, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,7 +69,7 @@ func (p *ModelDownloadListenerProxy) OnScheduled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIModelDownloadListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIModelDownloadListenerOnScheduled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIModelDownloadListener, "onScheduled"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,6 +81,6 @@ func (p *ModelDownloadListenerProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorIModelDownloadListener)
 	_data.WriteInt32(error_)
 
-	_, _err := p.remote.Transact(ctx, TransactionIModelDownloadListenerOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIModelDownloadListener, "onError"), binder.FlagOneway, _data)
 	return _err
 }

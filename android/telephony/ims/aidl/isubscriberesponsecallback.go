@@ -52,7 +52,7 @@ func (p *SubscribeResponseCallbackProxy) OnCommandError(
 	_data.WriteInterfaceToken(DescriptorISubscribeResponseCallback)
 	_data.WriteInt32(code)
 
-	_, _err := p.remote.Transact(ctx, TransactionISubscribeResponseCallbackOnCommandError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISubscribeResponseCallback, "onCommandError"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,7 +66,7 @@ func (p *SubscribeResponseCallbackProxy) OnNetworkResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISubscribeResponseCallbackOnNetworkResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISubscribeResponseCallback, "onNetworkResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,7 +85,7 @@ func (p *SubscribeResponseCallbackProxy) OnNotifyCapabilitiesUpdate(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISubscribeResponseCallbackOnNotifyCapabilitiesUpdate, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISubscribeResponseCallback, "onNotifyCapabilitiesUpdate"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,7 +106,7 @@ func (p *SubscribeResponseCallbackProxy) OnResourceTerminated(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISubscribeResponseCallbackOnResourceTerminated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISubscribeResponseCallback, "onResourceTerminated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -120,6 +120,6 @@ func (p *SubscribeResponseCallbackProxy) OnTerminated(
 	_data.WriteString16(reason)
 	_data.WriteInt64(retryAfterMilliseconds)
 
-	_, _err := p.remote.Transact(ctx, TransactionISubscribeResponseCallbackOnTerminated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISubscribeResponseCallback, "onTerminated"), binder.FlagOneway, _data)
 	return _err
 }

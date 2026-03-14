@@ -49,7 +49,7 @@ func (p *WifiEventCallbackProxy) OnFailure(
 	_data.WriteInterfaceToken(DescriptorIWifiEventCallback)
 	_data.WriteInt32(int32(status))
 
-	_, _err := p.remote.Transact(ctx, TransactionIWifiEventCallbackOnFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiEventCallback, "onFailure"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,7 +59,7 @@ func (p *WifiEventCallbackProxy) OnStart(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiEventCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWifiEventCallbackOnStart, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiEventCallback, "onStart"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,7 +69,7 @@ func (p *WifiEventCallbackProxy) OnStop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiEventCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWifiEventCallbackOnStop, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiEventCallback, "onStop"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,6 +81,6 @@ func (p *WifiEventCallbackProxy) OnSubsystemRestart(
 	_data.WriteInterfaceToken(DescriptorIWifiEventCallback)
 	_data.WriteInt32(int32(status))
 
-	_, _err := p.remote.Transact(ctx, TransactionIWifiEventCallbackOnSubsystemRestart, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWifiEventCallback, "onSubsystemRestart"), binder.FlagOneway, _data)
 	return _err
 }

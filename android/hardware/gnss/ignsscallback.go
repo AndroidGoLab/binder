@@ -82,7 +82,7 @@ func (p *GnssCallbackProxy) GnssSetCapabilitiesCb(
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
 	_data.WriteInt32(capabilities)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssCallbackGnssSetCapabilitiesCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssCallback, "gnssSetCapabilitiesCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -102,7 +102,7 @@ func (p *GnssCallbackProxy) GnssStatusCb(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssCallbackGnssStatusCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssCallback, "gnssStatusCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -127,7 +127,7 @@ func (p *GnssCallbackProxy) GnssSvStatusCb(
 		_data.WriteInt32(int32(len(svInfoList)))
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssCallbackGnssSvStatusCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssCallback, "gnssSvStatusCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -150,7 +150,7 @@ func (p *GnssCallbackProxy) GnssLocationCb(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssCallbackGnssLocationCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssCallback, "gnssLocationCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -173,7 +173,7 @@ func (p *GnssCallbackProxy) GnssNmeaCb(
 	_data.WriteInt64(timestamp)
 	_data.WriteString(nmea)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssCallbackGnssNmeaCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssCallback, "gnssNmeaCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -192,7 +192,7 @@ func (p *GnssCallbackProxy) GnssAcquireWakelockCb(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssCallbackGnssAcquireWakelockCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssCallback, "gnssAcquireWakelockCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -211,7 +211,7 @@ func (p *GnssCallbackProxy) GnssReleaseWakelockCb(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssCallbackGnssReleaseWakelockCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssCallback, "gnssReleaseWakelockCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -231,7 +231,7 @@ func (p *GnssCallbackProxy) GnssSetSystemInfoCb(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssCallbackGnssSetSystemInfoCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssCallback, "gnssSetSystemInfoCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -250,7 +250,7 @@ func (p *GnssCallbackProxy) GnssRequestTimeCb(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssCallbackGnssRequestTimeCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssCallback, "gnssRequestTimeCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -273,7 +273,7 @@ func (p *GnssCallbackProxy) GnssRequestLocationCb(
 	_data.WriteBool(independentFromGnss)
 	_data.WriteBool(isUserEmergency)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssCallbackGnssRequestLocationCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssCallback, "gnssRequestLocationCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -303,7 +303,7 @@ func (p *GnssCallbackProxy) GnssSetSignalTypeCapabilitiesCb(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIGnssCallbackGnssSetSignalTypeCapabilitiesCb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGnssCallback, "gnssSetSignalTypeCapabilitiesCb"), 0, _data)
 	if _err != nil {
 		return _err
 	}

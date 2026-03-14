@@ -41,6 +41,6 @@ func (p *InjectModelEventProxy) TriggerUnloadModel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInjectModelEvent)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInjectModelEventTriggerUnloadModel, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInjectModelEvent, "triggerUnloadModel"), binder.FlagOneway, _data)
 	return _err
 }

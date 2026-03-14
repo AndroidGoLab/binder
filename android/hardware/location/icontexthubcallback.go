@@ -49,6 +49,6 @@ func (p *ContextHubCallbackProxy) OnMessageReceipt(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIContextHubCallbackOnMessageReceipt, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIContextHubCallback, "onMessageReceipt"), binder.FlagOneway, _data)
 	return _err
 }

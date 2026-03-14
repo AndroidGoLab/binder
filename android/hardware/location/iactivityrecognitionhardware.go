@@ -54,7 +54,7 @@ func (p *ActivityRecognitionHardwareProxy) GetSupportedActivities(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityRecognitionHardwareGetSupportedActivities, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "getSupportedActivities"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -90,7 +90,7 @@ func (p *ActivityRecognitionHardwareProxy) IsActivitySupported(
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
 	_data.WriteString16(activityType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityRecognitionHardwareIsActivitySupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "isActivitySupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -116,7 +116,7 @@ func (p *ActivityRecognitionHardwareProxy) RegisterSink(
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
 	_data.WriteStrongBinder(sink.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityRecognitionHardwareRegisterSink, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "registerSink"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -142,7 +142,7 @@ func (p *ActivityRecognitionHardwareProxy) UnregisterSink(
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
 	_data.WriteStrongBinder(sink.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityRecognitionHardwareUnregisterSink, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "unregisterSink"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -172,7 +172,7 @@ func (p *ActivityRecognitionHardwareProxy) EnableActivityEvent(
 	_data.WriteInt32(eventType)
 	_data.WriteInt64(reportLatencyNs)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityRecognitionHardwareEnableActivityEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "enableActivityEvent"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -200,7 +200,7 @@ func (p *ActivityRecognitionHardwareProxy) DisableActivityEvent(
 	_data.WriteString16(activityType)
 	_data.WriteInt32(eventType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityRecognitionHardwareDisableActivityEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "disableActivityEvent"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -224,7 +224,7 @@ func (p *ActivityRecognitionHardwareProxy) Flush(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityRecognitionHardware)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIActivityRecognitionHardwareFlush, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "flush"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

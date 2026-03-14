@@ -45,6 +45,6 @@ func (p *CamHostControlTuneQuietlyFlagListenerProxy) OnHcTuneQuietlyFlagChanged(
 	_data.WriteString16(sessionToken)
 	_data.WriteInt32(tuneQuietlyFlag)
 
-	_, _err := p.remote.Transact(ctx, TransactionICamHostControlTuneQuietlyFlagListenerOnHcTuneQuietlyFlagChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamHostControlTuneQuietlyFlagListener, "onHcTuneQuietlyFlagChanged"), binder.FlagOneway, _data)
 	return _err
 }

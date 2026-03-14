@@ -49,7 +49,7 @@ func (p *CamHostControlServiceProxy) AddCamHostcontrolInfoListener(
 	_data.WriteInterfaceToken(DescriptorICamHostControlService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamHostControlServiceAddCamHostcontrolInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamHostControlService, "addCamHostcontrolInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -70,7 +70,7 @@ func (p *CamHostControlServiceProxy) RemoveCamHostcontrolInfoListener(
 	_data.WriteInterfaceToken(DescriptorICamHostControlService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamHostControlServiceRemoveCamHostcontrolInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamHostControlService, "removeCamHostcontrolInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -94,7 +94,7 @@ func (p *CamHostControlServiceProxy) SendCamHostControlAskRelease(
 	_data.WriteString16(sessionToken)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamHostControlServiceSendCamHostControlAskRelease, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamHostControlService, "sendCamHostControlAskRelease"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -121,7 +121,7 @@ func (p *CamHostControlServiceProxy) SetHostControlMode(
 	_data.WriteString16(sessionToken)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamHostControlServiceSetHostControlMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamHostControlService, "setHostControlMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}

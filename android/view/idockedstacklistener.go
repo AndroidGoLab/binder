@@ -51,7 +51,7 @@ func (p *DockedStackListenerProxy) OnDividerVisibilityChanged(
 	_data.WriteInterfaceToken(DescriptorIDockedStackListener)
 	_data.WriteBool(visible)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDockedStackListenerOnDividerVisibilityChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDockedStackListener, "onDividerVisibilityChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,7 +63,7 @@ func (p *DockedStackListenerProxy) OnDockedStackExistsChanged(
 	_data.WriteInterfaceToken(DescriptorIDockedStackListener)
 	_data.WriteBool(exists)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDockedStackListenerOnDockedStackExistsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDockedStackListener, "onDockedStackExistsChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,7 +79,7 @@ func (p *DockedStackListenerProxy) OnDockedStackMinimizedChanged(
 	_data.WriteInt64(animDuration)
 	_data.WriteBool(isHomeStackResizable)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDockedStackListenerOnDockedStackMinimizedChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDockedStackListener, "onDockedStackMinimizedChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -93,7 +93,7 @@ func (p *DockedStackListenerProxy) OnAdjustedForImeChanged(
 	_data.WriteBool(adjustedForIme)
 	_data.WriteInt64(animDuration)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDockedStackListenerOnAdjustedForImeChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDockedStackListener, "onAdjustedForImeChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,6 +105,6 @@ func (p *DockedStackListenerProxy) OnDockSideChanged(
 	_data.WriteInterfaceToken(DescriptorIDockedStackListener)
 	_data.WriteInt32(newDockSide)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDockedStackListenerOnDockSideChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDockedStackListener, "onDockSideChanged"), binder.FlagOneway, _data)
 	return _err
 }

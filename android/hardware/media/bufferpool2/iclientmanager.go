@@ -47,7 +47,7 @@ func (p *ClientManagerProxy) RegisterSender(
 	_data.WriteInterfaceToken(DescriptorIClientManager)
 	_data.WriteStrongBinder(bufferPool.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIClientManagerRegisterSender, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClientManager, "registerSender"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -72,7 +72,7 @@ func (p *ClientManagerProxy) RegisterPassiveSender(
 	_data.WriteInterfaceToken(DescriptorIClientManager)
 	_data.WriteStrongBinder(bufferPool.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIClientManagerRegisterPassiveSender, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIClientManager, "registerPassiveSender"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

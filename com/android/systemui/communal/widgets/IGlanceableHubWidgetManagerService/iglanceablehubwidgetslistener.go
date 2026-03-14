@@ -53,6 +53,6 @@ func (p *GlanceableHubWidgetsListenerProxy) OnWidgetsUpdated(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIGlanceableHubWidgetsListenerOnWidgetsUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGlanceableHubWidgetsListener, "onWidgetsUpdated"), binder.FlagOneway, _data)
 	return _err
 }

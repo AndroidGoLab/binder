@@ -49,7 +49,7 @@ func (p *MediaProjectionWatcherCallbackProxy) OnStart(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaProjectionWatcherCallbackOnStart, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjectionWatcherCallback, "onStart"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,7 +63,7 @@ func (p *MediaProjectionWatcherCallbackProxy) OnStop(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaProjectionWatcherCallbackOnStop, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjectionWatcherCallback, "onStop"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,6 +78,6 @@ func (p *MediaProjectionWatcherCallbackProxy) OnRecordingSessionSet(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaProjectionWatcherCallbackOnRecordingSessionSet, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjectionWatcherCallback, "onRecordingSessionSet"), binder.FlagOneway, _data)
 	return _err
 }

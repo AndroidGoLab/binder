@@ -69,7 +69,7 @@ func (p *InputMethodSessionProxy) UpdateExtractedText(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputMethodSessionUpdateExtractedText, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputMethodSession, "updateExtractedText"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,7 +91,7 @@ func (p *InputMethodSessionProxy) UpdateSelection(
 	_data.WriteInt32(candidatesStart)
 	_data.WriteInt32(candidatesEnd)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputMethodSessionUpdateSelection, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputMethodSession, "updateSelection"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,7 +103,7 @@ func (p *InputMethodSessionProxy) ViewClicked(
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 	_data.WriteBool(focusChanged)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputMethodSessionViewClicked, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputMethodSession, "viewClicked"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -117,7 +117,7 @@ func (p *InputMethodSessionProxy) UpdateCursor(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputMethodSessionUpdateCursor, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputMethodSession, "updateCursor"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -138,7 +138,7 @@ func (p *InputMethodSessionProxy) DisplayCompletions(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputMethodSessionDisplayCompletions, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputMethodSession, "displayCompletions"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -151,7 +151,7 @@ func (p *InputMethodSessionProxy) AppPrivateCommand(
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 	_data.WriteString16(action)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputMethodSessionAppPrivateCommand, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputMethodSession, "appPrivateCommand"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -161,7 +161,7 @@ func (p *InputMethodSessionProxy) FinishSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputMethodSessionFinishSession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputMethodSession, "finishSession"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -175,7 +175,7 @@ func (p *InputMethodSessionProxy) UpdateCursorAnchorInfo(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputMethodSessionUpdateCursorAnchorInfo, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputMethodSession, "updateCursorAnchorInfo"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -185,7 +185,7 @@ func (p *InputMethodSessionProxy) RemoveImeSurface(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputMethodSessionRemoveImeSurface, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputMethodSession, "removeImeSurface"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -195,7 +195,7 @@ func (p *InputMethodSessionProxy) FinishInput(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputMethodSessionFinishInput, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputMethodSession, "finishInput"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -213,6 +213,6 @@ func (p *InputMethodSessionProxy) InvalidateInput(
 	_data.WriteStrongBinder(inputConnection.AsBinder().Handle())
 	_data.WriteInt32(sessionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputMethodSessionInvalidateInput, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputMethodSession, "invalidateInput"), binder.FlagOneway, _data)
 	return _err
 }

@@ -46,6 +46,6 @@ func (p *LcnConflictListenerProxy) OnDetectLcnConflict(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionILcnConflictListenerOnDetectLcnConflict, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILcnConflictListener, "onDetectLcnConflict"), binder.FlagOneway, _data)
 	return _err
 }

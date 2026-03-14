@@ -58,7 +58,7 @@ func (p *RollbackManagerProxy) GetAvailableRollbacks(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRollbackManagerGetAvailableRollbacks, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRollbackManager, "getAvailableRollbacks"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -81,7 +81,7 @@ func (p *RollbackManagerProxy) GetRecentlyCommittedRollbacks(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRollbackManagerGetRecentlyCommittedRollbacks, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRollbackManager, "getRecentlyCommittedRollbacks"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -115,7 +115,7 @@ func (p *RollbackManagerProxy) CommitRollback(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRollbackManagerCommitRollback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRollbackManager, "commitRollback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -153,7 +153,7 @@ func (p *RollbackManagerProxy) SnapshotAndRestoreUserData(
 	_data.WriteString16(seInfo)
 	_data.WriteInt32(token)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRollbackManagerSnapshotAndRestoreUserData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRollbackManager, "snapshotAndRestoreUserData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -172,7 +172,7 @@ func (p *RollbackManagerProxy) ReloadPersistedData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRollbackManagerReloadPersistedData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRollbackManager, "reloadPersistedData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -193,7 +193,7 @@ func (p *RollbackManagerProxy) ExpireRollbackForPackage(
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRollbackManagerExpireRollbackForPackage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRollbackManager, "expireRollbackForPackage"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -215,7 +215,7 @@ func (p *RollbackManagerProxy) NotifyStagedSession(
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 	_data.WriteInt32(sessionId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRollbackManagerNotifyStagedSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRollbackManager, "notifyStagedSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -240,7 +240,7 @@ func (p *RollbackManagerProxy) BlockRollbackManager(
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 	_data.WriteInt64(millis)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRollbackManagerBlockRollbackManager, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRollbackManager, "blockRollbackManager"), 0, _data)
 	if _err != nil {
 		return _err
 	}

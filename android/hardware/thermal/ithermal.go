@@ -64,7 +64,7 @@ func (p *ThermalProxy) GetCoolingDevices(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIThermal)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalGetCoolingDevices, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermal, "getCoolingDevices"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -99,7 +99,7 @@ func (p *ThermalProxy) GetCoolingDevicesWithType(
 	_data.WriteInterfaceToken(DescriptorIThermal)
 	_data.WriteInt32(int32(type_))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalGetCoolingDevicesWithType, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermal, "getCoolingDevicesWithType"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -132,7 +132,7 @@ func (p *ThermalProxy) GetTemperatures(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIThermal)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalGetTemperatures, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermal, "getTemperatures"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -167,7 +167,7 @@ func (p *ThermalProxy) GetTemperaturesWithType(
 	_data.WriteInterfaceToken(DescriptorIThermal)
 	_data.WriteInt32(int32(type_))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalGetTemperaturesWithType, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermal, "getTemperaturesWithType"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -200,7 +200,7 @@ func (p *ThermalProxy) GetTemperatureThresholds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIThermal)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalGetTemperatureThresholds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermal, "getTemperatureThresholds"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -235,7 +235,7 @@ func (p *ThermalProxy) GetTemperatureThresholdsWithType(
 	_data.WriteInterfaceToken(DescriptorIThermal)
 	_data.WriteInt32(int32(type_))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalGetTemperatureThresholdsWithType, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermal, "getTemperatureThresholdsWithType"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -269,7 +269,7 @@ func (p *ThermalProxy) RegisterThermalChangedCallback(
 	_data.WriteInterfaceToken(DescriptorIThermal)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalRegisterThermalChangedCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermal, "registerThermalChangedCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -292,7 +292,7 @@ func (p *ThermalProxy) RegisterThermalChangedCallbackWithType(
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteInt32(int32(type_))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalRegisterThermalChangedCallbackWithType, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermal, "registerThermalChangedCallbackWithType"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -313,7 +313,7 @@ func (p *ThermalProxy) UnregisterThermalChangedCallback(
 	_data.WriteInterfaceToken(DescriptorIThermal)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalUnregisterThermalChangedCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermal, "unregisterThermalChangedCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -336,7 +336,7 @@ func (p *ThermalProxy) RegisterCoolingDeviceChangedCallbackWithType(
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteInt32(int32(type_))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalRegisterCoolingDeviceChangedCallbackWithType, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermal, "registerCoolingDeviceChangedCallbackWithType"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -357,7 +357,7 @@ func (p *ThermalProxy) UnregisterCoolingDeviceChangedCallback(
 	_data.WriteInterfaceToken(DescriptorIThermal)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalUnregisterCoolingDeviceChangedCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermal, "unregisterCoolingDeviceChangedCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -379,7 +379,7 @@ func (p *ThermalProxy) ForecastSkinTemperature(
 	_data.WriteInterfaceToken(DescriptorIThermal)
 	_data.WriteInt32(forecastSeconds)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalForecastSkinTemperature, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermal, "forecastSkinTemperature"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

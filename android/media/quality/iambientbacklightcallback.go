@@ -45,6 +45,6 @@ func (p *AmbientBacklightCallbackProxy) OnAmbientBacklightEvent(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAmbientBacklightCallbackOnAmbientBacklightEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAmbientBacklightCallback, "onAmbientBacklightEvent"), binder.FlagOneway, _data)
 	return _err
 }

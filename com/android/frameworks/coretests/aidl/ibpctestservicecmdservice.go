@@ -49,7 +49,7 @@ func (p *BpcTestServiceCmdServiceProxy) ForceGc(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBpcTestServiceCmdServiceForceGc, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBpcTestServiceCmdService, "forceGc"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -71,7 +71,7 @@ func (p *BpcTestServiceCmdServiceProxy) GetBinderProxyCount(
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBpcTestServiceCmdServiceGetBinderProxyCount, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBpcTestServiceCmdService, "getBinderProxyCount"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -100,7 +100,7 @@ func (p *BpcTestServiceCmdServiceProxy) SetBinderProxyWatermarks(
 	_data.WriteInt32(low)
 	_data.WriteInt32(warning)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBpcTestServiceCmdServiceSetBinderProxyWatermarks, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBpcTestServiceCmdService, "setBinderProxyWatermarks"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -121,7 +121,7 @@ func (p *BpcTestServiceCmdServiceProxy) EnableBinderProxyLimit(
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
 	_data.WriteBool(enable)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBpcTestServiceCmdServiceEnableBinderProxyLimit, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBpcTestServiceCmdService, "enableBinderProxyLimit"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -142,7 +142,7 @@ func (p *BpcTestServiceCmdServiceProxy) SetBinderProxyCountCallback(
 	_data.WriteInterfaceToken(DescriptorIBpcTestServiceCmdService)
 	_data.WriteStrongBinder(observer.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBpcTestServiceCmdServiceSetBinderProxyCountCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBpcTestServiceCmdService, "setBinderProxyCountCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}

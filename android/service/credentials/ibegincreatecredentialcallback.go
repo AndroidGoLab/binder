@@ -50,7 +50,7 @@ func (p *BeginCreateCredentialCallbackProxy) OnSuccess(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIBeginCreateCredentialCallbackOnSuccess, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBeginCreateCredentialCallback, "onSuccess"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,7 +63,7 @@ func (p *BeginCreateCredentialCallbackProxy) OnFailure(
 	_data.WriteInterfaceToken(DescriptorIBeginCreateCredentialCallback)
 	_data.WriteString16(errorType)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBeginCreateCredentialCallbackOnFailure, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBeginCreateCredentialCallback, "onFailure"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,6 +75,6 @@ func (p *BeginCreateCredentialCallbackProxy) OnCancellable(
 	_data.WriteInterfaceToken(DescriptorIBeginCreateCredentialCallback)
 	_data.WriteStrongBinder(cancellation.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIBeginCreateCredentialCallbackOnCancellable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBeginCreateCredentialCallback, "onCancellable"), binder.FlagOneway, _data)
 	return _err
 }

@@ -41,6 +41,6 @@ func (p *AcknowledgeEventProxy) EventReceived(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAcknowledgeEvent)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAcknowledgeEventEventReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAcknowledgeEvent, "eventReceived"), binder.FlagOneway, _data)
 	return _err
 }

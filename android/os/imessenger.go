@@ -45,6 +45,6 @@ func (p *MessengerProxy) Send(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMessengerSend, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMessenger, "send"), binder.FlagOneway, _data)
 	return _err
 }

@@ -45,6 +45,6 @@ func (p *InputDeviceBatteryListenerProxy) OnBatteryStateChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIInputDeviceBatteryListenerOnBatteryStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputDeviceBatteryListener, "onBatteryStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

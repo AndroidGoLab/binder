@@ -65,7 +65,7 @@ func (p *CameraDeviceProxy) GetCameraCharacteristics(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICameraDeviceGetCameraCharacteristics, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICameraDevice, "getCameraCharacteristics"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -90,7 +90,7 @@ func (p *CameraDeviceProxy) GetPhysicalCameraCharacteristics(
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 	_data.WriteString16(physicalCameraId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICameraDeviceGetPhysicalCameraCharacteristics, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICameraDevice, "getPhysicalCameraCharacteristics"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -113,7 +113,7 @@ func (p *CameraDeviceProxy) GetResourceCost(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICameraDeviceGetResourceCost, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICameraDevice, "getResourceCost"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -140,7 +140,7 @@ func (p *CameraDeviceProxy) IsStreamCombinationSupported(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICameraDeviceIsStreamCombinationSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICameraDevice, "isStreamCombinationSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -166,7 +166,7 @@ func (p *CameraDeviceProxy) Open(
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICameraDeviceOpen, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICameraDevice, "open"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -193,7 +193,7 @@ func (p *CameraDeviceProxy) OpenInjectionSession(
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICameraDeviceOpenInjectionSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICameraDevice, "openInjectionSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -219,7 +219,7 @@ func (p *CameraDeviceProxy) SetTorchMode(
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 	_data.WriteBool(on)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICameraDeviceSetTorchMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICameraDevice, "setTorchMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -240,7 +240,7 @@ func (p *CameraDeviceProxy) TurnOnTorchWithStrengthLevel(
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 	_data.WriteInt32(torchStrength)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICameraDeviceTurnOnTorchWithStrengthLevel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICameraDevice, "turnOnTorchWithStrengthLevel"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -260,7 +260,7 @@ func (p *CameraDeviceProxy) GetTorchStrengthLevel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICameraDeviceGetTorchStrengthLevel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICameraDevice, "getTorchStrengthLevel"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -286,7 +286,7 @@ func (p *CameraDeviceProxy) ConstructDefaultRequestSettings(
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
 	_data.WriteInt32(int32(type_))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICameraDeviceConstructDefaultRequestSettings, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICameraDevice, "constructDefaultRequestSettings"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -313,7 +313,7 @@ func (p *CameraDeviceProxy) IsStreamCombinationWithSettingsSupported(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICameraDeviceIsStreamCombinationWithSettingsSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICameraDevice, "isStreamCombinationWithSettingsSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -341,7 +341,7 @@ func (p *CameraDeviceProxy) GetSessionCharacteristics(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICameraDeviceGetSessionCharacteristics, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICameraDevice, "getSessionCharacteristics"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

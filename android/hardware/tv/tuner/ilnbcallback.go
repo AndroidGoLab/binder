@@ -52,7 +52,7 @@ func (p *LnbCallbackProxy) OnDiseqcMessage(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionILnbCallbackOnDiseqcMessage, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILnbCallback, "onDiseqcMessage"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -64,6 +64,6 @@ func (p *LnbCallbackProxy) OnEvent(
 	_data.WriteInterfaceToken(DescriptorILnbCallback)
 	_data.WriteInt32(int32(lnbEventType))
 
-	_, _err := p.remote.Transact(ctx, TransactionILnbCallbackOnEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorILnbCallback, "onEvent"), binder.FlagOneway, _data)
 	return _err
 }

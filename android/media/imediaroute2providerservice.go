@@ -61,7 +61,7 @@ func (p *MediaRoute2ProviderServiceProxy) SetCallback(
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRoute2ProviderServiceSetCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "setCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,7 +75,7 @@ func (p *MediaRoute2ProviderServiceProxy) UpdateDiscoveryPreference(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRoute2ProviderServiceUpdateDiscoveryPreference, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "updateDiscoveryPreference"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,7 +91,7 @@ func (p *MediaRoute2ProviderServiceProxy) SetRouteVolume(
 	_data.WriteString16(routeId)
 	_data.WriteInt32(volume)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRoute2ProviderServiceSetRouteVolume, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "setRouteVolume"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -108,7 +108,7 @@ func (p *MediaRoute2ProviderServiceProxy) RequestCreateSession(
 	_data.WriteString16(packageName)
 	_data.WriteString16(routeId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRoute2ProviderServiceRequestCreateSession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "requestCreateSession"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -127,7 +127,7 @@ func (p *MediaRoute2ProviderServiceProxy) RequestCreateSystemMediaSession(
 	_data.WriteString16(packageName)
 	_data.WriteString16(routeId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRoute2ProviderServiceRequestCreateSystemMediaSession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "requestCreateSystemMediaSession"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -143,7 +143,7 @@ func (p *MediaRoute2ProviderServiceProxy) SelectRoute(
 	_data.WriteString16(sessionId)
 	_data.WriteString16(routeId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRoute2ProviderServiceSelectRoute, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "selectRoute"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -159,7 +159,7 @@ func (p *MediaRoute2ProviderServiceProxy) DeselectRoute(
 	_data.WriteString16(sessionId)
 	_data.WriteString16(routeId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRoute2ProviderServiceDeselectRoute, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "deselectRoute"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -175,7 +175,7 @@ func (p *MediaRoute2ProviderServiceProxy) TransferToRoute(
 	_data.WriteString16(sessionId)
 	_data.WriteString16(routeId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRoute2ProviderServiceTransferToRoute, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "transferToRoute"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -191,7 +191,7 @@ func (p *MediaRoute2ProviderServiceProxy) SetSessionVolume(
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(volume)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRoute2ProviderServiceSetSessionVolume, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "setSessionVolume"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -205,6 +205,6 @@ func (p *MediaRoute2ProviderServiceProxy) ReleaseSession(
 	_data.WriteInt64(requestId)
 	_data.WriteString16(sessionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRoute2ProviderServiceReleaseSession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "releaseSession"), binder.FlagOneway, _data)
 	return _err
 }

@@ -60,7 +60,7 @@ func (p *MediaBrowserServiceCallbacksProxy) OnConnect(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaBrowserServiceCallbacksOnConnect, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaBrowserServiceCallbacks, "onConnect"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,7 +70,7 @@ func (p *MediaBrowserServiceCallbacksProxy) OnConnectFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserServiceCallbacks)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaBrowserServiceCallbacksOnConnectFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaBrowserServiceCallbacks, "onConnectFailed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,7 +90,7 @@ func (p *MediaBrowserServiceCallbacksProxy) OnLoadChildren(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaBrowserServiceCallbacksOnLoadChildren, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaBrowserServiceCallbacks, "onLoadChildren"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,6 +100,6 @@ func (p *MediaBrowserServiceCallbacksProxy) OnDisconnect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserServiceCallbacks)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaBrowserServiceCallbacksOnDisconnect, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaBrowserServiceCallbacks, "onDisconnect"), binder.FlagOneway, _data)
 	return _err
 }

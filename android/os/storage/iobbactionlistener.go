@@ -47,6 +47,6 @@ func (p *ObbActionListenerProxy) OnObbResult(
 	_data.WriteInt32(nonce)
 	_data.WriteInt32(status)
 
-	_, _err := p.remote.Transact(ctx, TransactionIObbActionListenerOnObbResult, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIObbActionListener, "onObbResult"), binder.FlagOneway, _data)
 	return _err
 }

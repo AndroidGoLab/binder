@@ -45,7 +45,7 @@ func (p *GameSessionProxy) OnDestroyed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGameSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGameSessionOnDestroyed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGameSession, "onDestroyed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -57,7 +57,7 @@ func (p *GameSessionProxy) OnTransientSystemBarVisibilityFromRevealGestureChange
 	_data.WriteInterfaceToken(DescriptorIGameSession)
 	_data.WriteBool(visibleDueToGesture)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGameSessionOnTransientSystemBarVisibilityFromRevealGestureChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGameSession, "onTransientSystemBarVisibilityFromRevealGestureChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -69,6 +69,6 @@ func (p *GameSessionProxy) OnTaskFocusChanged(
 	_data.WriteInterfaceToken(DescriptorIGameSession)
 	_data.WriteBool(focused)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGameSessionOnTaskFocusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGameSession, "onTaskFocusChanged"), binder.FlagOneway, _data)
 	return _err
 }

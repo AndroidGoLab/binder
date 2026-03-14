@@ -55,7 +55,7 @@ func (p *PowerStatsServiceProxy) GetSupportedPowerMonitors(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPowerStatsServiceGetSupportedPowerMonitors, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPowerStatsService, "getSupportedPowerMonitors"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,6 +78,6 @@ func (p *PowerStatsServiceProxy) GetPowerMonitorReadings(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPowerStatsServiceGetPowerMonitorReadings, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPowerStatsService, "getPowerMonitorReadings"), binder.FlagOneway, _data)
 	return _err
 }

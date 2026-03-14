@@ -55,7 +55,7 @@ func (p *MusicRecognitionManagerCallbackProxy) OnRecognitionSucceeded(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMusicRecognitionManagerCallbackOnRecognitionSucceeded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMusicRecognitionManagerCallback, "onRecognitionSucceeded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,7 +67,7 @@ func (p *MusicRecognitionManagerCallbackProxy) OnRecognitionFailed(
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionManagerCallback)
 	_data.WriteInt32(failureCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMusicRecognitionManagerCallbackOnRecognitionFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMusicRecognitionManagerCallback, "onRecognitionFailed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,6 +77,6 @@ func (p *MusicRecognitionManagerCallbackProxy) OnAudioStreamClosed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionManagerCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIMusicRecognitionManagerCallbackOnAudioStreamClosed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMusicRecognitionManagerCallback, "onAudioStreamClosed"), binder.FlagOneway, _data)
 	return _err
 }

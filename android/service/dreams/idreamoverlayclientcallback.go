@@ -43,7 +43,7 @@ func (p *DreamOverlayClientCallbackProxy) OnDreamOverlayClient(
 	_data.WriteInterfaceToken(DescriptorIDreamOverlayClientCallback)
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDreamOverlayClientCallbackOnDreamOverlayClient, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDreamOverlayClientCallback, "onDreamOverlayClient"), 0, _data)
 	if _err != nil {
 		return _err
 	}

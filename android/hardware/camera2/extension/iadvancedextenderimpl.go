@@ -72,7 +72,7 @@ func (p *AdvancedExtenderImplProxy) IsExtensionAvailable(
 		_data.WriteInt32(int32(len(charsMap)))
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedExtenderImplIsExtensionAvailable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "isExtensionAvailable"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -103,7 +103,7 @@ func (p *AdvancedExtenderImplProxy) Init(
 		_data.WriteInt32(int32(len(charsMap)))
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedExtenderImplInit, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "init"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -131,7 +131,7 @@ func (p *AdvancedExtenderImplProxy) GetEstimatedCaptureLatencyRange(
 	}
 	_data.WriteInt32(format)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedExtenderImplGetEstimatedCaptureLatencyRange, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "getEstimatedCaptureLatencyRange"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -156,7 +156,7 @@ func (p *AdvancedExtenderImplProxy) GetSupportedPreviewOutputResolutions(
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 	_data.WriteString16(cameraId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedExtenderImplGetSupportedPreviewOutputResolutions, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "getSupportedPreviewOutputResolutions"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -191,7 +191,7 @@ func (p *AdvancedExtenderImplProxy) GetSupportedCaptureOutputResolutions(
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 	_data.WriteString16(cameraId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedExtenderImplGetSupportedCaptureOutputResolutions, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "getSupportedCaptureOutputResolutions"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -228,7 +228,7 @@ func (p *AdvancedExtenderImplProxy) GetSupportedPostviewResolutions(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedExtenderImplGetSupportedPostviewResolutions, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "getSupportedPostviewResolutions"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -261,7 +261,7 @@ func (p *AdvancedExtenderImplProxy) GetSessionProcessor(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedExtenderImplGetSessionProcessor, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "getSessionProcessor"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -288,7 +288,7 @@ func (p *AdvancedExtenderImplProxy) GetAvailableCaptureRequestKeys(
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 	_data.WriteString16(cameraId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedExtenderImplGetAvailableCaptureRequestKeys, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "getAvailableCaptureRequestKeys"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -310,7 +310,7 @@ func (p *AdvancedExtenderImplProxy) GetAvailableCaptureResultKeys(
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 	_data.WriteString16(cameraId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedExtenderImplGetAvailableCaptureResultKeys, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "getAvailableCaptureResultKeys"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -330,7 +330,7 @@ func (p *AdvancedExtenderImplProxy) IsCaptureProcessProgressAvailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedExtenderImplIsCaptureProcessProgressAvailable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "isCaptureProcessProgressAvailable"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -354,7 +354,7 @@ func (p *AdvancedExtenderImplProxy) IsPostviewAvailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedExtenderImplIsPostviewAvailable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "isPostviewAvailable"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -380,7 +380,7 @@ func (p *AdvancedExtenderImplProxy) GetAvailableCharacteristicsKeyValues(
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 	_data.WriteString16(cameraId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIAdvancedExtenderImplGetAvailableCharacteristicsKeyValues, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "getAvailableCharacteristicsKeyValues"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

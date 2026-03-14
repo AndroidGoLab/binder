@@ -47,7 +47,7 @@ func (p *NoteTaskBubblesServiceProxy) AreBubblesAvailable(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINoteTaskBubblesService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINoteTaskBubblesServiceAreBubblesAvailable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINoteTaskBubblesService, "areBubblesAvailable"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -86,7 +86,7 @@ func (p *NoteTaskBubblesServiceProxy) ShowOrHideAppBubble(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionINoteTaskBubblesServiceShowOrHideAppBubble, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorINoteTaskBubblesService, "showOrHideAppBubble"), 0, _data)
 	if _err != nil {
 		return _err
 	}

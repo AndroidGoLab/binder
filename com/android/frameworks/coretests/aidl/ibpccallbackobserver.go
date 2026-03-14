@@ -45,7 +45,7 @@ func (p *BpcCallbackObserverProxy) OnLimitReached(
 	_data.WriteInterfaceToken(DescriptorIBpcCallbackObserver)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBpcCallbackObserverOnLimitReached, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBpcCallbackObserver, "onLimitReached"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -66,7 +66,7 @@ func (p *BpcCallbackObserverProxy) OnWarningThresholdReached(
 	_data.WriteInterfaceToken(DescriptorIBpcCallbackObserver)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBpcCallbackObserverOnWarningThresholdReached, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBpcCallbackObserver, "onWarningThresholdReached"), 0, _data)
 	if _err != nil {
 		return _err
 	}

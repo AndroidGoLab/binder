@@ -60,7 +60,7 @@ func (p *RadioMessagingIndicationProxy) CdmaNewSms(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioMessagingIndicationCdmaNewSms, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "cdmaNewSms"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -72,7 +72,7 @@ func (p *RadioMessagingIndicationProxy) CdmaRuimSmsStorageFull(
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingIndication)
 	_data.WriteInt32(int32(type_))
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioMessagingIndicationCdmaRuimSmsStorageFull, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "cdmaRuimSmsStorageFull"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -93,7 +93,7 @@ func (p *RadioMessagingIndicationProxy) NewBroadcastSms(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioMessagingIndicationNewBroadcastSms, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "newBroadcastSms"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -114,7 +114,7 @@ func (p *RadioMessagingIndicationProxy) NewSms(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioMessagingIndicationNewSms, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "newSms"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -128,7 +128,7 @@ func (p *RadioMessagingIndicationProxy) NewSmsOnSim(
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(recordNumber)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioMessagingIndicationNewSmsOnSim, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "newSmsOnSim"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -149,7 +149,7 @@ func (p *RadioMessagingIndicationProxy) NewSmsStatusReport(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioMessagingIndicationNewSmsStatusReport, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "newSmsStatusReport"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -161,6 +161,6 @@ func (p *RadioMessagingIndicationProxy) SimSmsStorageFull(
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingIndication)
 	_data.WriteInt32(int32(type_))
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioMessagingIndicationSimSmsStorageFull, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "simSmsStorageFull"), binder.FlagOneway, _data)
 	return _err
 }

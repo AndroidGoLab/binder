@@ -55,7 +55,7 @@ func (p *SoundProfileCallbackProxy) OnSoundProfileAdded(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundProfileCallbackOnSoundProfileAdded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundProfileCallback, "onSoundProfileAdded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,7 +71,7 @@ func (p *SoundProfileCallbackProxy) OnSoundProfileUpdated(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundProfileCallbackOnSoundProfileUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundProfileCallback, "onSoundProfileUpdated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,7 +87,7 @@ func (p *SoundProfileCallbackProxy) OnSoundProfileRemoved(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundProfileCallbackOnSoundProfileRemoved, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundProfileCallback, "onSoundProfileRemoved"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -110,7 +110,7 @@ func (p *SoundProfileCallbackProxy) OnParamCapabilitiesChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundProfileCallbackOnParamCapabilitiesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundProfileCallback, "onParamCapabilitiesChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -124,6 +124,6 @@ func (p *SoundProfileCallbackProxy) OnError(
 	_data.WriteString16(id)
 	_data.WriteInt32(err)
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundProfileCallbackOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundProfileCallback, "onError"), binder.FlagOneway, _data)
 	return _err
 }

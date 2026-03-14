@@ -45,6 +45,6 @@ func (p *GbaServiceProxy) AuthenticationRequest(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIGbaServiceAuthenticationRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGbaService, "authenticationRequest"), binder.FlagOneway, _data)
 	return _err
 }

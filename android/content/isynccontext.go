@@ -43,7 +43,7 @@ func (p *SyncContextProxy) SendHeartbeat(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISyncContext)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISyncContextSendHeartbeat, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISyncContext, "sendHeartbeat"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -66,7 +66,7 @@ func (p *SyncContextProxy) OnFinished(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISyncContextOnFinished, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISyncContext, "onFinished"), 0, _data)
 	if _err != nil {
 		return _err
 	}

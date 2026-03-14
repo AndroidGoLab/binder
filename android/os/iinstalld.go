@@ -168,7 +168,7 @@ func (p *InstalldProxy) CreateUserData(
 	_data.WriteInt32(userSerial)
 	_data.WriteInt32(flags)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldCreateUserData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "createUserData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -193,7 +193,7 @@ func (p *InstalldProxy) DestroyUserData(
 	_data.WriteInt32(userId)
 	_data.WriteInt32(flags)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldDestroyUserData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "destroyUserData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -212,7 +212,7 @@ func (p *InstalldProxy) SetFirstBoot(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldSetFirstBoot, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "setFirstBoot"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -236,7 +236,7 @@ func (p *InstalldProxy) CreateAppData(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldCreateAppData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "createAppData"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -270,7 +270,7 @@ func (p *InstalldProxy) CreateAppDataBatched(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldCreateAppDataBatched, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "createAppDataBatched"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -306,7 +306,7 @@ func (p *InstalldProxy) ReconcileSdkData(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldReconcileSdkData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "reconcileSdkData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -337,7 +337,7 @@ func (p *InstalldProxy) RestoreconAppData(
 	_data.WriteInt32(appId)
 	_data.WriteString16(seInfo)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldRestoreconAppData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "restoreconAppData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -364,7 +364,7 @@ func (p *InstalldProxy) MigrateAppData(
 	_data.WriteInt32(userId)
 	_data.WriteInt32(flags)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldMigrateAppData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "migrateAppData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -393,7 +393,7 @@ func (p *InstalldProxy) ClearAppData(
 	_data.WriteInt32(flags)
 	_data.WriteInt64(ceDataInode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldClearAppData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "clearAppData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -422,7 +422,7 @@ func (p *InstalldProxy) DestroyAppData(
 	_data.WriteInt32(flags)
 	_data.WriteInt64(ceDataInode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldDestroyAppData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "destroyAppData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -445,7 +445,7 @@ func (p *InstalldProxy) FixupAppData(
 	_data.WriteString16(uuid)
 	_data.WriteInt32(flags)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldFixupAppData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "fixupAppData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -500,7 +500,7 @@ func (p *InstalldProxy) GetAppSize(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldGetAppSize, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "getAppSize"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -549,7 +549,7 @@ func (p *InstalldProxy) GetUserSize(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldGetUserSize, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "getUserSize"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -598,7 +598,7 @@ func (p *InstalldProxy) GetExternalSize(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldGetExternalSize, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "getExternalSize"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -645,7 +645,7 @@ func (p *InstalldProxy) GetAppCrates(
 	}
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldGetAppCrates, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "getAppCrates"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -679,7 +679,7 @@ func (p *InstalldProxy) GetUserCrates(
 	_data.WriteString16(uuid)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldGetUserCrates, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "getUserCrates"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -716,7 +716,7 @@ func (p *InstalldProxy) SetAppQuota(
 	_data.WriteInt32(appId)
 	_data.WriteInt64(cacheQuota)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldSetAppQuota, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "setAppQuota"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -749,7 +749,7 @@ func (p *InstalldProxy) MoveCompleteApp(
 	_data.WriteInt32(targetSdkVersion)
 	_data.WriteString16(fromCodePath)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldMoveCompleteApp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "moveCompleteApp"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -801,7 +801,7 @@ func (p *InstalldProxy) Dexopt(
 	_data.WriteString16(dexMetadataPath)
 	_data.WriteString16(compilationReason)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldDexopt, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "dexopt"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -826,7 +826,7 @@ func (p *InstalldProxy) ControlDexOptBlocking(
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteBool(block)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldControlDexOptBlocking, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "controlDexOptBlocking"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -849,7 +849,7 @@ func (p *InstalldProxy) Rmdex(
 	_data.WriteString16(codePath)
 	_data.WriteString16(instructionSet)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldRmdex, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "rmdex"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -875,7 +875,7 @@ func (p *InstalldProxy) MergeProfiles(
 	_data.WriteString16(packageName)
 	_data.WriteString16(profileName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldMergeProfiles, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "mergeProfiles"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -909,7 +909,7 @@ func (p *InstalldProxy) DumpProfiles(
 	_data.WriteString16(codePath)
 	_data.WriteBool(dumpClassesAndMethods)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldDumpProfiles, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "dumpProfiles"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -941,7 +941,7 @@ func (p *InstalldProxy) CopySystemProfile(
 	_data.WriteString16(packageName)
 	_data.WriteString16(profileName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldCopySystemProfile, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "copySystemProfile"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -968,7 +968,7 @@ func (p *InstalldProxy) ClearAppProfiles(
 	_data.WriteString16(packageName)
 	_data.WriteString16(profileName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldClearAppProfiles, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "clearAppProfiles"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -989,7 +989,7 @@ func (p *InstalldProxy) DestroyAppProfiles(
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldDestroyAppProfiles, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "destroyAppProfiles"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1012,7 +1012,7 @@ func (p *InstalldProxy) DeleteReferenceProfile(
 	_data.WriteString16(packageName)
 	_data.WriteString16(profileName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldDeleteReferenceProfile, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "deleteReferenceProfile"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1040,7 +1040,7 @@ func (p *InstalldProxy) CreateProfileSnapshot(
 	_data.WriteString16(profileName)
 	_data.WriteString16(classpath)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldCreateProfileSnapshot, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "createProfileSnapshot"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1067,7 +1067,7 @@ func (p *InstalldProxy) DestroyProfileSnapshot(
 	_data.WriteString16(packageName)
 	_data.WriteString16(profileName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldDestroyProfileSnapshot, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "destroyProfileSnapshot"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1090,7 +1090,7 @@ func (p *InstalldProxy) RmPackageDir(
 	_data.WriteString16(packageName)
 	_data.WriteString16(packageDir)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldRmPackageDir, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "rmPackageDir"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1115,7 +1115,7 @@ func (p *InstalldProxy) FreeCache(
 	_data.WriteInt64(targetFreeBytes)
 	_data.WriteInt32(flags)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldFreeCache, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "freeCache"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1142,7 +1142,7 @@ func (p *InstalldProxy) LinkNativeLibraryDirectory(
 	_data.WriteString16(nativeLibPath32)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldLinkNativeLibraryDirectory, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "linkNativeLibraryDirectory"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1167,7 +1167,7 @@ func (p *InstalldProxy) CreateOatDir(
 	_data.WriteString16(oatDir)
 	_data.WriteString16(instructionSet)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldCreateOatDir, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "createOatDir"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1194,7 +1194,7 @@ func (p *InstalldProxy) LinkFile(
 	_data.WriteString16(fromBase)
 	_data.WriteString16(toBase)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldLinkFile, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "linkFile"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1221,7 +1221,7 @@ func (p *InstalldProxy) MoveAb(
 	_data.WriteString16(instructionSet)
 	_data.WriteString16(outputPath)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldMoveAb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "moveAb"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1249,7 +1249,7 @@ func (p *InstalldProxy) DeleteOdex(
 	_data.WriteString16(instructionSet)
 	_data.WriteString16(outputPath)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldDeleteOdex, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "deleteOdex"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1292,7 +1292,7 @@ func (p *InstalldProxy) ReconcileSecondaryDexFile(
 	_data.WriteString16(volume_uuid)
 	_data.WriteInt32(storage_flag)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldReconcileSecondaryDexFile, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "reconcileSecondaryDexFile"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1326,7 +1326,7 @@ func (p *InstalldProxy) HashSecondaryDexFile(
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt32(storageFlag)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldHashSecondaryDexFile, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "hashSecondaryDexFile"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1359,7 +1359,7 @@ func (p *InstalldProxy) InvalidateMounts(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldInvalidateMounts, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "invalidateMounts"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1381,7 +1381,7 @@ func (p *InstalldProxy) IsQuotaSupported(
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(uuid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldIsQuotaSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "isQuotaSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1417,7 +1417,7 @@ func (p *InstalldProxy) PrepareAppProfile(
 	_data.WriteString16(codePath)
 	_data.WriteString16(dexMetadata)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldPrepareAppProfile, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "prepareAppProfile"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1451,7 +1451,7 @@ func (p *InstalldProxy) SnapshotAppData(
 	_data.WriteInt32(snapshotId)
 	_data.WriteInt32(storageFlags)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldSnapshotAppData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "snapshotAppData"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1488,7 +1488,7 @@ func (p *InstalldProxy) RestoreAppDataSnapshot(
 	_data.WriteInt32(snapshotId)
 	_data.WriteInt32(storageflags)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldRestoreAppDataSnapshot, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "restoreAppDataSnapshot"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1519,7 +1519,7 @@ func (p *InstalldProxy) DestroyAppDataSnapshot(
 	_data.WriteInt32(snapshotId)
 	_data.WriteInt32(storageFlags)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldDestroyAppDataSnapshot, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "destroyAppDataSnapshot"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1551,7 +1551,7 @@ func (p *InstalldProxy) DestroyCeSnapshotsNotSpecified(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldDestroyCeSnapshotsNotSpecified, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "destroyCeSnapshotsNotSpecified"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1572,7 +1572,7 @@ func (p *InstalldProxy) TryMountDataMirror(
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(volumeUuid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldTryMountDataMirror, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "tryMountDataMirror"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1593,7 +1593,7 @@ func (p *InstalldProxy) OnPrivateVolumeRemoved(
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 	_data.WriteString16(volumeUuid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldOnPrivateVolumeRemoved, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "onPrivateVolumeRemoved"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1612,7 +1612,7 @@ func (p *InstalldProxy) MigrateLegacyObbData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldMigrateLegacyObbData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "migrateLegacyObbData"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1637,7 +1637,7 @@ func (p *InstalldProxy) CleanupInvalidPackageDirs(
 	_data.WriteInt32(userId)
 	_data.WriteInt32(flags)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldCleanupInvalidPackageDirs, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "cleanupInvalidPackageDirs"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1665,7 +1665,7 @@ func (p *InstalldProxy) GetOdexVisibility(
 	_data.WriteString16(instructionSet)
 	_data.WriteString16(outputPath)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldGetOdexVisibility, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "getOdexVisibility"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1693,7 +1693,7 @@ func (p *InstalldProxy) CreateFsveritySetupAuthToken(
 	_data.WriteFileDescriptor(authFd)
 	_data.WriteInt32(uid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldCreateFsveritySetupAuthToken, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "createFsveritySetupAuthToken"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1724,7 +1724,7 @@ func (p *InstalldProxy) EnableFsverity(
 	_data.WriteString16(filePath)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInstalldEnableFsverity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInstalld, "enableFsverity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

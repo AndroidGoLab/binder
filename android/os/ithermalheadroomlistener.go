@@ -56,6 +56,6 @@ func (p *ThermalHeadroomListenerProxy) OnHeadroomChange(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIThermalHeadroomListenerOnHeadroomChange, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalHeadroomListener, "onHeadroomChange"), binder.FlagOneway, _data)
 	return _err
 }

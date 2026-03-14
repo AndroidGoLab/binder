@@ -53,6 +53,6 @@ func (p *OperatorDetectionListenerProxy) OnDetectOperatorDetectionList(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIOperatorDetectionListenerOnDetectOperatorDetectionList, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOperatorDetectionListener, "onDetectOperatorDetectionList"), binder.FlagOneway, _data)
 	return _err
 }

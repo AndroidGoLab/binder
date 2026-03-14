@@ -51,7 +51,7 @@ func (p *SettingsPreferenceServiceProxy) GetAllPreferenceMetadata(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISettingsPreferenceServiceGetAllPreferenceMetadata, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISettingsPreferenceService, "getAllPreferenceMetadata"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,7 +67,7 @@ func (p *SettingsPreferenceServiceProxy) GetPreferenceValue(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISettingsPreferenceServiceGetPreferenceValue, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISettingsPreferenceService, "getPreferenceValue"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,6 +83,6 @@ func (p *SettingsPreferenceServiceProxy) SetPreferenceValue(
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISettingsPreferenceServiceSetPreferenceValue, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISettingsPreferenceService, "setPreferenceValue"), binder.FlagOneway, _data)
 	return _err
 }

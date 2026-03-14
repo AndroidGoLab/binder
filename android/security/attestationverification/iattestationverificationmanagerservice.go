@@ -68,7 +68,7 @@ func (p *AttestationVerificationManagerServiceProxy) VerifyAttestation(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAttestationVerificationManagerServiceVerifyAttestation, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAttestationVerificationManagerService, "verifyAttestation"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,6 +87,6 @@ func (p *AttestationVerificationManagerServiceProxy) VerifyToken(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAttestationVerificationManagerServiceVerifyToken, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAttestationVerificationManagerService, "verifyToken"), binder.FlagOneway, _data)
 	return _err
 }

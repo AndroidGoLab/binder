@@ -49,6 +49,6 @@ func (p *ForegroundServiceObserverProxy) OnForegroundStateChanged(
 	_data.WriteInt32(userId)
 	_data.WriteBool(isForeground)
 
-	_, _err := p.remote.Transact(ctx, TransactionIForegroundServiceObserverOnForegroundStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIForegroundServiceObserver, "onForegroundStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

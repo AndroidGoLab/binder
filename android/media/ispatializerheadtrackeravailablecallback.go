@@ -43,6 +43,6 @@ func (p *SpatializerHeadTrackerAvailableCallbackProxy) DispatchSpatializerHeadTr
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadTrackerAvailableCallback)
 	_data.WriteBool(available)
 
-	_, _err := p.remote.Transact(ctx, TransactionISpatializerHeadTrackerAvailableCallbackDispatchSpatializerHeadTrackerAvailable, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISpatializerHeadTrackerAvailableCallback, "dispatchSpatializerHeadTrackerAvailable"), binder.FlagOneway, _data)
 	return _err
 }

@@ -93,7 +93,7 @@ func (p *KeyguardServiceProxy) SetOccluded(
 	_data.WriteBool(isOccluded)
 	_data.WriteBool(animate)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceSetOccluded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "setOccluded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,7 +105,7 @@ func (p *KeyguardServiceProxy) AddStateMonitorCallback(
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceAddStateMonitorCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "addStateMonitorCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -117,7 +117,7 @@ func (p *KeyguardServiceProxy) VerifyUnlock(
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceVerifyUnlock, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "verifyUnlock"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -130,7 +130,7 @@ func (p *KeyguardServiceProxy) Dismiss(
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceDismiss, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "dismiss"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -140,7 +140,7 @@ func (p *KeyguardServiceProxy) OnDreamingStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceOnDreamingStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "onDreamingStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -150,7 +150,7 @@ func (p *KeyguardServiceProxy) OnDreamingStopped(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceOnDreamingStopped, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "onDreamingStopped"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -162,7 +162,7 @@ func (p *KeyguardServiceProxy) OnStartedGoingToSleep(
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteInt32(pmSleepReason)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceOnStartedGoingToSleep, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "onStartedGoingToSleep"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -176,7 +176,7 @@ func (p *KeyguardServiceProxy) OnFinishedGoingToSleep(
 	_data.WriteInt32(pmSleepReason)
 	_data.WriteBool(cameraGestureTriggered)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceOnFinishedGoingToSleep, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "onFinishedGoingToSleep"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -190,7 +190,7 @@ func (p *KeyguardServiceProxy) OnStartedWakingUp(
 	_data.WriteInt32(pmWakeReason)
 	_data.WriteBool(cameraGestureTriggered)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceOnStartedWakingUp, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "onStartedWakingUp"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -200,7 +200,7 @@ func (p *KeyguardServiceProxy) OnFinishedWakingUp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceOnFinishedWakingUp, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "onFinishedWakingUp"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -212,7 +212,7 @@ func (p *KeyguardServiceProxy) OnScreenTurningOn(
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceOnScreenTurningOn, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "onScreenTurningOn"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -222,7 +222,7 @@ func (p *KeyguardServiceProxy) OnScreenTurnedOn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceOnScreenTurnedOn, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "onScreenTurnedOn"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -232,7 +232,7 @@ func (p *KeyguardServiceProxy) OnScreenTurningOff(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceOnScreenTurningOff, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "onScreenTurningOff"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -242,7 +242,7 @@ func (p *KeyguardServiceProxy) OnScreenTurnedOff(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceOnScreenTurnedOff, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "onScreenTurnedOff"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -254,7 +254,7 @@ func (p *KeyguardServiceProxy) SetKeyguardEnabled(
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteBool(enabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceSetKeyguardEnabled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "setKeyguardEnabled"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -264,7 +264,7 @@ func (p *KeyguardServiceProxy) OnSystemReady(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceOnSystemReady, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "onSystemReady"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -275,7 +275,7 @@ func (p *KeyguardServiceProxy) DoKeyguardTimeout(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceDoKeyguardTimeout, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "doKeyguardTimeout"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -287,7 +287,7 @@ func (p *KeyguardServiceProxy) SetSwitchingUser(
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteBool(switching)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceSetSwitchingUser, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "setSwitchingUser"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -299,7 +299,7 @@ func (p *KeyguardServiceProxy) SetCurrentUser(
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceSetCurrentUser, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "setCurrentUser"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -309,7 +309,7 @@ func (p *KeyguardServiceProxy) OnBootCompleted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceOnBootCompleted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "onBootCompleted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -323,7 +323,7 @@ func (p *KeyguardServiceProxy) StartKeyguardExitAnimation(
 	_data.WriteInt64(startTime)
 	_data.WriteInt64(fadeoutDuration)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceStartKeyguardExitAnimation, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "startKeyguardExitAnimation"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -333,7 +333,7 @@ func (p *KeyguardServiceProxy) OnShortPowerPressedGoHome(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceOnShortPowerPressedGoHome, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "onShortPowerPressedGoHome"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -344,7 +344,7 @@ func (p *KeyguardServiceProxy) DismissKeyguardToLaunch(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceDismissKeyguardToLaunch, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "dismissKeyguardToLaunch"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -356,7 +356,7 @@ func (p *KeyguardServiceProxy) OnSystemKeyPressed(
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 	_data.WriteInt32(keycode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceOnSystemKeyPressed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "onSystemKeyPressed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -366,6 +366,6 @@ func (p *KeyguardServiceProxy) ShowDismissibleKeyguard(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyguardService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIKeyguardServiceShowDismissibleKeyguard, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIKeyguardService, "showDismissibleKeyguard"), binder.FlagOneway, _data)
 	return _err
 }

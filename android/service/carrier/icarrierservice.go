@@ -52,6 +52,6 @@ func (p *CarrierServiceProxy) GetCarrierConfig(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICarrierServiceGetCarrierConfig, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICarrierService, "getCarrierConfig"), binder.FlagOneway, _data)
 	return _err
 }

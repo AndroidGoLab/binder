@@ -52,7 +52,7 @@ func (p *SuspendCallbackProxy) NotifyWakeup(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISuspendCallbackNotifyWakeup, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISuspendCallback, "notifyWakeup"), 0, _data)
 	if _err != nil {
 		return _err
 	}

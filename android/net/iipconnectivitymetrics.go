@@ -54,7 +54,7 @@ func (p *IpConnectivityMetricsProxy) LogEvent(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIpConnectivityMetricsLogEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIpConnectivityMetrics, "logEvent"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -79,7 +79,7 @@ func (p *IpConnectivityMetricsProxy) LogDefaultNetworkValidity(
 	_data.WriteInterfaceToken(DescriptorIIpConnectivityMetrics)
 	_data.WriteBool(valid)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIpConnectivityMetricsLogDefaultNetworkValidity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIpConnectivityMetrics, "logDefaultNetworkValidity"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -110,7 +110,7 @@ func (p *IpConnectivityMetricsProxy) LogDefaultNetworkEvent(
 	_data.WriteBool(validated)
 	_data.WriteInt32(previousScore)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIpConnectivityMetricsLogDefaultNetworkEvent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIpConnectivityMetrics, "logDefaultNetworkEvent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -134,7 +134,7 @@ func (p *IpConnectivityMetricsProxy) AddNetdEventCallback(
 	_data.WriteInt32(callerType)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIpConnectivityMetricsAddNetdEventCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIpConnectivityMetrics, "addNetdEventCallback"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -160,7 +160,7 @@ func (p *IpConnectivityMetricsProxy) RemoveNetdEventCallback(
 	_data.WriteInterfaceToken(DescriptorIIpConnectivityMetrics)
 	_data.WriteInt32(callerType)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIIpConnectivityMetricsRemoveNetdEventCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIpConnectivityMetrics, "removeNetdEventCallback"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

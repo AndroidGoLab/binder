@@ -43,6 +43,6 @@ func (p *SatelliteStateChangeListenerProxy) OnSatelliteEnabledStateChanged(
 	_data.WriteInterfaceToken(DescriptorISatelliteStateChangeListener)
 	_data.WriteBool(isEnabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteStateChangeListenerOnSatelliteEnabledStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteStateChangeListener, "onSatelliteEnabledStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

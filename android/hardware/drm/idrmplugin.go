@@ -126,7 +126,7 @@ func (p *DrmPluginProxy) CloseSession(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginCloseSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "closeSession"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -182,7 +182,7 @@ func (p *DrmPluginProxy) Decrypt(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginDecrypt, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "decrypt"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -252,7 +252,7 @@ func (p *DrmPluginProxy) Encrypt(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginEncrypt, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "encrypt"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -286,7 +286,7 @@ func (p *DrmPluginProxy) GetHdcpLevels(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginGetHdcpLevels, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "getHdcpLevels"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -342,7 +342,7 @@ func (p *DrmPluginProxy) GetKeyRequest(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginGetKeyRequest, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "getKeyRequest"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -365,7 +365,7 @@ func (p *DrmPluginProxy) GetLogMessages(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginGetLogMessages, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "getLogMessages"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -398,7 +398,7 @@ func (p *DrmPluginProxy) GetMetrics(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginGetMetrics, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "getMetrics"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -431,7 +431,7 @@ func (p *DrmPluginProxy) GetNumberOfSessions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginGetNumberOfSessions, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "getNumberOfSessions"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -454,7 +454,7 @@ func (p *DrmPluginProxy) GetOfflineLicenseKeySetIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginGetOfflineLicenseKeySetIds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "getOfflineLicenseKeySetIds"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -491,7 +491,7 @@ func (p *DrmPluginProxy) GetOfflineLicenseState(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginGetOfflineLicenseState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "getOfflineLicenseState"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -518,7 +518,7 @@ func (p *DrmPluginProxy) GetPropertyByteArray(
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteString16(propertyName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginGetPropertyByteArray, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "getPropertyByteArray"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -554,7 +554,7 @@ func (p *DrmPluginProxy) GetPropertyString(
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteString16(propertyName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginGetPropertyString, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "getPropertyString"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -582,7 +582,7 @@ func (p *DrmPluginProxy) GetProvisionRequest(
 	_data.WriteString16(certificateType)
 	_data.WriteString16(certificateAuthority)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginGetProvisionRequest, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "getProvisionRequest"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -609,7 +609,7 @@ func (p *DrmPluginProxy) GetSecureStop(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginGetSecureStop, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "getSecureStop"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -632,7 +632,7 @@ func (p *DrmPluginProxy) GetSecureStopIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginGetSecureStopIds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "getSecureStopIds"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -665,7 +665,7 @@ func (p *DrmPluginProxy) GetSecureStops(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginGetSecureStops, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "getSecureStops"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -707,7 +707,7 @@ func (p *DrmPluginProxy) GetSecurityLevel(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginGetSecurityLevel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "getSecurityLevel"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -734,7 +734,7 @@ func (p *DrmPluginProxy) OpenSession(
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteInt32(int32(securityLevel))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginOpenSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "openSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -786,7 +786,7 @@ func (p *DrmPluginProxy) ProvideKeyResponse(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginProvideKeyResponse, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "provideKeyResponse"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -818,7 +818,7 @@ func (p *DrmPluginProxy) ProvideProvisionResponse(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginProvideProvisionResponse, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "provideProvisionResponse"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -850,7 +850,7 @@ func (p *DrmPluginProxy) QueryKeyStatus(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginQueryKeyStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "queryKeyStatus"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -882,7 +882,7 @@ func (p *DrmPluginProxy) ReleaseAllSecureStops(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginReleaseAllSecureStops, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "releaseAllSecureStops"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -905,7 +905,7 @@ func (p *DrmPluginProxy) ReleaseSecureStop(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginReleaseSecureStop, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "releaseSecureStop"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -928,7 +928,7 @@ func (p *DrmPluginProxy) ReleaseSecureStops(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginReleaseSecureStops, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "releaseSecureStops"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -947,7 +947,7 @@ func (p *DrmPluginProxy) RemoveAllSecureStops(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginRemoveAllSecureStops, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "removeAllSecureStops"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -975,7 +975,7 @@ func (p *DrmPluginProxy) RemoveKeys(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginRemoveKeys, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "removeKeys"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -998,7 +998,7 @@ func (p *DrmPluginProxy) RemoveOfflineLicense(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginRemoveOfflineLicense, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "removeOfflineLicense"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1021,7 +1021,7 @@ func (p *DrmPluginProxy) RemoveSecureStop(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginRemoveSecureStop, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "removeSecureStop"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1045,7 +1045,7 @@ func (p *DrmPluginProxy) RequiresSecureDecoder(
 	_data.WriteString16(mime)
 	_data.WriteInt32(int32(level))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginRequiresSecureDecoder, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "requiresSecureDecoder"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1081,7 +1081,7 @@ func (p *DrmPluginProxy) RestoreKeys(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginRestoreKeys, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "restoreKeys"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1111,7 +1111,7 @@ func (p *DrmPluginProxy) SetCipherAlgorithm(
 	}
 	_data.WriteString16(algorithm)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginSetCipherAlgorithm, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "setCipherAlgorithm"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1132,7 +1132,7 @@ func (p *DrmPluginProxy) SetListener(
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginSetListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "setListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1162,7 +1162,7 @@ func (p *DrmPluginProxy) SetMacAlgorithm(
 	}
 	_data.WriteString16(algorithm)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginSetMacAlgorithm, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "setMacAlgorithm"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1192,7 +1192,7 @@ func (p *DrmPluginProxy) SetPlaybackId(
 	}
 	_data.WriteString16(playbackId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginSetPlaybackId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "setPlaybackId"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1222,7 +1222,7 @@ func (p *DrmPluginProxy) SetPropertyByteArray(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginSetPropertyByteArray, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "setPropertyByteArray"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1245,7 +1245,7 @@ func (p *DrmPluginProxy) SetPropertyString(
 	_data.WriteString16(propertyName)
 	_data.WriteString16(value)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginSetPropertyString, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "setPropertyString"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -1292,7 +1292,7 @@ func (p *DrmPluginProxy) Sign(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginSign, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "sign"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1355,7 +1355,7 @@ func (p *DrmPluginProxy) SignRSA(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginSignRSA, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "signRSA"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -1425,7 +1425,7 @@ func (p *DrmPluginProxy) Verify(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIDrmPluginVerify, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDrmPlugin, "verify"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

@@ -80,7 +80,7 @@ func (p *BiometricServiceProxy) CreateTestSession(
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteString16(opPackageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceCreateTestSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "createTestSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -107,7 +107,7 @@ func (p *BiometricServiceProxy) GetSensorProperties(
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteString16(opPackageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceGetSensorProperties, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "getSensorProperties"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -154,7 +154,7 @@ func (p *BiometricServiceProxy) Authenticate(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceAuthenticate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "authenticate"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -183,7 +183,7 @@ func (p *BiometricServiceProxy) CancelAuthentication(
 	_data.WriteString16(opPackageName)
 	_data.WriteInt64(requestId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceCancelAuthentication, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "cancelAuthentication"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -211,7 +211,7 @@ func (p *BiometricServiceProxy) CanAuthenticate(
 	_data.WriteInt32(callingUserId)
 	_data.WriteInt32(authenticators)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceCanAuthenticate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "canAuthenticate"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -239,7 +239,7 @@ func (p *BiometricServiceProxy) GetLastAuthenticationTime(
 	_data.WriteInt32(userId)
 	_data.WriteInt32(authenticators)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceGetLastAuthenticationTime, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "getLastAuthenticationTime"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -267,7 +267,7 @@ func (p *BiometricServiceProxy) HasEnrolledBiometrics(
 	_data.WriteInt32(userId)
 	_data.WriteString16(opPackageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceHasEnrolledBiometrics, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "hasEnrolledBiometrics"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -298,7 +298,7 @@ func (p *BiometricServiceProxy) RegisterAuthenticator(
 	_data.WriteInt32(strength)
 	_data.WriteStrongBinder(authenticator.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceRegisterAuthenticator, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "registerAuthenticator"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -319,7 +319,7 @@ func (p *BiometricServiceProxy) RegisterEnabledOnKeyguardCallback(
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceRegisterEnabledOnKeyguardCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "registerEnabledOnKeyguardCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -342,7 +342,7 @@ func (p *BiometricServiceProxy) OnReadyForAuthentication(
 	_data.WriteInt64(requestId)
 	_data.WriteInt32(cookie)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceOnReadyForAuthentication, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "onReadyForAuthentication"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -367,7 +367,7 @@ func (p *BiometricServiceProxy) InvalidateAuthenticatorIds(
 	_data.WriteInt32(fromSensorId)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceInvalidateAuthenticatorIds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "invalidateAuthenticatorIds"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -389,7 +389,7 @@ func (p *BiometricServiceProxy) GetAuthenticatorIds(
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(callingUserId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceGetAuthenticatorIds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "getAuthenticatorIds"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -439,7 +439,7 @@ func (p *BiometricServiceProxy) ResetLockoutTimeBound(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceResetLockoutTimeBound, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "resetLockoutTimeBound"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -469,7 +469,7 @@ func (p *BiometricServiceProxy) ResetLockout(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceResetLockout, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "resetLockout"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -491,7 +491,7 @@ func (p *BiometricServiceProxy) GetCurrentStrength(
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(sensorId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceGetCurrentStrength, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "getCurrentStrength"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -523,7 +523,7 @@ func (p *BiometricServiceProxy) GetCurrentModality(
 	_data.WriteInt32(callingUserId)
 	_data.WriteInt32(authenticators)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceGetCurrentModality, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "getCurrentModality"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -549,7 +549,7 @@ func (p *BiometricServiceProxy) GetSupportedModalities(
 	_data.WriteInterfaceToken(DescriptorIBiometricService)
 	_data.WriteInt32(authenticators)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBiometricServiceGetSupportedModalities, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBiometricService, "getSupportedModalities"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

@@ -54,7 +54,7 @@ func (p *SplitSelectListenerProxy) OnRequestSplitSelect(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISplitSelectListenerOnRequestSplitSelect, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISplitSelectListener, "onRequestSplitSelect"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

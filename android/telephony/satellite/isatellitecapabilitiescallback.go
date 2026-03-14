@@ -45,6 +45,6 @@ func (p *SatelliteCapabilitiesCallbackProxy) OnSatelliteCapabilitiesChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteCapabilitiesCallbackOnSatelliteCapabilitiesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteCapabilitiesCallback, "onSatelliteCapabilitiesChanged"), binder.FlagOneway, _data)
 	return _err
 }

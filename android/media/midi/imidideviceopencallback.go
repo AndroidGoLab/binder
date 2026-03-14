@@ -45,6 +45,6 @@ func (p *MidiDeviceOpenCallbackProxy) OnDeviceOpened(
 	_data.WriteStrongBinder(server.AsBinder().Handle())
 	_data.WriteStrongBinder(token.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIMidiDeviceOpenCallbackOnDeviceOpened, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMidiDeviceOpenCallback, "onDeviceOpened"), binder.FlagOneway, _data)
 	return _err
 }

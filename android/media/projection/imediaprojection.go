@@ -71,7 +71,7 @@ func (p *MediaProjectionProxy) Start(
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaProjectionStart, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjection, "start"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -92,7 +92,7 @@ func (p *MediaProjectionProxy) Stop(
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 	_data.WriteInt32(int32(stopReason))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaProjectionStop, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjection, "stop"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -112,7 +112,7 @@ func (p *MediaProjectionProxy) CanProjectAudio(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaProjectionCanProjectAudio, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjection, "canProjectAudio"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -136,7 +136,7 @@ func (p *MediaProjectionProxy) CanProjectVideo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaProjectionCanProjectVideo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjection, "canProjectVideo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -160,7 +160,7 @@ func (p *MediaProjectionProxy) CanProjectSecureVideo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaProjectionCanProjectSecureVideo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjection, "canProjectSecureVideo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -186,7 +186,7 @@ func (p *MediaProjectionProxy) ApplyVirtualDisplayFlags(
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 	_data.WriteInt32(flags)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaProjectionApplyVirtualDisplayFlags, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjection, "applyVirtualDisplayFlags"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -211,7 +211,7 @@ func (p *MediaProjectionProxy) RegisterCallback(
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaProjectionRegisterCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjection, "registerCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -232,7 +232,7 @@ func (p *MediaProjectionProxy) UnregisterCallback(
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaProjectionUnregisterCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjection, "unregisterCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -252,7 +252,7 @@ func (p *MediaProjectionProxy) GetLaunchCookie(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaProjectionGetLaunchCookie, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjection, "getLaunchCookie"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -272,7 +272,7 @@ func (p *MediaProjectionProxy) GetTaskId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaProjectionGetTaskId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjection, "getTaskId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -296,7 +296,7 @@ func (p *MediaProjectionProxy) GetDisplayId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaProjectionGetDisplayId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjection, "getDisplayId"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -320,7 +320,7 @@ func (p *MediaProjectionProxy) SetLaunchCookie(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaProjectionSetLaunchCookie, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjection, "setLaunchCookie"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -341,7 +341,7 @@ func (p *MediaProjectionProxy) SetTaskId(
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 	_data.WriteInt32(taskId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaProjectionSetTaskId, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjection, "setTaskId"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -361,7 +361,7 @@ func (p *MediaProjectionProxy) IsValid(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaProjectionIsValid, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjection, "isValid"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -386,7 +386,7 @@ func (p *MediaProjectionProxy) NotifyVirtualDisplayCreated(
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 	_data.WriteInt32(displayId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIMediaProjectionNotifyVirtualDisplayCreated, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaProjection, "notifyVirtualDisplayCreated"), 0, _data)
 	if _err != nil {
 		return _err
 	}

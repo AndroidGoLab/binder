@@ -56,7 +56,7 @@ func (p *ResolverRankerServiceProxy) Predict(
 	}
 	_data.WriteStrongBinder(result.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIResolverRankerServicePredict, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIResolverRankerService, "predict"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +79,6 @@ func (p *ResolverRankerServiceProxy) Train(
 	}
 	_data.WriteInt32(selectedPosition)
 
-	_, _err := p.remote.Transact(ctx, TransactionIResolverRankerServiceTrain, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIResolverRankerService, "train"), binder.FlagOneway, _data)
 	return _err
 }

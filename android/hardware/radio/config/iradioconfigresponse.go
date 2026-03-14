@@ -66,7 +66,7 @@ func (p *RadioConfigResponseProxy) GetHalDeviceCapabilitiesResponse(
 	}
 	_data.WriteBool(modemReducedFeatureSet1)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioConfigResponseGetHalDeviceCapabilitiesResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioConfigResponse, "getHalDeviceCapabilitiesResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -82,7 +82,7 @@ func (p *RadioConfigResponseProxy) GetNumOfLiveModemsResponse(
 	}
 	_data.WritePaddedByte(numOfLiveModems)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioConfigResponseGetNumOfLiveModemsResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioConfigResponse, "getNumOfLiveModemsResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,7 +100,7 @@ func (p *RadioConfigResponseProxy) GetPhoneCapabilityResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioConfigResponseGetPhoneCapabilityResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioConfigResponse, "getPhoneCapabilityResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -125,7 +125,7 @@ func (p *RadioConfigResponseProxy) GetSimSlotsStatusResponse(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioConfigResponseGetSimSlotsStatusResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioConfigResponse, "getSimSlotsStatusResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -139,7 +139,7 @@ func (p *RadioConfigResponseProxy) SetNumOfLiveModemsResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioConfigResponseSetNumOfLiveModemsResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioConfigResponse, "setNumOfLiveModemsResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -153,7 +153,7 @@ func (p *RadioConfigResponseProxy) SetPreferredDataModemResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioConfigResponseSetPreferredDataModemResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioConfigResponse, "setPreferredDataModemResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -167,7 +167,7 @@ func (p *RadioConfigResponseProxy) SetSimSlotsMappingResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioConfigResponseSetSimSlotsMappingResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioConfigResponse, "setSimSlotsMappingResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -190,7 +190,7 @@ func (p *RadioConfigResponseProxy) GetSimultaneousCallingSupportResponse(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioConfigResponseGetSimultaneousCallingSupportResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioConfigResponse, "getSimultaneousCallingSupportResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -215,7 +215,7 @@ func (p *RadioConfigResponseProxy) GetSimTypeInfoResponse(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioConfigResponseGetSimTypeInfoResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioConfigResponse, "getSimTypeInfoResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -229,6 +229,6 @@ func (p *RadioConfigResponseProxy) SetSimTypeResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioConfigResponseSetSimTypeResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioConfigResponse, "setSimTypeResponse"), binder.FlagOneway, _data)
 	return _err
 }

@@ -42,6 +42,6 @@ func (p *ContentCaptureOptionsCallbackProxy) SetContentCaptureOptions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureOptionsCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIContentCaptureOptionsCallbackSetContentCaptureOptions, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIContentCaptureOptionsCallback, "setContentCaptureOptions"), binder.FlagOneway, _data)
 	return _err
 }

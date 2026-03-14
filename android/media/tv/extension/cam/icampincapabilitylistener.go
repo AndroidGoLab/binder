@@ -48,6 +48,6 @@ func (p *CamPinCapabilityListenerProxy) OnCamPinCapabilityChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICamPinCapabilityListenerOnCamPinCapabilityChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamPinCapabilityListener, "onCamPinCapabilityChanged"), binder.FlagOneway, _data)
 	return _err
 }

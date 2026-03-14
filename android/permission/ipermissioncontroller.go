@@ -91,7 +91,7 @@ func (p *PermissionControllerProxy) RevokeRuntimePermissions(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerRevokeRuntimePermissions, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "revokeRuntimePermissions"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,7 +107,7 @@ func (p *PermissionControllerProxy) GetRuntimePermissionBackup(
 	}
 	_data.WriteFileDescriptor(pipe)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerGetRuntimePermissionBackup, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "getRuntimePermissionBackup"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -123,7 +123,7 @@ func (p *PermissionControllerProxy) StageAndApplyRuntimePermissionsBackup(
 	}
 	_data.WriteFileDescriptor(pipe)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerStageAndApplyRuntimePermissionsBackup, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "stageAndApplyRuntimePermissionsBackup"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -143,7 +143,7 @@ func (p *PermissionControllerProxy) ApplyStagedRuntimePermissionBackup(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerApplyStagedRuntimePermissionBackup, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "applyStagedRuntimePermissionBackup"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -159,7 +159,7 @@ func (p *PermissionControllerProxy) GetAppPermissions(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerGetAppPermissions, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "getAppPermissions"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -173,7 +173,7 @@ func (p *PermissionControllerProxy) RevokeRuntimePermission(
 	_data.WriteString16(packageName)
 	_data.WriteString16(permissionName)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerRevokeRuntimePermission, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "revokeRuntimePermission"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -198,7 +198,7 @@ func (p *PermissionControllerProxy) CountPermissionApps(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerCountPermissionApps, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "countPermissionApps"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -216,7 +216,7 @@ func (p *PermissionControllerProxy) GetPermissionUsages(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerGetPermissionUsages, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "getPermissionUsages"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -236,7 +236,7 @@ func (p *PermissionControllerProxy) SetRuntimePermissionGrantStateByDeviceAdminF
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerSetRuntimePermissionGrantStateByDeviceAdminFromParams, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "setRuntimePermissionGrantStateByDeviceAdminFromParams"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -250,7 +250,7 @@ func (p *PermissionControllerProxy) GrantOrUpgradeDefaultRuntimePermissions(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerGrantOrUpgradeDefaultRuntimePermissions, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "grantOrUpgradeDefaultRuntimePermissions"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -264,7 +264,7 @@ func (p *PermissionControllerProxy) NotifyOneTimePermissionSessionTimeout(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(deviceId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerNotifyOneTimePermissionSessionTimeout, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "notifyOneTimePermissionSessionTimeout"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -280,7 +280,7 @@ func (p *PermissionControllerProxy) UpdateUserSensitiveForApp(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerUpdateUserSensitiveForApp, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "updateUserSensitiveForApp"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -296,7 +296,7 @@ func (p *PermissionControllerProxy) GetPrivilegesDescriptionStringForProfile(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerGetPrivilegesDescriptionStringForProfile, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "getPrivilegesDescriptionStringForProfile"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -312,7 +312,7 @@ func (p *PermissionControllerProxy) GetPlatformPermissionsForGroup(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerGetPlatformPermissionsForGroup, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "getPlatformPermissionsForGroup"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -328,7 +328,7 @@ func (p *PermissionControllerProxy) GetGroupOfPlatformPermission(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerGetGroupOfPlatformPermission, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "getGroupOfPlatformPermission"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -342,7 +342,7 @@ func (p *PermissionControllerProxy) GetUnusedAppCount(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerGetUnusedAppCount, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "getUnusedAppCount"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -358,7 +358,7 @@ func (p *PermissionControllerProxy) GetHibernationEligibility(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerGetHibernationEligibility, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "getHibernationEligibility"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -385,6 +385,6 @@ func (p *PermissionControllerProxy) RevokeSelfPermissionsOnKill(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPermissionControllerRevokeSelfPermissionsOnKill, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPermissionController, "revokeSelfPermissionsOnKill"), binder.FlagOneway, _data)
 	return _err
 }

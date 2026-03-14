@@ -43,6 +43,6 @@ func (p *CrossWindowBlurEnabledListenerProxy) OnCrossWindowBlurEnabledChanged(
 	_data.WriteInterfaceToken(DescriptorICrossWindowBlurEnabledListener)
 	_data.WriteBool(enabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionICrossWindowBlurEnabledListenerOnCrossWindowBlurEnabledChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICrossWindowBlurEnabledListener, "onCrossWindowBlurEnabledChanged"), binder.FlagOneway, _data)
 	return _err
 }

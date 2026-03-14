@@ -45,7 +45,7 @@ func (p *TestSessionCallbackProxy) OnCleanupStarted(
 	_data.WriteInterfaceToken(DescriptorITestSessionCallback)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITestSessionCallbackOnCleanupStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestSessionCallback, "onCleanupStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -57,6 +57,6 @@ func (p *TestSessionCallbackProxy) OnCleanupFinished(
 	_data.WriteInterfaceToken(DescriptorITestSessionCallback)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITestSessionCallbackOnCleanupFinished, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestSessionCallback, "onCleanupFinished"), binder.FlagOneway, _data)
 	return _err
 }

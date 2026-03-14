@@ -45,7 +45,7 @@ func (p *TvRemoteProviderProxy) SetRemoteServiceInputSink(
 	_data.WriteInterfaceToken(DescriptorITvRemoteProvider)
 	_data.WriteStrongBinder(tvServiceInput.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionITvRemoteProviderSetRemoteServiceInputSink, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvRemoteProvider, "setRemoteServiceInputSink"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -57,6 +57,6 @@ func (p *TvRemoteProviderProxy) OnInputBridgeConnected(
 	_data.WriteInterfaceToken(DescriptorITvRemoteProvider)
 	_data.WriteStrongBinder(token.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionITvRemoteProviderOnInputBridgeConnected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvRemoteProvider, "onInputBridgeConnected"), binder.FlagOneway, _data)
 	return _err
 }

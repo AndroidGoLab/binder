@@ -41,6 +41,6 @@ func (p *CheckCredentialProgressCallbackProxy) OnCredentialVerified(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICheckCredentialProgressCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionICheckCredentialProgressCallbackOnCredentialVerified, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICheckCredentialProgressCallback, "onCredentialVerified"), binder.FlagOneway, _data)
 	return _err
 }

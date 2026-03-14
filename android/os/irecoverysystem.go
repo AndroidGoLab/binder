@@ -62,7 +62,7 @@ func (p *RecoverySystemProxy) AllocateSpaceForUpdate(
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(packageFilePath)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRecoverySystemAllocateSpaceForUpdate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecoverySystem, "allocateSpaceForUpdate"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -90,7 +90,7 @@ func (p *RecoverySystemProxy) Uncrypt(
 	_data.WriteString16(packageFile)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRecoverySystemUncrypt, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecoverySystem, "uncrypt"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -116,7 +116,7 @@ func (p *RecoverySystemProxy) SetupBcb(
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(command)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRecoverySystemSetupBcb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecoverySystem, "setupBcb"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -140,7 +140,7 @@ func (p *RecoverySystemProxy) ClearBcb(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRecoverySystemClearBcb, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecoverySystem, "clearBcb"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -165,7 +165,7 @@ func (p *RecoverySystemProxy) RebootRecoveryWithCommand(
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(command)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRecoverySystemRebootRecoveryWithCommand, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecoverySystem, "rebootRecoveryWithCommand"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -188,7 +188,7 @@ func (p *RecoverySystemProxy) RequestLskf(
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRecoverySystemRequestLskf, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecoverySystem, "requestLskf"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -214,7 +214,7 @@ func (p *RecoverySystemProxy) ClearLskf(
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRecoverySystemClearLskf, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecoverySystem, "clearLskf"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -240,7 +240,7 @@ func (p *RecoverySystemProxy) IsLskfCaptured(
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRecoverySystemIsLskfCaptured, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecoverySystem, "isLskfCaptured"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -268,7 +268,7 @@ func (p *RecoverySystemProxy) RebootWithLskfAssumeSlotSwitch(
 	_data.WriteString16(packageName)
 	_data.WriteString16(reason)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRecoverySystemRebootWithLskfAssumeSlotSwitch, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecoverySystem, "rebootWithLskfAssumeSlotSwitch"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -298,7 +298,7 @@ func (p *RecoverySystemProxy) RebootWithLskf(
 	_data.WriteString16(reason)
 	_data.WriteBool(slotSwitch)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIRecoverySystemRebootWithLskf, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRecoverySystem, "rebootWithLskf"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

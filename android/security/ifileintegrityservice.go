@@ -49,7 +49,7 @@ func (p *FileIntegrityServiceProxy) IsApkVeritySupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFileIntegrityService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFileIntegrityServiceIsApkVeritySupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFileIntegrityService, "isApkVeritySupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -84,7 +84,7 @@ func (p *FileIntegrityServiceProxy) IsAppSourceCertificateTrusted(
 	}
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFileIntegrityServiceIsAppSourceCertificateTrusted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFileIntegrityService, "isAppSourceCertificateTrusted"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -110,7 +110,7 @@ func (p *FileIntegrityServiceProxy) CreateAuthToken(
 	_data.WriteInterfaceToken(DescriptorIFileIntegrityService)
 	_data.WriteFileDescriptor(authFd)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFileIntegrityServiceCreateAuthToken, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFileIntegrityService, "createAuthToken"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -135,7 +135,7 @@ func (p *FileIntegrityServiceProxy) SetupFsverity(
 	_data.WriteString16(filePath)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFileIntegrityServiceSetupFsverity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFileIntegrityService, "setupFsverity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

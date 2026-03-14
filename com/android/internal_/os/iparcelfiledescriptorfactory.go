@@ -46,7 +46,7 @@ func (p *ParcelFileDescriptorFactoryProxy) Open(
 	_data.WriteString16(name)
 	_data.WriteInt32(mode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIParcelFileDescriptorFactoryOpen, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIParcelFileDescriptorFactory, "open"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

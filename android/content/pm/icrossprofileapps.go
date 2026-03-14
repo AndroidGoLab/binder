@@ -72,7 +72,7 @@ func (p *CrossProfileAppsProxy) StartActivityAsUser(
 	_data.WriteBool(launchMainActivity)
 	_data.WriteStrongBinder(task.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICrossProfileAppsStartActivityAsUser, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICrossProfileApps, "startActivityAsUser"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -102,7 +102,7 @@ func (p *CrossProfileAppsProxy) StartActivityAsUserByIntent(
 	_data.WriteInt32(userId)
 	_data.WriteStrongBinder(callingActivity.Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICrossProfileAppsStartActivityAsUserByIntent, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICrossProfileApps, "startActivityAsUserByIntent"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -124,7 +124,7 @@ func (p *CrossProfileAppsProxy) GetTargetUserProfiles(
 	_data.WriteInterfaceToken(DescriptorICrossProfileApps)
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICrossProfileAppsGetTargetUserProfiles, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICrossProfileApps, "getTargetUserProfiles"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -156,7 +156,7 @@ func (p *CrossProfileAppsProxy) CanInteractAcrossProfiles(
 	_data.WriteInterfaceToken(DescriptorICrossProfileApps)
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICrossProfileAppsCanInteractAcrossProfiles, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICrossProfileApps, "canInteractAcrossProfiles"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -182,7 +182,7 @@ func (p *CrossProfileAppsProxy) CanRequestInteractAcrossProfiles(
 	_data.WriteInterfaceToken(DescriptorICrossProfileApps)
 	_data.WriteString16(callingPackage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICrossProfileAppsCanRequestInteractAcrossProfiles, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICrossProfileApps, "canRequestInteractAcrossProfiles"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -211,7 +211,7 @@ func (p *CrossProfileAppsProxy) SetInteractAcrossProfilesAppOp(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(newMode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICrossProfileAppsSetInteractAcrossProfilesAppOp, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICrossProfileApps, "setInteractAcrossProfilesAppOp"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -235,7 +235,7 @@ func (p *CrossProfileAppsProxy) CanConfigureInteractAcrossProfiles(
 	_data.WriteInt32(userId)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICrossProfileAppsCanConfigureInteractAcrossProfiles, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICrossProfileApps, "canConfigureInteractAcrossProfiles"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -263,7 +263,7 @@ func (p *CrossProfileAppsProxy) CanUserAttemptToConfigureInteractAcrossProfiles(
 	_data.WriteInt32(userId)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICrossProfileAppsCanUserAttemptToConfigureInteractAcrossProfiles, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICrossProfileApps, "canUserAttemptToConfigureInteractAcrossProfiles"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -297,7 +297,7 @@ func (p *CrossProfileAppsProxy) ResetInteractAcrossProfilesAppOps(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICrossProfileAppsResetInteractAcrossProfilesAppOps, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICrossProfileApps, "resetInteractAcrossProfilesAppOps"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -318,7 +318,7 @@ func (p *CrossProfileAppsProxy) ClearInteractAcrossProfilesAppOps(
 	_data.WriteInterfaceToken(DescriptorICrossProfileApps)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICrossProfileAppsClearInteractAcrossProfilesAppOps, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICrossProfileApps, "clearInteractAcrossProfilesAppOps"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -53,7 +53,7 @@ func (p *ProcessStatsProxy) GetCurrentStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIProcessStatsGetCurrentStats, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProcessStats, "getCurrentStats"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -102,7 +102,7 @@ func (p *ProcessStatsProxy) GetStatsOverTime(
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
 	_data.WriteInt64(minTime)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIProcessStatsGetStatsOverTime, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProcessStats, "getStatsOverTime"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -126,7 +126,7 @@ func (p *ProcessStatsProxy) GetCurrentMemoryState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIProcessStatsGetCurrentMemoryState, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProcessStats, "getCurrentMemoryState"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -157,7 +157,7 @@ func (p *ProcessStatsProxy) GetCommittedStats(
 	_data.WriteInt32(section)
 	_data.WriteBool(doAggregate)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIProcessStatsGetCommittedStats, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProcessStats, "getCommittedStats"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -202,7 +202,7 @@ func (p *ProcessStatsProxy) GetCommittedStatsMerged(
 	_data.WriteInt32(section)
 	_data.WriteBool(doAggregate)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIProcessStatsGetCommittedStatsMerged, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProcessStats, "getCommittedStatsMerged"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -242,7 +242,7 @@ func (p *ProcessStatsProxy) GetMinAssociationDumpDuration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProcessStats)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIProcessStatsGetMinAssociationDumpDuration, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIProcessStats, "getMinAssociationDumpDuration"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

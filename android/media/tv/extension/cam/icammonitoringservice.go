@@ -54,7 +54,7 @@ func (p *CamMonitoringServiceProxy) AddCamInfoListener(
 	_data.WriteInterfaceToken(DescriptorICamMonitoringService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamMonitoringServiceAddCamInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamMonitoringService, "addCamInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -75,7 +75,7 @@ func (p *CamMonitoringServiceProxy) RemoveCamInfoListener(
 	_data.WriteInterfaceToken(DescriptorICamMonitoringService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamMonitoringServiceRemoveCamInfoListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamMonitoringService, "removeCamInfoListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -97,7 +97,7 @@ func (p *CamMonitoringServiceProxy) GetCamInfo(
 	_data.WriteInterfaceToken(DescriptorICamMonitoringService)
 	_data.WriteInt32(slotId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamMonitoringServiceGetCamInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamMonitoringService, "getCamInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -122,7 +122,7 @@ func (p *CamMonitoringServiceProxy) GetSlotInfo(
 	_data.WriteInterfaceToken(DescriptorICamMonitoringService)
 	_data.WriteInt32(slotId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamMonitoringServiceGetSlotInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamMonitoringService, "getSlotInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -145,7 +145,7 @@ func (p *CamMonitoringServiceProxy) GetSlotIds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamMonitoringService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamMonitoringServiceGetSlotIds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamMonitoringService, "getSlotIds"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -179,7 +179,7 @@ func (p *CamMonitoringServiceProxy) IsCamSupported(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamMonitoringService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionICamMonitoringServiceIsCamSupported, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICamMonitoringService, "isCamSupported"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

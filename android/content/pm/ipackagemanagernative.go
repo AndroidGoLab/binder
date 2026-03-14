@@ -83,7 +83,7 @@ func (p *PackageManagerNativeProxy) GetNamesForUids(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPackageManagerNativeGetNamesForUids, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageManagerNative, "getNamesForUids"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -123,7 +123,7 @@ func (p *PackageManagerNativeProxy) GetPackageUid(
 	_data.WriteInt64(flags)
 	_data.WriteInt32(userId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPackageManagerNativeGetPackageUid, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageManagerNative, "getPackageUid"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -149,7 +149,7 @@ func (p *PackageManagerNativeProxy) GetInstallerForPackage(
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPackageManagerNativeGetInstallerForPackage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageManagerNative, "getInstallerForPackage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -175,7 +175,7 @@ func (p *PackageManagerNativeProxy) GetVersionCodeForPackage(
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPackageManagerNativeGetVersionCodeForPackage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageManagerNative, "getVersionCodeForPackage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -208,7 +208,7 @@ func (p *PackageManagerNativeProxy) IsAudioPlaybackCaptureAllowed(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPackageManagerNativeIsAudioPlaybackCaptureAllowed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageManagerNative, "isAudioPlaybackCaptureAllowed"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -244,7 +244,7 @@ func (p *PackageManagerNativeProxy) GetLocationFlags(
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPackageManagerNativeGetLocationFlags, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageManagerNative, "getLocationFlags"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -270,7 +270,7 @@ func (p *PackageManagerNativeProxy) GetTargetSdkVersionForPackage(
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPackageManagerNativeGetTargetSdkVersionForPackage, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageManagerNative, "getTargetSdkVersionForPackage"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -294,7 +294,7 @@ func (p *PackageManagerNativeProxy) GetModuleMetadataPackageName(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPackageManagerNativeGetModuleMetadataPackageName, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageManagerNative, "getModuleMetadataPackageName"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -329,7 +329,7 @@ func (p *PackageManagerNativeProxy) HasSha256SigningCertificate(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPackageManagerNativeHasSha256SigningCertificate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageManagerNative, "hasSha256SigningCertificate"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -355,7 +355,7 @@ func (p *PackageManagerNativeProxy) IsPackageDebuggable(
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteString16(packageName)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPackageManagerNativeIsPackageDebuggable, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageManagerNative, "isPackageDebuggable"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -383,7 +383,7 @@ func (p *PackageManagerNativeProxy) HasSystemFeature(
 	_data.WriteString16(featureName)
 	_data.WriteInt32(version)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPackageManagerNativeHasSystemFeature, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageManagerNative, "hasSystemFeature"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -408,7 +408,7 @@ func (p *PackageManagerNativeProxy) RegisterStagedApexObserver(
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteStrongBinder(observer.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPackageManagerNativeRegisterStagedApexObserver, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageManagerNative, "registerStagedApexObserver"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -429,7 +429,7 @@ func (p *PackageManagerNativeProxy) UnregisterStagedApexObserver(
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 	_data.WriteStrongBinder(observer.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPackageManagerNativeUnregisterStagedApexObserver, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageManagerNative, "unregisterStagedApexObserver"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -449,7 +449,7 @@ func (p *PackageManagerNativeProxy) GetStagedApexInfos(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageManagerNative)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIPackageManagerNativeGetStagedApexInfos, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageManagerNative, "getStagedApexInfos"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

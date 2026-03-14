@@ -43,6 +43,6 @@ func (p *HomeTransitionListenerProxy) OnHomeVisibilityChanged(
 	_data.WriteInterfaceToken(DescriptorIHomeTransitionListener)
 	_data.WriteBool(isVisible)
 
-	_, _err := p.remote.Transact(ctx, TransactionIHomeTransitionListenerOnHomeVisibilityChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHomeTransitionListener, "onHomeVisibilityChanged"), binder.FlagOneway, _data)
 	return _err
 }

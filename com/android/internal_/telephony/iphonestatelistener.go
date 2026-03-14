@@ -144,7 +144,7 @@ func (p *PhoneStateListenerProxy) OnServiceStateChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnServiceStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onServiceStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -156,7 +156,7 @@ func (p *PhoneStateListenerProxy) OnSignalStrengthChanged(
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(asu)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnSignalStrengthChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onSignalStrengthChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -168,7 +168,7 @@ func (p *PhoneStateListenerProxy) OnMessageWaitingIndicatorChanged(
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteBool(mwi)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnMessageWaitingIndicatorChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onMessageWaitingIndicatorChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -180,7 +180,7 @@ func (p *PhoneStateListenerProxy) OnCallForwardingIndicatorChanged(
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteBool(cfi)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnCallForwardingIndicatorChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onCallForwardingIndicatorChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -194,7 +194,7 @@ func (p *PhoneStateListenerProxy) OnCellLocationChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnCellLocationChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onCellLocationChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -208,7 +208,7 @@ func (p *PhoneStateListenerProxy) OnLegacyCallStateChanged(
 	_data.WriteInt32(state)
 	_data.WriteString16(incomingNumber)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnLegacyCallStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onLegacyCallStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -220,7 +220,7 @@ func (p *PhoneStateListenerProxy) OnCallStateChanged(
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(state)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnCallStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onCallStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -234,7 +234,7 @@ func (p *PhoneStateListenerProxy) OnDataConnectionStateChanged(
 	_data.WriteInt32(state)
 	_data.WriteInt32(networkType)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnDataConnectionStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onDataConnectionStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -246,7 +246,7 @@ func (p *PhoneStateListenerProxy) OnDataActivity(
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(direction)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnDataActivity, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onDataActivity"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -260,7 +260,7 @@ func (p *PhoneStateListenerProxy) OnSignalStrengthsChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnSignalStrengthsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onSignalStrengthsChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -281,7 +281,7 @@ func (p *PhoneStateListenerProxy) OnCellInfoChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnCellInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onCellInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -295,7 +295,7 @@ func (p *PhoneStateListenerProxy) OnPreciseCallStateChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnPreciseCallStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onPreciseCallStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -309,7 +309,7 @@ func (p *PhoneStateListenerProxy) OnPreciseDataConnectionStateChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnPreciseDataConnectionStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onPreciseDataConnectionStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -323,7 +323,7 @@ func (p *PhoneStateListenerProxy) OnDataConnectionRealTimeInfoChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnDataConnectionRealTimeInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onDataConnectionRealTimeInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -335,7 +335,7 @@ func (p *PhoneStateListenerProxy) OnSrvccStateChanged(
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(state)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnSrvccStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onSrvccStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -347,7 +347,7 @@ func (p *PhoneStateListenerProxy) OnVoiceActivationStateChanged(
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(activationState)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnVoiceActivationStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onVoiceActivationStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -359,7 +359,7 @@ func (p *PhoneStateListenerProxy) OnDataActivationStateChanged(
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(activationState)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnDataActivationStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onDataActivationStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -378,7 +378,7 @@ func (p *PhoneStateListenerProxy) OnOemHookRawEvent(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnOemHookRawEvent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onOemHookRawEvent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -390,7 +390,7 @@ func (p *PhoneStateListenerProxy) OnCarrierNetworkChange(
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteBool(active)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnCarrierNetworkChange, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onCarrierNetworkChange"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -402,7 +402,7 @@ func (p *PhoneStateListenerProxy) OnUserMobileDataStateChanged(
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteBool(enabled)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnUserMobileDataStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onUserMobileDataStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -416,7 +416,7 @@ func (p *PhoneStateListenerProxy) OnDisplayInfoChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnDisplayInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onDisplayInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -430,7 +430,7 @@ func (p *PhoneStateListenerProxy) OnPhoneCapabilityChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnPhoneCapabilityChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onPhoneCapabilityChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -442,7 +442,7 @@ func (p *PhoneStateListenerProxy) OnActiveDataSubIdChanged(
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(subId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnActiveDataSubIdChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onActiveDataSubIdChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -454,7 +454,7 @@ func (p *PhoneStateListenerProxy) OnRadioPowerStateChanged(
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteInt32(state)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnRadioPowerStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onRadioPowerStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -473,7 +473,7 @@ func (p *PhoneStateListenerProxy) OnCallStatesChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnCallStatesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onCallStatesChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -493,7 +493,7 @@ func (p *PhoneStateListenerProxy) OnEmergencyNumberListChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnEmergencyNumberListChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onEmergencyNumberListChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -509,7 +509,7 @@ func (p *PhoneStateListenerProxy) OnOutgoingEmergencyCall(
 	}
 	_data.WriteInt32(subscriptionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnOutgoingEmergencyCall, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onOutgoingEmergencyCall"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -525,7 +525,7 @@ func (p *PhoneStateListenerProxy) OnOutgoingEmergencySms(
 	}
 	_data.WriteInt32(subscriptionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnOutgoingEmergencySms, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onOutgoingEmergencySms"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -539,7 +539,7 @@ func (p *PhoneStateListenerProxy) OnCallDisconnectCauseChanged(
 	_data.WriteInt32(disconnectCause)
 	_data.WriteInt32(preciseDisconnectCause)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnCallDisconnectCauseChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onCallDisconnectCauseChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -553,7 +553,7 @@ func (p *PhoneStateListenerProxy) OnImsCallDisconnectCauseChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnImsCallDisconnectCauseChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onImsCallDisconnectCauseChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -575,7 +575,7 @@ func (p *PhoneStateListenerProxy) OnRegistrationFailed(
 	_data.WriteInt32(causeCode)
 	_data.WriteInt32(additionalCauseCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnRegistrationFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onRegistrationFailed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -589,7 +589,7 @@ func (p *PhoneStateListenerProxy) OnBarringInfoChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnBarringInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onBarringInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -610,7 +610,7 @@ func (p *PhoneStateListenerProxy) OnPhysicalChannelConfigChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnPhysicalChannelConfigChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onPhysicalChannelConfigChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -624,7 +624,7 @@ func (p *PhoneStateListenerProxy) OnDataEnabledChanged(
 	_data.WriteBool(enabled)
 	_data.WriteInt32(reason)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnDataEnabledChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onDataEnabledChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -638,7 +638,7 @@ func (p *PhoneStateListenerProxy) OnAllowedNetworkTypesChanged(
 	_data.WriteInt32(reason)
 	_data.WriteInt64(allowedNetworkType)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnAllowedNetworkTypesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onAllowedNetworkTypesChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -659,7 +659,7 @@ func (p *PhoneStateListenerProxy) OnLinkCapacityEstimateChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnLinkCapacityEstimateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onLinkCapacityEstimateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -673,7 +673,7 @@ func (p *PhoneStateListenerProxy) OnMediaQualityStatusChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnMediaQualityStatusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onMediaQualityStatusChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -689,7 +689,7 @@ func (p *PhoneStateListenerProxy) OnCallbackModeStarted(
 	_data.WriteInt64(durationMillis)
 	_data.WriteInt32(subId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnCallbackModeStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onCallbackModeStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -705,7 +705,7 @@ func (p *PhoneStateListenerProxy) OnCallbackModeRestarted(
 	_data.WriteInt64(durationMillis)
 	_data.WriteInt32(subId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnCallbackModeRestarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onCallbackModeRestarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -721,7 +721,7 @@ func (p *PhoneStateListenerProxy) OnCallbackModeStopped(
 	_data.WriteInt32(reason)
 	_data.WriteInt32(subId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnCallbackModeStopped, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onCallbackModeStopped"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -740,7 +740,7 @@ func (p *PhoneStateListenerProxy) OnSimultaneousCallingStateChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnSimultaneousCallingStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onSimultaneousCallingStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -752,7 +752,7 @@ func (p *PhoneStateListenerProxy) OnCarrierRoamingNtnModeChanged(
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteBool(active)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnCarrierRoamingNtnModeChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onCarrierRoamingNtnModeChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -764,7 +764,7 @@ func (p *PhoneStateListenerProxy) OnCarrierRoamingNtnEligibleStateChanged(
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 	_data.WriteBool(eligible)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnCarrierRoamingNtnEligibleStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onCarrierRoamingNtnEligibleStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -783,7 +783,7 @@ func (p *PhoneStateListenerProxy) OnCarrierRoamingNtnAvailableServicesChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnCarrierRoamingNtnAvailableServicesChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onCarrierRoamingNtnAvailableServicesChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -794,7 +794,7 @@ func (p *PhoneStateListenerProxy) OnCarrierRoamingNtnSignalStrengthChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnCarrierRoamingNtnSignalStrengthChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onCarrierRoamingNtnSignalStrengthChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -808,7 +808,7 @@ func (p *PhoneStateListenerProxy) OnSecurityAlgorithmsChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnSecurityAlgorithmsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onSecurityAlgorithmsChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -822,6 +822,6 @@ func (p *PhoneStateListenerProxy) OnCellularIdentifierDisclosedChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPhoneStateListenerOnCellularIdentifierDisclosedChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPhoneStateListener, "onCellularIdentifierDisclosedChanged"), binder.FlagOneway, _data)
 	return _err
 }

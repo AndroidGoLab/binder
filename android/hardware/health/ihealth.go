@@ -78,7 +78,7 @@ func (p *HealthProxy) RegisterCallback(
 	_data.WriteInterfaceToken(DescriptorIHealth)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHealthRegisterCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealth, "registerCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -99,7 +99,7 @@ func (p *HealthProxy) UnregisterCallback(
 	_data.WriteInterfaceToken(DescriptorIHealth)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHealthUnregisterCallback, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealth, "unregisterCallback"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -118,7 +118,7 @@ func (p *HealthProxy) Update(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHealthUpdate, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealth, "update"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -138,7 +138,7 @@ func (p *HealthProxy) GetChargeCounterUah(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHealthGetChargeCounterUah, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealth, "getChargeCounterUah"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -162,7 +162,7 @@ func (p *HealthProxy) GetCurrentNowMicroamps(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHealthGetCurrentNowMicroamps, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealth, "getCurrentNowMicroamps"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -186,7 +186,7 @@ func (p *HealthProxy) GetCurrentAverageMicroamps(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHealthGetCurrentAverageMicroamps, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealth, "getCurrentAverageMicroamps"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -210,7 +210,7 @@ func (p *HealthProxy) GetCapacity(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHealthGetCapacity, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealth, "getCapacity"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -234,7 +234,7 @@ func (p *HealthProxy) GetEnergyCounterNwh(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHealthGetEnergyCounterNwh, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealth, "getEnergyCounterNwh"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -258,7 +258,7 @@ func (p *HealthProxy) GetChargeStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHealthGetChargeStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealth, "getChargeStatus"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -283,7 +283,7 @@ func (p *HealthProxy) GetStorageInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHealthGetStorageInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealth, "getStorageInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -316,7 +316,7 @@ func (p *HealthProxy) GetDiskStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHealthGetDiskStats, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealth, "getDiskStats"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -349,7 +349,7 @@ func (p *HealthProxy) GetHealthInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHealthGetHealthInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealth, "getHealthInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -373,7 +373,7 @@ func (p *HealthProxy) SetChargingPolicy(
 	_data.WriteInterfaceToken(DescriptorIHealth)
 	_data.WriteInt32(int32(in_value))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHealthSetChargingPolicy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealth, "setChargingPolicy"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -393,7 +393,7 @@ func (p *HealthProxy) GetChargingPolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHealthGetChargingPolicy, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealth, "getChargingPolicy"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -418,7 +418,7 @@ func (p *HealthProxy) GetBatteryHealthData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHealthGetBatteryHealthData, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealth, "getBatteryHealthData"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -441,7 +441,7 @@ func (p *HealthProxy) GetHingeInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealth)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHealthGetHingeInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHealth, "getHingeInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

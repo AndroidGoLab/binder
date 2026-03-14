@@ -65,7 +65,7 @@ func (p *ExternalStorageServiceProxy) StartSession(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIExternalStorageServiceStartSession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIExternalStorageService, "startSession"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -81,7 +81,7 @@ func (p *ExternalStorageServiceProxy) EndSession(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIExternalStorageServiceEndSession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIExternalStorageService, "endSession"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,7 +101,7 @@ func (p *ExternalStorageServiceProxy) NotifyVolumeStateChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIExternalStorageServiceNotifyVolumeStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIExternalStorageService, "notifyVolumeStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -121,7 +121,7 @@ func (p *ExternalStorageServiceProxy) FreeCache(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIExternalStorageServiceFreeCache, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIExternalStorageService, "freeCache"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -139,6 +139,6 @@ func (p *ExternalStorageServiceProxy) NotifyAnrDelayStarted(
 	_data.WriteInt32(tid)
 	_data.WriteInt32(reason)
 
-	_, _err := p.remote.Transact(ctx, TransactionIExternalStorageServiceNotifyAnrDelayStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIExternalStorageService, "notifyAnrDelayStarted"), binder.FlagOneway, _data)
 	return _err
 }

@@ -43,7 +43,7 @@ func (p *SignificantPlaceProviderManagerProxy) SetInSignificantPlace(
 	_data.WriteInterfaceToken(DescriptorISignificantPlaceProviderManager)
 	_data.WriteBool(inSignificantPlace)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISignificantPlaceProviderManagerSetInSignificantPlace, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISignificantPlaceProviderManager, "setInSignificantPlace"), 0, _data)
 	if _err != nil {
 		return _err
 	}

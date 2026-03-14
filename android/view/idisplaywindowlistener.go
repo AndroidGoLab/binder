@@ -54,7 +54,7 @@ func (p *DisplayWindowListenerProxy) OnDisplayAdded(
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
 	_data.WriteInt32(displayId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDisplayWindowListenerOnDisplayAdded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onDisplayAdded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,7 +67,7 @@ func (p *DisplayWindowListenerProxy) OnDisplayConfigurationChanged(
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
 	_data.WriteInt32(displayId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDisplayWindowListenerOnDisplayConfigurationChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onDisplayConfigurationChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,7 +79,7 @@ func (p *DisplayWindowListenerProxy) OnDisplayRemoved(
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
 	_data.WriteInt32(displayId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDisplayWindowListenerOnDisplayRemoved, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onDisplayRemoved"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -93,7 +93,7 @@ func (p *DisplayWindowListenerProxy) OnFixedRotationStarted(
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(newRotation)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDisplayWindowListenerOnFixedRotationStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onFixedRotationStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,7 +105,7 @@ func (p *DisplayWindowListenerProxy) OnFixedRotationFinished(
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
 	_data.WriteInt32(displayId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDisplayWindowListenerOnFixedRotationFinished, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onFixedRotationFinished"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -139,6 +139,6 @@ func (p *DisplayWindowListenerProxy) OnKeepClearAreasChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIDisplayWindowListenerOnKeepClearAreasChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onKeepClearAreasChanged"), binder.FlagOneway, _data)
 	return _err
 }

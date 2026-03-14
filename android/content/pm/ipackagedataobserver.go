@@ -45,6 +45,6 @@ func (p *PackageDataObserverProxy) OnRemoveCompleted(
 	_data.WriteString16(packageName)
 	_data.WriteBool(succeeded)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPackageDataObserverOnRemoveCompleted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageDataObserver, "onRemoveCompleted"), binder.FlagOneway, _data)
 	return _err
 }

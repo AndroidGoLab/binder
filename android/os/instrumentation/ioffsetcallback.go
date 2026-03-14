@@ -49,6 +49,6 @@ func (p *OffsetCallbackProxy) OnResult(
 		_data.WriteInt32(-1)
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIOffsetCallbackOnResult, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOffsetCallback, "onResult"), binder.FlagOneway, _data)
 	return _err
 }

@@ -60,7 +60,7 @@ func (p *TaskOrganizerControllerProxy) RegisterTaskOrganizer(
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
 	_data.WriteStrongBinder(organizer.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITaskOrganizerControllerRegisterTaskOrganizer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizerController, "registerTaskOrganizer"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -81,7 +81,7 @@ func (p *TaskOrganizerControllerProxy) UnregisterTaskOrganizer(
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
 	_data.WriteStrongBinder(organizer.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITaskOrganizerControllerUnregisterTaskOrganizer, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizerController, "unregisterTaskOrganizer"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -108,7 +108,7 @@ func (p *TaskOrganizerControllerProxy) CreateRootTask(
 	_data.WriteStrongBinder(launchCookie.Handle())
 	_data.WriteBool(removeWithTaskOrganizer)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITaskOrganizerControllerCreateRootTask, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizerController, "createRootTask"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -132,7 +132,7 @@ func (p *TaskOrganizerControllerProxy) DeleteRootTask(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITaskOrganizerControllerDeleteRootTask, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizerController, "deleteRootTask"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -169,7 +169,7 @@ func (p *TaskOrganizerControllerProxy) GetChildTasks(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITaskOrganizerControllerGetChildTasks, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizerController, "getChildTasks"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -210,7 +210,7 @@ func (p *TaskOrganizerControllerProxy) GetRootTasks(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITaskOrganizerControllerGetRootTasks, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizerController, "getRootTasks"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -242,7 +242,7 @@ func (p *TaskOrganizerControllerProxy) GetImeTarget(
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
 	_data.WriteInt32(display)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITaskOrganizerControllerGetImeTarget, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizerController, "getImeTarget"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -270,7 +270,7 @@ func (p *TaskOrganizerControllerProxy) SetInterceptBackPressedOnTaskRoot(
 	}
 	_data.WriteBool(interceptBackPressed)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITaskOrganizerControllerSetInterceptBackPressedOnTaskRoot, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizerController, "setInterceptBackPressedOnTaskRoot"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -293,7 +293,7 @@ func (p *TaskOrganizerControllerProxy) RestartTaskTopActivityProcessIfVisible(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITaskOrganizerControllerRestartTaskTopActivityProcessIfVisible, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskOrganizerController, "restartTaskTopActivityProcessIfVisible"), 0, _data)
 	if _err != nil {
 		return _err
 	}

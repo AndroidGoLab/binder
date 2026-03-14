@@ -69,7 +69,7 @@ func (p *ContentCaptureServiceCallbackProxy) SetContentCaptureWhitelist(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIContentCaptureServiceCallbackSetContentCaptureWhitelist, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIContentCaptureServiceCallback, "setContentCaptureWhitelist"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,7 +92,7 @@ func (p *ContentCaptureServiceCallbackProxy) SetContentCaptureConditions(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIContentCaptureServiceCallbackSetContentCaptureConditions, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIContentCaptureServiceCallback, "setContentCaptureConditions"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -102,7 +102,7 @@ func (p *ContentCaptureServiceCallbackProxy) DisableSelf(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureServiceCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIContentCaptureServiceCallbackDisableSelf, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIContentCaptureServiceCallback, "disableSelf"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -128,6 +128,6 @@ func (p *ContentCaptureServiceCallbackProxy) WriteSessionFlush(
 	}
 	_data.WriteInt32(flushReason)
 
-	_, _err := p.remote.Transact(ctx, TransactionIContentCaptureServiceCallbackWriteSessionFlush, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIContentCaptureServiceCallback, "writeSessionFlush"), binder.FlagOneway, _data)
 	return _err
 }

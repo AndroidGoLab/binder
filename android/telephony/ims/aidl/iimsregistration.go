@@ -58,7 +58,7 @@ func (p *ImsRegistrationProxy) GetRegistrationTechnology(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsRegistrationGetRegistrationTechnology, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRegistration, "getRegistrationTechnology"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -83,7 +83,7 @@ func (p *ImsRegistrationProxy) AddRegistrationCallback(
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsRegistrationAddRegistrationCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRegistration, "addRegistrationCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,7 +95,7 @@ func (p *ImsRegistrationProxy) RemoveRegistrationCallback(
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsRegistrationRemoveRegistrationCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRegistration, "removeRegistrationCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,7 +107,7 @@ func (p *ImsRegistrationProxy) AddEmergencyRegistrationCallback(
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsRegistrationAddEmergencyRegistrationCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRegistration, "addEmergencyRegistrationCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -119,7 +119,7 @@ func (p *ImsRegistrationProxy) RemoveEmergencyRegistrationCallback(
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsRegistrationRemoveEmergencyRegistrationCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRegistration, "removeEmergencyRegistrationCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -133,7 +133,7 @@ func (p *ImsRegistrationProxy) TriggerFullNetworkRegistration(
 	_data.WriteInt32(sipCode)
 	_data.WriteString16(sipReason)
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsRegistrationTriggerFullNetworkRegistration, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRegistration, "triggerFullNetworkRegistration"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -143,7 +143,7 @@ func (p *ImsRegistrationProxy) TriggerUpdateSipDelegateRegistration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsRegistrationTriggerUpdateSipDelegateRegistration, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRegistration, "triggerUpdateSipDelegateRegistration"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -153,7 +153,7 @@ func (p *ImsRegistrationProxy) TriggerSipDelegateDeregistration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsRegistrationTriggerSipDelegateDeregistration, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRegistration, "triggerSipDelegateDeregistration"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -165,6 +165,6 @@ func (p *ImsRegistrationProxy) TriggerDeregistration(
 	_data.WriteInterfaceToken(DescriptorIImsRegistration)
 	_data.WriteInt32(reason)
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsRegistrationTriggerDeregistration, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRegistration, "triggerDeregistration"), binder.FlagOneway, _data)
 	return _err
 }

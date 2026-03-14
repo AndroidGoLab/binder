@@ -45,7 +45,7 @@ func (p *UnfoldTransitionListenerProxy) OnTransitionStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUnfoldTransitionListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUnfoldTransitionListenerOnTransitionStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUnfoldTransitionListener, "onTransitionStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -57,7 +57,7 @@ func (p *UnfoldTransitionListenerProxy) OnTransitionProgress(
 	_data.WriteInterfaceToken(DescriptorIUnfoldTransitionListener)
 	_data.WriteFloat32(progress)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUnfoldTransitionListenerOnTransitionProgress, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUnfoldTransitionListener, "onTransitionProgress"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,6 +67,6 @@ func (p *UnfoldTransitionListenerProxy) OnTransitionFinished(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUnfoldTransitionListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUnfoldTransitionListenerOnTransitionFinished, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUnfoldTransitionListener, "onTransitionFinished"), binder.FlagOneway, _data)
 	return _err
 }

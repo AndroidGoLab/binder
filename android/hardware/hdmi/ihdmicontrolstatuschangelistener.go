@@ -45,6 +45,6 @@ func (p *HdmiControlStatusChangeListenerProxy) OnStatusChange(
 	_data.WriteInt32(isCecEnabled)
 	_data.WriteBool(isCecAvailable)
 
-	_, _err := p.remote.Transact(ctx, TransactionIHdmiControlStatusChangeListenerOnStatusChange, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiControlStatusChangeListener, "onStatusChange"), binder.FlagOneway, _data)
 	return _err
 }

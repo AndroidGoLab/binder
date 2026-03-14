@@ -46,7 +46,7 @@ func (p *RemoteSessionCallbackProxy) OnVolumeChanged(
 	_data.WriteInterfaceToken(DescriptorIRemoteSessionCallback)
 	_data.WriteInt32(flags)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteSessionCallbackOnVolumeChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteSessionCallback, "onVolumeChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -57,6 +57,6 @@ func (p *RemoteSessionCallbackProxy) OnSessionChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteSessionCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteSessionCallbackOnSessionChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteSessionCallback, "onSessionChanged"), binder.FlagOneway, _data)
 	return _err
 }

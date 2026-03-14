@@ -45,7 +45,7 @@ func (p *SatelliteCommunicationAllowedStateCallbackProxy) OnSatelliteCommunicati
 	_data.WriteInterfaceToken(DescriptorISatelliteCommunicationAllowedStateCallback)
 	_data.WriteBool(isAllowed)
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteCommunicationAllowedStateCallbackOnSatelliteCommunicationAllowedStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteCommunicationAllowedStateCallback, "onSatelliteCommunicationAllowedStateChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -59,6 +59,6 @@ func (p *SatelliteCommunicationAllowedStateCallbackProxy) OnSatelliteAccessConfi
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionISatelliteCommunicationAllowedStateCallbackOnSatelliteAccessConfigurationChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISatelliteCommunicationAllowedStateCallback, "onSatelliteAccessConfigurationChanged"), binder.FlagOneway, _data)
 	return _err
 }

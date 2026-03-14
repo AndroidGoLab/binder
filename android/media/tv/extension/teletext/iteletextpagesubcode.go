@@ -59,7 +59,7 @@ func (p *TeletextPageSubCodeProxy) GetTeletextPageNumber(
 	_data.WriteInterfaceToken(DescriptorITeletextPageSubCode)
 	_data.WriteString16(sessionToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITeletextPageSubCodeGetTeletextPageNumber, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITeletextPageSubCode, "getTeletextPageNumber"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -85,7 +85,7 @@ func (p *TeletextPageSubCodeProxy) SetTeleltextPageNumber(
 	_data.WriteString16(sessionToken)
 	_data.WriteInt32(pageNumber)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITeletextPageSubCodeSetTeleltextPageNumber, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITeletextPageSubCode, "setTeleltextPageNumber"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -107,7 +107,7 @@ func (p *TeletextPageSubCodeProxy) GetTeletextPageSubCode(
 	_data.WriteInterfaceToken(DescriptorITeletextPageSubCode)
 	_data.WriteString16(sessionToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITeletextPageSubCodeGetTeletextPageSubCode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITeletextPageSubCode, "getTeletextPageSubCode"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -133,7 +133,7 @@ func (p *TeletextPageSubCodeProxy) SetTeletextPageSubCode(
 	_data.WriteString16(sessionToken)
 	_data.WriteInt32(pageSubCode)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITeletextPageSubCodeSetTeletextPageSubCode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITeletextPageSubCode, "setTeletextPageSubCode"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -155,7 +155,7 @@ func (p *TeletextPageSubCodeProxy) GetTeletextHasTopInfo(
 	_data.WriteInterfaceToken(DescriptorITeletextPageSubCode)
 	_data.WriteString16(sessionToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITeletextPageSubCodeGetTeletextHasTopInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITeletextPageSubCode, "getTeletextHasTopInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -180,7 +180,7 @@ func (p *TeletextPageSubCodeProxy) GetTeletextTopBlockList(
 	_data.WriteInterfaceToken(DescriptorITeletextPageSubCode)
 	_data.WriteString16(sessionToken)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITeletextPageSubCodeGetTeletextTopBlockList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITeletextPageSubCode, "getTeletextTopBlockList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -207,7 +207,7 @@ func (p *TeletextPageSubCodeProxy) GetTeletextTopGroupList(
 	_data.WriteString16(sessionToken)
 	_data.WriteInt32(indexGroup)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITeletextPageSubCodeGetTeletextTopGroupList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITeletextPageSubCode, "getTeletextTopGroupList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -234,7 +234,7 @@ func (p *TeletextPageSubCodeProxy) GetTeletextTopPageList(
 	_data.WriteString16(sessionToken)
 	_data.WriteInt32(indexPage)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITeletextPageSubCodeGetTeletextTopPageList, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITeletextPageSubCode, "getTeletextTopPageList"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

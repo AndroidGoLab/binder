@@ -46,7 +46,7 @@ func (p *BinderWorkSourceNestedServiceProxy) NestedCallWithWorkSourceToSet(
 	_data.WriteInterfaceToken(DescriptorIBinderWorkSourceNestedService)
 	_data.WriteInt32(uidToBlame)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBinderWorkSourceNestedServiceNestedCallWithWorkSourceToSet, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBinderWorkSourceNestedService, "nestedCallWithWorkSourceToSet"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -80,7 +80,7 @@ func (p *BinderWorkSourceNestedServiceProxy) NestedCall(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBinderWorkSourceNestedService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIBinderWorkSourceNestedServiceNestedCall, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBinderWorkSourceNestedService, "nestedCall"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

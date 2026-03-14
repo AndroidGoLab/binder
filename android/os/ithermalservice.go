@@ -70,7 +70,7 @@ func (p *ThermalServiceProxy) RegisterThermalEventListener(
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalServiceRegisterThermalEventListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalService, "registerThermalEventListener"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -98,7 +98,7 @@ func (p *ThermalServiceProxy) RegisterThermalEventListenerWithType(
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 	_data.WriteInt32(type_)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalServiceRegisterThermalEventListenerWithType, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalService, "registerThermalEventListenerWithType"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -124,7 +124,7 @@ func (p *ThermalServiceProxy) UnregisterThermalEventListener(
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalServiceUnregisterThermalEventListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalService, "unregisterThermalEventListener"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -148,7 +148,7 @@ func (p *ThermalServiceProxy) GetCurrentTemperatures(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalServiceGetCurrentTemperatures, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalService, "getCurrentTemperatures"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -180,7 +180,7 @@ func (p *ThermalServiceProxy) GetCurrentTemperaturesWithType(
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	_data.WriteInt32(type_)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalServiceGetCurrentTemperaturesWithType, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalService, "getCurrentTemperaturesWithType"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -212,7 +212,7 @@ func (p *ThermalServiceProxy) RegisterThermalStatusListener(
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalServiceRegisterThermalStatusListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalService, "registerThermalStatusListener"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -238,7 +238,7 @@ func (p *ThermalServiceProxy) UnregisterThermalStatusListener(
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalServiceUnregisterThermalStatusListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalService, "unregisterThermalStatusListener"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -262,7 +262,7 @@ func (p *ThermalServiceProxy) GetCurrentThermalStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalServiceGetCurrentThermalStatus, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalService, "getCurrentThermalStatus"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -286,7 +286,7 @@ func (p *ThermalServiceProxy) GetCurrentCoolingDevices(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalServiceGetCurrentCoolingDevices, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalService, "getCurrentCoolingDevices"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -318,7 +318,7 @@ func (p *ThermalServiceProxy) GetCurrentCoolingDevicesWithType(
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	_data.WriteInt32(type_)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalServiceGetCurrentCoolingDevicesWithType, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalService, "getCurrentCoolingDevicesWithType"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -350,7 +350,7 @@ func (p *ThermalServiceProxy) GetThermalHeadroom(
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	_data.WriteInt32(forecastSeconds)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalServiceGetThermalHeadroom, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalService, "getThermalHeadroom"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -374,7 +374,7 @@ func (p *ThermalServiceProxy) GetThermalHeadroomThresholds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalServiceGetThermalHeadroomThresholds, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalService, "getThermalHeadroomThresholds"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -410,7 +410,7 @@ func (p *ThermalServiceProxy) RegisterThermalHeadroomListener(
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalServiceRegisterThermalHeadroomListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalService, "registerThermalHeadroomListener"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -436,7 +436,7 @@ func (p *ThermalServiceProxy) UnregisterThermalHeadroomListener(
 	_data.WriteInterfaceToken(DescriptorIThermalService)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIThermalServiceUnregisterThermalHeadroomListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIThermalService, "unregisterThermalHeadroomListener"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

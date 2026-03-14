@@ -45,7 +45,7 @@ func (p *ImsEcbmProxy) SetListener(
 	_data.WriteInterfaceToken(DescriptorIImsEcbm)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsEcbmSetListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsEcbm, "setListener"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -64,7 +64,7 @@ func (p *ImsEcbmProxy) ExitEmergencyCallbackMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsEcbm)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIImsEcbmExitEmergencyCallbackMode, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsEcbm, "exitEmergencyCallbackMode"), 0, _data)
 	if _err != nil {
 		return _err
 	}

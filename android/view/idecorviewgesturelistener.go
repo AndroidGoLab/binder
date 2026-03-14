@@ -45,6 +45,6 @@ func (p *DecorViewGestureListenerProxy) OnInterceptionChanged(
 	_data.WriteStrongBinder(windowToken.Handle())
 	_data.WriteBool(intercepted)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDecorViewGestureListenerOnInterceptionChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDecorViewGestureListener, "onInterceptionChanged"), binder.FlagOneway, _data)
 	return _err
 }

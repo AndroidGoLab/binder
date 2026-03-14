@@ -48,6 +48,6 @@ func (p *RetrieveNotificationCallbackProxy) OnComplete(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRetrieveNotificationCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRetrieveNotificationCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

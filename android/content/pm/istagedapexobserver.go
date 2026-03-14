@@ -45,6 +45,6 @@ func (p *StagedApexObserverProxy) OnApexStaged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIStagedApexObserverOnApexStaged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIStagedApexObserver, "onApexStaged"), binder.FlagOneway, _data)
 	return _err
 }

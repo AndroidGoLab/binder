@@ -69,7 +69,7 @@ func (p *TrustAgentServiceCallbackProxy) GrantTrust(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITrustAgentServiceCallbackGrantTrust, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITrustAgentServiceCallback, "grantTrust"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,7 +79,7 @@ func (p *TrustAgentServiceCallbackProxy) RevokeTrust(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionITrustAgentServiceCallbackRevokeTrust, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITrustAgentServiceCallback, "revokeTrust"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,7 +89,7 @@ func (p *TrustAgentServiceCallbackProxy) LockUser(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionITrustAgentServiceCallbackLockUser, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITrustAgentServiceCallback, "lockUser"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -101,7 +101,7 @@ func (p *TrustAgentServiceCallbackProxy) SetManagingTrust(
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
 	_data.WriteBool(managingTrust)
 
-	_, _err := p.remote.Transact(ctx, TransactionITrustAgentServiceCallbackSetManagingTrust, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITrustAgentServiceCallback, "setManagingTrust"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,7 +115,7 @@ func (p *TrustAgentServiceCallbackProxy) OnConfigureCompleted(
 	_data.WriteBool(result)
 	_data.WriteStrongBinder(token.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionITrustAgentServiceCallbackOnConfigureCompleted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITrustAgentServiceCallback, "onConfigureCompleted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -136,7 +136,7 @@ func (p *TrustAgentServiceCallbackProxy) AddEscrowToken(
 	}
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITrustAgentServiceCallbackAddEscrowToken, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITrustAgentServiceCallback, "addEscrowToken"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -150,7 +150,7 @@ func (p *TrustAgentServiceCallbackProxy) IsEscrowTokenActive(
 	_data.WriteInt64(handle)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITrustAgentServiceCallbackIsEscrowTokenActive, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITrustAgentServiceCallback, "isEscrowTokenActive"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -164,7 +164,7 @@ func (p *TrustAgentServiceCallbackProxy) RemoveEscrowToken(
 	_data.WriteInt64(handle)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITrustAgentServiceCallbackRemoveEscrowToken, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITrustAgentServiceCallback, "removeEscrowToken"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -187,7 +187,7 @@ func (p *TrustAgentServiceCallbackProxy) UnlockUserWithToken(
 	}
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITrustAgentServiceCallbackUnlockUserWithToken, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITrustAgentServiceCallback, "unlockUserWithToken"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -198,6 +198,6 @@ func (p *TrustAgentServiceCallbackProxy) ShowKeyguardErrorMessage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionITrustAgentServiceCallbackShowKeyguardErrorMessage, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITrustAgentServiceCallback, "showKeyguardErrorMessage"), binder.FlagOneway, _data)
 	return _err
 }

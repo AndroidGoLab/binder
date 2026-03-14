@@ -64,7 +64,7 @@ func (p *TranslationManagerProxy) OnTranslationCapabilitiesRequest(
 	_data.WriteInt32(destFormat)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITranslationManagerOnTranslationCapabilitiesRequest, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITranslationManager, "onTranslationCapabilitiesRequest"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,7 +77,7 @@ func (p *TranslationManagerProxy) RegisterTranslationCapabilityCallback(
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITranslationManagerRegisterTranslationCapabilityCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITranslationManager, "registerTranslationCapabilityCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -90,7 +90,7 @@ func (p *TranslationManagerProxy) UnregisterTranslationCapabilityCallback(
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITranslationManagerUnregisterTranslationCapabilityCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITranslationManager, "unregisterTranslationCapabilityCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -109,7 +109,7 @@ func (p *TranslationManagerProxy) OnSessionCreated(
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITranslationManagerOnSessionCreated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITranslationManager, "onSessionCreated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -145,7 +145,7 @@ func (p *TranslationManagerProxy) UpdateUiTranslationState(
 	}
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITranslationManagerUpdateUiTranslationState, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITranslationManager, "updateUiTranslationState"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -158,7 +158,7 @@ func (p *TranslationManagerProxy) RegisterUiTranslationStateCallback(
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITranslationManagerRegisterUiTranslationStateCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITranslationManager, "registerUiTranslationStateCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -171,7 +171,7 @@ func (p *TranslationManagerProxy) UnregisterUiTranslationStateCallback(
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITranslationManagerUnregisterUiTranslationStateCallback, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITranslationManager, "unregisterUiTranslationStateCallback"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -184,7 +184,7 @@ func (p *TranslationManagerProxy) GetServiceSettingsActivity(
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITranslationManagerGetServiceSettingsActivity, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITranslationManager, "getServiceSettingsActivity"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -201,6 +201,6 @@ func (p *TranslationManagerProxy) OnTranslationFinished(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITranslationManagerOnTranslationFinished, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITranslationManager, "onTranslationFinished"), binder.FlagOneway, _data)
 	return _err
 }

@@ -41,7 +41,7 @@ func (p *TestServiceConnectorServiceProxy) CrashProcess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITestServiceConnectorService)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionITestServiceConnectorServiceCrashProcess, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITestServiceConnectorService, "crashProcess"), 0, _data)
 	if _err != nil {
 		return _err
 	}

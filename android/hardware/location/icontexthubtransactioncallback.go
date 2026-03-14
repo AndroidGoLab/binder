@@ -56,7 +56,7 @@ func (p *ContextHubTransactionCallbackProxy) OnQueryResponse(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIContextHubTransactionCallbackOnQueryResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIContextHubTransactionCallback, "onQueryResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -68,6 +68,6 @@ func (p *ContextHubTransactionCallbackProxy) OnTransactionComplete(
 	_data.WriteInterfaceToken(DescriptorIContextHubTransactionCallback)
 	_data.WriteInt32(result)
 
-	_, _err := p.remote.Transact(ctx, TransactionIContextHubTransactionCallbackOnTransactionComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIContextHubTransactionCallback, "onTransactionComplete"), binder.FlagOneway, _data)
 	return _err
 }

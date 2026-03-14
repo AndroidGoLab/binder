@@ -51,7 +51,7 @@ func (p *QualifiedNetworksServiceProxy) CreateNetworkAvailabilityProvider(
 	_data.WriteInt32(slotId)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIQualifiedNetworksServiceCreateNetworkAvailabilityProvider, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQualifiedNetworksService, "createNetworkAvailabilityProvider"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,7 +63,7 @@ func (p *QualifiedNetworksServiceProxy) RemoveNetworkAvailabilityProvider(
 	_data.WriteInterfaceToken(DescriptorIQualifiedNetworksService)
 	_data.WriteInt32(slotId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIQualifiedNetworksServiceRemoveNetworkAvailabilityProvider, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQualifiedNetworksService, "removeNetworkAvailabilityProvider"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,7 +86,7 @@ func (p *QualifiedNetworksServiceProxy) ReportThrottleStatusChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIQualifiedNetworksServiceReportThrottleStatusChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQualifiedNetworksService, "reportThrottleStatusChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -100,6 +100,6 @@ func (p *QualifiedNetworksServiceProxy) ReportEmergencyDataNetworkPreferredTrans
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(transportType)
 
-	_, _err := p.remote.Transact(ctx, TransactionIQualifiedNetworksServiceReportEmergencyDataNetworkPreferredTransportChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIQualifiedNetworksService, "reportEmergencyDataNetworkPreferredTransportChanged"), binder.FlagOneway, _data)
 	return _err
 }

@@ -57,7 +57,7 @@ func (p *ImsRegistrationCallbackProxy) OnRegistered(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsRegistrationCallbackOnRegistered, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onRegistered"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,7 +71,7 @@ func (p *ImsRegistrationCallbackProxy) OnRegistering(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsRegistrationCallbackOnRegistering, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onRegistering"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,7 +89,7 @@ func (p *ImsRegistrationCallbackProxy) OnDeregistered(
 	_data.WriteInt32(suggestedAction)
 	_data.WriteInt32(imsRadioTech)
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsRegistrationCallbackOnDeregistered, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onDeregistered"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,7 +111,7 @@ func (p *ImsRegistrationCallbackProxy) OnDeregisteredWithDetails(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsRegistrationCallbackOnDeregisteredWithDetails, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onDeregisteredWithDetails"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -127,7 +127,7 @@ func (p *ImsRegistrationCallbackProxy) OnTechnologyChangeFailed(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsRegistrationCallbackOnTechnologyChangeFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onTechnologyChangeFailed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -148,6 +148,6 @@ func (p *ImsRegistrationCallbackProxy) OnSubscriberAssociatedUriChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIImsRegistrationCallbackOnSubscriberAssociatedUriChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onSubscriberAssociatedUriChanged"), binder.FlagOneway, _data)
 	return _err
 }

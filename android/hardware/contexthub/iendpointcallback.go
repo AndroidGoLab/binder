@@ -64,7 +64,7 @@ func (p *EndpointCallbackProxy) OnEndpointStarted(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEndpointCallbackOnEndpointStarted, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEndpointCallback, "onEndpointStarted"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -96,7 +96,7 @@ func (p *EndpointCallbackProxy) OnEndpointStopped(
 	}
 	_data.WritePaddedByte(byte(reason))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEndpointCallbackOnEndpointStopped, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEndpointCallback, "onEndpointStopped"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -121,7 +121,7 @@ func (p *EndpointCallbackProxy) OnMessageReceived(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEndpointCallbackOnMessageReceived, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEndpointCallback, "onMessageReceived"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -146,7 +146,7 @@ func (p *EndpointCallbackProxy) OnMessageDeliveryStatusReceived(
 		return _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEndpointCallbackOnMessageDeliveryStatusReceived, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEndpointCallback, "onMessageDeliveryStatusReceived"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -177,7 +177,7 @@ func (p *EndpointCallbackProxy) OnEndpointSessionOpenRequest(
 	}
 	_data.WriteString16(serviceDescriptor)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEndpointCallbackOnEndpointSessionOpenRequest, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEndpointCallback, "onEndpointSessionOpenRequest"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -200,7 +200,7 @@ func (p *EndpointCallbackProxy) OnCloseEndpointSession(
 	_data.WriteInt32(sessionId)
 	_data.WritePaddedByte(byte(reason))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEndpointCallbackOnCloseEndpointSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEndpointCallback, "onCloseEndpointSession"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -221,7 +221,7 @@ func (p *EndpointCallbackProxy) OnEndpointSessionOpenComplete(
 	_data.WriteInterfaceToken(DescriptorIEndpointCallback)
 	_data.WriteInt32(sessionId)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIEndpointCallbackOnEndpointSessionOpenComplete, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEndpointCallback, "onEndpointSessionOpenComplete"), 0, _data)
 	if _err != nil {
 		return _err
 	}

@@ -45,7 +45,7 @@ func (p *SpatializerHeadTrackingModeCallbackProxy) DispatchSpatializerActualHead
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadTrackingModeCallback)
 	_data.WriteInt32(mode)
 
-	_, _err := p.remote.Transact(ctx, TransactionISpatializerHeadTrackingModeCallbackDispatchSpatializerActualHeadTrackingModeChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISpatializerHeadTrackingModeCallback, "dispatchSpatializerActualHeadTrackingModeChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -57,6 +57,6 @@ func (p *SpatializerHeadTrackingModeCallbackProxy) DispatchSpatializerDesiredHea
 	_data.WriteInterfaceToken(DescriptorISpatializerHeadTrackingModeCallback)
 	_data.WriteInt32(mode)
 
-	_, _err := p.remote.Transact(ctx, TransactionISpatializerHeadTrackingModeCallbackDispatchSpatializerDesiredHeadTrackingModeChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISpatializerHeadTrackingModeCallback, "dispatchSpatializerDesiredHeadTrackingModeChanged"), binder.FlagOneway, _data)
 	return _err
 }

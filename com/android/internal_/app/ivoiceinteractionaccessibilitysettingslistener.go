@@ -43,6 +43,6 @@ func (p *VoiceInteractionAccessibilitySettingsListenerProxy) OnAccessibilityDete
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionAccessibilitySettingsListener)
 	_data.WriteBool(enable)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionAccessibilitySettingsListenerOnAccessibilityDetectionChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionAccessibilitySettingsListener, "onAccessibilityDetectionChanged"), binder.FlagOneway, _data)
 	return _err
 }

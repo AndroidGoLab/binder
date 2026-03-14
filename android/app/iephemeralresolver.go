@@ -55,7 +55,7 @@ func (p *EphemeralResolverProxy) GetEphemeralResolveInfoList(
 	}
 	_data.WriteInt32(sequence)
 
-	_, _err := p.remote.Transact(ctx, TransactionIEphemeralResolverGetEphemeralResolveInfoList, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEphemeralResolver, "getEphemeralResolveInfoList"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -70,6 +70,6 @@ func (p *EphemeralResolverProxy) GetEphemeralIntentFilterList(
 	_data.WriteString16(hostName)
 	_data.WriteInt32(sequence)
 
-	_, _err := p.remote.Transact(ctx, TransactionIEphemeralResolverGetEphemeralIntentFilterList, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIEphemeralResolver, "getEphemeralIntentFilterList"), binder.FlagOneway, _data)
 	return _err
 }

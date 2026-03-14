@@ -48,7 +48,7 @@ func (p *HdcpAuthControlProxy) GetHdcpLevels(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdcpAuthControl)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdcpAuthControlGetHdcpLevels, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdcpAuthControl, "getHdcpLevels"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -72,7 +72,7 @@ func (p *HdcpAuthControlProxy) TrySetHdcpLevel(
 	_data.WriteInterfaceToken(DescriptorIHdcpAuthControl)
 	_data.WriteInt32(int32(level))
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdcpAuthControlTrySetHdcpLevel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdcpAuthControl, "trySetHdcpLevel"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -92,7 +92,7 @@ func (p *HdcpAuthControlProxy) GetPendingHdcpLevel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdcpAuthControl)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIHdcpAuthControlGetPendingHdcpLevel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdcpAuthControl, "getPendingHdcpLevel"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

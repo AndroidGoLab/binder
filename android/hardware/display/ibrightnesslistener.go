@@ -43,6 +43,6 @@ func (p *BrightnessListenerProxy) OnBrightnessChanged(
 	_data.WriteInterfaceToken(DescriptorIBrightnessListener)
 	_data.WriteFloat32(brightness)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBrightnessListenerOnBrightnessChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBrightnessListener, "onBrightnessChanged"), binder.FlagOneway, _data)
 	return _err
 }

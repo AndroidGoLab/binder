@@ -43,7 +43,7 @@ func (p *WakelockCallbackProxy) NotifyAcquired(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWakelockCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWakelockCallbackNotifyAcquired, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWakelockCallback, "notifyAcquired"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -53,6 +53,6 @@ func (p *WakelockCallbackProxy) NotifyReleased(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWakelockCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIWakelockCallbackNotifyReleased, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWakelockCallback, "notifyReleased"), binder.FlagOneway, _data)
 	return _err
 }

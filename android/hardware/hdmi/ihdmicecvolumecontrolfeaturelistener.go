@@ -43,6 +43,6 @@ func (p *HdmiCecVolumeControlFeatureListenerProxy) OnHdmiCecVolumeControlFeature
 	_data.WriteInterfaceToken(DescriptorIHdmiCecVolumeControlFeatureListener)
 	_data.WriteInt32(hdmiCecVolumeControl)
 
-	_, _err := p.remote.Transact(ctx, TransactionIHdmiCecVolumeControlFeatureListenerOnHdmiCecVolumeControlFeature, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIHdmiCecVolumeControlFeatureListener, "onHdmiCecVolumeControlFeature"), binder.FlagOneway, _data)
 	return _err
 }

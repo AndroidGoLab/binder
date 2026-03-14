@@ -48,7 +48,7 @@ func (p *ServiceListTransferInterfaceProxy) CreateExportSession(
 	_data.WriteInterfaceToken(DescriptorIServiceListTransferInterface)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListTransferInterfaceCreateExportSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListTransferInterface, "createExportSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -75,7 +75,7 @@ func (p *ServiceListTransferInterfaceProxy) CreateImportSession(
 	_data.WriteInterfaceToken(DescriptorIServiceListTransferInterface)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListTransferInterfaceCreateImportSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListTransferInterface, "createImportSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -102,7 +102,7 @@ func (p *ServiceListTransferInterfaceProxy) CreateSetChannelListSession(
 	_data.WriteInterfaceToken(DescriptorIServiceListTransferInterface)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIServiceListTransferInterfaceCreateSetChannelListSession, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListTransferInterface, "createSetChannelListSession"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

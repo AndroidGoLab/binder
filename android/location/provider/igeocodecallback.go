@@ -45,7 +45,7 @@ func (p *GeocodeCallbackProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorIGeocodeCallback)
 	_data.WriteString16(error_)
 
-	_, _err := p.remote.Transact(ctx, TransactionIGeocodeCallbackOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGeocodeCallback, "onError"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,6 +61,6 @@ func (p *GeocodeCallbackProxy) OnResults(
 		_data.WriteInt32(int32(len(results)))
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIGeocodeCallbackOnResults, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIGeocodeCallback, "onResults"), binder.FlagOneway, _data)
 	return _err
 }

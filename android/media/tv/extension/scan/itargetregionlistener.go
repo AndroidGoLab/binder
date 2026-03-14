@@ -46,6 +46,6 @@ func (p *TargetRegionListenerProxy) OnDetectTargetRegion(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITargetRegionListenerOnDetectTargetRegion, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITargetRegionListener, "onDetectTargetRegion"), binder.FlagOneway, _data)
 	return _err
 }

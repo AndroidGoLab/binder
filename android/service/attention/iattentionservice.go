@@ -49,7 +49,7 @@ func (p *AttentionServiceProxy) CheckAttention(
 	_data.WriteInterfaceToken(DescriptorIAttentionService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAttentionServiceCheckAttention, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAttentionService, "checkAttention"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,7 +61,7 @@ func (p *AttentionServiceProxy) CancelAttentionCheck(
 	_data.WriteInterfaceToken(DescriptorIAttentionService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAttentionServiceCancelAttentionCheck, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAttentionService, "cancelAttentionCheck"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -73,7 +73,7 @@ func (p *AttentionServiceProxy) OnStartProximityUpdates(
 	_data.WriteInterfaceToken(DescriptorIAttentionService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAttentionServiceOnStartProximityUpdates, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAttentionService, "onStartProximityUpdates"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -83,6 +83,6 @@ func (p *AttentionServiceProxy) OnStopProximityUpdates(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAttentionService)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAttentionServiceOnStopProximityUpdates, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAttentionService, "onStopProximityUpdates"), binder.FlagOneway, _data)
 	return _err
 }

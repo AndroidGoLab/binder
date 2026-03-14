@@ -43,7 +43,7 @@ func (p *SearchManagerCallbackProxy) OnDismiss(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchManagerCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionISearchManagerCallbackOnDismiss, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchManagerCallback, "onDismiss"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -53,6 +53,6 @@ func (p *SearchManagerCallbackProxy) OnCancel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchManagerCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionISearchManagerCallbackOnCancel, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISearchManagerCallback, "onCancel"), binder.FlagOneway, _data)
 	return _err
 }

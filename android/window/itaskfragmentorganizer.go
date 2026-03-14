@@ -45,6 +45,6 @@ func (p *TaskFragmentOrganizerProxy) OnTransactionReady(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITaskFragmentOrganizerOnTransactionReady, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITaskFragmentOrganizer, "onTransactionReady"), binder.FlagOneway, _data)
 	return _err
 }

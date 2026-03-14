@@ -53,7 +53,7 @@ func (p *FullBackupRestoreObserverProxy) OnStartBackup(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 
-	_, _err := p.remote.Transact(ctx, TransactionIFullBackupRestoreObserverOnStartBackup, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onStartBackup"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -65,7 +65,7 @@ func (p *FullBackupRestoreObserverProxy) OnBackupPackage(
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 	_data.WriteString16(name)
 
-	_, _err := p.remote.Transact(ctx, TransactionIFullBackupRestoreObserverOnBackupPackage, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onBackupPackage"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,7 +75,7 @@ func (p *FullBackupRestoreObserverProxy) OnEndBackup(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 
-	_, _err := p.remote.Transact(ctx, TransactionIFullBackupRestoreObserverOnEndBackup, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onEndBackup"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,7 +85,7 @@ func (p *FullBackupRestoreObserverProxy) OnStartRestore(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 
-	_, _err := p.remote.Transact(ctx, TransactionIFullBackupRestoreObserverOnStartRestore, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onStartRestore"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -97,7 +97,7 @@ func (p *FullBackupRestoreObserverProxy) OnRestorePackage(
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 	_data.WriteString16(name)
 
-	_, _err := p.remote.Transact(ctx, TransactionIFullBackupRestoreObserverOnRestorePackage, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onRestorePackage"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,7 +107,7 @@ func (p *FullBackupRestoreObserverProxy) OnEndRestore(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 
-	_, _err := p.remote.Transact(ctx, TransactionIFullBackupRestoreObserverOnEndRestore, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onEndRestore"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -117,6 +117,6 @@ func (p *FullBackupRestoreObserverProxy) OnTimeout(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFullBackupRestoreObserver)
 
-	_, _err := p.remote.Transact(ctx, TransactionIFullBackupRestoreObserverOnTimeout, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onTimeout"), binder.FlagOneway, _data)
 	return _err
 }

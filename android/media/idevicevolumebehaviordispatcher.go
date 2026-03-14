@@ -47,6 +47,6 @@ func (p *DeviceVolumeBehaviorDispatcherProxy) DispatchDeviceVolumeBehaviorChange
 	}
 	_data.WriteInt32(deviceVolumeBehavior)
 
-	_, _err := p.remote.Transact(ctx, TransactionIDeviceVolumeBehaviorDispatcherDispatchDeviceVolumeBehaviorChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIDeviceVolumeBehaviorDispatcher, "dispatchDeviceVolumeBehaviorChanged"), binder.FlagOneway, _data)
 	return _err
 }

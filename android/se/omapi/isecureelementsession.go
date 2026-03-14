@@ -52,7 +52,7 @@ func (p *SecureElementSessionProxy) GetAtr(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementSession)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureElementSessionGetAtr, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureElementSession, "getAtr"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -85,7 +85,7 @@ func (p *SecureElementSessionProxy) Close(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementSession)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureElementSessionClose, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureElementSession, "close"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -104,7 +104,7 @@ func (p *SecureElementSessionProxy) CloseChannels(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementSession)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureElementSessionCloseChannels, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureElementSession, "closeChannels"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -124,7 +124,7 @@ func (p *SecureElementSessionProxy) IsClosed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureElementSession)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureElementSessionIsClosed, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureElementSession, "isClosed"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -161,7 +161,7 @@ func (p *SecureElementSessionProxy) OpenBasicChannel(
 	_data.WritePaddedByte(p2)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureElementSessionOpenBasicChannel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureElementSession, "openBasicChannel"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -199,7 +199,7 @@ func (p *SecureElementSessionProxy) OpenLogicalChannel(
 	_data.WritePaddedByte(p2)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISecureElementSessionOpenLogicalChannel, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISecureElementSession, "openLogicalChannel"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

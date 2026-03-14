@@ -61,7 +61,7 @@ func (p *CallDiagnosticServiceProxy) SetAdapter(
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
 	_data.WriteStrongBinder(adapter.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionICallDiagnosticServiceSetAdapter, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallDiagnosticService, "setAdapter"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -75,7 +75,7 @@ func (p *CallDiagnosticServiceProxy) InitializeDiagnosticCall(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICallDiagnosticServiceInitializeDiagnosticCall, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallDiagnosticService, "initializeDiagnosticCall"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -89,7 +89,7 @@ func (p *CallDiagnosticServiceProxy) UpdateCall(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICallDiagnosticServiceUpdateCall, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallDiagnosticService, "updateCall"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,7 +103,7 @@ func (p *CallDiagnosticServiceProxy) UpdateCallAudioState(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICallDiagnosticServiceUpdateCallAudioState, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallDiagnosticService, "updateCallAudioState"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -115,7 +115,7 @@ func (p *CallDiagnosticServiceProxy) RemoveDiagnosticCall(
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
 	_data.WriteString16(callId)
 
-	_, _err := p.remote.Transact(ctx, TransactionICallDiagnosticServiceRemoveDiagnosticCall, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallDiagnosticService, "removeDiagnosticCall"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -131,7 +131,7 @@ func (p *CallDiagnosticServiceProxy) ReceiveDeviceToDeviceMessage(
 	_data.WriteInt32(message)
 	_data.WriteInt32(value)
 
-	_, _err := p.remote.Transact(ctx, TransactionICallDiagnosticServiceReceiveDeviceToDeviceMessage, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallDiagnosticService, "receiveDeviceToDeviceMessage"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -147,7 +147,7 @@ func (p *CallDiagnosticServiceProxy) CallQualityChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICallDiagnosticServiceCallQualityChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallDiagnosticService, "callQualityChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -161,7 +161,7 @@ func (p *CallDiagnosticServiceProxy) ReceiveBluetoothCallQualityReport(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICallDiagnosticServiceReceiveBluetoothCallQualityReport, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallDiagnosticService, "receiveBluetoothCallQualityReport"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -177,6 +177,6 @@ func (p *CallDiagnosticServiceProxy) NotifyCallDisconnected(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionICallDiagnosticServiceNotifyCallDisconnected, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorICallDiagnosticService, "notifyCallDisconnected"), binder.FlagOneway, _data)
 	return _err
 }

@@ -43,6 +43,6 @@ func (p *SetNicknameCallbackProxy) OnComplete(
 	_data.WriteInterfaceToken(DescriptorISetNicknameCallback)
 	_data.WriteInt32(resultCode)
 
-	_, _err := p.remote.Transact(ctx, TransactionISetNicknameCallbackOnComplete, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISetNicknameCallback, "onComplete"), binder.FlagOneway, _data)
 	return _err
 }

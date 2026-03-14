@@ -74,7 +74,7 @@ func (p *WallpaperServiceProxy) Attach(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIWallpaperServiceAttach, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWallpaperService, "attach"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -86,6 +86,6 @@ func (p *WallpaperServiceProxy) Detach(
 	_data.WriteInterfaceToken(DescriptorIWallpaperService)
 	_data.WriteStrongBinder(windowToken.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIWallpaperServiceDetach, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIWallpaperService, "detach"), binder.FlagOneway, _data)
 	return _err
 }

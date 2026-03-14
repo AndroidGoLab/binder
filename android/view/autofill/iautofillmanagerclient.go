@@ -84,7 +84,7 @@ func (p *AutoFillManagerClientProxy) SetState(
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(flags)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientSetState, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "setState"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -120,7 +120,7 @@ func (p *AutoFillManagerClientProxy) Autofill(
 	}
 	_data.WriteBool(hideHighlight)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientAutofill, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "autofill"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -137,7 +137,7 @@ func (p *AutoFillManagerClientProxy) OnGetCredentialResponse(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientOnGetCredentialResponse, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "onGetCredentialResponse"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -157,7 +157,7 @@ func (p *AutoFillManagerClientProxy) OnGetCredentialException(
 	_data.WriteString16(errorType)
 	_data.WriteString16(errorMsg)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientOnGetCredentialException, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "onGetCredentialException"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -174,7 +174,7 @@ func (p *AutoFillManagerClientProxy) AutofillContent(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientAutofillContent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "autofillContent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -192,7 +192,7 @@ func (p *AutoFillManagerClientProxy) Authenticate(
 	_data.WriteInt32(authenticationId)
 	_data.WriteBool(authenticateInline)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientAuthenticate, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "authenticate"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -236,7 +236,7 @@ func (p *AutoFillManagerClientProxy) SetTrackedViews(
 	}
 	_data.WriteBool(shouldGrabViewFingerprints)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientSetTrackedViews, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "setTrackedViews"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -262,7 +262,7 @@ func (p *AutoFillManagerClientProxy) RequestShowFillUi(
 	}
 	_data.WriteStrongBinder(presenter.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientRequestShowFillUi, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "requestShowFillUi"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -278,7 +278,7 @@ func (p *AutoFillManagerClientProxy) RequestHideFillUi(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientRequestHideFillUi, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "requestHideFillUi"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -294,7 +294,7 @@ func (p *AutoFillManagerClientProxy) RequestHideFillUiWhenDestroyed(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientRequestHideFillUiWhenDestroyed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "requestHideFillUiWhenDestroyed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -312,7 +312,7 @@ func (p *AutoFillManagerClientProxy) NotifyNoFillUi(
 	}
 	_data.WriteInt32(sessionFinishedState)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientNotifyNoFillUi, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "notifyNoFillUi"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -328,7 +328,7 @@ func (p *AutoFillManagerClientProxy) NotifyFillUiShown(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientNotifyFillUiShown, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "notifyFillUiShown"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -344,7 +344,7 @@ func (p *AutoFillManagerClientProxy) NotifyFillUiHidden(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientNotifyFillUiHidden, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "notifyFillUiHidden"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -361,7 +361,7 @@ func (p *AutoFillManagerClientProxy) DispatchUnhandledKey(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientDispatchUnhandledKey, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "dispatchUnhandledKey"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -373,7 +373,7 @@ func (p *AutoFillManagerClientProxy) StartIntentSender(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientStartIntentSender, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "startIntentSender"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -387,7 +387,7 @@ func (p *AutoFillManagerClientProxy) SetSaveUiState(
 	_data.WriteInt32(sessionId)
 	_data.WriteBool(shown)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientSetSaveUiState, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "setSaveUiState"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -410,7 +410,7 @@ func (p *AutoFillManagerClientProxy) SetSessionFinished(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientSetSessionFinished, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "setSessionFinished"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -421,7 +421,7 @@ func (p *AutoFillManagerClientProxy) GetAugmentedAutofillClient(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientGetAugmentedAutofillClient, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "getAugmentedAutofillClient"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -434,7 +434,7 @@ func (p *AutoFillManagerClientProxy) NotifyDisableAutofill(
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt64(disableDuration)
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientNotifyDisableAutofill, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "notifyDisableAutofill"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -448,7 +448,7 @@ func (p *AutoFillManagerClientProxy) RequestShowSoftInput(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientRequestShowSoftInput, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "requestShowSoftInput"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -469,6 +469,6 @@ func (p *AutoFillManagerClientProxy) NotifyFillDialogTriggerIds(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIAutoFillManagerClientNotifyFillDialogTriggerIds, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIAutoFillManagerClient, "notifyFillDialogTriggerIds"), binder.FlagOneway, _data)
 	return _err
 }

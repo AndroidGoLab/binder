@@ -51,7 +51,7 @@ func (p *InlineContentProviderProxy) ProvideContent(
 	_data.WriteInt32(height)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIInlineContentProviderProvideContent, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInlineContentProvider, "provideContent"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -61,7 +61,7 @@ func (p *InlineContentProviderProxy) RequestSurfacePackage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineContentProvider)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInlineContentProviderRequestSurfacePackage, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInlineContentProvider, "requestSurfacePackage"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,6 +71,6 @@ func (p *InlineContentProviderProxy) OnSurfacePackageReleased(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineContentProvider)
 
-	_, _err := p.remote.Transact(ctx, TransactionIInlineContentProviderOnSurfacePackageReleased, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInlineContentProvider, "onSurfacePackageReleased"), binder.FlagOneway, _data)
 	return _err
 }

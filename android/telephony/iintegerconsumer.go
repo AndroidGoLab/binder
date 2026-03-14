@@ -43,6 +43,6 @@ func (p *IntegerConsumerProxy) Accept(
 	_data.WriteInterfaceToken(DescriptorIIntegerConsumer)
 	_data.WriteInt32(result)
 
-	_, _err := p.remote.Transact(ctx, TransactionIIntegerConsumerAccept, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIntegerConsumer, "accept"), binder.FlagOneway, _data)
 	return _err
 }

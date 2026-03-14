@@ -54,7 +54,7 @@ func (p *SensorsCallbackProxy) OnDynamicSensorsConnected(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISensorsCallbackOnDynamicSensorsConnected, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISensorsCallback, "onDynamicSensorsConnected"), 0, _data)
 	if _err != nil {
 		return _err
 	}
@@ -82,7 +82,7 @@ func (p *SensorsCallbackProxy) OnDynamicSensorsDisconnected(
 		}
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionISensorsCallbackOnDynamicSensorsDisconnected, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISensorsCallback, "onDynamicSensorsDisconnected"), 0, _data)
 	if _err != nil {
 		return _err
 	}

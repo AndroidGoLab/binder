@@ -44,7 +44,7 @@ func (p *FencedExecutionCallbackProxy) GetExecutionInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFencedExecutionCallback)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFencedExecutionCallbackGetExecutionInfo, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFencedExecutionCallback, "getExecutionInfo"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

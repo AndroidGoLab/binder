@@ -43,6 +43,6 @@ func (p *ServiceListSetChannelListListenerProxy) OnCompleted(
 	_data.WriteInterfaceToken(DescriptorIServiceListSetChannelListListener)
 	_data.WriteInt32(setChannelListResult)
 
-	_, _err := p.remote.Transact(ctx, TransactionIServiceListSetChannelListListenerOnCompleted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIServiceListSetChannelListListener, "onCompleted"), binder.FlagOneway, _data)
 	return _err
 }

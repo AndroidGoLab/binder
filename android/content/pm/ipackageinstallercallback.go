@@ -51,7 +51,7 @@ func (p *PackageInstallerCallbackProxy) OnSessionCreated(
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerCallback)
 	_data.WriteInt32(sessionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPackageInstallerCallbackOnSessionCreated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageInstallerCallback, "onSessionCreated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -63,7 +63,7 @@ func (p *PackageInstallerCallbackProxy) OnSessionBadgingChanged(
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerCallback)
 	_data.WriteInt32(sessionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPackageInstallerCallbackOnSessionBadgingChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageInstallerCallback, "onSessionBadgingChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -77,7 +77,7 @@ func (p *PackageInstallerCallbackProxy) OnSessionActiveChanged(
 	_data.WriteInt32(sessionId)
 	_data.WriteBool(active)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPackageInstallerCallbackOnSessionActiveChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageInstallerCallback, "onSessionActiveChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -91,7 +91,7 @@ func (p *PackageInstallerCallbackProxy) OnSessionProgressChanged(
 	_data.WriteInt32(sessionId)
 	_data.WriteFloat32(progress)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPackageInstallerCallbackOnSessionProgressChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageInstallerCallback, "onSessionProgressChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -105,6 +105,6 @@ func (p *PackageInstallerCallbackProxy) OnSessionFinished(
 	_data.WriteInt32(sessionId)
 	_data.WriteBool(success)
 
-	_, _err := p.remote.Transact(ctx, TransactionIPackageInstallerCallbackOnSessionFinished, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPackageInstallerCallback, "onSessionFinished"), binder.FlagOneway, _data)
 	return _err
 }

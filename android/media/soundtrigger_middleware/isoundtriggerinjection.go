@@ -68,7 +68,7 @@ func (p *SoundTriggerInjectionProxy) RegisterGlobalEventInjection(
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	_data.WriteStrongBinder(globalInjection.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerInjectionRegisterGlobalEventInjection, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerInjection, "registerGlobalEventInjection"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,7 +80,7 @@ func (p *SoundTriggerInjectionProxy) OnRestarted(
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	_data.WriteStrongBinder(globalSession.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerInjectionOnRestarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerInjection, "onRestarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,7 +92,7 @@ func (p *SoundTriggerInjectionProxy) OnFrameworkDetached(
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	_data.WriteStrongBinder(globalSession.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerInjectionOnFrameworkDetached, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerInjection, "onFrameworkDetached"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -106,7 +106,7 @@ func (p *SoundTriggerInjectionProxy) OnClientAttached(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteStrongBinder(globalSession.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerInjectionOnClientAttached, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerInjection, "onClientAttached"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -118,7 +118,7 @@ func (p *SoundTriggerInjectionProxy) OnClientDetached(
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	_data.WriteStrongBinder(token.Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerInjectionOnClientDetached, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerInjection, "onClientDetached"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -139,7 +139,7 @@ func (p *SoundTriggerInjectionProxy) OnSoundModelLoaded(
 	_data.WriteStrongBinder(modelInjection.AsBinder().Handle())
 	_data.WriteStrongBinder(globalSession.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerInjectionOnSoundModelLoaded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerInjection, "onSoundModelLoaded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -155,7 +155,7 @@ func (p *SoundTriggerInjectionProxy) OnParamSet(
 	_data.WriteInt32(value)
 	_data.WriteStrongBinder(modelSession.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerInjectionOnParamSet, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerInjection, "onParamSet"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -175,7 +175,7 @@ func (p *SoundTriggerInjectionProxy) OnRecognitionStarted(
 	_data.WriteStrongBinder(recognitionInjection.AsBinder().Handle())
 	_data.WriteStrongBinder(modelSession.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerInjectionOnRecognitionStarted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerInjection, "onRecognitionStarted"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -187,7 +187,7 @@ func (p *SoundTriggerInjectionProxy) OnRecognitionStopped(
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	_data.WriteStrongBinder(recognitionSession.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerInjectionOnRecognitionStopped, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerInjection, "onRecognitionStopped"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -199,7 +199,7 @@ func (p *SoundTriggerInjectionProxy) OnSoundModelUnloaded(
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	_data.WriteStrongBinder(modelSession.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerInjectionOnSoundModelUnloaded, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerInjection, "onSoundModelUnloaded"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -209,6 +209,6 @@ func (p *SoundTriggerInjectionProxy) OnPreempted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 
-	_, _err := p.remote.Transact(ctx, TransactionISoundTriggerInjectionOnPreempted, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISoundTriggerInjection, "onPreempted"), binder.FlagOneway, _data)
 	return _err
 }

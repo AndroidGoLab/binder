@@ -52,6 +52,6 @@ func (p *OnProjectionStateChangedListenerProxy) OnProjectionStateChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnProjectionStateChangedListenerOnProjectionStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnProjectionStateChangedListener, "onProjectionStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

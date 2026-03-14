@@ -45,6 +45,6 @@ func (p *OnPermissionsChangeListenerProxy) OnPermissionsChanged(
 	_data.WriteInt32(uid)
 	_data.WriteString16(persistentDeviceId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnPermissionsChangeListenerOnPermissionsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnPermissionsChangeListener, "onPermissionsChanged"), binder.FlagOneway, _data)
 	return _err
 }

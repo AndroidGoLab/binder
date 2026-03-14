@@ -41,6 +41,6 @@ func (p *UdfpsOverlayControllerCallbackProxy) OnUserCanceled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayControllerCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUdfpsOverlayControllerCallbackOnUserCanceled, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUdfpsOverlayControllerCallback, "onUserCanceled"), binder.FlagOneway, _data)
 	return _err
 }

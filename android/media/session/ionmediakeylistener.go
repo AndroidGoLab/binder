@@ -43,6 +43,6 @@ func (p *OnMediaKeyListenerProxy) OnMediaKey(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnMediaKeyListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIOnMediaKeyListenerOnMediaKey, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIOnMediaKeyListener, "onMediaKey"), binder.FlagOneway, _data)
 	return _err
 }

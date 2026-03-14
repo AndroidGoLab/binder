@@ -43,7 +43,7 @@ func (p *IncidentAuthListenerProxy) OnReportApproved(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIncidentAuthListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIIncidentAuthListenerOnReportApproved, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentAuthListener, "onReportApproved"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -53,6 +53,6 @@ func (p *IncidentAuthListenerProxy) OnReportDenied(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIncidentAuthListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionIIncidentAuthListenerOnReportDenied, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIIncidentAuthListener, "onReportDenied"), binder.FlagOneway, _data)
 	return _err
 }

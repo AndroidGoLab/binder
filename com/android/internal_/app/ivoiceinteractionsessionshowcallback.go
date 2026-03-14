@@ -43,7 +43,7 @@ func (p *VoiceInteractionSessionShowCallbackProxy) OnFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSessionShowCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionSessionShowCallbackOnFailed, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionSessionShowCallback, "onFailed"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -53,6 +53,6 @@ func (p *VoiceInteractionSessionShowCallbackProxy) OnShown(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSessionShowCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIVoiceInteractionSessionShowCallbackOnShown, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIVoiceInteractionSessionShowCallback, "onShown"), binder.FlagOneway, _data)
 	return _err
 }

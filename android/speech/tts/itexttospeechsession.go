@@ -41,6 +41,6 @@ func (p *TextToSpeechSessionProxy) Disconnect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechSession)
 
-	_, _err := p.remote.Transact(ctx, TransactionITextToSpeechSessionDisconnect, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITextToSpeechSession, "disconnect"), binder.FlagOneway, _data)
 	return _err
 }

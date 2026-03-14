@@ -63,7 +63,7 @@ func (p *RadioDataIndicationProxy) DataCallListChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataIndicationDataCallListChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioDataIndication, "dataCallListChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,7 +79,7 @@ func (p *RadioDataIndicationProxy) KeepaliveStatus(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataIndicationKeepaliveStatus, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioDataIndication, "keepaliveStatus"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -95,7 +95,7 @@ func (p *RadioDataIndicationProxy) PcoData(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataIndicationPcoData, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioDataIndication, "pcoData"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,7 +111,7 @@ func (p *RadioDataIndicationProxy) UnthrottleApn(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataIndicationUnthrottleApn, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioDataIndication, "unthrottleApn"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -127,6 +127,6 @@ func (p *RadioDataIndicationProxy) SlicingConfigChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIRadioDataIndicationSlicingConfigChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRadioDataIndication, "slicingConfigChanged"), binder.FlagOneway, _data)
 	return _err
 }

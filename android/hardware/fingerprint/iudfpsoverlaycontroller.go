@@ -59,7 +59,7 @@ func (p *UdfpsOverlayControllerProxy) ShowUdfpsOverlay(
 	_data.WriteInt32(reason)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
-	_, _err := p.remote.Transact(ctx, TransactionIUdfpsOverlayControllerShowUdfpsOverlay, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "showUdfpsOverlay"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -71,7 +71,7 @@ func (p *UdfpsOverlayControllerProxy) HideUdfpsOverlay(
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayController)
 	_data.WriteInt32(sensorId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUdfpsOverlayControllerHideUdfpsOverlay, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "hideUdfpsOverlay"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -85,7 +85,7 @@ func (p *UdfpsOverlayControllerProxy) OnAcquired(
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(acquiredInfo)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUdfpsOverlayControllerOnAcquired, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "onAcquired"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -99,7 +99,7 @@ func (p *UdfpsOverlayControllerProxy) OnEnrollmentProgress(
 	_data.WriteInt32(sensorId)
 	_data.WriteInt32(remaining)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUdfpsOverlayControllerOnEnrollmentProgress, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "onEnrollmentProgress"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -111,7 +111,7 @@ func (p *UdfpsOverlayControllerProxy) OnEnrollmentHelp(
 	_data.WriteInterfaceToken(DescriptorIUdfpsOverlayController)
 	_data.WriteInt32(sensorId)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUdfpsOverlayControllerOnEnrollmentHelp, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "onEnrollmentHelp"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -125,6 +125,6 @@ func (p *UdfpsOverlayControllerProxy) SetDebugMessage(
 	_data.WriteInt32(sensorId)
 	_data.WriteString16(message)
 
-	_, _err := p.remote.Transact(ctx, TransactionIUdfpsOverlayControllerSetDebugMessage, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "setDebugMessage"), binder.FlagOneway, _data)
 	return _err
 }

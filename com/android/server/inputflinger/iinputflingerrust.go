@@ -43,7 +43,7 @@ func (p *InputFlingerRustProxy) CreateInputFilter(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputFlingerRust)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIInputFlingerRustCreateInputFilter, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIInputFlingerRust, "createInputFilter"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

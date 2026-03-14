@@ -51,7 +51,7 @@ func (p *TvInputServiceCallbackProxy) AddHardwareInput(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITvInputServiceCallbackAddHardwareInput, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInputServiceCallback, "addHardwareInput"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -67,7 +67,7 @@ func (p *TvInputServiceCallbackProxy) AddHdmiInput(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITvInputServiceCallbackAddHdmiInput, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInputServiceCallback, "addHdmiInput"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -79,6 +79,6 @@ func (p *TvInputServiceCallbackProxy) RemoveHardwareInput(
 	_data.WriteInterfaceToken(DescriptorITvInputServiceCallback)
 	_data.WriteString16(inputId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITvInputServiceCallbackRemoveHardwareInput, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITvInputServiceCallback, "removeHardwareInput"), binder.FlagOneway, _data)
 	return _err
 }

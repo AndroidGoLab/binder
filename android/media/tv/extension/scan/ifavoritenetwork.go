@@ -47,7 +47,7 @@ func (p *FavoriteNetworkProxy) GetFavoriteNetworks(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFavoriteNetwork)
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFavoriteNetworkGetFavoriteNetworks, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFavoriteNetwork, "getFavoriteNetworks"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -84,7 +84,7 @@ func (p *FavoriteNetworkProxy) SetFavoriteNetwork(
 		return _result, _err
 	}
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFavoriteNetworkSetFavoriteNetwork, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFavoriteNetwork, "setFavoriteNetwork"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}
@@ -110,7 +110,7 @@ func (p *FavoriteNetworkProxy) SetListener(
 	_data.WriteInterfaceToken(DescriptorIFavoriteNetwork)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
-	_reply, _err := p.remote.Transact(ctx, TransactionIFavoriteNetworkSetListener, 0, _data)
+	_reply, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIFavoriteNetwork, "setListener"), 0, _data)
 	if _err != nil {
 		return _result, _err
 	}

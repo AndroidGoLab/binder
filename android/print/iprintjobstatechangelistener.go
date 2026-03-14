@@ -45,6 +45,6 @@ func (p *PrintJobStateChangeListenerProxy) OnPrintJobStateChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIPrintJobStateChangeListenerOnPrintJobStateChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIPrintJobStateChangeListener, "onPrintJobStateChanged"), binder.FlagOneway, _data)
 	return _err
 }

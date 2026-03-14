@@ -41,6 +41,6 @@ func (p *RemoteAnimationFinishedCallbackProxy) OnAnimationFinished(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteAnimationFinishedCallback)
 
-	_, _err := p.remote.Transact(ctx, TransactionIRemoteAnimationFinishedCallbackOnAnimationFinished, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIRemoteAnimationFinishedCallback, "onAnimationFinished"), binder.FlagOneway, _data)
 	return _err
 }

@@ -43,6 +43,6 @@ func (p *BlobCommitCallbackProxy) OnResult(
 	_data.WriteInterfaceToken(DescriptorIBlobCommitCallback)
 	_data.WriteInt32(result)
 
-	_, _err := p.remote.Transact(ctx, TransactionIBlobCommitCallbackOnResult, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIBlobCommitCallback, "onResult"), binder.FlagOneway, _data)
 	return _err
 }

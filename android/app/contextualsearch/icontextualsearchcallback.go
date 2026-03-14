@@ -48,7 +48,7 @@ func (p *ContextualSearchCallbackProxy) OnResult(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIContextualSearchCallbackOnResult, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIContextualSearchCallback, "onResult"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -62,6 +62,6 @@ func (p *ContextualSearchCallbackProxy) OnError(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIContextualSearchCallbackOnError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIContextualSearchCallback, "onError"), binder.FlagOneway, _data)
 	return _err
 }

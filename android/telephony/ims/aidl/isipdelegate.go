@@ -54,7 +54,7 @@ func (p *SipDelegateProxy) SendMessage(
 	}
 	_data.WriteInt64(configVersion)
 
-	_, _err := p.remote.Transact(ctx, TransactionISipDelegateSendMessage, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISipDelegate, "sendMessage"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -66,7 +66,7 @@ func (p *SipDelegateProxy) NotifyMessageReceived(
 	_data.WriteInterfaceToken(DescriptorISipDelegate)
 	_data.WriteString16(viaTransactionId)
 
-	_, _err := p.remote.Transact(ctx, TransactionISipDelegateNotifyMessageReceived, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISipDelegate, "notifyMessageReceived"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -80,7 +80,7 @@ func (p *SipDelegateProxy) NotifyMessageReceiveError(
 	_data.WriteString16(viaTransactionId)
 	_data.WriteInt32(reason)
 
-	_, _err := p.remote.Transact(ctx, TransactionISipDelegateNotifyMessageReceiveError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISipDelegate, "notifyMessageReceiveError"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,6 +92,6 @@ func (p *SipDelegateProxy) CleanupSession(
 	_data.WriteInterfaceToken(DescriptorISipDelegate)
 	_data.WriteString16(callId)
 
-	_, _err := p.remote.Transact(ctx, TransactionISipDelegateCleanupSession, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorISipDelegate, "cleanupSession"), binder.FlagOneway, _data)
 	return _err
 }

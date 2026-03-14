@@ -66,7 +66,7 @@ func (p *MediaRouter2Proxy) NotifyRouterRegistered(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRouter2NotifyRouterRegistered, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRouter2, "notifyRouterRegistered"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -87,7 +87,7 @@ func (p *MediaRouter2Proxy) NotifyRoutesUpdated(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRouter2NotifyRoutesUpdated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRouter2, "notifyRoutesUpdated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -107,7 +107,7 @@ func (p *MediaRouter2Proxy) NotifySessionCreated(
 		_data.WriteInt32(-1)
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRouter2NotifySessionCreated, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRouter2, "notifySessionCreated"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -121,7 +121,7 @@ func (p *MediaRouter2Proxy) NotifySessionInfoChanged(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRouter2NotifySessionInfoChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRouter2, "notifySessionInfoChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -135,7 +135,7 @@ func (p *MediaRouter2Proxy) NotifySessionReleased(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRouter2NotifySessionReleased, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRouter2, "notifySessionReleased"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -155,6 +155,6 @@ func (p *MediaRouter2Proxy) RequestCreateSessionByManager(
 		return _err
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionIMediaRouter2RequestCreateSessionByManager, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorIMediaRouter2, "requestCreateSessionByManager"), binder.FlagOneway, _data)
 	return _err
 }

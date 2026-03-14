@@ -51,7 +51,7 @@ func (p *TrustListenerProxy) OnEnabledTrustAgentsChanged(
 	_data.WriteInterfaceToken(DescriptorITrustListener)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITrustListenerOnEnabledTrustAgentsChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITrustListener, "onEnabledTrustAgentsChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -78,7 +78,7 @@ func (p *TrustListenerProxy) OnTrustChanged(
 		}
 	}
 
-	_, _err := p.remote.Transact(ctx, TransactionITrustListenerOnTrustChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITrustListener, "onTrustChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -92,7 +92,7 @@ func (p *TrustListenerProxy) OnTrustManagedChanged(
 	_data.WriteBool(managed)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITrustListenerOnTrustManagedChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITrustListener, "onTrustManagedChanged"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -103,7 +103,7 @@ func (p *TrustListenerProxy) OnTrustError(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustListener)
 
-	_, _err := p.remote.Transact(ctx, TransactionITrustListenerOnTrustError, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITrustListener, "onTrustError"), binder.FlagOneway, _data)
 	return _err
 }
 
@@ -117,6 +117,6 @@ func (p *TrustListenerProxy) OnIsActiveUnlockRunningChanged(
 	_data.WriteBool(isRunning)
 	_data.WriteInt32(userId)
 
-	_, _err := p.remote.Transact(ctx, TransactionITrustListenerOnIsActiveUnlockRunningChanged, binder.FlagOneway, _data)
+	_, _err := p.remote.Transact(ctx, p.remote.ResolveCode(DescriptorITrustListener, "onIsActiveUnlockRunningChanged"), binder.FlagOneway, _data)
 	return _err
 }
