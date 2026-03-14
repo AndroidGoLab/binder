@@ -3,6 +3,7 @@ name: CI
 on:
   push:
     branches: [main]
+    tags: ['v*']
   pull_request:
     branches: [main]
 
@@ -45,3 +46,32 @@ jobs:
           make smoke
           make readme
           git diff --exit-code
+
+  release:
+    needs: test
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 1
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.x'
+
+      - name: Build aidlcli binaries
+        run: |
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o aidlcli-linux-arm64 ./cmd/aidlcli/
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o aidlcli-linux-amd64 ./cmd/aidlcli/
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            aidlcli-linux-arm64
+            aidlcli-linux-amd64
+          generate_release_notes: true
