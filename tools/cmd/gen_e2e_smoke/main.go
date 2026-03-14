@@ -223,7 +223,7 @@ func main() {
 		formatted = buf.Bytes()
 	}
 
-	outPath := filepath.Join(root, "tools", "pkg", "e2e", "smoke_mock_all_test.go")
+	outPath := filepath.Join(root, "tests", "e2e", "smoke_mock_all_test.go")
 	if err := os.WriteFile(outPath, formatted, 0644); err != nil {
 		fmt.Fprintf(os.Stderr, "failed to write %s: %v\n", outPath, err)
 		os.Exit(1)
