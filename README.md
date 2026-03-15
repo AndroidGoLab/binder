@@ -232,7 +232,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 <!-- BEGIN GENERATED PACKAGES -->
 
-600 packages, 5120 generated Go files.
+600 packages, 5181 generated Go files.
 
 <details>
 <summary><strong>android/accessibilityservice</strong> (1 packages)</summary>
@@ -248,7 +248,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 | Package | Files | Import Path |
 |---|---|---|
-| [`android/accounts`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/accounts) | 6 | `github.com/xaionaro-go/binder/android/accounts` |
+| [`android/accounts`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/accounts) | 7 | `github.com/xaionaro-go/binder/android/accounts` |
 
 </details>
 
@@ -267,13 +267,13 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | Package | Files | Import Path |
 |---|---|---|
 | [`android/app`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app) | 111 | `github.com/xaionaro-go/binder/android/app` |
-| [`android/app/admin`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/admin) | 26 | `github.com/xaionaro-go/binder/android/app/admin` |
-| [`android/app/ambientcontext`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/ambientcontext) | 4 | `github.com/xaionaro-go/binder/android/app/ambientcontext` |
-| [`android/app/appfunctions`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/appfunctions) | 9 | `github.com/xaionaro-go/binder/android/app/appfunctions` |
+| [`android/app/admin`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/admin) | 27 | `github.com/xaionaro-go/binder/android/app/admin` |
+| [`android/app/ambientcontext`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/ambientcontext) | 5 | `github.com/xaionaro-go/binder/android/app/ambientcontext` |
+| [`android/app/appfunctions`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/appfunctions) | 10 | `github.com/xaionaro-go/binder/android/app/appfunctions` |
 | [`android/app/assist`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/assist) | 3 | `github.com/xaionaro-go/binder/android/app/assist` |
 | [`android/app/backup`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/backup) | 12 | `github.com/xaionaro-go/binder/android/app/backup` |
 | [`android/app/blob`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/blob) | 6 | `github.com/xaionaro-go/binder/android/app/blob` |
-| [`android/app/contentsuggestions`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/contentsuggestions) | 7 | `github.com/xaionaro-go/binder/android/app/contentsuggestions` |
+| [`android/app/contentsuggestions`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/contentsuggestions) | 8 | `github.com/xaionaro-go/binder/android/app/contentsuggestions` |
 | [`android/app/contextualsearch`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/contextualsearch) | 3 | `github.com/xaionaro-go/binder/android/app/contextualsearch` |
 | [`android/app/job`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/job) | 9 | `github.com/xaionaro-go/binder/android/app/job` |
 | [`android/app/ondeviceintelligence`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/ondeviceintelligence) | 15 | `github.com/xaionaro-go/binder/android/app/ondeviceintelligence` |
@@ -284,15 +284,15 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`android/app/servertransaction`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/servertransaction) | 1 | `github.com/xaionaro-go/binder/android/app/servertransaction` |
 | [`android/app/slice`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/slice) | 4 | `github.com/xaionaro-go/binder/android/app/slice` |
 | [`android/app/smartspace`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/smartspace) | 6 | `github.com/xaionaro-go/binder/android/app/smartspace` |
-| [`android/app/supervision`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/supervision) | 1 | `github.com/xaionaro-go/binder/android/app/supervision` |
+| [`android/app/supervision`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/supervision) | 2 | `github.com/xaionaro-go/binder/android/app/supervision` |
 | [`android/app/time`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/time) | 15 | `github.com/xaionaro-go/binder/android/app/time` |
 | [`android/app/timedetector`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/timedetector) | 3 | `github.com/xaionaro-go/binder/android/app/timedetector` |
 | [`android/app/timezonedetector`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/timezonedetector) | 3 | `github.com/xaionaro-go/binder/android/app/timezonedetector` |
 | [`android/app/trust`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/trust) | 3 | `github.com/xaionaro-go/binder/android/app/trust` |
-| [`android/app/usage`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/usage) | 12 | `github.com/xaionaro-go/binder/android/app/usage` |
+| [`android/app/usage`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/usage) | 14 | `github.com/xaionaro-go/binder/android/app/usage` |
 | [`android/app/wallpaper`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/wallpaper) | 2 | `github.com/xaionaro-go/binder/android/app/wallpaper` |
-| [`android/app/wallpapereffectsgeneration`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/wallpapereffectsgeneration) | 4 | `github.com/xaionaro-go/binder/android/app/wallpapereffectsgeneration` |
-| [`android/app/wearable`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/wearable) | 2 | `github.com/xaionaro-go/binder/android/app/wearable` |
+| [`android/app/wallpapereffectsgeneration`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/wallpapereffectsgeneration) | 5 | `github.com/xaionaro-go/binder/android/app/wallpapereffectsgeneration` |
+| [`android/app/wearable`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/app/wearable) | 3 | `github.com/xaionaro-go/binder/android/app/wearable` |
 
 </details>
 
@@ -328,9 +328,9 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 | Package | Files | Import Path |
 |---|---|---|
-| [`android/companion`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/companion) | 14 | `github.com/xaionaro-go/binder/android/companion` |
+| [`android/companion`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/companion) | 15 | `github.com/xaionaro-go/binder/android/companion` |
 | [`android/companion/datatransfer`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/companion/datatransfer) | 1 | `github.com/xaionaro-go/binder/android/companion/datatransfer` |
-| [`android/companion/virtual`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/companion/virtual) | 9 | `github.com/xaionaro-go/binder/android/companion/virtual` |
+| [`android/companion/virtual`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/companion/virtual) | 10 | `github.com/xaionaro-go/binder/android/companion/virtual` |
 | [`android/companion/virtual/audio`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/companion/virtual/audio) | 2 | `github.com/xaionaro-go/binder/android/companion/virtual/audio` |
 | [`android/companion/virtual/camera`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/companion/virtual/camera) | 2 | `github.com/xaionaro-go/binder/android/companion/virtual/camera` |
 | [`android/companion/virtual/sensor`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/companion/virtual/sensor) | 4 | `github.com/xaionaro-go/binder/android/companion/virtual/sensor` |
@@ -343,14 +343,14 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 | Package | Files | Import Path |
 |---|---|---|
-| [`android/content`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/content) | 35 | `github.com/xaionaro-go/binder/android/content` |
+| [`android/content`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/content) | 36 | `github.com/xaionaro-go/binder/android/content` |
 | [`android/content/integrity`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/content/integrity) | 2 | `github.com/xaionaro-go/binder/android/content/integrity` |
 | [`android/content/om`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/content/om) | 3 | `github.com/xaionaro-go/binder/android/content/om` |
-| [`android/content/pm`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/content/pm) | 88 | `github.com/xaionaro-go/binder/android/content/pm` |
+| [`android/content/pm`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/content/pm) | 91 | `github.com/xaionaro-go/binder/android/content/pm` |
 | [`android/content/pm/dependencyinstaller`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/content/pm/dependencyinstaller) | 3 | `github.com/xaionaro-go/binder/android/content/pm/dependencyinstaller` |
 | [`android/content/pm/dex`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/content/pm/dex) | 2 | `github.com/xaionaro-go/binder/android/content/pm/dex` |
 | [`android/content/pm/permission`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/content/pm/permission) | 2 | `github.com/xaionaro-go/binder/android/content/pm/permission` |
-| [`android/content/pm/verify/domain`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/content/pm/verify/domain) | 5 | `github.com/xaionaro-go/binder/android/content/pm/verify/domain` |
+| [`android/content/pm/verify/domain`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/content/pm/verify/domain) | 6 | `github.com/xaionaro-go/binder/android/content/pm/verify/domain` |
 | [`android/content/res`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/content/res) | 4 | `github.com/xaionaro-go/binder/android/content/res` |
 | [`android/content/rollback`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/content/rollback) | 3 | `github.com/xaionaro-go/binder/android/content/rollback` |
 
@@ -361,7 +361,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 | Package | Files | Import Path |
 |---|---|---|
-| [`android/credentials`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/credentials) | 21 | `github.com/xaionaro-go/binder/android/credentials` |
+| [`android/credentials`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/credentials) | 22 | `github.com/xaionaro-go/binder/android/credentials` |
 
 </details>
 
@@ -379,7 +379,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 | Package | Files | Import Path |
 |---|---|---|
-| [`android/debug`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/debug) | 6 | `github.com/xaionaro-go/binder/android/debug` |
+| [`android/debug`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/debug) | 7 | `github.com/xaionaro-go/binder/android/debug` |
 
 </details>
 
@@ -426,7 +426,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 | Package | Files | Import Path |
 |---|---|---|
-| [`android/hardware`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware) | 5 | `github.com/xaionaro-go/binder/android/hardware` |
+| [`android/hardware`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware) | 7 | `github.com/xaionaro-go/binder/android/hardware` |
 | [`android/hardware/audio/common`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/audio/common) | 5 | `github.com/xaionaro-go/binder/android/hardware/audio/common` |
 | [`android/hardware/audio/core`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/audio/core) | 18 | `github.com/xaionaro-go/binder/android/hardware/audio/core` |
 | [`android/hardware/audio/core/IBluetooth`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/audio/core/IBluetooth) | 2 | `github.com/xaionaro-go/binder/android/hardware/audio/core/IBluetooth` |
@@ -477,7 +477,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`android/hardware/automotive/occupant_awareness`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/automotive/occupant_awareness) | 11 | `github.com/xaionaro-go/binder/android/hardware/automotive/occupant_awareness` |
 | [`android/hardware/automotive/remoteaccess`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/automotive/remoteaccess) | 5 | `github.com/xaionaro-go/binder/android/hardware/automotive/remoteaccess` |
 | [`android/hardware/automotive/vehicle`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/automotive/vehicle) | 147 | `github.com/xaionaro-go/binder/android/hardware/automotive/vehicle` |
-| [`android/hardware/biometrics`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/biometrics) | 19 | `github.com/xaionaro-go/binder/android/hardware/biometrics` |
+| [`android/hardware/biometrics`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/biometrics) | 20 | `github.com/xaionaro-go/binder/android/hardware/biometrics` |
 | [`android/hardware/biometrics/IBiometricContextListener`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/biometrics/IBiometricContextListener) | 1 | `github.com/xaionaro-go/binder/android/hardware/biometrics/IBiometricContextListener` |
 | [`android/hardware/biometrics/common`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/biometrics/common) | 11 | `github.com/xaionaro-go/binder/android/hardware/biometrics/common` |
 | [`android/hardware/biometrics/common/AuthenticateReason`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/biometrics/common/AuthenticateReason) | 3 | `github.com/xaionaro-go/binder/android/hardware/biometrics/common/AuthenticateReason` |
@@ -536,9 +536,9 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`android/hardware/drm`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/drm) | 38 | `github.com/xaionaro-go/binder/android/hardware/drm` |
 | [`android/hardware/dumpstate`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/dumpstate) | 1 | `github.com/xaionaro-go/binder/android/hardware/dumpstate` |
 | [`android/hardware/dumpstate/IDumpstateDevice`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/dumpstate/IDumpstateDevice) | 1 | `github.com/xaionaro-go/binder/android/hardware/dumpstate/IDumpstateDevice` |
-| [`android/hardware/face`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/face) | 10 | `github.com/xaionaro-go/binder/android/hardware/face` |
+| [`android/hardware/face`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/face) | 11 | `github.com/xaionaro-go/binder/android/hardware/face` |
 | [`android/hardware/fastboot`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/fastboot) | 2 | `github.com/xaionaro-go/binder/android/hardware/fastboot` |
-| [`android/hardware/fingerprint`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/fingerprint) | 12 | `github.com/xaionaro-go/binder/android/hardware/fingerprint` |
+| [`android/hardware/fingerprint`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/fingerprint) | 13 | `github.com/xaionaro-go/binder/android/hardware/fingerprint` |
 | [`android/hardware/gatekeeper`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/gatekeeper) | 3 | `github.com/xaionaro-go/binder/android/hardware/gatekeeper` |
 | [`android/hardware/gnss`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/gnss) | 38 | `github.com/xaionaro-go/binder/android/hardware/gnss` |
 | [`android/hardware/gnss/GnssData`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/gnss/GnssData) | 1 | `github.com/xaionaro-go/binder/android/hardware/gnss/GnssData` |
@@ -581,7 +581,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`android/hardware/graphics/composer3/PresentOrValidate`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/graphics/composer3/PresentOrValidate) | 1 | `github.com/xaionaro-go/binder/android/hardware/graphics/composer3/PresentOrValidate` |
 | [`android/hardware/graphics/composer3/ReleaseFences`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/graphics/composer3/ReleaseFences) | 1 | `github.com/xaionaro-go/binder/android/hardware/graphics/composer3/ReleaseFences` |
 | [`android/hardware/graphics/composer3/VrrConfig`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/graphics/composer3/VrrConfig) | 2 | `github.com/xaionaro-go/binder/android/hardware/graphics/composer3/VrrConfig` |
-| [`android/hardware/hdmi`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/hdmi) | 15 | `github.com/xaionaro-go/binder/android/hardware/hdmi` |
+| [`android/hardware/hdmi`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/hdmi) | 16 | `github.com/xaionaro-go/binder/android/hardware/hdmi` |
 | [`android/hardware/health`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/health) | 13 | `github.com/xaionaro-go/binder/android/hardware/health` |
 | [`android/hardware/health/storage`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/health/storage) | 3 | `github.com/xaionaro-go/binder/android/hardware/health/storage` |
 | [`android/hardware/identity`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/identity) | 10 | `github.com/xaionaro-go/binder/android/hardware/identity` |
@@ -590,11 +590,11 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`android/hardware/input/common`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/input/common) | 15 | `github.com/xaionaro-go/binder/android/hardware/input/common` |
 | [`android/hardware/input/processor`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/input/processor) | 1 | `github.com/xaionaro-go/binder/android/hardware/input/processor` |
 | [`android/hardware/ir`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/ir) | 2 | `github.com/xaionaro-go/binder/android/hardware/ir` |
-| [`android/hardware/iris`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/iris) | 1 | `github.com/xaionaro-go/binder/android/hardware/iris` |
+| [`android/hardware/iris`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/iris) | 2 | `github.com/xaionaro-go/binder/android/hardware/iris` |
 | [`android/hardware/keymaster`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/keymaster) | 5 | `github.com/xaionaro-go/binder/android/hardware/keymaster` |
 | [`android/hardware/light`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/light) | 6 | `github.com/xaionaro-go/binder/android/hardware/light` |
 | [`android/hardware/lights`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/lights) | 3 | `github.com/xaionaro-go/binder/android/hardware/lights` |
-| [`android/hardware/location`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/location) | 28 | `github.com/xaionaro-go/binder/android/hardware/location` |
+| [`android/hardware/location`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/location) | 29 | `github.com/xaionaro-go/binder/android/hardware/location` |
 | [`android/hardware/macsec`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/macsec) | 1 | `github.com/xaionaro-go/binder/android/hardware/macsec` |
 | [`android/hardware/media/bufferpool2`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/media/bufferpool2) | 9 | `github.com/xaionaro-go/binder/android/hardware/media/bufferpool2` |
 | [`android/hardware/media/bufferpool2/IAccessor`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/media/bufferpool2/IAccessor) | 1 | `github.com/xaionaro-go/binder/android/hardware/media/bufferpool2/IAccessor` |
@@ -679,7 +679,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`android/hardware/tv/mediaquality`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/tv/mediaquality) | 34 | `github.com/xaionaro-go/binder/android/hardware/tv/mediaquality` |
 | [`android/hardware/tv/mediaquality/DolbyAudioProcessing`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/tv/mediaquality/DolbyAudioProcessing) | 1 | `github.com/xaionaro-go/binder/android/hardware/tv/mediaquality/DolbyAudioProcessing` |
 | [`android/hardware/tv/tuner`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/tv/tuner) | 193 | `github.com/xaionaro-go/binder/android/hardware/tv/tuner` |
-| [`android/hardware/usb`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/usb) | 30 | `github.com/xaionaro-go/binder/android/hardware/usb` |
+| [`android/hardware/usb`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/usb) | 31 | `github.com/xaionaro-go/binder/android/hardware/usb` |
 | [`android/hardware/usb/AltModeData`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/usb/AltModeData) | 1 | `github.com/xaionaro-go/binder/android/hardware/usb/AltModeData` |
 | [`android/hardware/usb/gadget`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/usb/gadget) | 5 | `github.com/xaionaro-go/binder/android/hardware/usb/gadget` |
 | [`android/hardware/uwb`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/uwb) | 5 | `github.com/xaionaro-go/binder/android/hardware/uwb` |
@@ -713,7 +713,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 | Package | Files | Import Path |
 |---|---|---|
-| [`android/location`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/location) | 35 | `github.com/xaionaro-go/binder/android/location` |
+| [`android/location`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/location) | 36 | `github.com/xaionaro-go/binder/android/location` |
 | [`android/location/provider`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/location/provider) | 12 | `github.com/xaionaro-go/binder/android/location/provider` |
 
 </details>
@@ -741,17 +741,17 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`android/media/audio/eraser`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/audio/eraser) | 12 | `github.com/xaionaro-go/binder/android/media/audio/eraser` |
 | [`android/media/audiopolicy`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/audiopolicy) | 6 | `github.com/xaionaro-go/binder/android/media/audiopolicy` |
 | [`android/media/browse`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/browse) | 1 | `github.com/xaionaro-go/binder/android/media/browse` |
-| [`android/media/metrics`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/metrics) | 7 | `github.com/xaionaro-go/binder/android/media/metrics` |
-| [`android/media/midi`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/midi) | 6 | `github.com/xaionaro-go/binder/android/media/midi` |
-| [`android/media/musicrecognition`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/musicrecognition) | 6 | `github.com/xaionaro-go/binder/android/media/musicrecognition` |
+| [`android/media/metrics`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/metrics) | 8 | `github.com/xaionaro-go/binder/android/media/metrics` |
+| [`android/media/midi`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/midi) | 7 | `github.com/xaionaro-go/binder/android/media/midi` |
+| [`android/media/musicrecognition`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/musicrecognition) | 7 | `github.com/xaionaro-go/binder/android/media/musicrecognition` |
 | [`android/media/permission`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/permission) | 1 | `github.com/xaionaro-go/binder/android/media/permission` |
 | [`android/media/projection`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/projection) | 8 | `github.com/xaionaro-go/binder/android/media/projection` |
-| [`android/media/quality`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/quality) | 13 | `github.com/xaionaro-go/binder/android/media/quality` |
+| [`android/media/quality`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/quality) | 14 | `github.com/xaionaro-go/binder/android/media/quality` |
 | [`android/media/session`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/session) | 15 | `github.com/xaionaro-go/binder/android/media/session` |
 | [`android/media/soundtrigger`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/soundtrigger) | 18 | `github.com/xaionaro-go/binder/android/media/soundtrigger` |
 | [`android/media/soundtrigger_middleware`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/soundtrigger_middleware) | 11 | `github.com/xaionaro-go/binder/android/media/soundtrigger_middleware` |
-| [`android/media/tv`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/tv) | 28 | `github.com/xaionaro-go/binder/android/media/tv` |
-| [`android/media/tv/ad`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/tv/ad) | 8 | `github.com/xaionaro-go/binder/android/media/tv/ad` |
+| [`android/media/tv`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/tv) | 29 | `github.com/xaionaro-go/binder/android/media/tv` |
+| [`android/media/tv/ad`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/tv/ad) | 9 | `github.com/xaionaro-go/binder/android/media/tv/ad` |
 | [`android/media/tv/extension/analog`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/tv/extension/analog) | 1 | `github.com/xaionaro-go/binder/android/media/tv/extension/analog` |
 | [`android/media/tv/extension/cam`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/tv/extension/cam) | 19 | `github.com/xaionaro-go/binder/android/media/tv/extension/cam` |
 | [`android/media/tv/extension/clienttoken`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/tv/extension/clienttoken) | 1 | `github.com/xaionaro-go/binder/android/media/tv/extension/clienttoken` |
@@ -767,8 +767,8 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`android/media/tv/extension/teletext`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/tv/extension/teletext) | 3 | `github.com/xaionaro-go/binder/android/media/tv/extension/teletext` |
 | [`android/media/tv/extension/time`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/tv/extension/time) | 1 | `github.com/xaionaro-go/binder/android/media/tv/extension/time` |
 | [`android/media/tv/extension/tune`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/tv/extension/tune) | 4 | `github.com/xaionaro-go/binder/android/media/tv/extension/tune` |
-| [`android/media/tv/interactive`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/tv/interactive) | 9 | `github.com/xaionaro-go/binder/android/media/tv/interactive` |
-| [`android/media/tv/tunerresourcemanager`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/tv/tunerresourcemanager) | 11 | `github.com/xaionaro-go/binder/android/media/tv/tunerresourcemanager` |
+| [`android/media/tv/interactive`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/tv/interactive) | 10 | `github.com/xaionaro-go/binder/android/media/tv/interactive` |
+| [`android/media/tv/tunerresourcemanager`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/media/tv/tunerresourcemanager) | 12 | `github.com/xaionaro-go/binder/android/media/tv/tunerresourcemanager` |
 
 </details>
 
@@ -777,7 +777,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 | Package | Files | Import Path |
 |---|---|---|
-| [`android/net`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/net) | 24 | `github.com/xaionaro-go/binder/android/net` |
+| [`android/net`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/net) | 27 | `github.com/xaionaro-go/binder/android/net` |
 | [`android/net/vcn`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/net/vcn) | 6 | `github.com/xaionaro-go/binder/android/net/vcn` |
 | [`android/net/wifi/sharedconnectivity/app`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/net/wifi/sharedconnectivity/app) | 6 | `github.com/xaionaro-go/binder/android/net/wifi/sharedconnectivity/app` |
 | [`android/net/wifi/sharedconnectivity/service`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/net/wifi/sharedconnectivity/service) | 2 | `github.com/xaionaro-go/binder/android/net/wifi/sharedconnectivity/service` |
@@ -798,7 +798,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 | Package | Files | Import Path |
 |---|---|---|
-| [`android/os`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/os) | 106 | `github.com/xaionaro-go/binder/android/os` |
+| [`android/os`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/os) | 113 | `github.com/xaionaro-go/binder/android/os` |
 | [`android/os/ExternalVibrationScale`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/os/ExternalVibrationScale) | 1 | `github.com/xaionaro-go/binder/android/os/ExternalVibrationScale` |
 | [`android/os/IInstalld`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/os/IInstalld) | 1 | `github.com/xaionaro-go/binder/android/os/IInstalld` |
 | [`android/os/IPowerManager`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/os/IPowerManager) | 2 | `github.com/xaionaro-go/binder/android/os/IPowerManager` |
@@ -806,8 +806,8 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`android/os/StatsBootstrapAtomValue/Annotation`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/os/StatsBootstrapAtomValue/Annotation) | 2 | `github.com/xaionaro-go/binder/android/os/StatsBootstrapAtomValue/Annotation` |
 | [`android/os/connectivity`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/os/connectivity) | 4 | `github.com/xaionaro-go/binder/android/os/connectivity` |
 | [`android/os/health`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/os/health) | 1 | `github.com/xaionaro-go/binder/android/os/health` |
-| [`android/os/image`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/os/image) | 1 | `github.com/xaionaro-go/binder/android/os/image` |
-| [`android/os/incremental`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/os/incremental) | 8 | `github.com/xaionaro-go/binder/android/os/incremental` |
+| [`android/os/image`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/os/image) | 2 | `github.com/xaionaro-go/binder/android/os/image` |
+| [`android/os/incremental`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/os/incremental) | 9 | `github.com/xaionaro-go/binder/android/os/incremental` |
 | [`android/os/instrumentation`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/os/instrumentation) | 5 | `github.com/xaionaro-go/binder/android/os/instrumentation` |
 | [`android/os/logcat`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/os/logcat) | 1 | `github.com/xaionaro-go/binder/android/os/logcat` |
 | [`android/os/storage`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/os/storage) | 10 | `github.com/xaionaro-go/binder/android/os/storage` |
@@ -829,7 +829,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 | Package | Files | Import Path |
 |---|---|---|
-| [`android/print`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/print) | 19 | `github.com/xaionaro-go/binder/android/print` |
+| [`android/print`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/print) | 20 | `github.com/xaionaro-go/binder/android/print` |
 
 </details>
 
@@ -857,11 +857,11 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 | Package | Files | Import Path |
 |---|---|---|
-| [`android/security`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/security) | 4 | `github.com/xaionaro-go/binder/android/security` |
-| [`android/security/advancedprotection`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/security/advancedprotection) | 3 | `github.com/xaionaro-go/binder/android/security/advancedprotection` |
-| [`android/security/attestationverification`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/security/attestationverification) | 5 | `github.com/xaionaro-go/binder/android/security/attestationverification` |
-| [`android/security/authenticationpolicy`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/security/authenticationpolicy) | 3 | `github.com/xaionaro-go/binder/android/security/authenticationpolicy` |
-| [`android/security/intrusiondetection`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/security/intrusiondetection) | 5 | `github.com/xaionaro-go/binder/android/security/intrusiondetection` |
+| [`android/security`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/security) | 5 | `github.com/xaionaro-go/binder/android/security` |
+| [`android/security/advancedprotection`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/security/advancedprotection) | 4 | `github.com/xaionaro-go/binder/android/security/advancedprotection` |
+| [`android/security/attestationverification`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/security/attestationverification) | 6 | `github.com/xaionaro-go/binder/android/security/attestationverification` |
+| [`android/security/authenticationpolicy`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/security/authenticationpolicy) | 4 | `github.com/xaionaro-go/binder/android/security/authenticationpolicy` |
+| [`android/security/intrusiondetection`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/security/intrusiondetection) | 6 | `github.com/xaionaro-go/binder/android/security/intrusiondetection` |
 | [`android/security/intrusiondetection/IIntrusionDetectionServiceCommandCallback`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/security/intrusiondetection/IIntrusionDetectionServiceCommandCallback) | 1 | `github.com/xaionaro-go/binder/android/security/intrusiondetection/IIntrusionDetectionServiceCommandCallback` |
 | [`android/security/intrusiondetection/IIntrusionDetectionServiceStateCallback`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/security/intrusiondetection/IIntrusionDetectionServiceStateCallback) | 1 | `github.com/xaionaro-go/binder/android/security/intrusiondetection/IIntrusionDetectionServiceStateCallback` |
 | [`android/security/keymaster`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/security/keymaster) | 1 | `github.com/xaionaro-go/binder/android/security/keymaster` |
@@ -897,9 +897,9 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`android/service/games`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/games) | 9 | `github.com/xaionaro-go/binder/android/service/games` |
 | [`android/service/media`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/media) | 2 | `github.com/xaionaro-go/binder/android/service/media` |
 | [`android/service/notification`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/notification) | 17 | `github.com/xaionaro-go/binder/android/service/notification` |
-| [`android/service/oemlock`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/oemlock) | 1 | `github.com/xaionaro-go/binder/android/service/oemlock` |
+| [`android/service/oemlock`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/oemlock) | 2 | `github.com/xaionaro-go/binder/android/service/oemlock` |
 | [`android/service/ondeviceintelligence`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/ondeviceintelligence) | 5 | `github.com/xaionaro-go/binder/android/service/ondeviceintelligence` |
-| [`android/service/persistentdata`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/persistentdata) | 1 | `github.com/xaionaro-go/binder/android/service/persistentdata` |
+| [`android/service/persistentdata`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/persistentdata) | 2 | `github.com/xaionaro-go/binder/android/service/persistentdata` |
 | [`android/service/quickaccesswallet`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/quickaccesswallet) | 9 | `github.com/xaionaro-go/binder/android/service/quickaccesswallet` |
 | [`android/service/quicksettings`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/quicksettings) | 3 | `github.com/xaionaro-go/binder/android/service/quicksettings` |
 | [`android/service/remotelockscreenvalidation`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/remotelockscreenvalidation) | 2 | `github.com/xaionaro-go/binder/android/service/remotelockscreenvalidation` |
@@ -916,7 +916,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`android/service/translation`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/translation) | 2 | `github.com/xaionaro-go/binder/android/service/translation` |
 | [`android/service/trust`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/trust) | 3 | `github.com/xaionaro-go/binder/android/service/trust` |
 | [`android/service/voice`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/voice) | 18 | `github.com/xaionaro-go/binder/android/service/voice` |
-| [`android/service/vr`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/vr) | 4 | `github.com/xaionaro-go/binder/android/service/vr` |
+| [`android/service/vr`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/vr) | 5 | `github.com/xaionaro-go/binder/android/service/vr` |
 | [`android/service/wallpaper`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/wallpaper) | 3 | `github.com/xaionaro-go/binder/android/service/wallpaper` |
 | [`android/service/wallpapereffectsgeneration`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/wallpapereffectsgeneration) | 1 | `github.com/xaionaro-go/binder/android/service/wallpapereffectsgeneration` |
 | [`android/service/watchdog`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/service/watchdog) | 2 | `github.com/xaionaro-go/binder/android/service/watchdog` |
@@ -1026,13 +1026,13 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`android/view`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/view) | 72 | `github.com/xaionaro-go/binder/android/view` |
 | [`android/view/accessibility`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/view/accessibility) | 16 | `github.com/xaionaro-go/binder/android/view/accessibility` |
 | [`android/view/accessibility/IAccessibilityManager`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/view/accessibility/IAccessibilityManager) | 1 | `github.com/xaionaro-go/binder/android/view/accessibility/IAccessibilityManager` |
-| [`android/view/autofill`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/view/autofill) | 6 | `github.com/xaionaro-go/binder/android/view/autofill` |
-| [`android/view/contentcapture`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/view/contentcapture) | 9 | `github.com/xaionaro-go/binder/android/view/contentcapture` |
+| [`android/view/autofill`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/view/autofill) | 7 | `github.com/xaionaro-go/binder/android/view/autofill` |
+| [`android/view/contentcapture`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/view/contentcapture) | 10 | `github.com/xaionaro-go/binder/android/view/contentcapture` |
 | [`android/view/displayhash`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/view/displayhash) | 2 | `github.com/xaionaro-go/binder/android/view/displayhash` |
 | [`android/view/inputmethod`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/view/inputmethod) | 26 | `github.com/xaionaro-go/binder/android/view/inputmethod` |
 | [`android/view/textclassifier`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/view/textclassifier) | 15 | `github.com/xaionaro-go/binder/android/view/textclassifier` |
 | [`android/view/textservice`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/view/textservice) | 5 | `github.com/xaionaro-go/binder/android/view/textservice` |
-| [`android/view/translation`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/view/translation) | 13 | `github.com/xaionaro-go/binder/android/view/translation` |
+| [`android/view/translation`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/view/translation) | 14 | `github.com/xaionaro-go/binder/android/view/translation` |
 
 </details>
 

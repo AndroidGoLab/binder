@@ -1,5 +1,5 @@
 .PHONY: generate genversions test e2e vet build build-examples lint clean readme smoke \
-       bindercli genbindercli list-commands check-generated release
+       bindercli genbindercli genservicemap genaccessors list-commands check-generated release
 
 # Generated top-level directories.
 GENERATED_DIRS := android com fuzztest libgui_test_server parcelables src
@@ -52,6 +52,19 @@ readme:
 smoke:
 	go run ./tools/cmd/gen_e2e_smoke .
 
+# Generate service name constants and JSON service map from AOSP Java sources.
+genservicemap:
+	go run ./tools/cmd/genservicemap \
+		-frameworks-base tools/pkg/3rdparty/frameworks-base \
+		-go-constants servicemanager/service_names_gen.go \
+		-output /tmp/servicemap.json
+
+# Generate typed service accessor functions from the service map.
+genaccessors:
+	go run ./tools/cmd/genaccessors \
+		-service-map /tmp/servicemap.json \
+		-output .
+
 # Regenerate bindercli registry and command dispatch code.
 genbindercli:
 	go run ./tools/cmd/genbindercli
@@ -69,6 +82,8 @@ list-commands:
 check-generated:
 	make clean
 	make generate
+	make genservicemap
+	make genaccessors
 	make smoke
 	make readme
 	git diff --exit-code
@@ -77,3 +92,4 @@ check-generated:
 clean:
 	rm -rf $(GENERATED_DIRS)
 	find . -maxdepth 1 -name '*.go' -exec grep -l 'Code generated' {} \; | xargs -r rm -f
+	rm -f servicemanager/service_names_gen.go
