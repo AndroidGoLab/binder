@@ -2,6 +2,7 @@ package ad
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	tv "github.com/xaionaro-go/binder/android/media/tv"
 	net "github.com/xaionaro-go/binder/android/net"
@@ -792,4 +793,569 @@ func (p *TvAdManagerProxy) NotifyTvInputSessionData(
 	}
 
 	return nil
+}
+
+// TvAdManagerStub dispatches incoming binder transactions
+// to a typed ITvAdManager implementation.
+type TvAdManagerStub struct {
+	Impl ITvAdManager
+}
+
+var _ binder.TransactionReceiver = (*TvAdManagerStub)(nil)
+
+func (s *TvAdManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITvAdManagerGetTvAdServiceList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetTvAdServiceList(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITvAdManagerSendAppLinkCommand:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serviceId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_command os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_command.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendAppLinkCommand(ctx, _arg_serviceId, _arg_command)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerCreateSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client ITvAdClient
+		_ = _arg_client
+		_arg_serviceId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_seq, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CreateSession(ctx, _arg_client, _arg_serviceId, _arg_type_, _arg_seq)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerReleaseSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ReleaseSession(ctx, _arg_sessionToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerStartAdService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StartAdService(ctx, _arg_sessionToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerStopAdService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StopAdService(ctx, _arg_sessionToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerResetAdService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ResetAdService(ctx, _arg_sessionToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerSetSurface:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		var _arg_surface interface{}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.SetSurface(ctx, _arg_sessionToken, _arg_surface)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerDispatchSurfaceChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		_arg_format, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_width, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_height, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DispatchSurfaceChanged(ctx, _arg_sessionToken, _arg_format, _arg_width, _arg_height)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerSendCurrentVideoBounds:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		var _arg_bounds graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bounds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.SendCurrentVideoBounds(ctx, _arg_sessionToken, _arg_bounds)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerSendCurrentChannelUri:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		var _arg_channelUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_channelUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.SendCurrentChannelUri(ctx, _arg_sessionToken, _arg_channelUri)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerSendTrackInfoList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_tracks []tv.TvTrackInfo
+		_ = _arg_tracks
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.SendTrackInfoList(ctx, _arg_sessionToken, _arg_tracks)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerSendCurrentTvInputId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		_arg_inputId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendCurrentTvInputId(ctx, _arg_sessionToken, _arg_inputId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerSendSigningResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		_arg_signingId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_result []byte
+		_ = _arg_result
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendSigningResult(ctx, _arg_sessionToken, _arg_signingId, _arg_result)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerNotifyError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		_arg_errMsg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_params os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyError(ctx, _arg_sessionToken, _arg_errMsg, _arg_params)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerNotifyTvMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_data os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyTvMessage(ctx, _arg_sessionToken, _arg_type_, _arg_data)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerRegisterCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITvAdManagerCallback
+		_ = _arg_callback
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerUnregisterCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITvAdManagerCallback
+		_ = _arg_callback
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerCreateMediaView:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_windowToken binder.IBinder
+		_ = _arg_windowToken
+		var _arg_frame graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_frame.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.CreateMediaView(ctx, _arg_sessionToken, _arg_windowToken, _arg_frame)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerRelayoutMediaView:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		var _arg_frame graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_frame.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RelayoutMediaView(ctx, _arg_sessionToken, _arg_frame)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerRemoveMediaView:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RemoveMediaView(ctx, _arg_sessionToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvAdManagerNotifyTvInputSessionData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionToken binder.IBinder
+		_ = _arg_sessionToken
+		_arg_type_, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_data os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyTvInputSessionData(ctx, _arg_sessionToken, _arg_type_, _arg_data)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

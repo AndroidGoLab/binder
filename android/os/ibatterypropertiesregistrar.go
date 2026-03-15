@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -85,4 +86,47 @@ func (p *BatteryPropertiesRegistrarProxy) ScheduleUpdate(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BatteryPropertiesRegistrarStub dispatches incoming binder transactions
+// to a typed IBatteryPropertiesRegistrar implementation.
+type BatteryPropertiesRegistrarStub struct {
+	Impl IBatteryPropertiesRegistrar
+}
+
+var _ binder.TransactionReceiver = (*BatteryPropertiesRegistrarStub)(nil)
+
+func (s *BatteryPropertiesRegistrarStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBatteryPropertiesRegistrarGetProperty:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetProperty(ctx, _arg_id)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIBatteryPropertiesRegistrarScheduleUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ScheduleUpdate(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

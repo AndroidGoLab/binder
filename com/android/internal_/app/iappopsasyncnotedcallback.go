@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -49,4 +50,31 @@ func (p *AppOpsAsyncNotedCallbackProxy) OpNoted(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AppOpsAsyncNotedCallbackStub dispatches incoming binder transactions
+// to a typed IAppOpsAsyncNotedCallback implementation.
+type AppOpsAsyncNotedCallbackStub struct {
+	Impl IAppOpsAsyncNotedCallback
+}
+
+var _ binder.TransactionReceiver = (*AppOpsAsyncNotedCallbackStub)(nil)
+
+func (s *AppOpsAsyncNotedCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAppOpsAsyncNotedCallbackOpNoted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_op interface{}
+		_err := s.Impl.OpNoted(ctx, _arg_op)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

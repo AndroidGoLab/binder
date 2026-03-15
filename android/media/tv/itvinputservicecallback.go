@@ -2,6 +2,7 @@ package tv
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -98,4 +99,80 @@ func (p *TvInputServiceCallbackProxy) RemoveHardwareInput(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TvInputServiceCallbackStub dispatches incoming binder transactions
+// to a typed ITvInputServiceCallback implementation.
+type TvInputServiceCallbackStub struct {
+	Impl ITvInputServiceCallback
+}
+
+var _ binder.TransactionReceiver = (*TvInputServiceCallbackStub)(nil)
+
+func (s *TvInputServiceCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITvInputServiceCallbackAddHardwareInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_deviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_inputInfo TvInputInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_inputInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.AddHardwareInput(ctx, _arg_deviceId, _arg_inputInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputServiceCallbackAddHdmiInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_inputInfo TvInputInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_inputInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.AddHdmiInput(ctx, _arg_id, _arg_inputInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputServiceCallbackRemoveHardwareInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_inputId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RemoveHardwareInput(ctx, _arg_inputId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

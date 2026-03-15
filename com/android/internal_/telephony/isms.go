@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	net "github.com/xaionaro-go/binder/android/net"
 	os "github.com/xaionaro-go/binder/android/os"
@@ -1479,4 +1480,1086 @@ func (p *SmsProxy) GetWapMessageSize(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// SmsStub dispatches incoming binder transactions
+// to a typed ISms implementation.
+type SmsStub struct {
+	Impl ISms
+}
+
+var _ binder.TransactionReceiver = (*SmsStub)(nil)
+
+func (s *SmsStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISmsGetAllMessagesFromIccEfForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAllMessagesFromIccEfForSubscriber(ctx, _arg_subId, _arg_callingPkg)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionISmsUpdateMessageOnIccEfForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_messageIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newStatus, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pdu []byte
+		_ = _arg_pdu
+		_result, _err := s.Impl.UpdateMessageOnIccEfForSubscriber(ctx, _arg_subId, _arg_callingPkg, _arg_messageIndex, _arg_newStatus, _arg_pdu)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISmsCopyMessageToIccEfForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pdu []byte
+		_ = _arg_pdu
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_smsc []byte
+		_ = _arg_smsc
+		_result, _err := s.Impl.CopyMessageToIccEfForSubscriber(ctx, _arg_subId, _arg_callingPkg, _arg_status, _arg_pdu, _arg_smsc)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISmsSendDataForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingattributionTag, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destAddr, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_scAddr, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destPort, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []byte
+		_ = _arg_data
+		var _arg_sentIntent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sentIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_deliveryIntent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_deliveryIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SendDataForSubscriber(ctx, _arg_subId, _arg_callingPkg, _arg_callingattributionTag, _arg_destAddr, _arg_scAddr, _arg_destPort, _arg_data, _arg_sentIntent, _arg_deliveryIntent)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISmsSendTextForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingAttributionTag, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destAddr, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_scAddr, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_text, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sentIntent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sentIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_deliveryIntent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_deliveryIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_persistMessageForNonDefaultSmsApp, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_messageId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendTextForSubscriber(ctx, _arg_subId, _arg_callingPkg, _arg_callingAttributionTag, _arg_destAddr, _arg_scAddr, _arg_text, _arg_sentIntent, _arg_deliveryIntent, _arg_persistMessageForNonDefaultSmsApp, _arg_messageId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISmsSendTextForSubscriberWithOptions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingAttributionTag, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destAddr, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_scAddr, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_text, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sentIntent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sentIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_deliveryIntent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_deliveryIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_persistMessageForNonDefaultSmsApp, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_priority, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_expectMore, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_validityPeriod, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendTextForSubscriberWithOptions(ctx, _arg_subId, _arg_callingPkg, _arg_callingAttributionTag, _arg_destAddr, _arg_scAddr, _arg_text, _arg_sentIntent, _arg_deliveryIntent, _arg_persistMessageForNonDefaultSmsApp, _arg_priority, _arg_expectMore, _arg_validityPeriod)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISmsInjectSmsPduForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pdu []byte
+		_ = _arg_pdu
+		_arg_format, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_receivedIntent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receivedIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.InjectSmsPduForSubscriber(ctx, _arg_subId, _arg_pdu, _arg_format, _arg_receivedIntent)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISmsSendMultipartTextForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingAttributionTag, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destinationAddress, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_scAddress, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_parts []string
+		_ = _arg_parts
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sentIntents []app.PendingIntent
+		_ = _arg_sentIntents
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_deliveryIntents []app.PendingIntent
+		_ = _arg_deliveryIntents
+		_arg_persistMessageForNonDefaultSmsApp, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_messageId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendMultipartTextForSubscriber(ctx, _arg_subId, _arg_callingPkg, _arg_callingAttributionTag, _arg_destinationAddress, _arg_scAddress, _arg_parts, _arg_sentIntents, _arg_deliveryIntents, _arg_persistMessageForNonDefaultSmsApp, _arg_messageId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISmsSendMultipartTextForSubscriberWithOptions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingAttributionTag, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destinationAddress, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_scAddress, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_parts []string
+		_ = _arg_parts
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sentIntents []app.PendingIntent
+		_ = _arg_sentIntents
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_deliveryIntents []app.PendingIntent
+		_ = _arg_deliveryIntents
+		_arg_persistMessageForNonDefaultSmsApp, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_priority, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_expectMore, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_validityPeriod, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendMultipartTextForSubscriberWithOptions(ctx, _arg_subId, _arg_callingPkg, _arg_callingAttributionTag, _arg_destinationAddress, _arg_scAddress, _arg_parts, _arg_sentIntents, _arg_deliveryIntents, _arg_persistMessageForNonDefaultSmsApp, _arg_priority, _arg_expectMore, _arg_validityPeriod)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISmsEnableCellBroadcastForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_messageIdentifier, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ranType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.EnableCellBroadcastForSubscriber(ctx, _arg_subId, _arg_messageIdentifier, _arg_ranType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISmsDisableCellBroadcastForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_messageIdentifier, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ranType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.DisableCellBroadcastForSubscriber(ctx, _arg_subId, _arg_messageIdentifier, _arg_ranType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISmsEnableCellBroadcastRangeForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_startMessageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_endMessageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ranType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.EnableCellBroadcastRangeForSubscriber(ctx, _arg_subId, _arg_startMessageId, _arg_endMessageId, _arg_ranType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISmsDisableCellBroadcastRangeForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_startMessageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_endMessageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ranType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.DisableCellBroadcastRangeForSubscriber(ctx, _arg_subId, _arg_startMessageId, _arg_endMessageId, _arg_ranType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISmsGetPremiumSmsPermission:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPremiumSmsPermission(ctx, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISmsGetPremiumSmsPermissionForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPremiumSmsPermissionForSubscriber(ctx, _arg_subId, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISmsSetPremiumSmsPermission:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_permission, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetPremiumSmsPermission(ctx, _arg_packageName, _arg_permission)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISmsSetPremiumSmsPermissionForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_permission, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetPremiumSmsPermissionForSubscriber(ctx, _arg_subId, _arg_packageName, _arg_permission)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISmsIsImsSmsSupportedForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsImsSmsSupportedForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISmsIsSmsSimPickActivityNeeded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsSmsSimPickActivityNeeded(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISmsGetPreferredSmsSubscription:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPreferredSmsSubscription(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISmsGetImsSmsFormatForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetImsSmsFormatForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionISmsIsSMSPromptEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsSMSPromptEnabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISmsSendStoredText:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingAttributionTag, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_messageUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_messageUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_scAddress, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sentIntent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sentIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_deliveryIntent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_deliveryIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SendStoredText(ctx, _arg_subId, _arg_callingPkg, _arg_callingAttributionTag, _arg_messageUri, _arg_scAddress, _arg_sentIntent, _arg_deliveryIntent)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISmsSendStoredMultipartText:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingAttributeTag, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_messageUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_messageUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_scAddress, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sentIntents []app.PendingIntent
+		_ = _arg_sentIntents
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_deliveryIntents []app.PendingIntent
+		_ = _arg_deliveryIntents
+		_err = s.Impl.SendStoredMultipartText(ctx, _arg_subId, _arg_callingPkg, _arg_callingAttributeTag, _arg_messageUri, _arg_scAddress, _arg_sentIntents, _arg_deliveryIntents)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISmsGetCarrierConfigValuesForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCarrierConfigValuesForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionISmsCreateAppSpecificSmsToken:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_intent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.CreateAppSpecificSmsToken(ctx, _arg_subId, _arg_callingPkg, _arg_intent)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionISmsCreateAppSpecificSmsTokenWithPackageInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_prefixes, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_intent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.CreateAppSpecificSmsTokenWithPackageInfo(ctx, _arg_subId, _arg_callingPkg, _arg_prefixes, _arg_intent)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionISmsSetStorageMonitorMemoryStatusOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isStorageAvailable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetStorageMonitorMemoryStatusOverride(ctx, _arg_subId, _arg_isStorageAvailable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISmsClearStorageMonitorMemoryStatusOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ClearStorageMonitorMemoryStatusOverride(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISmsCheckSmsShortCodeDestination:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingApk, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_destAddress, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_countryIso, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CheckSmsShortCodeDestination(ctx, _arg_subId, _arg_callingApk, _arg_destAddress, _arg_countryIso)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISmsGetSmscAddressFromIccEfForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSmscAddressFromIccEfForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionISmsSetSmscAddressOnIccEfForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_smsc, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetSmscAddressOnIccEfForSubscriber(ctx, _arg_smsc, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISmsGetSmsCapacityOnIccForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSmsCapacityOnIccForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISmsResetAllCellBroadcastRanges:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ResetAllCellBroadcastRanges(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISmsGetWapMessageSize:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_locationUrl, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetWapMessageSize(ctx, _arg_locationUrl)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt64(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

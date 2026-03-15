@@ -2,6 +2,7 @@ package projection
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -88,4 +89,56 @@ func (p *MediaProjectionCallbackProxy) OnCapturedContentVisibilityChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MediaProjectionCallbackStub dispatches incoming binder transactions
+// to a typed IMediaProjectionCallback implementation.
+type MediaProjectionCallbackStub struct {
+	Impl IMediaProjectionCallback
+}
+
+var _ binder.TransactionReceiver = (*MediaProjectionCallbackStub)(nil)
+
+func (s *MediaProjectionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMediaProjectionCallbackOnStop:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnStop(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaProjectionCallbackOnCapturedContentResize:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_width, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_height, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCapturedContentResize(ctx, _arg_width, _arg_height)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaProjectionCallbackOnCapturedContentVisibilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isVisible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCapturedContentVisibilityChanged(ctx, _arg_isVisible)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package core
 
 import (
 	"context"
+	"fmt"
 	common "github.com/xaionaro-go/binder/android/hardware/audio/common"
 	audioCommon "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
@@ -495,4 +496,264 @@ func (p *StreamOutProxy) SelectPresentation(
 	}
 
 	return nil
+}
+
+// StreamOutStub dispatches incoming binder transactions
+// to a typed IStreamOut implementation.
+type StreamOutStub struct {
+	Impl IStreamOut
+}
+
+var _ binder.TransactionReceiver = (*StreamOutStub)(nil)
+
+func (s *StreamOutStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIStreamOutGetStreamCommon:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetStreamCommon(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIStreamOutUpdateMetadata:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sourceMetadata common.SourceMetadata
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sourceMetadata.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.UpdateMetadata(ctx, _arg_sourceMetadata)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIStreamOutUpdateOffloadMetadata:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_offloadMetadata common.AudioOffloadMetadata
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_offloadMetadata.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.UpdateOffloadMetadata(ctx, _arg_offloadMetadata)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIStreamOutGetHwVolume:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetHwVolume(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIStreamOutSetHwVolume:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_channelVolumes []float32
+		_ = _arg_channelVolumes
+		_err := s.Impl.SetHwVolume(ctx, _arg_channelVolumes)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIStreamOutGetAudioDescriptionMixLevel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAudioDescriptionMixLevel(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteFloat32(_result)
+		return _reply, nil
+	case TransactionIStreamOutSetAudioDescriptionMixLevel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_leveldB, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetAudioDescriptionMixLevel(ctx, _arg_leveldB)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIStreamOutGetDualMonoMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDualMonoMode(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(int32(_result))
+		return _reply, nil
+	case TransactionIStreamOutSetDualMonoMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode := audioCommon.AudioDualMonoMode(_raw_mode)
+		_err = s.Impl.SetDualMonoMode(ctx, _arg_mode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIStreamOutGetRecommendedLatencyModes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetRecommendedLatencyModes(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIStreamOutSetLatencyMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_mode, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode := audioCommon.AudioLatencyMode(_raw_mode)
+		_err = s.Impl.SetLatencyMode(ctx, _arg_mode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIStreamOutGetPlaybackRateParameters:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPlaybackRateParameters(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIStreamOutSetPlaybackRateParameters:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_playbackRate audioCommon.AudioPlaybackRate
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_playbackRate.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetPlaybackRateParameters(ctx, _arg_playbackRate)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIStreamOutSelectPresentation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_presentationId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_programId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SelectPresentation(ctx, _arg_presentationId, _arg_programId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

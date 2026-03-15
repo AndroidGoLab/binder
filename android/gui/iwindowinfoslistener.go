@@ -2,6 +2,7 @@ package gui
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -49,4 +50,31 @@ func (p *WindowInfosListenerProxy) OnWindowInfosChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// WindowInfosListenerStub dispatches incoming binder transactions
+// to a typed IWindowInfosListener implementation.
+type WindowInfosListenerStub struct {
+	Impl IWindowInfosListener
+}
+
+var _ binder.TransactionReceiver = (*WindowInfosListenerStub)(nil)
+
+func (s *WindowInfosListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWindowInfosListenerOnWindowInfosChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_update interface{}
+		_err := s.Impl.OnWindowInfosChanged(ctx, _arg_update)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

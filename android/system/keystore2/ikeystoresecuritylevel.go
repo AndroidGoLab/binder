@@ -2,6 +2,7 @@ package keystore2
 
 import (
 	"context"
+	"fmt"
 	keymint "github.com/xaionaro-go/binder/android/hardware/security/keymint"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -381,4 +382,259 @@ func (p *KeystoreSecurityLevelProxy) DeleteKey(
 	}
 
 	return nil
+}
+
+// KeystoreSecurityLevelStub dispatches incoming binder transactions
+// to a typed IKeystoreSecurityLevel implementation.
+type KeystoreSecurityLevelStub struct {
+	Impl IKeystoreSecurityLevel
+}
+
+var _ binder.TransactionReceiver = (*KeystoreSecurityLevelStub)(nil)
+
+func (s *KeystoreSecurityLevelStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIKeystoreSecurityLevelCreateOperation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_key KeyDescriptor
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_key.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_operationParameters []keymint.KeyParameter
+		_ = _arg_operationParameters
+		_arg_forced, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateOperation(ctx, _arg_key, _arg_operationParameters, _arg_forced)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIKeystoreSecurityLevelGenerateKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_key KeyDescriptor
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_key.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attestationKey *KeyDescriptor
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attestationKey.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_params []keymint.KeyParameter
+		_ = _arg_params
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_entropy []byte
+		_ = _arg_entropy
+		_result, _err := s.Impl.GenerateKey(ctx, _arg_key, _arg_attestationKey, _arg_params, _arg_flags, _arg_entropy)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIKeystoreSecurityLevelImportKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_key KeyDescriptor
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_key.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attestationKey *KeyDescriptor
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attestationKey.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_params []keymint.KeyParameter
+		_ = _arg_params
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keyData []byte
+		_ = _arg_keyData
+		_result, _err := s.Impl.ImportKey(ctx, _arg_key, _arg_attestationKey, _arg_params, _arg_flags, _arg_keyData)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIKeystoreSecurityLevelImportWrappedKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_key KeyDescriptor
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_key.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_wrappingKey KeyDescriptor
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_wrappingKey.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_maskingKey []byte
+		_ = _arg_maskingKey
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_params []keymint.KeyParameter
+		_ = _arg_params
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_authenticators []AuthenticatorSpec
+		_ = _arg_authenticators
+		_result, _err := s.Impl.ImportWrappedKey(ctx, _arg_key, _arg_wrappingKey, _arg_maskingKey, _arg_params, _arg_authenticators)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIKeystoreSecurityLevelConvertStorageKeyToEphemeral:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_storageKey KeyDescriptor
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_storageKey.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.ConvertStorageKeyToEphemeral(ctx, _arg_storageKey)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIKeystoreSecurityLevelDeleteKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_key KeyDescriptor
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_key.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.DeleteKey(ctx, _arg_key)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package extension
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -155,4 +156,112 @@ func (p *PreviewImageProcessorImplProxy) Process(
 	}
 
 	return nil
+}
+
+// PreviewImageProcessorImplStub dispatches incoming binder transactions
+// to a typed IPreviewImageProcessorImpl implementation.
+type PreviewImageProcessorImplStub struct {
+	Impl IPreviewImageProcessorImpl
+}
+
+var _ binder.TransactionReceiver = (*PreviewImageProcessorImplStub)(nil)
+
+func (s *PreviewImageProcessorImplStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPreviewImageProcessorImplOnOutputSurface:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_surface interface{}
+		_arg_imageFormat, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnOutputSurface(ctx, _arg_surface, _arg_imageFormat)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIPreviewImageProcessorImplOnResolutionUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_size Size
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_size.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnResolutionUpdate(ctx, _arg_size)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIPreviewImageProcessorImplOnImageFormatUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_imageFormat, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnImageFormatUpdate(ctx, _arg_imageFormat)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIPreviewImageProcessorImplProcess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_image ParcelImage
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_image.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_result interface{}
+		_arg_sequenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback IProcessResultImpl
+		_ = _arg_resultCallback
+		_err = s.Impl.Process(ctx, _arg_image, _arg_result, _arg_sequenceId, _arg_resultCallback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

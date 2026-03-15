@@ -2,6 +2,7 @@ package progress
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,33 @@ func (p *UnfoldAnimationProxy) SetListener(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// UnfoldAnimationStub dispatches incoming binder transactions
+// to a typed IUnfoldAnimation implementation.
+type UnfoldAnimationStub struct {
+	Impl IUnfoldAnimation
+}
+
+var _ binder.TransactionReceiver = (*UnfoldAnimationStub)(nil)
+
+func (s *UnfoldAnimationStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIUnfoldAnimationSetListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IUnfoldTransitionListener
+		_ = _arg_listener
+		_err := s.Impl.SetListener(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

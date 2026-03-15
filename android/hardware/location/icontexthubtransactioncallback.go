@@ -2,6 +2,7 @@ package location
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -80,4 +81,48 @@ func (p *ContextHubTransactionCallbackProxy) OnTransactionComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ContextHubTransactionCallbackStub dispatches incoming binder transactions
+// to a typed IContextHubTransactionCallback implementation.
+type ContextHubTransactionCallbackStub struct {
+	Impl IContextHubTransactionCallback
+}
+
+var _ binder.TransactionReceiver = (*ContextHubTransactionCallbackStub)(nil)
+
+func (s *ContextHubTransactionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIContextHubTransactionCallbackOnQueryResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_nanoappList []NanoAppState
+		_ = _arg_nanoappList
+		_err = s.Impl.OnQueryResponse(ctx, _arg_result, _arg_nanoappList)
+		_ = _err
+		return nil, nil
+	case TransactionIContextHubTransactionCallbackOnTransactionComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTransactionComplete(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

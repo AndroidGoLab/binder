@@ -2,6 +2,7 @@ package hardware
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -77,4 +78,61 @@ func (p *SensorPrivacyListenerProxy) OnSensorPrivacyStateChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SensorPrivacyListenerStub dispatches incoming binder transactions
+// to a typed ISensorPrivacyListener implementation.
+type SensorPrivacyListenerStub struct {
+	Impl ISensorPrivacyListener
+}
+
+var _ binder.TransactionReceiver = (*SensorPrivacyListenerStub)(nil)
+
+func (s *SensorPrivacyListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISensorPrivacyListenerOnSensorPrivacyChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_toggleType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sensor, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSensorPrivacyChanged(ctx, _arg_toggleType, _arg_sensor, _arg_enabled)
+		_ = _err
+		return nil, nil
+	case TransactionISensorPrivacyListenerOnSensorPrivacyStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_toggleType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sensor, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSensorPrivacyStateChanged(ctx, _arg_toggleType, _arg_sensor, _arg_state)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

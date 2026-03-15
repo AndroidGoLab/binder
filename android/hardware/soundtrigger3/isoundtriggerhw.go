@@ -2,6 +2,7 @@ package soundtrigger3
 
 import (
 	"context"
+	"fmt"
 	broadcastradio "github.com/xaionaro-go/binder/android/hardware/broadcastradio"
 	hardwareSoundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
 	soundtrigger "github.com/xaionaro-go/binder/android/media/soundtrigger"
@@ -402,4 +403,266 @@ func (p *SoundTriggerHwProxy) SetParameter(
 	}
 
 	return nil
+}
+
+// SoundTriggerHwStub dispatches incoming binder transactions
+// to a typed ISoundTriggerHw implementation.
+type SoundTriggerHwStub struct {
+	Impl ISoundTriggerHw
+}
+
+var _ binder.TransactionReceiver = (*SoundTriggerHwStub)(nil)
+
+func (s *SoundTriggerHwStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISoundTriggerHwGetProperties:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetProperties(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionISoundTriggerHwRegisterGlobalCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ISoundTriggerHwGlobalCallback
+		_ = _arg_callback
+		_err := s.Impl.RegisterGlobalCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISoundTriggerHwLoadSoundModel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundModel soundtrigger.SoundModel
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundModel.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ISoundTriggerHwCallback
+		_ = _arg_callback
+		_result, _err := s.Impl.LoadSoundModel(ctx, _arg_soundModel, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISoundTriggerHwLoadPhraseSoundModel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundModel soundtrigger.PhraseSoundModel
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundModel.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ISoundTriggerHwCallback
+		_ = _arg_callback
+		_result, _err := s.Impl.LoadPhraseSoundModel(ctx, _arg_soundModel, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISoundTriggerHwUnloadSoundModel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modelHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UnloadSoundModel(ctx, _arg_modelHandle)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISoundTriggerHwStartRecognition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modelHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_deviceHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ioHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_config hardwareSoundtrigger.SoundTriggerRecognitionConfig
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StartRecognition(ctx, _arg_modelHandle, _arg_deviceHandle, _arg_ioHandle, _arg_config)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISoundTriggerHwStopRecognition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modelHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StopRecognition(ctx, _arg_modelHandle)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISoundTriggerHwForceRecognitionEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modelHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ForceRecognitionEvent(ctx, _arg_modelHandle)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISoundTriggerHwQueryParameter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modelHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_modelParam, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_modelParam := soundtrigger.ModelParameter(_raw_modelParam)
+		_result, _err := s.Impl.QueryParameter(ctx, _arg_modelHandle, _arg_modelParam)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionISoundTriggerHwGetParameter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modelHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_modelParam, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_modelParam := soundtrigger.ModelParameter(_raw_modelParam)
+		_result, _err := s.Impl.GetParameter(ctx, _arg_modelHandle, _arg_modelParam)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISoundTriggerHwSetParameter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modelHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_modelParam, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_modelParam := soundtrigger.ModelParameter(_raw_modelParam)
+		_arg_value, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetParameter(ctx, _arg_modelHandle, _arg_modelParam, _arg_value)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package backup
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *BackupCallbackProxy) OperationComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BackupCallbackStub dispatches incoming binder transactions
+// to a typed IBackupCallback implementation.
+type BackupCallbackStub struct {
+	Impl IBackupCallback
+}
+
+var _ binder.TransactionReceiver = (*BackupCallbackStub)(nil)
+
+func (s *BackupCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBackupCallbackOperationComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OperationComplete(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package signal
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -98,4 +99,58 @@ func (p *TunerFrontendSignalInfoInterfaceProxy) SetFrontendSignalInfoListener(
 	}
 
 	return nil
+}
+
+// TunerFrontendSignalInfoInterfaceStub dispatches incoming binder transactions
+// to a typed ITunerFrontendSignalInfoInterface implementation.
+type TunerFrontendSignalInfoInterfaceStub struct {
+	Impl ITunerFrontendSignalInfoInterface
+}
+
+var _ binder.TransactionReceiver = (*TunerFrontendSignalInfoInterfaceStub)(nil)
+
+func (s *TunerFrontendSignalInfoInterfaceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITunerFrontendSignalInfoInterfaceGetFrontendSignalInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionToken, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetFrontendSignalInfo(ctx, _arg_sessionToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITunerFrontendSignalInfoInterfaceSetFrontendSignalInfoListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ITunerFrontendSignalInfoListener
+		_ = _arg_listener
+		_err := s.Impl.SetFrontendSignalInfoListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

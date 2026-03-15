@@ -2,6 +2,7 @@ package gnss
 
 import (
 	"context"
+	"fmt"
 	gnssIGnssBatching "github.com/xaionaro-go/binder/android/hardware/gnss/IGnssBatching"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -123,4 +124,85 @@ func (p *GnssMeasurementInterfaceProxy) SetCallbackWithOptions(
 	}
 
 	return nil
+}
+
+// GnssMeasurementInterfaceStub dispatches incoming binder transactions
+// to a typed IGnssMeasurementInterface implementation.
+type GnssMeasurementInterfaceStub struct {
+	Impl IGnssMeasurementInterface
+}
+
+var _ binder.TransactionReceiver = (*GnssMeasurementInterfaceStub)(nil)
+
+func (s *GnssMeasurementInterfaceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssMeasurementInterfaceSetCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGnssMeasurementCallback
+		_ = _arg_callback
+		_arg_enableFullTracking, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enableCorrVecOutputs, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCallback(ctx, _arg_callback, _arg_enableFullTracking, _arg_enableCorrVecOutputs)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssMeasurementInterfaceClose:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Close(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssMeasurementInterfaceSetCallbackWithOptions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGnssMeasurementCallback
+		_ = _arg_callback
+		var _arg_options gnssIGnssBatching.Options
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetCallbackWithOptions(ctx, _arg_callback, _arg_options)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

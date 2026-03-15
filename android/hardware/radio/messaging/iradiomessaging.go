@@ -2,6 +2,7 @@ package messaging
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -550,4 +551,417 @@ func (p *RadioMessagingProxy) WriteSmsToSim(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RadioMessagingStub dispatches incoming binder transactions
+// to a typed IRadioMessaging implementation.
+type RadioMessagingStub struct {
+	Impl IRadioMessaging
+}
+
+var _ binder.TransactionReceiver = (*RadioMessagingStub)(nil)
+
+func (s *RadioMessagingStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRadioMessagingAcknowledgeIncomingGsmSmsWithPdu:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_success, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ackPdu, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AcknowledgeIncomingGsmSmsWithPdu(ctx, _arg_serial, _arg_success, _arg_ackPdu)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingAcknowledgeLastIncomingCdmaSms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_smsAck CdmaSmsAck
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_smsAck.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.AcknowledgeLastIncomingCdmaSms(ctx, _arg_serial, _arg_smsAck)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingAcknowledgeLastIncomingGsmSms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_success, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_cause, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cause := SmsAcknowledgeFailCause(_raw_cause)
+		_err = s.Impl.AcknowledgeLastIncomingGsmSms(ctx, _arg_serial, _arg_success, _arg_cause)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingDeleteSmsOnRuim:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_index, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DeleteSmsOnRuim(ctx, _arg_serial, _arg_index)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingDeleteSmsOnSim:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_index, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DeleteSmsOnSim(ctx, _arg_serial, _arg_index)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingGetCdmaBroadcastConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetCdmaBroadcastConfig(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingGetGsmBroadcastConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetGsmBroadcastConfig(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingGetSmscAddress:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetSmscAddress(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingReportSmsMemoryStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_available, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ReportSmsMemoryStatus(ctx, _arg_serial, _arg_available)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingResponseAcknowledgement:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ResponseAcknowledgement(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingSendCdmaSms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sms CdmaSmsMessage
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sms.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SendCdmaSms(ctx, _arg_serial, _arg_sms)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingSendCdmaSmsExpectMore:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sms CdmaSmsMessage
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sms.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SendCdmaSmsExpectMore(ctx, _arg_serial, _arg_sms)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingSendImsSms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_message ImsSmsMessage
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_message.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SendImsSms(ctx, _arg_serial, _arg_message)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingSendSms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_message GsmSmsMessage
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_message.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SendSms(ctx, _arg_serial, _arg_message)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingSendSmsExpectMore:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_message GsmSmsMessage
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_message.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SendSmsExpectMore(ctx, _arg_serial, _arg_message)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingSetCdmaBroadcastActivation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_activate, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCdmaBroadcastActivation(ctx, _arg_serial, _arg_activate)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingSetCdmaBroadcastConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_configInfo []CdmaBroadcastSmsConfigInfo
+		_ = _arg_configInfo
+		_err = s.Impl.SetCdmaBroadcastConfig(ctx, _arg_serial, _arg_configInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingSetGsmBroadcastActivation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_activate, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetGsmBroadcastActivation(ctx, _arg_serial, _arg_activate)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingSetGsmBroadcastConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_configInfo []GsmBroadcastSmsConfigInfo
+		_ = _arg_configInfo
+		_err = s.Impl.SetGsmBroadcastConfig(ctx, _arg_serial, _arg_configInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingSetResponseFunctions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_radioMessagingResponse IRadioMessagingResponse
+		_ = _arg_radioMessagingResponse
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_radioMessagingIndication IRadioMessagingIndication
+		_ = _arg_radioMessagingIndication
+		_err := s.Impl.SetResponseFunctions(ctx, _arg_radioMessagingResponse, _arg_radioMessagingIndication)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingSetSmscAddress:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_smsc, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSmscAddress(ctx, _arg_serial, _arg_smsc)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingWriteSmsToRuim:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_cdmaSms CdmaSmsWriteArgs
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cdmaSms.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.WriteSmsToRuim(ctx, _arg_serial, _arg_cdmaSms)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioMessagingWriteSmsToSim:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_smsWriteArgs SmsWriteArgs
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_smsWriteArgs.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.WriteSmsToSim(ctx, _arg_serial, _arg_smsWriteArgs)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

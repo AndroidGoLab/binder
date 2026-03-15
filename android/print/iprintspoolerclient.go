@@ -2,6 +2,7 @@ package print
 
 import (
 	"context"
+	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -115,4 +116,87 @@ func (p *PrintSpoolerClientProxy) OnPrintJobStateChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PrintSpoolerClientStub dispatches incoming binder transactions
+// to a typed IPrintSpoolerClient implementation.
+type PrintSpoolerClientStub struct {
+	Impl IPrintSpoolerClient
+}
+
+var _ binder.TransactionReceiver = (*PrintSpoolerClientStub)(nil)
+
+func (s *PrintSpoolerClientStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPrintSpoolerClientOnPrintJobQueued:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printJob PrintJobInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printJob.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPrintJobQueued(ctx, _arg_printJob)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintSpoolerClientOnAllPrintJobsForServiceHandled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printService content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printService.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAllPrintJobsForServiceHandled(ctx, _arg_printService)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintSpoolerClientOnAllPrintJobsHandled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnAllPrintJobsHandled(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintSpoolerClientOnPrintJobStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printJob PrintJobInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printJob.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPrintJobStateChanged(ctx, _arg_printJob)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

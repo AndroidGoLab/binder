@@ -2,6 +2,7 @@ package inline
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -88,4 +89,55 @@ func (p *InlineContentProviderProxy) OnSurfacePackageReleased(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InlineContentProviderStub dispatches incoming binder transactions
+// to a typed IInlineContentProvider implementation.
+type InlineContentProviderStub struct {
+	Impl IInlineContentProvider
+}
+
+var _ binder.TransactionReceiver = (*InlineContentProviderStub)(nil)
+
+func (s *InlineContentProviderStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInlineContentProviderProvideContent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_width, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_height, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IInlineContentCallback
+		_ = _arg_callback
+		_err = s.Impl.ProvideContent(ctx, _arg_width, _arg_height, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIInlineContentProviderRequestSurfacePackage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RequestSurfacePackage(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInlineContentProviderOnSurfacePackageReleased:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnSurfacePackageReleased(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

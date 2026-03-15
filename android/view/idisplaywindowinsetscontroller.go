@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	inputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -189,4 +190,153 @@ func (p *DisplayWindowInsetsControllerProxy) SetImeInputTargetRequestedVisibilit
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DisplayWindowInsetsControllerStub dispatches incoming binder transactions
+// to a typed IDisplayWindowInsetsController implementation.
+type DisplayWindowInsetsControllerStub struct {
+	Impl IDisplayWindowInsetsController
+}
+
+var _ binder.TransactionReceiver = (*DisplayWindowInsetsControllerStub)(nil)
+
+func (s *DisplayWindowInsetsControllerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDisplayWindowInsetsControllerTopFocusedWindowChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_component interface{}
+		_arg_requestedVisibleTypes, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.TopFocusedWindowChanged(ctx, _arg_component, _arg_requestedVisibleTypes)
+		_ = _err
+		return nil, nil
+	case TransactionIDisplayWindowInsetsControllerInsetsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_insetsState InsetsState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_insetsState.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.InsetsChanged(ctx, _arg_insetsState)
+		_ = _err
+		return nil, nil
+	case TransactionIDisplayWindowInsetsControllerInsetsControlChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_insetsState InsetsState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_insetsState.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_activeControls []InsetsSourceControl
+		_ = _arg_activeControls
+		_err := s.Impl.InsetsControlChanged(ctx, _arg_insetsState, _arg_activeControls)
+		_ = _err
+		return nil, nil
+	case TransactionIDisplayWindowInsetsControllerShowInsets:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_types, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fromIme, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_statsToken *inputmethod.ImeTrackerToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ShowInsets(ctx, _arg_types, _arg_fromIme, _arg_statsToken)
+		_ = _err
+		return nil, nil
+	case TransactionIDisplayWindowInsetsControllerHideInsets:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_types, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fromIme, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_statsToken *inputmethod.ImeTrackerToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.HideInsets(ctx, _arg_types, _arg_fromIme, _arg_statsToken)
+		_ = _err
+		return nil, nil
+	case TransactionIDisplayWindowInsetsControllerSetImeInputTargetRequestedVisibility:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_visible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_statsToken inputmethod.ImeTrackerToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SetImeInputTargetRequestedVisibility(ctx, _arg_visible, _arg_statsToken)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

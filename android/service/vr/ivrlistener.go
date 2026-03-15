@@ -2,6 +2,7 @@ package vr
 
 import (
 	"context"
+	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -58,4 +59,50 @@ func (p *VrListenerProxy) FocusedActivityChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VrListenerStub dispatches incoming binder transactions
+// to a typed IVrListener implementation.
+type VrListenerStub struct {
+	Impl IVrListener
+}
+
+var _ binder.TransactionReceiver = (*VrListenerStub)(nil)
+
+func (s *VrListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVrListenerFocusedActivityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_component content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_component.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_running2dInVr, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_pid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.FocusedActivityChanged(ctx, _arg_component, _arg_running2dInVr, _arg_pid)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package IGlanceableHubWidgetManagerService
 
 import (
 	"context"
+	"fmt"
 	appwidget "github.com/xaionaro-go/binder/android/appwidget"
 	widget "github.com/xaionaro-go/binder/android/widget"
 	"github.com/xaionaro-go/binder/binder"
@@ -123,4 +124,87 @@ func (p *AppWidgetHostListenerProxy) OnViewDataChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AppWidgetHostListenerStub dispatches incoming binder transactions
+// to a typed IAppWidgetHostListener implementation.
+type AppWidgetHostListenerStub struct {
+	Impl IAppWidgetHostListener
+}
+
+var _ binder.TransactionReceiver = (*AppWidgetHostListenerStub)(nil)
+
+func (s *AppWidgetHostListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAppWidgetHostListenerOnUpdateProviderInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_appWidget *appwidget.AppWidgetProviderInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_appWidget.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnUpdateProviderInfo(ctx, _arg_appWidget)
+		_ = _err
+		return nil, nil
+	case TransactionIAppWidgetHostListenerUpdateAppWidget:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_views *widget.RemoteViews
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_views.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.UpdateAppWidget(ctx, _arg_views)
+		_ = _err
+		return nil, nil
+	case TransactionIAppWidgetHostListenerUpdateAppWidgetDeferred:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_appWidgetId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateAppWidgetDeferred(ctx, _arg_packageName, _arg_appWidgetId)
+		_ = _err
+		return nil, nil
+	case TransactionIAppWidgetHostListenerOnViewDataChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_viewId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnViewDataChanged(ctx, _arg_viewId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

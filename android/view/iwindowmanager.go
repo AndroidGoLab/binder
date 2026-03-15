@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	gui "github.com/xaionaro-go/binder/android/gui"
 	displayhash "github.com/xaionaro-go/binder/android/view/displayhash"
@@ -4842,4 +4843,2675 @@ func (p *WindowManagerProxy) GetApplicationLaunchKeyboardShortcuts(
 		}
 	}
 	return _result, nil
+}
+
+// WindowManagerStub dispatches incoming binder transactions
+// to a typed IWindowManager implementation.
+type WindowManagerStub struct {
+	Impl IWindowManager
+}
+
+var _ binder.TransactionReceiver = (*WindowManagerStub)(nil)
+
+func (s *WindowManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWindowManagerStartViewServer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_port, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.StartViewServer(ctx, _arg_port)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerStopViewServer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.StopViewServer(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerIsViewServerRunning:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsViewServerRunning(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerOpenSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IWindowSessionCallback
+		_ = _arg_callback
+		_result, _err := s.Impl.OpenSession(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIWindowManagerGetInitialDisplaySize:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetInitialDisplaySize(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerGetBaseDisplaySize:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetBaseDisplaySize(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerSetForcedDisplaySize:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_width, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_height, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetForcedDisplaySize(ctx, _arg_displayId, _arg_width, _arg_height)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerClearForcedDisplaySize:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ClearForcedDisplaySize(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerGetInitialDisplayDensity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetInitialDisplayDensity(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIWindowManagerGetBaseDisplayDensity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetBaseDisplayDensity(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIWindowManagerGetDisplayIdByUniqueId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uniqueId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDisplayIdByUniqueId(ctx, _arg_uniqueId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIWindowManagerSetForcedDisplayDensityForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_density, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetForcedDisplayDensityForUser(ctx, _arg_displayId, _arg_density)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerClearForcedDisplayDensityForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ClearForcedDisplayDensityForUser(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerSetForcedDisplayScalingMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetForcedDisplayScalingMode(ctx, _arg_displayId, _arg_mode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerSetEventDispatching:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetEventDispatching(ctx, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerIsWindowToken:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_binder_ binder.IBinder
+		_ = _arg_binder_
+		_result, _err := s.Impl.IsWindowToken(ctx, _arg_binder_)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerAddWindowToken:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_options interface{}
+		_err = s.Impl.AddWindowToken(ctx, _arg_token, _arg_type_, _arg_displayId, _arg_options)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerRemoveWindowToken:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RemoveWindowToken(ctx, _arg_token, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerSetDisplayChangeWindowController:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_controller IDisplayChangeWindowController
+		_ = _arg_controller
+		_err := s.Impl.SetDisplayChangeWindowController(ctx, _arg_controller)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerAddShellRoot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IWindow
+		_ = _arg_client
+		_arg_shellRootLayer, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.AddShellRoot(ctx, _arg_displayId, _arg_client, _arg_shellRootLayer)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIWindowManagerSetShellRootAccessibilityWindow:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_shellRootLayer, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_target IWindow
+		_ = _arg_target
+		_err = s.Impl.SetShellRootAccessibilityWindow(ctx, _arg_displayId, _arg_shellRootLayer, _arg_target)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerOverridePendingAppTransitionMultiThumbFuture:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_specsFuture IAppTransitionAnimationSpecsFuture
+		_ = _arg_specsFuture
+		var _arg_startedCallback interface{}
+		_arg_scaleUp, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OverridePendingAppTransitionMultiThumbFuture(ctx, _arg_specsFuture, _arg_startedCallback, _arg_scaleUp, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerOverridePendingAppTransitionRemote:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_remoteAnimationAdapter RemoteAnimationAdapter
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_remoteAnimationAdapter.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OverridePendingAppTransitionRemote(ctx, _arg_remoteAnimationAdapter, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerEndProlongedAnimations:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.EndProlongedAnimations(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerStartFreezingScreen:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_exitAnim, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enterAnim, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StartFreezingScreen(ctx, _arg_exitAnim, _arg_enterAnim)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerStopFreezingScreen:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StopFreezingScreen(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerDisableKeyguard:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_tag, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DisableKeyguard(ctx, _arg_token, _arg_tag)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerReenableKeyguard:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ReenableKeyguard(ctx, _arg_token)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerExitKeyguardSecurely:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IOnKeyguardExitResult
+		_ = _arg_callback
+		_err := s.Impl.ExitKeyguardSecurely(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerIsKeyguardLocked:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsKeyguardLocked(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerIsKeyguardSecure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsKeyguardSecure(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerDismissKeyguard:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		var _arg_message interface{}
+		_err := s.Impl.DismissKeyguard(ctx, _arg_callback, _arg_message)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerAddKeyguardLockedStateListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_listener interface{}
+		_err := s.Impl.AddKeyguardLockedStateListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerRemoveKeyguardLockedStateListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_listener interface{}
+		_err := s.Impl.RemoveKeyguardLockedStateListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerSetSwitchingUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_switching, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSwitchingUser(ctx, _arg_switching)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerCloseSystemDialogs:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CloseSystemDialogs(ctx, _arg_reason)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerGetAnimationScale:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_which, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAnimationScale(ctx, _arg_which)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteFloat32(_result)
+		return _reply, nil
+	case TransactionIWindowManagerGetAnimationScales:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAnimationScales(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIWindowManagerSetAnimationScale:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_which, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_scale, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetAnimationScale(ctx, _arg_which, _arg_scale)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerSetAnimationScales:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_scales []float32
+		_ = _arg_scales
+		_err := s.Impl.SetAnimationScales(ctx, _arg_scales)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerGetCurrentAnimatorScale:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCurrentAnimatorScale(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteFloat32(_result)
+		return _reply, nil
+	case TransactionIWindowManagerSetInTouchMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_inTouch, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetInTouchMode(ctx, _arg_inTouch, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerSetInTouchModeOnAllDisplays:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_inTouch, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetInTouchModeOnAllDisplays(ctx, _arg_inTouch)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerIsInTouchMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsInTouchMode(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerShowStrictModeViolation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_on, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ShowStrictModeViolation(ctx, _arg_on)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerSetStrictModeVisualIndicatorPreference:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetStrictModeVisualIndicatorPreference(ctx, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerRefreshScreenCaptureDisabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RefreshScreenCaptureDisabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerGetDefaultDisplayRotation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDefaultDisplayRotation(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIWindowManagerGetDisplayUserRotation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDisplayUserRotation(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIWindowManagerWatchRotation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_watcher IRotationWatcher
+		_ = _arg_watcher
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.WatchRotation(ctx, _arg_watcher, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIWindowManagerRemoveRotationWatcher:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_watcher IRotationWatcher
+		_ = _arg_watcher
+		_err := s.Impl.RemoveRotationWatcher(ctx, _arg_watcher)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerRegisterProposedRotationListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_contextToken binder.IBinder
+		_ = _arg_contextToken
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IRotationWatcher
+		_ = _arg_listener
+		_result, _err := s.Impl.RegisterProposedRotationListener(ctx, _arg_contextToken, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIWindowManagerGetPreferredOptionsPanelGravity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPreferredOptionsPanelGravity(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIWindowManagerFreezeRotation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_rotation, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_caller, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.FreezeRotation(ctx, _arg_rotation, _arg_caller)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerThawRotation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_caller, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ThawRotation(ctx, _arg_caller)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerIsRotationFrozen:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsRotationFrozen(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerFreezeDisplayRotation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_rotation, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_caller, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.FreezeDisplayRotation(ctx, _arg_displayId, _arg_rotation, _arg_caller)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerThawDisplayRotation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_caller, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ThawDisplayRotation(ctx, _arg_displayId, _arg_caller)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerIsDisplayRotationFrozen:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsDisplayRotationFrozen(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerSetFixedToUserRotation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fixedToUserRotation, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetFixedToUserRotation(ctx, _arg_displayId, _arg_fixedToUserRotation)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerSetIgnoreOrientationRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ignoreOrientationRequest, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetIgnoreOrientationRequest(ctx, _arg_displayId, _arg_ignoreOrientationRequest)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerScreenshotWallpaper:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ScreenshotWallpaper(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIWindowManagerMirrorWallpaperSurface:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.MirrorWallpaperSurface(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIWindowManagerRegisterWallpaperVisibilityListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IWallpaperVisibilityListener
+		_ = _arg_listener
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RegisterWallpaperVisibilityListener(ctx, _arg_listener, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerUnregisterWallpaperVisibilityListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IWallpaperVisibilityListener
+		_ = _arg_listener
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UnregisterWallpaperVisibilityListener(ctx, _arg_listener, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerRegisterSystemGestureExclusionListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ISystemGestureExclusionListener
+		_ = _arg_listener
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RegisterSystemGestureExclusionListener(ctx, _arg_listener, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerUnregisterSystemGestureExclusionListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ISystemGestureExclusionListener
+		_ = _arg_listener
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UnregisterSystemGestureExclusionListener(ctx, _arg_listener, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerRequestAssistScreenshot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver interface{}
+		_result, _err := s.Impl.RequestAssistScreenshot(ctx, _arg_receiver)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerHideTransientBars:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.HideTransientBars(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowManagerSetRecentsVisibility:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_visible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetRecentsVisibility(ctx, _arg_visible)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowManagerUpdateStaticPrivacyIndicatorBounds:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_staticBounds []graphics.Rect
+		_ = _arg_staticBounds
+		_err = s.Impl.UpdateStaticPrivacyIndicatorBounds(ctx, _arg_displayId, _arg_staticBounds)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowManagerSetNavBarVirtualKeyHapticFeedbackEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetNavBarVirtualKeyHapticFeedbackEnabled(ctx, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerHasNavigationBar:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.HasNavigationBar(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerLockNow:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_options interface{}
+		_err := s.Impl.LockNow(ctx, _arg_options)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerIsSafeModeEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsSafeModeEnabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerClearWindowContentFrameStats:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_result, _err := s.Impl.ClearWindowContentFrameStats(ctx, _arg_token)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerGetWindowContentFrameStats:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_result, _err := s.Impl.GetWindowContentFrameStats(ctx, _arg_token)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIWindowManagerGetDockedStackSide:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDockedStackSide(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIWindowManagerRegisterPinnedTaskListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IPinnedTaskListener
+		_ = _arg_listener
+		_err = s.Impl.RegisterPinnedTaskListener(ctx, _arg_displayId, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerRequestAppKeyboardShortcuts:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver interface{}
+		_arg_deviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RequestAppKeyboardShortcuts(ctx, _arg_receiver, _arg_deviceId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerRequestImeKeyboardShortcuts:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver interface{}
+		_arg_deviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RequestImeKeyboardShortcuts(ctx, _arg_receiver, _arg_deviceId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerGetStableInsets:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetStableInsets(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerRegisterShortcutKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_shortcutCode, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_keySubscriber interface{}
+		_err = s.Impl.RegisterShortcutKey(ctx, _arg_shortcutCode, _arg_keySubscriber)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerCreateInputConsumer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CreateInputConsumer(ctx, _arg_token, _arg_name, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerDestroyInputConsumer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.DestroyInputConsumer(ctx, _arg_token, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerGetCurrentImeTouchRegion:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCurrentImeTouchRegion(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIWindowManagerRegisterDisplayFoldListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IDisplayFoldListener
+		_ = _arg_listener
+		_err := s.Impl.RegisterDisplayFoldListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerUnregisterDisplayFoldListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IDisplayFoldListener
+		_ = _arg_listener
+		_err := s.Impl.UnregisterDisplayFoldListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerRegisterDisplayWindowListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IDisplayWindowListener
+		_ = _arg_listener
+		_result, _err := s.Impl.RegisterDisplayWindowListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIWindowManagerUnregisterDisplayWindowListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IDisplayWindowListener
+		_ = _arg_listener
+		_err := s.Impl.UnregisterDisplayWindowListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerStartWindowTrace:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StartWindowTrace(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerStopWindowTrace:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StopWindowTrace(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerSaveWindowTraceToFile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.SaveWindowTraceToFile(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerIsWindowTraceEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsWindowTraceEnabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerStartTransitionTrace:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StartTransitionTrace(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerStopTransitionTrace:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StopTransitionTrace(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerIsTransitionTraceEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsTransitionTraceEnabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerGetWindowingMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetWindowingMode(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIWindowManagerSetWindowingMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetWindowingMode(ctx, _arg_displayId, _arg_mode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerGetRemoveContentMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetRemoveContentMode(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIWindowManagerSetRemoveContentMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetRemoveContentMode(ctx, _arg_displayId, _arg_mode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerShouldShowWithInsecureKeyguard:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ShouldShowWithInsecureKeyguard(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerSetShouldShowWithInsecureKeyguard:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_shouldShow, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetShouldShowWithInsecureKeyguard(ctx, _arg_displayId, _arg_shouldShow)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerShouldShowSystemDecors:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ShouldShowSystemDecors(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerSetShouldShowSystemDecors:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_shouldShow, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetShouldShowSystemDecors(ctx, _arg_displayId, _arg_shouldShow)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerGetDisplayImePolicy:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDisplayImePolicy(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIWindowManagerSetDisplayImePolicy:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_imePolicy, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDisplayImePolicy(ctx, _arg_displayId, _arg_imePolicy)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerSyncInputTransactions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_waitForAnimations, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SyncInputTransactions(ctx, _arg_waitForAnimations)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerIsLayerTracing:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsLayerTracing(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerSetLayerTracing:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetLayerTracing(ctx, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerMirrorDisplay:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.MirrorDisplay(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerSetDisplayWindowInsetsController:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_displayWindowInsetsController IDisplayWindowInsetsController
+		_ = _arg_displayWindowInsetsController
+		_err = s.Impl.SetDisplayWindowInsetsController(ctx, _arg_displayId, _arg_displayWindowInsetsController)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerUpdateDisplayWindowRequestedVisibleTypes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_visibleTypes, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mask, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_statsToken *inputmethod.ImeTrackerToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.UpdateDisplayWindowRequestedVisibleTypes(ctx, _arg_displayId, _arg_visibleTypes, _arg_mask, _arg_statsToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerGetWindowInsets:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_result, _err := s.Impl.GetWindowInsets(ctx, _arg_displayId, _arg_token)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerGetPossibleDisplayInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPossibleDisplayInfo(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIWindowManagerShowGlobalActions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ShowGlobalActions(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerSetLayerTracingFlags:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetLayerTracingFlags(ctx, _arg_flags)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerSetActiveTransactionTracing:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_active, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetActiveTransactionTracing(ctx, _arg_active)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerRequestScrollCapture:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_behindClient binder.IBinder
+		_ = _arg_behindClient
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IScrollCaptureResponseListener
+		_ = _arg_listener
+		_err = s.Impl.RequestScrollCapture(ctx, _arg_displayId, _arg_behindClient, _arg_taskId, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerHoldLock:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_durationMs, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.HoldLock(ctx, _arg_token, _arg_durationMs)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerGetSupportedDisplayHashAlgorithms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSupportedDisplayHashAlgorithms(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIWindowManagerVerifyDisplayHash:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_displayHash displayhash.DisplayHash
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_displayHash.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.VerifyDisplayHash(ctx, _arg_displayHash)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIWindowManagerSetDisplayHashThrottlingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDisplayHashThrottlingEnabled(ctx, _arg_enable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerAttachWindowContextToDisplayArea:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_appThread interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_clientToken binder.IBinder
+		_ = _arg_clientToken
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_options *interface{}
+		_result, _err := s.Impl.AttachWindowContextToDisplayArea(ctx, _arg_appThread, _arg_clientToken, _arg_type_, _arg_displayId, _arg_options)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIWindowManagerAttachWindowContextToWindowToken:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_appThread interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_clientToken binder.IBinder
+		_ = _arg_clientToken
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_result, _err := s.Impl.AttachWindowContextToWindowToken(ctx, _arg_appThread, _arg_clientToken, _arg_token)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIWindowManagerAttachWindowContextToDisplayContent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_appThread interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_clientToken binder.IBinder
+		_ = _arg_clientToken
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.AttachWindowContextToDisplayContent(ctx, _arg_appThread, _arg_clientToken, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIWindowManagerDetachWindowContext:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_clientToken binder.IBinder
+		_ = _arg_clientToken
+		_err := s.Impl.DetachWindowContext(ctx, _arg_clientToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerReparentWindowContextToDisplayArea:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_appThread interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_clientToken binder.IBinder
+		_ = _arg_clientToken
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ReparentWindowContextToDisplayArea(ctx, _arg_appThread, _arg_clientToken, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerRegisterCrossWindowBlurEnabledListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ICrossWindowBlurEnabledListener
+		_ = _arg_listener
+		_result, _err := s.Impl.RegisterCrossWindowBlurEnabledListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerUnregisterCrossWindowBlurEnabledListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ICrossWindowBlurEnabledListener
+		_ = _arg_listener
+		_err := s.Impl.UnregisterCrossWindowBlurEnabledListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerIsTaskSnapshotSupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsTaskSnapshotSupported(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerGetImeDisplayId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetImeDisplayId(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIWindowManagerSetTaskSnapshotEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetTaskSnapshotEnabled(ctx, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerRegisterTaskFpsCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err = s.Impl.RegisterTaskFpsCallback(ctx, _arg_taskId, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerUnregisterTaskFpsCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_listener interface{}
+		_err := s.Impl.UnregisterTaskFpsCallback(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerSnapshotTaskForRecents:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SnapshotTaskForRecents(ctx, _arg_taskId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIWindowManagerSetRecentsAppBehindSystemBars:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_behindSystemBars, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetRecentsAppBehindSystemBars(ctx, _arg_behindSystemBars)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerGetLetterboxBackgroundColorInArgb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetLetterboxBackgroundColorInArgb(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIWindowManagerIsLetterboxBackgroundMultiColored:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsLetterboxBackgroundMultiColored(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerCaptureDisplay:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_captureArgs *interface{}
+		var _arg_listener interface{}
+		_err = s.Impl.CaptureDisplay(ctx, _arg_displayId, _arg_captureArgs, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowManagerIsGlobalKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_keyCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsGlobalKey(ctx, _arg_keyCode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerAddToSurfaceSyncGroup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_syncGroupToken binder.IBinder
+		_ = _arg_syncGroupToken
+		_arg_parentSyncGroupMerge, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_completedListener *interface{}
+		_result, _err := s.Impl.AddToSurfaceSyncGroup(ctx, _arg_syncGroupToken, _arg_parentSyncGroupMerge, _arg_completedListener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerMarkSurfaceSyncGroupReady:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_syncGroupToken binder.IBinder
+		_ = _arg_syncGroupToken
+		_err := s.Impl.MarkSurfaceSyncGroupReady(ctx, _arg_syncGroupToken)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowManagerNotifyScreenshotListeners:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.NotifyScreenshotListeners(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIWindowManagerReplaceContentOnDisplay:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sc SurfaceControl
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sc.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.ReplaceContentOnDisplay(ctx, _arg_displayId, _arg_sc)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerRegisterDecorViewGestureListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IDecorViewGestureListener
+		_ = _arg_listener
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RegisterDecorViewGestureListener(ctx, _arg_listener, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerUnregisterDecorViewGestureListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IDecorViewGestureListener
+		_ = _arg_listener
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UnregisterDecorViewGestureListener(ctx, _arg_listener, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerRegisterTrustedPresentationListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_window binder.IBinder
+		_ = _arg_window
+		var _arg_listener interface{}
+		var _arg_thresholds gui.TrustedPresentationThresholds
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_thresholds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RegisterTrustedPresentationListener(ctx, _arg_window, _arg_listener, _arg_thresholds, _arg_id)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerUnregisterTrustedPresentationListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_listener interface{}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UnregisterTrustedPresentationListener(ctx, _arg_listener, _arg_id)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerRegisterScreenRecordingCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_result, _err := s.Impl.RegisterScreenRecordingCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerUnregisterScreenRecordingCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err := s.Impl.UnregisterScreenRecordingCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerSetGlobalDragListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_listener interface{}
+		_err := s.Impl.SetGlobalDragListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWindowManagerTransferTouchGesture:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_transferFromToken interface{}
+		var _arg_transferToToken interface{}
+		_result, _err := s.Impl.TransferTouchGesture(ctx, _arg_transferFromToken, _arg_transferToToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWindowManagerGetApplicationLaunchKeyboardShortcuts:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_deviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetApplicationLaunchKeyboardShortcuts(ctx, _arg_deviceId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

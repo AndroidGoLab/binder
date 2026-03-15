@@ -2,6 +2,7 @@ package gnss_assistance
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -90,4 +91,62 @@ func (p *GnssAssistanceInterfaceProxy) SetCallback(
 	}
 
 	return nil
+}
+
+// GnssAssistanceInterfaceStub dispatches incoming binder transactions
+// to a typed IGnssAssistanceInterface implementation.
+type GnssAssistanceInterfaceStub struct {
+	Impl IGnssAssistanceInterface
+}
+
+var _ binder.TransactionReceiver = (*GnssAssistanceInterfaceStub)(nil)
+
+func (s *GnssAssistanceInterfaceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssAssistanceInterfaceInjectGnssAssistance:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_gnssAssistance GnssAssistance
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_gnssAssistance.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.InjectGnssAssistance(ctx, _arg_gnssAssistance)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssAssistanceInterfaceSetCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGnssAssistanceCallback
+		_ = _arg_callback
+		_err := s.Impl.SetCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

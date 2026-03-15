@@ -2,6 +2,7 @@ package inputmethod
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -83,4 +84,47 @@ func (p *InputContentUriTokenProxy) Release(
 	}
 
 	return nil
+}
+
+// InputContentUriTokenStub dispatches incoming binder transactions
+// to a typed IInputContentUriToken implementation.
+type InputContentUriTokenStub struct {
+	Impl IInputContentUriToken
+}
+
+var _ binder.TransactionReceiver = (*InputContentUriTokenStub)(nil)
+
+func (s *InputContentUriTokenStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInputContentUriTokenTake:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Take(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIInputContentUriTokenRelease:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Release(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

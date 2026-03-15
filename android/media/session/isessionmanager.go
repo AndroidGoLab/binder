@@ -2,6 +2,7 @@ package session
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -993,4 +994,613 @@ func (p *SessionManagerProxy) ExpireTempEngagedSessions(
 	}
 
 	return nil
+}
+
+// SessionManagerStub dispatches incoming binder transactions
+// to a typed ISessionManager implementation.
+type SessionManagerStub struct {
+	Impl ISessionManager
+}
+
+var _ binder.TransactionReceiver = (*SessionManagerStub)(nil)
+
+func (s *SessionManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISessionManagerCreateSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionCb ISessionCallback
+		_ = _arg_sessionCb
+		_arg_tag, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo interface{}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateSession(ctx, _arg_packageName, _arg_sessionCb, _arg_tag, _arg_sessionInfo)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionISessionManagerGetSessions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_compName interface{}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSessions(ctx, _arg_compName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionISessionManagerGetMediaKeyEventSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetMediaKeyEventSession(ctx, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionISessionManagerGetMediaKeyEventSessionPackageName:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetMediaKeyEventSessionPackageName(ctx, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionISessionManagerDispatchMediaKeyEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_asSystemService, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_keyEvent interface{}
+		_arg_needWakeLock, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DispatchMediaKeyEvent(ctx, _arg_packageName, _arg_asSystemService, _arg_keyEvent, _arg_needWakeLock)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerDispatchMediaKeyEventToSessionAsSystemService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_keyEvent interface{}
+		var _arg_sessionToken MediaSessionToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.DispatchMediaKeyEventToSessionAsSystemService(ctx, _arg_packageName, _arg_keyEvent, _arg_sessionToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISessionManagerDispatchVolumeKeyEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_asSystemService, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_keyEvent interface{}
+		_arg_stream, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_musicOnly, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DispatchVolumeKeyEvent(ctx, _arg_packageName, _arg_asSystemService, _arg_keyEvent, _arg_stream, _arg_musicOnly)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerDispatchVolumeKeyEventToSessionAsSystemService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_keyEvent interface{}
+		var _arg_sessionToken MediaSessionToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.DispatchVolumeKeyEventToSessionAsSystemService(ctx, _arg_packageName, _arg_keyEvent, _arg_sessionToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerDispatchAdjustVolume:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_suggestedStream, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_delta, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DispatchAdjustVolume(ctx, _arg_packageName, _arg_suggestedStream, _arg_delta, _arg_flags)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerAddSessionsListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IActiveSessionsListener
+		_ = _arg_listener
+		var _arg_compName interface{}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.AddSessionsListener(ctx, _arg_listener, _arg_compName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerRemoveSessionsListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IActiveSessionsListener
+		_ = _arg_listener
+		_err := s.Impl.RemoveSessionsListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerAddSession2TokensListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ISession2TokensListener
+		_ = _arg_listener
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.AddSession2TokensListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerRemoveSession2TokensListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ISession2TokensListener
+		_ = _arg_listener
+		_err := s.Impl.RemoveSession2TokensListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerRegisterRemoteSessionCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_rvc interface{}
+		_err := s.Impl.RegisterRemoteSessionCallback(ctx, _arg_rvc)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerUnregisterRemoteSessionCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_rvc interface{}
+		_err := s.Impl.UnregisterRemoteSessionCallback(ctx, _arg_rvc)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerIsGlobalPriorityActive:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsGlobalPriorityActive(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISessionManagerAddOnMediaKeyEventDispatchedListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IOnMediaKeyEventDispatchedListener
+		_ = _arg_listener
+		_err := s.Impl.AddOnMediaKeyEventDispatchedListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerRemoveOnMediaKeyEventDispatchedListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IOnMediaKeyEventDispatchedListener
+		_ = _arg_listener
+		_err := s.Impl.RemoveOnMediaKeyEventDispatchedListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerAddOnMediaKeyEventSessionChangedListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IOnMediaKeyEventSessionChangedListener
+		_ = _arg_listener
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AddOnMediaKeyEventSessionChangedListener(ctx, _arg_listener, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerRemoveOnMediaKeyEventSessionChangedListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IOnMediaKeyEventSessionChangedListener
+		_ = _arg_listener
+		_err := s.Impl.RemoveOnMediaKeyEventSessionChangedListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerSetOnVolumeKeyLongPressListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IOnVolumeKeyLongPressListener
+		_ = _arg_listener
+		_err := s.Impl.SetOnVolumeKeyLongPressListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerSetOnMediaKeyListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IOnMediaKeyListener
+		_ = _arg_listener
+		_err := s.Impl.SetOnMediaKeyListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerIsTrusted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_controllerPackageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_controllerPid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_controllerUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsTrusted(ctx, _arg_controllerPackageName, _arg_controllerPid, _arg_controllerUid)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISessionManagerSetCustomMediaKeyDispatcher:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCustomMediaKeyDispatcher(ctx, _arg_name)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerSetCustomMediaSessionPolicyProvider:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCustomMediaSessionPolicyProvider(ctx, _arg_name)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerHasCustomMediaKeyDispatcher:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_componentName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.HasCustomMediaKeyDispatcher(ctx, _arg_componentName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISessionManagerHasCustomMediaSessionPolicyProvider:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_componentName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.HasCustomMediaSessionPolicyProvider(ctx, _arg_componentName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISessionManagerGetSessionPolicies:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_token MediaSessionToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_token.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GetSessionPolicies(ctx, _arg_token)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISessionManagerSetSessionPolicies:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_token MediaSessionToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_token.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_policies, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSessionPolicies(ctx, _arg_token, _arg_policies)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISessionManagerExpireTempEngagedSessions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ExpireTempEngagedSessions(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

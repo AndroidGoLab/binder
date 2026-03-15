@@ -2,6 +2,7 @@ package composer3
 
 import (
 	"context"
+	"fmt"
 	gui "github.com/xaionaro-go/binder/android/gui"
 	hardwareCommon "github.com/xaionaro-go/binder/android/hardware/common"
 	drm "github.com/xaionaro-go/binder/android/hardware/drm"
@@ -1849,4 +1850,1049 @@ func (p *ComposerClientProxy) GetLuts(
 		}
 	}
 	return _result, nil
+}
+
+// ComposerClientStub dispatches incoming binder transactions
+// to a typed IComposerClient implementation.
+type ComposerClientStub struct {
+	Impl IComposerClient
+}
+
+var _ binder.TransactionReceiver = (*ComposerClientStub)(nil)
+
+func (s *ComposerClientStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIComposerClientCreateLayer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_bufferSlotCount, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateLayer(ctx, _arg_display, _arg_bufferSlotCount)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt64(_result)
+		return _reply, nil
+	case TransactionIComposerClientCreateVirtualDisplay:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_width, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_height, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_formatHint, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_formatHint := common.PixelFormat(_raw_formatHint)
+		_arg_outputBufferSlotCount, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateVirtualDisplay(ctx, _arg_width, _arg_height, _arg_formatHint, _arg_outputBufferSlotCount)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIComposerClientDestroyLayer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_layer, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DestroyLayer(ctx, _arg_display, _arg_layer)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIComposerClientDestroyVirtualDisplay:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DestroyVirtualDisplay(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIComposerClientExecuteCommands:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_commands []DisplayCommand
+		_ = _arg_commands
+		_result, _err := s.Impl.ExecuteCommands(ctx, _arg_commands)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIComposerClientGetActiveConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetActiveConfig(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIComposerClientGetColorModes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetColorModes(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIComposerClientGetDataspaceSaturationMatrix:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_dataspace, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dataspace := common.Dataspace(_raw_dataspace)
+		_result, _err := s.Impl.GetDataspaceSaturationMatrix(ctx, _arg_dataspace)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIComposerClientGetDisplayAttribute:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_config, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_attribute, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_attribute := DisplayAttribute(_raw_attribute)
+		_result, _err := s.Impl.GetDisplayAttribute(ctx, _arg_display, _arg_config, _arg_attribute)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIComposerClientGetDisplayCapabilities:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDisplayCapabilities(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIComposerClientGetDisplayConfigs:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDisplayConfigs(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIComposerClientGetDisplayConnectionType:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDisplayConnectionType(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(int32(_result))
+		return _reply, nil
+	case TransactionIComposerClientGetDisplayIdentificationData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDisplayIdentificationData(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIComposerClientGetDisplayName:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDisplayName(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionIComposerClientGetDisplayVsyncPeriod:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDisplayVsyncPeriod(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIComposerClientGetDisplayedContentSample:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_maxFrames, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timestamp, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDisplayedContentSample(ctx, _arg_display, _arg_maxFrames, _arg_timestamp)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIComposerClientGetDisplayedContentSamplingAttributes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDisplayedContentSamplingAttributes(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIComposerClientGetDisplayPhysicalOrientation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDisplayPhysicalOrientation(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(int32(_result))
+		return _reply, nil
+	case TransactionIComposerClientGetHdrCapabilities:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetHdrCapabilities(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIComposerClientGetMaxVirtualDisplayCount:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetMaxVirtualDisplayCount(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIComposerClientGetPerFrameMetadataKeys:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPerFrameMetadataKeys(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIComposerClientGetReadbackBufferAttributes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetReadbackBufferAttributes(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIComposerClientGetReadbackBufferFence:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetReadbackBufferFence(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteFileDescriptor(_result)
+		return _reply, nil
+	case TransactionIComposerClientGetRenderIntents:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode := ColorMode(_raw_mode)
+		_result, _err := s.Impl.GetRenderIntents(ctx, _arg_display, _arg_mode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIComposerClientGetSupportedContentTypes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSupportedContentTypes(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIComposerClientGetDisplayDecorationSupport:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDisplayDecorationSupport(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIComposerClientRegisterCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IComposerCallback
+		_ = _arg_callback
+		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIComposerClientSetActiveConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_config, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetActiveConfig(ctx, _arg_display, _arg_config)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIComposerClientSetActiveConfigWithConstraints:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_config, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_vsyncPeriodChangeConstraints VsyncPeriodChangeConstraints
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_vsyncPeriodChangeConstraints.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.SetActiveConfigWithConstraints(ctx, _arg_display, _arg_config, _arg_vsyncPeriodChangeConstraints)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIComposerClientSetBootDisplayConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_config, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetBootDisplayConfig(ctx, _arg_display, _arg_config)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIComposerClientClearBootDisplayConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ClearBootDisplayConfig(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIComposerClientGetPreferredBootDisplayConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPreferredBootDisplayConfig(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIComposerClientSetAutoLowLatencyMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_on, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetAutoLowLatencyMode(ctx, _arg_display, _arg_on)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIComposerClientSetClientTargetSlotCount:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_clientTargetSlotCount, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetClientTargetSlotCount(ctx, _arg_display, _arg_clientTargetSlotCount)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIComposerClientSetColorMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode := ColorMode(_raw_mode)
+		_raw_intent, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_intent := RenderIntent(_raw_intent)
+		_err = s.Impl.SetColorMode(ctx, _arg_display, _arg_mode, _arg_intent)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIComposerClientSetContentType:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := ContentType(_raw_type_)
+		_err = s.Impl.SetContentType(ctx, _arg_display, _arg_type_)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIComposerClientSetDisplayedContentSamplingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_componentMask, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_componentMask := FormatColorComponent(_raw_componentMask)
+		_arg_maxFrames, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDisplayedContentSamplingEnabled(ctx, _arg_display, _arg_enable, _arg_componentMask, _arg_maxFrames)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIComposerClientSetPowerMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode := PowerMode(_raw_mode)
+		_err = s.Impl.SetPowerMode(ctx, _arg_display, _arg_mode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIComposerClientSetReadbackBuffer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_buffer hardwareCommon.NativeHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_buffer.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_releaseFence, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetReadbackBuffer(ctx, _arg_display, _arg_buffer, _arg_releaseFence)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIComposerClientSetVsyncEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetVsyncEnabled(ctx, _arg_display, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIComposerClientSetIdleTimerEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timeoutMs, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetIdleTimerEnabled(ctx, _arg_display, _arg_timeoutMs)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIComposerClientGetOverlaySupport:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetOverlaySupport(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIComposerClientGetHdrConversionCapabilities:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetHdrConversionCapabilities(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIComposerClientSetHdrConversionStrategy:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_conversionStrategy gui.HdrConversionStrategy
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_conversionStrategy.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.SetHdrConversionStrategy(ctx, _arg_conversionStrategy)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(int32(_result))
+		return _reply, nil
+	case TransactionIComposerClientSetRefreshRateChangedCallbackDebugEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetRefreshRateChangedCallbackDebugEnabled(ctx, _arg_display, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIComposerClientGetDisplayConfigurations:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_maxFrameIntervalNs, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDisplayConfigurations(ctx, _arg_display, _arg_maxFrameIntervalNs)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIComposerClientNotifyExpectedPresent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_expectedPresentTime ClockMonotonicTimestamp
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_expectedPresentTime.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_frameIntervalNs, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyExpectedPresent(ctx, _arg_display, _arg_expectedPresentTime, _arg_frameIntervalNs)
+		_ = _err
+		return nil, nil
+	case TransactionIComposerClientGetMaxLayerPictureProfiles:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetMaxLayerPictureProfiles(ctx, _arg_display)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIComposerClientStartHdcpNegotiation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_levels drm.HdcpLevels
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_levels.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StartHdcpNegotiation(ctx, _arg_display, _arg_levels)
+		_ = _err
+		return nil, nil
+	case TransactionIComposerClientGetLuts:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_buffers []Buffer
+		_ = _arg_buffers
+		_result, _err := s.Impl.GetLuts(ctx, _arg_display, _arg_buffers)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

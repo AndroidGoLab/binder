@@ -2,6 +2,7 @@ package gnss
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -370,4 +371,195 @@ func (p *GnssCallbackProxy) GnssSetSignalTypeCapabilitiesCb(
 	}
 
 	return nil
+}
+
+// GnssCallbackStub dispatches incoming binder transactions
+// to a typed IGnssCallback implementation.
+type GnssCallbackStub struct {
+	Impl IGnssCallback
+}
+
+var _ binder.TransactionReceiver = (*GnssCallbackStub)(nil)
+
+func (s *GnssCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssCallbackGnssSetCapabilitiesCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_capabilities, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GnssSetCapabilitiesCb(ctx, _arg_capabilities)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssCallbackGnssStatusCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_status interface{}
+		_err := s.Impl.GnssStatusCb(ctx, _arg_status)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssCallbackGnssSvStatusCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_svInfoList []interface{}
+		_ = _arg_svInfoList
+		_err := s.Impl.GnssSvStatusCb(ctx, _arg_svInfoList)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssCallbackGnssLocationCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_location GnssLocation
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_location.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GnssLocationCb(ctx, _arg_location)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssCallbackGnssNmeaCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_timestamp, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_nmea, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GnssNmeaCb(ctx, _arg_timestamp, _arg_nmea)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssCallbackGnssAcquireWakelockCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.GnssAcquireWakelockCb(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssCallbackGnssReleaseWakelockCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.GnssReleaseWakelockCb(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssCallbackGnssSetSystemInfoCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info interface{}
+		_err := s.Impl.GnssSetSystemInfoCb(ctx, _arg_info)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssCallbackGnssRequestTimeCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.GnssRequestTimeCb(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssCallbackGnssRequestLocationCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_independentFromGnss, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isUserEmergency, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GnssRequestLocationCb(ctx, _arg_independentFromGnss, _arg_isUserEmergency)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssCallbackGnssSetSignalTypeCapabilitiesCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_gnssSignalTypes []GnssSignalType
+		_ = _arg_gnssSignalTypes
+		_err := s.Impl.GnssSetSignalTypeCapabilitiesCb(ctx, _arg_gnssSignalTypes)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

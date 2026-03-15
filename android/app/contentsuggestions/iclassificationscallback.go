@@ -2,6 +2,7 @@ package contentsuggestions
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -61,4 +62,37 @@ func (p *ClassificationsCallbackProxy) OnContentClassificationsAvailable(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ClassificationsCallbackStub dispatches incoming binder transactions
+// to a typed IClassificationsCallback implementation.
+type ClassificationsCallbackStub struct {
+	Impl IClassificationsCallback
+}
+
+var _ binder.TransactionReceiver = (*ClassificationsCallbackStub)(nil)
+
+func (s *ClassificationsCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIClassificationsCallbackOnContentClassificationsAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_statusCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_classifications []ContentClassification
+		_ = _arg_classifications
+		_err = s.Impl.OnContentClassificationsAvailable(ctx, _arg_statusCode, _arg_classifications)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package satellite
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -120,4 +121,95 @@ func (p *SatelliteTransmissionUpdateCallbackProxy) OnSendDatagramRequested(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SatelliteTransmissionUpdateCallbackStub dispatches incoming binder transactions
+// to a typed ISatelliteTransmissionUpdateCallback implementation.
+type SatelliteTransmissionUpdateCallbackStub struct {
+	Impl ISatelliteTransmissionUpdateCallback
+}
+
+var _ binder.TransactionReceiver = (*SatelliteTransmissionUpdateCallbackStub)(nil)
+
+func (s *SatelliteTransmissionUpdateCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISatelliteTransmissionUpdateCallbackOnSendDatagramStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_datagramType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sendPendingCount, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSendDatagramStateChanged(ctx, _arg_datagramType, _arg_state, _arg_sendPendingCount, _arg_errorCode)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteTransmissionUpdateCallbackOnReceiveDatagramStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_receivePendingCount, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnReceiveDatagramStateChanged(ctx, _arg_state, _arg_receivePendingCount, _arg_errorCode)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteTransmissionUpdateCallbackOnSatellitePositionChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_pointingInfo PointingInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pointingInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSatellitePositionChanged(ctx, _arg_pointingInfo)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteTransmissionUpdateCallbackOnSendDatagramRequested:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_datagramType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSendDatagramRequested(ctx, _arg_datagramType)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

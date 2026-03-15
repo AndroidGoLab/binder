@@ -2,6 +2,7 @@ package power
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -499,4 +500,307 @@ func (p *PowerProxy) SendCompositionUpdate(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PowerStub dispatches incoming binder transactions
+// to a typed IPower implementation.
+type PowerStub struct {
+	Impl IPower
+}
+
+var _ binder.TransactionReceiver = (*PowerStub)(nil)
+
+func (s *PowerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPowerSetMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := Mode(_raw_type_)
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetMode(ctx, _arg_type_, _arg_enabled)
+		_ = _err
+		return nil, nil
+	case TransactionIPowerIsModeSupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := Mode(_raw_type_)
+		_result, _err := s.Impl.IsModeSupported(ctx, _arg_type_)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIPowerSetBoost:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := Boost(_raw_type_)
+		_arg_durationMs, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetBoost(ctx, _arg_type_, _arg_durationMs)
+		_ = _err
+		return nil, nil
+	case TransactionIPowerIsBoostSupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := Boost(_raw_type_)
+		_result, _err := s.Impl.IsBoostSupported(ctx, _arg_type_)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIPowerCreateHintSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_tgid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_threadIds []int32
+		_ = _arg_threadIds
+		_arg_durationNanos, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateHintSession(ctx, _arg_tgid, _arg_uid, _arg_threadIds, _arg_durationNanos)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIPowerGetHintSessionPreferredRate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetHintSessionPreferredRate(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt64(_result)
+		return _reply, nil
+	case TransactionIPowerCreateHintSessionWithConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_tgid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_threadIds []int32
+		_ = _arg_threadIds
+		_arg_durationNanos, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_tag, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tag := SessionTag(_raw_tag)
+		_result, _err := s.Impl.CreateHintSessionWithConfig(ctx, _arg_tgid, _arg_uid, _arg_threadIds, _arg_durationNanos, _arg_tag)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIPowerGetSessionChannel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_tgid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSessionChannel(ctx, _arg_tgid, _arg_uid)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIPowerCloseSessionChannel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_tgid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CloseSessionChannel(ctx, _arg_tgid, _arg_uid)
+		_ = _err
+		return nil, nil
+	case TransactionIPowerGetSupportInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSupportInfo(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIPowerGetCpuHeadroom:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_params CpuHeadroomParams
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GetCpuHeadroom(ctx, _arg_params)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIPowerGetGpuHeadroom:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_params GpuHeadroomParams
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GetGpuHeadroom(ctx, _arg_params)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIPowerSendCompositionData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []CompositionData
+		_ = _arg_data
+		_err := s.Impl.SendCompositionData(ctx, _arg_data)
+		_ = _err
+		return nil, nil
+	case TransactionIPowerSendCompositionUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_update CompositionUpdate
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SendCompositionUpdate(ctx, _arg_update)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

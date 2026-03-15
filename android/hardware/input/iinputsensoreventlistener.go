@@ -2,6 +2,7 @@ package input
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -88,4 +89,68 @@ func (p *InputSensorEventListenerProxy) OnInputSensorAccuracyChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InputSensorEventListenerStub dispatches incoming binder transactions
+// to a typed IInputSensorEventListener implementation.
+type InputSensorEventListenerStub struct {
+	Impl IInputSensorEventListener
+}
+
+var _ binder.TransactionReceiver = (*InputSensorEventListenerStub)(nil)
+
+func (s *InputSensorEventListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInputSensorEventListenerOnInputSensorChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_deviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sensorId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_accuracy, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timestamp, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_values []float32
+		_ = _arg_values
+		_err = s.Impl.OnInputSensorChanged(ctx, _arg_deviceId, _arg_sensorId, _arg_accuracy, _arg_timestamp, _arg_values)
+		_ = _err
+		return nil, nil
+	case TransactionIInputSensorEventListenerOnInputSensorAccuracyChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_deviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sensorId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_accuracy, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnInputSensorAccuracyChanged(ctx, _arg_deviceId, _arg_sensorId, _arg_accuracy)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

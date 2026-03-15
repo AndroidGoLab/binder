@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -69,4 +70,43 @@ func (p *RemoteSessionCallbackProxy) OnSessionChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RemoteSessionCallbackStub dispatches incoming binder transactions
+// to a typed IRemoteSessionCallback implementation.
+type RemoteSessionCallbackStub struct {
+	Impl IRemoteSessionCallback
+}
+
+var _ binder.TransactionReceiver = (*RemoteSessionCallbackStub)(nil)
+
+func (s *RemoteSessionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRemoteSessionCallbackOnVolumeChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionToken interface{}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnVolumeChanged(ctx, _arg_sessionToken, _arg_flags)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteSessionCallbackOnSessionChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionToken interface{}
+		_err := s.Impl.OnSessionChanged(ctx, _arg_sessionToken)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

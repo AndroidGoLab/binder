@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -1361,4 +1362,973 @@ func (p *MediaRouterServiceProxy) ShowMediaOutputSwitcherWithProxyRouter(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// MediaRouterServiceStub dispatches incoming binder transactions
+// to a typed IMediaRouterService implementation.
+type MediaRouterServiceStub struct {
+	Impl IMediaRouterService
+}
+
+var _ binder.TransactionReceiver = (*MediaRouterServiceStub)(nil)
+
+func (s *MediaRouterServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMediaRouterServiceRegisterClientAsUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IMediaRouterClient
+		_ = _arg_client
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RegisterClientAsUser(ctx, _arg_client, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceUnregisterClient:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IMediaRouterClient
+		_ = _arg_client
+		_err := s.Impl.UnregisterClient(ctx, _arg_client)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceRegisterClientGroupId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IMediaRouterClient
+		_ = _arg_client
+		_arg_groupId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RegisterClientGroupId(ctx, _arg_client, _arg_groupId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceGetState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IMediaRouterClient
+		_ = _arg_client
+		_result, _err := s.Impl.GetState(ctx, _arg_client)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIMediaRouterServiceIsPlaybackActive:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IMediaRouterClient
+		_ = _arg_client
+		_result, _err := s.Impl.IsPlaybackActive(ctx, _arg_client)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIMediaRouterServiceSetBluetoothA2dpOn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IMediaRouterClient
+		_ = _arg_client
+		_arg_on, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetBluetoothA2dpOn(ctx, _arg_client, _arg_on)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceSetDiscoveryRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IMediaRouterClient
+		_ = _arg_client
+		_arg_routeTypes, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_activeScan, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDiscoveryRequest(ctx, _arg_client, _arg_routeTypes, _arg_activeScan)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceSetSelectedRoute:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IMediaRouterClient
+		_ = _arg_client
+		_arg_routeId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_explicit, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSelectedRoute(ctx, _arg_client, _arg_routeId, _arg_explicit)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceRequestSetVolume:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IMediaRouterClient
+		_ = _arg_client
+		_arg_routeId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_volume, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RequestSetVolume(ctx, _arg_client, _arg_routeId, _arg_volume)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceRequestUpdateVolume:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IMediaRouterClient
+		_ = _arg_client
+		_arg_routeId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_direction, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RequestUpdateVolume(ctx, _arg_client, _arg_routeId, _arg_direction)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceGetSystemRoutes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callerPackageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isProxyRouter, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSystemRoutes(ctx, _arg_callerPackageName, _arg_isProxyRouter)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIMediaRouterServiceGetSystemSessionInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSystemSessionInfo(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIMediaRouterServiceShowMediaOutputSwitcherWithRouter2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ShowMediaOutputSwitcherWithRouter2(ctx, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIMediaRouterServiceRegisterRouter2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_router IMediaRouter2
+		_ = _arg_router
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RegisterRouter2(ctx, _arg_router, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceUnregisterRouter2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_router IMediaRouter2
+		_ = _arg_router
+		_err := s.Impl.UnregisterRouter2(ctx, _arg_router)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceUpdateScanningStateWithRouter2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_router IMediaRouter2
+		_ = _arg_router
+		_arg_scanningState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateScanningStateWithRouter2(ctx, _arg_router, _arg_scanningState)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceSetDiscoveryRequestWithRouter2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_router IMediaRouter2
+		_ = _arg_router
+		var _arg_preference RouteDiscoveryPreference
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_preference.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetDiscoveryRequestWithRouter2(ctx, _arg_router, _arg_preference)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceSetRouteListingPreference:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_router IMediaRouter2
+		_ = _arg_router
+		var _arg_routeListingPreference *RouteListingPreference
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_routeListingPreference.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetRouteListingPreference(ctx, _arg_router, _arg_routeListingPreference)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceSetRouteVolumeWithRouter2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_router IMediaRouter2
+		_ = _arg_router
+		var _arg_route MediaRoute2Info
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_volume, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetRouteVolumeWithRouter2(ctx, _arg_router, _arg_route, _arg_volume)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceRequestCreateSessionWithRouter2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_router IMediaRouter2
+		_ = _arg_router
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_managerRequestId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_oldSession RoutingSessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_oldSession.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_route MediaRoute2Info
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_sessionHints *interface{}
+		_err = s.Impl.RequestCreateSessionWithRouter2(ctx, _arg_router, _arg_requestId, _arg_managerRequestId, _arg_oldSession, _arg_route, _arg_sessionHints)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceSelectRouteWithRouter2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_router IMediaRouter2
+		_ = _arg_router
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_route MediaRoute2Info
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SelectRouteWithRouter2(ctx, _arg_router, _arg_sessionId, _arg_route)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceDeselectRouteWithRouter2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_router IMediaRouter2
+		_ = _arg_router
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_route MediaRoute2Info
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.DeselectRouteWithRouter2(ctx, _arg_router, _arg_sessionId, _arg_route)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceTransferToRouteWithRouter2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_router IMediaRouter2
+		_ = _arg_router
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_route MediaRoute2Info
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.TransferToRouteWithRouter2(ctx, _arg_router, _arg_sessionId, _arg_route)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceSetSessionVolumeWithRouter2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_router IMediaRouter2
+		_ = _arg_router
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_volume, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSessionVolumeWithRouter2(ctx, _arg_router, _arg_sessionId, _arg_volume)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceReleaseSessionWithRouter2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_router IMediaRouter2
+		_ = _arg_router
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ReleaseSessionWithRouter2(ctx, _arg_router, _arg_sessionId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceGetRemoteSessions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_manager IMediaRouter2Manager
+		_ = _arg_manager
+		_result, _err := s.Impl.GetRemoteSessions(ctx, _arg_manager)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIMediaRouterServiceGetSystemSessionInfoForPackage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callerPackageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_targetPackageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSystemSessionInfoForPackage(ctx, _arg_callerPackageName, _arg_targetPackageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIMediaRouterServiceRegisterManager:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_manager IMediaRouter2Manager
+		_ = _arg_manager
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RegisterManager(ctx, _arg_manager, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceRegisterProxyRouter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_manager IMediaRouter2Manager
+		_ = _arg_manager
+		_arg_callingPackageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_targetPackageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_targetUser interface{}
+		_err = s.Impl.RegisterProxyRouter(ctx, _arg_manager, _arg_callingPackageName, _arg_targetPackageName, _arg_targetUser)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceUnregisterManager:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_manager IMediaRouter2Manager
+		_ = _arg_manager
+		_err := s.Impl.UnregisterManager(ctx, _arg_manager)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceSetRouteVolumeWithManager:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_manager IMediaRouter2Manager
+		_ = _arg_manager
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_route MediaRoute2Info
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_volume, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetRouteVolumeWithManager(ctx, _arg_manager, _arg_requestId, _arg_route, _arg_volume)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceUpdateScanningState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_manager IMediaRouter2Manager
+		_ = _arg_manager
+		_arg_scanningState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateScanningState(ctx, _arg_manager, _arg_scanningState)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceRequestCreateSessionWithManager:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_manager IMediaRouter2Manager
+		_ = _arg_manager
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_oldSession RoutingSessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_oldSession.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_route *MediaRoute2Info
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RequestCreateSessionWithManager(ctx, _arg_manager, _arg_requestId, _arg_oldSession, _arg_route)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceSelectRouteWithManager:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_manager IMediaRouter2Manager
+		_ = _arg_manager
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_route MediaRoute2Info
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SelectRouteWithManager(ctx, _arg_manager, _arg_requestId, _arg_sessionId, _arg_route)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceDeselectRouteWithManager:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_manager IMediaRouter2Manager
+		_ = _arg_manager
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_route MediaRoute2Info
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.DeselectRouteWithManager(ctx, _arg_manager, _arg_requestId, _arg_sessionId, _arg_route)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceTransferToRouteWithManager:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_manager IMediaRouter2Manager
+		_ = _arg_manager
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_route MediaRoute2Info
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_transferInitiatorUserHandle interface{}
+		_arg_transferInitiatorPackageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.TransferToRouteWithManager(ctx, _arg_manager, _arg_requestId, _arg_sessionId, _arg_route, _arg_transferInitiatorUserHandle, _arg_transferInitiatorPackageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceSetSessionVolumeWithManager:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_manager IMediaRouter2Manager
+		_ = _arg_manager
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_volume, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSessionVolumeWithManager(ctx, _arg_manager, _arg_requestId, _arg_sessionId, _arg_volume)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceReleaseSessionWithManager:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_manager IMediaRouter2Manager
+		_ = _arg_manager
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ReleaseSessionWithManager(ctx, _arg_manager, _arg_requestId, _arg_sessionId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaRouterServiceShowMediaOutputSwitcherWithProxyRouter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_manager IMediaRouter2Manager
+		_ = _arg_manager
+		_result, _err := s.Impl.ShowMediaOutputSwitcherWithProxyRouter(ctx, _arg_manager)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,33 @@ func (p *RecordingConfigDispatcherProxy) DispatchRecordingConfigChange(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RecordingConfigDispatcherStub dispatches incoming binder transactions
+// to a typed IRecordingConfigDispatcher implementation.
+type RecordingConfigDispatcherStub struct {
+	Impl IRecordingConfigDispatcher
+}
+
+var _ binder.TransactionReceiver = (*RecordingConfigDispatcherStub)(nil)
+
+func (s *RecordingConfigDispatcherStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRecordingConfigDispatcherDispatchRecordingConfigChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_configs []AudioRecordingConfiguration
+		_ = _arg_configs
+		_err := s.Impl.DispatchRecordingConfigChange(ctx, _arg_configs)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

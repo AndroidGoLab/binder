@@ -2,6 +2,7 @@ package onehanded
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -65,4 +66,37 @@ func (p *OneHandedProxy) StopOneHanded(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// OneHandedStub dispatches incoming binder transactions
+// to a typed IOneHanded implementation.
+type OneHandedStub struct {
+	Impl IOneHanded
+}
+
+var _ binder.TransactionReceiver = (*OneHandedStub)(nil)
+
+func (s *OneHandedStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIOneHandedStartOneHanded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StartOneHanded(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIOneHandedStopOneHanded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StopOneHanded(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

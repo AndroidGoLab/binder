@@ -2,6 +2,7 @@ package pm
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -125,4 +126,72 @@ func (p *BackgroundInstallControlServiceProxy) UnregisterBackgroundInstallCallba
 	}
 
 	return nil
+}
+
+// BackgroundInstallControlServiceStub dispatches incoming binder transactions
+// to a typed IBackgroundInstallControlService implementation.
+type BackgroundInstallControlServiceStub struct {
+	Impl IBackgroundInstallControlService
+}
+
+var _ binder.TransactionReceiver = (*BackgroundInstallControlServiceStub)(nil)
+
+func (s *BackgroundInstallControlServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBackgroundInstallControlServiceGetBackgroundInstalledPackages:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetBackgroundInstalledPackages(ctx, _arg_flags)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIBackgroundInstallControlServiceRegisterBackgroundInstallCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err := s.Impl.RegisterBackgroundInstallCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackgroundInstallControlServiceUnregisterBackgroundInstallCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err := s.Impl.UnregisterBackgroundInstallCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

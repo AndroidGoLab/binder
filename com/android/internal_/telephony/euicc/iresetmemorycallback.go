@@ -2,6 +2,7 @@ package euicc
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *ResetMemoryCallbackProxy) OnComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ResetMemoryCallbackStub dispatches incoming binder transactions
+// to a typed IResetMemoryCallback implementation.
+type ResetMemoryCallbackStub struct {
+	Impl IResetMemoryCallback
+}
+
+var _ binder.TransactionReceiver = (*ResetMemoryCallbackStub)(nil)
+
+func (s *ResetMemoryCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIResetMemoryCallbackOnComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnComplete(ctx, _arg_resultCode)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

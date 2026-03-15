@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -557,4 +558,354 @@ func (p *GameManagerServiceProxy) ToggleGameDefaultFrameRate(
 	}
 
 	return nil
+}
+
+// GameManagerServiceStub dispatches incoming binder transactions
+// to a typed IGameManagerService implementation.
+type GameManagerServiceStub struct {
+	Impl IGameManagerService
+}
+
+var _ binder.TransactionReceiver = (*GameManagerServiceStub)(nil)
+
+func (s *GameManagerServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGameManagerServiceGetGameMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetGameMode(ctx, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIGameManagerServiceSetGameMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_gameMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetGameMode(ctx, _arg_packageName, _arg_gameMode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGameManagerServiceGetAvailableGameModes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAvailableGameModes(ctx, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIGameManagerServiceIsAngleEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsAngleEnabled(ctx, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIGameManagerServiceNotifyGraphicsEnvironmentSetup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyGraphicsEnvironmentSetup(ctx, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGameManagerServiceSetGameState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_gameState GameState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_gameState.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetGameState(ctx, _arg_packageName, _arg_gameState)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGameManagerServiceGetGameModeInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetGameModeInfo(ctx, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIGameManagerServiceSetGameServiceProvider:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetGameServiceProvider(ctx, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGameManagerServiceUpdateResolutionScalingFactor:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_gameMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_scalingFactor, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateResolutionScalingFactor(ctx, _arg_packageName, _arg_gameMode, _arg_scalingFactor)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGameManagerServiceGetResolutionScalingFactor:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_gameMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetResolutionScalingFactor(ctx, _arg_packageName, _arg_gameMode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteFloat32(_result)
+		return _reply, nil
+	case TransactionIGameManagerServiceUpdateCustomGameModeConfiguration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_gameModeConfig GameModeConfiguration
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_gameModeConfig.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateCustomGameModeConfiguration(ctx, _arg_packageName, _arg_gameModeConfig)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGameManagerServiceAddGameModeListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_gameModeListener IGameModeListener
+		_ = _arg_gameModeListener
+		_err := s.Impl.AddGameModeListener(ctx, _arg_gameModeListener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGameManagerServiceRemoveGameModeListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_gameModeListener IGameModeListener
+		_ = _arg_gameModeListener
+		_err := s.Impl.RemoveGameModeListener(ctx, _arg_gameModeListener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGameManagerServiceAddGameStateListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_gameStateListener IGameStateListener
+		_ = _arg_gameStateListener
+		_err := s.Impl.AddGameStateListener(ctx, _arg_gameStateListener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGameManagerServiceRemoveGameStateListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_gameStateListener IGameStateListener
+		_ = _arg_gameStateListener
+		_err := s.Impl.RemoveGameStateListener(ctx, _arg_gameStateListener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGameManagerServiceToggleGameDefaultFrameRate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ToggleGameDefaultFrameRate(ctx, _arg_isEnabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

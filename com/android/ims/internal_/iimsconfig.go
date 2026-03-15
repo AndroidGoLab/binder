@@ -2,6 +2,7 @@ package internal
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	ims "github.com/xaionaro-go/binder/com/android/ims"
 	"github.com/xaionaro-go/binder/parcel"
@@ -287,4 +288,176 @@ func (p *ImsConfigProxy) SetVideoQuality(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ImsConfigStub dispatches incoming binder transactions
+// to a typed IImsConfig implementation.
+type ImsConfigStub struct {
+	Impl IImsConfig
+}
+
+var _ binder.TransactionReceiver = (*ImsConfigStub)(nil)
+
+func (s *ImsConfigStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIImsConfigGetProvisionedValue:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_item, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetProvisionedValue(ctx, _arg_item)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIImsConfigGetProvisionedStringValue:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_item, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetProvisionedStringValue(ctx, _arg_item)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionIImsConfigSetProvisionedValue:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_item, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_value, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetProvisionedValue(ctx, _arg_item, _arg_value)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIImsConfigSetProvisionedStringValue:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_item, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_value, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetProvisionedStringValue(ctx, _arg_item, _arg_value)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIImsConfigGetFeatureValue:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_feature, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_network, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ims.ImsConfigListener
+		_ = _arg_listener
+		_err = s.Impl.GetFeatureValue(ctx, _arg_feature, _arg_network, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIImsConfigSetFeatureValue:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_feature, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_network, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_value, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ims.ImsConfigListener
+		_ = _arg_listener
+		_err = s.Impl.SetFeatureValue(ctx, _arg_feature, _arg_network, _arg_value, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIImsConfigGetVolteProvisioned:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetVolteProvisioned(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIImsConfigGetVideoQuality:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ims.ImsConfigListener
+		_ = _arg_listener
+		_err := s.Impl.GetVideoQuality(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIImsConfigSetVideoQuality:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_quality, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ims.ImsConfigListener
+		_ = _arg_listener
+		_err = s.Impl.SetVideoQuality(ctx, _arg_quality, _arg_listener)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

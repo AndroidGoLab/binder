@@ -2,6 +2,7 @@ package servicedb
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -133,4 +134,74 @@ func (p *ServiceListTransferInterfaceProxy) CreateSetChannelListSession(
 	}
 	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 	return _result, nil
+}
+
+// ServiceListTransferInterfaceStub dispatches incoming binder transactions
+// to a typed IServiceListTransferInterface implementation.
+type ServiceListTransferInterfaceStub struct {
+	Impl IServiceListTransferInterface
+}
+
+var _ binder.TransactionReceiver = (*ServiceListTransferInterfaceStub)(nil)
+
+func (s *ServiceListTransferInterfaceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIServiceListTransferInterfaceCreateExportSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IServiceListExportListener
+		_ = _arg_listener
+		_result, _err := s.Impl.CreateExportSession(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIServiceListTransferInterfaceCreateImportSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IServiceListImportListener
+		_ = _arg_listener
+		_result, _err := s.Impl.CreateImportSession(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIServiceListTransferInterfaceCreateSetChannelListSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IServiceListSetChannelListListener
+		_ = _arg_listener
+		_result, _err := s.Impl.CreateSetChannelListSession(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

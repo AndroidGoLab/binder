@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -74,4 +75,40 @@ func (p *S2CellIdsCallbackProxy) OnError(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// S2CellIdsCallbackStub dispatches incoming binder transactions
+// to a typed IS2CellIdsCallback implementation.
+type S2CellIdsCallbackStub struct {
+	Impl IS2CellIdsCallback
+}
+
+var _ binder.TransactionReceiver = (*S2CellIdsCallbackStub)(nil)
+
+func (s *S2CellIdsCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIS2CellIdsCallbackOnResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_s2CellIds []int64
+		_ = _arg_s2CellIds
+		_err := s.Impl.OnResult(ctx, _arg_s2CellIds)
+		_ = _err
+		return nil, nil
+	case TransactionIS2CellIdsCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnError(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

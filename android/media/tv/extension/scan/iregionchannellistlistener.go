@@ -2,6 +2,7 @@ package scan
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -57,4 +58,33 @@ func (p *RegionChannelListListenerProxy) OnDetectRegionChannelList(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RegionChannelListListenerStub dispatches incoming binder transactions
+// to a typed IRegionChannelListListener implementation.
+type RegionChannelListListenerStub struct {
+	Impl IRegionChannelListListener
+}
+
+var _ binder.TransactionReceiver = (*RegionChannelListListenerStub)(nil)
+
+func (s *RegionChannelListListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRegionChannelListListenerOnDetectRegionChannelList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_detectRegionChannelList []string
+		_ = _arg_detectRegionChannelList
+		_err := s.Impl.OnDetectRegionChannelList(ctx, _arg_detectRegionChannelList)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

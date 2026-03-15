@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -94,4 +95,53 @@ func (p *WalletContextualLocationsServiceProxy) OnWalletContextualLocationsState
 	}
 
 	return nil
+}
+
+// WalletContextualLocationsServiceStub dispatches incoming binder transactions
+// to a typed IWalletContextualLocationsService implementation.
+type WalletContextualLocationsServiceStub struct {
+	Impl IWalletContextualLocationsService
+}
+
+var _ binder.TransactionReceiver = (*WalletContextualLocationsServiceStub)(nil)
+
+func (s *WalletContextualLocationsServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWalletContextualLocationsServiceAddWalletCardsUpdatedListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IWalletCardsUpdatedListener
+		_ = _arg_listener
+		_err := s.Impl.AddWalletCardsUpdatedListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWalletContextualLocationsServiceOnWalletContextualLocationsStateUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_storeLocations []string
+		_ = _arg_storeLocations
+		_err := s.Impl.OnWalletContextualLocationsStateUpdated(ctx, _arg_storeLocations)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

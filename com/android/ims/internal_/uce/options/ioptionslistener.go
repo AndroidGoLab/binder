@@ -2,6 +2,7 @@ package options
 
 import (
 	"context"
+	"fmt"
 	vehicle "github.com/xaionaro-go/binder/android/hardware/automotive/vehicle"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -220,4 +221,169 @@ func (p *OptionsListenerProxy) IncomingOptions(
 	}
 
 	return nil
+}
+
+// OptionsListenerStub dispatches incoming binder transactions
+// to a typed IOptionsListener implementation.
+type OptionsListenerStub struct {
+	Impl IOptionsListener
+}
+
+var _ binder.TransactionReceiver = (*OptionsListenerStub)(nil)
+
+func (s *OptionsListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIOptionsListenerGetVersionCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_version, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetVersionCb(ctx, _arg_version)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIOptionsListenerServiceAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_statusCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_statusCode := vehicle.StatusCode(_raw_statusCode)
+		_err = s.Impl.ServiceAvailable(ctx, _arg_statusCode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIOptionsListenerServiceUnavailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_statusCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_statusCode := vehicle.StatusCode(_raw_statusCode)
+		_err = s.Impl.ServiceUnavailable(ctx, _arg_statusCode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIOptionsListenerSipResponseReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uri, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sipResponse OptionsSipResponse
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sipResponse.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_capInfo OptionsCapInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_capInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SipResponseReceived(ctx, _arg_uri, _arg_sipResponse, _arg_capInfo)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIOptionsListenerCmdStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_cmdStatus OptionsCmdStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cmdStatus.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CmdStatus(ctx, _arg_cmdStatus)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIOptionsListenerIncomingOptions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uri, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_capInfo OptionsCapInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_capInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_tID, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.IncomingOptions(ctx, _arg_uri, _arg_capInfo, _arg_tID)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

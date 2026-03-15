@@ -2,6 +2,7 @@ package mediaquality
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -132,4 +133,81 @@ func (p *SoundProfileAdjustmentListenerProxy) OnRequestSoundParameters(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SoundProfileAdjustmentListenerStub dispatches incoming binder transactions
+// to a typed ISoundProfileAdjustmentListener implementation.
+type SoundProfileAdjustmentListenerStub struct {
+	Impl ISoundProfileAdjustmentListener
+}
+
+var _ binder.TransactionReceiver = (*SoundProfileAdjustmentListenerStub)(nil)
+
+func (s *SoundProfileAdjustmentListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISoundProfileAdjustmentListenerOnSoundProfileAdjusted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundProfile SoundProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundProfile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSoundProfileAdjusted(ctx, _arg_soundProfile)
+		_ = _err
+		return nil, nil
+	case TransactionISoundProfileAdjustmentListenerOnParamCapabilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_soundProfileId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_caps []ParamCapability
+		_ = _arg_caps
+		_err = s.Impl.OnParamCapabilityChanged(ctx, _arg_soundProfileId, _arg_caps)
+		_ = _err
+		return nil, nil
+	case TransactionISoundProfileAdjustmentListenerOnVendorParamCapabilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_soundProfileId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_caps []VendorParamCapability
+		_ = _arg_caps
+		_err = s.Impl.OnVendorParamCapabilityChanged(ctx, _arg_soundProfileId, _arg_caps)
+		_ = _err
+		return nil, nil
+	case TransactionISoundProfileAdjustmentListenerOnRequestSoundParameters:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_SoundProfileId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRequestSoundParameters(ctx, _arg_SoundProfileId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

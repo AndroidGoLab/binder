@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	soundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
@@ -281,4 +282,168 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnOpenFile(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// HotwordRecognitionStatusCallbackStub dispatches incoming binder transactions
+// to a typed IHotwordRecognitionStatusCallback implementation.
+type HotwordRecognitionStatusCallbackStub struct {
+	Impl IHotwordRecognitionStatusCallback
+}
+
+var _ binder.TransactionReceiver = (*HotwordRecognitionStatusCallbackStub)(nil)
+
+func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIHotwordRecognitionStatusCallbackOnKeyphraseDetected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_recognitionEvent soundtrigger.SoundTriggerKeyphraseRecognitionEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_recognitionEvent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_result interface{}
+		_err := s.Impl.OnKeyphraseDetected(ctx, _arg_recognitionEvent, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIHotwordRecognitionStatusCallbackOnKeyphraseDetectedFromExternalSource:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_result interface{}
+		_err := s.Impl.OnKeyphraseDetectedFromExternalSource(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIHotwordRecognitionStatusCallbackOnGenericSoundTriggerDetected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_recognitionEvent soundtrigger.SoundTriggerGenericRecognitionEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_recognitionEvent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnGenericSoundTriggerDetected(ctx, _arg_recognitionEvent)
+		_ = _err
+		return nil, nil
+	case TransactionIHotwordRecognitionStatusCallbackOnRejected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_result interface{}
+		_err := s.Impl.OnRejected(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIHotwordRecognitionStatusCallbackOnHotwordDetectionServiceFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_hotwordDetectionServiceFailure interface{}
+		_err := s.Impl.OnHotwordDetectionServiceFailure(ctx, _arg_hotwordDetectionServiceFailure)
+		_ = _err
+		return nil, nil
+	case TransactionIHotwordRecognitionStatusCallbackOnVisualQueryDetectionServiceFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_visualQueryDetectionServiceFailure interface{}
+		_err := s.Impl.OnVisualQueryDetectionServiceFailure(ctx, _arg_visualQueryDetectionServiceFailure)
+		_ = _err
+		return nil, nil
+	case TransactionIHotwordRecognitionStatusCallbackOnSoundTriggerFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundTriggerFailure interface{}
+		_err := s.Impl.OnSoundTriggerFailure(ctx, _arg_soundTriggerFailure)
+		_ = _err
+		return nil, nil
+	case TransactionIHotwordRecognitionStatusCallbackOnUnknownFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorMessage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUnknownFailure(ctx, _arg_errorMessage)
+		_ = _err
+		return nil, nil
+	case TransactionIHotwordRecognitionStatusCallbackOnRecognitionPaused:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRecognitionPaused(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIHotwordRecognitionStatusCallbackOnRecognitionResumed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRecognitionResumed(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIHotwordRecognitionStatusCallbackOnStatusReported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStatusReported(ctx, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIHotwordRecognitionStatusCallbackOnProcessRestarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnProcessRestarted(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIHotwordRecognitionStatusCallbackOnOpenFile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_filename, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnOpenFile(ctx, _arg_filename, _arg_future)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

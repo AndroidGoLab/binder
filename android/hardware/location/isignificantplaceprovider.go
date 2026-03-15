@@ -2,6 +2,7 @@ package location
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -67,4 +68,40 @@ func (p *SignificantPlaceProviderProxy) OnSignificantPlaceCheck(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SignificantPlaceProviderStub dispatches incoming binder transactions
+// to a typed ISignificantPlaceProvider implementation.
+type SignificantPlaceProviderStub struct {
+	Impl ISignificantPlaceProvider
+}
+
+var _ binder.TransactionReceiver = (*SignificantPlaceProviderStub)(nil)
+
+func (s *SignificantPlaceProviderStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISignificantPlaceProviderSetSignificantPlaceProviderManager:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_manager ISignificantPlaceProviderManager
+		_ = _arg_manager
+		_err := s.Impl.SetSignificantPlaceProviderManager(ctx, _arg_manager)
+		_ = _err
+		return nil, nil
+	case TransactionISignificantPlaceProviderOnSignificantPlaceCheck:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnSignificantPlaceCheck(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

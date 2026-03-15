@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	content "github.com/xaionaro-go/binder/android/content"
@@ -14764,4 +14765,8785 @@ func (p *TelephonyProxy) GetCarrierIdFromIdentifier(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// TelephonyStub dispatches incoming binder transactions
+// to a typed ITelephony implementation.
+type TelephonyStub struct {
+	Impl ITelephony
+}
+
+var _ binder.TransactionReceiver = (*TelephonyStub)(nil)
+
+func (s *TelephonyStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITelephonyDial:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_number, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Dial(ctx, _arg_number)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_number, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Call(ctx, _arg_number)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsRadioOn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsRadioOn(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsRadioOnWithFeature:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsRadioOnWithFeature(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsRadioOnForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsRadioOnForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsRadioOnForSubscriberWithFeature:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsRadioOnForSubscriberWithFeature(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetCallComposerStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCallComposerStatus(ctx, _arg_subId, _arg_status)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetCallComposerStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCallComposerStatus(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonySupplyPinForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_pin, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SupplyPinForSubscriber(ctx, _arg_subId, _arg_pin)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySupplyPukForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_puk, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_pin, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SupplyPukForSubscriber(ctx, _arg_subId, _arg_puk, _arg_pin)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySupplyPinReportResultForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_pin, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SupplyPinReportResultForSubscriber(ctx, _arg_subId, _arg_pin)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonySupplyPukReportResultForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_puk, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_pin, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SupplyPukReportResultForSubscriber(ctx, _arg_subId, _arg_puk, _arg_pin)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyHandlePinMmi:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_dialString, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.HandlePinMmi(ctx, _arg_dialString)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyHandleUssdRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ussdRequest, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_wrappedCallback os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_wrappedCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.HandleUssdRequest(ctx, _arg_subId, _arg_ussdRequest, _arg_wrappedCallback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyHandlePinMmiForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dialString, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.HandlePinMmiForSubscriber(ctx, _arg_subId, _arg_dialString)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyToggleRadioOnOff:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ToggleRadioOnOff(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyToggleRadioOnOffForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ToggleRadioOnOffForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetRadio:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_turnOn, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetRadio(ctx, _arg_turnOn)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetRadioForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_turnOn, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetRadioForSubscriber(ctx, _arg_subId, _arg_turnOn)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetRadioPower:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_turnOn, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetRadioPower(ctx, _arg_turnOn)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyRequestRadioPowerOffForReason:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RequestRadioPowerOffForReason(ctx, _arg_subId, _arg_reason)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyClearRadioPowerOffForReason:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ClearRadioPowerOffForReason(ctx, _arg_subId, _arg_reason)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetRadioPowerOffReasons:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetRadioPowerOffReasons(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyUpdateServiceLocation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.UpdateServiceLocation(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyUpdateServiceLocationWithPackageName:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateServiceLocationWithPackageName(ctx, _arg_callingPkg)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyEnableLocationUpdates:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.EnableLocationUpdates(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyDisableLocationUpdates:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.DisableLocationUpdates(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyEnableDataConnectivity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.EnableDataConnectivity(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyDisableDataConnectivity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.DisableDataConnectivity(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsDataConnectivityPossible:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsDataConnectivityPossible(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCellLocation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCellLocation(ctx, _arg_callingPkg)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonyGetNetworkCountryIsoForPhone:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_phoneId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetNetworkCountryIsoForPhone(ctx, _arg_phoneId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetNeighboringCellInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetNeighboringCellInfo(ctx, _arg_callingPkg)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyGetCallState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCallState(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCallStateForSubscription:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_featureId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCallStateForSubscription(ctx, _arg_subId, _arg_featureId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetDataActivity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDataActivity(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetDataActivityForSubId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDataActivityForSubId(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetDataState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDataState(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetDataStateForSubId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDataStateForSubId(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetActivePhoneType:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetActivePhoneType(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetActivePhoneTypeForSlot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetActivePhoneTypeForSlot(ctx, _arg_slotIndex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCdmaEriIconIndex:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCdmaEriIconIndex(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCdmaEriIconIndexForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCdmaEriIconIndexForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCdmaEriIconMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCdmaEriIconMode(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCdmaEriIconModeForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCdmaEriIconModeForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCdmaEriText:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCdmaEriText(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCdmaEriTextForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCdmaEriTextForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyNeedsOtaServiceProvisioning:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.NeedsOtaServiceProvisioning(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetVoiceMailNumber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_alphaTag, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_number, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetVoiceMailNumber(ctx, _arg_subId, _arg_alphaTag, _arg_number)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetVoiceActivationState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_activationState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetVoiceActivationState(ctx, _arg_subId, _arg_activationState)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetDataActivationState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_activationState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDataActivationState(ctx, _arg_subId, _arg_activationState)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetVoiceActivationState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetVoiceActivationState(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetDataActivationState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDataActivationState(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetVoiceMessageCountForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetVoiceMessageCountForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyIsConcurrentVoiceAndDataAllowed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsConcurrentVoiceAndDataAllowed(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetVisualVoicemailSettings:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetVisualVoicemailSettings(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonyGetVisualVoicemailPackageName:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetVisualVoicemailPackageName(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyEnableVisualVoicemailSmsFilter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_settings androidTelephony.VisualVoicemailSmsFilterSettings
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_settings.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.EnableVisualVoicemailSmsFilter(ctx, _arg_subId, _arg_settings)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyDisableVisualVoicemailSmsFilter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DisableVisualVoicemailSmsFilter(ctx, _arg_subId)
+		_ = _err
+		return nil, nil
+	case TransactionITelephonyGetVisualVoicemailSmsFilterSettings:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetVisualVoicemailSmsFilterSettings(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonyGetActiveVisualVoicemailSmsFilterSettings:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetActiveVisualVoicemailSmsFilterSettings(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonySendVisualVoicemailSmsForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingAttributeTag, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_number, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_port, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_text, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sentIntent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sentIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SendVisualVoicemailSmsForSubscriber(ctx, _arg_callingAttributeTag, _arg_subId, _arg_number, _arg_port, _arg_text, _arg_sentIntent)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySendDialerSpecialCode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingPackageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_inputCode, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendDialerSpecialCode(ctx, _arg_callingPackageName, _arg_inputCode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetNetworkTypeForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetNetworkTypeForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetDataNetworkType:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDataNetworkType(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetDataNetworkTypeForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDataNetworkTypeForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetVoiceNetworkTypeForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetVoiceNetworkTypeForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyHasIccCard:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.HasIccCard(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyHasIccCardUsingSlotIndex:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.HasIccCardUsingSlotIndex(ctx, _arg_slotIndex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetLteOnCdmaMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetLteOnCdmaMode(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetLteOnCdmaModeForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetLteOnCdmaModeForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetAllCellInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAllCellInfo(ctx, _arg_callingPkg)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyRequestCellInfoUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cb androidTelephony.ICellInfoCallback
+		_ = _arg_cb
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RequestCellInfoUpdate(ctx, _arg_subId, _arg_cb, _arg_callingPkg)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRequestCellInfoUpdateWithWorkSource:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cb androidTelephony.ICellInfoCallback
+		_ = _arg_cb
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_ws interface{}
+		_err = s.Impl.RequestCellInfoUpdateWithWorkSource(ctx, _arg_subId, _arg_cb, _arg_callingPkg, _arg_ws)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetCellInfoListRate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_rateInMillis, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCellInfoListRate(ctx, _arg_rateInMillis, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIccOpenLogicalChannel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request IccLogicalChannelRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.IccOpenLogicalChannel(ctx, _arg_request)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonyIccCloseLogicalChannel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request IccLogicalChannelRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.IccCloseLogicalChannel(ctx, _arg_request)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIccTransmitApduLogicalChannelByPort:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_portIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_channel, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cla, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_instruction, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_p1, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_p2, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_p3, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_data, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IccTransmitApduLogicalChannelByPort(ctx, _arg_slotIndex, _arg_portIndex, _arg_channel, _arg_cla, _arg_instruction, _arg_p1, _arg_p2, _arg_p3, _arg_data)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyIccTransmitApduLogicalChannel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_channel, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cla, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_instruction, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_p1, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_p2, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_p3, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_data, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IccTransmitApduLogicalChannel(ctx, _arg_subId, _arg_channel, _arg_cla, _arg_instruction, _arg_p1, _arg_p2, _arg_p3, _arg_data)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyIccTransmitApduBasicChannelByPort:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_portIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cla, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_instruction, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_p1, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_p2, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_p3, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_data, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IccTransmitApduBasicChannelByPort(ctx, _arg_slotIndex, _arg_portIndex, _arg_cla, _arg_instruction, _arg_p1, _arg_p2, _arg_p3, _arg_data)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyIccTransmitApduBasicChannel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cla, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_instruction, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_p1, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_p2, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_p3, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_data, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IccTransmitApduBasicChannel(ctx, _arg_subId, _arg_cla, _arg_instruction, _arg_p1, _arg_p2, _arg_p3, _arg_data)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyIccExchangeSimIO:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fileID, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_command, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_p1, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_p2, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_p3, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_filePath, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IccExchangeSimIO(ctx, _arg_subId, _arg_fileID, _arg_command, _arg_p1, _arg_p2, _arg_p3, _arg_filePath)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonySendEnvelopeWithStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_content, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SendEnvelopeWithStatus(ctx, _arg_subId, _arg_content)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyNvReadItem:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_itemID, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.NvReadItem(ctx, _arg_itemID)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyNvWriteItem:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_itemID, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_itemValue, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.NvWriteItem(ctx, _arg_itemID, _arg_itemValue)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyNvWriteCdmaPrl:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_preferredRoamingList []byte
+		_ = _arg_preferredRoamingList
+		_result, _err := s.Impl.NvWriteCdmaPrl(ctx, _arg_preferredRoamingList)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyResetModemConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ResetModemConfig(ctx, _arg_slotIndex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyRebootModem:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RebootModem(ctx, _arg_slotIndex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetAllowedNetworkTypesBitmask:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAllowedNetworkTypesBitmask(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyIsTetheringApnRequiredForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsTetheringApnRequiredForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyEnableIms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.EnableIms(ctx, _arg_slotId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyDisableIms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DisableIms(ctx, _arg_slotId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyResetIms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ResetIms(ctx, _arg_slotIndex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRegisterMmTelFeatureCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback internal.IImsServiceFeatureCallback
+		_ = _arg_callback
+		_err = s.Impl.RegisterMmTelFeatureCallback(ctx, _arg_slotId, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyUnregisterImsFeatureCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback internal.IImsServiceFeatureCallback
+		_ = _arg_callback
+		_err := s.Impl.UnregisterImsFeatureCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetImsRegistration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_feature, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetImsRegistration(ctx, _arg_slotId, _arg_feature)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyGetImsConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_feature, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetImsConfig(ctx, _arg_slotId, _arg_feature)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonySetBoundImsServiceOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_isCarrierService, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_featureTypes []int32
+		_ = _arg_featureTypes
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetBoundImsServiceOverride(ctx, _arg_slotIndex, _arg_isCarrierService, _arg_featureTypes, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyClearCarrierImsServiceOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ClearCarrierImsServiceOverride(ctx, _arg_slotIndex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetBoundImsServicePackage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isCarrierImsService, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_featureType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetBoundImsServicePackage(ctx, _arg_slotIndex, _arg_isCarrierImsService, _arg_featureType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetImsMmTelFeatureState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntegerConsumer
+		_ = _arg_callback
+		_err = s.Impl.GetImsMmTelFeatureState(ctx, _arg_subId, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetNetworkSelectionModeAutomatic:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetNetworkSelectionModeAutomatic(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetCellNetworkScanResults:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCellNetworkScanResults(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonyRequestNetworkScan:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_renounceFineLocationAccess, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_request network.NetworkScanRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_messenger os.Messenger
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_messenger.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_binder_ binder.IBinder
+		_ = _arg_binder_
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RequestNetworkScan(ctx, _arg_subId, _arg_renounceFineLocationAccess, _arg_request, _arg_messenger, _arg_binder_)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyStopNetworkScan:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_scanId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StopNetworkScan(ctx, _arg_subId, _arg_scanId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetNetworkSelectionModeManual:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_operatorInfo OperatorInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_operatorInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_persisSelection, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetNetworkSelectionModeManual(ctx, _arg_subId, _arg_operatorInfo, _arg_persisSelection)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetAllowedNetworkTypesForReason:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAllowedNetworkTypesForReason(ctx, _arg_subId, _arg_reason)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt64(_result)
+		return _reply, nil
+	case TransactionITelephonySetAllowedNetworkTypesForReason:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_allowedNetworkTypes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetAllowedNetworkTypesForReason(ctx, _arg_subId, _arg_reason, _arg_allowedNetworkTypes)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetDataEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDataEnabled(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsUserDataEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsUserDataEnabled(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsDataEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsDataEnabled(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetDataEnabledForReason:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDataEnabledForReason(ctx, _arg_subId, _arg_reason, _arg_enable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsDataEnabledForReason:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsDataEnabledForReason(ctx, _arg_subId, _arg_reason)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsManualNetworkSelectionAllowed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsManualNetworkSelectionAllowed(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetImsRegistrationState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_registered, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetImsRegistrationState(ctx, _arg_registered)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetCdmaMdn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCdmaMdn(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCdmaMin:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCdmaMin(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyRequestNumberVerification:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_range_ androidTelephony.PhoneNumberRange
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_range_.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_timeoutMillis, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback INumberVerificationCallback
+		_ = _arg_callback
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RequestNumberVerification(ctx, _arg_range_, _arg_timeoutMillis, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetCarrierPrivilegeStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCarrierPrivilegeStatus(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCarrierPrivilegeStatusForUid:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCarrierPrivilegeStatusForUid(ctx, _arg_subId, _arg_uid)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyCheckCarrierPrivilegesForPackage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_pkgName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CheckCarrierPrivilegesForPackage(ctx, _arg_subId, _arg_pkgName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyCheckCarrierPrivilegesForPackageAnyPhone:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pkgName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CheckCarrierPrivilegesForPackageAnyPhone(ctx, _arg_pkgName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCarrierPackageNamesForIntentAndPhone:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_phoneId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCarrierPackageNamesForIntentAndPhone(ctx, _arg_intent, _arg_phoneId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonySetLine1NumberForDisplayForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_alphaTag, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_number, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetLine1NumberForDisplayForSubscriber(ctx, _arg_subId, _arg_alphaTag, _arg_number)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetLine1NumberForDisplay:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetLine1NumberForDisplay(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetLine1AlphaTagForDisplay:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetLine1AlphaTagForDisplay(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetMergedSubscriberIds:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetMergedSubscriberIds(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyGetMergedImsisFromGroup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetMergedImsisFromGroup(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonySetOperatorBrandOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_brand, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetOperatorBrandOverride(ctx, _arg_subId, _arg_brand)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetRoamingOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_gsmRoamingList []string
+		_ = _arg_gsmRoamingList
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_gsmNonRoamingList []string
+		_ = _arg_gsmNonRoamingList
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_cdmaRoamingList []string
+		_ = _arg_cdmaRoamingList
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_cdmaNonRoamingList []string
+		_ = _arg_cdmaNonRoamingList
+		_result, _err := s.Impl.SetRoamingOverride(ctx, _arg_subId, _arg_gsmRoamingList, _arg_gsmNonRoamingList, _arg_cdmaRoamingList, _arg_cdmaNonRoamingList)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyNeedMobileRadioShutdown:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.NeedMobileRadioShutdown(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyShutdownMobileRadios:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ShutdownMobileRadios(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetRadioAccessFamily:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_phoneId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetRadioAccessFamily(ctx, _arg_phoneId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyUploadCallComposerPicture:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subscriptionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_contentType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.UploadCallComposerPicture(ctx, _arg_subscriptionId, _arg_contentType, _arg_fd, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyEnableVideoCalling:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.EnableVideoCalling(ctx, _arg_enable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsVideoCallingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsVideoCallingEnabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyCanChangeDtmfToneLength:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CanChangeDtmfToneLength(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsWorldPhone:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsWorldPhone(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsTtyModeSupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsTtyModeSupported(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsRttSupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subscriptionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsRttSupported(ctx, _arg_subscriptionId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsHearingAidCompatibilitySupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsHearingAidCompatibilitySupported(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsImsRegistered:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsImsRegistered(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsWifiCallingAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsWifiCallingAvailable(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsVideoTelephonyAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsVideoTelephonyAvailable(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetImsRegTechnologyForMmTel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetImsRegTechnologyForMmTel(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetDeviceId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDeviceId(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetDeviceIdWithFeature:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDeviceIdWithFeature(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetImeiForSlot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetImeiForSlot(ctx, _arg_slotIndex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetPrimaryImei:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPrimaryImei(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetTypeAllocationCodeForSlot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetTypeAllocationCodeForSlot(ctx, _arg_slotIndex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetMeidForSlot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetMeidForSlot(ctx, _arg_slotIndex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetManufacturerCodeForSlot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetManufacturerCodeForSlot(ctx, _arg_slotIndex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetDeviceSoftwareVersionForSlot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDeviceSoftwareVersionForSlot(ctx, _arg_slotIndex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetSubIdForPhoneAccountHandle:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_phoneAccountHandle telecom.PhoneAccountHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_phoneAccountHandle.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSubIdForPhoneAccountHandle(ctx, _arg_phoneAccountHandle)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetPhoneAccountHandleForSubscriptionId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subscriptionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPhoneAccountHandleForSubscriptionId(ctx, _arg_subscriptionId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonyFactoryReset:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.FactoryReset(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetSimLocaleForSubscriber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSimLocaleForSubscriber(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyRequestModemActivityInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_result os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestModemActivityInfo(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionITelephonyGetServiceStateForSlot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_renounceFineLocationAccess, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_renounceCoarseLocationAccess, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetServiceStateForSlot(ctx, _arg_slotIndex, _arg_renounceFineLocationAccess, _arg_renounceCoarseLocationAccess)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonyGetVoicemailRingtoneUri:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_accountHandle telecom.PhoneAccountHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_accountHandle.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GetVoicemailRingtoneUri(ctx, _arg_accountHandle)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonySetVoicemailRingtoneUri:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_phoneAccountHandle telecom.PhoneAccountHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_phoneAccountHandle.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetVoicemailRingtoneUri(ctx, _arg_phoneAccountHandle, _arg_uri)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsVoicemailVibrationEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_accountHandle telecom.PhoneAccountHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_accountHandle.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.IsVoicemailVibrationEnabled(ctx, _arg_accountHandle)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetVoicemailVibrationEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_phoneAccountHandle telecom.PhoneAccountHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_phoneAccountHandle.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetVoicemailVibrationEnabled(ctx, _arg_phoneAccountHandle, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetPackagesWithCarrierPrivileges:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_phoneId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPackagesWithCarrierPrivileges(ctx, _arg_phoneId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyGetPackagesWithCarrierPrivilegesForAllPhones:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPackagesWithCarrierPrivilegesForAllPhones(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyGetAidForAppType:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_appType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAidForAppType(ctx, _arg_subId, _arg_appType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetEsn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetEsn(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCdmaPrlVersion:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCdmaPrlVersion(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetTelephonyHistograms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetTelephonyHistograms(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonySetAllowedCarriers:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_carrierRestrictionRules androidTelephony.CarrierRestrictionRules
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_carrierRestrictionRules.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.SetAllowedCarriers(ctx, _arg_carrierRestrictionRules)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetAllowedCarriers:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAllowedCarriers(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonyGetSubscriptionCarrierId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSubscriptionCarrierId(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetSubscriptionCarrierName:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSubscriptionCarrierName(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetSubscriptionSpecificCarrierId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSubscriptionSpecificCarrierId(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetSubscriptionSpecificCarrierName:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSubscriptionSpecificCarrierName(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCarrierIdFromMccMnc:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mccmnc, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isSubscriptionMccMnc, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCarrierIdFromMccMnc(ctx, _arg_slotIndex, _arg_mccmnc, _arg_isSubscriptionMccMnc)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyCarrierActionSetRadioEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CarrierActionSetRadioEnabled(ctx, _arg_subId, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyCarrierActionReportDefaultNetworkStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_report, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CarrierActionReportDefaultNetworkStatus(ctx, _arg_subId, _arg_report)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyCarrierActionResetAll:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CarrierActionResetAll(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetCallForwarding:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callForwardingReason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ICallForwardingInfoCallback
+		_ = _arg_callback
+		_err = s.Impl.GetCallForwarding(ctx, _arg_subId, _arg_callForwardingReason, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetCallForwarding:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callForwardingInfo androidTelephony.CallForwardingInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callForwardingInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntegerConsumer
+		_ = _arg_callback
+		_err = s.Impl.SetCallForwarding(ctx, _arg_subId, _arg_callForwardingInfo, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetCallWaitingStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntegerConsumer
+		_ = _arg_callback
+		_err = s.Impl.GetCallWaitingStatus(ctx, _arg_subId, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetCallWaitingStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntegerConsumer
+		_ = _arg_callback
+		_err = s.Impl.SetCallWaitingStatus(ctx, _arg_subId, _arg_enabled, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetClientRequestStats:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetClientRequestStats(ctx, _arg_subid)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonySetSimPowerStateForSlot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSimPowerStateForSlot(ctx, _arg_slotIndex, _arg_state)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetSimPowerStateForSlotWithCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntegerConsumer
+		_ = _arg_callback
+		_err = s.Impl.SetSimPowerStateForSlotWithCallback(ctx, _arg_slotIndex, _arg_state, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetForbiddenPlmns:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_appType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetForbiddenPlmns(ctx, _arg_subId, _arg_appType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonySetForbiddenPlmns:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_appType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_fplmns []string
+		_ = _arg_fplmns
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetForbiddenPlmns(ctx, _arg_subId, _arg_appType, _arg_fplmns)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetEmergencyCallbackMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetEmergencyCallbackMode(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetSignalStrength:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSignalStrength(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonyGetCardIdForDefaultEuicc:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCardIdForDefaultEuicc(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetUiccCardsInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetUiccCardsInfo(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyGetUiccSlotsInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetUiccSlotsInfo(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonySwitchSlots:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_physicalSlots []int32
+		_ = _arg_physicalSlots
+		_result, _err := s.Impl.SwitchSlots(ctx, _arg_physicalSlots)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetSimSlotMapping:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_slotMapping []androidTelephony.UiccSlotMapping
+		_ = _arg_slotMapping
+		_result, _err := s.Impl.SetSimSlotMapping(ctx, _arg_slotMapping)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsDataRoamingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsDataRoamingEnabled(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetDataRoamingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDataRoamingEnabled(ctx, _arg_subId, _arg_isEnabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetCdmaRoamingMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCdmaRoamingMode(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonySetCdmaRoamingMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetCdmaRoamingMode(ctx, _arg_subId, _arg_mode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCdmaSubscriptionMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCdmaSubscriptionMode(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonySetCdmaSubscriptionMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetCdmaSubscriptionMode(ctx, _arg_subId, _arg_mode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetCarrierTestOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mccmnc, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_imsi, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_iccid, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_gid1, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_gid2, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_plmn, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_spn, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_carrierPrivilegeRules, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_apn, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCarrierTestOverride(ctx, _arg_subId, _arg_mccmnc, _arg_imsi, _arg_iccid, _arg_gid1, _arg_gid2, _arg_plmn, _arg_spn, _arg_carrierPrivilegeRules, _arg_apn)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetCarrierServicePackageOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_carrierServicePackage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCarrierServicePackageOverride(ctx, _arg_subId, _arg_carrierServicePackage)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetCarrierIdListVersion:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCarrierIdListVersion(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyRefreshUiccProfile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RefreshUiccProfile(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetNumberOfModemsWithSimultaneousDataConnections:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetNumberOfModemsWithSimultaneousDataConnections(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetNetworkSelectionMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetNetworkSelectionMode(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyIsInEmergencySmsMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsInEmergencySmsMode(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetRadioPowerState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetRadioPowerState(ctx, _arg_slotIndex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyRegisterImsRegistrationCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_c interface{}
+		_err = s.Impl.RegisterImsRegistrationCallback(ctx, _arg_subId, _arg_c)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyUnregisterImsRegistrationCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_c interface{}
+		_err = s.Impl.UnregisterImsRegistrationCallback(ctx, _arg_subId, _arg_c)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRegisterImsEmergencyRegistrationCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_c interface{}
+		_err = s.Impl.RegisterImsEmergencyRegistrationCallback(ctx, _arg_subId, _arg_c)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyUnregisterImsEmergencyRegistrationCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_c interface{}
+		_err = s.Impl.UnregisterImsEmergencyRegistrationCallback(ctx, _arg_subId, _arg_c)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetImsMmTelRegistrationState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_consumer IIntegerConsumer
+		_ = _arg_consumer
+		_err = s.Impl.GetImsMmTelRegistrationState(ctx, _arg_subId, _arg_consumer)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetImsMmTelRegistrationTransportType:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_consumer IIntegerConsumer
+		_ = _arg_consumer
+		_err = s.Impl.GetImsMmTelRegistrationTransportType(ctx, _arg_subId, _arg_consumer)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRegisterMmTelCapabilityCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_c interface{}
+		_err = s.Impl.RegisterMmTelCapabilityCallback(ctx, _arg_subId, _arg_c)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyUnregisterMmTelCapabilityCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_c interface{}
+		_err = s.Impl.UnregisterMmTelCapabilityCallback(ctx, _arg_subId, _arg_c)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsCapable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_regTech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsCapable(ctx, _arg_subId, _arg_capability, _arg_regTech)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_regTech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsAvailable(ctx, _arg_subId, _arg_capability, _arg_regTech)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsMmTelCapabilitySupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntegerConsumer
+		_ = _arg_callback
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_transportType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.IsMmTelCapabilitySupported(ctx, _arg_subId, _arg_callback, _arg_capability, _arg_transportType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsAdvancedCallingSettingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsAdvancedCallingSettingEnabled(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetAdvancedCallingSettingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetAdvancedCallingSettingEnabled(ctx, _arg_subId, _arg_isEnabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsVtSettingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsVtSettingEnabled(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetVtSettingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetVtSettingEnabled(ctx, _arg_subId, _arg_isEnabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsVoWiFiSettingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsVoWiFiSettingEnabled(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetVoWiFiSettingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetVoWiFiSettingEnabled(ctx, _arg_subId, _arg_isEnabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsCrossSimCallingEnabledByUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsCrossSimCallingEnabledByUser(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetCrossSimCallingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCrossSimCallingEnabled(ctx, _arg_subId, _arg_isEnabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsVoWiFiRoamingSettingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsVoWiFiRoamingSettingEnabled(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetVoWiFiRoamingSettingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetVoWiFiRoamingSettingEnabled(ctx, _arg_subId, _arg_isEnabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetVoWiFiNonPersistent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isCapable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetVoWiFiNonPersistent(ctx, _arg_subId, _arg_isCapable, _arg_mode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetVoWiFiModeSetting:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetVoWiFiModeSetting(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonySetVoWiFiModeSetting:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetVoWiFiModeSetting(ctx, _arg_subId, _arg_mode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetVoWiFiRoamingModeSetting:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetVoWiFiRoamingModeSetting(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonySetVoWiFiRoamingModeSetting:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetVoWiFiRoamingModeSetting(ctx, _arg_subId, _arg_mode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetRttCapabilitySetting:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetRttCapabilitySetting(ctx, _arg_subId, _arg_isEnabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsTtyOverVolteEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsTtyOverVolteEnabled(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetEmergencyNumberList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetEmergencyNumberList(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: map return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyIsEmergencyNumber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_number, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_exactMatch, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsEmergencyNumber(ctx, _arg_number, _arg_exactMatch)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCertsFromCarrierPrivilegeAccessRules:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCertsFromCarrierPrivilegeAccessRules(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyRegisterImsProvisioningChangedCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err = s.Impl.RegisterImsProvisioningChangedCallback(ctx, _arg_subId, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyUnregisterImsProvisioningChangedCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err = s.Impl.UnregisterImsProvisioningChangedCallback(ctx, _arg_subId, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRegisterFeatureProvisioningChangedCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err = s.Impl.RegisterFeatureProvisioningChangedCallback(ctx, _arg_subId, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyUnregisterFeatureProvisioningChangedCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err = s.Impl.UnregisterFeatureProvisioningChangedCallback(ctx, _arg_subId, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetImsProvisioningStatusForCapability:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isProvisioned, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetImsProvisioningStatusForCapability(ctx, _arg_subId, _arg_capability, _arg_tech, _arg_isProvisioned)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetImsProvisioningStatusForCapability:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetImsProvisioningStatusForCapability(ctx, _arg_subId, _arg_capability, _arg_tech)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetRcsProvisioningStatusForCapability:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetRcsProvisioningStatusForCapability(ctx, _arg_subId, _arg_capability, _arg_tech)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetRcsProvisioningStatusForCapability:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isProvisioned, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetRcsProvisioningStatusForCapability(ctx, _arg_subId, _arg_capability, _arg_tech, _arg_isProvisioned)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetImsProvisioningInt:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_key, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetImsProvisioningInt(ctx, _arg_subId, _arg_key)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetImsProvisioningString:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_key, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetImsProvisioningString(ctx, _arg_subId, _arg_key)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonySetImsProvisioningInt:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_key, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_value, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetImsProvisioningInt(ctx, _arg_subId, _arg_key, _arg_value)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonySetImsProvisioningString:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_key, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_value, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetImsProvisioningString(ctx, _arg_subId, _arg_key, _arg_value)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyStartEmergencyCallbackMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StartEmergencyCallbackMode(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyUpdateEmergencyNumberListTestMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_action, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_num voice.EmergencyNumber
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_num.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.UpdateEmergencyNumberListTestMode(ctx, _arg_action, _arg_num)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetEmergencyNumberListTestMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetEmergencyNumberListTestMode(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyGetEmergencyNumberDbVersion:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetEmergencyNumberDbVersion(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyNotifyOtaEmergencyNumberDbInstalled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.NotifyOtaEmergencyNumberDbInstalled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyUpdateOtaEmergencyNumberDbFilePath:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_otaParcelFileDescriptor, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateOtaEmergencyNumberDbFilePath(ctx, _arg_otaParcelFileDescriptor)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyResetOtaEmergencyNumberDbFilePath:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ResetOtaEmergencyNumberDbFilePath(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyEnableModemForSlot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.EnableModemForSlot(ctx, _arg_slotIndex, _arg_enable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetMultiSimCarrierRestriction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isMultiSimCarrierRestricted, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetMultiSimCarrierRestriction(ctx, _arg_isMultiSimCarrierRestricted)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsMultiSimSupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsMultiSimSupported(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonySwitchMultiSimConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_numOfSims, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SwitchMultiSimConfig(ctx, _arg_numOfSims)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyDoesSwitchMultiSimConfigTriggerReboot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.DoesSwitchMultiSimConfigTriggerReboot(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetSlotsMapping:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSlotsMapping(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyGetRadioHalVersion:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetRadioHalVersion(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetHalVersion:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_service, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetHalVersion(ctx, _arg_service)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCurrentPackageName:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCurrentPackageName(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyIsApplicationOnUicc:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_appType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsApplicationOnUicc(ctx, _arg_subId, _arg_appType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsModemEnabledForSlot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsModemEnabledForSlot(ctx, _arg_slotIndex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsDataEnabledForApn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_apnType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsDataEnabledForApn(ctx, _arg_apnType, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsApnMetered:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_apnType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsApnMetered(ctx, _arg_apnType, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetSystemSelectionChannels:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_specifiers []network.RadioAccessSpecifier
+		_ = _arg_specifiers
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback IBooleanConsumer
+		_ = _arg_resultCallback
+		_err = s.Impl.SetSystemSelectionChannels(ctx, _arg_specifiers, _arg_subId, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionITelephonyGetSystemSelectionChannels:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSystemSelectionChannels(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyIsMvnoMatched:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mvnoType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mvnoMatchData, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsMvnoMatched(ctx, _arg_slotIndex, _arg_mvnoType, _arg_mvnoMatchData)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyEnqueueSmsPickResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingAttributeTag, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_subIdResult IIntegerConsumer
+		_ = _arg_subIdResult
+		_err = s.Impl.EnqueueSmsPickResult(ctx, _arg_callingAttributeTag, _arg_subIdResult)
+		_ = _err
+		return nil, nil
+	case TransactionITelephonyShowSwitchToManagedProfileDialog:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ShowSwitchToManagedProfileDialog(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITelephonyGetMmsUserAgent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetMmsUserAgent(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetMmsUAProfUrl:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetMmsUAProfUrl(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonySetMobileDataPolicyEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subscriptionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_policy, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetMobileDataPolicyEnabled(ctx, _arg_subscriptionId, _arg_policy, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsMobileDataPolicyEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subscriptionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_policy, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsMobileDataPolicyEnabled(ctx, _arg_subscriptionId, _arg_policy)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetCepEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isCepEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCepEnabled(ctx, _arg_isCepEnabled)
+		_ = _err
+		return nil, nil
+	case TransactionITelephonyNotifyRcsAutoConfigurationReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_config []byte
+		_ = _arg_config
+		_arg_isCompressed, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyRcsAutoConfigurationReceived(ctx, _arg_subId, _arg_config, _arg_isCompressed)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsIccLockEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsIccLockEnabled(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetIccLockEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_password, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetIccLockEnabled(ctx, _arg_subId, _arg_enabled, _arg_password)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyChangeIccLockPassword:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_oldPassword, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newPassword, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ChangeIccLockPassword(ctx, _arg_subId, _arg_oldPassword, _arg_newPassword)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyRequestUserActivityNotification:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RequestUserActivityNotification(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITelephonyUserActivity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.UserActivity(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITelephonyGetManualNetworkSelectionPlmn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetManualNetworkSelectionPlmn(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyCanConnectTo5GInDsdsMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CanConnectTo5GInDsdsMode(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetEquivalentHomePlmns:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetEquivalentHomePlmns(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonySetVoNrEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetVoNrEnabled(ctx, _arg_subId, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyIsVoNrEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsVoNrEnabled(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetNrDualConnectivityState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_nrDualConnectivityState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetNrDualConnectivityState(ctx, _arg_subId, _arg_nrDualConnectivityState)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyIsNrDualConnectivityEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsNrDualConnectivityEnabled(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsRadioInterfaceCapabilitySupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsRadioInterfaceCapabilitySupported(ctx, _arg_capability)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySendThermalMitigationRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_thermalMitigationRequest androidTelephony.ThermalMitigationRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_thermalMitigationRequest.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SendThermalMitigationRequest(ctx, _arg_subId, _arg_thermalMitigationRequest)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyBootstrapAuthenticationRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_appType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_nafUrl net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_nafUrl.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_securityProtocol gba.UaSecurityProtocolIdentifier
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_securityProtocol.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_forceBootStrapping, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback androidTelephony.IBootstrapAuthenticationCallback
+		_ = _arg_callback
+		_err = s.Impl.BootstrapAuthenticationRequest(ctx, _arg_subId, _arg_appType, _arg_nafUrl, _arg_securityProtocol, _arg_forceBootStrapping, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetBoundGbaServiceOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetBoundGbaServiceOverride(ctx, _arg_subId, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetBoundGbaService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetBoundGbaService(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonySetGbaReleaseTimeOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_interval, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetGbaReleaseTimeOverride(ctx, _arg_subId, _arg_interval)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetGbaReleaseTime:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetGbaReleaseTime(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonySetRcsClientConfiguration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_rcc ims.RcsClientConfiguration
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_rcc.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SetRcsClientConfiguration(ctx, _arg_subId, _arg_rcc)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsRcsVolteSingleRegistrationCapable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsRcsVolteSingleRegistrationCapable(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyRegisterRcsProvisioningCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err = s.Impl.RegisterRcsProvisioningCallback(ctx, _arg_subId, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyUnregisterRcsProvisioningCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err = s.Impl.UnregisterRcsProvisioningCallback(ctx, _arg_subId, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyTriggerRcsReconfiguration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.TriggerRcsReconfiguration(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetRcsSingleRegistrationTestModeEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetRcsSingleRegistrationTestModeEnabled(ctx, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetRcsSingleRegistrationTestModeEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetRcsSingleRegistrationTestModeEnabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetDeviceSingleRegistrationEnabledOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDeviceSingleRegistrationEnabledOverride(ctx, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetDeviceSingleRegistrationEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDeviceSingleRegistrationEnabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetCarrierSingleRegistrationEnabledOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetCarrierSingleRegistrationEnabledOverride(ctx, _arg_subId, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySendDeviceToDeviceMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_message, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_value, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendDeviceToDeviceMessage(ctx, _arg_message, _arg_value)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetActiveDeviceToDeviceTransport:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_transport, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetActiveDeviceToDeviceTransport(ctx, _arg_transport)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetDeviceToDeviceForceEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isForceEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDeviceToDeviceForceEnabled(ctx, _arg_isForceEnabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetCarrierSingleRegistrationEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCarrierSingleRegistrationEnabled(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetImsFeatureValidationOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetImsFeatureValidationOverride(ctx, _arg_subId, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetImsFeatureValidationOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetImsFeatureValidationOverride(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetMobileProvisioningUrl:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetMobileProvisioningUrl(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyRemoveContactFromEab:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_contacts, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RemoveContactFromEab(ctx, _arg_subId, _arg_contacts)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetContactFromEab:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_contact, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetContactFromEab(ctx, _arg_contact)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCapabilityFromEab:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_contact, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCapabilityFromEab(ctx, _arg_contact)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyGetDeviceUceEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDeviceUceEnabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetDeviceUceEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDeviceUceEnabled(ctx, _arg_isEnabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyAddUceRegistrationOverrideShell:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_featureTags []string
+		_ = _arg_featureTags
+		_result, _err := s.Impl.AddUceRegistrationOverrideShell(ctx, _arg_subId, _arg_featureTags)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonyRemoveUceRegistrationOverrideShell:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_featureTags []string
+		_ = _arg_featureTags
+		_result, _err := s.Impl.RemoveUceRegistrationOverrideShell(ctx, _arg_subId, _arg_featureTags)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonyClearUceRegistrationOverrideShell:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ClearUceRegistrationOverrideShell(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonyGetLatestRcsContactUceCapabilityShell:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetLatestRcsContactUceCapabilityShell(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonyGetLastUcePidfXmlShell:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetLastUcePidfXmlShell(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyRemoveUceRequestDisallowedStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RemoveUceRequestDisallowedStatus(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetCapabilitiesRequestTimeout:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timeoutAfterMs, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetCapabilitiesRequestTimeout(ctx, _arg_subId, _arg_timeoutAfterMs)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetSignalStrengthUpdateRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_request androidTelephony.SignalStrengthUpdateRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSignalStrengthUpdateRequest(ctx, _arg_subId, _arg_request)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyClearSignalStrengthUpdateRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_request androidTelephony.SignalStrengthUpdateRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ClearSignalStrengthUpdateRequest(ctx, _arg_subId, _arg_request)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetPhoneCapability:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPhoneCapability(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonyPrepareForUnattendedReboot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.PrepareForUnattendedReboot(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyGetSlicingConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetSlicingConfig(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsPremiumCapabilityAvailableForPurchase:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsPremiumCapabilityAvailableForPurchase(ctx, _arg_capability, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyPurchasePremiumCapability:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntegerConsumer
+		_ = _arg_callback
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PurchasePremiumCapability(ctx, _arg_capability, _arg_callback, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRegisterImsStateCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_feature, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cb IImsStateCallback
+		_ = _arg_cb
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RegisterImsStateCallback(ctx, _arg_subId, _arg_feature, _arg_cb)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyUnregisterImsStateCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cb IImsStateCallback
+		_ = _arg_cb
+		_err := s.Impl.UnregisterImsStateCallback(ctx, _arg_cb)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetLastKnownCellIdentity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetLastKnownCellIdentity(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonySetModemService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serviceName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetModemService(ctx, _arg_serviceName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetModemService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetModemService(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonyIsProvisioningRequiredForCapability:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsProvisioningRequiredForCapability(ctx, _arg_subId, _arg_capability, _arg_tech)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsRcsProvisioningRequiredForCapability:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsRcsProvisioningRequiredForCapability(ctx, _arg_subId, _arg_capability, _arg_tech)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetVoiceServiceStateOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_hasService, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetVoiceServiceStateOverride(ctx, _arg_subId, _arg_hasService)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetCarrierServicePackageNameForLogicalSlot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_logicalSlotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCarrierServicePackageNameForLogicalSlot(ctx, _arg_logicalSlotIndex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITelephonySetRemovableEsimAsDefaultEuicc:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isDefault, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetRemovableEsimAsDefaultEuicc(ctx, _arg_isDefault)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsRemovableEsimDefaultEuicc:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsRemovableEsimDefaultEuicc(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetDefaultRespondViaMessageApplication:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_updateIfNeeded, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDefaultRespondViaMessageApplication(ctx, _arg_subId, _arg_updateIfNeeded)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonyGetSimStateForSlotIndex:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSimStateForSlotIndex(ctx, _arg_slotIndex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyPersistEmergencyCallDiagnosticData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_dropboxTag, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enableLogcat, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_logcatStartTimestampMillis, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enableTelecomDump, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enableTelephonyDump, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PersistEmergencyCallDiagnosticData(ctx, _arg_dropboxTag, _arg_enableLogcat, _arg_logcatStartTimestampMillis, _arg_enableTelecomDump, _arg_enableTelephonyDump)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetNullCipherAndIntegrityEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetNullCipherAndIntegrityEnabled(ctx, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsNullCipherAndIntegrityPreferenceEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsNullCipherAndIntegrityPreferenceEnabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCellBroadcastIdRanges:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCellBroadcastIdRanges(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonySetCellBroadcastIdRanges:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_ranges []androidTelephony.CellBroadcastIdRange
+		_ = _arg_ranges
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntegerConsumer
+		_ = _arg_callback
+		_err = s.Impl.SetCellBroadcastIdRanges(ctx, _arg_subId, _arg_ranges, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsDomainSelectionSupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsDomainSelectionSupported(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetCarrierRestrictionStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_internalCallback IIntegerConsumer
+		_ = _arg_internalCallback
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetCarrierRestrictionStatus(ctx, _arg_internalCallback, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRequestSatelliteEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enableSatellite, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enableDemoMode, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isEmergency, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntegerConsumer
+		_ = _arg_callback
+		_err = s.Impl.RequestSatelliteEnabled(ctx, _arg_enableSatellite, _arg_enableDemoMode, _arg_isEmergency, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRequestIsSatelliteEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestIsSatelliteEnabled(ctx, _arg_receiver)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRequestIsDemoModeEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestIsDemoModeEnabled(ctx, _arg_receiver)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRequestIsEmergencyModeEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestIsEmergencyModeEnabled(ctx, _arg_receiver)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRequestIsSatelliteSupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestIsSatelliteSupported(ctx, _arg_receiver)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRequestSatelliteCapabilities:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestSatelliteCapabilities(ctx, _arg_receiver)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyStartSatelliteTransmissionUpdates:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback IIntegerConsumer
+		_ = _arg_resultCallback
+		var _arg_callback interface{}
+		_err := s.Impl.StartSatelliteTransmissionUpdates(ctx, _arg_resultCallback, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyStopSatelliteTransmissionUpdates:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback IIntegerConsumer
+		_ = _arg_resultCallback
+		var _arg_callback interface{}
+		_err := s.Impl.StopSatelliteTransmissionUpdates(ctx, _arg_resultCallback, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyProvisionSatelliteService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_provisionData []byte
+		_ = _arg_provisionData
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntegerConsumer
+		_ = _arg_callback
+		_result, _err := s.Impl.ProvisionSatelliteService(ctx, _arg_token, _arg_provisionData, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyDeprovisionSatelliteService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntegerConsumer
+		_ = _arg_callback
+		_err = s.Impl.DeprovisionSatelliteService(ctx, _arg_token, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRegisterForSatelliteProvisionStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_result, _err := s.Impl.RegisterForSatelliteProvisionStateChanged(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyUnregisterForSatelliteProvisionStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err := s.Impl.UnregisterForSatelliteProvisionStateChanged(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRequestIsSatelliteProvisioned:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestIsSatelliteProvisioned(ctx, _arg_receiver)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRegisterForSatelliteModemStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_result, _err := s.Impl.RegisterForSatelliteModemStateChanged(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyUnregisterForModemStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err := s.Impl.UnregisterForModemStateChanged(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRegisterForIncomingDatagram:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_result, _err := s.Impl.RegisterForIncomingDatagram(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyUnregisterForIncomingDatagram:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err := s.Impl.UnregisterForIncomingDatagram(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyPollPendingDatagrams:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntegerConsumer
+		_ = _arg_callback
+		_err := s.Impl.PollPendingDatagrams(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySendDatagram:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_datagramType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_datagram interface{}
+		_arg_needFullScreenPointingUI, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntegerConsumer
+		_ = _arg_callback
+		_err = s.Impl.SendDatagram(ctx, _arg_datagramType, _arg_datagram, _arg_needFullScreenPointingUI, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetSatelliteDisallowedReasons:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSatelliteDisallowedReasons(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyRegisterForSatelliteDisallowedReasonsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err := s.Impl.RegisterForSatelliteDisallowedReasonsChanged(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyUnregisterForSatelliteDisallowedReasonsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err := s.Impl.UnregisterForSatelliteDisallowedReasonsChanged(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRequestIsCommunicationAllowedForCurrentLocation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RequestIsCommunicationAllowedForCurrentLocation(ctx, _arg_subId, _arg_receiver)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRequestSatelliteAccessConfigurationForCurrentLocation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestSatelliteAccessConfigurationForCurrentLocation(ctx, _arg_receiver)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRequestTimeForNextSatelliteVisibility:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestTimeForNextSatelliteVisibility(ctx, _arg_receiver)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRequestSelectedNbIotSatelliteSubscriptionId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestSelectedNbIotSatelliteSubscriptionId(ctx, _arg_receiver)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRegisterForSelectedNbIotSatelliteSubscriptionChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_result, _err := s.Impl.RegisterForSelectedNbIotSatelliteSubscriptionChanged(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyUnregisterForSelectedNbIotSatelliteSubscriptionChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err := s.Impl.UnregisterForSelectedNbIotSatelliteSubscriptionChanged(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetDeviceAlignedWithSatellite:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isAligned, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDeviceAlignedWithSatellite(ctx, _arg_isAligned)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetSatelliteServicePackageName:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_servicePackageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_provisioned, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetSatelliteServicePackageName(ctx, _arg_servicePackageName, _arg_provisioned)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetSatelliteGatewayServicePackageName:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_servicePackageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetSatelliteGatewayServicePackageName(ctx, _arg_servicePackageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetSatelliteListeningTimeoutDuration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_timeoutMillis, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetSatelliteListeningTimeoutDuration(ctx, _arg_timeoutMillis)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetSatelliteIgnoreCellularServiceState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetSatelliteIgnoreCellularServiceState(ctx, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetSatellitePointingUiClassName:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_className, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetSatellitePointingUiClassName(ctx, _arg_packageName, _arg_className)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetDatagramControllerTimeoutDuration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reset, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timeoutType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timeoutMillis, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetDatagramControllerTimeoutDuration(ctx, _arg_reset, _arg_timeoutType, _arg_timeoutMillis)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetSatelliteControllerTimeoutDuration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reset, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timeoutType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timeoutMillis, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetSatelliteControllerTimeoutDuration(ctx, _arg_reset, _arg_timeoutType, _arg_timeoutMillis)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetEmergencyCallToSatelliteHandoverType:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_handoverType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_delaySeconds, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetEmergencyCallToSatelliteHandoverType(ctx, _arg_handoverType, _arg_delaySeconds)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetCountryCodes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reset, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_currentNetworkCountryCodes []string
+		_ = _arg_currentNetworkCountryCodes
+		// TODO: map param unmarshaling not yet supported in stubs
+		var _arg_cachedNetworkCountryCodes map[interface{}]interface{}
+		_ = _arg_cachedNetworkCountryCodes
+		_arg_locationCountryCode, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_locationCountryCodeTimestampNanos, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetCountryCodes(ctx, _arg_reset, _arg_currentNetworkCountryCodes, _arg_cachedNetworkCountryCodes, _arg_locationCountryCode, _arg_locationCountryCodeTimestampNanos)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetSatelliteAccessControlOverlayConfigs:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reset, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isAllowed, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_s2CellFile, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_locationFreshDurationNanos, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_satelliteCountryCodes []string
+		_ = _arg_satelliteCountryCodes
+		_arg_satelliteAccessConfigurationFile, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetSatelliteAccessControlOverlayConfigs(ctx, _arg_reset, _arg_isAllowed, _arg_s2CellFile, _arg_locationFreshDurationNanos, _arg_satelliteCountryCodes, _arg_satelliteAccessConfigurationFile)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetOemEnabledSatelliteProvisionStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reset, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isProvisioned, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetOemEnabledSatelliteProvisionStatus(ctx, _arg_reset, _arg_isProvisioned)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetShaIdFromAllowList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pkgName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_carrierId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetShaIdFromAllowList(ctx, _arg_pkgName, _arg_carrierId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyAddAttachRestrictionForCarrier:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntegerConsumer
+		_ = _arg_callback
+		_err = s.Impl.AddAttachRestrictionForCarrier(ctx, _arg_subId, _arg_reason, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRemoveAttachRestrictionForCarrier:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntegerConsumer
+		_ = _arg_callback
+		_err = s.Impl.RemoveAttachRestrictionForCarrier(ctx, _arg_subId, _arg_reason, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetAttachRestrictionReasonsForCarrier:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAttachRestrictionReasonsForCarrier(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyRequestNtnSignalStrength:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestNtnSignalStrength(ctx, _arg_receiver)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRegisterForNtnSignalStrengthChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err := s.Impl.RegisterForNtnSignalStrengthChanged(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyUnregisterForNtnSignalStrengthChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err := s.Impl.UnregisterForNtnSignalStrengthChanged(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRegisterForCapabilitiesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_result, _err := s.Impl.RegisterForCapabilitiesChanged(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyUnregisterForCapabilitiesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err := s.Impl.UnregisterForCapabilitiesChanged(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetShouldSendDatagramToModemInDemoMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_shouldSendToModemInDemoMode, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetShouldSendDatagramToModemInDemoMode(ctx, _arg_shouldSendToModemInDemoMode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetDomainSelectionServiceOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_componentName content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.SetDomainSelectionServiceOverride(ctx, _arg_componentName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyClearDomainSelectionServiceOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ClearDomainSelectionServiceOverride(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyIsAospDomainSelectionService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsAospDomainSelectionService(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetEnableCellularIdentifierDisclosureNotifications:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetEnableCellularIdentifierDisclosureNotifications(ctx, _arg_enable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsCellularIdentifierDisclosureNotificationsEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsCellularIdentifierDisclosureNotificationsEnabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetNullCipherNotificationsEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetNullCipherNotificationsEnabled(ctx, _arg_enable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyIsNullCipherNotificationsEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsNullCipherNotificationsEnabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyGetSatellitePlmnsForCarrier:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSatellitePlmnsForCarrier(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonyRegisterForSatelliteSupportedStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_result, _err := s.Impl.RegisterForSatelliteSupportedStateChanged(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyUnregisterForSatelliteSupportedStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err := s.Impl.UnregisterForSatelliteSupportedStateChanged(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRegisterForCommunicationAllowedStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_result, _err := s.Impl.RegisterForCommunicationAllowedStateChanged(ctx, _arg_subId, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionITelephonyUnregisterForCommunicationAllowedStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err = s.Impl.UnregisterForCommunicationAllowedStateChanged(ctx, _arg_subId, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetDatagramControllerBooleanConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reset, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_booleanType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetDatagramControllerBooleanConfig(ctx, _arg_reset, _arg_booleanType, _arg_enable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetIsSatelliteCommunicationAllowedForCurrentLocationCache:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetIsSatelliteCommunicationAllowedForCurrentLocationCache(ctx, _arg_state)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyRequestSatelliteSessionStats:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RequestSatelliteSessionStats(ctx, _arg_subId, _arg_receiver)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRequestSatelliteSubscriberProvisionStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_result os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestSatelliteSubscriberProvisionStatus(ctx, _arg_result)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyRequestSatelliteDisplayName:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestSatelliteDisplayName(ctx, _arg_receiver)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyProvisionSatellite:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_list []interface{}
+		_ = _arg_list
+		var _arg_result os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ProvisionSatellite(ctx, _arg_list, _arg_result)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetSatelliteSubscriberIdListChangedIntentComponent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetSatelliteSubscriberIdListChangedIntentComponent(ctx, _arg_name)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonySetTestEuiccUiComponent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_componentName content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetTestEuiccUiComponent(ctx, _arg_componentName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetTestEuiccUiComponent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetTestEuiccUiComponent(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITelephonyOverrideCarrierRoamingNtnEligibilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_resetRequired, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.OverrideCarrierRoamingNtnEligibilityChanged(ctx, _arg_status, _arg_resetRequired)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITelephonyDeprovisionSatellite:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_list []interface{}
+		_ = _arg_list
+		var _arg_result os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.DeprovisionSatellite(ctx, _arg_list, _arg_result)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetNtnSmsSupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_ntnSmsSupported, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetNtnSmsSupported(ctx, _arg_ntnSmsSupported)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonyGetCarrierIdFromIdentifier:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_carrierIdentifier carrier.CarrierIdentifier
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_carrierIdentifier.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GetCarrierIdFromIdentifier(ctx, _arg_carrierIdentifier)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

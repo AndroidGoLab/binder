@@ -1,6 +1,7 @@
 package window
 
 import (
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 )
 
@@ -27,3 +28,22 @@ func (p *WindowContainerTokenProxy) AsBinder() binder.IBinder {
 }
 
 var _ IWindowContainerToken = (*WindowContainerTokenProxy)(nil)
+
+// WindowContainerTokenStub dispatches incoming binder transactions
+// to a typed IWindowContainerToken implementation.
+type WindowContainerTokenStub struct {
+	Impl IWindowContainerToken
+}
+
+var _ binder.TransactionReceiver = (*WindowContainerTokenStub)(nil)
+
+func (s *WindowContainerTokenStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
+}

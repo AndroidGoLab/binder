@@ -2,6 +2,7 @@ package autofill
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -589,4 +590,472 @@ func (p *AutoFillManagerClientProxy) NotifyFillDialogTriggerIds(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AutoFillManagerClientStub dispatches incoming binder transactions
+// to a typed IAutoFillManagerClient implementation.
+type AutoFillManagerClientStub struct {
+	Impl IAutoFillManagerClient
+}
+
+var _ binder.TransactionReceiver = (*AutoFillManagerClientStub)(nil)
+
+func (s *AutoFillManagerClientStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAutoFillManagerClientSetState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetState(ctx, _arg_flags)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientAutofill:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_ids []AutofillId
+		_ = _arg_ids
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_values []AutofillValue
+		_ = _arg_values
+		_arg_hideHighlight, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Autofill(ctx, _arg_sessionId, _arg_ids, _arg_values, _arg_hideHighlight)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientOnGetCredentialResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_id AutofillId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_id.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_response interface{}
+		_err = s.Impl.OnGetCredentialResponse(ctx, _arg_sessionId, _arg_id, _arg_response)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientOnGetCredentialException:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_id AutofillId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_id.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_errorType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_errorMsg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGetCredentialException(ctx, _arg_sessionId, _arg_id, _arg_errorType, _arg_errorMsg)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientAutofillContent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_id AutofillId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_id.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_content interface{}
+		_err = s.Impl.AutofillContent(ctx, _arg_sessionId, _arg_id, _arg_content)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientAuthenticate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_authenticationId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_intent interface{}
+		var _arg_fillInIntent interface{}
+		_arg_authenticateInline, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Authenticate(ctx, _arg_sessionId, _arg_authenticationId, _arg_intent, _arg_fillInIntent, _arg_authenticateInline)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientSetTrackedViews:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_savableIds []AutofillId
+		_ = _arg_savableIds
+		_arg_saveOnAllViewsInvisible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_saveOnFinish, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_fillableIds []AutofillId
+		_ = _arg_fillableIds
+		var _arg_saveTriggerId AutofillId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_saveTriggerId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_shouldGrabViewFingerprints, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetTrackedViews(ctx, _arg_sessionId, _arg_savableIds, _arg_saveOnAllViewsInvisible, _arg_saveOnFinish, _arg_fillableIds, _arg_saveTriggerId, _arg_shouldGrabViewFingerprints)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientRequestShowFillUi:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_id AutofillId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_id.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_width, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_height, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_anchorBounds graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_anchorBounds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_presenter IAutofillWindowPresenter
+		_ = _arg_presenter
+		_err = s.Impl.RequestShowFillUi(ctx, _arg_sessionId, _arg_id, _arg_width, _arg_height, _arg_anchorBounds, _arg_presenter)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientRequestHideFillUi:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_id AutofillId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_id.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RequestHideFillUi(ctx, _arg_sessionId, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientRequestHideFillUiWhenDestroyed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_id AutofillId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_id.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RequestHideFillUiWhenDestroyed(ctx, _arg_sessionId, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientNotifyNoFillUi:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_id AutofillId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_id.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_sessionFinishedState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyNoFillUi(ctx, _arg_sessionId, _arg_id, _arg_sessionFinishedState)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientNotifyFillUiShown:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_id AutofillId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_id.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyFillUiShown(ctx, _arg_sessionId, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientNotifyFillUiHidden:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_id AutofillId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_id.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyFillUiHidden(ctx, _arg_sessionId, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientDispatchUnhandledKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_id AutofillId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_id.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_keyEvent interface{}
+		_err = s.Impl.DispatchUnhandledKey(ctx, _arg_sessionId, _arg_id, _arg_keyEvent)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientStartIntentSender:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intentSender interface{}
+		var _arg_intent interface{}
+		_err := s.Impl.StartIntentSender(ctx, _arg_intentSender, _arg_intent)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientSetSaveUiState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_shown, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSaveUiState(ctx, _arg_sessionId, _arg_shown)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientSetSessionFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_newState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_autofillableIds []AutofillId
+		_ = _arg_autofillableIds
+		_err = s.Impl.SetSessionFinished(ctx, _arg_newState, _arg_autofillableIds)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientGetAugmentedAutofillClient:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_result interface{}
+		_err := s.Impl.GetAugmentedAutofillClient(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientNotifyDisableAutofill:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_disableDuration, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_componentName interface{}
+		_err = s.Impl.NotifyDisableAutofill(ctx, _arg_disableDuration, _arg_componentName)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientRequestShowSoftInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_id AutofillId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_id.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestShowSoftInput(ctx, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillManagerClientNotifyFillDialogTriggerIds:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_ids []AutofillId
+		_ = _arg_ids
+		_err := s.Impl.NotifyFillDialogTriggerIds(ctx, _arg_ids)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

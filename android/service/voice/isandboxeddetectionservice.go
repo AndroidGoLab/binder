@@ -2,6 +2,7 @@ package voice
 
 import (
 	"context"
+	"fmt"
 	soundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -233,4 +234,142 @@ func (p *SandboxedDetectionServiceProxy) RegisterRemoteStorageService(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SandboxedDetectionServiceStub dispatches incoming binder transactions
+// to a typed ISandboxedDetectionService implementation.
+type SandboxedDetectionServiceStub struct {
+	Impl ISandboxedDetectionService
+}
+
+var _ binder.TransactionReceiver = (*SandboxedDetectionServiceStub)(nil)
+
+func (s *SandboxedDetectionServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISandboxedDetectionServiceDetectFromDspSource:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event soundtrigger.SoundTriggerKeyphraseRecognitionEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_audioFormat interface{}
+		_arg_timeoutMillis, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDspHotwordDetectionCallback
+		_ = _arg_callback
+		_err = s.Impl.DetectFromDspSource(ctx, _arg_event, _arg_audioFormat, _arg_timeoutMillis, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISandboxedDetectionServiceDetectFromMicrophoneSource:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_audioStream, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_audioSource, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_audioFormat interface{}
+		var _arg_options interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDspHotwordDetectionCallback
+		_ = _arg_callback
+		_err = s.Impl.DetectFromMicrophoneSource(ctx, _arg_audioStream, _arg_audioSource, _arg_audioFormat, _arg_options, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISandboxedDetectionServiceDetectWithVisualSignals:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDetectorSessionVisualQueryDetectionCallback
+		_ = _arg_callback
+		_err := s.Impl.DetectWithVisualSignals(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISandboxedDetectionServiceUpdateState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_options interface{}
+		var _arg_sharedMemory interface{}
+		var _arg_callback interface{}
+		_err := s.Impl.UpdateState(ctx, _arg_options, _arg_sharedMemory, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISandboxedDetectionServiceUpdateAudioFlinger:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_audioFlinger binder.IBinder
+		_ = _arg_audioFlinger
+		_err := s.Impl.UpdateAudioFlinger(ctx, _arg_audioFlinger)
+		_ = _err
+		return nil, nil
+	case TransactionISandboxedDetectionServiceUpdateContentCaptureManager:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_contentCaptureManager interface{}
+		var _arg_options interface{}
+		_err := s.Impl.UpdateContentCaptureManager(ctx, _arg_contentCaptureManager, _arg_options)
+		_ = _err
+		return nil, nil
+	case TransactionISandboxedDetectionServiceUpdateRecognitionServiceManager:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_recognitionServiceManager interface{}
+		_err := s.Impl.UpdateRecognitionServiceManager(ctx, _arg_recognitionServiceManager)
+		_ = _err
+		return nil, nil
+	case TransactionISandboxedDetectionServicePing:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err := s.Impl.Ping(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISandboxedDetectionServiceStopDetection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StopDetection(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISandboxedDetectionServiceRegisterRemoteStorageService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_detectorSessionStorageService IDetectorSessionStorageService
+		_ = _arg_detectorSessionStorageService
+		_err := s.Impl.RegisterRemoteStorageService(ctx, _arg_detectorSessionStorageService)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *RotationWatcherProxy) OnRotationChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RotationWatcherStub dispatches incoming binder transactions
+// to a typed IRotationWatcher implementation.
+type RotationWatcherStub struct {
+	Impl IRotationWatcher
+}
+
+var _ binder.TransactionReceiver = (*RotationWatcherStub)(nil)
+
+func (s *RotationWatcherStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRotationWatcherOnRotationChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_rotation, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRotationChanged(ctx, _arg_rotation)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

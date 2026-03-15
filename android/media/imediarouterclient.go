@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -84,4 +85,48 @@ func (p *MediaRouterClientProxy) OnGroupRouteSelected(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MediaRouterClientStub dispatches incoming binder transactions
+// to a typed IMediaRouterClient implementation.
+type MediaRouterClientStub struct {
+	Impl IMediaRouterClient
+}
+
+var _ binder.TransactionReceiver = (*MediaRouterClientStub)(nil)
+
+func (s *MediaRouterClientStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMediaRouterClientOnStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnStateChanged(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRouterClientOnRestoreRoute:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRestoreRoute(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRouterClientOnGroupRouteSelected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_routeId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGroupRouteSelected(ctx, _arg_routeId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

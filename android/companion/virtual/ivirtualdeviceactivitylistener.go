@@ -2,6 +2,7 @@ package virtual
 
 import (
 	"context"
+	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
@@ -160,4 +161,153 @@ func (p *VirtualDeviceActivityListenerProxy) OnSecureWindowHidden(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VirtualDeviceActivityListenerStub dispatches incoming binder transactions
+// to a typed IVirtualDeviceActivityListener implementation.
+type VirtualDeviceActivityListenerStub struct {
+	Impl IVirtualDeviceActivityListener
+}
+
+var _ binder.TransactionReceiver = (*VirtualDeviceActivityListenerStub)(nil)
+
+func (s *VirtualDeviceActivityListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVirtualDeviceActivityListenerOnTopActivityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_topActivity content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_topActivity.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTopActivityChanged(ctx, _arg_displayId, _arg_topActivity)
+		_ = _err
+		return nil, nil
+	case TransactionIVirtualDeviceActivityListenerOnDisplayEmpty:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDisplayEmpty(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIVirtualDeviceActivityListenerOnActivityLaunchBlocked:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_componentName content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_intentSender content.IntentSender
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intentSender.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnActivityLaunchBlocked(ctx, _arg_displayId, _arg_componentName, _arg_user, _arg_intentSender)
+		_ = _err
+		return nil, nil
+	case TransactionIVirtualDeviceActivityListenerOnSecureWindowShown:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_componentName content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnSecureWindowShown(ctx, _arg_displayId, _arg_componentName, _arg_user)
+		_ = _err
+		return nil, nil
+	case TransactionIVirtualDeviceActivityListenerOnSecureWindowHidden:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSecureWindowHidden(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package internal
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -227,4 +228,143 @@ func (p *ImsServiceControllerProxy) RemoveFeatureStatusCallback(
 	}
 
 	return nil
+}
+
+// ImsServiceControllerStub dispatches incoming binder transactions
+// to a typed IImsServiceController implementation.
+type ImsServiceControllerStub struct {
+	Impl IImsServiceController
+}
+
+var _ binder.TransactionReceiver = (*ImsServiceControllerStub)(nil)
+
+func (s *ImsServiceControllerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIImsServiceControllerCreateEmergencyMMTelFeature:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateEmergencyMMTelFeature(ctx, _arg_slotId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIImsServiceControllerCreateMMTelFeature:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateMMTelFeature(ctx, _arg_slotId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIImsServiceControllerCreateRcsFeature:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateRcsFeature(ctx, _arg_slotId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIImsServiceControllerRemoveImsFeature:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_featureType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RemoveImsFeature(ctx, _arg_slotId, _arg_featureType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIImsServiceControllerAddFeatureStatusCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_featureType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c IImsFeatureStatusCallback
+		_ = _arg_c
+		_err = s.Impl.AddFeatureStatusCallback(ctx, _arg_slotId, _arg_featureType, _arg_c)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIImsServiceControllerRemoveFeatureStatusCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_featureType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c IImsFeatureStatusCallback
+		_ = _arg_c
+		_err = s.Impl.RemoveFeatureStatusCallback(ctx, _arg_slotId, _arg_featureType, _arg_c)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

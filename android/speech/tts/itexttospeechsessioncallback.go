@@ -2,6 +2,7 @@ package tts
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -88,4 +89,54 @@ func (p *TextToSpeechSessionCallbackProxy) OnError(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TextToSpeechSessionCallbackStub dispatches incoming binder transactions
+// to a typed ITextToSpeechSessionCallback implementation.
+type TextToSpeechSessionCallbackStub struct {
+	Impl ITextToSpeechSessionCallback
+}
+
+var _ binder.TransactionReceiver = (*TextToSpeechSessionCallbackStub)(nil)
+
+func (s *TextToSpeechSessionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITextToSpeechSessionCallbackOnConnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_session ITextToSpeechSession
+		_ = _arg_session
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_serviceBinder binder.IBinder
+		_ = _arg_serviceBinder
+		_err := s.Impl.OnConnected(ctx, _arg_session, _arg_serviceBinder)
+		_ = _err
+		return nil, nil
+	case TransactionITextToSpeechSessionCallbackOnDisconnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnDisconnected(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITextToSpeechSessionCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorInfo, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_errorInfo)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

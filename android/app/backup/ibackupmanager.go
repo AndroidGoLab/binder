@@ -2,6 +2,7 @@ package backup
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -2108,4 +2109,1231 @@ func (p *BackupManagerProxy) ReportDelayedRestoreResult(
 	}
 
 	return nil
+}
+
+// BackupManagerStub dispatches incoming binder transactions
+// to a typed IBackupManager implementation.
+type BackupManagerStub struct {
+	Impl IBackupManager
+}
+
+var _ binder.TransactionReceiver = (*BackupManagerStub)(nil)
+
+func (s *BackupManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBackupManagerDataChangedForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DataChangedForUser(ctx, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerDataChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DataChanged(ctx, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerClearBackupDataForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_transportName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ClearBackupDataForUser(ctx, _arg_transportName, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerClearBackupData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_transportName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ClearBackupData(ctx, _arg_transportName, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerInitializeTransportsForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_transportNames []string
+		_ = _arg_transportNames
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_observer IBackupObserver
+		_ = _arg_observer
+		_err := s.Impl.InitializeTransportsForUser(ctx, _arg_transportNames, _arg_observer)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerAgentConnectedForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_agent binder.IBinder
+		_ = _arg_agent
+		_err = s.Impl.AgentConnectedForUser(ctx, _arg_packageName, _arg_agent)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerAgentConnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_agent binder.IBinder
+		_ = _arg_agent
+		_err = s.Impl.AgentConnected(ctx, _arg_packageName, _arg_agent)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerAgentDisconnectedForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AgentDisconnectedForUser(ctx, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerAgentDisconnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AgentDisconnected(ctx, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerRestoreAtInstallForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RestoreAtInstallForUser(ctx, _arg_packageName, _arg_token)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerRestoreAtInstall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RestoreAtInstall(ctx, _arg_packageName, _arg_token)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerSetBackupEnabledForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_isEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetBackupEnabledForUser(ctx, _arg_isEnabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerSetFrameworkSchedulingEnabledForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_isEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetFrameworkSchedulingEnabledForUser(ctx, _arg_isEnabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerSetBackupEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetBackupEnabled(ctx, _arg_isEnabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerSetAutoRestoreForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_doAutoRestore, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetAutoRestoreForUser(ctx, _arg_doAutoRestore)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerSetAutoRestore:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_doAutoRestore, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetAutoRestore(ctx, _arg_doAutoRestore)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerIsBackupEnabledForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsBackupEnabledForUser(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIBackupManagerIsBackupEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsBackupEnabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIBackupManagerSetBackupPassword:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_currentPw, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newPw, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetBackupPassword(ctx, _arg_currentPw, _arg_newPw)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIBackupManagerHasBackupPassword:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.HasBackupPassword(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIBackupManagerBackupNowForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.BackupNowForUser(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerBackupNow:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.BackupNow(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerAdbBackup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_includeApks, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_includeObbs, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_includeShared, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_doWidgets, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_allApps, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_allIncludesSystem, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_doCompress, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_doKeyValue, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_packageNames []string
+		_ = _arg_packageNames
+		_err = s.Impl.AdbBackup(ctx, _arg_fd, _arg_includeApks, _arg_includeObbs, _arg_includeShared, _arg_doWidgets, _arg_allApps, _arg_allIncludesSystem, _arg_doCompress, _arg_doKeyValue, _arg_packageNames)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerFullTransportBackupForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_packageNames []string
+		_ = _arg_packageNames
+		_err := s.Impl.FullTransportBackupForUser(ctx, _arg_packageNames)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerAdbRestore:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AdbRestore(ctx, _arg_fd)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerAcknowledgeFullBackupOrRestoreForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_allow, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_curPassword, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_encryptionPassword, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_observer IFullBackupRestoreObserver
+		_ = _arg_observer
+		_err = s.Impl.AcknowledgeFullBackupOrRestoreForUser(ctx, _arg_token, _arg_allow, _arg_curPassword, _arg_encryptionPassword, _arg_observer)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerAcknowledgeFullBackupOrRestore:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_allow, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_curPassword, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_encryptionPassword, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_observer IFullBackupRestoreObserver
+		_ = _arg_observer
+		_err = s.Impl.AcknowledgeFullBackupOrRestore(ctx, _arg_token, _arg_allow, _arg_curPassword, _arg_encryptionPassword, _arg_observer)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerUpdateTransportAttributesForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		var _arg_transportComponent interface{}
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_configurationIntent interface{}
+		_arg_currentDestinationString, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_dataManagementIntent interface{}
+		var _arg_dataManagementLabel interface{}
+		_err = s.Impl.UpdateTransportAttributesForUser(ctx, _arg_transportComponent, _arg_name, _arg_configurationIntent, _arg_currentDestinationString, _arg_dataManagementIntent, _arg_dataManagementLabel)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerGetCurrentTransportForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCurrentTransportForUser(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionIBackupManagerGetCurrentTransport:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCurrentTransport(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionIBackupManagerGetCurrentTransportComponentForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCurrentTransportComponentForUser(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIBackupManagerListAllTransportsForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ListAllTransportsForUser(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIBackupManagerListAllTransports:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ListAllTransports(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIBackupManagerListAllTransportComponentsForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ListAllTransportComponentsForUser(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIBackupManagerGetTransportWhitelist:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetTransportWhitelist(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIBackupManagerSelectBackupTransportForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_transport, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SelectBackupTransportForUser(ctx, _arg_transport)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionIBackupManagerSelectBackupTransport:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_transport, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SelectBackupTransport(ctx, _arg_transport)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionIBackupManagerSelectBackupTransportAsyncForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		var _arg_transport interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ISelectBackupTransportCallback
+		_ = _arg_listener
+		_err := s.Impl.SelectBackupTransportAsyncForUser(ctx, _arg_transport, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerGetConfigurationIntentForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_transport, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetConfigurationIntentForUser(ctx, _arg_transport)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIBackupManagerGetConfigurationIntent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_transport, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetConfigurationIntent(ctx, _arg_transport)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIBackupManagerGetDestinationStringForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_transport, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDestinationStringForUser(ctx, _arg_transport)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionIBackupManagerGetDestinationString:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_transport, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDestinationString(ctx, _arg_transport)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionIBackupManagerGetDataManagementIntentForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_transport, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDataManagementIntentForUser(ctx, _arg_transport)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIBackupManagerGetDataManagementIntent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_transport, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDataManagementIntent(ctx, _arg_transport)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIBackupManagerGetDataManagementLabelForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_transport, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDataManagementLabelForUser(ctx, _arg_transport)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIBackupManagerBeginRestoreSessionForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_transportID, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.BeginRestoreSessionForUser(ctx, _arg_packageName, _arg_transportID)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIBackupManagerOpCompleteForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OpCompleteForUser(ctx, _arg_token, _arg_result)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerOpComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OpComplete(ctx, _arg_token, _arg_result)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerSetBackupServiceActive:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_whichUser, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_makeActive, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetBackupServiceActive(ctx, _arg_whichUser, _arg_makeActive)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerIsBackupServiceActive:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_whichUser, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsBackupServiceActive(ctx, _arg_whichUser)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIBackupManagerIsUserReadyForBackup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsUserReadyForBackup(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIBackupManagerGetAvailableRestoreTokenForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAvailableRestoreTokenForUser(ctx, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt64(_result)
+		return _reply, nil
+	case TransactionIBackupManagerIsAppEligibleForBackupForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsAppEligibleForBackupForUser(ctx, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIBackupManagerFilterAppsEligibleForBackupForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_packages []string
+		_ = _arg_packages
+		_result, _err := s.Impl.FilterAppsEligibleForBackupForUser(ctx, _arg_packages)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIBackupManagerRequestBackupForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_packages []string
+		_ = _arg_packages
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_observer IBackupObserver
+		_ = _arg_observer
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_monitor IBackupManagerMonitor
+		_ = _arg_monitor
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RequestBackupForUser(ctx, _arg_packages, _arg_observer, _arg_monitor, _arg_flags)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIBackupManagerRequestBackup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_packages []string
+		_ = _arg_packages
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_observer IBackupObserver
+		_ = _arg_observer
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_monitor IBackupManagerMonitor
+		_ = _arg_monitor
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RequestBackup(ctx, _arg_packages, _arg_observer, _arg_monitor, _arg_flags)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIBackupManagerCancelBackupsForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.CancelBackupsForUser(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerCancelBackups:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.CancelBackups(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerGetUserForAncestralSerialNumber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_ancestralSerialNumber, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetUserForAncestralSerialNumber(ctx, _arg_ancestralSerialNumber)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIBackupManagerSetAncestralSerialNumber:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_ancestralSerialNumber, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetAncestralSerialNumber(ctx, _arg_ancestralSerialNumber)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerExcludeKeysFromRestore:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keys []string
+		_ = _arg_keys
+		_err = s.Impl.ExcludeKeysFromRestore(ctx, _arg_packageName, _arg_keys)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackupManagerReportDelayedRestoreResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_results []BackupRestoreEventLoggerDataTypeResult
+		_ = _arg_results
+		_err = s.Impl.ReportDelayedRestoreResult(ctx, _arg_packageName, _arg_results)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -1,6 +1,7 @@
 package aidl
 
 import (
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 )
 
@@ -27,3 +28,22 @@ func (p *TestRemoteCallbackProxy) AsBinder() binder.IBinder {
 }
 
 var _ ITestRemoteCallback = (*TestRemoteCallbackProxy)(nil)
+
+// TestRemoteCallbackStub dispatches incoming binder transactions
+// to a typed ITestRemoteCallback implementation.
+type TestRemoteCallbackStub struct {
+	Impl ITestRemoteCallback
+}
+
+var _ binder.TransactionReceiver = (*TestRemoteCallbackStub)(nil)
+
+func (s *TestRemoteCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
+}

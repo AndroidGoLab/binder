@@ -2,6 +2,7 @@ package wifi
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -103,4 +104,61 @@ func (p *WifiEventCallbackProxy) OnSubsystemRestart(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// WifiEventCallbackStub dispatches incoming binder transactions
+// to a typed IWifiEventCallback implementation.
+type WifiEventCallbackStub struct {
+	Impl IWifiEventCallback
+}
+
+var _ binder.TransactionReceiver = (*WifiEventCallbackStub)(nil)
+
+func (s *WifiEventCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWifiEventCallbackOnFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := WifiStatusCode(_raw_status)
+		_err = s.Impl.OnFailure(ctx, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiEventCallbackOnStart:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnStart(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiEventCallbackOnStop:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnStop(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiEventCallbackOnSubsystemRestart:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := WifiStatusCode(_raw_status)
+		_err = s.Impl.OnSubsystemRestart(ctx, _arg_status)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

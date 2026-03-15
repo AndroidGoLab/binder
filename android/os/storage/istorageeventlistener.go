@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -186,4 +187,152 @@ func (p *StorageEventListenerProxy) OnDiskDestroyed(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// StorageEventListenerStub dispatches incoming binder transactions
+// to a typed IStorageEventListener implementation.
+type StorageEventListenerStub struct {
+	Impl IStorageEventListener
+}
+
+var _ binder.TransactionReceiver = (*StorageEventListenerStub)(nil)
+
+func (s *StorageEventListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIStorageEventListenerOnUsbMassStorageConnectionChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_connected, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUsbMassStorageConnectionChanged(ctx, _arg_connected)
+		_ = _err
+		return nil, nil
+	case TransactionIStorageEventListenerOnStorageStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_oldState, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newState, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStorageStateChanged(ctx, _arg_path, _arg_oldState, _arg_newState)
+		_ = _err
+		return nil, nil
+	case TransactionIStorageEventListenerOnVolumeStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_vol VolumeInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_vol.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_oldState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnVolumeStateChanged(ctx, _arg_vol, _arg_oldState, _arg_newState)
+		_ = _err
+		return nil, nil
+	case TransactionIStorageEventListenerOnVolumeRecordChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_rec VolumeRecord
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_rec.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnVolumeRecordChanged(ctx, _arg_rec)
+		_ = _err
+		return nil, nil
+	case TransactionIStorageEventListenerOnVolumeForgotten:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fsUuid, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnVolumeForgotten(ctx, _arg_fsUuid)
+		_ = _err
+		return nil, nil
+	case TransactionIStorageEventListenerOnDiskScanned:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_disk DiskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_disk.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_volumeCount, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDiskScanned(ctx, _arg_disk, _arg_volumeCount)
+		_ = _err
+		return nil, nil
+	case TransactionIStorageEventListenerOnDiskDestroyed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_disk DiskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_disk.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnDiskDestroyed(ctx, _arg_disk)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

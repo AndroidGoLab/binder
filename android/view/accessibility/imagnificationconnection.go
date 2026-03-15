@@ -2,6 +2,7 @@ package accessibility
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -274,4 +275,207 @@ func (p *MagnificationConnectionProxy) OnFullscreenMagnificationActivationChange
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MagnificationConnectionStub dispatches incoming binder transactions
+// to a typed IMagnificationConnection implementation.
+type MagnificationConnectionStub struct {
+	Impl IMagnificationConnection
+}
+
+var _ binder.TransactionReceiver = (*MagnificationConnectionStub)(nil)
+
+func (s *MagnificationConnectionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMagnificationConnectionEnableWindowMagnification:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_scale, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_centerX, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_centerY, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_magnificationFrameOffsetRatioX, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_magnificationFrameOffsetRatioY, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IRemoteMagnificationAnimationCallback
+		_ = _arg_callback
+		_err = s.Impl.EnableWindowMagnification(ctx, _arg_displayId, _arg_scale, _arg_centerX, _arg_centerY, _arg_magnificationFrameOffsetRatioX, _arg_magnificationFrameOffsetRatioY, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIMagnificationConnectionSetScaleForWindowMagnification:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_scale, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetScaleForWindowMagnification(ctx, _arg_displayId, _arg_scale)
+		_ = _err
+		return nil, nil
+	case TransactionIMagnificationConnectionDisableWindowMagnification:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IRemoteMagnificationAnimationCallback
+		_ = _arg_callback
+		_err = s.Impl.DisableWindowMagnification(ctx, _arg_displayId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIMagnificationConnectionMoveWindowMagnifier:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_offsetX, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_offsetY, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.MoveWindowMagnifier(ctx, _arg_displayId, _arg_offsetX, _arg_offsetY)
+		_ = _err
+		return nil, nil
+	case TransactionIMagnificationConnectionMoveWindowMagnifierToPosition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_positionX, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_positionY, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IRemoteMagnificationAnimationCallback
+		_ = _arg_callback
+		_err = s.Impl.MoveWindowMagnifierToPosition(ctx, _arg_displayId, _arg_positionX, _arg_positionY, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIMagnificationConnectionShowMagnificationButton:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_magnificationMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ShowMagnificationButton(ctx, _arg_displayId, _arg_magnificationMode)
+		_ = _err
+		return nil, nil
+	case TransactionIMagnificationConnectionRemoveMagnificationButton:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RemoveMagnificationButton(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIMagnificationConnectionRemoveMagnificationSettingsPanel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RemoveMagnificationSettingsPanel(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIMagnificationConnectionSetConnectionCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IMagnificationConnectionCallback
+		_ = _arg_callback
+		_err := s.Impl.SetConnectionCallback(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIMagnificationConnectionOnUserMagnificationScaleChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_scale, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUserMagnificationScaleChanged(ctx, _arg_displayId, _arg_scale)
+		_ = _err
+		return nil, nil
+	case TransactionIMagnificationConnectionOnFullscreenMagnificationActivationChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_activated, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFullscreenMagnificationActivationChanged(ctx, _arg_displayId, _arg_activated)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

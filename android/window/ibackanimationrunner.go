@@ -2,6 +2,7 @@ package window
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -75,4 +76,46 @@ func (p *BackAnimationRunnerProxy) OnAnimationStart(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BackAnimationRunnerStub dispatches incoming binder transactions
+// to a typed IBackAnimationRunner implementation.
+type BackAnimationRunnerStub struct {
+	Impl IBackAnimationRunner
+}
+
+var _ binder.TransactionReceiver = (*BackAnimationRunnerStub)(nil)
+
+func (s *BackAnimationRunnerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBackAnimationRunnerOnAnimationCancelled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnAnimationCancelled(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIBackAnimationRunnerOnAnimationStart:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_apps []interface{}
+		_ = _arg_apps
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_prepareOpenTransition binder.IBinder
+		_ = _arg_prepareOpenTransition
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_finishedCallback IBackAnimationFinishedCallback
+		_ = _arg_finishedCallback
+		_err := s.Impl.OnAnimationStart(ctx, _arg_apps, _arg_prepareOpenTransition, _arg_finishedCallback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

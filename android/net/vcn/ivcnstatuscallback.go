@@ -2,6 +2,7 @@ package vcn
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -75,4 +76,57 @@ func (p *VcnStatusCallbackProxy) OnGatewayConnectionError(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VcnStatusCallbackStub dispatches incoming binder transactions
+// to a typed IVcnStatusCallback implementation.
+type VcnStatusCallbackStub struct {
+	Impl IVcnStatusCallback
+}
+
+var _ binder.TransactionReceiver = (*VcnStatusCallbackStub)(nil)
+
+func (s *VcnStatusCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVcnStatusCallbackOnVcnStatusChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_statusCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnVcnStatusChanged(ctx, _arg_statusCode)
+		_ = _err
+		return nil, nil
+	case TransactionIVcnStatusCallbackOnGatewayConnectionError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_gatewayConnectionName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_exceptionClass, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_exceptionMessage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGatewayConnectionError(ctx, _arg_gatewayConnectionName, _arg_errorCode, _arg_exceptionClass, _arg_exceptionMessage)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

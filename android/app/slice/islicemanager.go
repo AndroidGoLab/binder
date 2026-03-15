@@ -2,6 +2,7 @@ package slice
 
 import (
 	"context"
+	"fmt"
 	net "github.com/xaionaro-go/binder/android/net"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -473,4 +474,330 @@ func (p *SliceManagerProxy) GrantPermissionFromUser(
 	}
 
 	return nil
+}
+
+// SliceManagerStub dispatches incoming binder transactions
+// to a typed ISliceManager implementation.
+type SliceManagerStub struct {
+	Impl ISliceManager
+}
+
+var _ binder.TransactionReceiver = (*SliceManagerStub)(nil)
+
+func (s *SliceManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISliceManagerPinSlice:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_specs []SliceSpec
+		_ = _arg_specs
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_err = s.Impl.PinSlice(ctx, _arg_pkg, _arg_uri, _arg_specs, _arg_token)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISliceManagerUnpinSlice:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_err = s.Impl.UnpinSlice(ctx, _arg_pkg, _arg_uri, _arg_token)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISliceManagerHasSliceAccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.HasSliceAccess(ctx, _arg_pkg)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISliceManagerGetPinnedSpecs:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_pkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPinnedSpecs(ctx, _arg_uri, _arg_pkg)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionISliceManagerGetPinnedSlices:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPinnedSlices(ctx, _arg_pkg)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionISliceManagerGetBackupPayload:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_user, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetBackupPayload(ctx, _arg_user)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionISliceManagerApplyRestore:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_payload []byte
+		_ = _arg_payload
+		_arg_user, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ApplyRestore(ctx, _arg_payload, _arg_user)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISliceManagerGrantSlicePermission:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_toPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GrantSlicePermission(ctx, _arg_callingPkg, _arg_toPkg, _arg_uri)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISliceManagerRevokeSlicePermission:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_toPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RevokeSlicePermission(ctx, _arg_callingPkg, _arg_toPkg, _arg_uri)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISliceManagerCheckSlicePermission:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_pid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_autoGrantPermissions []string
+		_ = _arg_autoGrantPermissions
+		_result, _err := s.Impl.CheckSlicePermission(ctx, _arg_uri, _arg_callingPkg, _arg_pid, _arg_uid, _arg_autoGrantPermissions)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISliceManagerGrantPermissionFromUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_pkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_allSlices, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GrantPermissionFromUser(ctx, _arg_uri, _arg_pkg, _arg_callingPkg, _arg_allSlices)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

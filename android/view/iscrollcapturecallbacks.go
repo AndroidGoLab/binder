@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -90,4 +91,60 @@ func (p *ScrollCaptureCallbacksProxy) OnCaptureEnded(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ScrollCaptureCallbacksStub dispatches incoming binder transactions
+// to a typed IScrollCaptureCallbacks implementation.
+type ScrollCaptureCallbacksStub struct {
+	Impl IScrollCaptureCallbacks
+}
+
+var _ binder.TransactionReceiver = (*ScrollCaptureCallbacksStub)(nil)
+
+func (s *ScrollCaptureCallbacksStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIScrollCaptureCallbacksOnCaptureStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnCaptureStarted(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIScrollCaptureCallbacksOnImageRequestCompleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_capturedArea graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_capturedArea.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnImageRequestCompleted(ctx, _arg_flags, _arg_capturedArea)
+		_ = _err
+		return nil, nil
+	case TransactionIScrollCaptureCallbacksOnCaptureEnded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnCaptureEnded(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

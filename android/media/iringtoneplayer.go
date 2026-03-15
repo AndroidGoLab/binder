@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -283,4 +284,209 @@ func (p *RingtonePlayerProxy) OpenRingtone(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// RingtonePlayerStub dispatches incoming binder transactions
+// to a typed IRingtonePlayer implementation.
+type RingtonePlayerStub struct {
+	Impl IRingtonePlayer
+}
+
+var _ binder.TransactionReceiver = (*RingtonePlayerStub)(nil)
+
+func (s *RingtonePlayerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRingtonePlayerPlay:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		var _arg_uri interface{}
+		var _arg_aa AudioAttributes
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_aa.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_volume, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_looping, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Play(ctx, _arg_token, _arg_uri, _arg_aa, _arg_volume, _arg_looping)
+		_ = _err
+		return nil, nil
+	case TransactionIRingtonePlayerPlayWithVolumeShaping:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		var _arg_uri interface{}
+		var _arg_aa AudioAttributes
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_aa.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_volume, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_looping, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_volumeShaperConfig *VolumeShaperConfiguration
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_volumeShaperConfig.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.PlayWithVolumeShaping(ctx, _arg_token, _arg_uri, _arg_aa, _arg_volume, _arg_looping, _arg_volumeShaperConfig)
+		_ = _err
+		return nil, nil
+	case TransactionIRingtonePlayerStop:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_err := s.Impl.Stop(ctx, _arg_token)
+		_ = _err
+		return nil, nil
+	case TransactionIRingtonePlayerIsPlaying:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_result, _err := s.Impl.IsPlaying(ctx, _arg_token)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIRingtonePlayerSetPlaybackProperties:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_volume, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_looping, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_hapticGeneratorEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetPlaybackProperties(ctx, _arg_token, _arg_volume, _arg_looping, _arg_hapticGeneratorEnabled)
+		_ = _err
+		return nil, nil
+	case TransactionIRingtonePlayerPlayAsync:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_uri interface{}
+		var _arg_user interface{}
+		_arg_looping, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_aa AudioAttributes
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_aa.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_volume, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PlayAsync(ctx, _arg_uri, _arg_user, _arg_looping, _arg_aa, _arg_volume)
+		_ = _err
+		return nil, nil
+	case TransactionIRingtonePlayerStopAsync:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StopAsync(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIRingtonePlayerGetTitle:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_uri interface{}
+		_result, _err := s.Impl.GetTitle(ctx, _arg_uri)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionIRingtonePlayerOpenRingtone:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_uri interface{}
+		_result, _err := s.Impl.OpenRingtone(ctx, _arg_uri)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteFileDescriptor(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

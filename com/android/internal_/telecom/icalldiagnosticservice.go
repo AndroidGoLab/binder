@@ -2,6 +2,7 @@ package telecom
 
 import (
 	"context"
+	"fmt"
 	media "github.com/xaionaro-go/binder/android/hardware/radio/ims/media"
 	androidTelecom "github.com/xaionaro-go/binder/android/telecom"
 	"github.com/xaionaro-go/binder/binder"
@@ -230,4 +231,185 @@ func (p *CallDiagnosticServiceProxy) NotifyCallDisconnected(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CallDiagnosticServiceStub dispatches incoming binder transactions
+// to a typed ICallDiagnosticService implementation.
+type CallDiagnosticServiceStub struct {
+	Impl ICallDiagnosticService
+}
+
+var _ binder.TransactionReceiver = (*CallDiagnosticServiceStub)(nil)
+
+func (s *CallDiagnosticServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICallDiagnosticServiceSetAdapter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_adapter ICallDiagnosticServiceAdapter
+		_ = _arg_adapter
+		_err := s.Impl.SetAdapter(ctx, _arg_adapter)
+		_ = _err
+		return nil, nil
+	case TransactionICallDiagnosticServiceInitializeDiagnosticCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_call androidTelecom.ParcelableCall
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_call.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.InitializeDiagnosticCall(ctx, _arg_call)
+		_ = _err
+		return nil, nil
+	case TransactionICallDiagnosticServiceUpdateCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_call androidTelecom.ParcelableCall
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_call.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.UpdateCall(ctx, _arg_call)
+		_ = _err
+		return nil, nil
+	case TransactionICallDiagnosticServiceUpdateCallAudioState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callAudioState androidTelecom.CallAudioState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callAudioState.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.UpdateCallAudioState(ctx, _arg_callAudioState)
+		_ = _err
+		return nil, nil
+	case TransactionICallDiagnosticServiceRemoveDiagnosticCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RemoveDiagnosticCall(ctx, _arg_callId)
+		_ = _err
+		return nil, nil
+	case TransactionICallDiagnosticServiceReceiveDeviceToDeviceMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_message, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_value, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ReceiveDeviceToDeviceMessage(ctx, _arg_callId, _arg_message, _arg_value)
+		_ = _err
+		return nil, nil
+	case TransactionICallDiagnosticServiceCallQualityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callQuality media.CallQuality
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callQuality.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.CallQualityChanged(ctx, _arg_callId, _arg_callQuality)
+		_ = _err
+		return nil, nil
+	case TransactionICallDiagnosticServiceReceiveBluetoothCallQualityReport:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_qualityReport androidTelecom.BluetoothCallQualityReport
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_qualityReport.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ReceiveBluetoothCallQualityReport(ctx, _arg_qualityReport)
+		_ = _err
+		return nil, nil
+	case TransactionICallDiagnosticServiceNotifyCallDisconnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_disconnectCause androidTelecom.DisconnectCause
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_disconnectCause.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyCallDisconnected(ctx, _arg_callId, _arg_disconnectCause)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

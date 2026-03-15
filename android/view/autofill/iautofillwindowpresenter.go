@@ -2,6 +2,7 @@ package autofill
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -81,4 +82,70 @@ func (p *AutofillWindowPresenterProxy) Hide(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AutofillWindowPresenterStub dispatches incoming binder transactions
+// to a typed IAutofillWindowPresenter implementation.
+type AutofillWindowPresenterStub struct {
+	Impl IAutofillWindowPresenter
+}
+
+var _ binder.TransactionReceiver = (*AutofillWindowPresenterStub)(nil)
+
+func (s *AutofillWindowPresenterStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAutofillWindowPresenterShow:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_p_ interface{}
+		var _arg_transitionEpicenter graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_transitionEpicenter.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_fitsSystemWindows, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_layoutDirection, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Show(ctx, _arg_p_, _arg_transitionEpicenter, _arg_fitsSystemWindows, _arg_layoutDirection)
+		_ = _err
+		return nil, nil
+	case TransactionIAutofillWindowPresenterHide:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_transitionEpicenter graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_transitionEpicenter.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.Hide(ctx, _arg_transitionEpicenter)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

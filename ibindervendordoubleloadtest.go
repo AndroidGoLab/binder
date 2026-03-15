@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -64,4 +65,40 @@ func (p *BinderVendorDoubleLoadTestProxy) RepeatString(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// BinderVendorDoubleLoadTestStub dispatches incoming binder transactions
+// to a typed IBinderVendorDoubleLoadTest implementation.
+type BinderVendorDoubleLoadTestStub struct {
+	Impl IBinderVendorDoubleLoadTest
+}
+
+var _ binder.TransactionReceiver = (*BinderVendorDoubleLoadTestStub)(nil)
+
+func (s *BinderVendorDoubleLoadTestStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBinderVendorDoubleLoadTestRepeatString:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_toRepeat, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RepeatString(ctx, _arg_toRepeat)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -61,4 +62,37 @@ func (p *StrategyPreferredDevicesDispatcherProxy) DispatchPrefDevicesChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// StrategyPreferredDevicesDispatcherStub dispatches incoming binder transactions
+// to a typed IStrategyPreferredDevicesDispatcher implementation.
+type StrategyPreferredDevicesDispatcherStub struct {
+	Impl IStrategyPreferredDevicesDispatcher
+}
+
+var _ binder.TransactionReceiver = (*StrategyPreferredDevicesDispatcherStub)(nil)
+
+func (s *StrategyPreferredDevicesDispatcherStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIStrategyPreferredDevicesDispatcherDispatchPrefDevicesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_strategyId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_devices []AudioDeviceAttributes
+		_ = _arg_devices
+		_err = s.Impl.DispatchPrefDevicesChanged(ctx, _arg_strategyId, _arg_devices)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

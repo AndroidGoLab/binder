@@ -2,6 +2,7 @@ package textservice
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,33 @@ func (p *TextServicesSessionListenerProxy) OnServiceConnected(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TextServicesSessionListenerStub dispatches incoming binder transactions
+// to a typed ITextServicesSessionListener implementation.
+type TextServicesSessionListenerStub struct {
+	Impl ITextServicesSessionListener
+}
+
+var _ binder.TransactionReceiver = (*TextServicesSessionListenerStub)(nil)
+
+func (s *TextServicesSessionListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITextServicesSessionListenerOnServiceConnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_spellCheckerSession ISpellCheckerSession
+		_ = _arg_spellCheckerSession
+		_err := s.Impl.OnServiceConnected(ctx, _arg_spellCheckerSession)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

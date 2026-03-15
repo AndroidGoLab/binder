@@ -2,6 +2,7 @@ package voice
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -100,4 +101,85 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnRejected(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MicrophoneHotwordDetectionVoiceInteractionCallbackStub dispatches incoming binder transactions
+// to a typed IMicrophoneHotwordDetectionVoiceInteractionCallback implementation.
+type MicrophoneHotwordDetectionVoiceInteractionCallbackStub struct {
+	Impl IMicrophoneHotwordDetectionVoiceInteractionCallback
+}
+
+var _ binder.TransactionReceiver = (*MicrophoneHotwordDetectionVoiceInteractionCallbackStub)(nil)
+
+func (s *MicrophoneHotwordDetectionVoiceInteractionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMicrophoneHotwordDetectionVoiceInteractionCallbackOnDetected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_hotwordDetectedResult HotwordDetectedResult
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_hotwordDetectedResult.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_audioFormat interface{}
+		_arg_audioStream, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDetected(ctx, _arg_hotwordDetectedResult, _arg_audioFormat, _arg_audioStream)
+		_ = _err
+		return nil, nil
+	case TransactionIMicrophoneHotwordDetectionVoiceInteractionCallbackOnHotwordDetectionServiceFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_hotwordDetectionServiceFailure HotwordDetectionServiceFailure
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_hotwordDetectionServiceFailure.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnHotwordDetectionServiceFailure(ctx, _arg_hotwordDetectionServiceFailure)
+		_ = _err
+		return nil, nil
+	case TransactionIMicrophoneHotwordDetectionVoiceInteractionCallbackOnRejected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_hotwordRejectedResult HotwordRejectedResult
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_hotwordRejectedResult.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnRejected(ctx, _arg_hotwordRejectedResult)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

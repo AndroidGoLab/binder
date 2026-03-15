@@ -2,6 +2,7 @@ package notification
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -622,4 +623,505 @@ func (p *NotificationListenerProxy) OnNotificationFeedbackReceived(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// NotificationListenerStub dispatches incoming binder transactions
+// to a typed INotificationListener implementation.
+type NotificationListenerStub struct {
+	Impl INotificationListener
+}
+
+var _ binder.TransactionReceiver = (*NotificationListenerStub)(nil)
+
+func (s *NotificationListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionINotificationListenerOnListenerConnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_update NotificationRankingUpdate
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnListenerConnected(ctx, _arg_update)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationPosted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_notificationHolder IStatusBarNotificationHolder
+		_ = _arg_notificationHolder
+		var _arg_update NotificationRankingUpdate
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnNotificationPosted(ctx, _arg_notificationHolder, _arg_update)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationPostedFull:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sbn StatusBarNotification
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sbn.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_update NotificationRankingUpdate
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnNotificationPostedFull(ctx, _arg_sbn, _arg_update)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnStatusBarIconsBehaviorChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_hideSilentStatusIcons, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStatusBarIconsBehaviorChanged(ctx, _arg_hideSilentStatusIcons)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_notificationHolder IStatusBarNotificationHolder
+		_ = _arg_notificationHolder
+		var _arg_update NotificationRankingUpdate
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_stats NotificationStats
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_stats.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNotificationRemoved(ctx, _arg_notificationHolder, _arg_update, _arg_stats, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationRemovedFull:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sbn StatusBarNotification
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sbn.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_update NotificationRankingUpdate
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_stats NotificationStats
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_stats.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNotificationRemovedFull(ctx, _arg_sbn, _arg_update, _arg_stats, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationRankingUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_update NotificationRankingUpdate
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnNotificationRankingUpdate(ctx, _arg_update)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnListenerHintsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_hints, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnListenerHintsChanged(ctx, _arg_hints)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnInterruptionFilterChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_interruptionFilter, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnInterruptionFilterChanged(ctx, _arg_interruptionFilter)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationChannelModification:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pkgName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_user interface{}
+		var _arg_channel interface{}
+		_arg_modificationType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNotificationChannelModification(ctx, _arg_pkgName, _arg_user, _arg_channel, _arg_modificationType)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationChannelGroupModification:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pkgName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_user interface{}
+		var _arg_group interface{}
+		_arg_modificationType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNotificationChannelGroupModification(ctx, _arg_pkgName, _arg_user, _arg_group, _arg_modificationType)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationEnqueuedWithChannel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_notificationHolder IStatusBarNotificationHolder
+		_ = _arg_notificationHolder
+		var _arg_channel interface{}
+		var _arg_update NotificationRankingUpdate
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnNotificationEnqueuedWithChannel(ctx, _arg_notificationHolder, _arg_channel, _arg_update)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationEnqueuedWithChannelFull:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sbn StatusBarNotification
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sbn.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_channel interface{}
+		var _arg_update NotificationRankingUpdate
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnNotificationEnqueuedWithChannelFull(ctx, _arg_sbn, _arg_channel, _arg_update)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationSnoozedUntilContext:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_notificationHolder IStatusBarNotificationHolder
+		_ = _arg_notificationHolder
+		_arg_snoozeCriterionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNotificationSnoozedUntilContext(ctx, _arg_notificationHolder, _arg_snoozeCriterionId)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationSnoozedUntilContextFull:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sbn StatusBarNotification
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sbn.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_snoozeCriterionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNotificationSnoozedUntilContextFull(ctx, _arg_sbn, _arg_snoozeCriterionId)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationsSeen:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keys []string
+		_ = _arg_keys
+		_err := s.Impl.OnNotificationsSeen(ctx, _arg_keys)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnPanelRevealed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_items, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnPanelRevealed(ctx, _arg_items)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnPanelHidden:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnPanelHidden(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationVisibilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_key, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isVisible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNotificationVisibilityChanged(ctx, _arg_key, _arg_isVisible)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationExpansionChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_key, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_userAction, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_expanded, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNotificationExpansionChanged(ctx, _arg_key, _arg_userAction, _arg_expanded)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationDirectReply:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_key, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNotificationDirectReply(ctx, _arg_key)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnSuggestedReplySent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_key, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_reply interface{}
+		_arg_source, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSuggestedReplySent(ctx, _arg_key, _arg_reply, _arg_source)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnActionClicked:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_key, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_action interface{}
+		_arg_source, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnActionClicked(ctx, _arg_key, _arg_action, _arg_source)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationClicked:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_key, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNotificationClicked(ctx, _arg_key)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnAllowedAdjustmentsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnAllowedAdjustmentsChanged(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionINotificationListenerOnNotificationFeedbackReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_key, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_update NotificationRankingUpdate
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_feedback interface{}
+		_err = s.Impl.OnNotificationFeedbackReceived(ctx, _arg_key, _arg_update, _arg_feedback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

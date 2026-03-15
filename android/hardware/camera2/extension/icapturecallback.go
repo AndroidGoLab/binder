@@ -2,6 +2,7 @@ package extension
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -262,4 +263,164 @@ func (p *CaptureCallbackProxy) OnCaptureProcessFailed(
 	}
 
 	return nil
+}
+
+// CaptureCallbackStub dispatches incoming binder transactions
+// to a typed ICaptureCallback implementation.
+type CaptureCallbackStub struct {
+	Impl ICaptureCallback
+}
+
+var _ binder.TransactionReceiver = (*CaptureCallbackStub)(nil)
+
+func (s *CaptureCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICaptureCallbackOnCaptureStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_captureSequenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timestamp, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCaptureStarted(ctx, _arg_captureSequenceId, _arg_timestamp)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICaptureCallbackOnCaptureProcessStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_captureSequenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCaptureProcessStarted(ctx, _arg_captureSequenceId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICaptureCallbackOnCaptureFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_captureSequenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCaptureFailed(ctx, _arg_captureSequenceId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICaptureCallbackOnCaptureSequenceCompleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_captureSequenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCaptureSequenceCompleted(ctx, _arg_captureSequenceId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICaptureCallbackOnCaptureSequenceAborted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_captureSequenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCaptureSequenceAborted(ctx, _arg_captureSequenceId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICaptureCallbackOnCaptureCompleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_shutterTimestamp, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_results interface{}
+		_err = s.Impl.OnCaptureCompleted(ctx, _arg_shutterTimestamp, _arg_requestId, _arg_results)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICaptureCallbackOnCaptureProcessProgressed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_progress, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCaptureProcessProgressed(ctx, _arg_progress)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICaptureCallbackOnCaptureProcessFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_captureSequenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_captureFailureReason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCaptureProcessFailed(ctx, _arg_captureSequenceId, _arg_captureFailureReason)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package telecom
 
 import (
 	"context"
+	"fmt"
 	androidTelecom "github.com/xaionaro-go/binder/android/telecom"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -109,4 +110,70 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStateChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CallStreamingServiceStub dispatches incoming binder transactions
+// to a typed ICallStreamingService implementation.
+type CallStreamingServiceStub struct {
+	Impl ICallStreamingService
+}
+
+var _ binder.TransactionReceiver = (*CallStreamingServiceStub)(nil)
+
+func (s *CallStreamingServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICallStreamingServiceSetStreamingCallAdapter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_streamingCallAdapter IStreamingCallAdapter
+		_ = _arg_streamingCallAdapter
+		_err := s.Impl.SetStreamingCallAdapter(ctx, _arg_streamingCallAdapter)
+		_ = _err
+		return nil, nil
+	case TransactionICallStreamingServiceOnCallStreamingStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_call androidTelecom.StreamingCall
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_call.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnCallStreamingStarted(ctx, _arg_call)
+		_ = _err
+		return nil, nil
+	case TransactionICallStreamingServiceOnCallStreamingStopped:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnCallStreamingStopped(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionICallStreamingServiceOnCallStreamingStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCallStreamingStateChanged(ctx, _arg_state)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

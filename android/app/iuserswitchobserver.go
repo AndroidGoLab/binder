@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -136,4 +137,84 @@ func (p *UserSwitchObserverProxy) OnLockedBootComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// UserSwitchObserverStub dispatches incoming binder transactions
+// to a typed IUserSwitchObserver implementation.
+type UserSwitchObserverStub struct {
+	Impl IUserSwitchObserver
+}
+
+var _ binder.TransactionReceiver = (*UserSwitchObserverStub)(nil)
+
+func (s *UserSwitchObserverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIUserSwitchObserverOnBeforeUserSwitching:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_newUserId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnBeforeUserSwitching(ctx, _arg_newUserId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIUserSwitchObserverOnUserSwitching:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_newUserId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_reply interface{}
+		_err = s.Impl.OnUserSwitching(ctx, _arg_newUserId, _arg_reply)
+		_ = _err
+		return nil, nil
+	case TransactionIUserSwitchObserverOnUserSwitchComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_newUserId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUserSwitchComplete(ctx, _arg_newUserId)
+		_ = _err
+		return nil, nil
+	case TransactionIUserSwitchObserverOnForegroundProfileSwitch:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_newProfileId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnForegroundProfileSwitch(ctx, _arg_newProfileId)
+		_ = _err
+		return nil, nil
+	case TransactionIUserSwitchObserverOnLockedBootComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_newUserId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnLockedBootComplete(ctx, _arg_newUserId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

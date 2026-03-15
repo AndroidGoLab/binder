@@ -2,6 +2,7 @@ package cam
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -97,4 +98,63 @@ func (p *MmiInterfaceProxy) AppInfoEnterMenu(
 	}
 
 	return nil
+}
+
+// MmiInterfaceStub dispatches incoming binder transactions
+// to a typed IMmiInterface implementation.
+type MmiInterfaceStub struct {
+	Impl IMmiInterface
+}
+
+var _ binder.TransactionReceiver = (*MmiInterfaceStub)(nil)
+
+func (s *MmiInterfaceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMmiInterfaceOpenSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IMmiStatusCallback
+		_ = _arg_callback
+		_result, _err := s.Impl.OpenSession(ctx, _arg_slotId, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIMmiInterfaceAppInfoEnterMenu:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IEnterMenuErrorCallback
+		_ = _arg_callback
+		_err = s.Impl.AppInfoEnterMenu(ctx, _arg_slotId, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package hardware
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -142,4 +143,73 @@ func (p *ConsumerIrServiceProxy) GetCarrierFrequencies(
 		}
 	}
 	return _result, nil
+}
+
+// ConsumerIrServiceStub dispatches incoming binder transactions
+// to a typed IConsumerIrService implementation.
+type ConsumerIrServiceStub struct {
+	Impl IConsumerIrService
+}
+
+var _ binder.TransactionReceiver = (*ConsumerIrServiceStub)(nil)
+
+func (s *ConsumerIrServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIConsumerIrServiceHasIrEmitter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.HasIrEmitter(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIConsumerIrServiceTransmit:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_carrierFrequency, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pattern []int32
+		_ = _arg_pattern
+		_err = s.Impl.Transmit(ctx, _arg_packageName, _arg_carrierFrequency, _arg_pattern)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIConsumerIrServiceGetCarrierFrequencies:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCarrierFrequencies(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

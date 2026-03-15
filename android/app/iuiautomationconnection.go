@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -806,4 +807,473 @@ func (p *UiAutomationConnectionProxy) ClearAllOverridePermissionStates(
 	}
 
 	return nil
+}
+
+// UiAutomationConnectionStub dispatches incoming binder transactions
+// to a typed IUiAutomationConnection implementation.
+type UiAutomationConnectionStub struct {
+	Impl IUiAutomationConnection
+}
+
+var _ binder.TransactionReceiver = (*UiAutomationConnectionStub)(nil)
+
+func (s *UiAutomationConnectionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIUiAutomationConnectionConnect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_client interface{}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Connect(ctx, _arg_client, _arg_flags)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionDisconnect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Disconnect(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionInjectInputEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event interface{}
+		_arg_sync, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_waitForAnimations, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.InjectInputEvent(ctx, _arg_event, _arg_sync, _arg_waitForAnimations)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionInjectInputEventToInputFilter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event interface{}
+		_err := s.Impl.InjectInputEventToInputFilter(ctx, _arg_event)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionSyncInputTransactions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_waitForAnimations, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SyncInputTransactions(ctx, _arg_waitForAnimations)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionSetRotation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_rotation, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetRotation(ctx, _arg_rotation)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionTakeScreenshot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_crop graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_crop.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_listener interface{}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.TakeScreenshot(ctx, _arg_crop, _arg_listener, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionTakeSurfaceControlScreenshot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_surfaceControl interface{}
+		var _arg_listener interface{}
+		_result, _err := s.Impl.TakeSurfaceControlScreenshot(ctx, _arg_surfaceControl, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionClearWindowContentFrameStats:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_windowId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ClearWindowContentFrameStats(ctx, _arg_windowId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionGetWindowContentFrameStats:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_windowId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetWindowContentFrameStats(ctx, _arg_windowId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIUiAutomationConnectionClearWindowAnimationFrameStats:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ClearWindowAnimationFrameStats(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionGetWindowAnimationFrameStats:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetWindowAnimationFrameStats(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIUiAutomationConnectionExecuteShellCommand:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_command, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sink, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_source, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ExecuteShellCommand(ctx, _arg_command, _arg_sink, _arg_source)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionGrantRuntimePermission:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_permission, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GrantRuntimePermission(ctx, _arg_packageName, _arg_permission)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionRevokeRuntimePermission:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_permission, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RevokeRuntimePermission(ctx, _arg_packageName, _arg_permission)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionAdoptShellPermissionIdentity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_permissions []string
+		_ = _arg_permissions
+		_err = s.Impl.AdoptShellPermissionIdentity(ctx, _arg_uid, _arg_permissions)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionDropShellPermissionIdentity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.DropShellPermissionIdentity(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionShutdown:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Shutdown(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIUiAutomationConnectionExecuteShellCommandWithStderr:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_command, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sink, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_source, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_stderrSink, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ExecuteShellCommandWithStderr(ctx, _arg_command, _arg_sink, _arg_source, _arg_stderrSink)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionExecuteShellCommandArrayWithStderr:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_command []string
+		_ = _arg_command
+		_arg_sink, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_source, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_stderrSink, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ExecuteShellCommandArrayWithStderr(ctx, _arg_command, _arg_sink, _arg_source, _arg_stderrSink)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionGetAdoptedShellPermissions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAdoptedShellPermissions(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIUiAutomationConnectionAddOverridePermissionState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_permission, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AddOverridePermissionState(ctx, _arg_uid, _arg_permission, _arg_result)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionRemoveOverridePermissionState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_permission, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RemoveOverridePermissionState(ctx, _arg_uid, _arg_permission)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionClearOverridePermissionStates:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ClearOverridePermissionStates(ctx, _arg_uid)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIUiAutomationConnectionClearAllOverridePermissionStates:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ClearAllOverridePermissionStates(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package print
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -53,4 +54,42 @@ func (p *PrintJobStateChangeListenerProxy) OnPrintJobStateChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PrintJobStateChangeListenerStub dispatches incoming binder transactions
+// to a typed IPrintJobStateChangeListener implementation.
+type PrintJobStateChangeListenerStub struct {
+	Impl IPrintJobStateChangeListener
+}
+
+var _ binder.TransactionReceiver = (*PrintJobStateChangeListenerStub)(nil)
+
+func (s *PrintJobStateChangeListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPrintJobStateChangeListenerOnPrintJobStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printJobId PrintJobId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printJobId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPrintJobStateChanged(ctx, _arg_printJobId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

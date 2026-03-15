@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -68,4 +69,48 @@ func (p *AppTraceRetrieverProxy) GetTraceFileDescriptor(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// AppTraceRetrieverStub dispatches incoming binder transactions
+// to a typed IAppTraceRetriever implementation.
+type AppTraceRetrieverStub struct {
+	Impl IAppTraceRetriever
+}
+
+var _ binder.TransactionReceiver = (*AppTraceRetrieverStub)(nil)
+
+func (s *AppTraceRetrieverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAppTraceRetrieverGetTraceFileDescriptor:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_pid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetTraceFileDescriptor(ctx, _arg_packageName, _arg_uid, _arg_pid)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteFileDescriptor(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

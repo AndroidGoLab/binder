@@ -2,6 +2,7 @@ package shared
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *HomeTransitionListenerProxy) OnHomeVisibilityChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// HomeTransitionListenerStub dispatches incoming binder transactions
+// to a typed IHomeTransitionListener implementation.
+type HomeTransitionListenerStub struct {
+	Impl IHomeTransitionListener
+}
+
+var _ binder.TransactionReceiver = (*HomeTransitionListenerStub)(nil)
+
+func (s *HomeTransitionListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIHomeTransitionListenerOnHomeVisibilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isVisible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnHomeVisibilityChanged(ctx, _arg_isVisible)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

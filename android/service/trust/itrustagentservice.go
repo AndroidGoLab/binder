@@ -2,6 +2,7 @@ package trust
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -276,4 +277,163 @@ func (p *TrustAgentServiceProxy) OnEscrowTokenRemoved(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TrustAgentServiceStub dispatches incoming binder transactions
+// to a typed ITrustAgentService implementation.
+type TrustAgentServiceStub struct {
+	Impl ITrustAgentService
+}
+
+var _ binder.TransactionReceiver = (*TrustAgentServiceStub)(nil)
+
+func (s *TrustAgentServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITrustAgentServiceOnUnlockAttempt:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_successful, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUnlockAttempt(ctx, _arg_successful)
+		_ = _err
+		return nil, nil
+	case TransactionITrustAgentServiceOnUserRequestedUnlock:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_dismissKeyguard, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUserRequestedUnlock(ctx, _arg_dismissKeyguard)
+		_ = _err
+		return nil, nil
+	case TransactionITrustAgentServiceOnUserMayRequestUnlock:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnUserMayRequestUnlock(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITrustAgentServiceOnUnlockLockout:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_timeoutMs, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUnlockLockout(ctx, _arg_timeoutMs)
+		_ = _err
+		return nil, nil
+	case TransactionITrustAgentServiceOnTrustTimeout:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnTrustTimeout(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITrustAgentServiceOnDeviceLocked:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnDeviceLocked(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITrustAgentServiceOnDeviceUnlocked:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnDeviceUnlocked(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITrustAgentServiceOnConfigure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_options []interface{}
+		_ = _arg_options
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_err := s.Impl.OnConfigure(ctx, _arg_options, _arg_token)
+		_ = _err
+		return nil, nil
+	case TransactionITrustAgentServiceSetCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITrustAgentServiceCallback
+		_ = _arg_callback
+		_err := s.Impl.SetCallback(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionITrustAgentServiceOnEscrowTokenAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_token []byte
+		_ = _arg_token
+		_arg_handle, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnEscrowTokenAdded(ctx, _arg_token, _arg_handle, _arg_user)
+		_ = _err
+		return nil, nil
+	case TransactionITrustAgentServiceOnTokenStateReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_handle, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tokenState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTokenStateReceived(ctx, _arg_handle, _arg_tokenState)
+		_ = _err
+		return nil, nil
+	case TransactionITrustAgentServiceOnEscrowTokenRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_handle, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_successful, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnEscrowTokenRemoved(ctx, _arg_handle, _arg_successful)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

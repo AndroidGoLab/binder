@@ -2,6 +2,7 @@ package splitscreen
 
 import (
 	"context"
+	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
@@ -76,4 +77,64 @@ func (p *SplitSelectListenerProxy) OnRequestSplitSelect(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// SplitSelectListenerStub dispatches incoming binder transactions
+// to a typed ISplitSelectListener implementation.
+type SplitSelectListenerStub struct {
+	Impl ISplitSelectListener
+}
+
+var _ binder.TransactionReceiver = (*SplitSelectListenerStub)(nil)
+
+func (s *SplitSelectListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISplitSelectListenerOnRequestSplitSelect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_splitPosition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_taskBounds graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskBounds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.OnRequestSplitSelect(ctx, _arg_taskInfo, _arg_splitPosition, _arg_taskBounds)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

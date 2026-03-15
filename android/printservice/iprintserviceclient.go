@@ -2,6 +2,7 @@ package printservice
 
 import (
 	"context"
+	"fmt"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
 	drawable "github.com/xaionaro-go/binder/android/graphics/drawable"
 	"github.com/xaionaro-go/binder/binder"
@@ -369,4 +370,225 @@ func (p *PrintServiceClientProxy) OnCustomPrinterIconLoaded(
 	}
 
 	return nil
+}
+
+// PrintServiceClientStub dispatches incoming binder transactions
+// to a typed IPrintServiceClient implementation.
+type PrintServiceClientStub struct {
+	Impl IPrintServiceClient
+}
+
+var _ binder.TransactionReceiver = (*PrintServiceClientStub)(nil)
+
+func (s *PrintServiceClientStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPrintServiceClientGetPrintJobInfos:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPrintJobInfos(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIPrintServiceClientGetPrintJobInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printJobId interface{}
+		_result, _err := s.Impl.GetPrintJobInfo(ctx, _arg_printJobId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIPrintServiceClientSetPrintJobState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printJobId interface{}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_error_, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetPrintJobState(ctx, _arg_printJobId, _arg_state, _arg_error_)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIPrintServiceClientSetPrintJobTag:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printJobId interface{}
+		_arg_tag, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetPrintJobTag(ctx, _arg_printJobId, _arg_tag)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIPrintServiceClientWritePrintJobData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_printJobId interface{}
+		_err = s.Impl.WritePrintJobData(ctx, _arg_fd, _arg_printJobId)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintServiceClientSetProgress:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printJobId interface{}
+		_arg_progress, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetProgress(ctx, _arg_printJobId, _arg_progress)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIPrintServiceClientSetStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printJobId interface{}
+		var _arg_status interface{}
+		_err := s.Impl.SetStatus(ctx, _arg_printJobId, _arg_status)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIPrintServiceClientSetStatusRes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printJobId interface{}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_appPackageName interface{}
+		_err = s.Impl.SetStatusRes(ctx, _arg_printJobId, _arg_status, _arg_appPackageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIPrintServiceClientOnPrintersAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printers pm.ParceledListSlice
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printers.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPrintersAdded(ctx, _arg_printers)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIPrintServiceClientOnPrintersRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printerIds pm.ParceledListSlice
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printerIds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPrintersRemoved(ctx, _arg_printerIds)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIPrintServiceClientOnCustomPrinterIconLoaded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printerId interface{}
+		var _arg_icon drawable.Icon
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_icon.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnCustomPrinterIconLoaded(ctx, _arg_printerId, _arg_icon)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

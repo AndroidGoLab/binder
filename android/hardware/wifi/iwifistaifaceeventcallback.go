@@ -2,6 +2,7 @@ package wifi
 
 import (
 	"context"
+	"fmt"
 	wifiIWifiStaIfaceEventCallback "github.com/xaionaro-go/binder/android/hardware/wifi/IWifiStaIfaceEventCallback"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -297,4 +298,232 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionResume(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// WifiStaIfaceEventCallbackStub dispatches incoming binder transactions
+// to a typed IWifiStaIfaceEventCallback implementation.
+type WifiStaIfaceEventCallbackStub struct {
+	Impl IWifiStaIfaceEventCallback
+}
+
+var _ binder.TransactionReceiver = (*WifiStaIfaceEventCallbackStub)(nil)
+
+func (s *WifiStaIfaceEventCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWifiStaIfaceEventCallbackOnBackgroundFullScanResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_bucketsScanned, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_result StaScanResult
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnBackgroundFullScanResult(ctx, _arg_cmdId, _arg_bucketsScanned, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiStaIfaceEventCallbackOnBackgroundScanFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnBackgroundScanFailure(ctx, _arg_cmdId)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiStaIfaceEventCallbackOnBackgroundScanResults:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_scanDatas []StaScanData
+		_ = _arg_scanDatas
+		_err = s.Impl.OnBackgroundScanResults(ctx, _arg_cmdId, _arg_scanDatas)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiStaIfaceEventCallbackOnRssiThresholdBreached:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_currBssid []byte
+		_ = _arg_currBssid
+		_arg_currRssi, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRssiThresholdBreached(ctx, _arg_cmdId, _arg_currBssid, _arg_currRssi)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiStaIfaceEventCallbackOnTwtFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_error_, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_error_ := wifiIWifiStaIfaceEventCallback.TwtErrorCode(_raw_error_)
+		_err = s.Impl.OnTwtFailure(ctx, _arg_cmdId, _arg_error_)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiStaIfaceEventCallbackOnTwtSessionCreate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_twtSession TwtSession
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_twtSession.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnTwtSessionCreate(ctx, _arg_cmdId, _arg_twtSession)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiStaIfaceEventCallbackOnTwtSessionUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_twtSession TwtSession
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_twtSession.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnTwtSessionUpdate(ctx, _arg_cmdId, _arg_twtSession)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiStaIfaceEventCallbackOnTwtSessionTeardown:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_twtSessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_reasonCode, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reasonCode := wifiIWifiStaIfaceEventCallback.TwtTeardownReasonCode(_raw_reasonCode)
+		_err = s.Impl.OnTwtSessionTeardown(ctx, _arg_cmdId, _arg_twtSessionId, _arg_reasonCode)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiStaIfaceEventCallbackOnTwtSessionStats:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_twtSessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_twtSessionStats TwtSessionStats
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_twtSessionStats.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnTwtSessionStats(ctx, _arg_cmdId, _arg_twtSessionId, _arg_twtSessionStats)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiStaIfaceEventCallbackOnTwtSessionSuspend:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_twtSessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTwtSessionSuspend(ctx, _arg_cmdId, _arg_twtSessionId)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiStaIfaceEventCallbackOnTwtSessionResume:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_twtSessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTwtSessionResume(ctx, _arg_cmdId, _arg_twtSessionId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

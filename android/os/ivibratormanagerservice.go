@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -488,4 +489,374 @@ func (p *VibratorManagerServiceProxy) StartVendorVibrationSession(
 	}
 	_result = NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
+}
+
+// VibratorManagerServiceStub dispatches incoming binder transactions
+// to a typed IVibratorManagerService implementation.
+type VibratorManagerServiceStub struct {
+	Impl IVibratorManagerService
+}
+
+var _ binder.TransactionReceiver = (*VibratorManagerServiceStub)(nil)
+
+func (s *VibratorManagerServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVibratorManagerServiceGetVibratorIds:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetVibratorIds(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIVibratorManagerServiceGetCapabilities:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCapabilities(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIVibratorManagerServiceGetVibratorInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_vibratorId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetVibratorInfo(ctx, _arg_vibratorId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIVibratorManagerServiceIsVibrating:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_vibratorId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsVibrating(ctx, _arg_vibratorId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIVibratorManagerServiceRegisterVibratorStateListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_vibratorId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IVibratorStateListener
+		_ = _arg_listener
+		_result, _err := s.Impl.RegisterVibratorStateListener(ctx, _arg_vibratorId, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIVibratorManagerServiceUnregisterVibratorStateListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_vibratorId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IVibratorStateListener
+		_ = _arg_listener
+		_result, _err := s.Impl.UnregisterVibratorStateListener(ctx, _arg_vibratorId, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIVibratorManagerServiceSetAlwaysOnEffect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_opPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_alwaysOnId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_vibration CombinedVibration
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_vibration.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attributes VibrationAttributes
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributes.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.SetAlwaysOnEffect(ctx, _arg_uid, _arg_opPkg, _arg_alwaysOnId, _arg_vibration, _arg_attributes)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIVibratorManagerServiceVibrate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_deviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_opPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_vibration CombinedVibration
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_vibration.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attributes VibrationAttributes
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributes.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_reason, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_err = s.Impl.Vibrate(ctx, _arg_uid, _arg_deviceId, _arg_opPkg, _arg_vibration, _arg_attributes, _arg_reason, _arg_token)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIVibratorManagerServiceCancelVibrate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_usageFilter, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_err = s.Impl.CancelVibrate(ctx, _arg_usageFilter, _arg_token)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIVibratorManagerServicePerformHapticFeedback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_deviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_opPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_constant, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_privFlags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PerformHapticFeedback(ctx, _arg_uid, _arg_deviceId, _arg_opPkg, _arg_constant, _arg_reason, _arg_flags, _arg_privFlags)
+		_ = _err
+		return nil, nil
+	case TransactionIVibratorManagerServicePerformHapticFeedbackForInputDevice:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_deviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_opPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_constant, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_inputDeviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_inputSource, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_privFlags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PerformHapticFeedbackForInputDevice(ctx, _arg_uid, _arg_deviceId, _arg_opPkg, _arg_constant, _arg_inputDeviceId, _arg_inputSource, _arg_reason, _arg_flags, _arg_privFlags)
+		_ = _err
+		return nil, nil
+	case TransactionIVibratorManagerServiceStartVendorVibrationSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_deviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_opPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_vibratorIds []int32
+		_ = _arg_vibratorIds
+		var _arg_attributes VibrationAttributes
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributes.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_reason, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_result, _err := s.Impl.StartVendorVibrationSession(ctx, _arg_uid, _arg_deviceId, _arg_opPkg, _arg_vibratorIds, _arg_attributes, _arg_reason, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

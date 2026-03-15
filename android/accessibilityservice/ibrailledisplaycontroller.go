@@ -2,6 +2,7 @@ package accessibilityservice
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -121,4 +122,64 @@ func (p *BrailleDisplayControllerProxy) OnDisconnected(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BrailleDisplayControllerStub dispatches incoming binder transactions
+// to a typed IBrailleDisplayController implementation.
+type BrailleDisplayControllerStub struct {
+	Impl IBrailleDisplayController
+}
+
+var _ binder.TransactionReceiver = (*BrailleDisplayControllerStub)(nil)
+
+func (s *BrailleDisplayControllerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBrailleDisplayControllerOnConnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_connection IBrailleDisplayConnection
+		_ = _arg_connection
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_hidDescriptor []byte
+		_ = _arg_hidDescriptor
+		_err := s.Impl.OnConnected(ctx, _arg_connection, _arg_hidDescriptor)
+		_ = _err
+		return nil, nil
+	case TransactionIBrailleDisplayControllerOnConnectionFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_error_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnConnectionFailed(ctx, _arg_error_)
+		_ = _err
+		return nil, nil
+	case TransactionIBrailleDisplayControllerOnInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_input []byte
+		_ = _arg_input
+		_err := s.Impl.OnInput(ctx, _arg_input)
+		_ = _err
+		return nil, nil
+	case TransactionIBrailleDisplayControllerOnDisconnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnDisconnected(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

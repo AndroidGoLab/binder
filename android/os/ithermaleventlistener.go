@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -49,4 +50,31 @@ func (p *ThermalEventListenerProxy) NotifyThrottling(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ThermalEventListenerStub dispatches incoming binder transactions
+// to a typed IThermalEventListener implementation.
+type ThermalEventListenerStub struct {
+	Impl IThermalEventListener
+}
+
+var _ binder.TransactionReceiver = (*ThermalEventListenerStub)(nil)
+
+func (s *ThermalEventListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIThermalEventListenerNotifyThrottling:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_temperature interface{}
+		_err := s.Impl.NotifyThrottling(ctx, _arg_temperature)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

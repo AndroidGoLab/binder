@@ -2,6 +2,7 @@ package security
 
 import (
 	"context"
+	"fmt"
 	IInstalld "github.com/xaionaro-go/binder/android/os/IInstalld"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -170,4 +171,95 @@ func (p *FileIntegrityServiceProxy) SetupFsverity(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// FileIntegrityServiceStub dispatches incoming binder transactions
+// to a typed IFileIntegrityService implementation.
+type FileIntegrityServiceStub struct {
+	Impl IFileIntegrityService
+}
+
+var _ binder.TransactionReceiver = (*FileIntegrityServiceStub)(nil)
+
+func (s *FileIntegrityServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIFileIntegrityServiceIsApkVeritySupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsApkVeritySupported(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIFileIntegrityServiceIsAppSourceCertificateTrusted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_certificateBytes []byte
+		_ = _arg_certificateBytes
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsAppSourceCertificateTrusted(ctx, _arg_certificateBytes, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIFileIntegrityServiceCreateAuthToken:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_authFd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateAuthToken(ctx, _arg_authFd)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIFileIntegrityServiceSetupFsverity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_authToken IInstalld.IFsveritySetupAuthToken
+		_arg_filePath, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetupFsverity(ctx, _arg_authToken, _arg_filePath, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

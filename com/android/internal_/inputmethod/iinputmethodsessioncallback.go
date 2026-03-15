@@ -2,6 +2,7 @@ package inputmethod
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,33 @@ func (p *InputMethodSessionCallbackProxy) SessionCreated(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InputMethodSessionCallbackStub dispatches incoming binder transactions
+// to a typed IInputMethodSessionCallback implementation.
+type InputMethodSessionCallbackStub struct {
+	Impl IInputMethodSessionCallback
+}
+
+var _ binder.TransactionReceiver = (*InputMethodSessionCallbackStub)(nil)
+
+func (s *InputMethodSessionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInputMethodSessionCallbackSessionCreated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_session IInputMethodSession
+		_ = _arg_session
+		_err := s.Impl.SessionCreated(ctx, _arg_session)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

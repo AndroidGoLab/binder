@@ -2,6 +2,7 @@ package servicedb
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -134,4 +135,82 @@ func (p *ServiceListImportSessionProxy) Release(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// ServiceListImportSessionStub dispatches incoming binder transactions
+// to a typed IServiceListImportSession implementation.
+type ServiceListImportSessionStub struct {
+	Impl IServiceListImportSession
+}
+
+var _ binder.TransactionReceiver = (*ServiceListImportSessionStub)(nil)
+
+func (s *ServiceListImportSessionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIServiceListImportSessionImportServiceList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pfd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_importParams os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_importParams.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.ImportServiceList(ctx, _arg_pfd, _arg_importParams)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIServiceListImportSessionPreload:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pfd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.Preload(ctx, _arg_pfd)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIServiceListImportSessionRelease:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.Release(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

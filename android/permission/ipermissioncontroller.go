@@ -2,6 +2,7 @@ package permission
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
@@ -496,4 +497,471 @@ func (p *PermissionControllerProxy) RevokeSelfPermissionsOnKill(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PermissionControllerStub dispatches incoming binder transactions
+// to a typed IPermissionController implementation.
+type PermissionControllerStub struct {
+	Impl IPermissionController
+}
+
+var _ binder.TransactionReceiver = (*PermissionControllerStub)(nil)
+
+func (s *PermissionControllerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPermissionControllerRevokeRuntimePermissions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_doDryRun, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callerPackageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RevokeRuntimePermissions(ctx, _arg_request, _arg_doDryRun, _arg_reason, _arg_callerPackageName, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerGetRuntimePermissionBackup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_pipe, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetRuntimePermissionBackup(ctx, _arg_user, _arg_pipe)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerStageAndApplyRuntimePermissionsBackup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_pipe, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StageAndApplyRuntimePermissionsBackup(ctx, _arg_user, _arg_pipe)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerApplyStagedRuntimePermissionBackup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_callback infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ApplyStagedRuntimePermissionBackup(ctx, _arg_packageName, _arg_user, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerGetAppPermissions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GetAppPermissions(ctx, _arg_packageName, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerRevokeRuntimePermission:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_permissionName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RevokeRuntimePermission(ctx, _arg_packageName, _arg_permissionName)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerCountPermissionApps:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_permissionNames []string
+		_ = _arg_permissionNames
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.CountPermissionApps(ctx, _arg_permissionNames, _arg_flags, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerGetPermissionUsages:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_countSystem, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_numMillis, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GetPermissionUsages(ctx, _arg_countSystem, _arg_numMillis, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerSetRuntimePermissionGrantStateByDeviceAdminFromParams:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callerPackageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_params AdminPermissionControlParams
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_callback infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SetRuntimePermissionGrantStateByDeviceAdminFromParams(ctx, _arg_callerPackageName, _arg_params, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerGrantOrUpgradeDefaultRuntimePermissions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GrantOrUpgradeDefaultRuntimePermissions(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerNotifyOneTimePermissionSessionTimeout:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_deviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyOneTimePermissionSessionTimeout(ctx, _arg_packageName, _arg_deviceId)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerUpdateUserSensitiveForApp:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.UpdateUserSensitiveForApp(ctx, _arg_uid, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerGetPrivilegesDescriptionStringForProfile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_deviceProfileName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GetPrivilegesDescriptionStringForProfile(ctx, _arg_deviceProfileName, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerGetPlatformPermissionsForGroup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_permissionGroupName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GetPlatformPermissionsForGroup(ctx, _arg_permissionGroupName, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerGetGroupOfPlatformPermission:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_permissionName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GetGroupOfPlatformPermission(ctx, _arg_permissionName, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerGetUnusedAppCount:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetUnusedAppCount(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerGetHibernationEligibility:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GetHibernationEligibility(ctx, _arg_packageName, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPermissionControllerRevokeSelfPermissionsOnKill:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_permissions []string
+		_ = _arg_permissions
+		_arg_deviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RevokeSelfPermissionsOnKill(ctx, _arg_packageName, _arg_permissions, _arg_deviceId, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

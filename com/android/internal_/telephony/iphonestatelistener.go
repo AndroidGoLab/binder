@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	config "github.com/xaionaro-go/binder/android/hardware/radio/config"
 	ImsCall "github.com/xaionaro-go/binder/android/hardware/radio/ims/ImsCall"
 	media "github.com/xaionaro-go/binder/android/hardware/radio/ims/media"
@@ -1075,4 +1076,725 @@ func (p *PhoneStateListenerProxy) OnCellularIdentifierDisclosedChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PhoneStateListenerStub dispatches incoming binder transactions
+// to a typed IPhoneStateListener implementation.
+type PhoneStateListenerStub struct {
+	Impl IPhoneStateListener
+}
+
+var _ binder.TransactionReceiver = (*PhoneStateListenerStub)(nil)
+
+func (s *PhoneStateListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPhoneStateListenerOnServiceStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_serviceState androidTelephony.ServiceState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_serviceState.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnServiceStateChanged(ctx, _arg_serviceState)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnSignalStrengthChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_asu, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSignalStrengthChanged(ctx, _arg_asu)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnMessageWaitingIndicatorChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_mwi, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnMessageWaitingIndicatorChanged(ctx, _arg_mwi)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnCallForwardingIndicatorChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cfi, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCallForwardingIndicatorChanged(ctx, _arg_cfi)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnCellLocationChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_location network.CellIdentity
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_location.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnCellLocationChanged(ctx, _arg_location)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnLegacyCallStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_incomingNumber, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnLegacyCallStateChanged(ctx, _arg_state, _arg_incomingNumber)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnCallStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCallStateChanged(ctx, _arg_state)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnDataConnectionStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_networkType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDataConnectionStateChanged(ctx, _arg_state, _arg_networkType)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnDataActivity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_direction, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDataActivity(ctx, _arg_direction)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnSignalStrengthsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_signalStrength network.SignalStrength
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_signalStrength.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSignalStrengthsChanged(ctx, _arg_signalStrength)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnCellInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_cellInfo []network.CellInfo
+		_ = _arg_cellInfo
+		_err := s.Impl.OnCellInfoChanged(ctx, _arg_cellInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnPreciseCallStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callState androidTelephony.PreciseCallState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callState.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPreciseCallStateChanged(ctx, _arg_callState)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnPreciseDataConnectionStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_dataConnectionState androidTelephony.PreciseDataConnectionState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_dataConnectionState.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPreciseDataConnectionStateChanged(ctx, _arg_dataConnectionState)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnDataConnectionRealTimeInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_dcRtInfo androidTelephony.DataConnectionRealTimeInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_dcRtInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnDataConnectionRealTimeInfoChanged(ctx, _arg_dcRtInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnSrvccStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSrvccStateChanged(ctx, _arg_state)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnVoiceActivationStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_activationState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnVoiceActivationStateChanged(ctx, _arg_activationState)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnDataActivationStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_activationState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDataActivationStateChanged(ctx, _arg_activationState)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnOemHookRawEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_rawData []byte
+		_ = _arg_rawData
+		_err := s.Impl.OnOemHookRawEvent(ctx, _arg_rawData)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnCarrierNetworkChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_active, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCarrierNetworkChange(ctx, _arg_active)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnUserMobileDataStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUserMobileDataStateChanged(ctx, _arg_enabled)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnDisplayInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_telephonyDisplayInfo androidTelephony.TelephonyDisplayInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_telephonyDisplayInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnDisplayInfoChanged(ctx, _arg_telephonyDisplayInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnPhoneCapabilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_capability config.PhoneCapability
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_capability.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPhoneCapabilityChanged(ctx, _arg_capability)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnActiveDataSubIdChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnActiveDataSubIdChanged(ctx, _arg_subId)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnRadioPowerStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRadioPowerStateChanged(ctx, _arg_state)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnCallStatesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_callStateList []ImsCall.CallState
+		_ = _arg_callStateList
+		_err := s.Impl.OnCallStatesChanged(ctx, _arg_callStateList)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnEmergencyNumberListChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: map param unmarshaling not yet supported in stubs
+		var _arg_emergencyNumberList map[interface{}]interface{}
+		_ = _arg_emergencyNumberList
+		_err := s.Impl.OnEmergencyNumberListChanged(ctx, _arg_emergencyNumberList)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnOutgoingEmergencyCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_placedEmergencyNumber voice.EmergencyNumber
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_placedEmergencyNumber.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_subscriptionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnOutgoingEmergencyCall(ctx, _arg_placedEmergencyNumber, _arg_subscriptionId)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnOutgoingEmergencySms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sentEmergencyNumber voice.EmergencyNumber
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sentEmergencyNumber.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_subscriptionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnOutgoingEmergencySms(ctx, _arg_sentEmergencyNumber, _arg_subscriptionId)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnCallDisconnectCauseChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_disconnectCause, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_preciseDisconnectCause, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCallDisconnectCauseChanged(ctx, _arg_disconnectCause, _arg_preciseDisconnectCause)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnImsCallDisconnectCauseChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_imsReasonInfo ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_imsReasonInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnImsCallDisconnectCauseChanged(ctx, _arg_imsReasonInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnRegistrationFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_cellIdentity network.CellIdentity
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cellIdentity.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_chosenPlmn, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_domain, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_causeCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_additionalCauseCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRegistrationFailed(ctx, _arg_cellIdentity, _arg_chosenPlmn, _arg_domain, _arg_causeCode, _arg_additionalCauseCode)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnBarringInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_barringInfo network.BarringInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_barringInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnBarringInfoChanged(ctx, _arg_barringInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnPhysicalChannelConfigChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_configs []network.PhysicalChannelConfig
+		_ = _arg_configs
+		_err := s.Impl.OnPhysicalChannelConfigChanged(ctx, _arg_configs)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnDataEnabledChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDataEnabledChanged(ctx, _arg_enabled, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnAllowedNetworkTypesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_allowedNetworkType, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAllowedNetworkTypesChanged(ctx, _arg_reason, _arg_allowedNetworkType)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnLinkCapacityEstimateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_linkCapacityEstimateList []network.LinkCapacityEstimate
+		_ = _arg_linkCapacityEstimateList
+		_err := s.Impl.OnLinkCapacityEstimateChanged(ctx, _arg_linkCapacityEstimateList)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnMediaQualityStatusChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_mediaQualityStatus media.MediaQualityStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_mediaQualityStatus.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnMediaQualityStatusChanged(ctx, _arg_mediaQualityStatus)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnCallbackModeStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_durationMillis, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCallbackModeStarted(ctx, _arg_type_, _arg_durationMillis, _arg_subId)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnCallbackModeRestarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_durationMillis, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCallbackModeRestarted(ctx, _arg_type_, _arg_durationMillis, _arg_subId)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnCallbackModeStopped:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCallbackModeStopped(ctx, _arg_type_, _arg_reason, _arg_subId)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnSimultaneousCallingStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_subIds []int32
+		_ = _arg_subIds
+		_err := s.Impl.OnSimultaneousCallingStateChanged(ctx, _arg_subIds)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnCarrierRoamingNtnModeChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_active, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCarrierRoamingNtnModeChanged(ctx, _arg_active)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnCarrierRoamingNtnEligibleStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_eligible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCarrierRoamingNtnEligibleStateChanged(ctx, _arg_eligible)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnCarrierRoamingNtnAvailableServicesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_availableServices []int32
+		_ = _arg_availableServices
+		_err := s.Impl.OnCarrierRoamingNtnAvailableServicesChanged(ctx, _arg_availableServices)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnCarrierRoamingNtnSignalStrengthChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_ntnSignalStrength interface{}
+		_err := s.Impl.OnCarrierRoamingNtnSignalStrengthChanged(ctx, _arg_ntnSignalStrength)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnSecurityAlgorithmsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_update network.SecurityAlgorithmUpdate
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSecurityAlgorithmsChanged(ctx, _arg_update)
+		_ = _err
+		return nil, nil
+	case TransactionIPhoneStateListenerOnCellularIdentifierDisclosedChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_disclosure network.CellularIdentifierDisclosure
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_disclosure.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnCellularIdentifierDisclosedChanged(ctx, _arg_disclosure)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

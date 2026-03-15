@@ -2,6 +2,7 @@ package recents
 
 import (
 	"context"
+	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	content "github.com/xaionaro-go/binder/android/content"
 	os "github.com/xaionaro-go/binder/android/os"
@@ -197,4 +198,135 @@ func (p *RecentTasksProxy) StartRecentsTransition(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RecentTasksStub dispatches incoming binder transactions
+// to a typed IRecentTasks implementation.
+type RecentTasksStub struct {
+	Impl IRecentTasks
+}
+
+var _ binder.TransactionReceiver = (*RecentTasksStub)(nil)
+
+func (s *RecentTasksStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRecentTasksRegisterRecentTasksListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IRecentTasksListener
+		_ = _arg_listener
+		_err := s.Impl.RegisterRecentTasksListener(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIRecentTasksUnregisterRecentTasksListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IRecentTasksListener
+		_ = _arg_listener
+		_err := s.Impl.UnregisterRecentTasksListener(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIRecentTasksGetRecentTasks:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_maxNum, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetRecentTasks(ctx, _arg_maxNum, _arg_flags)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIRecentTasksGetRunningTasks:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_maxNum, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetRunningTasks(ctx, _arg_maxNum)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIRecentTasksStartRecentsTransition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_fillIn content.Intent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_fillIn.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_appThread app.IApplicationThread
+		_ = _arg_appThread
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IRecentsAnimationRunner
+		_ = _arg_listener
+		_err := s.Impl.StartRecentsTransition(ctx, _arg_intent, _arg_fillIn, _arg_options, _arg_appThread, _arg_listener)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

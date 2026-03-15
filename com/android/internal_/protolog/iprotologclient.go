@@ -2,6 +2,7 @@ package protolog
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -68,4 +69,42 @@ func (p *ProtoLogClientProxy) ToggleLogcat(
 	}
 
 	return nil
+}
+
+// ProtoLogClientStub dispatches incoming binder transactions
+// to a typed IProtoLogClient implementation.
+type ProtoLogClientStub struct {
+	Impl IProtoLogClient
+}
+
+var _ binder.TransactionReceiver = (*ProtoLogClientStub)(nil)
+
+func (s *ProtoLogClientStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIProtoLogClientToggleLogcat:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_groups []string
+		_ = _arg_groups
+		_err = s.Impl.ToggleLogcat(ctx, _arg_enabled, _arg_groups)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

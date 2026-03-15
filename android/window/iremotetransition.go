@@ -2,6 +2,7 @@ package window
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -146,4 +147,121 @@ func (p *RemoteTransitionProxy) OnTransitionConsumed(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RemoteTransitionStub dispatches incoming binder transactions
+// to a typed IRemoteTransition implementation.
+type RemoteTransitionStub struct {
+	Impl IRemoteTransition
+}
+
+var _ binder.TransactionReceiver = (*RemoteTransitionStub)(nil)
+
+func (s *RemoteTransitionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRemoteTransitionStartAnimation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		var _arg_info TransitionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_t interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_finishCallback IRemoteTransitionFinishedCallback
+		_ = _arg_finishCallback
+		_err := s.Impl.StartAnimation(ctx, _arg_token, _arg_info, _arg_t, _arg_finishCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteTransitionMergeAnimation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_transition binder.IBinder
+		_ = _arg_transition
+		var _arg_info TransitionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_t interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_mergeTarget binder.IBinder
+		_ = _arg_mergeTarget
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_finishCallback IRemoteTransitionFinishedCallback
+		_ = _arg_finishCallback
+		_err := s.Impl.MergeAnimation(ctx, _arg_transition, _arg_info, _arg_t, _arg_mergeTarget, _arg_finishCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteTransitionTakeOverAnimation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_transition binder.IBinder
+		_ = _arg_transition
+		var _arg_info TransitionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_t interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_finishCallback IRemoteTransitionFinishedCallback
+		_ = _arg_finishCallback
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_states []WindowAnimationState
+		_ = _arg_states
+		_err := s.Impl.TakeOverAnimation(ctx, _arg_transition, _arg_info, _arg_t, _arg_finishCallback, _arg_states)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteTransitionOnTransitionConsumed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_transition binder.IBinder
+		_ = _arg_transition
+		_arg_aborted, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTransitionConsumed(ctx, _arg_transition, _arg_aborted)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package biometrics
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -92,4 +93,63 @@ func (p *BiometricStateListenerProxy) OnEnrollmentsChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BiometricStateListenerStub dispatches incoming binder transactions
+// to a typed IBiometricStateListener implementation.
+type BiometricStateListenerStub struct {
+	Impl IBiometricStateListener
+}
+
+var _ binder.TransactionReceiver = (*BiometricStateListenerStub)(nil)
+
+func (s *BiometricStateListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBiometricStateListenerOnStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_newState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStateChanged(ctx, _arg_newState)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricStateListenerOnBiometricAction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_action, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnBiometricAction(ctx, _arg_action)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricStateListenerOnEnrollmentsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_sensorId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_hasEnrollments, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnEnrollmentsChanged(ctx, _arg_sensorId, _arg_hasEnrollments)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

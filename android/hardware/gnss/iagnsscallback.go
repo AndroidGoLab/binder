@@ -2,6 +2,7 @@ package gnss
 
 import (
 	"context"
+	"fmt"
 	gnssIAGnssCallback "github.com/xaionaro-go/binder/android/hardware/gnss/IAGnssCallback"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -62,4 +63,45 @@ func (p *AGnssCallbackProxy) AgnssStatusCb(
 	}
 
 	return nil
+}
+
+// AGnssCallbackStub dispatches incoming binder transactions
+// to a typed IAGnssCallback implementation.
+type AGnssCallbackStub struct {
+	Impl IAGnssCallback
+}
+
+var _ binder.TransactionReceiver = (*AGnssCallbackStub)(nil)
+
+func (s *AGnssCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAGnssCallbackAgnssStatusCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := gnssIAGnssCallback.AGnssType(_raw_type_)
+		_raw_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := gnssIAGnssCallback.AGnssStatusValue(_raw_status)
+		_err = s.Impl.AgnssStatusCb(ctx, _arg_type_, _arg_status)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

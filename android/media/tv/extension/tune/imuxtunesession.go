@@ -2,6 +2,7 @@ package tune
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -152,4 +153,96 @@ func (p *MuxTuneSessionProxy) GetSessionToken(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// MuxTuneSessionStub dispatches incoming binder transactions
+// to a typed IMuxTuneSession implementation.
+type MuxTuneSessionStub struct {
+	Impl IMuxTuneSession
+}
+
+var _ binder.TransactionReceiver = (*MuxTuneSessionStub)(nil)
+
+func (s *MuxTuneSessionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMuxTuneSessionStart:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_broadcastType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_frequency, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_brandwith, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_muxTuneParams os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_muxTuneParams.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.Start(ctx, _arg_broadcastType, _arg_frequency, _arg_brandwith, _arg_muxTuneParams)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMuxTuneSessionStop:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Stop(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMuxTuneSessionRelease:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Release(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMuxTuneSessionGetSessionToken:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSessionToken(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

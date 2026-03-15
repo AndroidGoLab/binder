@@ -2,6 +2,7 @@ package wallpaper
 
 import (
 	"context"
+	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	appWallpaper "github.com/xaionaro-go/binder/android/app/wallpaper"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
@@ -101,4 +102,106 @@ func (p *WallpaperServiceProxy) Detach(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// WallpaperServiceStub dispatches incoming binder transactions
+// to a typed IWallpaperService implementation.
+type WallpaperServiceStub struct {
+	Impl IWallpaperService
+}
+
+var _ binder.TransactionReceiver = (*WallpaperServiceStub)(nil)
+
+func (s *WallpaperServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWallpaperServiceAttach:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_connection IWallpaperConnection
+		_ = _arg_connection
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_windowToken binder.IBinder
+		_ = _arg_windowToken
+		_arg_windowType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isPreview, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reqWidth, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reqHeight, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_padding graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_padding.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_which, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_info app.WallpaperInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_description appWallpaper.WallpaperDescription
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_description.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.Attach(ctx, _arg_connection, _arg_windowToken, _arg_windowType, _arg_isPreview, _arg_reqWidth, _arg_reqHeight, _arg_padding, _arg_displayId, _arg_which, _arg_info, _arg_description)
+		_ = _err
+		return nil, nil
+	case TransactionIWallpaperServiceDetach:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_windowToken binder.IBinder
+		_ = _arg_windowToken
+		_err := s.Impl.Detach(ctx, _arg_windowToken)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

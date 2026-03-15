@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -81,4 +82,52 @@ func (p *SurfaceControlViewHostParentProxy) ForwardBackKeyToParent(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SurfaceControlViewHostParentStub dispatches incoming binder transactions
+// to a typed ISurfaceControlViewHostParent implementation.
+type SurfaceControlViewHostParentStub struct {
+	Impl ISurfaceControlViewHostParent
+}
+
+var _ binder.TransactionReceiver = (*SurfaceControlViewHostParentStub)(nil)
+
+func (s *SurfaceControlViewHostParentStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISurfaceControlViewHostParentUpdateParams:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_childAttrs []WindowManagerLayoutParams
+		_ = _arg_childAttrs
+		_err := s.Impl.UpdateParams(ctx, _arg_childAttrs)
+		_ = _err
+		return nil, nil
+	case TransactionISurfaceControlViewHostParentForwardBackKeyToParent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_keyEvent KeyEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_keyEvent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ForwardBackKeyToParent(ctx, _arg_keyEvent)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

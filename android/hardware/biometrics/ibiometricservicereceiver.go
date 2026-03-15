@@ -2,6 +2,7 @@ package biometrics
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -149,4 +150,97 @@ func (p *BiometricServiceReceiverProxy) OnSystemEvent(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BiometricServiceReceiverStub dispatches incoming binder transactions
+// to a typed IBiometricServiceReceiver implementation.
+type BiometricServiceReceiverStub struct {
+	Impl IBiometricServiceReceiver
+}
+
+var _ binder.TransactionReceiver = (*BiometricServiceReceiverStub)(nil)
+
+func (s *BiometricServiceReceiverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBiometricServiceReceiverOnAuthenticationSucceeded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_authenticationType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAuthenticationSucceeded(ctx, _arg_authenticationType)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricServiceReceiverOnAuthenticationFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnAuthenticationFailed(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricServiceReceiverOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modality, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_error_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_vendorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_modality, _arg_error_, _arg_vendorCode)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricServiceReceiverOnAcquired:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_acquiredInfo, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_message, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAcquired(ctx, _arg_acquiredInfo, _arg_message)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricServiceReceiverOnDialogDismissed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDialogDismissed(ctx, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricServiceReceiverOnSystemEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_event, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSystemEvent(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

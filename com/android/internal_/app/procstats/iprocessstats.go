@@ -2,6 +2,7 @@ package procstats
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -287,4 +288,130 @@ func (p *ProcessStatsProxy) GetMinAssociationDumpDuration(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// ProcessStatsStub dispatches incoming binder transactions
+// to a typed IProcessStats implementation.
+type ProcessStatsStub struct {
+	Impl IProcessStats
+}
+
+var _ binder.TransactionReceiver = (*ProcessStatsStub)(nil)
+
+func (s *ProcessStatsStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIProcessStatsGetCurrentStats:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCurrentStats(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIProcessStatsGetStatsOverTime:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_minTime, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetStatsOverTime(ctx, _arg_minTime)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteFileDescriptor(_result)
+		return _reply, nil
+	case TransactionIProcessStatsGetCurrentMemoryState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCurrentMemoryState(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIProcessStatsGetCommittedStats:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_highWaterMarkMs, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_section, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_doAggregate, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCommittedStats(ctx, _arg_highWaterMarkMs, _arg_section, _arg_doAggregate)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt64(_result)
+		return _reply, nil
+	case TransactionIProcessStatsGetCommittedStatsMerged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_highWaterMarkMs, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_section, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_doAggregate, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCommittedStatsMerged(ctx, _arg_highWaterMarkMs, _arg_section, _arg_doAggregate)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt64(_result)
+		return _reply, nil
+	case TransactionIProcessStatsGetMinAssociationDumpDuration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetMinAssociationDumpDuration(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt64(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

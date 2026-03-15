@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -67,4 +68,45 @@ func (p *ActivityPendingResultProxy) SendResult(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// ActivityPendingResultStub dispatches incoming binder transactions
+// to a typed IActivityPendingResult implementation.
+type ActivityPendingResultStub struct {
+	Impl IActivityPendingResult
+}
+
+var _ binder.TransactionReceiver = (*ActivityPendingResultStub)(nil)
+
+func (s *ActivityPendingResultStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIActivityPendingResultSendResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_code, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_data, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_ex interface{}
+		_result, _err := s.Impl.SendResult(ctx, _arg_code, _arg_data, _arg_ex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

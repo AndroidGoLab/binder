@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	cdma "github.com/xaionaro-go/binder/android/telephony/cdma"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -152,4 +153,91 @@ func (p *CellBroadcastServiceProxy) GetCellBroadcastAreaInfo(
 	}
 
 	return _result, nil
+}
+
+// CellBroadcastServiceStub dispatches incoming binder transactions
+// to a typed ICellBroadcastService implementation.
+type CellBroadcastServiceStub struct {
+	Impl ICellBroadcastService
+}
+
+var _ binder.TransactionReceiver = (*CellBroadcastServiceStub)(nil)
+
+func (s *CellBroadcastServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICellBroadcastServiceHandleGsmCellBroadcastSms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_message []byte
+		_ = _arg_message
+		_err = s.Impl.HandleGsmCellBroadcastSms(ctx, _arg_slotId, _arg_message)
+		_ = _err
+		return nil, nil
+	case TransactionICellBroadcastServiceHandleCdmaCellBroadcastSms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bearerData []byte
+		_ = _arg_bearerData
+		_arg_serviceCategory, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.HandleCdmaCellBroadcastSms(ctx, _arg_slotId, _arg_bearerData, _arg_serviceCategory)
+		_ = _err
+		return nil, nil
+	case TransactionICellBroadcastServiceHandleCdmaScpMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_programData []cdma.CdmaSmsCbProgramData
+		_ = _arg_programData
+		_arg_originatingAddress, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err = s.Impl.HandleCdmaScpMessage(ctx, _arg_slotId, _arg_programData, _arg_originatingAddress, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionICellBroadcastServiceGetCellBroadcastAreaInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCellBroadcastAreaInfo(ctx, _arg_slotIndex)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

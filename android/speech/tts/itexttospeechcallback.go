@@ -2,6 +2,7 @@ package tts
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -189,4 +190,135 @@ func (p *TextToSpeechCallbackProxy) OnRangeStart(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TextToSpeechCallbackStub dispatches incoming binder transactions
+// to a typed ITextToSpeechCallback implementation.
+type TextToSpeechCallbackStub struct {
+	Impl ITextToSpeechCallback
+}
+
+var _ binder.TransactionReceiver = (*TextToSpeechCallbackStub)(nil)
+
+func (s *TextToSpeechCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITextToSpeechCallbackOnStart:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_utteranceId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStart(ctx, _arg_utteranceId)
+		_ = _err
+		return nil, nil
+	case TransactionITextToSpeechCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_utteranceId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSuccess(ctx, _arg_utteranceId)
+		_ = _err
+		return nil, nil
+	case TransactionITextToSpeechCallbackOnStop:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_utteranceId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isStarted, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStop(ctx, _arg_utteranceId, _arg_isStarted)
+		_ = _err
+		return nil, nil
+	case TransactionITextToSpeechCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_utteranceId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_utteranceId, _arg_errorCode)
+		_ = _err
+		return nil, nil
+	case TransactionITextToSpeechCallbackOnBeginSynthesis:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_utteranceId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sampleRateInHz, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_audioFormat, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_channelCount, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnBeginSynthesis(ctx, _arg_utteranceId, _arg_sampleRateInHz, _arg_audioFormat, _arg_channelCount)
+		_ = _err
+		return nil, nil
+	case TransactionITextToSpeechCallbackOnAudioAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_utteranceId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_audio []byte
+		_ = _arg_audio
+		_err = s.Impl.OnAudioAvailable(ctx, _arg_utteranceId, _arg_audio)
+		_ = _err
+		return nil, nil
+	case TransactionITextToSpeechCallbackOnRangeStart:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_utteranceId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_start, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_end, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_frame, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRangeStart(ctx, _arg_utteranceId, _arg_start, _arg_end, _arg_frame)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

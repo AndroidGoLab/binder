@@ -2,6 +2,7 @@ package onemedia
 
 import (
 	"context"
+	"fmt"
 	session "github.com/xaionaro-go/binder/android/media/session"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -63,4 +64,47 @@ func (p *PlayerCallbackProxy) OnSessionChanged(
 	}
 
 	return nil
+}
+
+// PlayerCallbackStub dispatches incoming binder transactions
+// to a typed IPlayerCallback implementation.
+type PlayerCallbackStub struct {
+	Impl IPlayerCallback
+}
+
+var _ binder.TransactionReceiver = (*PlayerCallbackStub)(nil)
+
+func (s *PlayerCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPlayerCallbackOnSessionChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_session session.MediaSessionToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_session.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSessionChanged(ctx, _arg_session)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

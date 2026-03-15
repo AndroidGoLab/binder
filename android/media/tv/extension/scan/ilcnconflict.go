@@ -2,6 +2,7 @@ package scan
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -147,4 +148,69 @@ func (p *LcnConflictProxy) SetListener(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// LcnConflictStub dispatches incoming binder transactions
+// to a typed ILcnConflict implementation.
+type LcnConflictStub struct {
+	Impl ILcnConflict
+}
+
+var _ binder.TransactionReceiver = (*LcnConflictStub)(nil)
+
+func (s *LcnConflictStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionILcnConflictGetLcnConflictGroups:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetLcnConflictGroups(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionILcnConflictResolveLcnConflict:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_lcnConflictSettings []os.Bundle
+		_ = _arg_lcnConflictSettings
+		_result, _err := s.Impl.ResolveLcnConflict(ctx, _arg_lcnConflictSettings)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionILcnConflictSetListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ILcnConflictListener
+		_ = _arg_listener
+		_result, _err := s.Impl.SetListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

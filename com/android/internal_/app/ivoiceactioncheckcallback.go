@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -57,4 +58,33 @@ func (p *VoiceActionCheckCallbackProxy) OnComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VoiceActionCheckCallbackStub dispatches incoming binder transactions
+// to a typed IVoiceActionCheckCallback implementation.
+type VoiceActionCheckCallbackStub struct {
+	Impl IVoiceActionCheckCallback
+}
+
+var _ binder.TransactionReceiver = (*VoiceActionCheckCallbackStub)(nil)
+
+func (s *VoiceActionCheckCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVoiceActionCheckCallbackOnComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_voiceActions []string
+		_ = _arg_voiceActions
+		_err := s.Impl.OnComplete(ctx, _arg_voiceActions)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

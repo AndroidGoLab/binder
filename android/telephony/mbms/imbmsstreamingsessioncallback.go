@@ -2,6 +2,7 @@ package mbms
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -97,4 +98,55 @@ func (p *MbmsStreamingSessionCallbackProxy) OnMiddlewareReady(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MbmsStreamingSessionCallbackStub dispatches incoming binder transactions
+// to a typed IMbmsStreamingSessionCallback implementation.
+type MbmsStreamingSessionCallbackStub struct {
+	Impl IMbmsStreamingSessionCallback
+}
+
+var _ binder.TransactionReceiver = (*MbmsStreamingSessionCallbackStub)(nil)
+
+func (s *MbmsStreamingSessionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMbmsStreamingSessionCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_message, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_errorCode, _arg_message)
+		_ = _err
+		return nil, nil
+	case TransactionIMbmsStreamingSessionCallbackOnStreamingServicesUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_services []StreamingServiceInfo
+		_ = _arg_services
+		_err := s.Impl.OnStreamingServicesUpdated(ctx, _arg_services)
+		_ = _err
+		return nil, nil
+	case TransactionIMbmsStreamingSessionCallbackOnMiddlewareReady:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnMiddlewareReady(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

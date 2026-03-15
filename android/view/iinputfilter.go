@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -91,4 +92,63 @@ func (p *InputFilterProxy) FilterInputEvent(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InputFilterStub dispatches incoming binder transactions
+// to a typed IInputFilter implementation.
+type InputFilterStub struct {
+	Impl IInputFilter
+}
+
+var _ binder.TransactionReceiver = (*InputFilterStub)(nil)
+
+func (s *InputFilterStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInputFilterInstall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_host IInputFilterHost
+		_ = _arg_host
+		_err := s.Impl.Install(ctx, _arg_host)
+		_ = _err
+		return nil, nil
+	case TransactionIInputFilterUninstall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Uninstall(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInputFilterFilterInputEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event InputEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_policyFlags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.FilterInputEvent(ctx, _arg_event, _arg_policyFlags)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

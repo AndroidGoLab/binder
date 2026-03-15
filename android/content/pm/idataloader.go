@@ -2,6 +2,7 @@ package pm
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -158,4 +159,111 @@ func (p *DataLoaderProxy) PrepareImage(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DataLoaderStub dispatches incoming binder transactions
+// to a typed IDataLoader implementation.
+type DataLoaderStub struct {
+	Impl IDataLoader
+}
+
+var _ binder.TransactionReceiver = (*DataLoaderStub)(nil)
+
+func (s *DataLoaderStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDataLoaderCreate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_params DataLoaderParamsParcel
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_control FileSystemControlParcel
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_control.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IDataLoaderStatusListener
+		_ = _arg_listener
+		_err = s.Impl.Create(ctx, _arg_id, _arg_params, _arg_control, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIDataLoaderStart:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Start(ctx, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIDataLoaderStop:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Stop(ctx, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIDataLoaderDestroy:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Destroy(ctx, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIDataLoaderPrepareImage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_addedFiles []InstallationFileParcel
+		_ = _arg_addedFiles
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_removedFiles []string
+		_ = _arg_removedFiles
+		_err = s.Impl.PrepareImage(ctx, _arg_id, _arg_addedFiles, _arg_removedFiles)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

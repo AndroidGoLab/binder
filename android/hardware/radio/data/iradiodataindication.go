@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"fmt"
 	radio "github.com/xaionaro-go/binder/android/hardware/radio"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -158,4 +159,134 @@ func (p *RadioDataIndicationProxy) SlicingConfigChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RadioDataIndicationStub dispatches incoming binder transactions
+// to a typed IRadioDataIndication implementation.
+type RadioDataIndicationStub struct {
+	Impl IRadioDataIndication
+}
+
+var _ binder.TransactionReceiver = (*RadioDataIndicationStub)(nil)
+
+func (s *RadioDataIndicationStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRadioDataIndicationDataCallListChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_dcList []SetupDataCallResult
+		_ = _arg_dcList
+		_err = s.Impl.DataCallListChanged(ctx, _arg_type_, _arg_dcList)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataIndicationKeepaliveStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		var _arg_status KeepaliveStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.KeepaliveStatus(ctx, _arg_type_, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataIndicationPcoData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		var _arg_pco PcoDataInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pco.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.PcoData(ctx, _arg_type_, _arg_pco)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataIndicationUnthrottleApn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		var _arg_dataProfileInfo DataProfileInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_dataProfileInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.UnthrottleApn(ctx, _arg_type_, _arg_dataProfileInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataIndicationSlicingConfigChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		var _arg_slicingConfig SlicingConfig
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_slicingConfig.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SlicingConfigChanged(ctx, _arg_type_, _arg_slicingConfig)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

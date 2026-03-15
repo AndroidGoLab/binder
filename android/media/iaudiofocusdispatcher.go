@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -73,4 +74,53 @@ func (p *AudioFocusDispatcherProxy) DispatchFocusResultFromExtPolicy(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AudioFocusDispatcherStub dispatches incoming binder transactions
+// to a typed IAudioFocusDispatcher implementation.
+type AudioFocusDispatcherStub struct {
+	Impl IAudioFocusDispatcher
+}
+
+var _ binder.TransactionReceiver = (*AudioFocusDispatcherStub)(nil)
+
+func (s *AudioFocusDispatcherStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAudioFocusDispatcherDispatchAudioFocusChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_focusChange, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_clientId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DispatchAudioFocusChange(ctx, _arg_focusChange, _arg_clientId)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioFocusDispatcherDispatchFocusResultFromExtPolicy:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestResult, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_clientId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DispatchFocusResultFromExtPolicy(ctx, _arg_requestResult, _arg_clientId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

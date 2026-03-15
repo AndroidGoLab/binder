@@ -2,6 +2,7 @@ package resumeonreboot
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -96,4 +97,71 @@ func (p *ResumeOnRebootServiceProxy) Unwrap(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ResumeOnRebootServiceStub dispatches incoming binder transactions
+// to a typed IResumeOnRebootService implementation.
+type ResumeOnRebootServiceStub struct {
+	Impl IResumeOnRebootService
+}
+
+var _ binder.TransactionReceiver = (*ResumeOnRebootServiceStub)(nil)
+
+func (s *ResumeOnRebootServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIResumeOnRebootServiceWrapSecret:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_unwrappedBlob []byte
+		_ = _arg_unwrappedBlob
+		_arg_lifeTimeInMillis, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_resultCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.WrapSecret(ctx, _arg_unwrappedBlob, _arg_lifeTimeInMillis, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIResumeOnRebootServiceUnwrap:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_wrappedBlob []byte
+		_ = _arg_wrappedBlob
+		var _arg_resultCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.Unwrap(ctx, _arg_wrappedBlob, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

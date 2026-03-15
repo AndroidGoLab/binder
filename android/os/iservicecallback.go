@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -52,4 +53,37 @@ func (p *ServiceCallbackProxy) OnRegistration(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ServiceCallbackStub dispatches incoming binder transactions
+// to a typed IServiceCallback implementation.
+type ServiceCallbackStub struct {
+	Impl IServiceCallback
+}
+
+var _ binder.TransactionReceiver = (*ServiceCallbackStub)(nil)
+
+func (s *ServiceCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIServiceCallbackOnRegistration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_binder_ binder.IBinder
+		_ = _arg_binder_
+		_err = s.Impl.OnRegistration(ctx, _arg_name, _arg_binder_)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

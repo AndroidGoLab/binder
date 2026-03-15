@@ -2,6 +2,7 @@ package wearable
 
 import (
 	"context"
+	"fmt"
 	ambientcontext "github.com/xaionaro-go/binder/android/app/ambientcontext"
 	appWearable "github.com/xaionaro-go/binder/android/app/wearable"
 	os "github.com/xaionaro-go/binder/android/os"
@@ -413,4 +414,387 @@ func (p *WearableSensingServiceProxy) KillProcess(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// WearableSensingServiceStub dispatches incoming binder transactions
+// to a typed IWearableSensingService implementation.
+type WearableSensingServiceStub struct {
+	Impl IWearableSensingService
+}
+
+var _ binder.TransactionReceiver = (*WearableSensingServiceStub)(nil)
+
+func (s *WearableSensingServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWearableSensingServiceProvideSecureConnection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_parcelFileDescriptor, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_wearableSensingCallback appWearable.IWearableSensingCallback
+		_ = _arg_wearableSensingCallback
+		var _arg_statusCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ProvideSecureConnection(ctx, _arg_parcelFileDescriptor, _arg_wearableSensingCallback, _arg_statusCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIWearableSensingServiceProvideConcurrentSecureConnection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_parcelFileDescriptor, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_metadata interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_wearableSensingCallback appWearable.IWearableSensingCallback
+		_ = _arg_wearableSensingCallback
+		var _arg_statusCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ProvideConcurrentSecureConnection(ctx, _arg_parcelFileDescriptor, _arg_metadata, _arg_wearableSensingCallback, _arg_statusCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIWearableSensingServiceProvideReadOnlyParcelFileDescriptor:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_parcelFileDescriptor, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_metadata interface{}
+		var _arg_statusCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ProvideReadOnlyParcelFileDescriptor(ctx, _arg_parcelFileDescriptor, _arg_metadata, _arg_statusCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIWearableSensingServiceProvideDataStream:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_parcelFileDescriptor, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_wearableSensingCallback appWearable.IWearableSensingCallback
+		_ = _arg_wearableSensingCallback
+		var _arg_statusCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ProvideDataStream(ctx, _arg_parcelFileDescriptor, _arg_wearableSensingCallback, _arg_statusCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIWearableSensingServiceProvideData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_data interface{}
+		var _arg_sharedMemory os.SharedMemory
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sharedMemory.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_callback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ProvideData(ctx, _arg_data, _arg_sharedMemory, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIWearableSensingServiceRegisterDataRequestObserver:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_dataType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_dataRequestCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_dataRequestCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_dataRequestObserverId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_statusCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RegisterDataRequestObserver(ctx, _arg_dataType, _arg_dataRequestCallback, _arg_dataRequestObserverId, _arg_packageName, _arg_statusCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIWearableSensingServiceUnregisterDataRequestObserver:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_dataType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dataRequestObserverId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_statusCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.UnregisterDataRequestObserver(ctx, _arg_dataType, _arg_dataRequestObserverId, _arg_packageName, _arg_statusCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIWearableSensingServiceStartHotwordRecognition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_wearableHotwordCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_wearableHotwordCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_statusCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.StartHotwordRecognition(ctx, _arg_wearableHotwordCallback, _arg_statusCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIWearableSensingServiceStopHotwordRecognition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_statusCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.StopHotwordRecognition(ctx, _arg_statusCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIWearableSensingServiceOnValidatedByHotwordDetectionService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnValidatedByHotwordDetectionService(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIWearableSensingServiceStopActiveHotwordAudio:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StopActiveHotwordAudio(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIWearableSensingServiceStartDetection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request ambientcontext.AmbientContextEventRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_detectionResultCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_detectionResultCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_statusCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StartDetection(ctx, _arg_request, _arg_packageName, _arg_detectionResultCallback, _arg_statusCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIWearableSensingServiceStopDetection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StopDetection(ctx, _arg_packageName)
+		_ = _err
+		return nil, nil
+	case TransactionIWearableSensingServiceQueryServiceStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_eventTypes []int32
+		_ = _arg_eventTypes
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.QueryServiceStatus(ctx, _arg_eventTypes, _arg_packageName, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIWearableSensingServiceKillProcess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.KillProcess(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package location
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -52,4 +53,38 @@ func (p *GnssNmeaListenerProxy) OnNmeaReceived(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GnssNmeaListenerStub dispatches incoming binder transactions
+// to a typed IGnssNmeaListener implementation.
+type GnssNmeaListenerStub struct {
+	Impl IGnssNmeaListener
+}
+
+var _ binder.TransactionReceiver = (*GnssNmeaListenerStub)(nil)
+
+func (s *GnssNmeaListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssNmeaListenerOnNmeaReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_timestamp, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_nmea, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNmeaReceived(ctx, _arg_timestamp, _arg_nmea)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

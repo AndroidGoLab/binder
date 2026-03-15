@@ -2,6 +2,7 @@ package autofill
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -91,4 +92,62 @@ func (p *FillCallbackProxy) OnFailure(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// FillCallbackStub dispatches incoming binder transactions
+// to a typed IFillCallback implementation.
+type FillCallbackStub struct {
+	Impl IFillCallback
+}
+
+var _ binder.TransactionReceiver = (*FillCallbackStub)(nil)
+
+func (s *FillCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIFillCallbackOnCancellable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_cancellation interface{}
+		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
+		_ = _err
+		return nil, nil
+	case TransactionIFillCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_response FillResponse
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_response.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSuccess(ctx, _arg_response)
+		_ = _err
+		return nil, nil
+	case TransactionIFillCallbackOnFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_message interface{}
+		_err = s.Impl.OnFailure(ctx, _arg_requestId, _arg_message)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package dreams
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,38 @@ func (p *DreamOverlayProxy) GetClient(
 	}
 
 	return nil
+}
+
+// DreamOverlayStub dispatches incoming binder transactions
+// to a typed IDreamOverlay implementation.
+type DreamOverlayStub struct {
+	Impl IDreamOverlay
+}
+
+var _ binder.TransactionReceiver = (*DreamOverlayStub)(nil)
+
+func (s *DreamOverlayStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDreamOverlayGetClient:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDreamOverlayClientCallback
+		_ = _arg_callback
+		_err := s.Impl.GetClient(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

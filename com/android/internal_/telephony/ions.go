@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	androidTelephony "github.com/xaionaro-go/binder/android/telephony"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -209,4 +210,125 @@ func (p *OnsProxy) UpdateAvailableNetworks(
 	}
 
 	return nil
+}
+
+// OnsStub dispatches incoming binder transactions
+// to a typed IOns implementation.
+type OnsStub struct {
+	Impl IOns
+}
+
+var _ binder.TransactionReceiver = (*OnsStub)(nil)
+
+func (s *OnsStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIOnsSetEnable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetEnable(ctx, _arg_enable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIOnsIsEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsEnabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIOnsSetPreferredDataSubscriptionId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_needValidation, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbackStub ISetOpportunisticDataCallback
+		_ = _arg_callbackStub
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetPreferredDataSubscriptionId(ctx, _arg_subId, _arg_needValidation, _arg_callbackStub)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIOnsGetPreferredDataSubscriptionId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPreferredDataSubscriptionId(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIOnsUpdateAvailableNetworks:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_availableNetworks []androidTelephony.AvailableNetworkInfo
+		_ = _arg_availableNetworks
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbackStub IUpdateAvailableNetworksCallback
+		_ = _arg_callbackStub
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.UpdateAvailableNetworks(ctx, _arg_availableNetworks, _arg_callbackStub)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

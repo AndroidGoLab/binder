@@ -2,6 +2,7 @@ package accessibility
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -109,4 +110,71 @@ func (p *AccessibilityManagerClientProxy) SetFocusAppearance(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AccessibilityManagerClientStub dispatches incoming binder transactions
+// to a typed IAccessibilityManagerClient implementation.
+type AccessibilityManagerClientStub struct {
+	Impl IAccessibilityManagerClient
+}
+
+var _ binder.TransactionReceiver = (*AccessibilityManagerClientStub)(nil)
+
+func (s *AccessibilityManagerClientStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAccessibilityManagerClientSetState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_stateFlags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetState(ctx, _arg_stateFlags)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityManagerClientNotifyServicesStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_updatedUiTimeout, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyServicesStateChanged(ctx, _arg_updatedUiTimeout)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityManagerClientSetRelevantEventTypes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_eventTypes, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetRelevantEventTypes(ctx, _arg_eventTypes)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityManagerClientSetFocusAppearance:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_strokeWidth, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_color, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetFocusAppearance(ctx, _arg_strokeWidth, _arg_color)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

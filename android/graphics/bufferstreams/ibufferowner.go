@@ -2,6 +2,7 @@ package bufferstreams
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -56,4 +57,38 @@ func (p *BufferOwnerProxy) OnBufferReleased(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BufferOwnerStub dispatches incoming binder transactions
+// to a typed IBufferOwner implementation.
+type BufferOwnerStub struct {
+	Impl IBufferOwner
+}
+
+var _ binder.TransactionReceiver = (*BufferOwnerStub)(nil)
+
+func (s *BufferOwnerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBufferOwnerOnBufferReleased:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_bufferId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_releaseFence, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnBufferReleased(ctx, _arg_bufferId, _arg_releaseFence)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

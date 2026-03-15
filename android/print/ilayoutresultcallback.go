@@ -2,6 +2,7 @@ package print
 
 import (
 	"context"
+	"fmt"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -118,4 +119,87 @@ func (p *LayoutResultCallbackProxy) OnLayoutCanceled(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// LayoutResultCallbackStub dispatches incoming binder transactions
+// to a typed ILayoutResultCallback implementation.
+type LayoutResultCallbackStub struct {
+	Impl ILayoutResultCallback
+}
+
+var _ binder.TransactionReceiver = (*LayoutResultCallbackStub)(nil)
+
+func (s *LayoutResultCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionILayoutResultCallbackOnLayoutStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cancellation ondeviceintelligence.ICancellationSignal
+		_ = _arg_cancellation
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnLayoutStarted(ctx, _arg_cancellation, _arg_sequence)
+		_ = _err
+		return nil, nil
+	case TransactionILayoutResultCallbackOnLayoutFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info PrintDocumentInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_changed, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnLayoutFinished(ctx, _arg_info, _arg_changed, _arg_sequence)
+		_ = _err
+		return nil, nil
+	case TransactionILayoutResultCallbackOnLayoutFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_error_ interface{}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnLayoutFailed(ctx, _arg_error_, _arg_sequence)
+		_ = _err
+		return nil, nil
+	case TransactionILayoutResultCallbackOnLayoutCanceled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnLayoutCanceled(ctx, _arg_sequence)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

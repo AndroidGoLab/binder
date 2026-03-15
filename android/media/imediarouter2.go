@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -192,4 +193,151 @@ func (p *MediaRouter2Proxy) RequestCreateSessionByManager(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MediaRouter2Stub dispatches incoming binder transactions
+// to a typed IMediaRouter2 implementation.
+type MediaRouter2Stub struct {
+	Impl IMediaRouter2
+}
+
+var _ binder.TransactionReceiver = (*MediaRouter2Stub)(nil)
+
+func (s *MediaRouter2Stub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMediaRouter2NotifyRouterRegistered:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_currentRoutes []MediaRoute2Info
+		_ = _arg_currentRoutes
+		var _arg_currentSystemSessionInfo RoutingSessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_currentSystemSessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NotifyRouterRegistered(ctx, _arg_currentRoutes, _arg_currentSystemSessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRouter2NotifyRoutesUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_routes []MediaRoute2Info
+		_ = _arg_routes
+		_err := s.Impl.NotifyRoutesUpdated(ctx, _arg_routes)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRouter2NotifySessionCreated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo *RoutingSessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifySessionCreated(ctx, _arg_requestId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRouter2NotifySessionInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo RoutingSessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NotifySessionInfoChanged(ctx, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRouter2NotifySessionReleased:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo RoutingSessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NotifySessionReleased(ctx, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRouter2RequestCreateSessionByManager:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uniqueRequestId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_oldSession RoutingSessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_oldSession.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_route MediaRoute2Info
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RequestCreateSessionByManager(ctx, _arg_uniqueRequestId, _arg_oldSession, _arg_route)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

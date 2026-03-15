@@ -2,6 +2,7 @@ package compat
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -71,4 +72,47 @@ func (p *OverrideValidatorProxy) GetOverrideAllowedState(
 		}
 	}
 	return _result, nil
+}
+
+// OverrideValidatorStub dispatches incoming binder transactions
+// to a typed IOverrideValidator implementation.
+type OverrideValidatorStub struct {
+	Impl IOverrideValidator
+}
+
+var _ binder.TransactionReceiver = (*OverrideValidatorStub)(nil)
+
+func (s *OverrideValidatorStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIOverrideValidatorGetOverrideAllowedState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_changeId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetOverrideAllowedState(ctx, _arg_changeId, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

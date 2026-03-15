@@ -2,6 +2,7 @@ package trust
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -144,4 +145,94 @@ func (p *TrustListenerProxy) OnIsActiveUnlockRunningChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TrustListenerStub dispatches incoming binder transactions
+// to a typed ITrustListener implementation.
+type TrustListenerStub struct {
+	Impl ITrustListener
+}
+
+var _ binder.TransactionReceiver = (*TrustListenerStub)(nil)
+
+func (s *TrustListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITrustListenerOnEnabledTrustAgentsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnEnabledTrustAgentsChanged(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITrustListenerOnTrustChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newlyUnlocked, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_trustGrantedMessages []string
+		_ = _arg_trustGrantedMessages
+		_err = s.Impl.OnTrustChanged(ctx, _arg_enabled, _arg_newlyUnlocked, _arg_flags, _arg_trustGrantedMessages)
+		_ = _err
+		return nil, nil
+	case TransactionITrustListenerOnTrustManagedChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_managed, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTrustManagedChanged(ctx, _arg_managed)
+		_ = _err
+		return nil, nil
+	case TransactionITrustListenerOnTrustError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_message interface{}
+		_err := s.Impl.OnTrustError(ctx, _arg_message)
+		_ = _err
+		return nil, nil
+	case TransactionITrustListenerOnIsActiveUnlockRunningChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isRunning, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnIsActiveUnlockRunningChanged(ctx, _arg_isRunning)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

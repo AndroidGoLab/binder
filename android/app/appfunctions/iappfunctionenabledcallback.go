@@ -2,6 +2,7 @@ package appfunctions
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -71,4 +72,49 @@ func (p *AppFunctionEnabledCallbackProxy) OnError(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AppFunctionEnabledCallbackStub dispatches incoming binder transactions
+// to a typed IAppFunctionEnabledCallback implementation.
+type AppFunctionEnabledCallbackStub struct {
+	Impl IAppFunctionEnabledCallback
+}
+
+var _ binder.TransactionReceiver = (*AppFunctionEnabledCallbackStub)(nil)
+
+func (s *AppFunctionEnabledCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAppFunctionEnabledCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnSuccess(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIAppFunctionEnabledCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_exception os.ParcelableException
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_exception.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnError(ctx, _arg_exception)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	soundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -590,4 +591,352 @@ func (p *SoundTriggerSessionProxy) QueryParameter(
 		}
 	}
 	return _result, nil
+}
+
+// SoundTriggerSessionStub dispatches incoming binder transactions
+// to a typed ISoundTriggerSession implementation.
+type SoundTriggerSessionStub struct {
+	Impl ISoundTriggerSession
+}
+
+var _ binder.TransactionReceiver = (*SoundTriggerSessionStub)(nil)
+
+func (s *SoundTriggerSessionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISoundTriggerSessionGetSoundModel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundModelId interface{}
+		_result, _err := s.Impl.GetSoundModel(ctx, _arg_soundModelId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionISoundTriggerSessionUpdateSoundModel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundModel soundtrigger.SoundTriggerGenericSoundModel
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundModel.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.UpdateSoundModel(ctx, _arg_soundModel)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISoundTriggerSessionDeleteSoundModel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundModelId interface{}
+		_err := s.Impl.DeleteSoundModel(ctx, _arg_soundModelId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISoundTriggerSessionStartRecognition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundModel soundtrigger.SoundTriggerGenericSoundModel
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundModel.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback soundtrigger.IRecognitionStatusCallback
+		_ = _arg_callback
+		var _arg_config soundtrigger.SoundTriggerRecognitionConfig
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_runInBatterySaver, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.StartRecognition(ctx, _arg_soundModel, _arg_callback, _arg_config, _arg_runInBatterySaver)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISoundTriggerSessionStopRecognition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundModelId interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback soundtrigger.IRecognitionStatusCallback
+		_ = _arg_callback
+		_result, _err := s.Impl.StopRecognition(ctx, _arg_soundModelId, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISoundTriggerSessionLoadGenericSoundModel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundModel soundtrigger.SoundTriggerGenericSoundModel
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundModel.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.LoadGenericSoundModel(ctx, _arg_soundModel)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISoundTriggerSessionLoadKeyphraseSoundModel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundModel soundtrigger.SoundTriggerKeyphraseSoundModel
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundModel.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.LoadKeyphraseSoundModel(ctx, _arg_soundModel)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISoundTriggerSessionStartRecognitionForService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundModelId interface{}
+		var _arg_params interface{}
+		var _arg_callbackIntent interface{}
+		var _arg_config soundtrigger.SoundTriggerRecognitionConfig
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.StartRecognitionForService(ctx, _arg_soundModelId, _arg_params, _arg_callbackIntent, _arg_config)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISoundTriggerSessionStopRecognitionForService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundModelId interface{}
+		_result, _err := s.Impl.StopRecognitionForService(ctx, _arg_soundModelId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISoundTriggerSessionUnloadSoundModel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundModelId interface{}
+		_result, _err := s.Impl.UnloadSoundModel(ctx, _arg_soundModelId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISoundTriggerSessionIsRecognitionActive:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_parcelUuid interface{}
+		_result, _err := s.Impl.IsRecognitionActive(ctx, _arg_parcelUuid)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISoundTriggerSessionGetModelState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundModelId interface{}
+		_result, _err := s.Impl.GetModelState(ctx, _arg_soundModelId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISoundTriggerSessionGetModuleProperties:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetModuleProperties(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionISoundTriggerSessionSetParameter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundModelId interface{}
+		_raw_modelParam, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_modelParam := soundtrigger.ModelParams(_raw_modelParam)
+		_arg_value, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetParameter(ctx, _arg_soundModelId, _arg_modelParam, _arg_value)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISoundTriggerSessionGetParameter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundModelId interface{}
+		_raw_modelParam, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_modelParam := soundtrigger.ModelParams(_raw_modelParam)
+		_result, _err := s.Impl.GetParameter(ctx, _arg_soundModelId, _arg_modelParam)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISoundTriggerSessionQueryParameter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundModelId interface{}
+		_raw_modelParam, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_modelParam := soundtrigger.ModelParams(_raw_modelParam)
+		_result, _err := s.Impl.QueryParameter(ctx, _arg_soundModelId, _arg_modelParam)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

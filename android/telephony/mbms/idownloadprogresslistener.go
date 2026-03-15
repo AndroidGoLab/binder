@@ -2,6 +2,7 @@ package mbms
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -75,4 +76,75 @@ func (p *DownloadProgressListenerProxy) OnProgressUpdated(
 	}
 
 	return nil
+}
+
+// DownloadProgressListenerStub dispatches incoming binder transactions
+// to a typed IDownloadProgressListener implementation.
+type DownloadProgressListenerStub struct {
+	Impl IDownloadProgressListener
+}
+
+var _ binder.TransactionReceiver = (*DownloadProgressListenerStub)(nil)
+
+func (s *DownloadProgressListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDownloadProgressListenerOnProgressUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request DownloadRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_fileInfo FileInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_fileInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_currentDownloadSize, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fullDownloadSize, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_currentDecodedSize, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fullDecodedSize, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnProgressUpdated(ctx, _arg_request, _arg_fileInfo, _arg_currentDownloadSize, _arg_fullDownloadSize, _arg_currentDecodedSize, _arg_fullDecodedSize)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -87,4 +88,53 @@ func (p *BinderProxyCountingServiceProxy) UnregisterCallback(
 	}
 
 	return nil
+}
+
+// BinderProxyCountingServiceStub dispatches incoming binder transactions
+// to a typed IBinderProxyCountingService implementation.
+type BinderProxyCountingServiceStub struct {
+	Impl IBinderProxyCountingService
+}
+
+var _ binder.TransactionReceiver = (*BinderProxyCountingServiceStub)(nil)
+
+func (s *BinderProxyCountingServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBinderProxyCountingServiceRegisterCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITestRemoteCallback
+		_ = _arg_callback
+		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBinderProxyCountingServiceUnregisterCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITestRemoteCallback
+		_ = _arg_callback
+		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

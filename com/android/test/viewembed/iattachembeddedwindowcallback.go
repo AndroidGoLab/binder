@@ -2,6 +2,7 @@ package viewembed
 
 import (
 	"context"
+	"fmt"
 	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -63,4 +64,47 @@ func (p *AttachEmbeddedWindowCallbackProxy) OnEmbeddedWindowAttached(
 	}
 
 	return nil
+}
+
+// AttachEmbeddedWindowCallbackStub dispatches incoming binder transactions
+// to a typed IAttachEmbeddedWindowCallback implementation.
+type AttachEmbeddedWindowCallbackStub struct {
+	Impl IAttachEmbeddedWindowCallback
+}
+
+var _ binder.TransactionReceiver = (*AttachEmbeddedWindowCallbackStub)(nil)
+
+func (s *AttachEmbeddedWindowCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAttachEmbeddedWindowCallbackOnEmbeddedWindowAttached:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_surfacePackage view.SurfaceControlViewHostSurfacePackage
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surfacePackage.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnEmbeddedWindowAttached(ctx, _arg_surfacePackage)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package location
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,38 @@ func (p *ActivityRecognitionHardwareWatcherProxy) OnInstanceChanged(
 	}
 
 	return nil
+}
+
+// ActivityRecognitionHardwareWatcherStub dispatches incoming binder transactions
+// to a typed IActivityRecognitionHardwareWatcher implementation.
+type ActivityRecognitionHardwareWatcherStub struct {
+	Impl IActivityRecognitionHardwareWatcher
+}
+
+var _ binder.TransactionReceiver = (*ActivityRecognitionHardwareWatcherStub)(nil)
+
+func (s *ActivityRecognitionHardwareWatcherStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIActivityRecognitionHardwareWatcherOnInstanceChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_instance IActivityRecognitionHardware
+		_ = _arg_instance
+		_err := s.Impl.OnInstanceChanged(ctx, _arg_instance)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

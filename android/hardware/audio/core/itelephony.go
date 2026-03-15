@@ -2,6 +2,7 @@ package core
 
 import (
 	"context"
+	"fmt"
 	coreITelephony "github.com/xaionaro-go/binder/android/hardware/audio/core/ITelephony"
 	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
@@ -144,4 +145,82 @@ func (p *TelephonyProxy) SetTelecomConfig(
 		}
 	}
 	return _result, nil
+}
+
+// TelephonyStub dispatches incoming binder transactions
+// to a typed ITelephony implementation.
+type TelephonyStub struct {
+	Impl ITelephony
+}
+
+var _ binder.TransactionReceiver = (*TelephonyStub)(nil)
+
+func (s *TelephonyStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITelephonyGetSupportedAudioModes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSupportedAudioModes(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITelephonySwitchAudioMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode := common.AudioMode(_raw_mode)
+		_err = s.Impl.SwitchAudioMode(ctx, _arg_mode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITelephonySetTelecomConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_config coreITelephony.TelecomConfig
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.SetTelecomConfig(ctx, _arg_config)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

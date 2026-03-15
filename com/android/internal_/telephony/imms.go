@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	content "github.com/xaionaro-go/binder/android/content"
 	net "github.com/xaionaro-go/binder/android/net"
@@ -590,4 +591,530 @@ func (p *MmsProxy) GetAutoPersisting(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// MmsStub dispatches incoming binder transactions
+// to a typed IMms implementation.
+type MmsStub struct {
+	Impl IMms
+}
+
+var _ binder.TransactionReceiver = (*MmsStub)(nil)
+
+func (s *MmsStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMmsSendMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingUser, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_contentUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_contentUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_locationUrl, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_configOverrides os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_configOverrides.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_sentIntent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sentIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_messageId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendMessage(ctx, _arg_subId, _arg_callingUser, _arg_callingPkg, _arg_contentUri, _arg_locationUrl, _arg_configOverrides, _arg_sentIntent, _arg_messageId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMmsDownloadMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingUser, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_locationUrl, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_contentUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_contentUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_configOverrides os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_configOverrides.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_downloadedIntent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_downloadedIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_messageId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DownloadMessage(ctx, _arg_subId, _arg_callingUser, _arg_callingPkg, _arg_locationUrl, _arg_contentUri, _arg_configOverrides, _arg_downloadedIntent, _arg_messageId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMmsImportTextMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_address, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_text, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timestampMillis, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_seen, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_read, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ImportTextMessage(ctx, _arg_callingPkg, _arg_address, _arg_type_, _arg_text, _arg_timestampMillis, _arg_seen, _arg_read)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIMmsImportMultimediaMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingUser, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_contentUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_contentUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_messageId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timestampSecs, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_seen, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_read, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ImportMultimediaMessage(ctx, _arg_callingUser, _arg_callingPkg, _arg_contentUri, _arg_messageId, _arg_timestampSecs, _arg_seen, _arg_read)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIMmsDeleteStoredMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_messageUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_messageUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.DeleteStoredMessage(ctx, _arg_callingPkg, _arg_messageUri)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIMmsDeleteStoredConversation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_conversationId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.DeleteStoredConversation(ctx, _arg_callingPkg, _arg_conversationId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIMmsUpdateStoredMessageStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_messageUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_messageUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_statusValues content.ContentValues
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusValues.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.UpdateStoredMessageStatus(ctx, _arg_callingPkg, _arg_messageUri, _arg_statusValues)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIMmsArchiveStoredConversation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_conversationId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_archived, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ArchiveStoredConversation(ctx, _arg_callingPkg, _arg_conversationId, _arg_archived)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIMmsAddTextMessageDraft:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_address, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_text, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.AddTextMessageDraft(ctx, _arg_callingPkg, _arg_address, _arg_text)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIMmsAddMultimediaMessageDraft:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingUser, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_contentUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_contentUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.AddMultimediaMessageDraft(ctx, _arg_callingUser, _arg_callingPkg, _arg_contentUri)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIMmsSendStoredMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_messageUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_messageUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_configOverrides os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_configOverrides.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_sentIntent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sentIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SendStoredMessage(ctx, _arg_subId, _arg_callingPkg, _arg_messageUri, _arg_configOverrides, _arg_sentIntent)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMmsSetAutoPersisting:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callingPkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetAutoPersisting(ctx, _arg_callingPkg, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMmsGetAutoPersisting:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAutoPersisting(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

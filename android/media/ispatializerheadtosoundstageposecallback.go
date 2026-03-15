@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -57,4 +58,33 @@ func (p *SpatializerHeadToSoundStagePoseCallbackProxy) DispatchPoseChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SpatializerHeadToSoundStagePoseCallbackStub dispatches incoming binder transactions
+// to a typed ISpatializerHeadToSoundStagePoseCallback implementation.
+type SpatializerHeadToSoundStagePoseCallbackStub struct {
+	Impl ISpatializerHeadToSoundStagePoseCallback
+}
+
+var _ binder.TransactionReceiver = (*SpatializerHeadToSoundStagePoseCallbackStub)(nil)
+
+func (s *SpatializerHeadToSoundStagePoseCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISpatializerHeadToSoundStagePoseCallbackDispatchPoseChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pose []float32
+		_ = _arg_pose
+		_err := s.Impl.DispatchPoseChanged(ctx, _arg_pose)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

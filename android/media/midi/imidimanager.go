@@ -2,6 +2,7 @@ package midi
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -481,4 +482,300 @@ func (p *MidiManagerProxy) UpdateTotalBytes(
 	}
 
 	return nil
+}
+
+// MidiManagerStub dispatches incoming binder transactions
+// to a typed IMidiManager implementation.
+type MidiManagerStub struct {
+	Impl IMidiManager
+}
+
+var _ binder.TransactionReceiver = (*MidiManagerStub)(nil)
+
+func (s *MidiManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMidiManagerGetDevices:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDevices(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIMidiManagerGetDevicesForTransport:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_transport, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDevicesForTransport(ctx, _arg_transport)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIMidiManagerRegisterListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_clientToken binder.IBinder
+		_ = _arg_clientToken
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IMidiDeviceListener
+		_ = _arg_listener
+		_err := s.Impl.RegisterListener(ctx, _arg_clientToken, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMidiManagerUnregisterListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_clientToken binder.IBinder
+		_ = _arg_clientToken
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IMidiDeviceListener
+		_ = _arg_listener
+		_err := s.Impl.UnregisterListener(ctx, _arg_clientToken, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMidiManagerOpenDevice:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_clientToken binder.IBinder
+		_ = _arg_clientToken
+		var _arg_device interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IMidiDeviceOpenCallback
+		_ = _arg_callback
+		_err := s.Impl.OpenDevice(ctx, _arg_clientToken, _arg_device, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMidiManagerOpenBluetoothDevice:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_clientToken binder.IBinder
+		_ = _arg_clientToken
+		var _arg_bluetoothDevice interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IMidiDeviceOpenCallback
+		_ = _arg_callback
+		_err := s.Impl.OpenBluetoothDevice(ctx, _arg_clientToken, _arg_bluetoothDevice, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMidiManagerCloseDevice:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_clientToken binder.IBinder
+		_ = _arg_clientToken
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_deviceToken binder.IBinder
+		_ = _arg_deviceToken
+		_err := s.Impl.CloseDevice(ctx, _arg_clientToken, _arg_deviceToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMidiManagerRegisterDeviceServer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_server IMidiDeviceServer
+		_ = _arg_server
+		_arg_numInputPorts, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_numOutputPorts, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_inputPortNames []string
+		_ = _arg_inputPortNames
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_outputPortNames []string
+		_ = _arg_outputPortNames
+		var _arg_properties os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_properties.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_defaultProtocol, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RegisterDeviceServer(ctx, _arg_server, _arg_numInputPorts, _arg_numOutputPorts, _arg_inputPortNames, _arg_outputPortNames, _arg_properties, _arg_type_, _arg_defaultProtocol)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIMidiManagerUnregisterDeviceServer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_server IMidiDeviceServer
+		_ = _arg_server
+		_err := s.Impl.UnregisterDeviceServer(ctx, _arg_server)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMidiManagerGetServiceDeviceInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_className, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetServiceDeviceInfo(ctx, _arg_packageName, _arg_className)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIMidiManagerGetDeviceStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_deviceInfo interface{}
+		_result, _err := s.Impl.GetDeviceStatus(ctx, _arg_deviceInfo)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIMidiManagerSetDeviceStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_server IMidiDeviceServer
+		_ = _arg_server
+		var _arg_status MidiDeviceStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetDeviceStatus(ctx, _arg_server, _arg_status)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMidiManagerUpdateTotalBytes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_server IMidiDeviceServer
+		_ = _arg_server
+		_arg_inputBytes, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_outputBytes, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateTotalBytes(ctx, _arg_server, _arg_inputBytes, _arg_outputBytes)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

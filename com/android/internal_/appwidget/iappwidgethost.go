@@ -2,6 +2,7 @@ package appwidget
 
 import (
 	"context"
+	"fmt"
 	androidAppwidget "github.com/xaionaro-go/binder/android/appwidget"
 	widget "github.com/xaionaro-go/binder/android/widget"
 	"github.com/xaionaro-go/binder/binder"
@@ -157,4 +158,113 @@ func (p *AppWidgetHostProxy) AppWidgetRemoved(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AppWidgetHostStub dispatches incoming binder transactions
+// to a typed IAppWidgetHost implementation.
+type AppWidgetHostStub struct {
+	Impl IAppWidgetHost
+}
+
+var _ binder.TransactionReceiver = (*AppWidgetHostStub)(nil)
+
+func (s *AppWidgetHostStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAppWidgetHostUpdateAppWidgetDeferred:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_appWidgetId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateAppWidgetDeferred(ctx, _arg_appWidgetId)
+		_ = _err
+		return nil, nil
+	case TransactionIAppWidgetHostUpdateAppWidget:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_appWidgetId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_views widget.RemoteViews
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_views.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.UpdateAppWidget(ctx, _arg_appWidgetId, _arg_views)
+		_ = _err
+		return nil, nil
+	case TransactionIAppWidgetHostProviderChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_appWidgetId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_info androidAppwidget.AppWidgetProviderInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ProviderChanged(ctx, _arg_appWidgetId, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIAppWidgetHostProvidersChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ProvidersChanged(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIAppWidgetHostViewDataChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_appWidgetId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_viewId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ViewDataChanged(ctx, _arg_appWidgetId, _arg_viewId)
+		_ = _err
+		return nil, nil
+	case TransactionIAppWidgetHostAppWidgetRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_appWidgetId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AppWidgetRemoved(ctx, _arg_appWidgetId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

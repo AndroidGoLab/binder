@@ -2,6 +2,7 @@ package hostapd
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -96,4 +97,76 @@ func (p *HostapdCallbackProxy) OnFailure(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// HostapdCallbackStub dispatches incoming binder transactions
+// to a typed IHostapdCallback implementation.
+type HostapdCallbackStub struct {
+	Impl IHostapdCallback
+}
+
+var _ binder.TransactionReceiver = (*HostapdCallbackStub)(nil)
+
+func (s *HostapdCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIHostapdCallbackOnApInstanceInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_apInfo ApInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_apInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnApInstanceInfoChanged(ctx, _arg_apInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIHostapdCallbackOnConnectedClientsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_clientInfo ClientInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_clientInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnConnectedClientsChanged(ctx, _arg_clientInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIHostapdCallbackOnFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_ifaceName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_instanceName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFailure(ctx, _arg_ifaceName, _arg_instanceName)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

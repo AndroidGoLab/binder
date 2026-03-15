@@ -2,6 +2,7 @@ package midi
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -64,4 +65,38 @@ func (p *BluetoothMidiServiceProxy) AddBluetoothDevice(
 	}
 	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 	return _result, nil
+}
+
+// BluetoothMidiServiceStub dispatches incoming binder transactions
+// to a typed IBluetoothMidiService implementation.
+type BluetoothMidiServiceStub struct {
+	Impl IBluetoothMidiService
+}
+
+var _ binder.TransactionReceiver = (*BluetoothMidiServiceStub)(nil)
+
+func (s *BluetoothMidiServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBluetoothMidiServiceAddBluetoothDevice:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_bluetoothDevice interface{}
+		_result, _err := s.Impl.AddBluetoothDevice(ctx, _arg_bluetoothDevice)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

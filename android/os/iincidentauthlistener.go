@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -65,4 +66,37 @@ func (p *IncidentAuthListenerProxy) OnReportDenied(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// IncidentAuthListenerStub dispatches incoming binder transactions
+// to a typed IIncidentAuthListener implementation.
+type IncidentAuthListenerStub struct {
+	Impl IIncidentAuthListener
+}
+
+var _ binder.TransactionReceiver = (*IncidentAuthListenerStub)(nil)
+
+func (s *IncidentAuthListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIIncidentAuthListenerOnReportApproved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnReportApproved(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIIncidentAuthListenerOnReportDenied:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnReportDenied(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

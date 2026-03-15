@@ -2,6 +2,7 @@ package telecom
 
 import (
 	"context"
+	"fmt"
 	net "github.com/xaionaro-go/binder/android/net"
 	os "github.com/xaionaro-go/binder/android/os"
 	androidTelecom "github.com/xaionaro-go/binder/android/telecom"
@@ -1283,4 +1284,1362 @@ func (p *ConnectionServiceProxy) OnTrackedByNonUiService(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ConnectionServiceStub dispatches incoming binder transactions
+// to a typed IConnectionService implementation.
+type ConnectionServiceStub struct {
+	Impl IConnectionService
+}
+
+var _ binder.TransactionReceiver = (*ConnectionServiceStub)(nil)
+
+func (s *ConnectionServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIConnectionServiceAddConnectionServiceAdapter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_adapter IConnectionServiceAdapter
+		_ = _arg_adapter
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.AddConnectionServiceAdapter(ctx, _arg_adapter, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceRemoveConnectionServiceAdapter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_adapter IConnectionServiceAdapter
+		_ = _arg_adapter
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RemoveConnectionServiceAdapter(ctx, _arg_adapter, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceCreateConnection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_connectionManagerPhoneAccount androidTelecom.PhoneAccountHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_connectionManagerPhoneAccount.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_request androidTelecom.ConnectionRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_isIncoming, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isUnknown, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.CreateConnection(ctx, _arg_connectionManagerPhoneAccount, _arg_callId, _arg_request, _arg_isIncoming, _arg_isUnknown, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceCreateConnectionComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.CreateConnectionComplete(ctx, _arg_callId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceCreateConnectionFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_connectionManagerPhoneAccount androidTelecom.PhoneAccountHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_connectionManagerPhoneAccount.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_request androidTelecom.ConnectionRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_isIncoming, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.CreateConnectionFailed(ctx, _arg_connectionManagerPhoneAccount, _arg_callId, _arg_request, _arg_isIncoming, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceCreateConference:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_connectionManagerPhoneAccount androidTelecom.PhoneAccountHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_connectionManagerPhoneAccount.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_request androidTelecom.ConnectionRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_isIncoming, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isUnknown, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.CreateConference(ctx, _arg_connectionManagerPhoneAccount, _arg_callId, _arg_request, _arg_isIncoming, _arg_isUnknown, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceCreateConferenceComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.CreateConferenceComplete(ctx, _arg_callId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceCreateConferenceFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_connectionManagerPhoneAccount androidTelecom.PhoneAccountHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_connectionManagerPhoneAccount.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_request androidTelecom.ConnectionRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_isIncoming, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.CreateConferenceFailed(ctx, _arg_connectionManagerPhoneAccount, _arg_callId, _arg_request, _arg_isIncoming, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceAbort:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.Abort(ctx, _arg_callId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceAnswerVideo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_videoState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.AnswerVideo(ctx, _arg_callId, _arg_videoState, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceAnswer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.Answer(ctx, _arg_callId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceDeflect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_address net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_address.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.Deflect(ctx, _arg_callId, _arg_address, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceReject:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.Reject(ctx, _arg_callId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceRejectWithReason:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_rejectReason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RejectWithReason(ctx, _arg_callId, _arg_rejectReason, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceRejectWithMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_message, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RejectWithMessage(ctx, _arg_callId, _arg_message, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceTransfer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_number net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_number.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_isConfirmationRequired, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.Transfer(ctx, _arg_callId, _arg_number, _arg_isConfirmationRequired, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceConsultativeTransfer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_otherCallId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ConsultativeTransfer(ctx, _arg_callId, _arg_otherCallId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceDisconnect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.Disconnect(ctx, _arg_callId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceSilence:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.Silence(ctx, _arg_callId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceHold:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.Hold(ctx, _arg_callId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceUnhold:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.Unhold(ctx, _arg_callId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceOnCallAudioStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_activeCallId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callAudioState androidTelecom.CallAudioState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callAudioState.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnCallAudioStateChanged(ctx, _arg_activeCallId, _arg_callAudioState, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceOnCallEndpointChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_activeCallId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callEndpoint androidTelecom.CallEndpoint
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callEndpoint.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnCallEndpointChanged(ctx, _arg_activeCallId, _arg_callEndpoint, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceOnAvailableCallEndpointsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_activeCallId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_availableCallEndpoints []androidTelecom.CallEndpoint
+		_ = _arg_availableCallEndpoints
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnAvailableCallEndpointsChanged(ctx, _arg_activeCallId, _arg_availableCallEndpoints, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceOnMuteStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_activeCallId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isMuted, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnMuteStateChanged(ctx, _arg_activeCallId, _arg_isMuted, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServicePlayDtmfTone:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_digit, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_digit := uint16(_raw_digit)
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.PlayDtmfTone(ctx, _arg_callId, _arg_digit, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceStopDtmfTone:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StopDtmfTone(ctx, _arg_callId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceConference:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_conferenceCallId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.Conference(ctx, _arg_conferenceCallId, _arg_callId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceSplitFromConference:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SplitFromConference(ctx, _arg_callId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceMergeConference:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_conferenceCallId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.MergeConference(ctx, _arg_conferenceCallId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceSwapConference:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_conferenceCallId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SwapConference(ctx, _arg_conferenceCallId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceAddConferenceParticipants:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_CallId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_participants []net.Uri
+		_ = _arg_participants
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.AddConferenceParticipants(ctx, _arg_CallId, _arg_participants, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceOnPostDialContinue:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_proceed, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnPostDialContinue(ctx, _arg_callId, _arg_proceed, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServicePullExternalCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.PullExternalCall(ctx, _arg_callId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceSendCallEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_event, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SendCallEvent(ctx, _arg_callId, _arg_event, _arg_extras, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceOnCallFilteringCompleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_completionInfo androidTelecom.ConnectionCallFilteringCompletionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_completionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnCallFilteringCompleted(ctx, _arg_callId, _arg_completionInfo, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceOnExtrasChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnExtrasChanged(ctx, _arg_callId, _arg_extras, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceStartRtt:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fromInCall, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_toInCall, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StartRtt(ctx, _arg_callId, _arg_fromInCall, _arg_toInCall, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceStopRtt:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StopRtt(ctx, _arg_callId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceRespondToRttUpgradeRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fromInCall, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_toInCall, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RespondToRttUpgradeRequest(ctx, _arg_callId, _arg_fromInCall, _arg_toInCall, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceConnectionServiceFocusLost:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ConnectionServiceFocusLost(ctx, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceConnectionServiceFocusGained:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ConnectionServiceFocusGained(ctx, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceHandoverFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_request androidTelecom.ConnectionRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_error_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.HandoverFailed(ctx, _arg_callId, _arg_request, _arg_error_, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceHandoverComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.HandoverComplete(ctx, _arg_callId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceOnUsingAlternativeUi:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isUsingAlternativeUi, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnUsingAlternativeUi(ctx, _arg_callId, _arg_isUsingAlternativeUi, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIConnectionServiceOnTrackedByNonUiService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isTracked, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo Logging.SessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnTrackedByNonUiService(ctx, _arg_callId, _arg_isTracked, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

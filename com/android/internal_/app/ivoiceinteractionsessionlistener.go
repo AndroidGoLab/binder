@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -102,4 +103,56 @@ func (p *VoiceInteractionSessionListenerProxy) OnSetUiHints(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VoiceInteractionSessionListenerStub dispatches incoming binder transactions
+// to a typed IVoiceInteractionSessionListener implementation.
+type VoiceInteractionSessionListenerStub struct {
+	Impl IVoiceInteractionSessionListener
+}
+
+var _ binder.TransactionReceiver = (*VoiceInteractionSessionListenerStub)(nil)
+
+func (s *VoiceInteractionSessionListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVoiceInteractionSessionListenerOnVoiceSessionShown:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnVoiceSessionShown(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionSessionListenerOnVoiceSessionHidden:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnVoiceSessionHidden(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionSessionListenerOnVoiceSessionWindowVisibilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_visible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnVoiceSessionWindowVisibilityChanged(ctx, _arg_visible)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionSessionListenerOnSetUiHints:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_args interface{}
+		_err := s.Impl.OnSetUiHints(ctx, _arg_args)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

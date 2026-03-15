@@ -2,6 +2,7 @@ package broadcastradio
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -57,4 +58,35 @@ func (p *CloseHandleProxy) Close(
 	}
 
 	return nil
+}
+
+// CloseHandleStub dispatches incoming binder transactions
+// to a typed ICloseHandle implementation.
+type CloseHandleStub struct {
+	Impl ICloseHandle
+}
+
+var _ binder.TransactionReceiver = (*CloseHandleStub)(nil)
+
+func (s *CloseHandleStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICloseHandleClose:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Close(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

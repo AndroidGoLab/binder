@@ -2,6 +2,7 @@ package credentials
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -69,4 +70,45 @@ func (p *ClearCredentialStateCallbackProxy) OnError(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ClearCredentialStateCallbackStub dispatches incoming binder transactions
+// to a typed IClearCredentialStateCallback implementation.
+type ClearCredentialStateCallbackStub struct {
+	Impl IClearCredentialStateCallback
+}
+
+var _ binder.TransactionReceiver = (*ClearCredentialStateCallbackStub)(nil)
+
+func (s *ClearCredentialStateCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIClearCredentialStateCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnSuccess(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIClearCredentialStateCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_message, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_errorType, _arg_message)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

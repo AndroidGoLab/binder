@@ -2,6 +2,7 @@ package suspend
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -99,4 +100,59 @@ func (p *SuspendControlServiceProxy) RegisterWakelockCallback(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// SuspendControlServiceStub dispatches incoming binder transactions
+// to a typed ISuspendControlService implementation.
+type SuspendControlServiceStub struct {
+	Impl ISuspendControlService
+}
+
+var _ binder.TransactionReceiver = (*SuspendControlServiceStub)(nil)
+
+func (s *SuspendControlServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISuspendControlServiceRegisterCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ISuspendCallback
+		_ = _arg_callback
+		_result, _err := s.Impl.RegisterCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionISuspendControlServiceRegisterWakelockCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IWakelockCallback
+		_ = _arg_callback
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RegisterWakelockCallback(ctx, _arg_callback, _arg_name)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

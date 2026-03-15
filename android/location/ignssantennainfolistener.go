@@ -2,6 +2,7 @@ package location
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,33 @@ func (p *GnssAntennaInfoListenerProxy) OnGnssAntennaInfoChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GnssAntennaInfoListenerStub dispatches incoming binder transactions
+// to a typed IGnssAntennaInfoListener implementation.
+type GnssAntennaInfoListenerStub struct {
+	Impl IGnssAntennaInfoListener
+}
+
+var _ binder.TransactionReceiver = (*GnssAntennaInfoListenerStub)(nil)
+
+func (s *GnssAntennaInfoListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssAntennaInfoListenerOnGnssAntennaInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_antennaInfos []GnssAntennaInfo
+		_ = _arg_antennaInfos
+		_err := s.Impl.OnGnssAntennaInfoChanged(ctx, _arg_antennaInfos)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

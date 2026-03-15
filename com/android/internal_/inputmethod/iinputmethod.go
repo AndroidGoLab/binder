@@ -2,6 +2,7 @@ package inputmethod
 
 import (
 	"context"
+	"fmt"
 	common "github.com/xaionaro-go/binder/android/hardware/input/common"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
@@ -450,4 +451,298 @@ func (p *InputMethodProxy) SetStylusWindowIdleTimeoutForTest(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InputMethodStub dispatches incoming binder transactions
+// to a typed IInputMethod implementation.
+type InputMethodStub struct {
+	Impl IInputMethod
+}
+
+var _ binder.TransactionReceiver = (*InputMethodStub)(nil)
+
+func (s *InputMethodStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInputMethodInitializeInternal:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_params interface{}
+		_err := s.Impl.InitializeInternal(ctx, _arg_params)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodOnCreateInlineSuggestionsRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_requestInfo InlineSuggestionsRequestInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_requestInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cb IInlineSuggestionsRequestCallback
+		_ = _arg_cb
+		_err := s.Impl.OnCreateInlineSuggestionsRequest(ctx, _arg_requestInfo, _arg_cb)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodBindInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_binding viewInputmethod.InputBinding
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_binding.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.BindInput(ctx, _arg_binding)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodUnbindInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.UnbindInput(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodStartInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_params interface{}
+		_err := s.Impl.StartInput(ctx, _arg_params)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodOnNavButtonFlagsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_navButtonFlags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNavButtonFlagsChanged(ctx, _arg_navButtonFlags)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodCreateSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_channel interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IInputMethodSessionCallback
+		_ = _arg_callback
+		_err := s.Impl.CreateSession(ctx, _arg_channel, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodSetSessionEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_session IInputMethodSession
+		_ = _arg_session
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSessionEnabled(ctx, _arg_session, _arg_enabled)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodShowSoftInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_showInputToken binder.IBinder
+		_ = _arg_showInputToken
+		var _arg_statsToken viewInputmethod.ImeTrackerToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_resultReceiver interface{}
+		_err = s.Impl.ShowSoftInput(ctx, _arg_showInputToken, _arg_statsToken, _arg_flags, _arg_resultReceiver)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodHideSoftInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_hideInputToken binder.IBinder
+		_ = _arg_hideInputToken
+		var _arg_statsToken viewInputmethod.ImeTrackerToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_resultReceiver interface{}
+		_err = s.Impl.HideSoftInput(ctx, _arg_hideInputToken, _arg_statsToken, _arg_flags, _arg_resultReceiver)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodUpdateEditorToolType:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_toolType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateEditorToolType(ctx, _arg_toolType)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodChangeInputMethodSubtype:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_subtype viewInputmethod.InputMethodSubtype
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_subtype.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ChangeInputMethodSubtype(ctx, _arg_subtype)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodCanStartStylusHandwriting:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_connectionlessCallback IConnectionlessHandwritingCallback
+		_ = _arg_connectionlessCallback
+		var _arg_cursorAnchorInfo viewInputmethod.CursorAnchorInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cursorAnchorInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_isConnectionlessForDelegation, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CanStartStylusHandwriting(ctx, _arg_requestId, _arg_connectionlessCallback, _arg_cursorAnchorInfo, _arg_isConnectionlessForDelegation)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodStartStylusHandwriting:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_channel interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_events []common.MotionEvent
+		_ = _arg_events
+		_err = s.Impl.StartStylusHandwriting(ctx, _arg_requestId, _arg_channel, _arg_events)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodCommitHandwritingDelegationTextIfAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.CommitHandwritingDelegationTextIfAvailable(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodDiscardHandwritingDelegationText:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.DiscardHandwritingDelegationText(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodInitInkWindow:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.InitInkWindow(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodFinishStylusHandwriting:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.FinishStylusHandwriting(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodRemoveStylusHandwritingWindow:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RemoveStylusHandwritingWindow(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodSetStylusWindowIdleTimeoutForTest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_timeout, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetStylusWindowIdleTimeoutForTest(ctx, _arg_timeout)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

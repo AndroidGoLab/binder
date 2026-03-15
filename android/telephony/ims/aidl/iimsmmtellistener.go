@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	media "github.com/xaionaro-go/binder/android/hardware/radio/ims/media"
 	os "github.com/xaionaro-go/binder/android/os"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
@@ -258,4 +259,196 @@ func (p *ImsMmTelListenerProxy) OnMediaQualityStatusChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ImsMmTelListenerStub dispatches incoming binder transactions
+// to a typed IImsMmTelListener implementation.
+type ImsMmTelListenerStub struct {
+	Impl IImsMmTelListener
+}
+
+var _ binder.TransactionReceiver = (*ImsMmTelListenerStub)(nil)
+
+func (s *ImsMmTelListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIImsMmTelListenerOnIncomingCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c internal.IImsCallSession
+		_ = _arg_c
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.OnIncomingCall(ctx, _arg_c, _arg_callId, _arg_extras)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIImsMmTelListenerOnRejectedCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callProfile ims.ImsCallProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callProfile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_reason ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_reason.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnRejectedCall(ctx, _arg_callProfile, _arg_reason)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIImsMmTelListenerOnVoiceMessageCountUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_count, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnVoiceMessageCountUpdate(ctx, _arg_count)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelListenerOnAudioModeIsVoipChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_imsAudioHandler, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAudioModeIsVoipChanged(ctx, _arg_imsAudioHandler)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelListenerOnTriggerEpsFallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTriggerEpsFallback(ctx, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelListenerOnStartImsTrafficSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_trafficType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_accessNetworkType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_trafficDirection, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IImsTrafficSessionCallback
+		_ = _arg_callback
+		_err = s.Impl.OnStartImsTrafficSession(ctx, _arg_token, _arg_trafficType, _arg_accessNetworkType, _arg_trafficDirection, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelListenerOnModifyImsTrafficSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_accessNetworkType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnModifyImsTrafficSession(ctx, _arg_token, _arg_accessNetworkType)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelListenerOnStopImsTrafficSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStopImsTrafficSession(ctx, _arg_token)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelListenerOnMediaQualityStatusChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_status media.MediaQualityStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnMediaQualityStatusChanged(ctx, _arg_status)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

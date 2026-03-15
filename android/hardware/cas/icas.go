@@ -2,6 +2,7 @@ package cas
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -488,4 +489,238 @@ func (p *CasProxy) SetSessionPrivateData(
 	}
 
 	return nil
+}
+
+// CasStub dispatches incoming binder transactions
+// to a typed ICas implementation.
+type CasStub struct {
+	Impl ICas
+}
+
+var _ binder.TransactionReceiver = (*CasStub)(nil)
+
+func (s *CasStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICasCloseSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sessionId []byte
+		_ = _arg_sessionId
+		_err := s.Impl.CloseSession(ctx, _arg_sessionId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICasOpenSessionDefault:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.OpenSessionDefault(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionICasOpenSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_intent, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_intent := SessionIntent(_raw_intent)
+		_raw_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode := ScramblingMode(_raw_mode)
+		_result, _err := s.Impl.OpenSession(ctx, _arg_intent, _arg_mode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionICasProcessEcm:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sessionId []byte
+		_ = _arg_sessionId
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_ecm []byte
+		_ = _arg_ecm
+		_err := s.Impl.ProcessEcm(ctx, _arg_sessionId, _arg_ecm)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICasProcessEmm:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_emm []byte
+		_ = _arg_emm
+		_err := s.Impl.ProcessEmm(ctx, _arg_emm)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICasProvision:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_provisionString, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Provision(ctx, _arg_provisionString)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICasRefreshEntitlements:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_refreshType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_refreshData []byte
+		_ = _arg_refreshData
+		_err = s.Impl.RefreshEntitlements(ctx, _arg_refreshType, _arg_refreshData)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICasRelease:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Release(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICasSendEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_event, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_arg, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_eventData []byte
+		_ = _arg_eventData
+		_err = s.Impl.SendEvent(ctx, _arg_event, _arg_arg, _arg_eventData)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICasSendSessionEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sessionId []byte
+		_ = _arg_sessionId
+		_arg_event, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_arg, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_eventData []byte
+		_ = _arg_eventData
+		_err = s.Impl.SendSessionEvent(ctx, _arg_sessionId, _arg_event, _arg_arg, _arg_eventData)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICasSetPrivateData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pvtData []byte
+		_ = _arg_pvtData
+		_err := s.Impl.SetPrivateData(ctx, _arg_pvtData)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICasSetSessionPrivateData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sessionId []byte
+		_ = _arg_sessionId
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pvtData []byte
+		_ = _arg_pvtData
+		_err := s.Impl.SetSessionPrivateData(ctx, _arg_sessionId, _arg_pvtData)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package soundtrigger_middleware
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -48,4 +49,30 @@ func (p *InjectModelEventProxy) TriggerUnloadModel(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InjectModelEventStub dispatches incoming binder transactions
+// to a typed IInjectModelEvent implementation.
+type InjectModelEventStub struct {
+	Impl IInjectModelEvent
+}
+
+var _ binder.TransactionReceiver = (*InjectModelEventStub)(nil)
+
+func (s *InjectModelEventStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInjectModelEventTriggerUnloadModel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.TriggerUnloadModel(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

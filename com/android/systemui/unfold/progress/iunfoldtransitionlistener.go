@@ -2,6 +2,7 @@ package progress
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -84,4 +85,48 @@ func (p *UnfoldTransitionListenerProxy) OnTransitionFinished(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// UnfoldTransitionListenerStub dispatches incoming binder transactions
+// to a typed IUnfoldTransitionListener implementation.
+type UnfoldTransitionListenerStub struct {
+	Impl IUnfoldTransitionListener
+}
+
+var _ binder.TransactionReceiver = (*UnfoldTransitionListenerStub)(nil)
+
+func (s *UnfoldTransitionListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIUnfoldTransitionListenerOnTransitionStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnTransitionStarted(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIUnfoldTransitionListenerOnTransitionProgress:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_progress, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTransitionProgress(ctx, _arg_progress)
+		_ = _err
+		return nil, nil
+	case TransactionIUnfoldTransitionListenerOnTransitionFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnTransitionFinished(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

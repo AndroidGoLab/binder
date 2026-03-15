@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -395,4 +396,244 @@ func (p *Idmap2Proxy) DumpIdmap(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// Idmap2Stub dispatches incoming binder transactions
+// to a typed IIdmap2 implementation.
+type Idmap2Stub struct {
+	Impl IIdmap2
+}
+
+var _ binder.TransactionReceiver = (*Idmap2Stub)(nil)
+
+func (s *Idmap2Stub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIIdmap2GetIdmapPath:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_overlayApkPath, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetIdmapPath(ctx, _arg_overlayApkPath)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionIIdmap2RemoveIdmap:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_overlayApkPath, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RemoveIdmap(ctx, _arg_overlayApkPath)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIIdmap2VerifyIdmap:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_targetApkPath, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_overlayApkPath, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_overlayName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fulfilledPolicies, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enforceOverlayable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.VerifyIdmap(ctx, _arg_targetApkPath, _arg_overlayApkPath, _arg_overlayName, _arg_fulfilledPolicies, _arg_enforceOverlayable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIIdmap2CreateIdmap:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_targetApkPath, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_overlayApkPath, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_overlayName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fulfilledPolicies, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enforceOverlayable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateIdmap(ctx, _arg_targetApkPath, _arg_overlayApkPath, _arg_overlayName, _arg_fulfilledPolicies, _arg_enforceOverlayable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionIIdmap2CreateFabricatedOverlay:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_overlay FabricatedOverlayInternal
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_overlay.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.CreateFabricatedOverlay(ctx, _arg_overlay)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIIdmap2DeleteFabricatedOverlay:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.DeleteFabricatedOverlay(ctx, _arg_path)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIIdmap2AcquireFabricatedOverlayIterator:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.AcquireFabricatedOverlayIterator(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIIdmap2ReleaseFabricatedOverlayIterator:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iteratorId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ReleaseFabricatedOverlayIterator(ctx, _arg_iteratorId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIIdmap2NextFabricatedOverlayInfos:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iteratorId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.NextFabricatedOverlayInfos(ctx, _arg_iteratorId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIIdmap2DumpIdmap:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_overlayApkPath, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.DumpIdmap(ctx, _arg_overlayApkPath)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

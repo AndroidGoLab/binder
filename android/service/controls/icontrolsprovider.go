@@ -2,6 +2,7 @@ package controls
 
 import (
 	"context"
+	"fmt"
 	actions "github.com/xaionaro-go/binder/android/service/controls/actions"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -124,4 +125,82 @@ func (p *ControlsProviderProxy) Action(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ControlsProviderStub dispatches incoming binder transactions
+// to a typed IControlsProvider implementation.
+type ControlsProviderStub struct {
+	Impl IControlsProvider
+}
+
+var _ binder.TransactionReceiver = (*ControlsProviderStub)(nil)
+
+func (s *ControlsProviderStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIControlsProviderLoad:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_subscriber IControlsSubscriber
+		_ = _arg_subscriber
+		_err := s.Impl.Load(ctx, _arg_subscriber)
+		_ = _err
+		return nil, nil
+	case TransactionIControlsProviderLoadSuggested:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_subscriber IControlsSubscriber
+		_ = _arg_subscriber
+		_err := s.Impl.LoadSuggested(ctx, _arg_subscriber)
+		_ = _err
+		return nil, nil
+	case TransactionIControlsProviderSubscribe:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_controlIds []string
+		_ = _arg_controlIds
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_subscriber IControlsSubscriber
+		_ = _arg_subscriber
+		_err := s.Impl.Subscribe(ctx, _arg_controlIds, _arg_subscriber)
+		_ = _err
+		return nil, nil
+	case TransactionIControlsProviderAction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_controlId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_action actions.ControlActionWrapper
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_action.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cb IControlsActionCallback
+		_ = _arg_cb
+		_err = s.Impl.Action(ctx, _arg_controlId, _arg_action, _arg_cb)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

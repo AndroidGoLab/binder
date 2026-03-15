@@ -2,6 +2,7 @@ package rating
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -128,4 +129,77 @@ func (p *ProgramRatingInfoProxy) GetProgramRatingInfo(
 		}
 	}
 	return _result, nil
+}
+
+// ProgramRatingInfoStub dispatches incoming binder transactions
+// to a typed IProgramRatingInfo implementation.
+type ProgramRatingInfoStub struct {
+	Impl IProgramRatingInfo
+}
+
+var _ binder.TransactionReceiver = (*ProgramRatingInfoStub)(nil)
+
+func (s *ProgramRatingInfoStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIProgramRatingInfoAddProgramRatingInfoListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_clientToken, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IProgramRatingInfoListener
+		_ = _arg_listener
+		_err = s.Impl.AddProgramRatingInfoListener(ctx, _arg_clientToken, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIProgramRatingInfoRemoveProgramRatingInfoListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IProgramRatingInfoListener
+		_ = _arg_listener
+		_err := s.Impl.RemoveProgramRatingInfoListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIProgramRatingInfoGetProgramRatingInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionToken, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetProgramRatingInfo(ctx, _arg_sessionToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

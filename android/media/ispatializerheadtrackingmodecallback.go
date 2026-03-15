@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -69,4 +70,45 @@ func (p *SpatializerHeadTrackingModeCallbackProxy) DispatchSpatializerDesiredHea
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SpatializerHeadTrackingModeCallbackStub dispatches incoming binder transactions
+// to a typed ISpatializerHeadTrackingModeCallback implementation.
+type SpatializerHeadTrackingModeCallbackStub struct {
+	Impl ISpatializerHeadTrackingModeCallback
+}
+
+var _ binder.TransactionReceiver = (*SpatializerHeadTrackingModeCallbackStub)(nil)
+
+func (s *SpatializerHeadTrackingModeCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISpatializerHeadTrackingModeCallbackDispatchSpatializerActualHeadTrackingModeChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DispatchSpatializerActualHeadTrackingModeChanged(ctx, _arg_mode)
+		_ = _err
+		return nil, nil
+	case TransactionISpatializerHeadTrackingModeCallbackDispatchSpatializerDesiredHeadTrackingModeChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DispatchSpatializerDesiredHeadTrackingModeChanged(ctx, _arg_mode)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

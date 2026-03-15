@@ -2,6 +2,7 @@ package core
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -82,4 +83,44 @@ func (p *StreamCallbackProxy) OnDrainReady(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// StreamCallbackStub dispatches incoming binder transactions
+// to a typed IStreamCallback implementation.
+type StreamCallbackStub struct {
+	Impl IStreamCallback
+}
+
+var _ binder.TransactionReceiver = (*StreamCallbackStub)(nil)
+
+func (s *StreamCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIStreamCallbackOnTransferReady:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnTransferReady(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStreamCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnError(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStreamCallbackOnDrainReady:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnDrainReady(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

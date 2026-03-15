@@ -2,6 +2,7 @@ package unitTests
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -97,4 +98,51 @@ func (p *DataVerifyProxy) ResetData(
 	}
 
 	return nil
+}
+
+// DataVerifyStub dispatches incoming binder transactions
+// to a typed IDataVerify implementation.
+type DataVerifyStub struct {
+	Impl IDataVerify
+}
+
+var _ binder.TransactionReceiver = (*DataVerifyStub)(nil)
+
+func (s *DataVerifyStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDataVerifyVerifyData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pdu []byte
+		_ = _arg_pdu
+		_result, _err := s.Impl.VerifyData(ctx, _arg_pdu)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIDataVerifyResetData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ResetData(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

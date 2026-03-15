@@ -2,6 +2,7 @@ package location
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -57,4 +58,50 @@ func (p *ContextHubCallbackProxy) OnMessageReceipt(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ContextHubCallbackStub dispatches incoming binder transactions
+// to a typed IContextHubCallback implementation.
+type ContextHubCallbackStub struct {
+	Impl IContextHubCallback
+}
+
+var _ binder.TransactionReceiver = (*ContextHubCallbackStub)(nil)
+
+func (s *ContextHubCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIContextHubCallbackOnMessageReceipt:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_hubId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_nanoAppId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_msg ContextHubMessage
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_msg.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnMessageReceipt(ctx, _arg_hubId, _arg_nanoAppId, _arg_msg)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

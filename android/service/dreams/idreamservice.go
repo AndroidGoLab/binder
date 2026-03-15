@@ -2,6 +2,7 @@ package dreams
 
 import (
 	"context"
+	"fmt"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -108,4 +109,65 @@ func (p *DreamServiceProxy) ComeToFront(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DreamServiceStub dispatches incoming binder transactions
+// to a typed IDreamService implementation.
+type DreamServiceStub struct {
+	Impl IDreamService
+}
+
+var _ binder.TransactionReceiver = (*DreamServiceStub)(nil)
+
+func (s *DreamServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDreamServiceAttach:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_windowToken binder.IBinder
+		_ = _arg_windowToken
+		_arg_canDoze, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isPreviewMode, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_started ondeviceintelligence.IRemoteCallback
+		_ = _arg_started
+		_err = s.Impl.Attach(ctx, _arg_windowToken, _arg_canDoze, _arg_isPreviewMode, _arg_started)
+		_ = _err
+		return nil, nil
+	case TransactionIDreamServiceDetach:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Detach(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIDreamServiceWakeUp:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.WakeUp(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIDreamServiceComeToFront:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ComeToFront(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

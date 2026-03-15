@@ -2,6 +2,7 @@ package sap
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -219,4 +220,142 @@ func (p *SapProxy) TransferCardReaderStatusReq(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SapStub dispatches incoming binder transactions
+// to a typed ISap implementation.
+type SapStub struct {
+	Impl ISap
+}
+
+var _ binder.TransactionReceiver = (*SapStub)(nil)
+
+func (s *SapStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISapApduReq:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := SapApduType(_raw_type_)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_command []byte
+		_ = _arg_command
+		_err = s.Impl.ApduReq(ctx, _arg_serial, _arg_type_, _arg_command)
+		_ = _err
+		return nil, nil
+	case TransactionISapConnectReq:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_maxMsgSizeBytes, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ConnectReq(ctx, _arg_serial, _arg_maxMsgSizeBytes)
+		_ = _err
+		return nil, nil
+	case TransactionISapDisconnectReq:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DisconnectReq(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionISapPowerReq:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_powerOn, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PowerReq(ctx, _arg_serial, _arg_powerOn)
+		_ = _err
+		return nil, nil
+	case TransactionISapResetSimReq:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ResetSimReq(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionISapSetCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sapCallback ISapCallback
+		_ = _arg_sapCallback
+		_err := s.Impl.SetCallback(ctx, _arg_sapCallback)
+		_ = _err
+		return nil, nil
+	case TransactionISapSetTransferProtocolReq:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_transferProtocol, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_transferProtocol := SapTransferProtocol(_raw_transferProtocol)
+		_err = s.Impl.SetTransferProtocolReq(ctx, _arg_serial, _arg_transferProtocol)
+		_ = _err
+		return nil, nil
+	case TransactionISapTransferAtrReq:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.TransferAtrReq(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionISapTransferCardReaderStatusReq:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.TransferCardReaderStatusReq(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

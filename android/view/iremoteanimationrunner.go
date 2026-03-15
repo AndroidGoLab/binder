@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -102,4 +103,53 @@ func (p *RemoteAnimationRunnerProxy) OnAnimationCancelled(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RemoteAnimationRunnerStub dispatches incoming binder transactions
+// to a typed IRemoteAnimationRunner implementation.
+type RemoteAnimationRunnerStub struct {
+	Impl IRemoteAnimationRunner
+}
+
+var _ binder.TransactionReceiver = (*RemoteAnimationRunnerStub)(nil)
+
+func (s *RemoteAnimationRunnerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRemoteAnimationRunnerOnAnimationStart:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_transit, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_apps []RemoteAnimationTarget
+		_ = _arg_apps
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_wallpapers []RemoteAnimationTarget
+		_ = _arg_wallpapers
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_nonApps []RemoteAnimationTarget
+		_ = _arg_nonApps
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_finishedCallback IRemoteAnimationFinishedCallback
+		_ = _arg_finishedCallback
+		_err = s.Impl.OnAnimationStart(ctx, _arg_transit, _arg_apps, _arg_wallpapers, _arg_nonApps, _arg_finishedCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteAnimationRunnerOnAnimationCancelled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnAnimationCancelled(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

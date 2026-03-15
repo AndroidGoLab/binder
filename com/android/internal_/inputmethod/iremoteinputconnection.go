@@ -2,6 +2,7 @@ package inputmethod
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
@@ -1008,4 +1009,1094 @@ func (p *RemoteInputConnectionProxy) ForgetCancellationSignal(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RemoteInputConnectionStub dispatches incoming binder transactions
+// to a typed IRemoteInputConnection implementation.
+type RemoteInputConnectionStub struct {
+	Impl IRemoteInputConnection
+}
+
+var _ binder.TransactionReceiver = (*RemoteInputConnectionStub)(nil)
+
+func (s *RemoteInputConnectionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRemoteInputConnectionGetTextBeforeCursor:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_length, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GetTextBeforeCursor(ctx, _arg_header, _arg_length, _arg_flags, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionGetTextAfterCursor:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_length, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GetTextAfterCursor(ctx, _arg_header, _arg_length, _arg_flags, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionGetCursorCapsMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_reqModes, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GetCursorCapsMode(ctx, _arg_header, _arg_reqModes, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionGetExtractedText:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_request viewInputmethod.ExtractedTextRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GetExtractedText(ctx, _arg_header, _arg_request, _arg_flags, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionDeleteSurroundingText:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_beforeLength, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_afterLength, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DeleteSurroundingText(ctx, _arg_header, _arg_beforeLength, _arg_afterLength)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionDeleteSurroundingTextInCodePoints:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_beforeLength, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_afterLength, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DeleteSurroundingTextInCodePoints(ctx, _arg_header, _arg_beforeLength, _arg_afterLength)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionSetComposingText:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_text interface{}
+		_arg_newCursorPosition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetComposingText(ctx, _arg_header, _arg_text, _arg_newCursorPosition)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionSetComposingTextWithTextAttribute:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_text interface{}
+		_arg_newCursorPosition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_textAttribute viewInputmethod.TextAttribute
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_textAttribute.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SetComposingTextWithTextAttribute(ctx, _arg_header, _arg_text, _arg_newCursorPosition, _arg_textAttribute)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionFinishComposingText:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.FinishComposingText(ctx, _arg_header)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionCommitText:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_text interface{}
+		_arg_newCursorPosition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CommitText(ctx, _arg_header, _arg_text, _arg_newCursorPosition)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionCommitTextWithTextAttribute:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_text interface{}
+		_arg_newCursorPosition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_textAttribute viewInputmethod.TextAttribute
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_textAttribute.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.CommitTextWithTextAttribute(ctx, _arg_header, _arg_text, _arg_newCursorPosition, _arg_textAttribute)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionCommitCompletion:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_completion viewInputmethod.CompletionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_completion.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CommitCompletion(ctx, _arg_header, _arg_completion)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionCommitCorrection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_correction viewInputmethod.CorrectionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_correction.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CommitCorrection(ctx, _arg_header, _arg_correction)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionSetSelection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_start, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_end, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSelection(ctx, _arg_header, _arg_start, _arg_end)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionPerformEditorAction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_actionCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PerformEditorAction(ctx, _arg_header, _arg_actionCode)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionPerformContextMenuAction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PerformContextMenuAction(ctx, _arg_header, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionBeginBatchEdit:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.BeginBatchEdit(ctx, _arg_header)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionEndBatchEdit:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.EndBatchEdit(ctx, _arg_header)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionSendKeyEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_event interface{}
+		_err := s.Impl.SendKeyEvent(ctx, _arg_header, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionClearMetaKeyStates:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_states, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ClearMetaKeyStates(ctx, _arg_header, _arg_states)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionPerformSpellCheck:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.PerformSpellCheck(ctx, _arg_header)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionPerformPrivateCommand:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_action, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_data interface{}
+		_err = s.Impl.PerformPrivateCommand(ctx, _arg_header, _arg_action, _arg_data)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionPerformHandwritingGesture:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_gesture viewInputmethod.ParcelableHandwritingGesture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_gesture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_resultReceiver interface{}
+		_err := s.Impl.PerformHandwritingGesture(ctx, _arg_header, _arg_gesture, _arg_resultReceiver)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionPreviewHandwritingGesture:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_gesture viewInputmethod.ParcelableHandwritingGesture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_gesture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cancellationSignal binder.IBinder
+		_ = _arg_cancellationSignal
+		_err := s.Impl.PreviewHandwritingGesture(ctx, _arg_header, _arg_gesture, _arg_cancellationSignal)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionSetComposingRegion:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_start, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_end, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetComposingRegion(ctx, _arg_header, _arg_start, _arg_end)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionSetComposingRegionWithTextAttribute:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_start, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_end, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_textAttribute viewInputmethod.TextAttribute
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_textAttribute.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SetComposingRegionWithTextAttribute(ctx, _arg_header, _arg_start, _arg_end, _arg_textAttribute)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionGetSelectedText:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GetSelectedText(ctx, _arg_header, _arg_flags, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionRequestCursorUpdates:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_cursorUpdateMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_imeDisplayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RequestCursorUpdates(ctx, _arg_header, _arg_cursorUpdateMode, _arg_imeDisplayId, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionRequestCursorUpdatesWithFilter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_cursorUpdateMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cursorUpdateFilter, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_imeDisplayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RequestCursorUpdatesWithFilter(ctx, _arg_header, _arg_cursorUpdateMode, _arg_cursorUpdateFilter, _arg_imeDisplayId, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionRequestTextBoundsInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_bounds graphics.RectF
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bounds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_resultReceiver interface{}
+		_err := s.Impl.RequestTextBoundsInfo(ctx, _arg_header, _arg_bounds, _arg_resultReceiver)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionCommitContent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_inputContentInfo viewInputmethod.InputContentInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_inputContentInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_opts interface{}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.CommitContent(ctx, _arg_header, _arg_inputContentInfo, _arg_flags, _arg_opts, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionGetSurroundingText:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_beforeLength, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_afterLength, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GetSurroundingText(ctx, _arg_header, _arg_beforeLength, _arg_afterLength, _arg_flags, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionSetImeConsumesInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_imeConsumesInput, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetImeConsumesInput(ctx, _arg_header, _arg_imeConsumesInput)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionReplaceText:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_header InputConnectionCommandHeader
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_start, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_end, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_text interface{}
+		_arg_newCursorPosition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_textAttribute viewInputmethod.TextAttribute
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_textAttribute.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ReplaceText(ctx, _arg_header, _arg_start, _arg_end, _arg_text, _arg_newCursorPosition, _arg_textAttribute)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionCancelCancellationSignal:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_err := s.Impl.CancelCancellationSignal(ctx, _arg_token)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteInputConnectionForgetCancellationSignal:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_err := s.Impl.ForgetCancellationSignal(ctx, _arg_token)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

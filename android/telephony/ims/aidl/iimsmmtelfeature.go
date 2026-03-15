@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	contexthub "github.com/xaionaro-go/binder/android/hardware/contexthub"
 	media "github.com/xaionaro-go/binder/android/hardware/radio/ims/media"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
@@ -863,4 +864,501 @@ func (p *ImsMmTelFeatureProxy) OnSmsReady(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ImsMmTelFeatureStub dispatches incoming binder transactions
+// to a typed IImsMmTelFeature implementation.
+type ImsMmTelFeatureStub struct {
+	Impl IImsMmTelFeature
+}
+
+var _ binder.TransactionReceiver = (*ImsMmTelFeatureStub)(nil)
+
+func (s *ImsMmTelFeatureStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIImsMmTelFeatureSetListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_l IImsMmTelListener
+		_ = _arg_l
+		_err := s.Impl.SetListener(ctx, _arg_l)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIImsMmTelFeatureGetFeatureState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetFeatureState(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIImsMmTelFeatureCreateCallProfile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callSessionType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateCallProfile(ctx, _arg_callSessionType, _arg_callType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIImsMmTelFeatureChangeOfferedRtpHeaderExtensionTypes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_types []ims.RtpHeaderExtensionType
+		_ = _arg_types
+		_err := s.Impl.ChangeOfferedRtpHeaderExtensionTypes(ctx, _arg_types)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIImsMmTelFeatureCreateCallSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_profile ims.ImsCallProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.CreateCallSession(ctx, _arg_profile)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIImsMmTelFeatureShouldProcessCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_uris []string
+		_ = _arg_uris
+		_result, _err := s.Impl.ShouldProcessCall(ctx, _arg_uris)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIImsMmTelFeatureGetUtInterface:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetUtInterface(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIImsMmTelFeatureGetEcbmInterface:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetEcbmInterface(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIImsMmTelFeatureSetUiTtyMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uiTtyMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_onCompleteMessage contexthub.Message
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_onCompleteMessage.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SetUiTtyMode(ctx, _arg_uiTtyMode, _arg_onCompleteMessage)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIImsMmTelFeatureGetMultiEndpointInterface:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetMultiEndpointInterface(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIImsMmTelFeatureQueryCapabilityStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.QueryCapabilityStatus(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIImsMmTelFeatureSetTerminalBasedCallWaitingStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetTerminalBasedCallWaitingStatus(ctx, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIImsMmTelFeatureAddCapabilityCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c IImsCapabilityCallback
+		_ = _arg_c
+		_err := s.Impl.AddCapabilityCallback(ctx, _arg_c)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelFeatureRemoveCapabilityCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c IImsCapabilityCallback
+		_ = _arg_c
+		_err := s.Impl.RemoveCapabilityCallback(ctx, _arg_c)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelFeatureChangeCapabilitiesConfiguration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request feature.CapabilityChangeRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c IImsCapabilityCallback
+		_ = _arg_c
+		_err := s.Impl.ChangeCapabilitiesConfiguration(ctx, _arg_request, _arg_c)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelFeatureQueryCapabilityConfiguration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_radioTech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c IImsCapabilityCallback
+		_ = _arg_c
+		_err = s.Impl.QueryCapabilityConfiguration(ctx, _arg_capability, _arg_radioTech, _arg_c)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelFeatureNotifySrvccStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cb ISrvccStartedCallback
+		_ = _arg_cb
+		_err := s.Impl.NotifySrvccStarted(ctx, _arg_cb)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelFeatureNotifySrvccCompleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.NotifySrvccCompleted(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelFeatureNotifySrvccFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.NotifySrvccFailed(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelFeatureNotifySrvccCanceled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.NotifySrvccCanceled(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelFeatureSetMediaQualityThreshold:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_mediaSessionType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_threshold ims.MediaThreshold
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_threshold.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SetMediaQualityThreshold(ctx, _arg_mediaSessionType, _arg_threshold)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelFeatureQueryMediaQualityStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_mediaSessionType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.QueryMediaQualityStatus(ctx, _arg_mediaSessionType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIImsMmTelFeatureSetSmsListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_l IImsSmsListener
+		_ = _arg_l
+		_err := s.Impl.SetSmsListener(ctx, _arg_l)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIImsMmTelFeatureSendSms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_messageRef, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_format, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_smsc, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_retry, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pdu []byte
+		_ = _arg_pdu
+		_err = s.Impl.SendSms(ctx, _arg_token, _arg_messageRef, _arg_format, _arg_smsc, _arg_retry, _arg_pdu)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelFeatureOnMemoryAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnMemoryAvailable(ctx, _arg_token)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelFeatureAcknowledgeSms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_messageRef, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AcknowledgeSms(ctx, _arg_token, _arg_messageRef, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelFeatureAcknowledgeSmsWithPdu:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_messageRef, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pdu []byte
+		_ = _arg_pdu
+		_err = s.Impl.AcknowledgeSmsWithPdu(ctx, _arg_token, _arg_messageRef, _arg_result, _arg_pdu)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelFeatureAcknowledgeSmsReport:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_messageRef, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AcknowledgeSmsReport(ctx, _arg_token, _arg_messageRef, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMmTelFeatureGetSmsFormat:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSmsFormat(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionIImsMmTelFeatureOnSmsReady:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnSmsReady(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

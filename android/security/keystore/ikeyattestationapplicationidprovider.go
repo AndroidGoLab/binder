@@ -2,6 +2,7 @@ package keystore
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -73,4 +74,43 @@ func (p *KeyAttestationApplicationIdProviderProxy) GetKeyAttestationApplicationI
 		}
 	}
 	return _result, nil
+}
+
+// KeyAttestationApplicationIdProviderStub dispatches incoming binder transactions
+// to a typed IKeyAttestationApplicationIdProvider implementation.
+type KeyAttestationApplicationIdProviderStub struct {
+	Impl IKeyAttestationApplicationIdProvider
+}
+
+var _ binder.TransactionReceiver = (*KeyAttestationApplicationIdProviderStub)(nil)
+
+func (s *KeyAttestationApplicationIdProviderStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIKeyAttestationApplicationIdProviderGetKeyAttestationApplicationId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetKeyAttestationApplicationId(ctx, _arg_uid)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

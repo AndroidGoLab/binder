@@ -2,6 +2,7 @@ package signal
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -56,4 +57,46 @@ func (p *AudioSignalInfoListenerProxy) OnAudioSignalInfoChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AudioSignalInfoListenerStub dispatches incoming binder transactions
+// to a typed IAudioSignalInfoListener implementation.
+type AudioSignalInfoListenerStub struct {
+	Impl IAudioSignalInfoListener
+}
+
+var _ binder.TransactionReceiver = (*AudioSignalInfoListenerStub)(nil)
+
+func (s *AudioSignalInfoListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAudioSignalInfoListenerOnAudioSignalInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionToken, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_changedSignalInfo os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_changedSignalInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnAudioSignalInfoChanged(ctx, _arg_sessionToken, _arg_changedSignalInfo)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

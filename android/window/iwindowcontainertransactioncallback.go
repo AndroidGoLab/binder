@@ -2,6 +2,7 @@ package window
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -51,4 +52,35 @@ func (p *WindowContainerTransactionCallbackProxy) OnTransactionReady(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// WindowContainerTransactionCallbackStub dispatches incoming binder transactions
+// to a typed IWindowContainerTransactionCallback implementation.
+type WindowContainerTransactionCallbackStub struct {
+	Impl IWindowContainerTransactionCallback
+}
+
+var _ binder.TransactionReceiver = (*WindowContainerTransactionCallbackStub)(nil)
+
+func (s *WindowContainerTransactionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWindowContainerTransactionCallbackOnTransactionReady:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_t interface{}
+		_err = s.Impl.OnTransactionReady(ctx, _arg_id, _arg_t)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

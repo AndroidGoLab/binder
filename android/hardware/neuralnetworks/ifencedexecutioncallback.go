@@ -2,6 +2,7 @@ package neuralnetworks
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -71,4 +72,36 @@ func (p *FencedExecutionCallbackProxy) GetExecutionInfo(
 	}
 	_result = ErrorStatus(_raw)
 	return _result, nil
+}
+
+// FencedExecutionCallbackStub dispatches incoming binder transactions
+// to a typed IFencedExecutionCallback implementation.
+type FencedExecutionCallbackStub struct {
+	Impl IFencedExecutionCallback
+}
+
+var _ binder.TransactionReceiver = (*FencedExecutionCallbackStub)(nil)
+
+func (s *FencedExecutionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIFencedExecutionCallbackGetExecutionInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetExecutionInfo(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(int32(_result))
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

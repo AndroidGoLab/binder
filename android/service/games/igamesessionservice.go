@@ -2,6 +2,7 @@ package games
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
 	"github.com/xaionaro-go/binder/parcel"
@@ -66,4 +67,69 @@ func (p *GameSessionServiceProxy) Create(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GameSessionServiceStub dispatches incoming binder transactions
+// to a typed IGameSessionService implementation.
+type GameSessionServiceStub struct {
+	Impl IGameSessionService
+}
+
+var _ binder.TransactionReceiver = (*GameSessionServiceStub)(nil)
+
+func (s *GameSessionServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGameSessionServiceCreate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_gameSessionController IGameSessionController
+		_ = _arg_gameSessionController
+		var _arg_createGameSessionRequest CreateGameSessionRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_createGameSessionRequest.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_gameSessionViewHostConfiguration GameSessionViewHostConfiguration
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_gameSessionViewHostConfiguration.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_createGameSessionResultFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_createGameSessionResultFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.Create(ctx, _arg_gameSessionController, _arg_createGameSessionRequest, _arg_gameSessionViewHostConfiguration, _arg_createGameSessionResultFuture)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

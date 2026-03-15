@@ -2,6 +2,7 @@ package euicc
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,37 @@ func (p *GetEuiccChallengeCallbackProxy) OnComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GetEuiccChallengeCallbackStub dispatches incoming binder transactions
+// to a typed IGetEuiccChallengeCallback implementation.
+type GetEuiccChallengeCallbackStub struct {
+	Impl IGetEuiccChallengeCallback
+}
+
+var _ binder.TransactionReceiver = (*GetEuiccChallengeCallbackStub)(nil)
+
+func (s *GetEuiccChallengeCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGetEuiccChallengeCallbackOnComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_challenge []byte
+		_ = _arg_challenge
+		_err = s.Impl.OnComplete(ctx, _arg_resultCode, _arg_challenge)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

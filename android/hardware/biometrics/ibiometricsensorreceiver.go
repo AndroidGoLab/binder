@@ -2,6 +2,7 @@ package biometrics
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -126,4 +127,90 @@ func (p *BiometricSensorReceiverProxy) OnAcquired(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BiometricSensorReceiverStub dispatches incoming binder transactions
+// to a typed IBiometricSensorReceiver implementation.
+type BiometricSensorReceiverStub struct {
+	Impl IBiometricSensorReceiver
+}
+
+var _ binder.TransactionReceiver = (*BiometricSensorReceiverStub)(nil)
+
+func (s *BiometricSensorReceiverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBiometricSensorReceiverOnAuthenticationSucceeded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sensorId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_token []byte
+		_ = _arg_token
+		_err = s.Impl.OnAuthenticationSucceeded(ctx, _arg_sensorId, _arg_token)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricSensorReceiverOnAuthenticationFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sensorId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAuthenticationFailed(ctx, _arg_sensorId)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricSensorReceiverOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sensorId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cookie, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_error_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_vendorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_sensorId, _arg_cookie, _arg_error_, _arg_vendorCode)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricSensorReceiverOnAcquired:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sensorId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_acquiredInfo, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_vendorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAcquired(ctx, _arg_sensorId, _arg_acquiredInfo, _arg_vendorCode)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

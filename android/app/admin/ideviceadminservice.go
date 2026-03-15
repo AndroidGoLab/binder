@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 )
 
@@ -27,3 +28,22 @@ func (p *DeviceAdminServiceProxy) AsBinder() binder.IBinder {
 }
 
 var _ IDeviceAdminService = (*DeviceAdminServiceProxy)(nil)
+
+// DeviceAdminServiceStub dispatches incoming binder transactions
+// to a typed IDeviceAdminService implementation.
+type DeviceAdminServiceStub struct {
+	Impl IDeviceAdminService
+}
+
+var _ binder.TransactionReceiver = (*DeviceAdminServiceStub)(nil)
+
+func (s *DeviceAdminServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
+}

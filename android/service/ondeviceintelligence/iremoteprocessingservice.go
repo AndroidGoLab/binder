@@ -2,6 +2,7 @@ package ondeviceintelligence
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -56,4 +57,45 @@ func (p *RemoteProcessingServiceProxy) UpdateProcessingState(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RemoteProcessingServiceStub dispatches incoming binder transactions
+// to a typed IRemoteProcessingService implementation.
+type RemoteProcessingServiceStub struct {
+	Impl IRemoteProcessingService
+}
+
+var _ binder.TransactionReceiver = (*RemoteProcessingServiceStub)(nil)
+
+func (s *RemoteProcessingServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRemoteProcessingServiceUpdateProcessingState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_processingState os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_processingState.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IProcessingUpdateStatusCallback
+		_ = _arg_callback
+		_err := s.Impl.UpdateProcessingState(ctx, _arg_processingState, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

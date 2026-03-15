@@ -2,6 +2,7 @@ package resolver
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -91,4 +92,50 @@ func (p *ResolverRankerServiceProxy) Train(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ResolverRankerServiceStub dispatches incoming binder transactions
+// to a typed IResolverRankerService implementation.
+type ResolverRankerServiceStub struct {
+	Impl IResolverRankerService
+}
+
+var _ binder.TransactionReceiver = (*ResolverRankerServiceStub)(nil)
+
+func (s *ResolverRankerServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIResolverRankerServicePredict:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_targets []ResolverTarget
+		_ = _arg_targets
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result IResolverRankerResult
+		_ = _arg_result
+		_err := s.Impl.Predict(ctx, _arg_targets, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIResolverRankerServiceTrain:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_targets []ResolverTarget
+		_ = _arg_targets
+		_arg_selectedPosition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Train(ctx, _arg_targets, _arg_selectedPosition)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

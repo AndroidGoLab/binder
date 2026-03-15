@@ -2,6 +2,7 @@ package telecom
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -117,4 +118,85 @@ func (p *CallDiagnosticServiceAdapterProxy) OverrideDisconnectMessage(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CallDiagnosticServiceAdapterStub dispatches incoming binder transactions
+// to a typed ICallDiagnosticServiceAdapter implementation.
+type CallDiagnosticServiceAdapterStub struct {
+	Impl ICallDiagnosticServiceAdapter
+}
+
+var _ binder.TransactionReceiver = (*CallDiagnosticServiceAdapterStub)(nil)
+
+func (s *CallDiagnosticServiceAdapterStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICallDiagnosticServiceAdapterDisplayDiagnosticMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_messageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_message interface{}
+		_err = s.Impl.DisplayDiagnosticMessage(ctx, _arg_callId, _arg_messageId, _arg_message)
+		_ = _err
+		return nil, nil
+	case TransactionICallDiagnosticServiceAdapterClearDiagnosticMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_messageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ClearDiagnosticMessage(ctx, _arg_callId, _arg_messageId)
+		_ = _err
+		return nil, nil
+	case TransactionICallDiagnosticServiceAdapterSendDeviceToDeviceMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_message, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_value, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendDeviceToDeviceMessage(ctx, _arg_callId, _arg_message, _arg_value)
+		_ = _err
+		return nil, nil
+	case TransactionICallDiagnosticServiceAdapterOverrideDisconnectMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_message interface{}
+		_err = s.Impl.OverrideDisconnectMessage(ctx, _arg_callId, _arg_message)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

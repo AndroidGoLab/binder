@@ -2,6 +2,7 @@ package inputmethod
 
 import (
 	"context"
+	"fmt"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -178,4 +179,99 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInlineSuggestionsSessionInvali
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InlineSuggestionsRequestCallbackStub dispatches incoming binder transactions
+// to a typed IInlineSuggestionsRequestCallback implementation.
+type InlineSuggestionsRequestCallbackStub struct {
+	Impl IInlineSuggestionsRequestCallback
+}
+
+var _ binder.TransactionReceiver = (*InlineSuggestionsRequestCallbackStub)(nil)
+
+func (s *InlineSuggestionsRequestCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInlineSuggestionsRequestCallbackOnInlineSuggestionsUnsupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnInlineSuggestionsUnsupported(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInlineSuggestionsRequestCallbackOnInlineSuggestionsRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request viewInputmethod.InlineSuggestionsRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IInlineSuggestionsResponseCallback
+		_ = _arg_callback
+		_err := s.Impl.OnInlineSuggestionsRequest(ctx, _arg_request, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIInlineSuggestionsRequestCallbackOnInputMethodStartInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_imeFieldId interface{}
+		_err := s.Impl.OnInputMethodStartInput(ctx, _arg_imeFieldId)
+		_ = _err
+		return nil, nil
+	case TransactionIInlineSuggestionsRequestCallbackOnInputMethodShowInputRequested:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestResult, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnInputMethodShowInputRequested(ctx, _arg_requestResult)
+		_ = _err
+		return nil, nil
+	case TransactionIInlineSuggestionsRequestCallbackOnInputMethodStartInputView:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnInputMethodStartInputView(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInlineSuggestionsRequestCallbackOnInputMethodFinishInputView:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnInputMethodFinishInputView(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInlineSuggestionsRequestCallbackOnInputMethodFinishInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnInputMethodFinishInput(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInlineSuggestionsRequestCallbackOnInlineSuggestionsSessionInvalidated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnInlineSuggestionsSessionInvalidated(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

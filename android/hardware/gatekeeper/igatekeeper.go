@@ -2,6 +2,7 @@ package gatekeeper
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -216,4 +217,110 @@ func (p *GatekeeperProxy) Verify(
 		}
 	}
 	return _result, nil
+}
+
+// GatekeeperStub dispatches incoming binder transactions
+// to a typed IGatekeeper implementation.
+type GatekeeperStub struct {
+	Impl IGatekeeper
+}
+
+var _ binder.TransactionReceiver = (*GatekeeperStub)(nil)
+
+func (s *GatekeeperStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGatekeeperDeleteAllUsers:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.DeleteAllUsers(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGatekeeperDeleteUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DeleteUser(ctx, _arg_uid)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGatekeeperEnroll:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_currentPasswordHandle []byte
+		_ = _arg_currentPasswordHandle
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_currentPassword []byte
+		_ = _arg_currentPassword
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_desiredPassword []byte
+		_ = _arg_desiredPassword
+		_result, _err := s.Impl.Enroll(ctx, _arg_uid, _arg_currentPasswordHandle, _arg_currentPassword, _arg_desiredPassword)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIGatekeeperVerify:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_challenge, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_enrolledPasswordHandle []byte
+		_ = _arg_enrolledPasswordHandle
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_providedPassword []byte
+		_ = _arg_providedPassword
+		_result, _err := s.Impl.Verify(ctx, _arg_uid, _arg_challenge, _arg_enrolledPasswordHandle, _arg_providedPassword)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

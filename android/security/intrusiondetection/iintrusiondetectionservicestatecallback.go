@@ -2,6 +2,7 @@ package intrusiondetection
 
 import (
 	"context"
+	"fmt"
 	StreamDescriptor "github.com/xaionaro-go/binder/android/hardware/audio/core/StreamDescriptor"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -51,4 +52,35 @@ func (p *IntrusionDetectionServiceStateCallbackProxy) OnStateChange(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// IntrusionDetectionServiceStateCallbackStub dispatches incoming binder transactions
+// to a typed IIntrusionDetectionServiceStateCallback implementation.
+type IntrusionDetectionServiceStateCallbackStub struct {
+	Impl IIntrusionDetectionServiceStateCallback
+}
+
+var _ binder.TransactionReceiver = (*IntrusionDetectionServiceStateCallbackStub)(nil)
+
+func (s *IntrusionDetectionServiceStateCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIIntrusionDetectionServiceStateCallbackOnStateChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state := StreamDescriptor.State(_raw_state)
+		_err = s.Impl.OnStateChange(ctx, _arg_state)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

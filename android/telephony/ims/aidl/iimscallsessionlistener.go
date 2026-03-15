@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	media "github.com/xaionaro-go/binder/android/hardware/radio/ims/media"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
@@ -966,4 +967,764 @@ func (p *ImsCallSessionListenerProxy) CallSessionSendAnbrQuery(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ImsCallSessionListenerStub dispatches incoming binder transactions
+// to a typed IImsCallSessionListener implementation.
+type ImsCallSessionListenerStub struct {
+	Impl IImsCallSessionListener
+}
+
+var _ binder.TransactionReceiver = (*ImsCallSessionListenerStub)(nil)
+
+func (s *ImsCallSessionListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIImsCallSessionListenerCallSessionInitiating:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_profile ims.ImsCallProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionInitiating(ctx, _arg_profile)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionInitiatingFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_reasonInfo ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_reasonInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionInitiatingFailed(ctx, _arg_reasonInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionProgressing:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_profile ims.ImsStreamMediaProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionProgressing(ctx, _arg_profile)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionInitiated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_profile ims.ImsCallProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionInitiated(ctx, _arg_profile)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionInitiatedFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_reasonInfo ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_reasonInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionInitiatedFailed(ctx, _arg_reasonInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionTerminated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_reasonInfo ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_reasonInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionTerminated(ctx, _arg_reasonInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionHeld:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_profile ims.ImsCallProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionHeld(ctx, _arg_profile)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionHoldFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_reasonInfo ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_reasonInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionHoldFailed(ctx, _arg_reasonInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionHoldReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_profile ims.ImsCallProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionHoldReceived(ctx, _arg_profile)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionResumed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_profile ims.ImsCallProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionResumed(ctx, _arg_profile)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionResumeFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_reasonInfo ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_reasonInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionResumeFailed(ctx, _arg_reasonInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionResumeReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_profile ims.ImsCallProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionResumeReceived(ctx, _arg_profile)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionMergeStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_newSession internal.IImsCallSession
+		_ = _arg_newSession
+		var _arg_profile ims.ImsCallProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionMergeStarted(ctx, _arg_newSession, _arg_profile)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionMergeComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_session internal.IImsCallSession
+		_ = _arg_session
+		_err := s.Impl.CallSessionMergeComplete(ctx, _arg_session)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionMergeFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_reasonInfo ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_reasonInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionMergeFailed(ctx, _arg_reasonInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_profile ims.ImsCallProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionUpdated(ctx, _arg_profile)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionUpdateFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_reasonInfo ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_reasonInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionUpdateFailed(ctx, _arg_reasonInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionUpdateReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_profile ims.ImsCallProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionUpdateReceived(ctx, _arg_profile)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionConferenceExtended:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_newSession internal.IImsCallSession
+		_ = _arg_newSession
+		var _arg_profile ims.ImsCallProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionConferenceExtended(ctx, _arg_newSession, _arg_profile)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionConferenceExtendFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_reasonInfo ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_reasonInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionConferenceExtendFailed(ctx, _arg_reasonInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionConferenceExtendReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_newSession internal.IImsCallSession
+		_ = _arg_newSession
+		var _arg_profile ims.ImsCallProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionConferenceExtendReceived(ctx, _arg_newSession, _arg_profile)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionInviteParticipantsRequestDelivered:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.CallSessionInviteParticipantsRequestDelivered(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionInviteParticipantsRequestFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_reasonInfo ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_reasonInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionInviteParticipantsRequestFailed(ctx, _arg_reasonInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionRemoveParticipantsRequestDelivered:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.CallSessionRemoveParticipantsRequestDelivered(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionRemoveParticipantsRequestFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_reasonInfo ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_reasonInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionRemoveParticipantsRequestFailed(ctx, _arg_reasonInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionConferenceStateUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_state ims.ImsConferenceState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_state.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionConferenceStateUpdated(ctx, _arg_state)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionUssdMessageReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ussdMessage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CallSessionUssdMessageReceived(ctx, _arg_mode, _arg_ussdMessage)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionHandover:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_srcNetworkType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_targetNetworkType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_reasonInfo ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_reasonInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.CallSessionHandover(ctx, _arg_srcNetworkType, _arg_targetNetworkType, _arg_reasonInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionHandoverFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_srcNetworkType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_targetNetworkType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_reasonInfo ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_reasonInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.CallSessionHandoverFailed(ctx, _arg_srcNetworkType, _arg_targetNetworkType, _arg_reasonInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionMayHandover:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_srcNetworkType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_targetNetworkType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CallSessionMayHandover(ctx, _arg_srcNetworkType, _arg_targetNetworkType)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionTtyModeReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CallSessionTtyModeReceived(ctx, _arg_mode)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionMultipartyStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isMultiParty, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CallSessionMultipartyStateChanged(ctx, _arg_isMultiParty)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionSuppServiceReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_suppSrvNotification ims.ImsSuppServiceNotification
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_suppSrvNotification.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionSuppServiceReceived(ctx, _arg_suppSrvNotification)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionRttModifyRequestReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callProfile ims.ImsCallProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callProfile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionRttModifyRequestReceived(ctx, _arg_callProfile)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionRttModifyResponseReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CallSessionRttModifyResponseReceived(ctx, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionRttMessageReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_rttMessage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CallSessionRttMessageReceived(ctx, _arg_rttMessage)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionRttAudioIndicatorChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_profile ims.ImsStreamMediaProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionRttAudioIndicatorChanged(ctx, _arg_profile)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionTransferred:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.CallSessionTransferred(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionTransferFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_reasonInfo ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_reasonInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallSessionTransferFailed(ctx, _arg_reasonInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionDtmfReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_dtmf, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dtmf := uint16(_raw_dtmf)
+		_err = s.Impl.CallSessionDtmfReceived(ctx, _arg_dtmf)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallQualityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callQuality media.CallQuality
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callQuality.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CallQualityChanged(ctx, _arg_callQuality)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionRtpHeaderExtensionsReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_extensions []media.RtpHeaderExtension
+		_ = _arg_extensions
+		_err := s.Impl.CallSessionRtpHeaderExtensionsReceived(ctx, _arg_extensions)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCallSessionListenerCallSessionSendAnbrQuery:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_mediaType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_direction, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_bitsPerSecond, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CallSessionSendAnbrQuery(ctx, _arg_mediaType, _arg_direction, _arg_bitsPerSecond)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

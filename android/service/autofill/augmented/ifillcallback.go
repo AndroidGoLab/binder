@@ -2,6 +2,7 @@ package augmented
 
 import (
 	"context"
+	"fmt"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	os "github.com/xaionaro-go/binder/android/os"
 	autofill "github.com/xaionaro-go/binder/android/service/autofill"
@@ -166,4 +167,94 @@ func (p *FillCallbackProxy) Cancel(
 	}
 
 	return nil
+}
+
+// FillCallbackStub dispatches incoming binder transactions
+// to a typed IFillCallback implementation.
+type FillCallbackStub struct {
+	Impl IFillCallback
+}
+
+var _ binder.TransactionReceiver = (*FillCallbackStub)(nil)
+
+func (s *FillCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIFillCallbackOnCancellable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cancellation ondeviceintelligence.ICancellationSignal
+		_ = _arg_cancellation
+		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIFillCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_inlineSuggestionsData []autofill.Dataset
+		_ = _arg_inlineSuggestionsData
+		var _arg_clientState *os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_clientState.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_showingFillWindow, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSuccess(ctx, _arg_inlineSuggestionsData, _arg_clientState, _arg_showingFillWindow)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIFillCallbackIsCompleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsCompleted(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIFillCallbackCancel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Cancel(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

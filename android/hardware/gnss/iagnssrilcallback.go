@@ -2,6 +2,7 @@ package gnss
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -85,4 +86,51 @@ func (p *AGnssRilCallbackProxy) RequestRefLocCb(
 	}
 
 	return nil
+}
+
+// AGnssRilCallbackStub dispatches incoming binder transactions
+// to a typed IAGnssRilCallback implementation.
+type AGnssRilCallbackStub struct {
+	Impl IAGnssRilCallback
+}
+
+var _ binder.TransactionReceiver = (*AGnssRilCallbackStub)(nil)
+
+func (s *AGnssRilCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAGnssRilCallbackRequestSetIdCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_setIdflag, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RequestSetIdCb(ctx, _arg_setIdflag)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIAGnssRilCallbackRequestRefLocCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RequestRefLocCb(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

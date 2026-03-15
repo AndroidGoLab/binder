@@ -2,6 +2,7 @@ package dependencyinstaller
 
 import (
 	"context"
+	"fmt"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -65,4 +66,45 @@ func (p *DependencyInstallerServiceProxy) OnDependenciesRequired(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DependencyInstallerServiceStub dispatches incoming binder transactions
+// to a typed IDependencyInstallerService implementation.
+type DependencyInstallerServiceStub struct {
+	Impl IDependencyInstallerService
+}
+
+var _ binder.TransactionReceiver = (*DependencyInstallerServiceStub)(nil)
+
+func (s *DependencyInstallerServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDependencyInstallerServiceOnDependenciesRequired:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_neededLibraries []pm.SharedLibraryInfo
+		_ = _arg_neededLibraries
+		var _arg_callback DependencyInstallerCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnDependenciesRequired(ctx, _arg_neededLibraries, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package soundtrigger_middleware
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -136,4 +137,102 @@ func (p *SoundTriggerCallbackProxy) OnModuleDied(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SoundTriggerCallbackStub dispatches incoming binder transactions
+// to a typed ISoundTriggerCallback implementation.
+type SoundTriggerCallbackStub struct {
+	Impl ISoundTriggerCallback
+}
+
+var _ binder.TransactionReceiver = (*SoundTriggerCallbackStub)(nil)
+
+func (s *SoundTriggerCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISoundTriggerCallbackOnRecognition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modelHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_event RecognitionEventSys
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_captureSession, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRecognition(ctx, _arg_modelHandle, _arg_event, _arg_captureSession)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerCallbackOnPhraseRecognition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modelHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_event PhraseRecognitionEventSys
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_captureSession, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnPhraseRecognition(ctx, _arg_modelHandle, _arg_event, _arg_captureSession)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerCallbackOnResourcesAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnResourcesAvailable(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerCallbackOnModelUnloaded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modelHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnModelUnloaded(ctx, _arg_modelHandle)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerCallbackOnModuleDied:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnModuleDied(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

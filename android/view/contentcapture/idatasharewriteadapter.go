@@ -2,6 +2,7 @@ package contentcapture
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -103,4 +104,59 @@ func (p *DataShareWriteAdapterProxy) Finish(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DataShareWriteAdapterStub dispatches incoming binder transactions
+// to a typed IDataShareWriteAdapter implementation.
+type DataShareWriteAdapterStub struct {
+	Impl IDataShareWriteAdapter
+}
+
+var _ binder.TransactionReceiver = (*DataShareWriteAdapterStub)(nil)
+
+func (s *DataShareWriteAdapterStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDataShareWriteAdapterWrite:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_destination, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Write(ctx, _arg_destination)
+		_ = _err
+		return nil, nil
+	case TransactionIDataShareWriteAdapterError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Error(ctx, _arg_errorCode)
+		_ = _err
+		return nil, nil
+	case TransactionIDataShareWriteAdapterRejected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Rejected(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIDataShareWriteAdapterFinish:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Finish(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

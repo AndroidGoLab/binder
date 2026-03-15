@@ -2,6 +2,7 @@ package voice
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -185,4 +186,96 @@ func (p *VoiceInteractionServiceProxy) DetectorRemoteExceptionOccurred(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VoiceInteractionServiceStub dispatches incoming binder transactions
+// to a typed IVoiceInteractionService implementation.
+type VoiceInteractionServiceStub struct {
+	Impl IVoiceInteractionService
+}
+
+var _ binder.TransactionReceiver = (*VoiceInteractionServiceStub)(nil)
+
+func (s *VoiceInteractionServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVoiceInteractionServiceReady:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Ready(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionServiceSoundModelsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.SoundModelsChanged(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionServiceShutdown:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Shutdown(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionServiceLaunchVoiceAssistFromKeyguard:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.LaunchVoiceAssistFromKeyguard(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionServiceGetActiveServiceSupportedActions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_voiceActions []string
+		_ = _arg_voiceActions
+		var _arg_callback interface{}
+		_err := s.Impl.GetActiveServiceSupportedActions(ctx, _arg_voiceActions, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionServicePrepareToShowSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_args interface{}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PrepareToShowSession(ctx, _arg_args, _arg_flags)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionServiceShowSessionFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_args interface{}
+		_err := s.Impl.ShowSessionFailed(ctx, _arg_args)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionServiceDetectorRemoteExceptionOccurred:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_detectorType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DetectorRemoteExceptionOccurred(ctx, _arg_token, _arg_detectorType)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

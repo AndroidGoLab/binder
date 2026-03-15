@@ -2,6 +2,7 @@ package euicc
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -52,4 +53,38 @@ func (p *GetDefaultSmdpAddressCallbackProxy) OnComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GetDefaultSmdpAddressCallbackStub dispatches incoming binder transactions
+// to a typed IGetDefaultSmdpAddressCallback implementation.
+type GetDefaultSmdpAddressCallbackStub struct {
+	Impl IGetDefaultSmdpAddressCallback
+}
+
+var _ binder.TransactionReceiver = (*GetDefaultSmdpAddressCallbackStub)(nil)
+
+func (s *GetDefaultSmdpAddressCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGetDefaultSmdpAddressCallbackOnComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_address, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnComplete(ctx, _arg_resultCode, _arg_address)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

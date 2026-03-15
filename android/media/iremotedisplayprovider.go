@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -149,4 +150,96 @@ func (p *RemoteDisplayProviderProxy) AdjustVolume(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RemoteDisplayProviderStub dispatches incoming binder transactions
+// to a typed IRemoteDisplayProvider implementation.
+type RemoteDisplayProviderStub struct {
+	Impl IRemoteDisplayProvider
+}
+
+var _ binder.TransactionReceiver = (*RemoteDisplayProviderStub)(nil)
+
+func (s *RemoteDisplayProviderStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRemoteDisplayProviderSetCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IRemoteDisplayCallback
+		_ = _arg_callback
+		_err := s.Impl.SetCallback(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteDisplayProviderSetDiscoveryMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDiscoveryMode(ctx, _arg_mode)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteDisplayProviderConnect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Connect(ctx, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteDisplayProviderDisconnect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Disconnect(ctx, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteDisplayProviderSetVolume:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_volume, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetVolume(ctx, _arg_id, _arg_volume)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteDisplayProviderAdjustVolume:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_delta, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AdjustVolume(ctx, _arg_id, _arg_delta)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

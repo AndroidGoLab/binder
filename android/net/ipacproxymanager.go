@@ -2,6 +2,7 @@ package net
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -114,4 +115,66 @@ func (p *PacProxyManagerProxy) SetCurrentProxyScriptUrl(
 	}
 
 	return nil
+}
+
+// PacProxyManagerStub dispatches incoming binder transactions
+// to a typed IPacProxyManager implementation.
+type PacProxyManagerStub struct {
+	Impl IPacProxyManager
+}
+
+var _ binder.TransactionReceiver = (*PacProxyManagerStub)(nil)
+
+func (s *PacProxyManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPacProxyManagerAddListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IPacProxyInstalledListener
+		_ = _arg_listener
+		_err := s.Impl.AddListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIPacProxyManagerRemoveListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IPacProxyInstalledListener
+		_ = _arg_listener
+		_err := s.Impl.RemoveListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIPacProxyManagerSetCurrentProxyScriptUrl:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_proxyInfo interface{}
+		_err := s.Impl.SetCurrentProxyScriptUrl(ctx, _arg_proxyInfo)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

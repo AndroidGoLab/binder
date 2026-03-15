@@ -2,6 +2,7 @@ package bufferpool2
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -60,4 +61,39 @@ func (p *AccessorProxy) Connect(
 	}
 
 	return _result, nil
+}
+
+// AccessorStub dispatches incoming binder transactions
+// to a typed IAccessor implementation.
+type AccessorStub struct {
+	Impl IAccessor
+}
+
+var _ binder.TransactionReceiver = (*AccessorStub)(nil)
+
+func (s *AccessorStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAccessorConnect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_observer IObserver
+		_ = _arg_observer
+		_result, _err := s.Impl.Connect(ctx, _arg_observer)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

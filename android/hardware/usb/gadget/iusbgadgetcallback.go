@@ -2,6 +2,7 @@ package gadget
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -119,4 +120,95 @@ func (p *UsbGadgetCallbackProxy) ResetCb(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// UsbGadgetCallbackStub dispatches incoming binder transactions
+// to a typed IUsbGadgetCallback implementation.
+type UsbGadgetCallbackStub struct {
+	Impl IUsbGadgetCallback
+}
+
+var _ binder.TransactionReceiver = (*UsbGadgetCallbackStub)(nil)
+
+func (s *UsbGadgetCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIUsbGadgetCallbackSetCurrentUsbFunctionsCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_functions, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := Status(_raw_status)
+		_arg_transactionId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCurrentUsbFunctionsCb(ctx, _arg_functions, _arg_status, _arg_transactionId)
+		_ = _err
+		return nil, nil
+	case TransactionIUsbGadgetCallbackGetCurrentUsbFunctionsCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_functions, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := Status(_raw_status)
+		_arg_transactionId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetCurrentUsbFunctionsCb(ctx, _arg_functions, _arg_status, _arg_transactionId)
+		_ = _err
+		return nil, nil
+	case TransactionIUsbGadgetCallbackGetUsbSpeedCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_speed, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_speed := UsbSpeed(_raw_speed)
+		_arg_transactionId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetUsbSpeedCb(ctx, _arg_speed, _arg_transactionId)
+		_ = _err
+		return nil, nil
+	case TransactionIUsbGadgetCallbackResetCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := Status(_raw_status)
+		_arg_transactionId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ResetCb(ctx, _arg_status, _arg_transactionId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

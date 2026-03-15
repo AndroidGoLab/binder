@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -115,4 +116,83 @@ func (p *SipDelegateProxy) CleanupSession(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SipDelegateStub dispatches incoming binder transactions
+// to a typed ISipDelegate implementation.
+type SipDelegateStub struct {
+	Impl ISipDelegate
+}
+
+var _ binder.TransactionReceiver = (*SipDelegateStub)(nil)
+
+func (s *SipDelegateStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISipDelegateSendMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sipMessage ims.SipMessage
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sipMessage.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_configVersion, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendMessage(ctx, _arg_sipMessage, _arg_configVersion)
+		_ = _err
+		return nil, nil
+	case TransactionISipDelegateNotifyMessageReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_viaTransactionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyMessageReceived(ctx, _arg_viaTransactionId)
+		_ = _err
+		return nil, nil
+	case TransactionISipDelegateNotifyMessageReceiveError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_viaTransactionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyMessageReceiveError(ctx, _arg_viaTransactionId, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionISipDelegateCleanupSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CleanupSession(ctx, _arg_callId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package suspend
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -67,4 +68,46 @@ func (p *SystemSuspendProxy) AcquireWakeLock(
 	}
 	_result = NewWakeLockProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
+}
+
+// SystemSuspendStub dispatches incoming binder transactions
+// to a typed ISystemSuspend implementation.
+type SystemSuspendStub struct {
+	Impl ISystemSuspend
+}
+
+var _ binder.TransactionReceiver = (*SystemSuspendStub)(nil)
+
+func (s *SystemSuspendStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISystemSuspendAcquireWakeLock:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := WakeLockType(_raw_type_)
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.AcquireWakeLock(ctx, _arg_type_, _arg_name)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

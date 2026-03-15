@@ -2,6 +2,7 @@ package ims
 
 import (
 	"context"
+	"fmt"
 	radio "github.com/xaionaro-go/binder/android/hardware/radio"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -194,4 +195,168 @@ func (p *RadioImsResponseProxy) UpdateImsCallStatusResponse(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RadioImsResponseStub dispatches incoming binder transactions
+// to a typed IRadioImsResponse implementation.
+type RadioImsResponseStub struct {
+	Impl IRadioImsResponse
+}
+
+var _ binder.TransactionReceiver = (*RadioImsResponseStub)(nil)
+
+func (s *RadioImsResponseStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRadioImsResponseSetSrvccCallInfoResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetSrvccCallInfoResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioImsResponseUpdateImsRegistrationInfoResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.UpdateImsRegistrationInfoResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioImsResponseStartImsTrafficResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_failureInfo *ConnectionFailureInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_failureInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.StartImsTrafficResponse(ctx, _arg_info, _arg_failureInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioImsResponseStopImsTrafficResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.StopImsTrafficResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioImsResponseTriggerEpsFallbackResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.TriggerEpsFallbackResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioImsResponseSendAnbrQueryResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SendAnbrQueryResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioImsResponseUpdateImsCallStatusResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.UpdateImsCallStatusResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

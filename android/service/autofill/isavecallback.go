@@ -2,6 +2,7 @@ package autofill
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -85,4 +86,49 @@ func (p *SaveCallbackProxy) OnFailure(
 	}
 
 	return nil
+}
+
+// SaveCallbackStub dispatches incoming binder transactions
+// to a typed ISaveCallback implementation.
+type SaveCallbackStub struct {
+	Impl ISaveCallback
+}
+
+var _ binder.TransactionReceiver = (*SaveCallbackStub)(nil)
+
+func (s *SaveCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISaveCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intentSender interface{}
+		_err := s.Impl.OnSuccess(ctx, _arg_intentSender)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISaveCallbackOnFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_message interface{}
+		_err := s.Impl.OnFailure(ctx, _arg_message)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

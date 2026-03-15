@@ -2,6 +2,7 @@ package identity
 
 import (
 	"context"
+	"fmt"
 	keymaster "github.com/xaionaro-go/binder/android/hardware/keymaster"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -730,4 +731,292 @@ func (p *IdentityCredentialProxy) FinishRetrievalWithSignature(
 	}
 
 	return nil
+}
+
+// IdentityCredentialStub dispatches incoming binder transactions
+// to a typed IIdentityCredential implementation.
+type IdentityCredentialStub struct {
+	Impl IIdentityCredential
+}
+
+var _ binder.TransactionReceiver = (*IdentityCredentialStub)(nil)
+
+func (s *IdentityCredentialStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIIdentityCredentialDeleteCredential:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.DeleteCredential(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIIdentityCredentialCreateEphemeralKeyPair:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateEphemeralKeyPair(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIIdentityCredentialSetReaderEphemeralPublicKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_publicKey []byte
+		_ = _arg_publicKey
+		_err := s.Impl.SetReaderEphemeralPublicKey(ctx, _arg_publicKey)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIIdentityCredentialCreateAuthChallenge:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateAuthChallenge(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt64(_result)
+		return _reply, nil
+	case TransactionIIdentityCredentialStartRetrieval:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_accessControlProfiles []SecureAccessControlProfile
+		_ = _arg_accessControlProfiles
+		var _arg_authToken keymaster.HardwareAuthToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_authToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_itemsRequest []byte
+		_ = _arg_itemsRequest
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_signingKeyBlob []byte
+		_ = _arg_signingKeyBlob
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sessionTranscript []byte
+		_ = _arg_sessionTranscript
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_readerSignature []byte
+		_ = _arg_readerSignature
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_requestCounts []int32
+		_ = _arg_requestCounts
+		_err := s.Impl.StartRetrieval(ctx, _arg_accessControlProfiles, _arg_authToken, _arg_itemsRequest, _arg_signingKeyBlob, _arg_sessionTranscript, _arg_readerSignature, _arg_requestCounts)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIIdentityCredentialStartRetrieveEntryValue:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_nameSpace, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_name, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_entrySize, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_accessControlProfileIds []int32
+		_ = _arg_accessControlProfileIds
+		_err = s.Impl.StartRetrieveEntryValue(ctx, _arg_nameSpace, _arg_name, _arg_entrySize, _arg_accessControlProfileIds)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIIdentityCredentialRetrieveEntryValue:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_encryptedContent []byte
+		_ = _arg_encryptedContent
+		_result, _err := s.Impl.RetrieveEntryValue(ctx, _arg_encryptedContent)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIIdentityCredentialFinishRetrieval:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.FinishRetrieval(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIIdentityCredentialGenerateSigningKeyPair:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GenerateSigningKeyPair(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIIdentityCredentialSetRequestedNamespaces:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_requestNamespaces []RequestNamespace
+		_ = _arg_requestNamespaces
+		_err := s.Impl.SetRequestedNamespaces(ctx, _arg_requestNamespaces)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIIdentityCredentialSetVerificationToken:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_verificationToken keymaster.VerificationToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_verificationToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetVerificationToken(ctx, _arg_verificationToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIIdentityCredentialDeleteCredentialWithChallenge:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_challenge []byte
+		_ = _arg_challenge
+		_result, _err := s.Impl.DeleteCredentialWithChallenge(ctx, _arg_challenge)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIIdentityCredentialProveOwnership:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_challenge []byte
+		_ = _arg_challenge
+		_result, _err := s.Impl.ProveOwnership(ctx, _arg_challenge)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIIdentityCredentialUpdateCredential:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.UpdateCredential(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIIdentityCredentialFinishRetrievalWithSignature:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.FinishRetrievalWithSignature(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

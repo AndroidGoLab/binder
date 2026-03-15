@@ -2,6 +2,7 @@ package gnss
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -90,4 +91,58 @@ func (p *GnssPowerIndicationCallbackProxy) GnssPowerStatsCb(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GnssPowerIndicationCallbackStub dispatches incoming binder transactions
+// to a typed IGnssPowerIndicationCallback implementation.
+type GnssPowerIndicationCallbackStub struct {
+	Impl IGnssPowerIndicationCallback
+}
+
+var _ binder.TransactionReceiver = (*GnssPowerIndicationCallbackStub)(nil)
+
+func (s *GnssPowerIndicationCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssPowerIndicationCallbackSetCapabilitiesCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_capabilities, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCapabilitiesCb(ctx, _arg_capabilities)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssPowerIndicationCallbackGnssPowerStatsCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_gnssPowerStats GnssPowerStats
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_gnssPowerStats.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GnssPowerStatsCb(ctx, _arg_gnssPowerStats)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

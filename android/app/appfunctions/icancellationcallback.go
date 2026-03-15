@@ -2,6 +2,7 @@ package appfunctions
 
 import (
 	"context"
+	"fmt"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -51,4 +52,33 @@ func (p *CancellationCallbackProxy) SendCancellationTransport(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CancellationCallbackStub dispatches incoming binder transactions
+// to a typed ICancellationCallback implementation.
+type CancellationCallbackStub struct {
+	Impl ICancellationCallback
+}
+
+var _ binder.TransactionReceiver = (*CancellationCallbackStub)(nil)
+
+func (s *CancellationCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICancellationCallbackSendCancellationTransport:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cancellationTransport ondeviceintelligence.ICancellationSignal
+		_ = _arg_cancellationTransport
+		_err := s.Impl.SendCancellationTransport(ctx, _arg_cancellationTransport)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

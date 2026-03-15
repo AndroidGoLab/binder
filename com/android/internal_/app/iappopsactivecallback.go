@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -64,4 +65,61 @@ func (p *AppOpsActiveCallbackProxy) OpActiveChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AppOpsActiveCallbackStub dispatches incoming binder transactions
+// to a typed IAppOpsActiveCallback implementation.
+type AppOpsActiveCallbackStub struct {
+	Impl IAppOpsActiveCallback
+}
+
+var _ binder.TransactionReceiver = (*AppOpsActiveCallbackStub)(nil)
+
+func (s *AppOpsActiveCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAppOpsActiveCallbackOpActiveChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_op, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_virtualDeviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_active, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_attributionFlags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_attributionChainId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OpActiveChanged(ctx, _arg_op, _arg_uid, _arg_packageName, _arg_virtualDeviceId, _arg_active, _arg_attributionFlags, _arg_attributionChainId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

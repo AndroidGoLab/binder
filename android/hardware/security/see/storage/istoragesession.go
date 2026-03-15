@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -242,4 +243,148 @@ func (p *StorageSessionProxy) OpenDir(
 	}
 	_result = NewDirProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
+}
+
+// StorageSessionStub dispatches incoming binder transactions
+// to a typed IStorageSession implementation.
+type StorageSessionStub struct {
+	Impl IStorageSession
+}
+
+var _ binder.TransactionReceiver = (*StorageSessionStub)(nil)
+
+func (s *StorageSessionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIStorageSessionCommitChanges:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.CommitChanges(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIStorageSessionStageChangesForCommitOnAbUpdateComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StageChangesForCommitOnAbUpdateComplete(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIStorageSessionAbandonChanges:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.AbandonChanges(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIStorageSessionOpenFile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_filePath, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_options OpenOptions
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.OpenFile(ctx, _arg_filePath, _arg_options)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIStorageSessionDeleteFile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_filePath, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DeleteFile(ctx, _arg_filePath)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIStorageSessionRenameFile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_currentPath, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destPath, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_destCreateMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destCreateMode := CreationMode(_raw_destCreateMode)
+		_err = s.Impl.RenameFile(ctx, _arg_currentPath, _arg_destPath, _arg_destCreateMode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIStorageSessionOpenDir:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.OpenDir(ctx, _arg_path)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

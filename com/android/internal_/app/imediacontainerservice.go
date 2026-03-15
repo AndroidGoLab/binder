@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -162,4 +163,104 @@ func (p *MediaContainerServiceProxy) CalculateInstalledSize(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// MediaContainerServiceStub dispatches incoming binder transactions
+// to a typed IMediaContainerService implementation.
+type MediaContainerServiceStub struct {
+	Impl IMediaContainerService
+}
+
+var _ binder.TransactionReceiver = (*MediaContainerServiceStub)(nil)
+
+func (s *MediaContainerServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMediaContainerServiceCopyPackage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packagePath, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_target interface{}
+		_result, _err := s.Impl.CopyPackage(ctx, _arg_packagePath, _arg_target)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIMediaContainerServiceGetMinimalPackageInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packagePath, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_abiOverride, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetMinimalPackageInfo(ctx, _arg_packagePath, _arg_flags, _arg_abiOverride)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIMediaContainerServiceGetObbInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_filename, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetObbInfo(ctx, _arg_filename)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIMediaContainerServiceCalculateInstalledSize:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packagePath, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_abiOverride, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CalculateInstalledSize(ctx, _arg_packagePath, _arg_abiOverride)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt64(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

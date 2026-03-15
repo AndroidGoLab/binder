@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -82,4 +83,56 @@ func (p *BootstrapAuthenticationCallbackProxy) OnAuthenticationFailure(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BootstrapAuthenticationCallbackStub dispatches incoming binder transactions
+// to a typed IBootstrapAuthenticationCallback implementation.
+type BootstrapAuthenticationCallbackStub struct {
+	Impl IBootstrapAuthenticationCallback
+}
+
+var _ binder.TransactionReceiver = (*BootstrapAuthenticationCallbackStub)(nil)
+
+func (s *BootstrapAuthenticationCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBootstrapAuthenticationCallbackOnKeysAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_gbaKey []byte
+		_ = _arg_gbaKey
+		_arg_btId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnKeysAvailable(ctx, _arg_token, _arg_gbaKey, _arg_btId)
+		_ = _err
+		return nil, nil
+	case TransactionIBootstrapAuthenticationCallbackOnAuthenticationFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAuthenticationFailure(ctx, _arg_token, _arg_reason)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

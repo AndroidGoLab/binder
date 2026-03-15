@@ -2,6 +2,7 @@ package controls
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -54,4 +55,41 @@ func (p *ControlsActionCallbackProxy) Accept(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ControlsActionCallbackStub dispatches incoming binder transactions
+// to a typed IControlsActionCallback implementation.
+type ControlsActionCallbackStub struct {
+	Impl IControlsActionCallback
+}
+
+var _ binder.TransactionReceiver = (*ControlsActionCallbackStub)(nil)
+
+func (s *ControlsActionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIControlsActionCallbackAccept:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_controlId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_response, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Accept(ctx, _arg_token, _arg_controlId, _arg_response)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

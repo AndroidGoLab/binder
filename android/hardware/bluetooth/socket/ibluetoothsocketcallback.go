@@ -2,6 +2,7 @@ package socket
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -93,4 +94,68 @@ func (p *BluetoothSocketCallbackProxy) Close(
 	}
 
 	return nil
+}
+
+// BluetoothSocketCallbackStub dispatches incoming binder transactions
+// to a typed IBluetoothSocketCallback implementation.
+type BluetoothSocketCallbackStub struct {
+	Impl IBluetoothSocketCallback
+}
+
+var _ binder.TransactionReceiver = (*BluetoothSocketCallbackStub)(nil)
+
+func (s *BluetoothSocketCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBluetoothSocketCallbackOpenedComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_socketId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := Status(_raw_status)
+		_arg_reason, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OpenedComplete(ctx, _arg_socketId, _arg_status, _arg_reason)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBluetoothSocketCallbackClose:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_socketId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Close(ctx, _arg_socketId, _arg_reason)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

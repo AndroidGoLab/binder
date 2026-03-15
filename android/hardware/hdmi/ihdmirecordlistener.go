@@ -2,6 +2,7 @@ package hdmi
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -164,4 +165,101 @@ func (p *HdmiRecordListenerProxy) OnClearTimerRecordingResult(
 	}
 
 	return nil
+}
+
+// HdmiRecordListenerStub dispatches incoming binder transactions
+// to a typed IHdmiRecordListener implementation.
+type HdmiRecordListenerStub struct {
+	Impl IHdmiRecordListener
+}
+
+var _ binder.TransactionReceiver = (*HdmiRecordListenerStub)(nil)
+
+func (s *HdmiRecordListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIHdmiRecordListenerGetOneTouchRecordSource:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_recorderAddress, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetOneTouchRecordSource(ctx, _arg_recorderAddress)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIHdmiRecordListenerOnOneTouchRecordResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_recorderAddress, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnOneTouchRecordResult(ctx, _arg_recorderAddress, _arg_result)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIHdmiRecordListenerOnTimerRecordingResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_recorderAddress, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTimerRecordingResult(ctx, _arg_recorderAddress, _arg_result)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIHdmiRecordListenerOnClearTimerRecordingResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_recorderAddress, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnClearTimerRecordingResult(ctx, _arg_recorderAddress, _arg_result)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

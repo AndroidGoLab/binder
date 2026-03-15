@@ -2,6 +2,7 @@ package carrier
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -146,4 +147,88 @@ func (p *CarrierMessagingCallbackProxy) OnDownloadMmsComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CarrierMessagingCallbackStub dispatches incoming binder transactions
+// to a typed ICarrierMessagingCallback implementation.
+type CarrierMessagingCallbackStub struct {
+	Impl ICarrierMessagingCallback
+}
+
+var _ binder.TransactionReceiver = (*CarrierMessagingCallbackStub)(nil)
+
+func (s *CarrierMessagingCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICarrierMessagingCallbackOnFilterComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFilterComplete(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionICarrierMessagingCallbackOnSendSmsComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_messageRef, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSendSmsComplete(ctx, _arg_result, _arg_messageRef)
+		_ = _err
+		return nil, nil
+	case TransactionICarrierMessagingCallbackOnSendMultipartSmsComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_messageRefs []int32
+		_ = _arg_messageRefs
+		_err = s.Impl.OnSendMultipartSmsComplete(ctx, _arg_result, _arg_messageRefs)
+		_ = _err
+		return nil, nil
+	case TransactionICarrierMessagingCallbackOnSendMmsComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sendConfPdu []byte
+		_ = _arg_sendConfPdu
+		_err = s.Impl.OnSendMmsComplete(ctx, _arg_result, _arg_sendConfPdu)
+		_ = _err
+		return nil, nil
+	case TransactionICarrierMessagingCallbackOnDownloadMmsComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDownloadMmsComplete(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

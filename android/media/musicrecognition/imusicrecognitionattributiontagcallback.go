@@ -2,6 +2,7 @@ package musicrecognition
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,33 @@ func (p *MusicRecognitionAttributionTagCallbackProxy) OnAttributionTag(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MusicRecognitionAttributionTagCallbackStub dispatches incoming binder transactions
+// to a typed IMusicRecognitionAttributionTagCallback implementation.
+type MusicRecognitionAttributionTagCallbackStub struct {
+	Impl IMusicRecognitionAttributionTagCallback
+}
+
+var _ binder.TransactionReceiver = (*MusicRecognitionAttributionTagCallbackStub)(nil)
+
+func (s *MusicRecognitionAttributionTagCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMusicRecognitionAttributionTagCallbackOnAttributionTag:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnAttributionTag(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

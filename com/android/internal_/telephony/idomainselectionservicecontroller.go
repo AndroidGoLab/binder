@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	network "github.com/xaionaro-go/binder/android/hardware/radio/network"
 	androidTelephony "github.com/xaionaro-go/binder/android/telephony"
 	"github.com/xaionaro-go/binder/binder"
@@ -109,4 +110,99 @@ func (p *DomainSelectionServiceControllerProxy) UpdateBarringInfo(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DomainSelectionServiceControllerStub dispatches incoming binder transactions
+// to a typed IDomainSelectionServiceController implementation.
+type DomainSelectionServiceControllerStub struct {
+	Impl IDomainSelectionServiceController
+}
+
+var _ binder.TransactionReceiver = (*DomainSelectionServiceControllerStub)(nil)
+
+func (s *DomainSelectionServiceControllerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDomainSelectionServiceControllerSelectDomain:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_attr androidTelephony.DomainSelectionServiceSelectionAttributes
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITransportSelectorCallback
+		_ = _arg_callback
+		_err := s.Impl.SelectDomain(ctx, _arg_attr, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIDomainSelectionServiceControllerUpdateServiceState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_serviceState androidTelephony.ServiceState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_serviceState.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.UpdateServiceState(ctx, _arg_slotId, _arg_subId, _arg_serviceState)
+		_ = _err
+		return nil, nil
+	case TransactionIDomainSelectionServiceControllerUpdateBarringInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_info network.BarringInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.UpdateBarringInfo(ctx, _arg_slotId, _arg_subId, _arg_info)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

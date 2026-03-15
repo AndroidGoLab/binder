@@ -2,6 +2,7 @@ package accessibility
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *RemoteMagnificationAnimationCallbackProxy) OnResult(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RemoteMagnificationAnimationCallbackStub dispatches incoming binder transactions
+// to a typed IRemoteMagnificationAnimationCallback implementation.
+type RemoteMagnificationAnimationCallbackStub struct {
+	Impl IRemoteMagnificationAnimationCallback
+}
+
+var _ binder.TransactionReceiver = (*RemoteMagnificationAnimationCallbackStub)(nil)
+
+func (s *RemoteMagnificationAnimationCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRemoteMagnificationAnimationCallbackOnResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_success, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnResult(ctx, _arg_success)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

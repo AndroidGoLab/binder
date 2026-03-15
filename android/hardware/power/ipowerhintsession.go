@@ -2,6 +2,7 @@ package power
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -240,4 +241,124 @@ func (p *PowerHintSessionProxy) GetSessionConfig(
 		}
 	}
 	return _result, nil
+}
+
+// PowerHintSessionStub dispatches incoming binder transactions
+// to a typed IPowerHintSession implementation.
+type PowerHintSessionStub struct {
+	Impl IPowerHintSession
+}
+
+var _ binder.TransactionReceiver = (*PowerHintSessionStub)(nil)
+
+func (s *PowerHintSessionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPowerHintSessionUpdateTargetWorkDuration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_targetDurationNanos, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateTargetWorkDuration(ctx, _arg_targetDurationNanos)
+		_ = _err
+		return nil, nil
+	case TransactionIPowerHintSessionReportActualWorkDuration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_durations []WorkDuration
+		_ = _arg_durations
+		_err := s.Impl.ReportActualWorkDuration(ctx, _arg_durations)
+		_ = _err
+		return nil, nil
+	case TransactionIPowerHintSessionPause:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Pause(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIPowerHintSessionResume:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Resume(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIPowerHintSessionClose:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Close(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIPowerHintSessionSendHint:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_hint, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_hint := SessionHint(_raw_hint)
+		_err = s.Impl.SendHint(ctx, _arg_hint)
+		_ = _err
+		return nil, nil
+	case TransactionIPowerHintSessionSetThreads:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_threadIds []int32
+		_ = _arg_threadIds
+		_err := s.Impl.SetThreads(ctx, _arg_threadIds)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIPowerHintSessionSetMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := SessionMode(_raw_type_)
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetMode(ctx, _arg_type_, _arg_enabled)
+		_ = _err
+		return nil, nil
+	case TransactionIPowerHintSessionGetSessionConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSessionConfig(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

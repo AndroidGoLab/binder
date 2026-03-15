@@ -2,6 +2,7 @@ package pm
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -54,4 +55,42 @@ func (p *DexModuleRegisterCallbackProxy) OnDexModuleRegistered(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DexModuleRegisterCallbackStub dispatches incoming binder transactions
+// to a typed IDexModuleRegisterCallback implementation.
+type DexModuleRegisterCallbackStub struct {
+	Impl IDexModuleRegisterCallback
+}
+
+var _ binder.TransactionReceiver = (*DexModuleRegisterCallbackStub)(nil)
+
+func (s *DexModuleRegisterCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDexModuleRegisterCallbackOnDexModuleRegistered:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_dexModulePath, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_success, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_message, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDexModuleRegistered(ctx, _arg_dexModulePath, _arg_success, _arg_message)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package ondeviceintelligence
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -88,4 +89,56 @@ func (p *ProcessingUpdateStatusCallbackProxy) OnFailure(
 	}
 
 	return nil
+}
+
+// ProcessingUpdateStatusCallbackStub dispatches incoming binder transactions
+// to a typed IProcessingUpdateStatusCallback implementation.
+type ProcessingUpdateStatusCallbackStub struct {
+	Impl IProcessingUpdateStatusCallback
+}
+
+var _ binder.TransactionReceiver = (*ProcessingUpdateStatusCallbackStub)(nil)
+
+func (s *ProcessingUpdateStatusCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIProcessingUpdateStatusCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_statusParams interface{}
+		_err := s.Impl.OnSuccess(ctx, _arg_statusParams)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIProcessingUpdateStatusCallbackOnFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_errorMessage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFailure(ctx, _arg_errorCode, _arg_errorMessage)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

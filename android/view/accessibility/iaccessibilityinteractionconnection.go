@@ -2,6 +2,7 @@ package accessibility
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -371,4 +372,349 @@ func (p *AccessibilityInteractionConnectionProxy) AttachAccessibilityOverlayToWi
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AccessibilityInteractionConnectionStub dispatches incoming binder transactions
+// to a typed IAccessibilityInteractionConnection implementation.
+type AccessibilityInteractionConnectionStub struct {
+	Impl IAccessibilityInteractionConnection
+}
+
+var _ binder.TransactionReceiver = (*AccessibilityInteractionConnectionStub)(nil)
+
+func (s *AccessibilityInteractionConnectionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAccessibilityInteractionConnectionFindAccessibilityNodeInfoByAccessibilityId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_accessibilityNodeId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_bounds graphics.Region
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bounds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_interactionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IAccessibilityInteractionConnectionCallback
+		_ = _arg_callback
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_interrogatingPid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_interrogatingTid, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_spec interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_matrixValues []float32
+		_ = _arg_matrixValues
+		var _arg_arguments interface{}
+		_err = s.Impl.FindAccessibilityNodeInfoByAccessibilityId(ctx, _arg_accessibilityNodeId, _arg_bounds, _arg_interactionId, _arg_callback, _arg_flags, _arg_interrogatingPid, _arg_interrogatingTid, _arg_spec, _arg_matrixValues, _arg_arguments)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityInteractionConnectionFindAccessibilityNodeInfosByViewId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_accessibilityNodeId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_viewId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_bounds graphics.Region
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bounds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_interactionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IAccessibilityInteractionConnectionCallback
+		_ = _arg_callback
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_interrogatingPid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_interrogatingTid, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_spec interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_matrix []float32
+		_ = _arg_matrix
+		_err = s.Impl.FindAccessibilityNodeInfosByViewId(ctx, _arg_accessibilityNodeId, _arg_viewId, _arg_bounds, _arg_interactionId, _arg_callback, _arg_flags, _arg_interrogatingPid, _arg_interrogatingTid, _arg_spec, _arg_matrix)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityInteractionConnectionFindAccessibilityNodeInfosByText:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_accessibilityNodeId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_text, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_bounds graphics.Region
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bounds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_interactionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IAccessibilityInteractionConnectionCallback
+		_ = _arg_callback
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_interrogatingPid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_interrogatingTid, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_spec interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_matrixValues []float32
+		_ = _arg_matrixValues
+		_err = s.Impl.FindAccessibilityNodeInfosByText(ctx, _arg_accessibilityNodeId, _arg_text, _arg_bounds, _arg_interactionId, _arg_callback, _arg_flags, _arg_interrogatingPid, _arg_interrogatingTid, _arg_spec, _arg_matrixValues)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityInteractionConnectionFindFocus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_accessibilityNodeId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_focusType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_bounds graphics.Region
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bounds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_interactionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IAccessibilityInteractionConnectionCallback
+		_ = _arg_callback
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_interrogatingPid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_interrogatingTid, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_spec interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_matrixValues []float32
+		_ = _arg_matrixValues
+		_err = s.Impl.FindFocus(ctx, _arg_accessibilityNodeId, _arg_focusType, _arg_bounds, _arg_interactionId, _arg_callback, _arg_flags, _arg_interrogatingPid, _arg_interrogatingTid, _arg_spec, _arg_matrixValues)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityInteractionConnectionFocusSearch:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_accessibilityNodeId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_direction, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_bounds graphics.Region
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bounds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_interactionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IAccessibilityInteractionConnectionCallback
+		_ = _arg_callback
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_interrogatingPid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_interrogatingTid, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_spec interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_matrixValues []float32
+		_ = _arg_matrixValues
+		_err = s.Impl.FocusSearch(ctx, _arg_accessibilityNodeId, _arg_direction, _arg_bounds, _arg_interactionId, _arg_callback, _arg_flags, _arg_interrogatingPid, _arg_interrogatingTid, _arg_spec, _arg_matrixValues)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityInteractionConnectionPerformAccessibilityAction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_accessibilityNodeId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_action, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_arguments interface{}
+		_arg_interactionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IAccessibilityInteractionConnectionCallback
+		_ = _arg_callback
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_interrogatingPid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_interrogatingTid, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PerformAccessibilityAction(ctx, _arg_accessibilityNodeId, _arg_action, _arg_arguments, _arg_interactionId, _arg_callback, _arg_flags, _arg_interrogatingPid, _arg_interrogatingTid)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityInteractionConnectionClearAccessibilityFocus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ClearAccessibilityFocus(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityInteractionConnectionNotifyOutsideTouch:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.NotifyOutsideTouch(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityInteractionConnectionTakeScreenshotOfWindow:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_interactionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_listener interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IAccessibilityInteractionConnectionCallback
+		_ = _arg_callback
+		_err = s.Impl.TakeScreenshotOfWindow(ctx, _arg_interactionId, _arg_listener, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityInteractionConnectionAttachAccessibilityOverlayToWindow:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sc interface{}
+		_arg_interactionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IAccessibilityInteractionConnectionCallback
+		_ = _arg_callback
+		_err = s.Impl.AttachAccessibilityOverlayToWindow(ctx, _arg_sc, _arg_interactionId, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

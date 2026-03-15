@@ -2,6 +2,7 @@ package wifi
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -193,4 +194,124 @@ func (p *WifiChipEventCallbackProxy) OnRadioModeChange(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// WifiChipEventCallbackStub dispatches incoming binder transactions
+// to a typed IWifiChipEventCallback implementation.
+type WifiChipEventCallbackStub struct {
+	Impl IWifiChipEventCallback
+}
+
+var _ binder.TransactionReceiver = (*WifiChipEventCallbackStub)(nil)
+
+func (s *WifiChipEventCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWifiChipEventCallbackOnChipReconfigureFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := WifiStatusCode(_raw_status)
+		_err = s.Impl.OnChipReconfigureFailure(ctx, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiChipEventCallbackOnChipReconfigured:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modeId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnChipReconfigured(ctx, _arg_modeId)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiChipEventCallbackOnDebugErrorAlert:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_debugData []byte
+		_ = _arg_debugData
+		_err = s.Impl.OnDebugErrorAlert(ctx, _arg_errorCode, _arg_debugData)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiChipEventCallbackOnDebugRingBufferDataAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_status WifiDebugRingBufferStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []byte
+		_ = _arg_data
+		_err := s.Impl.OnDebugRingBufferDataAvailable(ctx, _arg_status, _arg_data)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiChipEventCallbackOnIfaceAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := IfaceType(_raw_type_)
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnIfaceAdded(ctx, _arg_type_, _arg_name)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiChipEventCallbackOnIfaceRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := IfaceType(_raw_type_)
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnIfaceRemoved(ctx, _arg_type_, _arg_name)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiChipEventCallbackOnRadioModeChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_radioModeInfos []interface{}
+		_ = _arg_radioModeInfos
+		_err := s.Impl.OnRadioModeChange(ctx, _arg_radioModeInfos)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

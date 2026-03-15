@@ -2,6 +2,7 @@ package recents
 
 import (
 	"context"
+	"fmt"
 	view "github.com/xaionaro-go/binder/android/view"
 	window "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
@@ -265,4 +266,167 @@ func (p *RecentsAnimationControllerProxy) HandOffAnimation(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RecentsAnimationControllerStub dispatches incoming binder transactions
+// to a typed IRecentsAnimationController implementation.
+type RecentsAnimationControllerStub struct {
+	Impl IRecentsAnimationController
+}
+
+var _ binder.TransactionReceiver = (*RecentsAnimationControllerStub)(nil)
+
+func (s *RecentsAnimationControllerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRecentsAnimationControllerScreenshotTask:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ScreenshotTask(ctx, _arg_taskId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIRecentsAnimationControllerSetFinishTaskTransaction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_finishTransaction window.PictureInPictureSurfaceTransaction
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_finishTransaction.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_overlay view.SurfaceControl
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_overlay.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SetFinishTaskTransaction(ctx, _arg_taskId, _arg_finishTransaction, _arg_overlay)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIRecentsAnimationControllerFinish:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_moveHomeToTop, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sendUserLeaveHint, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_finishCb os.IResultReceiver
+		_ = _arg_finishCb
+		_err = s.Impl.Finish(ctx, _arg_moveHomeToTop, _arg_sendUserLeaveHint, _arg_finishCb)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIRecentsAnimationControllerSetInputConsumerEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetInputConsumerEnabled(ctx, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIRecentsAnimationControllerSetWillFinishToHome:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_willFinishToHome, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetWillFinishToHome(ctx, _arg_willFinishToHome)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIRecentsAnimationControllerDetachNavigationBarFromApp:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_moveHomeToTop, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DetachNavigationBarFromApp(ctx, _arg_moveHomeToTop)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIRecentsAnimationControllerHandOffAnimation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_targets []view.RemoteAnimationTarget
+		_ = _arg_targets
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_states []window.WindowAnimationState
+		_ = _arg_states
+		_err := s.Impl.HandOffAnimation(ctx, _arg_targets, _arg_states)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

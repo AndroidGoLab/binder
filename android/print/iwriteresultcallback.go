@@ -2,6 +2,7 @@ package print
 
 import (
 	"context"
+	"fmt"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -122,4 +123,74 @@ func (p *WriteResultCallbackProxy) OnWriteCanceled(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// WriteResultCallbackStub dispatches incoming binder transactions
+// to a typed IWriteResultCallback implementation.
+type WriteResultCallbackStub struct {
+	Impl IWriteResultCallback
+}
+
+var _ binder.TransactionReceiver = (*WriteResultCallbackStub)(nil)
+
+func (s *WriteResultCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWriteResultCallbackOnWriteStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cancellation ondeviceintelligence.ICancellationSignal
+		_ = _arg_cancellation
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnWriteStarted(ctx, _arg_cancellation, _arg_sequence)
+		_ = _err
+		return nil, nil
+	case TransactionIWriteResultCallbackOnWriteFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pages []PageRange
+		_ = _arg_pages
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnWriteFinished(ctx, _arg_pages, _arg_sequence)
+		_ = _err
+		return nil, nil
+	case TransactionIWriteResultCallbackOnWriteFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_error_ interface{}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnWriteFailed(ctx, _arg_error_, _arg_sequence)
+		_ = _err
+		return nil, nil
+	case TransactionIWriteResultCallbackOnWriteCanceled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnWriteCanceled(ctx, _arg_sequence)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

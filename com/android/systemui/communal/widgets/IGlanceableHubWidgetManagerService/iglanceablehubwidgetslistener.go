@@ -2,6 +2,7 @@ package IGlanceableHubWidgetManagerService
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	model "github.com/xaionaro-go/binder/com/android/systemui/communal/shared/model"
 	"github.com/xaionaro-go/binder/parcel"
@@ -60,4 +61,33 @@ func (p *GlanceableHubWidgetsListenerProxy) OnWidgetsUpdated(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GlanceableHubWidgetsListenerStub dispatches incoming binder transactions
+// to a typed IGlanceableHubWidgetsListener implementation.
+type GlanceableHubWidgetsListenerStub struct {
+	Impl IGlanceableHubWidgetsListener
+}
+
+var _ binder.TransactionReceiver = (*GlanceableHubWidgetsListenerStub)(nil)
+
+func (s *GlanceableHubWidgetsListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGlanceableHubWidgetsListenerOnWidgetsUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_widgets []model.CommunalWidgetContentModel
+		_ = _arg_widgets
+		_err := s.Impl.OnWidgetsUpdated(ctx, _arg_widgets)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

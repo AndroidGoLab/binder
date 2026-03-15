@@ -1,6 +1,7 @@
 package gui
 
 import (
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 )
 
@@ -33,3 +34,22 @@ func (p *HdrConversionConstantsProxy) AsBinder() binder.IBinder {
 }
 
 var _ IHdrConversionConstants = (*HdrConversionConstantsProxy)(nil)
+
+// HdrConversionConstantsStub dispatches incoming binder transactions
+// to a typed IHdrConversionConstants implementation.
+type HdrConversionConstantsStub struct {
+	Impl IHdrConversionConstants
+}
+
+var _ binder.TransactionReceiver = (*HdrConversionConstantsStub)(nil)
+
+func (s *HdrConversionConstantsStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
+}

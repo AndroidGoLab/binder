@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -148,4 +149,109 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifyRequestFailed(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MediaRoute2ProviderServiceCallbackStub dispatches incoming binder transactions
+// to a typed IMediaRoute2ProviderServiceCallback implementation.
+type MediaRoute2ProviderServiceCallbackStub struct {
+	Impl IMediaRoute2ProviderServiceCallback
+}
+
+var _ binder.TransactionReceiver = (*MediaRoute2ProviderServiceCallbackStub)(nil)
+
+func (s *MediaRoute2ProviderServiceCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMediaRoute2ProviderServiceCallbackNotifyProviderUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_providerInfo MediaRoute2ProviderInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_providerInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NotifyProviderUpdated(ctx, _arg_providerInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRoute2ProviderServiceCallbackNotifySessionCreated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo RoutingSessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifySessionCreated(ctx, _arg_requestId, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRoute2ProviderServiceCallbackNotifySessionsUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sessionInfo []RoutingSessionInfo
+		_ = _arg_sessionInfo
+		_err := s.Impl.NotifySessionsUpdated(ctx, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRoute2ProviderServiceCallbackNotifySessionReleased:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionInfo RoutingSessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NotifySessionReleased(ctx, _arg_sessionInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRoute2ProviderServiceCallbackNotifyRequestFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyRequestFailed(ctx, _arg_requestId, _arg_reason)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

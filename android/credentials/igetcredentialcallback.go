@@ -2,6 +2,7 @@ package credentials
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -92,4 +93,65 @@ func (p *GetCredentialCallbackProxy) OnError(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GetCredentialCallbackStub dispatches incoming binder transactions
+// to a typed IGetCredentialCallback implementation.
+type GetCredentialCallbackStub struct {
+	Impl IGetCredentialCallback
+}
+
+var _ binder.TransactionReceiver = (*GetCredentialCallbackStub)(nil)
+
+func (s *GetCredentialCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGetCredentialCallbackOnPendingIntent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_pendingIntent interface{}
+		_err := s.Impl.OnPendingIntent(ctx, _arg_pendingIntent)
+		_ = _err
+		return nil, nil
+	case TransactionIGetCredentialCallbackOnResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_response GetCredentialResponse
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_response.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnResponse(ctx, _arg_response)
+		_ = _err
+		return nil, nil
+	case TransactionIGetCredentialCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_message, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_errorType, _arg_message)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

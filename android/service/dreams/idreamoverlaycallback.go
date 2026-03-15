@@ -2,6 +2,7 @@ package dreams
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -67,4 +68,41 @@ func (p *DreamOverlayCallbackProxy) OnRedirectWake(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DreamOverlayCallbackStub dispatches incoming binder transactions
+// to a typed IDreamOverlayCallback implementation.
+type DreamOverlayCallbackStub struct {
+	Impl IDreamOverlayCallback
+}
+
+var _ binder.TransactionReceiver = (*DreamOverlayCallbackStub)(nil)
+
+func (s *DreamOverlayCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDreamOverlayCallbackOnExitRequested:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnExitRequested(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIDreamOverlayCallbackOnRedirectWake:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_redirect, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRedirectWake(ctx, _arg_redirect)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

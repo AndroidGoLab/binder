@@ -2,6 +2,7 @@ package network
 
 import (
 	"context"
+	"fmt"
 	radio "github.com/xaionaro-go/binder/android/hardware/radio"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -1129,4 +1130,751 @@ func (p *RadioNetworkProxy) IsSatelliteEnabledForCarrier(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RadioNetworkStub dispatches incoming binder transactions
+// to a typed IRadioNetwork implementation.
+type RadioNetworkStub struct {
+	Impl IRadioNetwork
+}
+
+var _ binder.TransactionReceiver = (*RadioNetworkStub)(nil)
+
+func (s *RadioNetworkStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRadioNetworkGetAllowedNetworkTypesBitmap:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetAllowedNetworkTypesBitmap(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkGetAvailableBandModes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetAvailableBandModes(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkGetAvailableNetworks:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetAvailableNetworks(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkGetBarringInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetBarringInfo(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkGetCdmaRoamingPreference:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetCdmaRoamingPreference(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkGetCellInfoList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetCellInfoList(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkGetDataRegistrationState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetDataRegistrationState(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkGetImsRegistrationState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetImsRegistrationState(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkGetNetworkSelectionMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetNetworkSelectionMode(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkGetOperator:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetOperator(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkGetSignalStrength:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetSignalStrength(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkGetSystemSelectionChannels:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetSystemSelectionChannels(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkGetVoiceRadioTechnology:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetVoiceRadioTechnology(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkGetVoiceRegistrationState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetVoiceRegistrationState(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkIsNrDualConnectivityEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.IsNrDualConnectivityEnabled(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkResponseAcknowledgement:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ResponseAcknowledgement(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetAllowedNetworkTypesBitmap:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_networkTypeBitmap, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetAllowedNetworkTypesBitmap(ctx, _arg_serial, _arg_networkTypeBitmap)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetBandMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode := RadioBandMode(_raw_mode)
+		_err = s.Impl.SetBandMode(ctx, _arg_serial, _arg_mode)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetBarringPassword:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_facility, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_oldPassword, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newPassword, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetBarringPassword(ctx, _arg_serial, _arg_facility, _arg_oldPassword, _arg_newPassword)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetCdmaRoamingPreference:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := CdmaRoamingType(_raw_type_)
+		_err = s.Impl.SetCdmaRoamingPreference(ctx, _arg_serial, _arg_type_)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetCellInfoListRate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_rate, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCellInfoListRate(ctx, _arg_serial, _arg_rate)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetIndicationFilter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_indicationFilter, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetIndicationFilter(ctx, _arg_serial, _arg_indicationFilter)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetLinkCapacityReportingCriteria:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_hysteresisMs, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_hysteresisDlKbps, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_hysteresisUlKbps, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_thresholdsDownlinkKbps []int32
+		_ = _arg_thresholdsDownlinkKbps
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_thresholdsUplinkKbps []int32
+		_ = _arg_thresholdsUplinkKbps
+		_raw_accessNetwork, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_accessNetwork := radio.AccessNetwork(_raw_accessNetwork)
+		_err = s.Impl.SetLinkCapacityReportingCriteria(ctx, _arg_serial, _arg_hysteresisMs, _arg_hysteresisDlKbps, _arg_hysteresisUlKbps, _arg_thresholdsDownlinkKbps, _arg_thresholdsUplinkKbps, _arg_accessNetwork)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetLocationUpdates:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetLocationUpdates(ctx, _arg_serial, _arg_enable)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetNetworkSelectionModeAutomatic:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetNetworkSelectionModeAutomatic(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetNetworkSelectionModeManual:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_operatorNumeric, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_ran, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ran := radio.AccessNetwork(_raw_ran)
+		_err = s.Impl.SetNetworkSelectionModeManual(ctx, _arg_serial, _arg_operatorNumeric, _arg_ran)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetNrDualConnectivityState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_nrDualConnectivityState, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_nrDualConnectivityState := NrDualConnectivityState(_raw_nrDualConnectivityState)
+		_err = s.Impl.SetNrDualConnectivityState(ctx, _arg_serial, _arg_nrDualConnectivityState)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetResponseFunctions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_radioNetworkResponse IRadioNetworkResponse
+		_ = _arg_radioNetworkResponse
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_radioNetworkIndication IRadioNetworkIndication
+		_ = _arg_radioNetworkIndication
+		_err := s.Impl.SetResponseFunctions(ctx, _arg_radioNetworkResponse, _arg_radioNetworkIndication)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetSignalStrengthReportingCriteria:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_signalThresholdInfos []SignalThresholdInfo
+		_ = _arg_signalThresholdInfos
+		_err = s.Impl.SetSignalStrengthReportingCriteria(ctx, _arg_serial, _arg_signalThresholdInfos)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetSuppServiceNotifications:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSuppServiceNotifications(ctx, _arg_serial, _arg_enable)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetSystemSelectionChannels:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_specifyChannels, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_specifiers []RadioAccessSpecifier
+		_ = _arg_specifiers
+		_err = s.Impl.SetSystemSelectionChannels(ctx, _arg_serial, _arg_specifyChannels, _arg_specifiers)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkStartNetworkScan:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_request NetworkScanRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StartNetworkScan(ctx, _arg_serial, _arg_request)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkStopNetworkScan:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StopNetworkScan(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSupplyNetworkDepersonalization:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_netPin, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SupplyNetworkDepersonalization(ctx, _arg_serial, _arg_netPin)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetUsageSetting:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_usageSetting, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_usageSetting := UsageSetting(_raw_usageSetting)
+		_err = s.Impl.SetUsageSetting(ctx, _arg_serial, _arg_usageSetting)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkGetUsageSetting:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetUsageSetting(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetEmergencyMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_emcModeType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_emcModeType := EmergencyMode(_raw_emcModeType)
+		_err = s.Impl.SetEmergencyMode(ctx, _arg_serial, _arg_emcModeType)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkTriggerEmergencyNetworkScan:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_request EmergencyNetworkScanTrigger
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.TriggerEmergencyNetworkScan(ctx, _arg_serial, _arg_request)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkCancelEmergencyNetworkScan:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_resetScan, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CancelEmergencyNetworkScan(ctx, _arg_serial, _arg_resetScan)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkExitEmergencyMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ExitEmergencyMode(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetNullCipherAndIntegrityEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetNullCipherAndIntegrityEnabled(ctx, _arg_serial, _arg_enabled)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkIsNullCipherAndIntegrityEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.IsNullCipherAndIntegrityEnabled(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkIsN1ModeEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.IsN1ModeEnabled(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetN1ModeEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetN1ModeEnabled(ctx, _arg_serial, _arg_enable)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkIsCellularIdentifierTransparencyEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.IsCellularIdentifierTransparencyEnabled(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetCellularIdentifierTransparencyEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCellularIdentifierTransparencyEnabled(ctx, _arg_serial, _arg_enabled)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetSecurityAlgorithmsUpdatedEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSecurityAlgorithmsUpdatedEnabled(ctx, _arg_serial, _arg_enable)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkIsSecurityAlgorithmsUpdatedEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.IsSecurityAlgorithmsUpdatedEnabled(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetSatellitePlmn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_simSlot, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_carrierPlmnArray []string
+		_ = _arg_carrierPlmnArray
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_allSatellitePlmnArray []string
+		_ = _arg_allSatellitePlmnArray
+		_err = s.Impl.SetSatellitePlmn(ctx, _arg_serial, _arg_simSlot, _arg_carrierPlmnArray, _arg_allSatellitePlmnArray)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkSetSatelliteEnabledForCarrier:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_simSlot, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_satelliteEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSatelliteEnabledForCarrier(ctx, _arg_serial, _arg_simSlot, _arg_satelliteEnabled)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioNetworkIsSatelliteEnabledForCarrier:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_simSlot, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.IsSatelliteEnabledForCarrier(ctx, _arg_serial, _arg_simSlot)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

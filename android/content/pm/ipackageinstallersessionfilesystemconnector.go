@@ -2,6 +2,7 @@ package pm
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -65,4 +66,51 @@ func (p *PackageInstallerSessionFileSystemConnectorProxy) WriteData(
 	}
 
 	return nil
+}
+
+// PackageInstallerSessionFileSystemConnectorStub dispatches incoming binder transactions
+// to a typed IPackageInstallerSessionFileSystemConnector implementation.
+type PackageInstallerSessionFileSystemConnectorStub struct {
+	Impl IPackageInstallerSessionFileSystemConnector
+}
+
+var _ binder.TransactionReceiver = (*PackageInstallerSessionFileSystemConnectorStub)(nil)
+
+func (s *PackageInstallerSessionFileSystemConnectorStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPackageInstallerSessionFileSystemConnectorWriteData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_offsetBytes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_lengthBytes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.WriteData(ctx, _arg_name, _arg_offsetBytes, _arg_lengthBytes, _arg_fd)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

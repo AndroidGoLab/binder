@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -66,4 +67,36 @@ func (p *UidFrozenStateChangedCallbackProxy) OnUidFrozenStateChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// UidFrozenStateChangedCallbackStub dispatches incoming binder transactions
+// to a typed IUidFrozenStateChangedCallback implementation.
+type UidFrozenStateChangedCallbackStub struct {
+	Impl IUidFrozenStateChangedCallback
+}
+
+var _ binder.TransactionReceiver = (*UidFrozenStateChangedCallbackStub)(nil)
+
+func (s *UidFrozenStateChangedCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIUidFrozenStateChangedCallbackOnUidFrozenStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_uids []int32
+		_ = _arg_uids
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_frozenStates []int32
+		_ = _arg_frozenStates
+		_err := s.Impl.OnUidFrozenStateChanged(ctx, _arg_uids, _arg_frozenStates)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

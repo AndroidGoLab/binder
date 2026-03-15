@@ -2,6 +2,7 @@ package smartspace
 
 import (
 	"context"
+	"fmt"
 	appSmartspace "github.com/xaionaro-go/binder/android/app/smartspace"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -178,4 +179,167 @@ func (p *SmartspaceServiceProxy) OnDestroySmartspaceSession(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SmartspaceServiceStub dispatches incoming binder transactions
+// to a typed ISmartspaceService implementation.
+type SmartspaceServiceStub struct {
+	Impl ISmartspaceService
+}
+
+var _ binder.TransactionReceiver = (*SmartspaceServiceStub)(nil)
+
+func (s *SmartspaceServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISmartspaceServiceOnCreateSmartspaceSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_context_ appSmartspace.SmartspaceConfig
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_context_.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_sessionId appSmartspace.SmartspaceSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnCreateSmartspaceSession(ctx, _arg_context_, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	case TransactionISmartspaceServiceNotifySmartspaceEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId appSmartspace.SmartspaceSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_event appSmartspace.SmartspaceTargetEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NotifySmartspaceEvent(ctx, _arg_sessionId, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionISmartspaceServiceRequestSmartspaceUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId appSmartspace.SmartspaceSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestSmartspaceUpdate(ctx, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	case TransactionISmartspaceServiceRegisterSmartspaceUpdates:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId appSmartspace.SmartspaceSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback appSmartspace.ISmartspaceCallback
+		_ = _arg_callback
+		_err := s.Impl.RegisterSmartspaceUpdates(ctx, _arg_sessionId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISmartspaceServiceUnregisterSmartspaceUpdates:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId appSmartspace.SmartspaceSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback appSmartspace.ISmartspaceCallback
+		_ = _arg_callback
+		_err := s.Impl.UnregisterSmartspaceUpdates(ctx, _arg_sessionId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISmartspaceServiceOnDestroySmartspaceSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId appSmartspace.SmartspaceSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnDestroySmartspaceSession(ctx, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

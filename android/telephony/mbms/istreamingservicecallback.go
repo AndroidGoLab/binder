@@ -2,6 +2,7 @@ package mbms
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -128,4 +129,82 @@ func (p *StreamingServiceCallbackProxy) OnStreamMethodUpdated(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// StreamingServiceCallbackStub dispatches incoming binder transactions
+// to a typed IStreamingServiceCallback implementation.
+type StreamingServiceCallbackStub struct {
+	Impl IStreamingServiceCallback
+}
+
+var _ binder.TransactionReceiver = (*StreamingServiceCallbackStub)(nil)
+
+func (s *StreamingServiceCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIStreamingServiceCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_message, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_errorCode, _arg_message)
+		_ = _err
+		return nil, nil
+	case TransactionIStreamingServiceCallbackOnStreamStateUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStreamStateUpdated(ctx, _arg_state, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionIStreamingServiceCallbackOnMediaDescriptionUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnMediaDescriptionUpdated(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStreamingServiceCallbackOnBroadcastSignalStrengthUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_signalStrength, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnBroadcastSignalStrengthUpdated(ctx, _arg_signalStrength)
+		_ = _err
+		return nil, nil
+	case TransactionIStreamingServiceCallbackOnStreamMethodUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_methodType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStreamMethodUpdated(ctx, _arg_methodType)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

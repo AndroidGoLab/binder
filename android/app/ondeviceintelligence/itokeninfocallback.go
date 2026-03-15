@@ -2,6 +2,7 @@ package ondeviceintelligence
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -75,4 +76,58 @@ func (p *TokenInfoCallbackProxy) OnFailure(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TokenInfoCallbackStub dispatches incoming binder transactions
+// to a typed ITokenInfoCallback implementation.
+type TokenInfoCallbackStub struct {
+	Impl ITokenInfoCallback
+}
+
+var _ binder.TransactionReceiver = (*TokenInfoCallbackStub)(nil)
+
+func (s *TokenInfoCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITokenInfoCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_tokenInfo TokenInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_tokenInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSuccess(ctx, _arg_tokenInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITokenInfoCallbackOnFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_errorMessage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_errorParams interface{}
+		_err = s.Impl.OnFailure(ctx, _arg_errorCode, _arg_errorMessage, _arg_errorParams)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

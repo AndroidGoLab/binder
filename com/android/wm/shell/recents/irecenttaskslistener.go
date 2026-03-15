@@ -2,6 +2,7 @@ package recents
 
 import (
 	"context"
+	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	"github.com/xaionaro-go/binder/binder"
 	shared "github.com/xaionaro-go/binder/com/android/wm/shell/shared"
@@ -188,4 +189,135 @@ func (p *RecentTasksListenerProxy) OnVisibleTasksChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RecentTasksListenerStub dispatches incoming binder transactions
+// to a typed IRecentTasksListener implementation.
+type RecentTasksListenerStub struct {
+	Impl IRecentTasksListener
+}
+
+var _ binder.TransactionReceiver = (*RecentTasksListenerStub)(nil)
+
+func (s *RecentTasksListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRecentTasksListenerOnRecentTasksChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRecentTasksChanged(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIRecentTasksListenerOnRunningTaskAppeared:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnRunningTaskAppeared(ctx, _arg_taskInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIRecentTasksListenerOnRunningTaskVanished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnRunningTaskVanished(ctx, _arg_taskInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIRecentTasksListenerOnRunningTaskChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnRunningTaskChanged(ctx, _arg_taskInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIRecentTasksListenerOnTaskMovedToFront:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskToFront shared.GroupedTaskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskToFront.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnTaskMovedToFront(ctx, _arg_taskToFront)
+		_ = _err
+		return nil, nil
+	case TransactionIRecentTasksListenerOnTaskInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnTaskInfoChanged(ctx, _arg_taskInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIRecentTasksListenerOnVisibleTasksChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_visibleTasks []shared.GroupedTaskInfo
+		_ = _arg_visibleTasks
+		_err := s.Impl.OnVisibleTasksChanged(ctx, _arg_visibleTasks)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

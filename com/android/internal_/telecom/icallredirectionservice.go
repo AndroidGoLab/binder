@@ -2,6 +2,7 @@ package telecom
 
 import (
 	"context"
+	"fmt"
 	net "github.com/xaionaro-go/binder/android/net"
 	androidTelecom "github.com/xaionaro-go/binder/android/telecom"
 	"github.com/xaionaro-go/binder/binder"
@@ -81,4 +82,68 @@ func (p *CallRedirectionServiceProxy) NotifyTimeout(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CallRedirectionServiceStub dispatches incoming binder transactions
+// to a typed ICallRedirectionService implementation.
+type CallRedirectionServiceStub struct {
+	Impl ICallRedirectionService
+}
+
+var _ binder.TransactionReceiver = (*CallRedirectionServiceStub)(nil)
+
+func (s *CallRedirectionServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICallRedirectionServicePlaceCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_adapter ICallRedirectionAdapter
+		_ = _arg_adapter
+		var _arg_handle net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_handle.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_initialPhoneAccount androidTelecom.PhoneAccountHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_initialPhoneAccount.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_allowInteractiveResponse, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PlaceCall(ctx, _arg_adapter, _arg_handle, _arg_initialPhoneAccount, _arg_allowInteractiveResponse)
+		_ = _err
+		return nil, nil
+	case TransactionICallRedirectionServiceNotifyTimeout:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.NotifyTimeout(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

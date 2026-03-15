@@ -2,6 +2,7 @@ package evs
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,33 @@ func (p *EvsEnumeratorStatusCallbackProxy) DeviceStatusChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// EvsEnumeratorStatusCallbackStub dispatches incoming binder transactions
+// to a typed IEvsEnumeratorStatusCallback implementation.
+type EvsEnumeratorStatusCallbackStub struct {
+	Impl IEvsEnumeratorStatusCallback
+}
+
+var _ binder.TransactionReceiver = (*EvsEnumeratorStatusCallbackStub)(nil)
+
+func (s *EvsEnumeratorStatusCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIEvsEnumeratorStatusCallbackDeviceStatusChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_status []DeviceStatus
+		_ = _arg_status
+		_err := s.Impl.DeviceStatusChanged(ctx, _arg_status)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

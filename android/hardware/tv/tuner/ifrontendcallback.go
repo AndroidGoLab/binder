@@ -2,6 +2,7 @@ package tuner
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -74,4 +75,59 @@ func (p *FrontendCallbackProxy) OnScanMessage(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// FrontendCallbackStub dispatches incoming binder transactions
+// to a typed IFrontendCallback implementation.
+type FrontendCallbackStub struct {
+	Impl IFrontendCallback
+}
+
+var _ binder.TransactionReceiver = (*FrontendCallbackStub)(nil)
+
+func (s *FrontendCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIFrontendCallbackOnEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_frontendEventType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_frontendEventType := FrontendEventType(_raw_frontendEventType)
+		_err = s.Impl.OnEvent(ctx, _arg_frontendEventType)
+		_ = _err
+		return nil, nil
+	case TransactionIFrontendCallbackOnScanMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := FrontendScanMessageType(_raw_type_)
+		var _arg_message FrontendScanMessage
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_message.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnScanMessage(ctx, _arg_type_, _arg_message)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

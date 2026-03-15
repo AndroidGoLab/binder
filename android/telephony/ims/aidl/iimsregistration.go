@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -212,4 +213,116 @@ func (p *ImsRegistrationProxy) TriggerDeregistration(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ImsRegistrationStub dispatches incoming binder transactions
+// to a typed IImsRegistration implementation.
+type ImsRegistrationStub struct {
+	Impl IImsRegistration
+}
+
+var _ binder.TransactionReceiver = (*ImsRegistrationStub)(nil)
+
+func (s *ImsRegistrationStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIImsRegistrationGetRegistrationTechnology:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetRegistrationTechnology(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIImsRegistrationAddRegistrationCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c IImsRegistrationCallback
+		_ = _arg_c
+		_err := s.Impl.AddRegistrationCallback(ctx, _arg_c)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationRemoveRegistrationCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c IImsRegistrationCallback
+		_ = _arg_c
+		_err := s.Impl.RemoveRegistrationCallback(ctx, _arg_c)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationAddEmergencyRegistrationCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c IImsRegistrationCallback
+		_ = _arg_c
+		_err := s.Impl.AddEmergencyRegistrationCallback(ctx, _arg_c)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationRemoveEmergencyRegistrationCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c IImsRegistrationCallback
+		_ = _arg_c
+		_err := s.Impl.RemoveEmergencyRegistrationCallback(ctx, _arg_c)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationTriggerFullNetworkRegistration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sipCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sipReason, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.TriggerFullNetworkRegistration(ctx, _arg_sipCode, _arg_sipReason)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationTriggerUpdateSipDelegateRegistration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.TriggerUpdateSipDelegateRegistration(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationTriggerSipDelegateDeregistration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.TriggerSipDelegateDeregistration(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationTriggerDeregistration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.TriggerDeregistration(ctx, _arg_reason)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

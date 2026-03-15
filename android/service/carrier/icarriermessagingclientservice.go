@@ -1,6 +1,7 @@
 package carrier
 
 import (
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 )
 
@@ -27,3 +28,22 @@ func (p *CarrierMessagingClientServiceProxy) AsBinder() binder.IBinder {
 }
 
 var _ ICarrierMessagingClientService = (*CarrierMessagingClientServiceProxy)(nil)
+
+// CarrierMessagingClientServiceStub dispatches incoming binder transactions
+// to a typed ICarrierMessagingClientService implementation.
+type CarrierMessagingClientServiceStub struct {
+	Impl ICarrierMessagingClientService
+}
+
+var _ binder.TransactionReceiver = (*CarrierMessagingClientServiceStub)(nil)
+
+func (s *CarrierMessagingClientServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
+}

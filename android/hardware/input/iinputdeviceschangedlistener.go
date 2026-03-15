@@ -2,6 +2,7 @@ package input
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -57,4 +58,33 @@ func (p *InputDevicesChangedListenerProxy) OnInputDevicesChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InputDevicesChangedListenerStub dispatches incoming binder transactions
+// to a typed IInputDevicesChangedListener implementation.
+type InputDevicesChangedListenerStub struct {
+	Impl IInputDevicesChangedListener
+}
+
+var _ binder.TransactionReceiver = (*InputDevicesChangedListenerStub)(nil)
+
+func (s *InputDevicesChangedListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInputDevicesChangedListenerOnInputDevicesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_deviceIdAndGeneration []int32
+		_ = _arg_deviceIdAndGeneration
+		_err := s.Impl.OnInputDevicesChanged(ctx, _arg_deviceIdAndGeneration)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

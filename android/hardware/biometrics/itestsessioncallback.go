@@ -2,6 +2,7 @@ package biometrics
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -69,4 +70,43 @@ func (p *TestSessionCallbackProxy) OnCleanupFinished(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TestSessionCallbackStub dispatches incoming binder transactions
+// to a typed ITestSessionCallback implementation.
+type TestSessionCallbackStub struct {
+	Impl ITestSessionCallback
+}
+
+var _ binder.TransactionReceiver = (*TestSessionCallbackStub)(nil)
+
+func (s *TestSessionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITestSessionCallbackOnCleanupStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnCleanupStarted(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITestSessionCallbackOnCleanupFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnCleanupFinished(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

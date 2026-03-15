@@ -2,6 +2,7 @@ package servicedb
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *ServiceListSetChannelListListenerProxy) OnCompleted(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ServiceListSetChannelListListenerStub dispatches incoming binder transactions
+// to a typed IServiceListSetChannelListListener implementation.
+type ServiceListSetChannelListListenerStub struct {
+	Impl IServiceListSetChannelListListener
+}
+
+var _ binder.TransactionReceiver = (*ServiceListSetChannelListListenerStub)(nil)
+
+func (s *ServiceListSetChannelListListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIServiceListSetChannelListListenerOnCompleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_setChannelListResult, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCompleted(ctx, _arg_setChannelListResult)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

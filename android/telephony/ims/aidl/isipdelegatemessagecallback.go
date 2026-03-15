@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -94,4 +95,68 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageSendFailure(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SipDelegateMessageCallbackStub dispatches incoming binder transactions
+// to a typed ISipDelegateMessageCallback implementation.
+type SipDelegateMessageCallbackStub struct {
+	Impl ISipDelegateMessageCallback
+}
+
+var _ binder.TransactionReceiver = (*SipDelegateMessageCallbackStub)(nil)
+
+func (s *SipDelegateMessageCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISipDelegateMessageCallbackOnMessageReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_message ims.SipMessage
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_message.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnMessageReceived(ctx, _arg_message)
+		_ = _err
+		return nil, nil
+	case TransactionISipDelegateMessageCallbackOnMessageSent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_viaTransactionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnMessageSent(ctx, _arg_viaTransactionId)
+		_ = _err
+		return nil, nil
+	case TransactionISipDelegateMessageCallbackOnMessageSendFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_viaTransactionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnMessageSendFailure(ctx, _arg_viaTransactionId, _arg_reason)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package vibrator
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -128,4 +129,72 @@ func (p *CustomVibratorProxy) Perform(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// CustomVibratorStub dispatches incoming binder transactions
+// to a typed ICustomVibrator implementation.
+type CustomVibratorStub struct {
+	Impl ICustomVibrator
+}
+
+var _ binder.TransactionReceiver = (*CustomVibratorStub)(nil)
+
+func (s *CustomVibratorStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICustomVibratorGetVendorCapabilities:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetVendorCapabilities(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionICustomVibratorSetDirectionality:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_directionality, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_directionality := Directionality(_raw_directionality)
+		_err = s.Impl.SetDirectionality(ctx, _arg_directionality)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICustomVibratorPerform:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_effect, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_effect := VendorEffect(_raw_effect)
+		var _arg_callback interface{}
+		_result, _err := s.Impl.Perform(ctx, _arg_effect, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package credentials
 
 import (
 	"context"
+	"fmt"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -93,4 +94,64 @@ func (p *BeginCreateCredentialCallbackProxy) OnCancellable(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BeginCreateCredentialCallbackStub dispatches incoming binder transactions
+// to a typed IBeginCreateCredentialCallback implementation.
+type BeginCreateCredentialCallbackStub struct {
+	Impl IBeginCreateCredentialCallback
+}
+
+var _ binder.TransactionReceiver = (*BeginCreateCredentialCallbackStub)(nil)
+
+func (s *BeginCreateCredentialCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBeginCreateCredentialCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request BeginCreateCredentialResponse
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSuccess(ctx, _arg_request)
+		_ = _err
+		return nil, nil
+	case TransactionIBeginCreateCredentialCallbackOnFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_message interface{}
+		_err = s.Impl.OnFailure(ctx, _arg_errorType, _arg_message)
+		_ = _err
+		return nil, nil
+	case TransactionIBeginCreateCredentialCallbackOnCancellable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cancellation ondeviceintelligence.ICancellationSignal
+		_ = _arg_cancellation
+		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

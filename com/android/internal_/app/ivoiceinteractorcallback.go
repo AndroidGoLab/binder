@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -179,4 +180,110 @@ func (p *VoiceInteractorCallbackProxy) Destroy(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VoiceInteractorCallbackStub dispatches incoming binder transactions
+// to a typed IVoiceInteractorCallback implementation.
+type VoiceInteractorCallbackStub struct {
+	Impl IVoiceInteractorCallback
+}
+
+var _ binder.TransactionReceiver = (*VoiceInteractorCallbackStub)(nil)
+
+func (s *VoiceInteractorCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVoiceInteractorCallbackDeliverConfirmationResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_request IVoiceInteractorRequest
+		_ = _arg_request
+		_arg_confirmed, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_result interface{}
+		_err = s.Impl.DeliverConfirmationResult(ctx, _arg_request, _arg_confirmed, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractorCallbackDeliverPickOptionResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_request IVoiceInteractorRequest
+		_ = _arg_request
+		_arg_finished, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_selections []interface{}
+		_ = _arg_selections
+		var _arg_result interface{}
+		_err = s.Impl.DeliverPickOptionResult(ctx, _arg_request, _arg_finished, _arg_selections, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractorCallbackDeliverCompleteVoiceResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_request IVoiceInteractorRequest
+		_ = _arg_request
+		var _arg_result interface{}
+		_err := s.Impl.DeliverCompleteVoiceResult(ctx, _arg_request, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractorCallbackDeliverAbortVoiceResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_request IVoiceInteractorRequest
+		_ = _arg_request
+		var _arg_result interface{}
+		_err := s.Impl.DeliverAbortVoiceResult(ctx, _arg_request, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractorCallbackDeliverCommandResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_request IVoiceInteractorRequest
+		_ = _arg_request
+		_arg_finished, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_result interface{}
+		_err = s.Impl.DeliverCommandResult(ctx, _arg_request, _arg_finished, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractorCallbackDeliverCancel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_request IVoiceInteractorRequest
+		_ = _arg_request
+		_err := s.Impl.DeliverCancel(ctx, _arg_request)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractorCallbackDestroy:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Destroy(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

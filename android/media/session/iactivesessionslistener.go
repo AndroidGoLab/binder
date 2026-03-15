@@ -2,6 +2,7 @@ package session
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,33 @@ func (p *ActiveSessionsListenerProxy) OnActiveSessionsChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ActiveSessionsListenerStub dispatches incoming binder transactions
+// to a typed IActiveSessionsListener implementation.
+type ActiveSessionsListenerStub struct {
+	Impl IActiveSessionsListener
+}
+
+var _ binder.TransactionReceiver = (*ActiveSessionsListenerStub)(nil)
+
+func (s *ActiveSessionsListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIActiveSessionsListenerOnActiveSessionsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sessions []MediaSessionToken
+		_ = _arg_sessions
+		_err := s.Impl.OnActiveSessionsChanged(ctx, _arg_sessions)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

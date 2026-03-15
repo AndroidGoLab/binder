@@ -1,6 +1,7 @@
 package stub
 
 import (
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 )
 
@@ -27,3 +28,22 @@ func (p *SatelliteGatewayProxy) AsBinder() binder.IBinder {
 }
 
 var _ ISatelliteGateway = (*SatelliteGatewayProxy)(nil)
+
+// SatelliteGatewayStub dispatches incoming binder transactions
+// to a typed ISatelliteGateway implementation.
+type SatelliteGatewayStub struct {
+	Impl ISatelliteGateway
+}
+
+var _ binder.TransactionReceiver = (*SatelliteGatewayStub)(nil)
+
+func (s *SatelliteGatewayStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
+}

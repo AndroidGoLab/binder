@@ -2,6 +2,7 @@ package search
 
 import (
 	"context"
+	"fmt"
 	appSearch "github.com/xaionaro-go/binder/android/app/search"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -190,4 +191,194 @@ func (p *SearchUiServiceProxy) OnDestroy(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SearchUiServiceStub dispatches incoming binder transactions
+// to a typed ISearchUiService implementation.
+type SearchUiServiceStub struct {
+	Impl ISearchUiService
+}
+
+var _ binder.TransactionReceiver = (*SearchUiServiceStub)(nil)
+
+func (s *SearchUiServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISearchUiServiceOnCreateSearchSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_context_ appSearch.SearchContext
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_context_.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_sessionId appSearch.SearchSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnCreateSearchSession(ctx, _arg_context_, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	case TransactionISearchUiServiceOnQuery:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId appSearch.SearchSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_input appSearch.Query
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_input.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback appSearch.ISearchCallback
+		_ = _arg_callback
+		_err := s.Impl.OnQuery(ctx, _arg_sessionId, _arg_input, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISearchUiServiceOnNotifyEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId appSearch.SearchSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_input appSearch.Query
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_input.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_event appSearch.SearchTargetEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnNotifyEvent(ctx, _arg_sessionId, _arg_input, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionISearchUiServiceOnRegisterEmptyQueryResultUpdateCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId appSearch.SearchSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback appSearch.ISearchCallback
+		_ = _arg_callback
+		_err := s.Impl.OnRegisterEmptyQueryResultUpdateCallback(ctx, _arg_sessionId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISearchUiServiceOnUnregisterEmptyQueryResultUpdateCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId appSearch.SearchSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback appSearch.ISearchCallback
+		_ = _arg_callback
+		_err := s.Impl.OnUnregisterEmptyQueryResultUpdateCallback(ctx, _arg_sessionId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISearchUiServiceOnDestroy:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId appSearch.SearchSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnDestroy(ctx, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

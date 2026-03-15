@@ -2,6 +2,7 @@ package security
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *KeyChainAliasCallbackProxy) Alias(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// KeyChainAliasCallbackStub dispatches incoming binder transactions
+// to a typed IKeyChainAliasCallback implementation.
+type KeyChainAliasCallbackStub struct {
+	Impl IKeyChainAliasCallback
+}
+
+var _ binder.TransactionReceiver = (*KeyChainAliasCallbackStub)(nil)
+
+func (s *KeyChainAliasCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIKeyChainAliasCallbackAlias:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_alias, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Alias(ctx, _arg_alias)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

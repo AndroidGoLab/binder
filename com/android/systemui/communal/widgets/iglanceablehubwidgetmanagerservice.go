@@ -2,6 +2,7 @@ package widgets
 
 import (
 	"context"
+	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
@@ -255,4 +256,160 @@ func (p *GlanceableHubWidgetManagerServiceProxy) GetIntentSenderForConfigureActi
 		}
 	}
 	return _result, nil
+}
+
+// GlanceableHubWidgetManagerServiceStub dispatches incoming binder transactions
+// to a typed IGlanceableHubWidgetManagerService implementation.
+type GlanceableHubWidgetManagerServiceStub struct {
+	Impl IGlanceableHubWidgetManagerService
+}
+
+var _ binder.TransactionReceiver = (*GlanceableHubWidgetManagerServiceStub)(nil)
+
+func (s *GlanceableHubWidgetManagerServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGlanceableHubWidgetManagerServiceAddWidgetsListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener widgetsIGlanceableHubWidgetManagerService.IGlanceableHubWidgetsListener
+		_ = _arg_listener
+		_err := s.Impl.AddWidgetsListener(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIGlanceableHubWidgetManagerServiceRemoveWidgetsListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener widgetsIGlanceableHubWidgetManagerService.IGlanceableHubWidgetsListener
+		_ = _arg_listener
+		_err := s.Impl.RemoveWidgetsListener(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIGlanceableHubWidgetManagerServiceSetAppWidgetHostListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_appWidgetId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener widgetsIGlanceableHubWidgetManagerService.IAppWidgetHostListener
+		_ = _arg_listener
+		_err = s.Impl.SetAppWidgetHostListener(ctx, _arg_appWidgetId, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIGlanceableHubWidgetManagerServiceAddWidget:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_provider content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_provider.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_rank, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback widgetsIGlanceableHubWidgetManagerService.IConfigureWidgetCallback
+		_ = _arg_callback
+		_err = s.Impl.AddWidget(ctx, _arg_provider, _arg_user, _arg_rank, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIGlanceableHubWidgetManagerServiceDeleteWidget:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_appWidgetId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DeleteWidget(ctx, _arg_appWidgetId)
+		_ = _err
+		return nil, nil
+	case TransactionIGlanceableHubWidgetManagerServiceUpdateWidgetOrder:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_appWidgetIds []int32
+		_ = _arg_appWidgetIds
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_ranks []int32
+		_ = _arg_ranks
+		_err := s.Impl.UpdateWidgetOrder(ctx, _arg_appWidgetIds, _arg_ranks)
+		_ = _err
+		return nil, nil
+	case TransactionIGlanceableHubWidgetManagerServiceResizeWidget:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_appWidgetId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_spanY, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_appWidgetIds []int32
+		_ = _arg_appWidgetIds
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_ranks []int32
+		_ = _arg_ranks
+		_err = s.Impl.ResizeWidget(ctx, _arg_appWidgetId, _arg_spanY, _arg_appWidgetIds, _arg_ranks)
+		_ = _err
+		return nil, nil
+	case TransactionIGlanceableHubWidgetManagerServiceGetIntentSenderForConfigureActivity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_appWidgetId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetIntentSenderForConfigureActivity(ctx, _arg_appWidgetId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

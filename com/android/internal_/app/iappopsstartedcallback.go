@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -68,4 +69,69 @@ func (p *AppOpsStartedCallbackProxy) OpStarted(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AppOpsStartedCallbackStub dispatches incoming binder transactions
+// to a typed IAppOpsStartedCallback implementation.
+type AppOpsStartedCallbackStub struct {
+	Impl IAppOpsStartedCallback
+}
+
+var _ binder.TransactionReceiver = (*AppOpsStartedCallbackStub)(nil)
+
+func (s *AppOpsStartedCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAppOpsStartedCallbackOpStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_op, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_virtualDeviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_startedType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_attributionFlags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_attributionChainId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OpStarted(ctx, _arg_op, _arg_uid, _arg_packageName, _arg_virtualDeviceId, _arg_flags, _arg_mode, _arg_startedType, _arg_attributionFlags, _arg_attributionChainId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

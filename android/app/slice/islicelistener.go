@@ -2,6 +2,7 @@ package slice
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -16,7 +17,7 @@ const (
 
 type ISliceListener interface {
 	AsBinder() binder.IBinder
-	OnSliceUpdated(ctx context.Context, s Slice) error
+	OnSliceUpdated(ctx context.Context, s_ Slice) error
 }
 
 type SliceListenerProxy struct {
@@ -37,12 +38,12 @@ var _ ISliceListener = (*SliceListenerProxy)(nil)
 
 func (p *SliceListenerProxy) OnSliceUpdated(
 	ctx context.Context,
-	s Slice,
+	s_ Slice,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISliceListener)
 	_data.WriteInt32(1)
-	if _err := s.MarshalParcel(_data); _err != nil {
+	if _err := s_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -53,4 +54,42 @@ func (p *SliceListenerProxy) OnSliceUpdated(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SliceListenerStub dispatches incoming binder transactions
+// to a typed ISliceListener implementation.
+type SliceListenerStub struct {
+	Impl ISliceListener
+}
+
+var _ binder.TransactionReceiver = (*SliceListenerStub)(nil)
+
+func (s *SliceListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISliceListenerOnSliceUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_s_ Slice
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_s_.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSliceUpdated(ctx, _arg_s_)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

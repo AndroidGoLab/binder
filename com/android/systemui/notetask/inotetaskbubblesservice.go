@@ -2,6 +2,7 @@ package notetask
 
 import (
 	"context"
+	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	drawable "github.com/xaionaro-go/binder/android/graphics/drawable"
 	os "github.com/xaionaro-go/binder/android/os"
@@ -111,4 +112,96 @@ func (p *NoteTaskBubblesServiceProxy) ShowOrHideAppBubble(
 	}
 
 	return nil
+}
+
+// NoteTaskBubblesServiceStub dispatches incoming binder transactions
+// to a typed INoteTaskBubblesService implementation.
+type NoteTaskBubblesServiceStub struct {
+	Impl INoteTaskBubblesService
+}
+
+var _ binder.TransactionReceiver = (*NoteTaskBubblesServiceStub)(nil)
+
+func (s *NoteTaskBubblesServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionINoteTaskBubblesServiceAreBubblesAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.AreBubblesAvailable(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionINoteTaskBubblesServiceShowOrHideAppBubble:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_userHandle os.UserHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userHandle.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_icon drawable.Icon
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_icon.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_bubbleExpandBehavior NoteTaskBubbleExpandBehavior
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bubbleExpandBehavior.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ShowOrHideAppBubble(ctx, _arg_intent, _arg_userHandle, _arg_icon, _arg_bubbleExpandBehavior)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

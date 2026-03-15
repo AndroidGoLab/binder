@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *SatelliteStateChangeListenerProxy) OnSatelliteEnabledStateChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SatelliteStateChangeListenerStub dispatches incoming binder transactions
+// to a typed ISatelliteStateChangeListener implementation.
+type SatelliteStateChangeListenerStub struct {
+	Impl ISatelliteStateChangeListener
+}
+
+var _ binder.TransactionReceiver = (*SatelliteStateChangeListenerStub)(nil)
+
+func (s *SatelliteStateChangeListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISatelliteStateChangeListenerOnSatelliteEnabledStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSatelliteEnabledStateChanged(ctx, _arg_isEnabled)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

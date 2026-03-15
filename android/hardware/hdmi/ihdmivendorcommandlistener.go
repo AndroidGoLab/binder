@@ -2,6 +2,7 @@ package hdmi
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -84,4 +85,60 @@ func (p *HdmiVendorCommandListenerProxy) OnControlStateChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// HdmiVendorCommandListenerStub dispatches incoming binder transactions
+// to a typed IHdmiVendorCommandListener implementation.
+type HdmiVendorCommandListenerStub struct {
+	Impl IHdmiVendorCommandListener
+}
+
+var _ binder.TransactionReceiver = (*HdmiVendorCommandListenerStub)(nil)
+
+func (s *HdmiVendorCommandListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIHdmiVendorCommandListenerOnReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_logicalAddress, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destAddress, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_operands []byte
+		_ = _arg_operands
+		_arg_hasVendorId, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnReceived(ctx, _arg_logicalAddress, _arg_destAddress, _arg_operands, _arg_hasVendorId)
+		_ = _err
+		return nil, nil
+	case TransactionIHdmiVendorCommandListenerOnControlStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnControlStateChanged(ctx, _arg_enabled, _arg_reason)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

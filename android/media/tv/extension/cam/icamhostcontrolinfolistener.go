@@ -2,6 +2,7 @@ package cam
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -52,4 +53,38 @@ func (p *CamHostControlInfoListenerProxy) OnCamHostControlInfoChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CamHostControlInfoListenerStub dispatches incoming binder transactions
+// to a typed ICamHostControlInfoListener implementation.
+type CamHostControlInfoListenerStub struct {
+	Impl ICamHostControlInfoListener
+}
+
+var _ binder.TransactionReceiver = (*CamHostControlInfoListenerStub)(nil)
+
+func (s *CamHostControlInfoListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICamHostControlInfoListenerOnCamHostControlInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionToken, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionStatus, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCamHostControlInfoChanged(ctx, _arg_sessionToken, _arg_sessionStatus)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

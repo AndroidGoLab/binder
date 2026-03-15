@@ -2,6 +2,7 @@ package rating
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -65,4 +66,51 @@ func (p *ProgramRatingInfoListenerProxy) OnProgramInfoChanged(
 	}
 
 	return nil
+}
+
+// ProgramRatingInfoListenerStub dispatches incoming binder transactions
+// to a typed IProgramRatingInfoListener implementation.
+type ProgramRatingInfoListenerStub struct {
+	Impl IProgramRatingInfoListener
+}
+
+var _ binder.TransactionReceiver = (*ProgramRatingInfoListenerStub)(nil)
+
+func (s *ProgramRatingInfoListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIProgramRatingInfoListenerOnProgramInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionToken, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_changedProgramInfo os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_changedProgramInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnProgramInfoChanged(ctx, _arg_sessionToken, _arg_changedProgramInfo)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

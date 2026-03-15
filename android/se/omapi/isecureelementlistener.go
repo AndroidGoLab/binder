@@ -1,6 +1,7 @@
 package omapi
 
 import (
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 )
 
@@ -27,3 +28,22 @@ func (p *SecureElementListenerProxy) AsBinder() binder.IBinder {
 }
 
 var _ ISecureElementListener = (*SecureElementListenerProxy)(nil)
+
+// SecureElementListenerStub dispatches incoming binder transactions
+// to a typed ISecureElementListener implementation.
+type SecureElementListenerStub struct {
+	Impl ISecureElementListener
+}
+
+var _ binder.TransactionReceiver = (*SecureElementListenerStub)(nil)
+
+func (s *SecureElementListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
+}

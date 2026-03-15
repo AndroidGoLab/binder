@@ -2,6 +2,7 @@ package augmented
 
 import (
 	"context"
+	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	autofill "github.com/xaionaro-go/binder/android/view/autofill"
 	inputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
@@ -136,4 +137,125 @@ func (p *AugmentedAutofillServiceProxy) OnDestroyAllFillWindowsRequest(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AugmentedAutofillServiceStub dispatches incoming binder transactions
+// to a typed IAugmentedAutofillService implementation.
+type AugmentedAutofillServiceStub struct {
+	Impl IAugmentedAutofillService
+}
+
+var _ binder.TransactionReceiver = (*AugmentedAutofillServiceStub)(nil)
+
+func (s *AugmentedAutofillServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAugmentedAutofillServiceOnConnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_debug, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_verbose, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnConnected(ctx, _arg_debug, _arg_verbose)
+		_ = _err
+		return nil, nil
+	case TransactionIAugmentedAutofillServiceOnDisconnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnDisconnected(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIAugmentedAutofillServiceOnFillRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_autofillManagerClient binder.IBinder
+		_ = _arg_autofillManagerClient
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_activityComponent content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_activityComponent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_focusedId autofill.AutofillId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_focusedId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_focusedValue autofill.AutofillValue
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_focusedValue.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_requestTime, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_inlineSuggestionsRequest inputmethod.InlineSuggestionsRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_inlineSuggestionsRequest.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IFillCallback
+		_ = _arg_callback
+		_err = s.Impl.OnFillRequest(ctx, _arg_sessionId, _arg_autofillManagerClient, _arg_taskId, _arg_activityComponent, _arg_focusedId, _arg_focusedValue, _arg_requestTime, _arg_inlineSuggestionsRequest, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIAugmentedAutofillServiceOnDestroyAllFillWindowsRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnDestroyAllFillWindowsRequest(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

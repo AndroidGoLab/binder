@@ -2,6 +2,7 @@ package printservice
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -237,4 +238,114 @@ func (p *PrintServiceProxy) DestroyPrinterDiscoverySession(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PrintServiceStub dispatches incoming binder transactions
+// to a typed IPrintService implementation.
+type PrintServiceStub struct {
+	Impl IPrintService
+}
+
+var _ binder.TransactionReceiver = (*PrintServiceStub)(nil)
+
+func (s *PrintServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPrintServiceSetClient:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IPrintServiceClient
+		_ = _arg_client
+		_err := s.Impl.SetClient(ctx, _arg_client)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintServiceRequestCancelPrintJob:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printJobInfo interface{}
+		_err := s.Impl.RequestCancelPrintJob(ctx, _arg_printJobInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintServiceOnPrintJobQueued:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printJobInfo interface{}
+		_err := s.Impl.OnPrintJobQueued(ctx, _arg_printJobInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintServiceCreatePrinterDiscoverySession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.CreatePrinterDiscoverySession(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintServiceStartPrinterDiscovery:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_priorityList []interface{}
+		_ = _arg_priorityList
+		_err := s.Impl.StartPrinterDiscovery(ctx, _arg_priorityList)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintServiceStopPrinterDiscovery:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StopPrinterDiscovery(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintServiceValidatePrinters:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_printerIds []interface{}
+		_ = _arg_printerIds
+		_err := s.Impl.ValidatePrinters(ctx, _arg_printerIds)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintServiceStartPrinterStateTracking:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printerId interface{}
+		_err := s.Impl.StartPrinterStateTracking(ctx, _arg_printerId)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintServiceRequestCustomPrinterIcon:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printerId interface{}
+		_err := s.Impl.RequestCustomPrinterIcon(ctx, _arg_printerId)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintServiceStopPrinterStateTracking:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printerId interface{}
+		_err := s.Impl.StopPrinterStateTracking(ctx, _arg_printerId)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintServiceDestroyPrinterDiscoverySession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.DestroyPrinterDiscoverySession(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

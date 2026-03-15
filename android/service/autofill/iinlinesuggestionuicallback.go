@@ -2,6 +2,7 @@ package autofill
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -145,4 +146,85 @@ func (p *InlineSuggestionUiCallbackProxy) OnStartIntentSender(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InlineSuggestionUiCallbackStub dispatches incoming binder transactions
+// to a typed IInlineSuggestionUiCallback implementation.
+type InlineSuggestionUiCallbackStub struct {
+	Impl IInlineSuggestionUiCallback
+}
+
+var _ binder.TransactionReceiver = (*InlineSuggestionUiCallbackStub)(nil)
+
+func (s *InlineSuggestionUiCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInlineSuggestionUiCallbackOnClick:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnClick(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInlineSuggestionUiCallbackOnLongClick:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnLongClick(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInlineSuggestionUiCallbackOnContent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_content IInlineSuggestionUi
+		_ = _arg_content
+		var _arg_surface interface{}
+		_arg_width, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_height, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnContent(ctx, _arg_content, _arg_surface, _arg_width, _arg_height)
+		_ = _err
+		return nil, nil
+	case TransactionIInlineSuggestionUiCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnError(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInlineSuggestionUiCallbackOnTransferTouchFocusToImeWindow:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sourceInputToken binder.IBinder
+		_ = _arg_sourceInputToken
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTransferTouchFocusToImeWindow(ctx, _arg_sourceInputToken, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIInlineSuggestionUiCallbackOnStartIntentSender:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intentSender interface{}
+		_err := s.Impl.OnStartIntentSender(ctx, _arg_intentSender)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

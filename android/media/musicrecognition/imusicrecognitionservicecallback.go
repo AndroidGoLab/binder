@@ -2,6 +2,7 @@ package musicrecognition
 
 import (
 	"context"
+	"fmt"
 	media "github.com/xaionaro-go/binder/android/media"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
@@ -79,4 +80,65 @@ func (p *MusicRecognitionServiceCallbackProxy) OnRecognitionFailed(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MusicRecognitionServiceCallbackStub dispatches incoming binder transactions
+// to a typed IMusicRecognitionServiceCallback implementation.
+type MusicRecognitionServiceCallbackStub struct {
+	Impl IMusicRecognitionServiceCallback
+}
+
+var _ binder.TransactionReceiver = (*MusicRecognitionServiceCallbackStub)(nil)
+
+func (s *MusicRecognitionServiceCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMusicRecognitionServiceCallbackOnRecognitionSucceeded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_result media.MediaMetadata
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnRecognitionSucceeded(ctx, _arg_result, _arg_extras)
+		_ = _err
+		return nil, nil
+	case TransactionIMusicRecognitionServiceCallbackOnRecognitionFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_failureCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRecognitionFailed(ctx, _arg_failureCode)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

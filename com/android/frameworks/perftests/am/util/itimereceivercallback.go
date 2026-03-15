@@ -2,6 +2,7 @@ package util
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -61,4 +62,43 @@ func (p *TimeReceiverCallbackProxy) SendTime(
 	}
 
 	return nil
+}
+
+// TimeReceiverCallbackStub dispatches incoming binder transactions
+// to a typed ITimeReceiverCallback implementation.
+type TimeReceiverCallbackStub struct {
+	Impl ITimeReceiverCallback
+}
+
+var _ binder.TransactionReceiver = (*TimeReceiverCallbackStub)(nil)
+
+func (s *TimeReceiverCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITimeReceiverCallbackSendTime:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_type_, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timeNs, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendTime(ctx, _arg_type_, _arg_timeNs)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

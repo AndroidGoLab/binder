@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -217,4 +218,138 @@ func (p *ImsMediaSessionProxy) AdjustDelay(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ImsMediaSessionStub dispatches incoming binder transactions
+// to a typed IImsMediaSession implementation.
+type ImsMediaSessionStub struct {
+	Impl IImsMediaSession
+}
+
+var _ binder.TransactionReceiver = (*ImsMediaSessionStub)(nil)
+
+func (s *ImsMediaSessionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIImsMediaSessionSetListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sessionListener IImsMediaSessionListener
+		_ = _arg_sessionListener
+		_err := s.Impl.SetListener(ctx, _arg_sessionListener)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMediaSessionModifySession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_config RtpConfig
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ModifySession(ctx, _arg_config)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMediaSessionSendDtmf:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_dtmfDigit, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dtmfDigit := uint16(_raw_dtmfDigit)
+		_arg_duration, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendDtmf(ctx, _arg_dtmfDigit, _arg_duration)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMediaSessionStartDtmf:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_dtmfDigit, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dtmfDigit := uint16(_raw_dtmfDigit)
+		_err = s.Impl.StartDtmf(ctx, _arg_dtmfDigit)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMediaSessionStopDtmf:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StopDtmf(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMediaSessionSendHeaderExtension:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_extensions []RtpHeaderExtension
+		_ = _arg_extensions
+		_err := s.Impl.SendHeaderExtension(ctx, _arg_extensions)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMediaSessionSetMediaQualityThreshold:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_threshold MediaQualityThreshold
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_threshold.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetMediaQualityThreshold(ctx, _arg_threshold)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMediaSessionRequestRtpReceptionStats:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_intervalMs, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RequestRtpReceptionStats(ctx, _arg_intervalMs)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMediaSessionAdjustDelay:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_delayMs, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AdjustDelay(ctx, _arg_delayMs)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

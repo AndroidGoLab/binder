@@ -2,6 +2,7 @@ package accounts
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -87,4 +88,53 @@ func (p *AccountAuthenticatorResponseProxy) OnError(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AccountAuthenticatorResponseStub dispatches incoming binder transactions
+// to a typed IAccountAuthenticatorResponse implementation.
+type AccountAuthenticatorResponseStub struct {
+	Impl IAccountAuthenticatorResponse
+}
+
+var _ binder.TransactionReceiver = (*AccountAuthenticatorResponseStub)(nil)
+
+func (s *AccountAuthenticatorResponseStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAccountAuthenticatorResponseOnResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_value interface{}
+		_err := s.Impl.OnResult(ctx, _arg_value)
+		_ = _err
+		return nil, nil
+	case TransactionIAccountAuthenticatorResponseOnRequestContinued:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRequestContinued(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIAccountAuthenticatorResponseOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_errorMessage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_errorCode, _arg_errorMessage)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

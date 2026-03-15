@@ -2,6 +2,7 @@ package content
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -64,4 +65,63 @@ func (p *IntentReceiverProxy) PerformReceive(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// IntentReceiverStub dispatches incoming binder transactions
+// to a typed IIntentReceiver implementation.
+type IntentReceiverStub struct {
+	Impl IIntentReceiver
+}
+
+var _ binder.TransactionReceiver = (*IntentReceiverStub)(nil)
+
+func (s *IntentReceiverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIIntentReceiverPerformReceive:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intent Intent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_data, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_extras interface{}
+		_arg_ordered, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sticky, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sendingUser, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PerformReceive(ctx, _arg_intent, _arg_resultCode, _arg_data, _arg_extras, _arg_ordered, _arg_sticky, _arg_sendingUser)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

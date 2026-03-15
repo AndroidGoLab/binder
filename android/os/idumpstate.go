@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -182,4 +183,132 @@ func (p *DumpstateProxy) RetrieveBugreport(
 	}
 
 	return nil
+}
+
+// DumpstateStub dispatches incoming binder transactions
+// to a typed IDumpstate implementation.
+type DumpstateStub struct {
+	Impl IDumpstate
+}
+
+var _ binder.TransactionReceiver = (*DumpstateStub)(nil)
+
+func (s *DumpstateStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDumpstatePreDumpUiData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.PreDumpUiData(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIDumpstateStartBugreport:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_bugreportFd interface{}
+		var _arg_screenshotFd interface{}
+		_arg_bugreportMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_bugreportFlags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IDumpstateListener
+		_ = _arg_listener
+		_arg_isScreenshotRequested, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_skipUserConsent, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StartBugreport(ctx, _arg_bugreportFd, _arg_screenshotFd, _arg_bugreportMode, _arg_bugreportFlags, _arg_listener, _arg_isScreenshotRequested, _arg_skipUserConsent)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIDumpstateCancelBugreport:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.CancelBugreport(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIDumpstateRetrieveBugreport:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		var _arg_bugreportFd interface{}
+		_arg_bugreportFile, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_keepBugreportOnRetrieval, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_skipUserConsent, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IDumpstateListener
+		_ = _arg_listener
+		_err = s.Impl.RetrieveBugreport(ctx, _arg_bugreportFd, _arg_bugreportFile, _arg_keepBugreportOnRetrieval, _arg_skipUserConsent, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

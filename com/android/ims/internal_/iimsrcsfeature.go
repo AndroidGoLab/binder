@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 )
 
@@ -27,3 +28,22 @@ func (p *ImsRcsFeatureProxy) AsBinder() binder.IBinder {
 }
 
 var _ IImsRcsFeature = (*ImsRcsFeatureProxy)(nil)
+
+// ImsRcsFeatureStub dispatches incoming binder transactions
+// to a typed IImsRcsFeature implementation.
+type ImsRcsFeatureStub struct {
+	Impl IImsRcsFeature
+}
+
+var _ binder.TransactionReceiver = (*ImsRcsFeatureStub)(nil)
+
+func (s *ImsRcsFeatureStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
+}

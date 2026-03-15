@@ -2,6 +2,7 @@ package rkp
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -108,4 +109,63 @@ func (p *RegistrationProxy) StoreUpgradedKeyAsync(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RegistrationStub dispatches incoming binder transactions
+// to a typed IRegistration implementation.
+type RegistrationStub struct {
+	Impl IRegistration
+}
+
+var _ binder.TransactionReceiver = (*RegistrationStub)(nil)
+
+func (s *RegistrationStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRegistrationGetKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_keyId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetKeyCallback
+		_ = _arg_callback
+		_err = s.Impl.GetKey(ctx, _arg_keyId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIRegistrationCancelGetKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetKeyCallback
+		_ = _arg_callback
+		_err := s.Impl.CancelGetKey(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIRegistrationStoreUpgradedKeyAsync:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_oldKeyBlob []byte
+		_ = _arg_oldKeyBlob
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_newKeyBlob []byte
+		_ = _arg_newKeyBlob
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IStoreUpgradedKeyCallback
+		_ = _arg_callback
+		_err := s.Impl.StoreUpgradedKeyAsync(ctx, _arg_oldKeyBlob, _arg_newKeyBlob, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

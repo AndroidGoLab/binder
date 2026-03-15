@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	androidTelephony "github.com/xaionaro-go/binder/android/telephony"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -71,4 +72,49 @@ func (p *DomainSelectorProxy) FinishSelection(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DomainSelectorStub dispatches incoming binder transactions
+// to a typed IDomainSelector implementation.
+type DomainSelectorStub struct {
+	Impl IDomainSelector
+}
+
+var _ binder.TransactionReceiver = (*DomainSelectorStub)(nil)
+
+func (s *DomainSelectorStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDomainSelectorReselectDomain:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_attr androidTelephony.DomainSelectionServiceSelectionAttributes
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ReselectDomain(ctx, _arg_attr)
+		_ = _err
+		return nil, nil
+	case TransactionIDomainSelectorFinishSelection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.FinishSelection(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -48,4 +49,30 @@ func (p *VoidConsumerProxy) Accept(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VoidConsumerStub dispatches incoming binder transactions
+// to a typed IVoidConsumer implementation.
+type VoidConsumerStub struct {
+	Impl IVoidConsumer
+}
+
+var _ binder.TransactionReceiver = (*VoidConsumerStub)(nil)
+
+func (s *VoidConsumerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVoidConsumerAccept:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Accept(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package window
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -165,4 +166,113 @@ func (p *DisplayAreaOrganizerControllerProxy) DeleteTaskDisplayArea(
 	}
 
 	return nil
+}
+
+// DisplayAreaOrganizerControllerStub dispatches incoming binder transactions
+// to a typed IDisplayAreaOrganizerController implementation.
+type DisplayAreaOrganizerControllerStub struct {
+	Impl IDisplayAreaOrganizerController
+}
+
+var _ binder.TransactionReceiver = (*DisplayAreaOrganizerControllerStub)(nil)
+
+func (s *DisplayAreaOrganizerControllerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDisplayAreaOrganizerControllerRegisterOrganizer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_organizer IDisplayAreaOrganizer
+		_ = _arg_organizer
+		_arg_displayAreaFeature, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RegisterOrganizer(ctx, _arg_organizer, _arg_displayAreaFeature)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIDisplayAreaOrganizerControllerUnregisterOrganizer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_organizer IDisplayAreaOrganizer
+		_ = _arg_organizer
+		_err := s.Impl.UnregisterOrganizer(ctx, _arg_organizer)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIDisplayAreaOrganizerControllerCreateTaskDisplayArea:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_organizer IDisplayAreaOrganizer
+		_ = _arg_organizer
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_parentFeatureId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateTaskDisplayArea(ctx, _arg_organizer, _arg_displayId, _arg_parentFeatureId, _arg_name)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIDisplayAreaOrganizerControllerDeleteTaskDisplayArea:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskDisplayArea WindowContainerToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskDisplayArea.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.DeleteTaskDisplayArea(ctx, _arg_taskDisplayArea)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

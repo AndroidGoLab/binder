@@ -2,6 +2,7 @@ package lmp_event
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -116,4 +117,69 @@ func (p *BluetoothLmpEventProxy) UnregisterLmpEvents(
 	}
 
 	return nil
+}
+
+// BluetoothLmpEventStub dispatches incoming binder transactions
+// to a typed IBluetoothLmpEvent implementation.
+type BluetoothLmpEventStub struct {
+	Impl IBluetoothLmpEvent
+}
+
+var _ binder.TransactionReceiver = (*BluetoothLmpEventStub)(nil)
+
+func (s *BluetoothLmpEventStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBluetoothLmpEventRegisterForLmpEvents:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IBluetoothLmpEventCallback
+		_ = _arg_callback
+		_raw_addressType, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_addressType := AddressType(_raw_addressType)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_address []byte
+		_ = _arg_address
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_lmpEventIds []LmpEventId
+		_ = _arg_lmpEventIds
+		_err = s.Impl.RegisterForLmpEvents(ctx, _arg_callback, _arg_addressType, _arg_address, _arg_lmpEventIds)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBluetoothLmpEventUnregisterLmpEvents:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_addressType, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_addressType := AddressType(_raw_addressType)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_address []byte
+		_ = _arg_address
+		_err = s.Impl.UnregisterLmpEvents(ctx, _arg_addressType, _arg_address)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

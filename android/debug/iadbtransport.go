@@ -2,6 +2,7 @@ package debug
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -61,4 +62,44 @@ func (p *AdbTransportProxy) OnAdbEnabled(
 	}
 
 	return nil
+}
+
+// AdbTransportStub dispatches incoming binder transactions
+// to a typed IAdbTransport implementation.
+type AdbTransportStub struct {
+	Impl IAdbTransport
+}
+
+var _ binder.TransactionReceiver = (*AdbTransportStub)(nil)
+
+func (s *AdbTransportStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAdbTransportOnAdbEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := AdbTransportType(_raw_type_)
+		_err = s.Impl.OnAdbEnabled(ctx, _arg_enabled, _arg_type_)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

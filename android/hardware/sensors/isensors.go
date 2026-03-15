@@ -2,6 +2,7 @@ package sensors
 
 import (
 	"context"
+	"fmt"
 	fmq "github.com/xaionaro-go/binder/android/hardware/common/fmq"
 	sensorsISensors "github.com/xaionaro-go/binder/android/hardware/sensors/ISensors"
 	"github.com/xaionaro-go/binder/binder"
@@ -380,4 +381,244 @@ func (p *SensorsProxy) UnregisterDirectChannel(
 	}
 
 	return nil
+}
+
+// SensorsStub dispatches incoming binder transactions
+// to a typed ISensors implementation.
+type SensorsStub struct {
+	Impl ISensors
+}
+
+var _ binder.TransactionReceiver = (*SensorsStub)(nil)
+
+func (s *SensorsStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISensorsActivate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sensorHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Activate(ctx, _arg_sensorHandle, _arg_enabled)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISensorsBatch:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sensorHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_samplingPeriodNs, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_maxReportLatencyNs, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Batch(ctx, _arg_sensorHandle, _arg_samplingPeriodNs, _arg_maxReportLatencyNs)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISensorsConfigDirectReport:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sensorHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_channelHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_rate, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_rate := sensorsISensors.RateLevel(_raw_rate)
+		_result, _err := s.Impl.ConfigDirectReport(ctx, _arg_sensorHandle, _arg_channelHandle, _arg_rate)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISensorsFlush:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sensorHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Flush(ctx, _arg_sensorHandle)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISensorsGetSensorsList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSensorsList(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionISensorsInitialize:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_eventQueueDescriptor fmq.MQDescriptor
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_eventQueueDescriptor.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_wakeLockDescriptor fmq.MQDescriptor
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_wakeLockDescriptor.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sensorsCallback ISensorsCallback
+		_ = _arg_sensorsCallback
+		_err := s.Impl.Initialize(ctx, _arg_eventQueueDescriptor, _arg_wakeLockDescriptor, _arg_sensorsCallback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISensorsInjectSensorData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event Event
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.InjectSensorData(ctx, _arg_event)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISensorsRegisterDirectChannel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_mem sensorsISensors.SharedMemInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_mem.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.RegisterDirectChannel(ctx, _arg_mem)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISensorsSetOperationMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode := sensorsISensors.OperationMode(_raw_mode)
+		_err = s.Impl.SetOperationMode(ctx, _arg_mode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISensorsUnregisterDirectChannel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_channelHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UnregisterDirectChannel(ctx, _arg_channelHandle)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

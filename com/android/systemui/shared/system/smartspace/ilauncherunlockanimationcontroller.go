@@ -2,6 +2,7 @@ package smartspace
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -175,4 +176,123 @@ func (p *LauncherUnlockAnimationControllerProxy) DispatchSmartspaceStateToSysui(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// LauncherUnlockAnimationControllerStub dispatches incoming binder transactions
+// to a typed ILauncherUnlockAnimationController implementation.
+type LauncherUnlockAnimationControllerStub struct {
+	Impl ILauncherUnlockAnimationController
+}
+
+var _ binder.TransactionReceiver = (*LauncherUnlockAnimationControllerStub)(nil)
+
+func (s *LauncherUnlockAnimationControllerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionILauncherUnlockAnimationControllerPrepareForUnlock:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_animateSmartspace, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_lockscreenSmartspaceBounds graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_lockscreenSmartspaceBounds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_selectedPage, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PrepareForUnlock(ctx, _arg_animateSmartspace, _arg_lockscreenSmartspaceBounds, _arg_selectedPage)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionILauncherUnlockAnimationControllerSetUnlockAmount:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_amount, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_forceIfAnimating, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetUnlockAmount(ctx, _arg_amount, _arg_forceIfAnimating)
+		_ = _err
+		return nil, nil
+	case TransactionILauncherUnlockAnimationControllerPlayUnlockAnimation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_unlocked, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_duration, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_startDelay, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PlayUnlockAnimation(ctx, _arg_unlocked, _arg_duration, _arg_startDelay)
+		_ = _err
+		return nil, nil
+	case TransactionILauncherUnlockAnimationControllerSetSmartspaceSelectedPage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_selectedPage, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSmartspaceSelectedPage(ctx, _arg_selectedPage)
+		_ = _err
+		return nil, nil
+	case TransactionILauncherUnlockAnimationControllerSetSmartspaceVisibility:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_visibility, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSmartspaceVisibility(ctx, _arg_visibility)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionILauncherUnlockAnimationControllerDispatchSmartspaceStateToSysui:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.DispatchSmartspaceStateToSysui(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

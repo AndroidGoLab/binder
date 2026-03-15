@@ -2,6 +2,7 @@ package content
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -64,4 +65,61 @@ func (p *IntentSenderProxy) Send(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// IntentSenderStub dispatches incoming binder transactions
+// to a typed IIntentSender implementation.
+type IntentSenderStub struct {
+	Impl IIntentSender
+}
+
+var _ binder.TransactionReceiver = (*IntentSenderStub)(nil)
+
+func (s *IntentSenderStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIIntentSenderSend:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_code, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_intent Intent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_resolvedType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_whitelistToken binder.IBinder
+		_ = _arg_whitelistToken
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_finishedReceiver IIntentReceiver
+		_ = _arg_finishedReceiver
+		_arg_requiredPermission, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_options interface{}
+		_err = s.Impl.Send(ctx, _arg_code, _arg_intent, _arg_resolvedType, _arg_whitelistToken, _arg_finishedReceiver, _arg_requiredPermission, _arg_options)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

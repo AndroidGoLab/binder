@@ -2,6 +2,7 @@ package cam
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -56,4 +57,46 @@ func (p *CamAppInfoListenerProxy) OnCamAppInfoChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CamAppInfoListenerStub dispatches incoming binder transactions
+// to a typed ICamAppInfoListener implementation.
+type CamAppInfoListenerStub struct {
+	Impl ICamAppInfoListener
+}
+
+var _ binder.TransactionReceiver = (*CamAppInfoListenerStub)(nil)
+
+func (s *CamAppInfoListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICamAppInfoListenerOnCamAppInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_appInfo os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_appInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnCamAppInfoChanged(ctx, _arg_slotId, _arg_appInfo)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

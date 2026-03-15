@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *UiModeManagerCallbackProxy) NotifyContrastChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// UiModeManagerCallbackStub dispatches incoming binder transactions
+// to a typed IUiModeManagerCallback implementation.
+type UiModeManagerCallbackStub struct {
+	Impl IUiModeManagerCallback
+}
+
+var _ binder.TransactionReceiver = (*UiModeManagerCallbackStub)(nil)
+
+func (s *UiModeManagerCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIUiModeManagerCallbackNotifyContrastChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_contrast, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyContrastChanged(ctx, _arg_contrast)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

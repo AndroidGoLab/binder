@@ -2,6 +2,7 @@ package tetheroffload
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -299,4 +300,184 @@ func (p *OffloadProxy) RemoveDownstream(
 	}
 
 	return nil
+}
+
+// OffloadStub dispatches incoming binder transactions
+// to a typed IOffload implementation.
+type OffloadStub struct {
+	Impl IOffload
+}
+
+var _ binder.TransactionReceiver = (*OffloadStub)(nil)
+
+func (s *OffloadStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIOffloadInitOffload:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fd1, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fd2, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cb ITetheringOffloadCallback
+		_ = _arg_cb
+		_err = s.Impl.InitOffload(ctx, _arg_fd1, _arg_fd2, _arg_cb)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIOffloadStopOffload:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StopOffload(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIOffloadSetLocalPrefixes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_prefixes []string
+		_ = _arg_prefixes
+		_err := s.Impl.SetLocalPrefixes(ctx, _arg_prefixes)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIOffloadGetForwardedStats:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_upstream, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetForwardedStats(ctx, _arg_upstream)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIOffloadSetDataWarningAndLimit:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_upstream, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_warningBytes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_limitBytes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDataWarningAndLimit(ctx, _arg_upstream, _arg_warningBytes, _arg_limitBytes)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIOffloadSetUpstreamParameters:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iface, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_v4Addr, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_v4Gw, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_v6Gws []string
+		_ = _arg_v6Gws
+		_err = s.Impl.SetUpstreamParameters(ctx, _arg_iface, _arg_v4Addr, _arg_v4Gw, _arg_v6Gws)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIOffloadAddDownstream:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iface, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_prefix, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AddDownstream(ctx, _arg_iface, _arg_prefix)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIOffloadRemoveDownstream:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iface, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_prefix, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RemoveDownstream(ctx, _arg_iface, _arg_prefix)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

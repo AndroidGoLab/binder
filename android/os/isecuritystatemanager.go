@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -67,4 +68,39 @@ func (p *SecurityStateManagerProxy) GetGlobalSecurityState(
 		}
 	}
 	return _result, nil
+}
+
+// SecurityStateManagerStub dispatches incoming binder transactions
+// to a typed ISecurityStateManager implementation.
+type SecurityStateManagerStub struct {
+	Impl ISecurityStateManager
+}
+
+var _ binder.TransactionReceiver = (*SecurityStateManagerStub)(nil)
+
+func (s *SecurityStateManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISecurityStateManagerGetGlobalSecurityState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetGlobalSecurityState(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

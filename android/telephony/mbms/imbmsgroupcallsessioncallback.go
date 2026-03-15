@@ -2,6 +2,7 @@ package mbms
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -119,4 +120,73 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnMiddlewareReady(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MbmsGroupCallSessionCallbackStub dispatches incoming binder transactions
+// to a typed IMbmsGroupCallSessionCallback implementation.
+type MbmsGroupCallSessionCallbackStub struct {
+	Impl IMbmsGroupCallSessionCallback
+}
+
+var _ binder.TransactionReceiver = (*MbmsGroupCallSessionCallbackStub)(nil)
+
+func (s *MbmsGroupCallSessionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMbmsGroupCallSessionCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_message, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_errorCode, _arg_message)
+		_ = _err
+		return nil, nil
+	case TransactionIMbmsGroupCallSessionCallbackOnAvailableSaisUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_currentSai []interface{}
+		_ = _arg_currentSai
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_availableSais []interface{}
+		_ = _arg_availableSais
+		_err := s.Impl.OnAvailableSaisUpdated(ctx, _arg_currentSai, _arg_availableSais)
+		_ = _err
+		return nil, nil
+	case TransactionIMbmsGroupCallSessionCallbackOnServiceInterfaceAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_interfaceName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_index, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnServiceInterfaceAvailable(ctx, _arg_interfaceName, _arg_index)
+		_ = _err
+		return nil, nil
+	case TransactionIMbmsGroupCallSessionCallbackOnMiddlewareReady:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnMiddlewareReady(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

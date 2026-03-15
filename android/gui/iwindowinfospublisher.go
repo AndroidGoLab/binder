@@ -2,6 +2,7 @@ package gui
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -52,4 +53,38 @@ func (p *WindowInfosPublisherProxy) AckWindowInfosReceived(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// WindowInfosPublisherStub dispatches incoming binder transactions
+// to a typed IWindowInfosPublisher implementation.
+type WindowInfosPublisherStub struct {
+	Impl IWindowInfosPublisher
+}
+
+var _ binder.TransactionReceiver = (*WindowInfosPublisherStub)(nil)
+
+func (s *WindowInfosPublisherStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWindowInfosPublisherAckWindowInfosReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_vsyncId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_listenerId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AckWindowInfosReceived(ctx, _arg_vsyncId, _arg_listenerId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

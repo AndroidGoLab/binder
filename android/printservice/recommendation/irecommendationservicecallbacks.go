@@ -2,6 +2,7 @@ package recommendation
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,33 @@ func (p *RecommendationServiceCallbacksProxy) OnRecommendationsUpdated(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RecommendationServiceCallbacksStub dispatches incoming binder transactions
+// to a typed IRecommendationServiceCallbacks implementation.
+type RecommendationServiceCallbacksStub struct {
+	Impl IRecommendationServiceCallbacks
+}
+
+var _ binder.TransactionReceiver = (*RecommendationServiceCallbacksStub)(nil)
+
+func (s *RecommendationServiceCallbacksStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRecommendationServiceCallbacksOnRecommendationsUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_recommendations []RecommendationInfo
+		_ = _arg_recommendations
+		_err := s.Impl.OnRecommendationsUpdated(ctx, _arg_recommendations)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package analog
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -138,4 +139,65 @@ func (p *AnalogAttributeInterfaceProxy) GetColorSystemCapability(
 		}
 	}
 	return _result, nil
+}
+
+// AnalogAttributeInterfaceStub dispatches incoming binder transactions
+// to a typed IAnalogAttributeInterface implementation.
+type AnalogAttributeInterfaceStub struct {
+	Impl IAnalogAttributeInterface
+}
+
+var _ binder.TransactionReceiver = (*AnalogAttributeInterfaceStub)(nil)
+
+func (s *AnalogAttributeInterfaceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAnalogAttributeInterfaceGetVersion:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetVersion(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIAnalogAttributeInterfaceSetColorSystemCapability:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_list []string
+		_ = _arg_list
+		_err := s.Impl.SetColorSystemCapability(ctx, _arg_list)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIAnalogAttributeInterfaceGetColorSystemCapability:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetColorSystemCapability(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

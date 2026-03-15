@@ -2,6 +2,7 @@ package wifi
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -62,4 +63,36 @@ func (p *WifiP2pIfaceProxy) GetName(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// WifiP2pIfaceStub dispatches incoming binder transactions
+// to a typed IWifiP2pIface implementation.
+type WifiP2pIfaceStub struct {
+	Impl IWifiP2pIface
+}
+
+var _ binder.TransactionReceiver = (*WifiP2pIfaceStub)(nil)
+
+func (s *WifiP2pIfaceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWifiP2pIfaceGetName:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetName(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

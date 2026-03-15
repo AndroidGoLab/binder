@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -48,4 +49,30 @@ func (p *CancellationSignalProxy) Cancel(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CancellationSignalStub dispatches incoming binder transactions
+// to a typed ICancellationSignal implementation.
+type CancellationSignalStub struct {
+	Impl ICancellationSignal
+}
+
+var _ binder.TransactionReceiver = (*CancellationSignalStub)(nil)
+
+func (s *CancellationSignalStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICancellationSignalCancel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Cancel(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

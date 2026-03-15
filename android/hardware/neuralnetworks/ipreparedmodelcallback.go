@@ -2,6 +2,7 @@ package neuralnetworks
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -61,4 +62,43 @@ func (p *PreparedModelCallbackProxy) Notify(
 	}
 
 	return nil
+}
+
+// PreparedModelCallbackStub dispatches incoming binder transactions
+// to a typed IPreparedModelCallback implementation.
+type PreparedModelCallbackStub struct {
+	Impl IPreparedModelCallback
+}
+
+var _ binder.TransactionReceiver = (*PreparedModelCallbackStub)(nil)
+
+func (s *PreparedModelCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPreparedModelCallbackNotify:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := ErrorStatus(_raw_status)
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_preparedModel IPreparedModel
+		_ = _arg_preparedModel
+		_err = s.Impl.Notify(ctx, _arg_status, _arg_preparedModel)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

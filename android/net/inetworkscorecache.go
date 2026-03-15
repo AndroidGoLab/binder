@@ -2,6 +2,7 @@ package net
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -76,4 +77,40 @@ func (p *NetworkScoreCacheProxy) ClearScores(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// NetworkScoreCacheStub dispatches incoming binder transactions
+// to a typed INetworkScoreCache implementation.
+type NetworkScoreCacheStub struct {
+	Impl INetworkScoreCache
+}
+
+var _ binder.TransactionReceiver = (*NetworkScoreCacheStub)(nil)
+
+func (s *NetworkScoreCacheStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionINetworkScoreCacheUpdateScores:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_networks []ScoredNetwork
+		_ = _arg_networks
+		_err := s.Impl.UpdateScores(ctx, _arg_networks)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkScoreCacheClearScores:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ClearScores(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

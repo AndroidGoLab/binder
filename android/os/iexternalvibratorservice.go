@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -95,4 +96,53 @@ func (p *ExternalVibratorServiceProxy) OnExternalVibrationStop(
 	}
 
 	return nil
+}
+
+// ExternalVibratorServiceStub dispatches incoming binder transactions
+// to a typed IExternalVibratorService implementation.
+type ExternalVibratorServiceStub struct {
+	Impl IExternalVibratorService
+}
+
+var _ binder.TransactionReceiver = (*ExternalVibratorServiceStub)(nil)
+
+func (s *ExternalVibratorServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIExternalVibratorServiceOnExternalVibrationStart:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_vib interface{}
+		_result, _err := s.Impl.OnExternalVibrationStart(ctx, _arg_vib)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIExternalVibratorServiceOnExternalVibrationStop:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_vib interface{}
+		_err := s.Impl.OnExternalVibrationStop(ctx, _arg_vib)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

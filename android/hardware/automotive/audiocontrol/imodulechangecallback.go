@@ -2,6 +2,7 @@ package audiocontrol
 
 import (
 	"context"
+	"fmt"
 	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -60,4 +61,33 @@ func (p *ModuleChangeCallbackProxy) OnAudioPortsChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ModuleChangeCallbackStub dispatches incoming binder transactions
+// to a typed IModuleChangeCallback implementation.
+type ModuleChangeCallbackStub struct {
+	Impl IModuleChangeCallback
+}
+
+var _ binder.TransactionReceiver = (*ModuleChangeCallbackStub)(nil)
+
+func (s *ModuleChangeCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIModuleChangeCallbackOnAudioPortsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_audioPorts []common.AudioPort
+		_ = _arg_audioPorts
+		_err := s.Impl.OnAudioPortsChanged(ctx, _arg_audioPorts)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

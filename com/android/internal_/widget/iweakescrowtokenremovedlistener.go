@@ -2,6 +2,7 @@ package widget
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -52,4 +53,37 @@ func (p *WeakEscrowTokenRemovedListenerProxy) OnWeakEscrowTokenRemoved(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// WeakEscrowTokenRemovedListenerStub dispatches incoming binder transactions
+// to a typed IWeakEscrowTokenRemovedListener implementation.
+type WeakEscrowTokenRemovedListenerStub struct {
+	Impl IWeakEscrowTokenRemovedListener
+}
+
+var _ binder.TransactionReceiver = (*WeakEscrowTokenRemovedListenerStub)(nil)
+
+func (s *WeakEscrowTokenRemovedListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWeakEscrowTokenRemovedListenerOnWeakEscrowTokenRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_handle, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnWeakEscrowTokenRemoved(ctx, _arg_handle)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

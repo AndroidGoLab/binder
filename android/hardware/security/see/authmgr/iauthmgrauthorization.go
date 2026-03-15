@@ -2,6 +2,7 @@ package authmgr
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -173,4 +174,122 @@ func (p *AuthMgrAuthorizationProxy) AuthorizeAndConnectClientToTrustedService(
 	}
 
 	return nil
+}
+
+// AuthMgrAuthorizationStub dispatches incoming binder transactions
+// to a typed IAuthMgrAuthorization implementation.
+type AuthMgrAuthorizationStub struct {
+	Impl IAuthMgrAuthorization
+}
+
+var _ binder.TransactionReceiver = (*AuthMgrAuthorizationStub)(nil)
+
+func (s *AuthMgrAuthorizationStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAuthMgrAuthorizationInitAuthentication:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_diceCertChain ExplicitKeyDiceCertChain
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_diceCertChain.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_instanceIdentifier []byte
+		_ = _arg_instanceIdentifier
+		_result, _err := s.Impl.InitAuthentication(ctx, _arg_diceCertChain, _arg_instanceIdentifier)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIAuthMgrAuthorizationCompleteAuthentication:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_signedConnectionRequest SignedConnectionRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_signedConnectionRequest.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_dicePolicy DicePolicy
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_dicePolicy.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CompleteAuthentication(ctx, _arg_signedConnectionRequest, _arg_dicePolicy)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIAuthMgrAuthorizationAuthorizeAndConnectClientToTrustedService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_clientID []byte
+		_ = _arg_clientID
+		_arg_serviceName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_token []byte
+		_ = _arg_token
+		var _arg_clientDiceArtifacts DiceLeafArtifacts
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_clientDiceArtifacts.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.AuthorizeAndConnectClientToTrustedService(ctx, _arg_clientID, _arg_serviceName, _arg_token, _arg_clientDiceArtifacts)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

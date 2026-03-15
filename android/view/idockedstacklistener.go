@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -132,4 +133,90 @@ func (p *DockedStackListenerProxy) OnDockSideChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DockedStackListenerStub dispatches incoming binder transactions
+// to a typed IDockedStackListener implementation.
+type DockedStackListenerStub struct {
+	Impl IDockedStackListener
+}
+
+var _ binder.TransactionReceiver = (*DockedStackListenerStub)(nil)
+
+func (s *DockedStackListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDockedStackListenerOnDividerVisibilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_visible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDividerVisibilityChanged(ctx, _arg_visible)
+		_ = _err
+		return nil, nil
+	case TransactionIDockedStackListenerOnDockedStackExistsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_exists, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDockedStackExistsChanged(ctx, _arg_exists)
+		_ = _err
+		return nil, nil
+	case TransactionIDockedStackListenerOnDockedStackMinimizedChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_minimized, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_animDuration, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isHomeStackResizable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDockedStackMinimizedChanged(ctx, _arg_minimized, _arg_animDuration, _arg_isHomeStackResizable)
+		_ = _err
+		return nil, nil
+	case TransactionIDockedStackListenerOnAdjustedForImeChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_adjustedForIme, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_animDuration, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAdjustedForImeChanged(ctx, _arg_adjustedForIme, _arg_animDuration)
+		_ = _err
+		return nil, nil
+	case TransactionIDockedStackListenerOnDockSideChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_newDockSide, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDockSideChanged(ctx, _arg_newDockSide)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

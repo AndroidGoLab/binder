@@ -2,6 +2,7 @@ package cam
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -169,4 +170,93 @@ func (p *CamPinServiceProxy) GetCamPinCapability(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// CamPinServiceStub dispatches incoming binder transactions
+// to a typed ICamPinService implementation.
+type CamPinServiceStub struct {
+	Impl ICamPinService
+}
+
+var _ binder.TransactionReceiver = (*CamPinServiceStub)(nil)
+
+func (s *CamPinServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICamPinServiceAddCamPinCapabilityListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ICamPinCapabilityListener
+		_ = _arg_listener
+		_err := s.Impl.AddCamPinCapabilityListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICamPinServiceRemoveCamPinCapabilityListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ICamPinCapabilityListener
+		_ = _arg_listener
+		_err := s.Impl.RemoveCamPinCapabilityListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICamPinServiceRequestCamPinValidation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pinCode []int32
+		_ = _arg_pinCode
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ICamPinStatusListener
+		_ = _arg_listener
+		_result, _err := s.Impl.RequestCamPinValidation(ctx, _arg_slotId, _arg_pinCode, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionICamPinServiceGetCamPinCapability:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCamPinCapability(ctx, _arg_slotId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -151,4 +152,83 @@ func (p *BinderThreadPriorityServiceProxy) SetPriorityAndCallBack(
 	}
 
 	return nil
+}
+
+// BinderThreadPriorityServiceStub dispatches incoming binder transactions
+// to a typed IBinderThreadPriorityService implementation.
+type BinderThreadPriorityServiceStub struct {
+	Impl IBinderThreadPriorityService
+}
+
+var _ binder.TransactionReceiver = (*BinderThreadPriorityServiceStub)(nil)
+
+func (s *BinderThreadPriorityServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBinderThreadPriorityServiceGetThreadPriority:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetThreadPriority(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIBinderThreadPriorityServiceGetThreadSchedulerGroup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetThreadSchedulerGroup(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionIBinderThreadPriorityServiceCallBack:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_recurse IBinderThreadPriorityService
+		_ = _arg_recurse
+		_err := s.Impl.CallBack(ctx, _arg_recurse)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBinderThreadPriorityServiceSetPriorityAndCallBack:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_priority, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_recurse IBinderThreadPriorityService
+		_ = _arg_recurse
+		_err = s.Impl.SetPriorityAndCallBack(ctx, _arg_priority, _arg_recurse)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

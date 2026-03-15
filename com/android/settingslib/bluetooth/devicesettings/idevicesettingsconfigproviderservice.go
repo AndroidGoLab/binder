@@ -2,6 +2,7 @@ package devicesettings
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -64,4 +65,50 @@ func (p *DeviceSettingsConfigProviderServiceProxy) GetDeviceSettingsConfig(
 	}
 
 	return nil
+}
+
+// DeviceSettingsConfigProviderServiceStub dispatches incoming binder transactions
+// to a typed IDeviceSettingsConfigProviderService implementation.
+type DeviceSettingsConfigProviderServiceStub struct {
+	Impl IDeviceSettingsConfigProviderService
+}
+
+var _ binder.TransactionReceiver = (*DeviceSettingsConfigProviderServiceStub)(nil)
+
+func (s *DeviceSettingsConfigProviderServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDeviceSettingsConfigProviderServiceGetDeviceSettingsConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_device DeviceInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetDeviceSettingsConfigCallback
+		_ = _arg_callback
+		_err := s.Impl.GetDeviceSettingsConfig(ctx, _arg_device, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

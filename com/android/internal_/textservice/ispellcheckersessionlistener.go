@@ -2,6 +2,7 @@ package textservice
 
 import (
 	"context"
+	"fmt"
 	viewTextservice "github.com/xaionaro-go/binder/android/view/textservice"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -88,4 +89,43 @@ func (p *SpellCheckerSessionListenerProxy) OnGetSentenceSuggestions(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SpellCheckerSessionListenerStub dispatches incoming binder transactions
+// to a typed ISpellCheckerSessionListener implementation.
+type SpellCheckerSessionListenerStub struct {
+	Impl ISpellCheckerSessionListener
+}
+
+var _ binder.TransactionReceiver = (*SpellCheckerSessionListenerStub)(nil)
+
+func (s *SpellCheckerSessionListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISpellCheckerSessionListenerOnGetSuggestions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_results []viewTextservice.SuggestionsInfo
+		_ = _arg_results
+		_err := s.Impl.OnGetSuggestions(ctx, _arg_results)
+		_ = _err
+		return nil, nil
+	case TransactionISpellCheckerSessionListenerOnGetSentenceSuggestions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_result []viewTextservice.SentenceSuggestionsInfo
+		_ = _arg_result
+		_err := s.Impl.OnGetSentenceSuggestions(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

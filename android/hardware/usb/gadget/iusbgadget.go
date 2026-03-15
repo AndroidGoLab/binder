@@ -2,6 +2,7 @@ package gadget
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -119,4 +120,87 @@ func (p *UsbGadgetProxy) Reset(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// UsbGadgetStub dispatches incoming binder transactions
+// to a typed IUsbGadget implementation.
+type UsbGadgetStub struct {
+	Impl IUsbGadget
+}
+
+var _ binder.TransactionReceiver = (*UsbGadgetStub)(nil)
+
+func (s *UsbGadgetStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIUsbGadgetSetCurrentUsbFunctions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_functions, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IUsbGadgetCallback
+		_ = _arg_callback
+		_arg_timeoutMs, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_transactionId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCurrentUsbFunctions(ctx, _arg_functions, _arg_callback, _arg_timeoutMs, _arg_transactionId)
+		_ = _err
+		return nil, nil
+	case TransactionIUsbGadgetGetCurrentUsbFunctions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IUsbGadgetCallback
+		_ = _arg_callback
+		_arg_transactionId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetCurrentUsbFunctions(ctx, _arg_callback, _arg_transactionId)
+		_ = _err
+		return nil, nil
+	case TransactionIUsbGadgetGetUsbSpeed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IUsbGadgetCallback
+		_ = _arg_callback
+		_arg_transactionId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetUsbSpeed(ctx, _arg_callback, _arg_transactionId)
+		_ = _err
+		return nil, nil
+	case TransactionIUsbGadgetReset:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IUsbGadgetCallback
+		_ = _arg_callback
+		_arg_transactionId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Reset(ctx, _arg_callback, _arg_transactionId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	servertransaction "github.com/xaionaro-go/binder/android/app/servertransaction"
 	instrumentation "github.com/xaionaro-go/binder/android/os/instrumentation"
 	"github.com/xaionaro-go/binder/binder"
@@ -1575,4 +1576,1073 @@ func (p *ApplicationThreadProxy) GetExecutableMethodFileOffsets(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ApplicationThreadStub dispatches incoming binder transactions
+// to a typed IApplicationThread implementation.
+type ApplicationThreadStub struct {
+	Impl IApplicationThread
+}
+
+var _ binder.TransactionReceiver = (*ApplicationThreadStub)(nil)
+
+func (s *ApplicationThreadStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIApplicationThreadScheduleReceiver:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intent interface{}
+		var _arg_info interface{}
+		var _arg_compatInfo interface{}
+		_arg_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_data, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_extras interface{}
+		_arg_ordered, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_assumeDelivered, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sendingUser, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_processState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sentFromUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sentFromPackage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ScheduleReceiver(ctx, _arg_intent, _arg_info, _arg_compatInfo, _arg_resultCode, _arg_data, _arg_extras, _arg_ordered, _arg_assumeDelivered, _arg_sendingUser, _arg_processState, _arg_sentFromUid, _arg_sentFromPackage)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleReceiverList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_info []ReceiverInfo
+		_ = _arg_info
+		_err := s.Impl.ScheduleReceiverList(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleCreateService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		var _arg_info interface{}
+		var _arg_compatInfo interface{}
+		_arg_processState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ScheduleCreateService(ctx, _arg_token, _arg_info, _arg_compatInfo, _arg_processState)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleStopService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_err := s.Impl.ScheduleStopService(ctx, _arg_token)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadBindApplication:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_info interface{}
+		_arg_sdkSandboxClientAppVolumeUuid, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sdkSandboxClientAppPackage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isSdkInSandbox, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_providerList interface{}
+		var _arg_testName interface{}
+		var _arg_profilerInfo ProfilerInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profilerInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_testArguments interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_testWatcher IInstrumentationWatcher
+		_ = _arg_testWatcher
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_uiAutomationConnection IUiAutomationConnection
+		_ = _arg_uiAutomationConnection
+		_arg_debugMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enableBinderTracking, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_trackAllocation, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_restrictedBackupMode, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_persistent, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_config interface{}
+		var _arg_compatInfo interface{}
+		// TODO: map param unmarshaling not yet supported in stubs
+		var _arg_services map[interface{}]interface{}
+		_ = _arg_services
+		var _arg_coreSettings interface{}
+		_arg_buildSerial, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_autofillOptions interface{}
+		var _arg_contentCaptureOptions interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_disabledCompatChanges []int64
+		_ = _arg_disabledCompatChanges
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_loggableCompatChanges []int64
+		_ = _arg_loggableCompatChanges
+		var _arg_serializedSystemFontMap interface{}
+		var _arg_applicationSharedMemoryFd interface{}
+		_arg_startRequestedElapsedTime, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_startRequestedUptime, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.BindApplication(ctx, _arg_packageName, _arg_info, _arg_sdkSandboxClientAppVolumeUuid, _arg_sdkSandboxClientAppPackage, _arg_isSdkInSandbox, _arg_providerList, _arg_testName, _arg_profilerInfo, _arg_testArguments, _arg_testWatcher, _arg_uiAutomationConnection, _arg_debugMode, _arg_enableBinderTracking, _arg_trackAllocation, _arg_restrictedBackupMode, _arg_persistent, _arg_config, _arg_compatInfo, _arg_services, _arg_coreSettings, _arg_buildSerial, _arg_autofillOptions, _arg_contentCaptureOptions, _arg_disabledCompatChanges, _arg_loggableCompatChanges, _arg_serializedSystemFontMap, _arg_applicationSharedMemoryFd, _arg_startRequestedElapsedTime, _arg_startRequestedUptime)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadRunIsolatedEntryPoint:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_entryPoint, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_entryPointArgs []string
+		_ = _arg_entryPointArgs
+		_err = s.Impl.RunIsolatedEntryPoint(ctx, _arg_entryPoint, _arg_entryPointArgs)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleExit:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ScheduleExit(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleServiceArgs:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		var _arg_args interface{}
+		_err := s.Impl.ScheduleServiceArgs(ctx, _arg_token, _arg_args)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadUpdateTimeZone:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.UpdateTimeZone(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadProcessInBackground:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ProcessInBackground(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleBindService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		var _arg_intent interface{}
+		_arg_rebind, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_processState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_bindSeq, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ScheduleBindService(ctx, _arg_token, _arg_intent, _arg_rebind, _arg_processState, _arg_bindSeq)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleUnbindService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		var _arg_intent interface{}
+		_err := s.Impl.ScheduleUnbindService(ctx, _arg_token, _arg_intent)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadDumpService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_servicetoken binder.IBinder
+		_ = _arg_servicetoken
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_args []string
+		_ = _arg_args
+		_err = s.Impl.DumpService(ctx, _arg_fd, _arg_servicetoken, _arg_args)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleRegisteredReceiver:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver interface{}
+		var _arg_intent interface{}
+		_arg_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_data, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_extras interface{}
+		_arg_ordered, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sticky, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_assumeDelivered, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sendingUser, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_processState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sentFromUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sentFromPackage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ScheduleRegisteredReceiver(ctx, _arg_receiver, _arg_intent, _arg_resultCode, _arg_data, _arg_extras, _arg_ordered, _arg_sticky, _arg_assumeDelivered, _arg_sendingUser, _arg_processState, _arg_sentFromUid, _arg_sentFromPackage)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleLowMemory:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ScheduleLowMemory(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadProfilerControl:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_start, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_profilerInfo ProfilerInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profilerInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_profileType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ProfilerControl(ctx, _arg_start, _arg_profilerInfo, _arg_profileType)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadSetSchedulingGroup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_group, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSchedulingGroup(ctx, _arg_group)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleCreateBackupAgent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_app interface{}
+		_arg_backupMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_operationType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ScheduleCreateBackupAgent(ctx, _arg_app, _arg_backupMode, _arg_operationType)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleDestroyBackupAgent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_app interface{}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ScheduleDestroyBackupAgent(ctx, _arg_app)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleOnNewSceneTransitionInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		var _arg_info ActivityOptionsSceneTransitionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ScheduleOnNewSceneTransitionInfo(ctx, _arg_token, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleSuicide:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ScheduleSuicide(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadDispatchPackageBroadcast:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmd, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_packages []string
+		_ = _arg_packages
+		_err = s.Impl.DispatchPackageBroadcast(ctx, _arg_cmd, _arg_packages)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleCrash:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_msg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_typeId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_extras interface{}
+		_err = s.Impl.ScheduleCrash(ctx, _arg_msg, _arg_typeId, _arg_extras)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadDumpHeap:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_managed, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mallocInfo, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_runGc, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dumpBitmaps, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_finishCallback interface{}
+		_err = s.Impl.DumpHeap(ctx, _arg_managed, _arg_mallocInfo, _arg_runGc, _arg_dumpBitmaps, _arg_path, _arg_fd, _arg_finishCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadDumpActivity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_servicetoken binder.IBinder
+		_ = _arg_servicetoken
+		_arg_prefix, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_args []string
+		_ = _arg_args
+		_err = s.Impl.DumpActivity(ctx, _arg_fd, _arg_servicetoken, _arg_prefix, _arg_args)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadDumpResources:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_finishCallback interface{}
+		_err = s.Impl.DumpResources(ctx, _arg_fd, _arg_finishCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadClearDnsCache:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ClearDnsCache(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadUpdateHttpProxy:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.UpdateHttpProxy(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadSetCoreSettings:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_coreSettings interface{}
+		_err := s.Impl.SetCoreSettings(ctx, _arg_coreSettings)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadUpdatePackageCompatibilityInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_info interface{}
+		_err = s.Impl.UpdatePackageCompatibilityInfo(ctx, _arg_pkg, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleTrimMemory:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_level, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ScheduleTrimMemory(ctx, _arg_level)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadDumpMemInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_mem interface{}
+		_arg_checkin, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dumpInfo, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dumpDalvik, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dumpSummaryOnly, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dumpUnreachable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dumpAllocatorLogs, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_args []string
+		_ = _arg_args
+		_err = s.Impl.DumpMemInfo(ctx, _arg_fd, _arg_mem, _arg_checkin, _arg_dumpInfo, _arg_dumpDalvik, _arg_dumpSummaryOnly, _arg_dumpUnreachable, _arg_dumpAllocatorLogs, _arg_args)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadDumpMemInfoProto:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_mem interface{}
+		_arg_dumpInfo, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dumpDalvik, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dumpSummaryOnly, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dumpUnreachable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_args []string
+		_ = _arg_args
+		_err = s.Impl.DumpMemInfoProto(ctx, _arg_fd, _arg_mem, _arg_dumpInfo, _arg_dumpDalvik, _arg_dumpSummaryOnly, _arg_dumpUnreachable, _arg_args)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadDumpGfxInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_args []string
+		_ = _arg_args
+		_err = s.Impl.DumpGfxInfo(ctx, _arg_fd, _arg_args)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadDumpCacheInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_args []string
+		_ = _arg_args
+		_err = s.Impl.DumpCacheInfo(ctx, _arg_fd, _arg_args)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadDumpProvider:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_servicetoken binder.IBinder
+		_ = _arg_servicetoken
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_args []string
+		_ = _arg_args
+		_err = s.Impl.DumpProvider(ctx, _arg_fd, _arg_servicetoken, _arg_args)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadDumpDbInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_args []string
+		_ = _arg_args
+		_err = s.Impl.DumpDbInfo(ctx, _arg_fd, _arg_args)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadUnstableProviderDied:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_provider binder.IBinder
+		_ = _arg_provider
+		_err := s.Impl.UnstableProviderDied(ctx, _arg_provider)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadRequestAssistContextExtras:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_activityToken binder.IBinder
+		_ = _arg_activityToken
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_requestToken binder.IBinder
+		_ = _arg_requestToken
+		_arg_requestType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RequestAssistContextExtras(ctx, _arg_activityToken, _arg_requestToken, _arg_requestType, _arg_sessionId, _arg_flags)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleTranslucentConversionComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_timeout, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ScheduleTranslucentConversionComplete(ctx, _arg_token, _arg_timeout)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadSetProcessState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetProcessState(ctx, _arg_state)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleInstallProvider:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_provider interface{}
+		_err := s.Impl.ScheduleInstallProvider(ctx, _arg_provider)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadUpdateTimePrefs:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_timeFormatPreference, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateTimePrefs(ctx, _arg_timeFormatPreference)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleEnterAnimationComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_err := s.Impl.ScheduleEnterAnimationComplete(ctx, _arg_token)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadNotifyCleartextNetwork:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_firstPacket []byte
+		_ = _arg_firstPacket
+		_err := s.Impl.NotifyCleartextNetwork(ctx, _arg_firstPacket)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadStartBinderTracking:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StartBinderTracking(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadStopBinderTrackingAndDump:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StopBinderTrackingAndDump(ctx, _arg_fd)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleLocalVoiceInteractionStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		var _arg_voiceInteractor interface{}
+		_err := s.Impl.ScheduleLocalVoiceInteractionStarted(ctx, _arg_token, _arg_voiceInteractor)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadHandleTrustStorageUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.HandleTrustStorageUpdate(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadAttachAgent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AttachAgent(ctx, _arg_path)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadAttachStartupAgents:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_dataDir, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AttachStartupAgents(ctx, _arg_dataDir)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleApplicationInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_ai interface{}
+		_err := s.Impl.ScheduleApplicationInfoChanged(ctx, _arg_ai)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadSetNetworkBlockSeq:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_procStateSeq, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetNetworkBlockSeq(ctx, _arg_procStateSeq)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleTransaction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_transaction servertransaction.ClientTransaction
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_transaction.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ScheduleTransaction(ctx, _arg_transaction)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleTaskFragmentTransaction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_organizer interface{}
+		var _arg_transaction interface{}
+		_err := s.Impl.ScheduleTaskFragmentTransaction(ctx, _arg_organizer, _arg_transaction)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadRequestDirectActions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_activityToken binder.IBinder
+		_ = _arg_activityToken
+		var _arg_intractor interface{}
+		var _arg_cancellationCallback interface{}
+		var _arg_callback interface{}
+		_err := s.Impl.RequestDirectActions(ctx, _arg_activityToken, _arg_intractor, _arg_cancellationCallback, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadPerformDirectAction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_activityToken binder.IBinder
+		_ = _arg_activityToken
+		_arg_actionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_arguments interface{}
+		var _arg_cancellationCallback interface{}
+		var _arg_resultCallback interface{}
+		_err = s.Impl.PerformDirectAction(ctx, _arg_activityToken, _arg_actionId, _arg_arguments, _arg_cancellationCallback, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadNotifyContentProviderPublishStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_holder ContentProviderHolder
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_holder.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_authorities, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_published, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyContentProviderPublishStatus(ctx, _arg_holder, _arg_authorities, _arg_published)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadInstrumentWithoutRestart:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_instrumentationName interface{}
+		var _arg_instrumentationArgs interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_instrumentationWatcher IInstrumentationWatcher
+		_ = _arg_instrumentationWatcher
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_instrumentationUiConnection IUiAutomationConnection
+		_ = _arg_instrumentationUiConnection
+		var _arg_targetInfo interface{}
+		_err := s.Impl.InstrumentWithoutRestart(ctx, _arg_instrumentationName, _arg_instrumentationArgs, _arg_instrumentationWatcher, _arg_instrumentationUiConnection, _arg_targetInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadUpdateUiTranslationState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_activityToken binder.IBinder
+		_ = _arg_activityToken
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sourceSpec interface{}
+		var _arg_targetSpec interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_viewIds []interface{}
+		_ = _arg_viewIds
+		var _arg_uiTranslationSpec interface{}
+		_err = s.Impl.UpdateUiTranslationState(ctx, _arg_activityToken, _arg_state, _arg_sourceSpec, _arg_targetSpec, _arg_viewIds, _arg_uiTranslationSpec)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleTimeoutService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_startId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ScheduleTimeoutService(ctx, _arg_token, _arg_startId)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadScheduleTimeoutServiceForType:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_startId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fgsType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ScheduleTimeoutServiceForType(ctx, _arg_token, _arg_startId, _arg_fgsType)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadSchedulePing:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_pong interface{}
+		_err := s.Impl.SchedulePing(ctx, _arg_pong)
+		_ = _err
+		return nil, nil
+	case TransactionIApplicationThreadGetExecutableMethodFileOffsets:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_methodDescriptor instrumentation.MethodDescriptor
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_methodDescriptor.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback instrumentation.IOffsetCallback
+		_ = _arg_resultCallback
+		_err := s.Impl.GetExecutableMethodFileOffsets(ctx, _arg_methodDescriptor, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

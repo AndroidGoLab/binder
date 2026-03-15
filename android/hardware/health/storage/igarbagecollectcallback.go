@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,35 @@ func (p *GarbageCollectCallbackProxy) OnFinish(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GarbageCollectCallbackStub dispatches incoming binder transactions
+// to a typed IGarbageCollectCallback implementation.
+type GarbageCollectCallbackStub struct {
+	Impl IGarbageCollectCallback
+}
+
+var _ binder.TransactionReceiver = (*GarbageCollectCallbackStub)(nil)
+
+func (s *GarbageCollectCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGarbageCollectCallbackOnFinish:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_result := Result(_raw_result)
+		_err = s.Impl.OnFinish(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

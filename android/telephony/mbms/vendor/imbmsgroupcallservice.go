@@ -2,6 +2,7 @@ package vendor
 
 import (
 	"context"
+	"fmt"
 	mbms "github.com/xaionaro-go/binder/android/telephony/mbms"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -216,4 +217,135 @@ func (p *MbmsGroupCallServiceProxy) Dispose(
 	}
 
 	return nil
+}
+
+// MbmsGroupCallServiceStub dispatches incoming binder transactions
+// to a typed IMbmsGroupCallService implementation.
+type MbmsGroupCallServiceStub struct {
+	Impl IMbmsGroupCallService
+}
+
+var _ binder.TransactionReceiver = (*MbmsGroupCallServiceStub)(nil)
+
+func (s *MbmsGroupCallServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMbmsGroupCallServiceInitialize:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback mbms.IMbmsGroupCallSessionCallback
+		_ = _arg_callback
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.Initialize(ctx, _arg_callback, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIMbmsGroupCallServiceStopGroupCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tmgi, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StopGroupCall(ctx, _arg_subId, _arg_tmgi)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMbmsGroupCallServiceUpdateGroupCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subscriptionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tmgi, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_saiList []interface{}
+		_ = _arg_saiList
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_frequencyList []interface{}
+		_ = _arg_frequencyList
+		_err = s.Impl.UpdateGroupCall(ctx, _arg_subscriptionId, _arg_tmgi, _arg_saiList, _arg_frequencyList)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMbmsGroupCallServiceStartGroupCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subscriptionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tmgi, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_saiList []interface{}
+		_ = _arg_saiList
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_frequencyList []interface{}
+		_ = _arg_frequencyList
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback mbms.IGroupCallCallback
+		_ = _arg_callback
+		_result, _err := s.Impl.StartGroupCall(ctx, _arg_subscriptionId, _arg_tmgi, _arg_saiList, _arg_frequencyList, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIMbmsGroupCallServiceDispose:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Dispose(ctx, _arg_subId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

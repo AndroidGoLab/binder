@@ -2,6 +2,7 @@ package util
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -64,4 +65,62 @@ func (p *CommandReceiverProxy) SendCommand(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CommandReceiverStub dispatches incoming binder transactions
+// to a typed ICommandReceiver implementation.
+type CommandReceiverStub struct {
+	Impl ICommandReceiver
+}
+
+var _ binder.TransactionReceiver = (*CommandReceiverStub)(nil)
+
+func (s *CommandReceiverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICommandReceiverSendCommand:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_command, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_seq, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sourcePackage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_targetPackage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_bundle os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bundle.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SendCommand(ctx, _arg_command, _arg_seq, _arg_sourcePackage, _arg_targetPackage, _arg_flags, _arg_bundle)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package contentcapture
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -57,4 +58,33 @@ func (p *ContentProtectionAllowlistCallbackProxy) SetAllowlist(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ContentProtectionAllowlistCallbackStub dispatches incoming binder transactions
+// to a typed IContentProtectionAllowlistCallback implementation.
+type ContentProtectionAllowlistCallbackStub struct {
+	Impl IContentProtectionAllowlistCallback
+}
+
+var _ binder.TransactionReceiver = (*ContentProtectionAllowlistCallbackStub)(nil)
+
+func (s *ContentProtectionAllowlistCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIContentProtectionAllowlistCallbackSetAllowlist:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_packages []string
+		_ = _arg_packages
+		_err := s.Impl.SetAllowlist(ctx, _arg_packages)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

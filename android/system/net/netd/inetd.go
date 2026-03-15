@@ -2,6 +2,7 @@ package netd
 
 import (
 	"context"
+	"fmt"
 	netdINetd "github.com/xaionaro-go/binder/android/system/net/netd/INetd"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -292,4 +293,191 @@ func (p *NetdProxy) SetIpForwardEnable(
 	}
 
 	return nil
+}
+
+// NetdStub dispatches incoming binder transactions
+// to a typed INetd implementation.
+type NetdStub struct {
+	Impl INetd
+}
+
+var _ binder.TransactionReceiver = (*NetdStub)(nil)
+
+func (s *NetdStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionINetdAddInterfaceToOemNetwork:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_networkHandle, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ifname, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AddInterfaceToOemNetwork(ctx, _arg_networkHandle, _arg_ifname)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionINetdAddRouteToOemNetwork:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_networkHandle, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ifname, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destination, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_nexthop, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AddRouteToOemNetwork(ctx, _arg_networkHandle, _arg_ifname, _arg_destination, _arg_nexthop)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionINetdCreateOemNetwork:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateOemNetwork(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionINetdDestroyOemNetwork:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_networkHandle, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DestroyOemNetwork(ctx, _arg_networkHandle)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionINetdRemoveInterfaceFromOemNetwork:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_networkHandle, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ifname, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RemoveInterfaceFromOemNetwork(ctx, _arg_networkHandle, _arg_ifname)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionINetdRemoveRouteFromOemNetwork:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_networkHandle, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ifname, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destination, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_nexthop, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RemoveRouteFromOemNetwork(ctx, _arg_networkHandle, _arg_ifname, _arg_destination, _arg_nexthop)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionINetdSetForwardingBetweenInterfaces:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_inputIfName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_outputIfName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetForwardingBetweenInterfaces(ctx, _arg_inputIfName, _arg_outputIfName, _arg_enable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionINetdSetIpForwardEnable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetIpForwardEnable(ctx, _arg_enable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

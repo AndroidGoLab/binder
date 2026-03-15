@@ -2,6 +2,7 @@ package content
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -91,4 +92,60 @@ func (p *CrossUserContentServiceProxy) NotifyForUriAsUser(
 	}
 
 	return nil
+}
+
+// CrossUserContentServiceStub dispatches incoming binder transactions
+// to a typed ICrossUserContentService implementation.
+type CrossUserContentServiceStub struct {
+	Impl ICrossUserContentService
+}
+
+var _ binder.TransactionReceiver = (*CrossUserContentServiceStub)(nil)
+
+func (s *CrossUserContentServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICrossUserContentServiceUpdateContent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_uri interface{}
+		_arg_key, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_value, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateContent(ctx, _arg_uri, _arg_key, _arg_value)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICrossUserContentServiceNotifyForUriAsUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_uri interface{}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.NotifyForUriAsUser(ctx, _arg_uri)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package intrusiondetection
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -143,4 +144,83 @@ func (p *IntrusionDetectionServiceProxy) Disable(
 	}
 
 	return nil
+}
+
+// IntrusionDetectionServiceStub dispatches incoming binder transactions
+// to a typed IIntrusionDetectionService implementation.
+type IntrusionDetectionServiceStub struct {
+	Impl IIntrusionDetectionService
+}
+
+var _ binder.TransactionReceiver = (*IntrusionDetectionServiceStub)(nil)
+
+func (s *IntrusionDetectionServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIIntrusionDetectionServiceAddStateCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntrusionDetectionServiceStateCallback
+		_ = _arg_callback
+		_err := s.Impl.AddStateCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIIntrusionDetectionServiceRemoveStateCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntrusionDetectionServiceStateCallback
+		_ = _arg_callback
+		_err := s.Impl.RemoveStateCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIIntrusionDetectionServiceEnable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntrusionDetectionServiceCommandCallback
+		_ = _arg_callback
+		_err := s.Impl.Enable(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIIntrusionDetectionServiceDisable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIntrusionDetectionServiceCommandCallback
+		_ = _arg_callback
+		_err := s.Impl.Disable(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package audiocontrol
 
 import (
 	"context"
+	"fmt"
 	common "github.com/xaionaro-go/binder/android/hardware/audio/common"
 	audioCommon "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
@@ -421,4 +422,217 @@ func (p *AudioControlProxy) GetCarAudioZones(
 		}
 	}
 	return _result, nil
+}
+
+// AudioControlStub dispatches incoming binder transactions
+// to a typed IAudioControl implementation.
+type AudioControlStub struct {
+	Impl IAudioControl
+}
+
+var _ binder.TransactionReceiver = (*AudioControlStub)(nil)
+
+func (s *AudioControlStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAudioControlOnAudioFocusChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_usage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_zoneId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_focusChange, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_focusChange := AudioFocusChange(_raw_focusChange)
+		_err = s.Impl.OnAudioFocusChange(ctx, _arg_usage, _arg_zoneId, _arg_focusChange)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioControlOnDevicesToDuckChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_duckingInfos []DuckingInfo
+		_ = _arg_duckingInfos
+		_err := s.Impl.OnDevicesToDuckChange(ctx, _arg_duckingInfos)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioControlOnDevicesToMuteChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_mutingInfos []MutingInfo
+		_ = _arg_mutingInfos
+		_err := s.Impl.OnDevicesToMuteChange(ctx, _arg_mutingInfos)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioControlRegisterFocusListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IFocusListener
+		_ = _arg_listener
+		_err := s.Impl.RegisterFocusListener(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioControlSetBalanceTowardRight:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_value, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetBalanceTowardRight(ctx, _arg_value)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioControlSetFadeTowardFront:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_value, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetFadeTowardFront(ctx, _arg_value)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioControlOnAudioFocusChangeWithMetaData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_playbackMetaData common.PlaybackTrackMetadata
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_playbackMetaData.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_zoneId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_focusChange, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_focusChange := AudioFocusChange(_raw_focusChange)
+		_err = s.Impl.OnAudioFocusChangeWithMetaData(ctx, _arg_playbackMetaData, _arg_zoneId, _arg_focusChange)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioControlSetAudioDeviceGainsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_reasons []Reasons
+		_ = _arg_reasons
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_gains []AudioGainConfigInfo
+		_ = _arg_gains
+		_err := s.Impl.SetAudioDeviceGainsChanged(ctx, _arg_reasons, _arg_gains)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioControlRegisterGainCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IAudioGainCallback
+		_ = _arg_callback
+		_err := s.Impl.RegisterGainCallback(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioControlSetModuleChangeCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IModuleChangeCallback
+		_ = _arg_callback
+		_err := s.Impl.SetModuleChangeCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIAudioControlClearModuleChangeCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ClearModuleChangeCallback(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIAudioControlGetAudioDeviceConfiguration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAudioDeviceConfiguration(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIAudioControlGetOutputMirroringDevices:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetOutputMirroringDevices(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIAudioControlGetCarAudioZones:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCarAudioZones(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package visibility_control
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -94,4 +95,53 @@ func (p *GnssVisibilityControlProxy) SetCallback(
 	}
 
 	return nil
+}
+
+// GnssVisibilityControlStub dispatches incoming binder transactions
+// to a typed IGnssVisibilityControl implementation.
+type GnssVisibilityControlStub struct {
+	Impl IGnssVisibilityControl
+}
+
+var _ binder.TransactionReceiver = (*GnssVisibilityControlStub)(nil)
+
+func (s *GnssVisibilityControlStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssVisibilityControlEnableNfwLocationAccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_proxyApps []string
+		_ = _arg_proxyApps
+		_err := s.Impl.EnableNfwLocationAccess(ctx, _arg_proxyApps)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssVisibilityControlSetCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGnssVisibilityControlCallback
+		_ = _arg_callback
+		_err := s.Impl.SetCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

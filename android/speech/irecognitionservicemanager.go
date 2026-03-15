@@ -2,6 +2,7 @@ package speech
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -73,4 +74,49 @@ func (p *RecognitionServiceManagerProxy) SetTemporaryComponent(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RecognitionServiceManagerStub dispatches incoming binder transactions
+// to a typed IRecognitionServiceManager implementation.
+type RecognitionServiceManagerStub struct {
+	Impl IRecognitionServiceManager
+}
+
+var _ binder.TransactionReceiver = (*RecognitionServiceManagerStub)(nil)
+
+func (s *RecognitionServiceManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRecognitionServiceManagerCreateSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_componentName interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_clientToken binder.IBinder
+		_ = _arg_clientToken
+		_arg_onDevice, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IRecognitionServiceManagerCallback
+		_ = _arg_callback
+		_err = s.Impl.CreateSession(ctx, _arg_componentName, _arg_clientToken, _arg_onDevice, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIRecognitionServiceManagerSetTemporaryComponent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_componentName interface{}
+		_err := s.Impl.SetTemporaryComponent(ctx, _arg_componentName)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

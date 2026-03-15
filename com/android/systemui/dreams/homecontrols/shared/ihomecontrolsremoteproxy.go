@@ -2,6 +2,7 @@ package shared
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -69,4 +70,43 @@ func (p *HomeControlsRemoteProxyProxy) UnregisterListenerForCurrentUser(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// HomeControlsRemoteProxyStub dispatches incoming binder transactions
+// to a typed IHomeControlsRemoteProxy implementation.
+type HomeControlsRemoteProxyStub struct {
+	Impl IHomeControlsRemoteProxy
+}
+
+var _ binder.TransactionReceiver = (*HomeControlsRemoteProxyStub)(nil)
+
+func (s *HomeControlsRemoteProxyStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIHomeControlsRemoteProxyRegisterListenerForCurrentUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IOnControlsSettingsChangeListener
+		_ = _arg_callback
+		_err := s.Impl.RegisterListenerForCurrentUser(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIHomeControlsRemoteProxyUnregisterListenerForCurrentUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IOnControlsSettingsChangeListener
+		_ = _arg_callback
+		_err := s.Impl.UnregisterListenerForCurrentUser(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

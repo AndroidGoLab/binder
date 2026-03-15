@@ -2,6 +2,7 @@ package supervision
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -64,4 +65,39 @@ func (p *SupervisionManagerProxy) IsSupervisionEnabledForUser(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// SupervisionManagerStub dispatches incoming binder transactions
+// to a typed ISupervisionManager implementation.
+type SupervisionManagerStub struct {
+	Impl ISupervisionManager
+}
+
+var _ binder.TransactionReceiver = (*SupervisionManagerStub)(nil)
+
+func (s *SupervisionManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISupervisionManagerIsSupervisionEnabledForUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsSupervisionEnabledForUser(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

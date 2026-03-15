@@ -2,6 +2,7 @@ package contentcapture
 
 import (
 	"context"
+	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	viewContentcapture "github.com/xaionaro-go/binder/android/view/contentcapture"
 	"github.com/xaionaro-go/binder/binder"
@@ -153,4 +154,108 @@ func (p *ContentCaptureServiceCallbackProxy) WriteSessionFlush(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ContentCaptureServiceCallbackStub dispatches incoming binder transactions
+// to a typed IContentCaptureServiceCallback implementation.
+type ContentCaptureServiceCallbackStub struct {
+	Impl IContentCaptureServiceCallback
+}
+
+var _ binder.TransactionReceiver = (*ContentCaptureServiceCallbackStub)(nil)
+
+func (s *ContentCaptureServiceCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIContentCaptureServiceCallbackSetContentCaptureWhitelist:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_packages []string
+		_ = _arg_packages
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_activities []content.ComponentName
+		_ = _arg_activities
+		_err := s.Impl.SetContentCaptureWhitelist(ctx, _arg_packages, _arg_activities)
+		_ = _err
+		return nil, nil
+	case TransactionIContentCaptureServiceCallbackSetContentCaptureConditions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_conditions []viewContentcapture.ContentCaptureCondition
+		_ = _arg_conditions
+		_err = s.Impl.SetContentCaptureConditions(ctx, _arg_packageName, _arg_conditions)
+		_ = _err
+		return nil, nil
+	case TransactionIContentCaptureServiceCallbackDisableSelf:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.DisableSelf(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIContentCaptureServiceCallbackWriteSessionFlush:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_app content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_app.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_flushMetrics FlushMetrics
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_flushMetrics.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_options content.ContentCaptureOptions
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_flushReason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.WriteSessionFlush(ctx, _arg_sessionId, _arg_app, _arg_flushMetrics, _arg_options, _arg_flushReason)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

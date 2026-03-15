@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
 	session "github.com/xaionaro-go/binder/android/media/session"
 	os "github.com/xaionaro-go/binder/android/os"
@@ -126,4 +127,107 @@ func (p *MediaBrowserServiceCallbacksProxy) OnDisconnect(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MediaBrowserServiceCallbacksStub dispatches incoming binder transactions
+// to a typed IMediaBrowserServiceCallbacks implementation.
+type MediaBrowserServiceCallbacksStub struct {
+	Impl IMediaBrowserServiceCallbacks
+}
+
+var _ binder.TransactionReceiver = (*MediaBrowserServiceCallbacksStub)(nil)
+
+func (s *MediaBrowserServiceCallbacksStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMediaBrowserServiceCallbacksOnConnect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_root, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_session session.MediaSessionToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_session.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnConnect(ctx, _arg_root, _arg_session, _arg_extras)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaBrowserServiceCallbacksOnConnectFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnConnectFailed(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaBrowserServiceCallbacksOnLoadChildren:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_mediaId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_list pm.ParceledListSlice
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_list.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnLoadChildren(ctx, _arg_mediaId, _arg_list, _arg_options)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaBrowserServiceCallbacksOnDisconnect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnDisconnect(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

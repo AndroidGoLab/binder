@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -66,4 +67,43 @@ func (p *GraphicsStatsProxy) RequestBufferForProcess(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// GraphicsStatsStub dispatches incoming binder transactions
+// to a typed IGraphicsStats implementation.
+type GraphicsStatsStub struct {
+	Impl IGraphicsStats
+}
+
+var _ binder.TransactionReceiver = (*GraphicsStatsStub)(nil)
+
+func (s *GraphicsStatsStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGraphicsStatsRequestBufferForProcess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGraphicsStatsCallback
+		_ = _arg_callback
+		_result, _err := s.Impl.RequestBufferForProcess(ctx, _arg_packageName, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteFileDescriptor(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

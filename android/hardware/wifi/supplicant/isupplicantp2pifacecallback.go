@@ -2,6 +2,7 @@ package supplicant
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -898,4 +899,566 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnUsdBasedServiceAdvertisementTerminat
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SupplicantP2pIfaceCallbackStub dispatches incoming binder transactions
+// to a typed ISupplicantP2pIfaceCallback implementation.
+type SupplicantP2pIfaceCallbackStub struct {
+	Impl ISupplicantP2pIfaceCallback
+}
+
+var _ binder.TransactionReceiver = (*SupplicantP2pIfaceCallbackStub)(nil)
+
+func (s *SupplicantP2pIfaceCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISupplicantP2pIfaceCallbackOnDeviceFound:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_srcAddress []byte
+		_ = _arg_srcAddress
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_p2pDeviceAddress []byte
+		_ = _arg_p2pDeviceAddress
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_primaryDeviceType []byte
+		_ = _arg_primaryDeviceType
+		_arg_deviceName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_configMethods, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_configMethods := WpsConfigMethods(_raw_configMethods)
+		_arg_deviceCapabilities, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_groupCapabilities, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_groupCapabilities := P2pGroupCapabilityMask(_raw_groupCapabilities)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_wfdDeviceInfo []byte
+		_ = _arg_wfdDeviceInfo
+		_err = s.Impl.OnDeviceFound(ctx, _arg_srcAddress, _arg_p2pDeviceAddress, _arg_primaryDeviceType, _arg_deviceName, _arg_configMethods, _arg_deviceCapabilities, _arg_groupCapabilities, _arg_wfdDeviceInfo)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnDeviceLost:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_p2pDeviceAddress []byte
+		_ = _arg_p2pDeviceAddress
+		_err := s.Impl.OnDeviceLost(ctx, _arg_p2pDeviceAddress)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnFindStopped:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnFindStopped(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnGoNegotiationCompleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := P2pStatusCode(_raw_status)
+		_err = s.Impl.OnGoNegotiationCompleted(ctx, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnGoNegotiationRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_srcAddress []byte
+		_ = _arg_srcAddress
+		_raw_passwordId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_passwordId := WpsDevPasswordId(_raw_passwordId)
+		_err = s.Impl.OnGoNegotiationRequest(ctx, _arg_srcAddress, _arg_passwordId)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnGroupFormationFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_failureReason, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGroupFormationFailure(ctx, _arg_failureReason)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnGroupFormationSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnGroupFormationSuccess(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnGroupRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_groupIfname, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isGroupOwner, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGroupRemoved(ctx, _arg_groupIfname, _arg_isGroupOwner)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnGroupStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_groupIfname, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isGroupOwner, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_ssid []byte
+		_ = _arg_ssid
+		_arg_frequency, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_psk []byte
+		_ = _arg_psk
+		_arg_passphrase, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_goDeviceAddress []byte
+		_ = _arg_goDeviceAddress
+		_arg_isPersistent, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGroupStarted(ctx, _arg_groupIfname, _arg_isGroupOwner, _arg_ssid, _arg_frequency, _arg_psk, _arg_passphrase, _arg_goDeviceAddress, _arg_isPersistent)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnInvitationReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_srcAddress []byte
+		_ = _arg_srcAddress
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_goDeviceAddress []byte
+		_ = _arg_goDeviceAddress
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bssid []byte
+		_ = _arg_bssid
+		_arg_persistentNetworkId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_operatingFrequency, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnInvitationReceived(ctx, _arg_srcAddress, _arg_goDeviceAddress, _arg_bssid, _arg_persistentNetworkId, _arg_operatingFrequency)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnInvitationResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bssid []byte
+		_ = _arg_bssid
+		_raw_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := P2pStatusCode(_raw_status)
+		_err = s.Impl.OnInvitationResult(ctx, _arg_bssid, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_p2pDeviceAddress []byte
+		_ = _arg_p2pDeviceAddress
+		_arg_isRequest, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_status, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := P2pProvDiscStatusCode(_raw_status)
+		_raw_configMethods, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_configMethods := WpsConfigMethods(_raw_configMethods)
+		_arg_generatedPin, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnProvisionDiscoveryCompleted(ctx, _arg_p2pDeviceAddress, _arg_isRequest, _arg_status, _arg_configMethods, _arg_generatedPin)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnR2DeviceFound:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_srcAddress []byte
+		_ = _arg_srcAddress
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_p2pDeviceAddress []byte
+		_ = _arg_p2pDeviceAddress
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_primaryDeviceType []byte
+		_ = _arg_primaryDeviceType
+		_arg_deviceName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_configMethods, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_configMethods := WpsConfigMethods(_raw_configMethods)
+		_arg_deviceCapabilities, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_groupCapabilities, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_groupCapabilities := P2pGroupCapabilityMask(_raw_groupCapabilities)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_wfdDeviceInfo []byte
+		_ = _arg_wfdDeviceInfo
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_wfdR2DeviceInfo []byte
+		_ = _arg_wfdR2DeviceInfo
+		_err = s.Impl.OnR2DeviceFound(ctx, _arg_srcAddress, _arg_p2pDeviceAddress, _arg_primaryDeviceType, _arg_deviceName, _arg_configMethods, _arg_deviceCapabilities, _arg_groupCapabilities, _arg_wfdDeviceInfo, _arg_wfdR2DeviceInfo)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnServiceDiscoveryResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_srcAddress []byte
+		_ = _arg_srcAddress
+		_raw_updateIndicator, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_updateIndicator := uint16(_raw_updateIndicator)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_tlvs []byte
+		_ = _arg_tlvs
+		_err = s.Impl.OnServiceDiscoveryResponse(ctx, _arg_srcAddress, _arg_updateIndicator, _arg_tlvs)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnStaAuthorized:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_srcAddress []byte
+		_ = _arg_srcAddress
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_p2pDeviceAddress []byte
+		_ = _arg_p2pDeviceAddress
+		_err := s.Impl.OnStaAuthorized(ctx, _arg_srcAddress, _arg_p2pDeviceAddress)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnStaDeauthorized:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_srcAddress []byte
+		_ = _arg_srcAddress
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_p2pDeviceAddress []byte
+		_ = _arg_p2pDeviceAddress
+		_err := s.Impl.OnStaDeauthorized(ctx, _arg_srcAddress, _arg_p2pDeviceAddress)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnGroupFrequencyChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_groupIfname, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_frequency, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGroupFrequencyChanged(ctx, _arg_groupIfname, _arg_frequency)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnDeviceFoundWithVendorElements:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_srcAddress []byte
+		_ = _arg_srcAddress
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_p2pDeviceAddress []byte
+		_ = _arg_p2pDeviceAddress
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_primaryDeviceType []byte
+		_ = _arg_primaryDeviceType
+		_arg_deviceName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_configMethods, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_configMethods := WpsConfigMethods(_raw_configMethods)
+		_arg_deviceCapabilities, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_groupCapabilities, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_groupCapabilities := P2pGroupCapabilityMask(_raw_groupCapabilities)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_wfdDeviceInfo []byte
+		_ = _arg_wfdDeviceInfo
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_wfdR2DeviceInfo []byte
+		_ = _arg_wfdR2DeviceInfo
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_vendorElemBytes []byte
+		_ = _arg_vendorElemBytes
+		_err = s.Impl.OnDeviceFoundWithVendorElements(ctx, _arg_srcAddress, _arg_p2pDeviceAddress, _arg_primaryDeviceType, _arg_deviceName, _arg_configMethods, _arg_deviceCapabilities, _arg_groupCapabilities, _arg_wfdDeviceInfo, _arg_wfdR2DeviceInfo, _arg_vendorElemBytes)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnGroupStartedWithParams:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_groupStartedEventParams P2pGroupStartedEventParams
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_groupStartedEventParams.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnGroupStartedWithParams(ctx, _arg_groupStartedEventParams)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnPeerClientJoined:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_clientJoinedEventParams P2pPeerClientJoinedEventParams
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_clientJoinedEventParams.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPeerClientJoined(ctx, _arg_clientJoinedEventParams)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnPeerClientDisconnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_clientDisconnectedEventParams P2pPeerClientDisconnectedEventParams
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_clientDisconnectedEventParams.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPeerClientDisconnected(ctx, _arg_clientDisconnectedEventParams)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnProvisionDiscoveryCompletedEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_provisionDiscoveryCompletedEventParams P2pProvisionDiscoveryCompletedEventParams
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_provisionDiscoveryCompletedEventParams.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnProvisionDiscoveryCompletedEvent(ctx, _arg_provisionDiscoveryCompletedEventParams)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnDeviceFoundWithParams:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_deviceFoundEventParams P2pDeviceFoundEventParams
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_deviceFoundEventParams.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnDeviceFoundWithParams(ctx, _arg_deviceFoundEventParams)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnGoNegotiationRequestWithParams:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_params P2pGoNegotiationReqEventParams
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnGoNegotiationRequestWithParams(ctx, _arg_params)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnInvitationReceivedWithParams:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_params P2pInvitationEventParams
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnInvitationReceivedWithParams(ctx, _arg_params)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnUsdBasedServiceDiscoveryResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_params P2pUsdBasedServiceDiscoveryResultParams
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnUsdBasedServiceDiscoveryResult(ctx, _arg_params)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnUsdBasedServiceDiscoveryTerminated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_reasonCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reasonCode := UsdTerminateReasonCode(_raw_reasonCode)
+		_err = s.Impl.OnUsdBasedServiceDiscoveryTerminated(ctx, _arg_sessionId, _arg_reasonCode)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantP2pIfaceCallbackOnUsdBasedServiceAdvertisementTerminated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_reasonCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reasonCode := UsdTerminateReasonCode(_raw_reasonCode)
+		_err = s.Impl.OnUsdBasedServiceAdvertisementTerminated(ctx, _arg_sessionId, _arg_reasonCode)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

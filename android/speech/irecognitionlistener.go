@@ -2,6 +2,7 @@ package speech
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -256,4 +257,128 @@ func (p *RecognitionListenerProxy) OnEvent(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RecognitionListenerStub dispatches incoming binder transactions
+// to a typed IRecognitionListener implementation.
+type RecognitionListenerStub struct {
+	Impl IRecognitionListener
+}
+
+var _ binder.TransactionReceiver = (*RecognitionListenerStub)(nil)
+
+func (s *RecognitionListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRecognitionListenerOnReadyForSpeech:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_params interface{}
+		_err := s.Impl.OnReadyForSpeech(ctx, _arg_params)
+		_ = _err
+		return nil, nil
+	case TransactionIRecognitionListenerOnBeginningOfSpeech:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnBeginningOfSpeech(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIRecognitionListenerOnRmsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_rmsdB, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRmsChanged(ctx, _arg_rmsdB)
+		_ = _err
+		return nil, nil
+	case TransactionIRecognitionListenerOnBufferReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_buffer []byte
+		_ = _arg_buffer
+		_err := s.Impl.OnBufferReceived(ctx, _arg_buffer)
+		_ = _err
+		return nil, nil
+	case TransactionIRecognitionListenerOnEndOfSpeech:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnEndOfSpeech(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIRecognitionListenerOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_error_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_error_)
+		_ = _err
+		return nil, nil
+	case TransactionIRecognitionListenerOnResults:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_results interface{}
+		_err := s.Impl.OnResults(ctx, _arg_results)
+		_ = _err
+		return nil, nil
+	case TransactionIRecognitionListenerOnPartialResults:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_results interface{}
+		_err := s.Impl.OnPartialResults(ctx, _arg_results)
+		_ = _err
+		return nil, nil
+	case TransactionIRecognitionListenerOnSegmentResults:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_results interface{}
+		_err := s.Impl.OnSegmentResults(ctx, _arg_results)
+		_ = _err
+		return nil, nil
+	case TransactionIRecognitionListenerOnEndOfSegmentedSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnEndOfSegmentedSession(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIRecognitionListenerOnLanguageDetection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_results interface{}
+		_err := s.Impl.OnLanguageDetection(ctx, _arg_results)
+		_ = _err
+		return nil, nil
+	case TransactionIRecognitionListenerOnEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_eventType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_params interface{}
+		_err = s.Impl.OnEvent(ctx, _arg_eventType, _arg_params)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

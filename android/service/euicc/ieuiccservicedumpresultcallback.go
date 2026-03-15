@@ -2,6 +2,7 @@ package euicc
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *EuiccServiceDumpResultCallbackProxy) OnComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// EuiccServiceDumpResultCallbackStub dispatches incoming binder transactions
+// to a typed IEuiccServiceDumpResultCallback implementation.
+type EuiccServiceDumpResultCallbackStub struct {
+	Impl IEuiccServiceDumpResultCallback
+}
+
+var _ binder.TransactionReceiver = (*EuiccServiceDumpResultCallbackStub)(nil)
+
+func (s *EuiccServiceDumpResultCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIEuiccServiceDumpResultCallbackOnComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_logs, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnComplete(ctx, _arg_logs)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

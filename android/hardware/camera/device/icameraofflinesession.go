@@ -2,6 +2,7 @@ package device
 
 import (
 	"context"
+	"fmt"
 	fmq "github.com/xaionaro-go/binder/android/hardware/common/fmq"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -122,4 +123,66 @@ func (p *CameraOfflineSessionProxy) SetCallback(
 	}
 
 	return nil
+}
+
+// CameraOfflineSessionStub dispatches incoming binder transactions
+// to a typed ICameraOfflineSession implementation.
+type CameraOfflineSessionStub struct {
+	Impl ICameraOfflineSession
+}
+
+var _ binder.TransactionReceiver = (*CameraOfflineSessionStub)(nil)
+
+func (s *CameraOfflineSessionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICameraOfflineSessionClose:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Close(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICameraOfflineSessionGetCaptureResultMetadataQueue:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCaptureResultMetadataQueue(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionICameraOfflineSessionSetCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cb ICameraDeviceCallback
+		_ = _arg_cb
+		_err := s.Impl.SetCallback(ctx, _arg_cb)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

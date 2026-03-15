@@ -2,6 +2,7 @@ package window
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -53,4 +54,42 @@ func (p *TaskFragmentOrganizerProxy) OnTransactionReady(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TaskFragmentOrganizerStub dispatches incoming binder transactions
+// to a typed ITaskFragmentOrganizer implementation.
+type TaskFragmentOrganizerStub struct {
+	Impl ITaskFragmentOrganizer
+}
+
+var _ binder.TransactionReceiver = (*TaskFragmentOrganizerStub)(nil)
+
+func (s *TaskFragmentOrganizerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITaskFragmentOrganizerOnTransactionReady:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_transaction TaskFragmentTransaction
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_transaction.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnTransactionReady(ctx, _arg_transaction)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package connection
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -52,4 +53,38 @@ func (p *HdmiConnectionCallbackProxy) OnHotplugEvent(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// HdmiConnectionCallbackStub dispatches incoming binder transactions
+// to a typed IHdmiConnectionCallback implementation.
+type HdmiConnectionCallbackStub struct {
+	Impl IHdmiConnectionCallback
+}
+
+var _ binder.TransactionReceiver = (*HdmiConnectionCallbackStub)(nil)
+
+func (s *HdmiConnectionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIHdmiConnectionCallbackOnHotplugEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_connected, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_portId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnHotplugEvent(ctx, _arg_connected, _arg_portId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -63,4 +64,45 @@ func (p *ThermalHeadroomListenerProxy) OnHeadroomChange(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ThermalHeadroomListenerStub dispatches incoming binder transactions
+// to a typed IThermalHeadroomListener implementation.
+type ThermalHeadroomListenerStub struct {
+	Impl IThermalHeadroomListener
+}
+
+var _ binder.TransactionReceiver = (*ThermalHeadroomListenerStub)(nil)
+
+func (s *ThermalHeadroomListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIThermalHeadroomListenerOnHeadroomChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_headroom, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_forecastHeadroom, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_forecastSeconds, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_thresholds []float32
+		_ = _arg_thresholds
+		_err = s.Impl.OnHeadroomChange(ctx, _arg_headroom, _arg_forecastHeadroom, _arg_forecastSeconds, _arg_thresholds)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

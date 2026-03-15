@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -72,4 +73,50 @@ func (p *AssistDataReceiverProxy) OnHandleAssistScreenshot(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AssistDataReceiverStub dispatches incoming binder transactions
+// to a typed IAssistDataReceiver implementation.
+type AssistDataReceiverStub struct {
+	Impl IAssistDataReceiver
+}
+
+var _ binder.TransactionReceiver = (*AssistDataReceiverStub)(nil)
+
+func (s *AssistDataReceiverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAssistDataReceiverOnHandleAssistData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_resultData interface{}
+		_err := s.Impl.OnHandleAssistData(ctx, _arg_resultData)
+		_ = _err
+		return nil, nil
+	case TransactionIAssistDataReceiverOnHandleAssistScreenshot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_screenshot graphics.Bitmap
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_screenshot.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnHandleAssistScreenshot(ctx, _arg_screenshot)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

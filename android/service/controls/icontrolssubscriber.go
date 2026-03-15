@@ -2,6 +2,7 @@ package controls
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ type IControlsSubscriber interface {
 	AsBinder() binder.IBinder
 	OnSubscribe(ctx context.Context, token binder.IBinder, cs IControlsSubscription) error
 	OnNext(ctx context.Context, token binder.IBinder, c Control) error
-	OnError(ctx context.Context, token binder.IBinder, s string) error
+	OnError(ctx context.Context, token binder.IBinder, s_ string) error
 	OnComplete(ctx context.Context, token binder.IBinder) error
 }
 
@@ -85,12 +86,12 @@ func (p *ControlsSubscriberProxy) OnNext(
 func (p *ControlsSubscriberProxy) OnError(
 	ctx context.Context,
 	token binder.IBinder,
-	s string,
+	s_ string,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIControlsSubscriber)
 	_data.WriteStrongBinder(token.Handle())
-	_data.WriteString16(s)
+	_data.WriteString16(s_)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIControlsSubscriber, "onError")
 	if _err != nil {
@@ -116,4 +117,82 @@ func (p *ControlsSubscriberProxy) OnComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ControlsSubscriberStub dispatches incoming binder transactions
+// to a typed IControlsSubscriber implementation.
+type ControlsSubscriberStub struct {
+	Impl IControlsSubscriber
+}
+
+var _ binder.TransactionReceiver = (*ControlsSubscriberStub)(nil)
+
+func (s *ControlsSubscriberStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIControlsSubscriberOnSubscribe:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cs IControlsSubscription
+		_ = _arg_cs
+		_err := s.Impl.OnSubscribe(ctx, _arg_token, _arg_cs)
+		_ = _err
+		return nil, nil
+	case TransactionIControlsSubscriberOnNext:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		var _arg_c Control
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_c.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnNext(ctx, _arg_token, _arg_c)
+		_ = _err
+		return nil, nil
+	case TransactionIControlsSubscriberOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_s_, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_token, _arg_s_)
+		_ = _err
+		return nil, nil
+	case TransactionIControlsSubscriberOnComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_err := s.Impl.OnComplete(ctx, _arg_token)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

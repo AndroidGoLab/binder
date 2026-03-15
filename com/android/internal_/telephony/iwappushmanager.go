@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -201,4 +202,167 @@ func (p *WapPushManagerProxy) DeletePackage(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// WapPushManagerStub dispatches incoming binder transactions
+// to a typed IWapPushManager implementation.
+type WapPushManagerStub struct {
+	Impl IWapPushManager
+}
+
+var _ binder.TransactionReceiver = (*WapPushManagerStub)(nil)
+
+func (s *WapPushManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWapPushManagerProcessMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_app_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_content_type, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.ProcessMessage(ctx, _arg_app_id, _arg_content_type, _arg_intent)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIWapPushManagerAddPackage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_x_app_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_content_type, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_package_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_class_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_app_type, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_need_signature, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_further_processing, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.AddPackage(ctx, _arg_x_app_id, _arg_content_type, _arg_package_name, _arg_class_name, _arg_app_type, _arg_need_signature, _arg_further_processing)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWapPushManagerUpdatePackage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_x_app_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_content_type, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_package_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_class_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_app_type, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_need_signature, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_further_processing, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.UpdatePackage(ctx, _arg_x_app_id, _arg_content_type, _arg_package_name, _arg_class_name, _arg_app_type, _arg_need_signature, _arg_further_processing)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIWapPushManagerDeletePackage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_x_app_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_content_type, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_package_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_class_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.DeletePackage(ctx, _arg_x_app_id, _arg_content_type, _arg_package_name, _arg_class_name)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

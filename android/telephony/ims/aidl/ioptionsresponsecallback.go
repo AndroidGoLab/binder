@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -80,4 +81,52 @@ func (p *OptionsResponseCallbackProxy) OnNetworkResponse(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// OptionsResponseCallbackStub dispatches incoming binder transactions
+// to a typed IOptionsResponseCallback implementation.
+type OptionsResponseCallbackStub struct {
+	Impl IOptionsResponseCallback
+}
+
+var _ binder.TransactionReceiver = (*OptionsResponseCallbackStub)(nil)
+
+func (s *OptionsResponseCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIOptionsResponseCallbackOnCommandError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_code, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCommandError(ctx, _arg_code)
+		_ = _err
+		return nil, nil
+	case TransactionIOptionsResponseCallbackOnNetworkResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_code, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_theirCaps []string
+		_ = _arg_theirCaps
+		_err = s.Impl.OnNetworkResponse(ctx, _arg_code, _arg_reason, _arg_theirCaps)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

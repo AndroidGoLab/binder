@@ -2,6 +2,7 @@ package dependencyinstaller
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -92,4 +93,50 @@ func (p *DependencyInstallerCallbackProxy) OnFailureToResolveAllDependencies(
 	}
 
 	return nil
+}
+
+// DependencyInstallerCallbackStub dispatches incoming binder transactions
+// to a typed IDependencyInstallerCallback implementation.
+type DependencyInstallerCallbackStub struct {
+	Impl IDependencyInstallerCallback
+}
+
+var _ binder.TransactionReceiver = (*DependencyInstallerCallbackStub)(nil)
+
+func (s *DependencyInstallerCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDependencyInstallerCallbackOnAllDependenciesResolved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sessionIds []int32
+		_ = _arg_sessionIds
+		_err := s.Impl.OnAllDependenciesResolved(ctx, _arg_sessionIds)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIDependencyInstallerCallbackOnFailureToResolveAllDependencies:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnFailureToResolveAllDependencies(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

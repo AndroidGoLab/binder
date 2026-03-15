@@ -2,6 +2,7 @@ package hdcp
 
 import (
 	"context"
+	"fmt"
 	drm "github.com/xaionaro-go/binder/android/hardware/drm"
 	hdcpIHdcpAuthControl "github.com/xaionaro-go/binder/android/hardware/security/see/hdcp/IHdcpAuthControl"
 	"github.com/xaionaro-go/binder/binder"
@@ -133,4 +134,72 @@ func (p *HdcpAuthControlProxy) GetPendingHdcpLevel(
 		}
 	}
 	return _result, nil
+}
+
+// HdcpAuthControlStub dispatches incoming binder transactions
+// to a typed IHdcpAuthControl implementation.
+type HdcpAuthControlStub struct {
+	Impl IHdcpAuthControl
+}
+
+var _ binder.TransactionReceiver = (*HdcpAuthControlStub)(nil)
+
+func (s *HdcpAuthControlStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIHdcpAuthControlGetHdcpLevels:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetHdcpLevels(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIHdcpAuthControlTrySetHdcpLevel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_level, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_level := drm.HdcpLevel(_raw_level)
+		_err = s.Impl.TrySetHdcpLevel(ctx, _arg_level)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIHdcpAuthControlGetPendingHdcpLevel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPendingHdcpLevel(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

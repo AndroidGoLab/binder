@@ -2,6 +2,7 @@ package admin
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,33 @@ func (p *AuditLogEventsCallbackProxy) OnNewAuditLogEvents(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AuditLogEventsCallbackStub dispatches incoming binder transactions
+// to a typed IAuditLogEventsCallback implementation.
+type AuditLogEventsCallbackStub struct {
+	Impl IAuditLogEventsCallback
+}
+
+var _ binder.TransactionReceiver = (*AuditLogEventsCallbackStub)(nil)
+
+func (s *AuditLogEventsCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAuditLogEventsCallbackOnNewAuditLogEvents:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_events []SecurityLogSecurityEvent
+		_ = _arg_events
+		_err := s.Impl.OnNewAuditLogEvents(ctx, _arg_events)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

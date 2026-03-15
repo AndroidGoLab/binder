@@ -2,6 +2,7 @@ package stub
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -214,4 +215,155 @@ func (p *SatelliteListenerProxy) OnTerrestrialNetworkAvailableChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SatelliteListenerStub dispatches incoming binder transactions
+// to a typed ISatelliteListener implementation.
+type SatelliteListenerStub struct {
+	Impl ISatelliteListener
+}
+
+var _ binder.TransactionReceiver = (*SatelliteListenerStub)(nil)
+
+func (s *SatelliteListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISatelliteListenerOnSatelliteDatagramReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_datagram SatelliteDatagram
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_datagram.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_pendingCount, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSatelliteDatagramReceived(ctx, _arg_datagram, _arg_pendingCount)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteListenerOnPendingDatagrams:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnPendingDatagrams(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteListenerOnSatellitePositionChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_pointingInfo PointingInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pointingInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSatellitePositionChanged(ctx, _arg_pointingInfo)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteListenerOnSatelliteModemStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state := SatelliteModemState(_raw_state)
+		_err = s.Impl.OnSatelliteModemStateChanged(ctx, _arg_state)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteListenerOnNtnSignalStrengthChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_ntnSignalStrength NtnSignalStrength
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ntnSignalStrength.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnNtnSignalStrengthChanged(ctx, _arg_ntnSignalStrength)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteListenerOnSatelliteCapabilitiesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_capabilities SatelliteCapabilities
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_capabilities.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSatelliteCapabilitiesChanged(ctx, _arg_capabilities)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteListenerOnSatelliteSupportedStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_supported, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSatelliteSupportedStateChanged(ctx, _arg_supported)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteListenerOnRegistrationFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_causeCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRegistrationFailure(ctx, _arg_causeCode)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteListenerOnTerrestrialNetworkAvailableChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isAvailable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTerrestrialNetworkAvailableChanged(ctx, _arg_isAvailable)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

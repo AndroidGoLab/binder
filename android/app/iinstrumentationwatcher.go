@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -91,4 +92,59 @@ func (p *InstrumentationWatcherProxy) InstrumentationFinished(
 	}
 
 	return nil
+}
+
+// InstrumentationWatcherStub dispatches incoming binder transactions
+// to a typed IInstrumentationWatcher implementation.
+type InstrumentationWatcherStub struct {
+	Impl IInstrumentationWatcher
+}
+
+var _ binder.TransactionReceiver = (*InstrumentationWatcherStub)(nil)
+
+func (s *InstrumentationWatcherStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInstrumentationWatcherInstrumentationStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_name interface{}
+		_arg_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_results interface{}
+		_err = s.Impl.InstrumentationStatus(ctx, _arg_name, _arg_resultCode, _arg_results)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIInstrumentationWatcherInstrumentationFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_name interface{}
+		_arg_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_results interface{}
+		_err = s.Impl.InstrumentationFinished(ctx, _arg_name, _arg_resultCode, _arg_results)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

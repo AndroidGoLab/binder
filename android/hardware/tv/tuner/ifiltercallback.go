@@ -2,6 +2,7 @@ package tuner
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -78,4 +79,45 @@ func (p *FilterCallbackProxy) OnFilterStatus(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// FilterCallbackStub dispatches incoming binder transactions
+// to a typed IFilterCallback implementation.
+type FilterCallbackStub struct {
+	Impl IFilterCallback
+}
+
+var _ binder.TransactionReceiver = (*FilterCallbackStub)(nil)
+
+func (s *FilterCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIFilterCallbackOnFilterEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_events []DemuxFilterEvent
+		_ = _arg_events
+		_err := s.Impl.OnFilterEvent(ctx, _arg_events)
+		_ = _err
+		return nil, nil
+	case TransactionIFilterCallbackOnFilterStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_status, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := DemuxFilterStatus(_raw_status)
+		_err = s.Impl.OnFilterStatus(ctx, _arg_status)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

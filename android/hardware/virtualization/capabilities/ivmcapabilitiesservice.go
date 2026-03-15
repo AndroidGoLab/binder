@@ -2,6 +2,7 @@ package capabilities
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -68,4 +69,42 @@ func (p *VmCapabilitiesServiceProxy) GrantAccessToVendorTeeServices(
 	}
 
 	return nil
+}
+
+// VmCapabilitiesServiceStub dispatches incoming binder transactions
+// to a typed IVmCapabilitiesService implementation.
+type VmCapabilitiesServiceStub struct {
+	Impl IVmCapabilitiesService
+}
+
+var _ binder.TransactionReceiver = (*VmCapabilitiesServiceStub)(nil)
+
+func (s *VmCapabilitiesServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVmCapabilitiesServiceGrantAccessToVendorTeeServices:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_vmFd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_vendorTeeServices []string
+		_ = _arg_vendorTeeServices
+		_err = s.Impl.GrantAccessToVendorTeeServices(ctx, _arg_vmFd, _arg_vendorTeeServices)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

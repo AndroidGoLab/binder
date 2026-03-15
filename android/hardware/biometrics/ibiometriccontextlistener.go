@@ -2,6 +2,7 @@ package biometrics
 
 import (
 	"context"
+	"fmt"
 	biometricsIBiometricContextListener "github.com/xaionaro-go/binder/android/hardware/biometrics/IBiometricContextListener"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -89,4 +90,57 @@ func (p *BiometricContextListenerProxy) OnHardwareIgnoreTouchesChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BiometricContextListenerStub dispatches incoming binder transactions
+// to a typed IBiometricContextListener implementation.
+type BiometricContextListenerStub struct {
+	Impl IBiometricContextListener
+}
+
+var _ binder.TransactionReceiver = (*BiometricContextListenerStub)(nil)
+
+func (s *BiometricContextListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBiometricContextListenerOnFoldChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_FoldState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_FoldState := biometricsIBiometricContextListener.FoldState(_raw_FoldState)
+		_err = s.Impl.OnFoldChanged(ctx, _arg_FoldState)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricContextListenerOnDisplayStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDisplayStateChanged(ctx, _arg_displayState)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricContextListenerOnHardwareIgnoreTouchesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_shouldIgnore, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnHardwareIgnoreTouchesChanged(ctx, _arg_shouldIgnore)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

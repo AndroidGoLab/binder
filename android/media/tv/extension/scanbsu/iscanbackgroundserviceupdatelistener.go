@@ -2,6 +2,7 @@ package scanbsu
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -155,4 +156,71 @@ func (p *ScanBackgroundServiceUpdateListenerProxy) OnTransportStreamingListUpdat
 	}
 
 	return nil
+}
+
+// ScanBackgroundServiceUpdateListenerStub dispatches incoming binder transactions
+// to a typed IScanBackgroundServiceUpdateListener implementation.
+type ScanBackgroundServiceUpdateListenerStub struct {
+	Impl IScanBackgroundServiceUpdateListener
+}
+
+var _ binder.TransactionReceiver = (*ScanBackgroundServiceUpdateListenerStub)(nil)
+
+func (s *ScanBackgroundServiceUpdateListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIScanBackgroundServiceUpdateListenerOnChannelListUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionToken, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnChannelListUpdate(ctx, _arg_sessionToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIScanBackgroundServiceUpdateListenerOnNetworkListUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionToken, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNetworkListUpdate(ctx, _arg_sessionToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIScanBackgroundServiceUpdateListenerOnTransportStreamingListUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionToken, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTransportStreamingListUpdate(ctx, _arg_sessionToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

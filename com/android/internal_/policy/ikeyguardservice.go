@@ -2,6 +2,7 @@ package policy
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -493,4 +494,264 @@ func (p *KeyguardServiceProxy) ShowDismissibleKeyguard(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// KeyguardServiceStub dispatches incoming binder transactions
+// to a typed IKeyguardService implementation.
+type KeyguardServiceStub struct {
+	Impl IKeyguardService
+}
+
+var _ binder.TransactionReceiver = (*KeyguardServiceStub)(nil)
+
+func (s *KeyguardServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIKeyguardServiceSetOccluded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isOccluded, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_animate, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetOccluded(ctx, _arg_isOccluded, _arg_animate)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceAddStateMonitorCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IKeyguardStateCallback
+		_ = _arg_callback
+		_err := s.Impl.AddStateMonitorCallback(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceVerifyUnlock:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IKeyguardExitCallback
+		_ = _arg_callback
+		_err := s.Impl.VerifyUnlock(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceDismiss:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IKeyguardDismissCallback
+		_ = _arg_callback
+		var _arg_message interface{}
+		_err := s.Impl.Dismiss(ctx, _arg_callback, _arg_message)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceOnDreamingStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnDreamingStarted(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceOnDreamingStopped:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnDreamingStopped(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceOnStartedGoingToSleep:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pmSleepReason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStartedGoingToSleep(ctx, _arg_pmSleepReason)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceOnFinishedGoingToSleep:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pmSleepReason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cameraGestureTriggered, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFinishedGoingToSleep(ctx, _arg_pmSleepReason, _arg_cameraGestureTriggered)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceOnStartedWakingUp:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pmWakeReason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cameraGestureTriggered, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStartedWakingUp(ctx, _arg_pmWakeReason, _arg_cameraGestureTriggered)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceOnFinishedWakingUp:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnFinishedWakingUp(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceOnScreenTurningOn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IKeyguardDrawnCallback
+		_ = _arg_callback
+		_err := s.Impl.OnScreenTurningOn(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceOnScreenTurnedOn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnScreenTurnedOn(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceOnScreenTurningOff:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnScreenTurningOff(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceOnScreenTurnedOff:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnScreenTurnedOff(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceSetKeyguardEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetKeyguardEnabled(ctx, _arg_enabled)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceOnSystemReady:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnSystemReady(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceDoKeyguardTimeout:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_options interface{}
+		_err := s.Impl.DoKeyguardTimeout(ctx, _arg_options)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceSetSwitchingUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_switching, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSwitchingUser(ctx, _arg_switching)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceSetCurrentUser:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.SetCurrentUser(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceOnBootCompleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnBootCompleted(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceStartKeyguardExitAnimation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_startTime, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fadeoutDuration, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StartKeyguardExitAnimation(ctx, _arg_startTime, _arg_fadeoutDuration)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceOnShortPowerPressedGoHome:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnShortPowerPressedGoHome(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceDismissKeyguardToLaunch:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intentToLaunch interface{}
+		_err := s.Impl.DismissKeyguardToLaunch(ctx, _arg_intentToLaunch)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceOnSystemKeyPressed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_keycode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSystemKeyPressed(ctx, _arg_keycode)
+		_ = _err
+		return nil, nil
+	case TransactionIKeyguardServiceShowDismissibleKeyguard:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ShowDismissibleKeyguard(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

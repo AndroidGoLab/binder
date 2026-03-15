@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -63,4 +64,41 @@ func (p *CapturePresetDevicesRoleDispatcherProxy) DispatchDevicesRoleChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CapturePresetDevicesRoleDispatcherStub dispatches incoming binder transactions
+// to a typed ICapturePresetDevicesRoleDispatcher implementation.
+type CapturePresetDevicesRoleDispatcherStub struct {
+	Impl ICapturePresetDevicesRoleDispatcher
+}
+
+var _ binder.TransactionReceiver = (*CapturePresetDevicesRoleDispatcherStub)(nil)
+
+func (s *CapturePresetDevicesRoleDispatcherStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICapturePresetDevicesRoleDispatcherDispatchDevicesRoleChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_capturePreset, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_role, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_devices []AudioDeviceAttributes
+		_ = _arg_devices
+		_err = s.Impl.DispatchDevicesRoleChanged(ctx, _arg_capturePreset, _arg_role, _arg_devices)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

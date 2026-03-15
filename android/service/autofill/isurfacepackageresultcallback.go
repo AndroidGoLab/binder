@@ -2,6 +2,7 @@ package autofill
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -49,4 +50,31 @@ func (p *SurfacePackageResultCallbackProxy) OnResult(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SurfacePackageResultCallbackStub dispatches incoming binder transactions
+// to a typed ISurfacePackageResultCallback implementation.
+type SurfacePackageResultCallbackStub struct {
+	Impl ISurfacePackageResultCallback
+}
+
+var _ binder.TransactionReceiver = (*SurfacePackageResultCallbackStub)(nil)
+
+func (s *SurfacePackageResultCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISurfacePackageResultCallbackOnResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_result interface{}
+		_err := s.Impl.OnResult(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package camera
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -97,4 +98,73 @@ func (p *VirtualCameraCallbackProxy) OnStreamClosed(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VirtualCameraCallbackStub dispatches incoming binder transactions
+// to a typed IVirtualCameraCallback implementation.
+type VirtualCameraCallbackStub struct {
+	Impl IVirtualCameraCallback
+}
+
+var _ binder.TransactionReceiver = (*VirtualCameraCallbackStub)(nil)
+
+func (s *VirtualCameraCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVirtualCameraCallbackOnStreamConfigured:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_streamId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_surface interface{}
+		_arg_width, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_height, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_format, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStreamConfigured(ctx, _arg_streamId, _arg_surface, _arg_width, _arg_height, _arg_format)
+		_ = _err
+		return nil, nil
+	case TransactionIVirtualCameraCallbackOnProcessCaptureRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_streamId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_frameId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnProcessCaptureRequest(ctx, _arg_streamId, _arg_frameId)
+		_ = _err
+		return nil, nil
+	case TransactionIVirtualCameraCallbackOnStreamClosed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_streamId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStreamClosed(ctx, _arg_streamId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

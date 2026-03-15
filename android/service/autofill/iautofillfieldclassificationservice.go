@@ -2,6 +2,7 @@ package autofill
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -96,4 +97,51 @@ func (p *AutofillFieldClassificationServiceProxy) CalculateScores(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AutofillFieldClassificationServiceStub dispatches incoming binder transactions
+// to a typed IAutofillFieldClassificationService implementation.
+type AutofillFieldClassificationServiceStub struct {
+	Impl IAutofillFieldClassificationService
+}
+
+var _ binder.TransactionReceiver = (*AutofillFieldClassificationServiceStub)(nil)
+
+func (s *AutofillFieldClassificationServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAutofillFieldClassificationServiceCalculateScores:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_actualValues []interface{}
+		_ = _arg_actualValues
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_userDataValues []string
+		_ = _arg_userDataValues
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_categoryIds []string
+		_ = _arg_categoryIds
+		_arg_defaultAlgorithm, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_defaultArgs interface{}
+		// TODO: map param unmarshaling not yet supported in stubs
+		var _arg_algorithms map[interface{}]interface{}
+		_ = _arg_algorithms
+		// TODO: map param unmarshaling not yet supported in stubs
+		var _arg_args map[interface{}]interface{}
+		_ = _arg_args
+		_err = s.Impl.CalculateScores(ctx, _arg_callback, _arg_actualValues, _arg_userDataValues, _arg_categoryIds, _arg_defaultAlgorithm, _arg_defaultArgs, _arg_algorithms, _arg_args)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

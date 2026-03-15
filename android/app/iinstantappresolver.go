@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -71,4 +72,45 @@ func (p *InstantAppResolverProxy) GetInstantAppIntentFilterList(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InstantAppResolverStub dispatches incoming binder transactions
+// to a typed IInstantAppResolver implementation.
+type InstantAppResolverStub struct {
+	Impl IInstantAppResolver
+}
+
+var _ binder.TransactionReceiver = (*InstantAppResolverStub)(nil)
+
+func (s *InstantAppResolverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInstantAppResolverGetInstantAppResolveInfoList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request interface{}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err = s.Impl.GetInstantAppResolveInfoList(ctx, _arg_request, _arg_sequence, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIInstantAppResolverGetInstantAppIntentFilterList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request interface{}
+		var _arg_callback interface{}
+		_err := s.Impl.GetInstantAppIntentFilterList(ctx, _arg_request, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

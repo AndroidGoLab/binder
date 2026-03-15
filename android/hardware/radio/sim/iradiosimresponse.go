@@ -2,6 +2,7 @@ package sim
 
 import (
 	"context"
+	"fmt"
 	radio "github.com/xaionaro-go/binder/android/hardware/radio"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -914,4 +915,889 @@ func (p *RadioSimResponseProxy) IccCloseLogicalChannelWithSessionInfoResponse(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RadioSimResponseStub dispatches incoming binder transactions
+// to a typed IRadioSimResponse implementation.
+type RadioSimResponseStub struct {
+	Impl IRadioSimResponse
+}
+
+var _ binder.TransactionReceiver = (*RadioSimResponseStub)(nil)
+
+func (s *RadioSimResponseStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRadioSimResponseAcknowledgeRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AcknowledgeRequest(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseAreUiccApplicationsEnabledResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AreUiccApplicationsEnabledResponse(ctx, _arg_info, _arg_enabled)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseChangeIccPin2ForAppResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_remainingRetries, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ChangeIccPin2ForAppResponse(ctx, _arg_info, _arg_remainingRetries)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseChangeIccPinForAppResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_remainingRetries, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ChangeIccPinForAppResponse(ctx, _arg_info, _arg_remainingRetries)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseEnableUiccApplicationsResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.EnableUiccApplicationsResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseGetAllowedCarriersResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_carriers CarrierRestrictions
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_carriers.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_raw_multiSimPolicy, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_multiSimPolicy := SimLockMultiSimPolicy(_raw_multiSimPolicy)
+		_err = s.Impl.GetAllowedCarriersResponse(ctx, _arg_info, _arg_carriers, _arg_multiSimPolicy)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseGetCdmaSubscriptionResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_mdn, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_hSid, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_hNid, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_min, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_prl, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetCdmaSubscriptionResponse(ctx, _arg_info, _arg_mdn, _arg_hSid, _arg_hNid, _arg_min, _arg_prl)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseGetCdmaSubscriptionSourceResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_raw_source, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_source := CdmaSubscriptionSource(_raw_source)
+		_err = s.Impl.GetCdmaSubscriptionSourceResponse(ctx, _arg_info, _arg_source)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseGetFacilityLockForAppResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_response, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetFacilityLockForAppResponse(ctx, _arg_info, _arg_response)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseGetIccCardStatusResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_cardStatus CardStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cardStatus.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetIccCardStatusResponse(ctx, _arg_info, _arg_cardStatus)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseGetImsiForAppResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_imsi, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetImsiForAppResponse(ctx, _arg_info, _arg_imsi)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseGetSimPhonebookCapacityResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_capacity PhonebookCapacity
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_capacity.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetSimPhonebookCapacityResponse(ctx, _arg_info, _arg_capacity)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseGetSimPhonebookRecordsResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetSimPhonebookRecordsResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseIccCloseLogicalChannelResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.IccCloseLogicalChannelResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseIccIoForAppResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_iccIo IccIoResult
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_iccIo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.IccIoForAppResponse(ctx, _arg_info, _arg_iccIo)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseIccOpenLogicalChannelResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_channelId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_selectResponse []byte
+		_ = _arg_selectResponse
+		_err = s.Impl.IccOpenLogicalChannelResponse(ctx, _arg_info, _arg_channelId, _arg_selectResponse)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseIccTransmitApduBasicChannelResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_result IccIoResult
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.IccTransmitApduBasicChannelResponse(ctx, _arg_info, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseIccTransmitApduLogicalChannelResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_result IccIoResult
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.IccTransmitApduLogicalChannelResponse(ctx, _arg_info, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseReportStkServiceIsRunningResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ReportStkServiceIsRunningResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseRequestIccSimAuthenticationResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_result IccIoResult
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestIccSimAuthenticationResponse(ctx, _arg_info, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseSendEnvelopeResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_commandResponse, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendEnvelopeResponse(ctx, _arg_info, _arg_commandResponse)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseSendEnvelopeWithStatusResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_iccIo IccIoResult
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_iccIo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SendEnvelopeWithStatusResponse(ctx, _arg_info, _arg_iccIo)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseSendTerminalResponseToSimResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SendTerminalResponseToSimResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseSetAllowedCarriersResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetAllowedCarriersResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseSetCarrierInfoForImsiEncryptionResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetCarrierInfoForImsiEncryptionResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseSetCdmaSubscriptionSourceResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetCdmaSubscriptionSourceResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseSetFacilityLockForAppResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_retry, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetFacilityLockForAppResponse(ctx, _arg_info, _arg_retry)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseSetSimCardPowerResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetSimCardPowerResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseSetUiccSubscriptionResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetUiccSubscriptionResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseSupplyIccPin2ForAppResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_remainingRetries, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SupplyIccPin2ForAppResponse(ctx, _arg_info, _arg_remainingRetries)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseSupplyIccPinForAppResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_remainingRetries, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SupplyIccPinForAppResponse(ctx, _arg_info, _arg_remainingRetries)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseSupplyIccPuk2ForAppResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_remainingRetries, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SupplyIccPuk2ForAppResponse(ctx, _arg_info, _arg_remainingRetries)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseSupplyIccPukForAppResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_remainingRetries, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SupplyIccPukForAppResponse(ctx, _arg_info, _arg_remainingRetries)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseSupplySimDepersonalizationResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_raw_persoType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_persoType := PersoSubstate(_raw_persoType)
+		_arg_remainingRetries, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SupplySimDepersonalizationResponse(ctx, _arg_info, _arg_persoType, _arg_remainingRetries)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseUpdateSimPhonebookRecordsResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_updatedRecordIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateSimPhonebookRecordsResponse(ctx, _arg_info, _arg_updatedRecordIndex)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimResponseIccCloseLogicalChannelWithSessionInfoResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.IccCloseLogicalChannelWithSessionInfoResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

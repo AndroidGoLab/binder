@@ -2,6 +2,7 @@ package soundtrigger3
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -57,4 +58,35 @@ func (p *SoundTriggerHwGlobalCallbackProxy) OnResourcesAvailable(
 	}
 
 	return nil
+}
+
+// SoundTriggerHwGlobalCallbackStub dispatches incoming binder transactions
+// to a typed ISoundTriggerHwGlobalCallback implementation.
+type SoundTriggerHwGlobalCallbackStub struct {
+	Impl ISoundTriggerHwGlobalCallback
+}
+
+var _ binder.TransactionReceiver = (*SoundTriggerHwGlobalCallbackStub)(nil)
+
+func (s *SoundTriggerHwGlobalCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISoundTriggerHwGlobalCallbackOnResourcesAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnResourcesAvailable(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

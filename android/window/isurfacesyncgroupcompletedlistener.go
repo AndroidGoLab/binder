@@ -2,6 +2,7 @@ package window
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -48,4 +49,30 @@ func (p *SurfaceSyncGroupCompletedListenerProxy) OnSurfaceSyncGroupComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SurfaceSyncGroupCompletedListenerStub dispatches incoming binder transactions
+// to a typed ISurfaceSyncGroupCompletedListener implementation.
+type SurfaceSyncGroupCompletedListenerStub struct {
+	Impl ISurfaceSyncGroupCompletedListener
+}
+
+var _ binder.TransactionReceiver = (*SurfaceSyncGroupCompletedListenerStub)(nil)
+
+func (s *SurfaceSyncGroupCompletedListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISurfaceSyncGroupCompletedListenerOnSurfaceSyncGroupComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnSurfaceSyncGroupComplete(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

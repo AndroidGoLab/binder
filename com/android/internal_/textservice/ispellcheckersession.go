@@ -2,6 +2,7 @@ package textservice
 
 import (
 	"context"
+	"fmt"
 	viewTextservice "github.com/xaionaro-go/binder/android/view/textservice"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -128,4 +129,69 @@ func (p *SpellCheckerSessionProxy) OnClose(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SpellCheckerSessionStub dispatches incoming binder transactions
+// to a typed ISpellCheckerSession implementation.
+type SpellCheckerSessionStub struct {
+	Impl ISpellCheckerSession
+}
+
+var _ binder.TransactionReceiver = (*SpellCheckerSessionStub)(nil)
+
+func (s *SpellCheckerSessionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISpellCheckerSessionOnGetSuggestionsMultiple:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_textInfos []viewTextservice.TextInfo
+		_ = _arg_textInfos
+		_arg_suggestionsLimit, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_multipleWords, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGetSuggestionsMultiple(ctx, _arg_textInfos, _arg_suggestionsLimit, _arg_multipleWords)
+		_ = _err
+		return nil, nil
+	case TransactionISpellCheckerSessionOnGetSentenceSuggestionsMultiple:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_textInfos []viewTextservice.TextInfo
+		_ = _arg_textInfos
+		_arg_suggestionsLimit, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGetSentenceSuggestionsMultiple(ctx, _arg_textInfos, _arg_suggestionsLimit)
+		_ = _err
+		return nil, nil
+	case TransactionISpellCheckerSessionOnCancel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnCancel(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISpellCheckerSessionOnClose:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnClose(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

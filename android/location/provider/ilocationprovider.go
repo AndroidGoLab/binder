@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -109,4 +110,71 @@ func (p *LocationProviderProxy) SendExtraCommand(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// LocationProviderStub dispatches incoming binder transactions
+// to a typed ILocationProvider implementation.
+type LocationProviderStub struct {
+	Impl ILocationProvider
+}
+
+var _ binder.TransactionReceiver = (*LocationProviderStub)(nil)
+
+func (s *LocationProviderStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionILocationProviderSetLocationProviderManager:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_manager ILocationProviderManager
+		_ = _arg_manager
+		_err := s.Impl.SetLocationProviderManager(ctx, _arg_manager)
+		_ = _err
+		return nil, nil
+	case TransactionILocationProviderSetRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request ProviderRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetRequest(ctx, _arg_request)
+		_ = _err
+		return nil, nil
+	case TransactionILocationProviderFlush:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Flush(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionILocationProviderSendExtraCommand:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_command, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_extras interface{}
+		_err = s.Impl.SendExtraCommand(ctx, _arg_command, _arg_extras)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

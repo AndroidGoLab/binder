@@ -2,6 +2,7 @@ package wearable
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
 	"github.com/xaionaro-go/binder/parcel"
@@ -56,4 +57,46 @@ func (p *WearableSensingCallbackProxy) OpenFile(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// WearableSensingCallbackStub dispatches incoming binder transactions
+// to a typed IWearableSensingCallback implementation.
+type WearableSensingCallbackStub struct {
+	Impl IWearableSensingCallback
+}
+
+var _ binder.TransactionReceiver = (*WearableSensingCallbackStub)(nil)
+
+func (s *WearableSensingCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWearableSensingCallbackOpenFile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_filename, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OpenFile(ctx, _arg_filename, _arg_future)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

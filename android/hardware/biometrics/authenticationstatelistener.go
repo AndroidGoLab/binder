@@ -2,6 +2,7 @@ package biometrics
 
 import (
 	"context"
+	"fmt"
 	events "github.com/xaionaro-go/binder/android/hardware/biometrics/events"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -186,4 +187,156 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationSucceeded(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AuthenticationStateListenerStub dispatches incoming binder transactions
+// to a typed AuthenticationStateListener implementation.
+type AuthenticationStateListenerStub struct {
+	Impl AuthenticationStateListener
+}
+
+var _ binder.TransactionReceiver = (*AuthenticationStateListenerStub)(nil)
+
+func (s *AuthenticationStateListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionAuthenticationStateListenerOnAuthenticationAcquired:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_authInfo events.AuthenticationAcquiredInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_authInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAuthenticationAcquired(ctx, _arg_authInfo)
+		_ = _err
+		return nil, nil
+	case TransactionAuthenticationStateListenerOnAuthenticationError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_authInfo events.AuthenticationErrorInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_authInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAuthenticationError(ctx, _arg_authInfo)
+		_ = _err
+		return nil, nil
+	case TransactionAuthenticationStateListenerOnAuthenticationFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_authInfo events.AuthenticationFailedInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_authInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAuthenticationFailed(ctx, _arg_authInfo)
+		_ = _err
+		return nil, nil
+	case TransactionAuthenticationStateListenerOnAuthenticationHelp:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_authInfo events.AuthenticationHelpInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_authInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAuthenticationHelp(ctx, _arg_authInfo)
+		_ = _err
+		return nil, nil
+	case TransactionAuthenticationStateListenerOnAuthenticationStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_authInfo events.AuthenticationStartedInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_authInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAuthenticationStarted(ctx, _arg_authInfo)
+		_ = _err
+		return nil, nil
+	case TransactionAuthenticationStateListenerOnAuthenticationStopped:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_authInfo events.AuthenticationStoppedInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_authInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAuthenticationStopped(ctx, _arg_authInfo)
+		_ = _err
+		return nil, nil
+	case TransactionAuthenticationStateListenerOnAuthenticationSucceeded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_authInfo events.AuthenticationSucceededInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_authInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAuthenticationSucceeded(ctx, _arg_authInfo)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

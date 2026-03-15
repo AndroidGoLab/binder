@@ -2,6 +2,7 @@ package dumpstate
 
 import (
 	"context"
+	"fmt"
 	dumpstateIDumpstateDevice "github.com/xaionaro-go/binder/android/hardware/dumpstate/IDumpstateDevice"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -135,4 +136,76 @@ func (p *DumpstateDeviceProxy) SetVerboseLoggingEnabled(
 	}
 
 	return nil
+}
+
+// DumpstateDeviceStub dispatches incoming binder transactions
+// to a typed IDumpstateDevice implementation.
+type DumpstateDeviceStub struct {
+	Impl IDumpstateDevice
+}
+
+var _ binder.TransactionReceiver = (*DumpstateDeviceStub)(nil)
+
+func (s *DumpstateDeviceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDumpstateDeviceDumpstateBoard:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_fd []int32
+		_ = _arg_fd
+		_raw_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode := dumpstateIDumpstateDevice.DumpstateMode(_raw_mode)
+		_arg_timeoutMillis, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DumpstateBoard(ctx, _arg_fd, _arg_mode, _arg_timeoutMillis)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIDumpstateDeviceGetVerboseLoggingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetVerboseLoggingEnabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIDumpstateDeviceSetVerboseLoggingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetVerboseLoggingEnabled(ctx, _arg_enable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package soundtrigger_middleware
 
 import (
 	"context"
+	"fmt"
 	soundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -267,4 +268,167 @@ func (p *SoundTriggerInjectionProxy) OnPreempted(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SoundTriggerInjectionStub dispatches incoming binder transactions
+// to a typed ISoundTriggerInjection implementation.
+type SoundTriggerInjectionStub struct {
+	Impl ISoundTriggerInjection
+}
+
+var _ binder.TransactionReceiver = (*SoundTriggerInjectionStub)(nil)
+
+func (s *SoundTriggerInjectionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISoundTriggerInjectionRegisterGlobalEventInjection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_globalInjection IInjectGlobalEvent
+		_ = _arg_globalInjection
+		_err := s.Impl.RegisterGlobalEventInjection(ctx, _arg_globalInjection)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerInjectionOnRestarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_globalSession IInjectGlobalEvent
+		_ = _arg_globalSession
+		_err := s.Impl.OnRestarted(ctx, _arg_globalSession)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerInjectionOnFrameworkDetached:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_globalSession IInjectGlobalEvent
+		_ = _arg_globalSession
+		_err := s.Impl.OnFrameworkDetached(ctx, _arg_globalSession)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerInjectionOnClientAttached:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_globalSession IInjectGlobalEvent
+		_ = _arg_globalSession
+		_err := s.Impl.OnClientAttached(ctx, _arg_token, _arg_globalSession)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerInjectionOnClientDetached:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_err := s.Impl.OnClientDetached(ctx, _arg_token)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerInjectionOnSoundModelLoaded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_model interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_phrases []interface{}
+		_ = _arg_phrases
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_modelInjection IInjectModelEvent
+		_ = _arg_modelInjection
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_globalSession IInjectGlobalEvent
+		_ = _arg_globalSession
+		_err := s.Impl.OnSoundModelLoaded(ctx, _arg_model, _arg_phrases, _arg_modelInjection, _arg_globalSession)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerInjectionOnParamSet:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modelParam, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_value, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_modelSession IInjectModelEvent
+		_ = _arg_modelSession
+		_err = s.Impl.OnParamSet(ctx, _arg_modelParam, _arg_value, _arg_modelSession)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerInjectionOnRecognitionStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_audioSessionToken, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_config soundtrigger.SoundTriggerRecognitionConfig
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_recognitionInjection IInjectRecognitionEvent
+		_ = _arg_recognitionInjection
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_modelSession IInjectModelEvent
+		_ = _arg_modelSession
+		_err = s.Impl.OnRecognitionStarted(ctx, _arg_audioSessionToken, _arg_config, _arg_recognitionInjection, _arg_modelSession)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerInjectionOnRecognitionStopped:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_recognitionSession IInjectRecognitionEvent
+		_ = _arg_recognitionSession
+		_err := s.Impl.OnRecognitionStopped(ctx, _arg_recognitionSession)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerInjectionOnSoundModelUnloaded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_modelSession IInjectModelEvent
+		_ = _arg_modelSession
+		_err := s.Impl.OnSoundModelUnloaded(ctx, _arg_modelSession)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerInjectionOnPreempted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnPreempted(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

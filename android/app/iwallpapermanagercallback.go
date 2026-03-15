@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -74,4 +75,56 @@ func (p *WallpaperManagerCallbackProxy) OnWallpaperColorsChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// WallpaperManagerCallbackStub dispatches incoming binder transactions
+// to a typed IWallpaperManagerCallback implementation.
+type WallpaperManagerCallbackStub struct {
+	Impl IWallpaperManagerCallback
+}
+
+var _ binder.TransactionReceiver = (*WallpaperManagerCallbackStub)(nil)
+
+func (s *WallpaperManagerCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWallpaperManagerCallbackOnWallpaperChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnWallpaperChanged(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIWallpaperManagerCallbackOnWallpaperColorsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_colors WallpaperColors
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_colors.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_which, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnWallpaperColorsChanged(ctx, _arg_colors, _arg_which)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

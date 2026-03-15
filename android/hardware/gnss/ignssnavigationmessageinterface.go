@@ -2,6 +2,7 @@ package gnss
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -85,4 +86,50 @@ func (p *GnssNavigationMessageInterfaceProxy) Close(
 	}
 
 	return nil
+}
+
+// GnssNavigationMessageInterfaceStub dispatches incoming binder transactions
+// to a typed IGnssNavigationMessageInterface implementation.
+type GnssNavigationMessageInterfaceStub struct {
+	Impl IGnssNavigationMessageInterface
+}
+
+var _ binder.TransactionReceiver = (*GnssNavigationMessageInterfaceStub)(nil)
+
+func (s *GnssNavigationMessageInterfaceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssNavigationMessageInterfaceSetCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGnssNavigationMessageCallback
+		_ = _arg_callback
+		_err := s.Impl.SetCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssNavigationMessageInterfaceClose:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Close(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

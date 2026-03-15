@@ -2,6 +2,7 @@ package servicedb
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -87,4 +88,55 @@ func (p *ServiceListImportListenerProxy) OnPreloaded(
 	}
 
 	return nil
+}
+
+// ServiceListImportListenerStub dispatches incoming binder transactions
+// to a typed IServiceListImportListener implementation.
+type ServiceListImportListenerStub struct {
+	Impl IServiceListImportListener
+}
+
+var _ binder.TransactionReceiver = (*ServiceListImportListenerStub)(nil)
+
+func (s *ServiceListImportListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIServiceListImportListenerOnImported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_importResult, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnImported(ctx, _arg_importResult)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIServiceListImportListenerOnPreloaded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_preloadResult, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnPreloaded(ctx, _arg_preloadResult)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

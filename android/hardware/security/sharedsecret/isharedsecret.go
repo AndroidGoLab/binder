@@ -2,6 +2,7 @@ package sharedsecret
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -124,4 +125,56 @@ func (p *SharedSecretProxy) ComputeSharedSecret(
 		}
 	}
 	return _result, nil
+}
+
+// SharedSecretStub dispatches incoming binder transactions
+// to a typed ISharedSecret implementation.
+type SharedSecretStub struct {
+	Impl ISharedSecret
+}
+
+var _ binder.TransactionReceiver = (*SharedSecretStub)(nil)
+
+func (s *SharedSecretStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISharedSecretGetSharedSecretParameters:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSharedSecretParameters(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionISharedSecretComputeSharedSecret:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_params []SharedSecretParameters
+		_ = _arg_params
+		_result, _err := s.Impl.ComputeSharedSecret(ctx, _arg_params)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

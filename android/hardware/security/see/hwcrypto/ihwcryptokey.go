@@ -2,6 +2,7 @@ package hwcrypto
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -310,4 +311,156 @@ func (p *HwCryptoKeyProxy) GetKeyslotData(
 	}
 	_result = NewOpaqueKeyProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
+}
+
+// HwCryptoKeyStub dispatches incoming binder transactions
+// to a typed IHwCryptoKey implementation.
+type HwCryptoKeyStub struct {
+	Impl IHwCryptoKey
+}
+
+var _ binder.TransactionReceiver = (*HwCryptoKeyStub)(nil)
+
+func (s *HwCryptoKeyStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIHwCryptoKeyDeriveCurrentDicePolicyBoundKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_derivationKey interface{}
+		_result, _err := s.Impl.DeriveCurrentDicePolicyBoundKey(ctx, _arg_derivationKey)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIHwCryptoKeyDeriveDicePolicyBoundKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_derivationKey interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_dicePolicyForKeyVersion []byte
+		_ = _arg_dicePolicyForKeyVersion
+		_result, _err := s.Impl.DeriveDicePolicyBoundKey(ctx, _arg_derivationKey, _arg_dicePolicyForKeyVersion)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIHwCryptoKeyDeriveKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_parameters interface{}
+		_result, _err := s.Impl.DeriveKey(ctx, _arg_parameters)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIHwCryptoKeyGetHwCryptoOperations:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetHwCryptoOperations(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIHwCryptoKeyImportClearKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_keyMaterial interface{}
+		var _arg_newKeyPolicy KeyPolicy
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_newKeyPolicy.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.ImportClearKey(ctx, _arg_keyMaterial, _arg_newKeyPolicy)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIHwCryptoKeyGetCurrentDicePolicy:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCurrentDicePolicy(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIHwCryptoKeyKeyTokenImport:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_requestedKey interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sealingDicePolicy []byte
+		_ = _arg_sealingDicePolicy
+		_result, _err := s.Impl.KeyTokenImport(ctx, _arg_requestedKey, _arg_sealingDicePolicy)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIHwCryptoKeyGetKeyslotData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_slotId interface{}
+		_result, _err := s.Impl.GetKeyslotData(ctx, _arg_slotId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

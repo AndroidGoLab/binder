@@ -2,6 +2,7 @@ package modem
 
 import (
 	"context"
+	"fmt"
 	radio "github.com/xaionaro-go/binder/android/hardware/radio"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -171,4 +172,131 @@ func (p *RadioModemIndicationProxy) OnImeiMappingChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RadioModemIndicationStub dispatches incoming binder transactions
+// to a typed IRadioModemIndication implementation.
+type RadioModemIndicationStub struct {
+	Impl IRadioModemIndication
+}
+
+var _ binder.TransactionReceiver = (*RadioModemIndicationStub)(nil)
+
+func (s *RadioModemIndicationStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRadioModemIndicationHardwareConfigChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_configs []HardwareConfig
+		_ = _arg_configs
+		_err = s.Impl.HardwareConfigChanged(ctx, _arg_type_, _arg_configs)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioModemIndicationModemReset:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		_arg_reason, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ModemReset(ctx, _arg_type_, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioModemIndicationRadioCapabilityIndication:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		var _arg_rc RadioCapability
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_rc.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RadioCapabilityIndication(ctx, _arg_type_, _arg_rc)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioModemIndicationRadioStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		_raw_radioState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_radioState := RadioState(_raw_radioState)
+		_err = s.Impl.RadioStateChanged(ctx, _arg_type_, _arg_radioState)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioModemIndicationRilConnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		_err = s.Impl.RilConnected(ctx, _arg_type_)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioModemIndicationOnImeiMappingChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		var _arg_imeiInfo ImeiInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_imeiInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnImeiMappingChanged(ctx, _arg_type_, _arg_imeiInfo)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

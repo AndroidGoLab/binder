@@ -2,6 +2,7 @@ package vcn
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -286,4 +287,170 @@ func (p *VcnManagementServiceProxy) UnregisterVcnStatusCallback(
 	}
 
 	return nil
+}
+
+// VcnManagementServiceStub dispatches incoming binder transactions
+// to a typed IVcnManagementService implementation.
+type VcnManagementServiceStub struct {
+	Impl IVcnManagementService
+}
+
+var _ binder.TransactionReceiver = (*VcnManagementServiceStub)(nil)
+
+func (s *VcnManagementServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVcnManagementServiceSetVcnConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_subscriptionGroup interface{}
+		var _arg_config VcnConfig
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_opPkgName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetVcnConfig(ctx, _arg_subscriptionGroup, _arg_config, _arg_opPkgName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIVcnManagementServiceClearVcnConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_subscriptionGroup interface{}
+		_arg_opPkgName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ClearVcnConfig(ctx, _arg_subscriptionGroup, _arg_opPkgName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIVcnManagementServiceGetConfiguredSubscriptionGroups:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_opPkgName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetConfiguredSubscriptionGroups(ctx, _arg_opPkgName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIVcnManagementServiceAddVcnUnderlyingNetworkPolicyListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IVcnUnderlyingNetworkPolicyListener
+		_ = _arg_listener
+		_err := s.Impl.AddVcnUnderlyingNetworkPolicyListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIVcnManagementServiceRemoveVcnUnderlyingNetworkPolicyListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IVcnUnderlyingNetworkPolicyListener
+		_ = _arg_listener
+		_err := s.Impl.RemoveVcnUnderlyingNetworkPolicyListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIVcnManagementServiceGetUnderlyingNetworkPolicy:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_nc interface{}
+		var _arg_lp interface{}
+		_result, _err := s.Impl.GetUnderlyingNetworkPolicy(ctx, _arg_nc, _arg_lp)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIVcnManagementServiceRegisterVcnStatusCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_subscriptionGroup interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IVcnStatusCallback
+		_ = _arg_callback
+		_arg_opPkgName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RegisterVcnStatusCallback(ctx, _arg_subscriptionGroup, _arg_callback, _arg_opPkgName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIVcnManagementServiceUnregisterVcnStatusCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IVcnStatusCallback
+		_ = _arg_callback
+		_err := s.Impl.UnregisterVcnStatusCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

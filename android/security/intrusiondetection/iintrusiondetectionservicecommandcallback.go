@@ -2,6 +2,7 @@ package intrusiondetection
 
 import (
 	"context"
+	"fmt"
 	device "github.com/xaionaro-go/binder/android/hardware/camera/device"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -68,4 +69,42 @@ func (p *IntrusionDetectionServiceCommandCallbackProxy) OnFailure(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// IntrusionDetectionServiceCommandCallbackStub dispatches incoming binder transactions
+// to a typed IIntrusionDetectionServiceCommandCallback implementation.
+type IntrusionDetectionServiceCommandCallbackStub struct {
+	Impl IIntrusionDetectionServiceCommandCallback
+}
+
+var _ binder.TransactionReceiver = (*IntrusionDetectionServiceCommandCallbackStub)(nil)
+
+func (s *IntrusionDetectionServiceCommandCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIIntrusionDetectionServiceCommandCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnSuccess(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIIntrusionDetectionServiceCommandCallbackOnFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_error_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_error_ := device.ErrorCode(_raw_error_)
+		_err = s.Impl.OnFailure(ctx, _arg_error_)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

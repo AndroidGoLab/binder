@@ -2,6 +2,7 @@ package telecom
 
 import (
 	"context"
+	"fmt"
 	androidTelecom "github.com/xaionaro-go/binder/android/telecom"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -62,4 +63,37 @@ func (p *PhoneAccountSuggestionCallbackProxy) SuggestPhoneAccounts(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PhoneAccountSuggestionCallbackStub dispatches incoming binder transactions
+// to a typed IPhoneAccountSuggestionCallback implementation.
+type PhoneAccountSuggestionCallbackStub struct {
+	Impl IPhoneAccountSuggestionCallback
+}
+
+var _ binder.TransactionReceiver = (*PhoneAccountSuggestionCallbackStub)(nil)
+
+func (s *PhoneAccountSuggestionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPhoneAccountSuggestionCallbackSuggestPhoneAccounts:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_number, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_suggestions []androidTelecom.PhoneAccountSuggestion
+		_ = _arg_suggestions
+		_err = s.Impl.SuggestPhoneAccounts(ctx, _arg_number, _arg_suggestions)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package tv
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -132,4 +133,97 @@ func (p *TvInputHardwareProxy) OverrideAudioSink(
 	}
 
 	return nil
+}
+
+// TvInputHardwareStub dispatches incoming binder transactions
+// to a typed ITvInputHardware implementation.
+type TvInputHardwareStub struct {
+	Impl ITvInputHardware
+}
+
+var _ binder.TransactionReceiver = (*TvInputHardwareStub)(nil)
+
+func (s *TvInputHardwareStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITvInputHardwareSetSurface:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_surface interface{}
+		var _arg_config TvStreamConfig
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.SetSurface(ctx, _arg_surface, _arg_config)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITvInputHardwareSetStreamVolume:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_volume, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetStreamVolume(ctx, _arg_volume)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITvInputHardwareOverrideAudioSink:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_audioType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_audioAddress, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_samplingRate, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_channelMask, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_format, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OverrideAudioSink(ctx, _arg_audioType, _arg_audioAddress, _arg_samplingRate, _arg_channelMask, _arg_format)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

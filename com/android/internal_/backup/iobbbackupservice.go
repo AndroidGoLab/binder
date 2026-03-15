@@ -2,6 +2,7 @@ package backup
 
 import (
 	"context"
+	"fmt"
 	appBackup "github.com/xaionaro-go/binder/android/app/backup"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -92,4 +93,87 @@ func (p *ObbBackupServiceProxy) RestoreObbFile(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ObbBackupServiceStub dispatches incoming binder transactions
+// to a typed IObbBackupService implementation.
+type ObbBackupServiceStub struct {
+	Impl IObbBackupService
+}
+
+var _ binder.TransactionReceiver = (*ObbBackupServiceStub)(nil)
+
+func (s *ObbBackupServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIObbBackupServiceBackupObbs:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_data, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbackBinder appBackup.IBackupManager
+		_ = _arg_callbackBinder
+		_err = s.Impl.BackupObbs(ctx, _arg_packageName, _arg_data, _arg_token, _arg_callbackBinder)
+		_ = _err
+		return nil, nil
+	case TransactionIObbBackupServiceRestoreObbFile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pkgName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_data, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fileSize, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mtime, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbackBinder appBackup.IBackupManager
+		_ = _arg_callbackBinder
+		_err = s.Impl.RestoreObbFile(ctx, _arg_pkgName, _arg_data, _arg_fileSize, _arg_type_, _arg_path, _arg_mode, _arg_mtime, _arg_token, _arg_callbackBinder)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

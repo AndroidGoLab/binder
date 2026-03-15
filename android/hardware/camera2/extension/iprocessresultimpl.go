@@ -2,6 +2,7 @@ package extension
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -88,4 +89,56 @@ func (p *ProcessResultImplProxy) OnCaptureProcessProgressed(
 	}
 
 	return nil
+}
+
+// ProcessResultImplStub dispatches incoming binder transactions
+// to a typed IProcessResultImpl implementation.
+type ProcessResultImplStub struct {
+	Impl IProcessResultImpl
+}
+
+var _ binder.TransactionReceiver = (*ProcessResultImplStub)(nil)
+
+func (s *ProcessResultImplStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIProcessResultImplOnCaptureCompleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_shutterTimestamp, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_results interface{}
+		_err = s.Impl.OnCaptureCompleted(ctx, _arg_shutterTimestamp, _arg_results)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIProcessResultImplOnCaptureProcessProgressed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_progress, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCaptureProcessProgressed(ctx, _arg_progress)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

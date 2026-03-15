@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	net "github.com/xaionaro-go/binder/android/net"
 	feature "github.com/xaionaro-go/binder/android/telephony/ims/feature"
 	"github.com/xaionaro-go/binder/binder"
@@ -283,4 +284,171 @@ func (p *ImsRcsFeatureProxy) SendOptionsCapabilityRequest(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ImsRcsFeatureStub dispatches incoming binder transactions
+// to a typed IImsRcsFeature implementation.
+type ImsRcsFeatureStub struct {
+	Impl IImsRcsFeature
+}
+
+var _ binder.TransactionReceiver = (*ImsRcsFeatureStub)(nil)
+
+func (s *ImsRcsFeatureStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIImsRcsFeatureQueryCapabilityStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.QueryCapabilityStatus(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIImsRcsFeatureGetFeatureState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetFeatureState(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIImsRcsFeatureAddCapabilityCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c IImsCapabilityCallback
+		_ = _arg_c
+		_err := s.Impl.AddCapabilityCallback(ctx, _arg_c)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRcsFeatureRemoveCapabilityCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c IImsCapabilityCallback
+		_ = _arg_c
+		_err := s.Impl.RemoveCapabilityCallback(ctx, _arg_c)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRcsFeatureChangeCapabilitiesConfiguration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_r feature.CapabilityChangeRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_r.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c IImsCapabilityCallback
+		_ = _arg_c
+		_err := s.Impl.ChangeCapabilitiesConfiguration(ctx, _arg_r, _arg_c)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRcsFeatureQueryCapabilityConfiguration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_radioTech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c IImsCapabilityCallback
+		_ = _arg_c
+		_err = s.Impl.QueryCapabilityConfiguration(ctx, _arg_capability, _arg_radioTech, _arg_c)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRcsFeatureSetCapabilityExchangeEventListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ICapabilityExchangeEventListener
+		_ = _arg_listener
+		_err := s.Impl.SetCapabilityExchangeEventListener(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRcsFeaturePublishCapabilities:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pidfXml, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cb IPublishResponseCallback
+		_ = _arg_cb
+		_err = s.Impl.PublishCapabilities(ctx, _arg_pidfXml, _arg_cb)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRcsFeatureSubscribeForCapabilities:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_uris []net.Uri
+		_ = _arg_uris
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cb ISubscribeResponseCallback
+		_ = _arg_cb
+		_err := s.Impl.SubscribeForCapabilities(ctx, _arg_uris, _arg_cb)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRcsFeatureSendOptionsCapabilityRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_contactUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_contactUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_myCapabilities []string
+		_ = _arg_myCapabilities
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cb IOptionsResponseCallback
+		_ = _arg_cb
+		_err := s.Impl.SendOptionsCapabilityRequest(ctx, _arg_contactUri, _arg_myCapabilities, _arg_cb)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

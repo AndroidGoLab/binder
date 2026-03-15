@@ -2,6 +2,7 @@ package identity
 
 import (
 	"context"
+	"fmt"
 	keymint "github.com/xaionaro-go/binder/android/hardware/security/keymint"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -229,4 +230,116 @@ func (p *IdentityCredentialStoreProxy) GetRemotelyProvisionedComponent(
 	}
 	_result = keymint.NewRemotelyProvisionedComponentProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
+}
+
+// IdentityCredentialStoreStub dispatches incoming binder transactions
+// to a typed IIdentityCredentialStore implementation.
+type IdentityCredentialStoreStub struct {
+	Impl IIdentityCredentialStore
+}
+
+var _ binder.TransactionReceiver = (*IdentityCredentialStoreStub)(nil)
+
+func (s *IdentityCredentialStoreStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIIdentityCredentialStoreGetHardwareInformation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetHardwareInformation(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIIdentityCredentialStoreCreateCredential:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_docType, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_testCredential, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateCredential(ctx, _arg_docType, _arg_testCredential)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIIdentityCredentialStoreGetCredential:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_cipherSuite, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cipherSuite := CipherSuite(_raw_cipherSuite)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_credentialData []byte
+		_ = _arg_credentialData
+		_result, _err := s.Impl.GetCredential(ctx, _arg_cipherSuite, _arg_credentialData)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIIdentityCredentialStoreCreatePresentationSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_cipherSuite, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cipherSuite := CipherSuite(_raw_cipherSuite)
+		_result, _err := s.Impl.CreatePresentationSession(ctx, _arg_cipherSuite)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIIdentityCredentialStoreGetRemotelyProvisionedComponent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetRemotelyProvisionedComponent(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

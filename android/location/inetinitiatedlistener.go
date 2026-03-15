@@ -2,6 +2,7 @@ package location
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -66,4 +67,44 @@ func (p *NetInitiatedListenerProxy) SendNiResponse(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// NetInitiatedListenerStub dispatches incoming binder transactions
+// to a typed INetInitiatedListener implementation.
+type NetInitiatedListenerStub struct {
+	Impl INetInitiatedListener
+}
+
+var _ binder.TransactionReceiver = (*NetInitiatedListenerStub)(nil)
+
+func (s *NetInitiatedListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionINetInitiatedListenerSendNiResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_notifId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_userResponse, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SendNiResponse(ctx, _arg_notifId, _arg_userResponse)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

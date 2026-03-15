@@ -2,6 +2,7 @@ package scan
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -119,4 +120,92 @@ func (p *ScanInterfaceProxy) GetParameters(
 		}
 	}
 	return _result, nil
+}
+
+// ScanInterfaceStub dispatches incoming binder transactions
+// to a typed IScanInterface implementation.
+type ScanInterfaceStub struct {
+	Impl IScanInterface
+}
+
+var _ binder.TransactionReceiver = (*ScanInterfaceStub)(nil)
+
+func (s *ScanInterfaceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIScanInterfaceCreateSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_broadcastType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_countryCode, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_operator, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IScanListener
+		_ = _arg_listener
+		_result, _err := s.Impl.CreateSession(ctx, _arg_broadcastType, _arg_countryCode, _arg_operator, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIScanInterfaceGetParameters:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_broadcastType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_countryCode, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_operator, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_params os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GetParameters(ctx, _arg_broadcastType, _arg_countryCode, _arg_operator, _arg_params)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

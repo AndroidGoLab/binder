@@ -2,6 +2,7 @@ package face
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -312,4 +313,238 @@ func (p *FaceServiceReceiverProxy) OnEnrollmentFrame(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// FaceServiceReceiverStub dispatches incoming binder transactions
+// to a typed IFaceServiceReceiver implementation.
+type FaceServiceReceiverStub struct {
+	Impl IFaceServiceReceiver
+}
+
+var _ binder.TransactionReceiver = (*FaceServiceReceiverStub)(nil)
+
+func (s *FaceServiceReceiverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIFaceServiceReceiverOnEnrollResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_face Face
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_face.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_remaining, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnEnrollResult(ctx, _arg_face, _arg_remaining)
+		_ = _err
+		return nil, nil
+	case TransactionIFaceServiceReceiverOnAcquired:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_acquiredInfo, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_vendorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAcquired(ctx, _arg_acquiredInfo, _arg_vendorCode)
+		_ = _err
+		return nil, nil
+	case TransactionIFaceServiceReceiverOnAuthenticationSucceeded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_face Face
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_face.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_isStrongBiometric, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAuthenticationSucceeded(ctx, _arg_face, _arg_isStrongBiometric)
+		_ = _err
+		return nil, nil
+	case TransactionIFaceServiceReceiverOnFaceDetected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sensorId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_isStrongBiometric, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFaceDetected(ctx, _arg_sensorId, _arg_isStrongBiometric)
+		_ = _err
+		return nil, nil
+	case TransactionIFaceServiceReceiverOnAuthenticationFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnAuthenticationFailed(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIFaceServiceReceiverOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_error_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_vendorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_error_, _arg_vendorCode)
+		_ = _err
+		return nil, nil
+	case TransactionIFaceServiceReceiverOnRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_face Face
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_face.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_remaining, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRemoved(ctx, _arg_face, _arg_remaining)
+		_ = _err
+		return nil, nil
+	case TransactionIFaceServiceReceiverOnFeatureSet:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_success, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_feature, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFeatureSet(ctx, _arg_success, _arg_feature)
+		_ = _err
+		return nil, nil
+	case TransactionIFaceServiceReceiverOnFeatureGet:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_success, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_features []int32
+		_ = _arg_features
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_featureState []bool
+		_ = _arg_featureState
+		_err = s.Impl.OnFeatureGet(ctx, _arg_success, _arg_features, _arg_featureState)
+		_ = _err
+		return nil, nil
+	case TransactionIFaceServiceReceiverOnChallengeGenerated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sensorId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_challenge, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnChallengeGenerated(ctx, _arg_sensorId, _arg_challenge)
+		_ = _err
+		return nil, nil
+	case TransactionIFaceServiceReceiverOnAuthenticationFrame:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_frame FaceAuthenticationFrame
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_frame.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAuthenticationFrame(ctx, _arg_frame)
+		_ = _err
+		return nil, nil
+	case TransactionIFaceServiceReceiverOnEnrollmentFrame:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_frame FaceEnrollFrame
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_frame.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnEnrollmentFrame(ctx, _arg_frame)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

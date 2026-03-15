@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -141,4 +142,105 @@ func (p *ImsSmsListenerProxy) OnMemoryAvailableResult(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ImsSmsListenerStub dispatches incoming binder transactions
+// to a typed IImsSmsListener implementation.
+type ImsSmsListenerStub struct {
+	Impl IImsSmsListener
+}
+
+var _ binder.TransactionReceiver = (*ImsSmsListenerStub)(nil)
+
+func (s *ImsSmsListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIImsSmsListenerOnSendSmsResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_messageRef, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_networkErrorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSendSmsResult(ctx, _arg_token, _arg_messageRef, _arg_status, _arg_reason, _arg_networkErrorCode)
+		_ = _err
+		return nil, nil
+	case TransactionIImsSmsListenerOnSmsStatusReportReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_format, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pdu []byte
+		_ = _arg_pdu
+		_err = s.Impl.OnSmsStatusReportReceived(ctx, _arg_token, _arg_format, _arg_pdu)
+		_ = _err
+		return nil, nil
+	case TransactionIImsSmsListenerOnSmsReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_format, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pdu []byte
+		_ = _arg_pdu
+		_err = s.Impl.OnSmsReceived(ctx, _arg_token, _arg_format, _arg_pdu)
+		_ = _err
+		return nil, nil
+	case TransactionIImsSmsListenerOnMemoryAvailableResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_networkErrorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnMemoryAvailableResult(ctx, _arg_token, _arg_status, _arg_networkErrorCode)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package gui
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -68,4 +69,38 @@ func (p *JankListenerProxy) OnJankData(
 	}
 
 	return nil
+}
+
+// JankListenerStub dispatches incoming binder transactions
+// to a typed IJankListener implementation.
+type JankListenerStub struct {
+	Impl IJankListener
+}
+
+var _ binder.TransactionReceiver = (*JankListenerStub)(nil)
+
+func (s *JankListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIJankListenerOnJankData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []JankData
+		_ = _arg_data
+		_err := s.Impl.OnJankData(ctx, _arg_data)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

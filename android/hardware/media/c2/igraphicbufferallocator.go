@@ -2,6 +2,7 @@ package c2
 
 import (
 	"context"
+	"fmt"
 	c2IGraphicBufferAllocator "github.com/xaionaro-go/binder/android/hardware/media/c2/IGraphicBufferAllocator"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -137,4 +138,81 @@ func (p *GraphicBufferAllocatorProxy) GetWaitableFd(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// GraphicBufferAllocatorStub dispatches incoming binder transactions
+// to a typed IGraphicBufferAllocator implementation.
+type GraphicBufferAllocatorStub struct {
+	Impl IGraphicBufferAllocator
+}
+
+var _ binder.TransactionReceiver = (*GraphicBufferAllocatorStub)(nil)
+
+func (s *GraphicBufferAllocatorStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGraphicBufferAllocatorAllocate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_desc c2IGraphicBufferAllocator.Description
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_desc.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.Allocate(ctx, _arg_desc)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIGraphicBufferAllocatorDeallocate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.Deallocate(ctx, _arg_id)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIGraphicBufferAllocatorGetWaitableFd:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetWaitableFd(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteFileDescriptor(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

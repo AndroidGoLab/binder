@@ -2,6 +2,7 @@ package quality
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -53,4 +54,42 @@ func (p *AmbientBacklightCallbackProxy) OnAmbientBacklightEvent(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AmbientBacklightCallbackStub dispatches incoming binder transactions
+// to a typed IAmbientBacklightCallback implementation.
+type AmbientBacklightCallbackStub struct {
+	Impl IAmbientBacklightCallback
+}
+
+var _ binder.TransactionReceiver = (*AmbientBacklightCallbackStub)(nil)
+
+func (s *AmbientBacklightCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAmbientBacklightCallbackOnAmbientBacklightEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event AmbientBacklightEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAmbientBacklightEvent(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

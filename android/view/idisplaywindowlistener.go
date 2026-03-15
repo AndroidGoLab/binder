@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -171,4 +172,100 @@ func (p *DisplayWindowListenerProxy) OnKeepClearAreasChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DisplayWindowListenerStub dispatches incoming binder transactions
+// to a typed IDisplayWindowListener implementation.
+type DisplayWindowListenerStub struct {
+	Impl IDisplayWindowListener
+}
+
+var _ binder.TransactionReceiver = (*DisplayWindowListenerStub)(nil)
+
+func (s *DisplayWindowListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDisplayWindowListenerOnDisplayAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDisplayAdded(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIDisplayWindowListenerOnDisplayConfigurationChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_newConfig interface{}
+		_err = s.Impl.OnDisplayConfigurationChanged(ctx, _arg_displayId, _arg_newConfig)
+		_ = _err
+		return nil, nil
+	case TransactionIDisplayWindowListenerOnDisplayRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDisplayRemoved(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIDisplayWindowListenerOnFixedRotationStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newRotation, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFixedRotationStarted(ctx, _arg_displayId, _arg_newRotation)
+		_ = _err
+		return nil, nil
+	case TransactionIDisplayWindowListenerOnFixedRotationFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFixedRotationFinished(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIDisplayWindowListenerOnKeepClearAreasChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_restricted []graphics.Rect
+		_ = _arg_restricted
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_unrestricted []graphics.Rect
+		_ = _arg_unrestricted
+		_err = s.Impl.OnKeepClearAreasChanged(ctx, _arg_displayId, _arg_restricted, _arg_unrestricted)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

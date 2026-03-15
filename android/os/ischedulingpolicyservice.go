@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -105,4 +106,72 @@ func (p *SchedulingPolicyServiceProxy) RequestCpusetBoost(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// SchedulingPolicyServiceStub dispatches incoming binder transactions
+// to a typed ISchedulingPolicyService implementation.
+type SchedulingPolicyServiceStub struct {
+	Impl ISchedulingPolicyService
+}
+
+var _ binder.TransactionReceiver = (*SchedulingPolicyServiceStub)(nil)
+
+func (s *SchedulingPolicyServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISchedulingPolicyServiceRequestPriority:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_prio, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isForApp, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RequestPriority(ctx, _arg_pid, _arg_tid, _arg_prio, _arg_isForApp)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionISchedulingPolicyServiceRequestCpusetBoost:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client binder.IBinder
+		_ = _arg_client
+		_result, _err := s.Impl.RequestCpusetBoost(ctx, _arg_enable, _arg_client)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

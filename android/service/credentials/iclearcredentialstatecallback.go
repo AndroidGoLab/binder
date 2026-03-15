@@ -2,6 +2,7 @@ package credentials
 
 import (
 	"context"
+	"fmt"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -88,4 +89,52 @@ func (p *ClearCredentialStateCallbackProxy) OnCancellable(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ClearCredentialStateCallbackStub dispatches incoming binder transactions
+// to a typed IClearCredentialStateCallback implementation.
+type ClearCredentialStateCallbackStub struct {
+	Impl IClearCredentialStateCallback
+}
+
+var _ binder.TransactionReceiver = (*ClearCredentialStateCallbackStub)(nil)
+
+func (s *ClearCredentialStateCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIClearCredentialStateCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnSuccess(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIClearCredentialStateCallbackOnFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_message interface{}
+		_err = s.Impl.OnFailure(ctx, _arg_errorType, _arg_message)
+		_ = _err
+		return nil, nil
+	case TransactionIClearCredentialStateCallbackOnCancellable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cancellation ondeviceintelligence.ICancellationSignal
+		_ = _arg_cancellation
+		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

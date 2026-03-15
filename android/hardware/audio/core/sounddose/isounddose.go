@@ -2,6 +2,7 @@ package sounddose
 
 import (
 	"context"
+	"fmt"
 	sounddoseISoundDose "github.com/xaionaro-go/binder/android/hardware/audio/core/sounddose/ISoundDose"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -124,4 +125,67 @@ func (p *SoundDoseProxy) RegisterSoundDoseCallback(
 	}
 
 	return nil
+}
+
+// SoundDoseStub dispatches incoming binder transactions
+// to a typed ISoundDose implementation.
+type SoundDoseStub struct {
+	Impl ISoundDose
+}
+
+var _ binder.TransactionReceiver = (*SoundDoseStub)(nil)
+
+func (s *SoundDoseStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISoundDoseSetOutputRs2UpperBound:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_rs2ValueDbA, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetOutputRs2UpperBound(ctx, _arg_rs2ValueDbA)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISoundDoseGetOutputRs2UpperBound:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetOutputRs2UpperBound(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteFloat32(_result)
+		return _reply, nil
+	case TransactionISoundDoseRegisterSoundDoseCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback sounddoseISoundDose.IHalSoundDoseCallback
+		_ = _arg_callback
+		_err := s.Impl.RegisterSoundDoseCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

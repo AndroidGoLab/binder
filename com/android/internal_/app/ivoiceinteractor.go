@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -337,4 +338,191 @@ func (p *VoiceInteractorProxy) SetKillCallback(
 	}
 
 	return nil
+}
+
+// VoiceInteractorStub dispatches incoming binder transactions
+// to a typed IVoiceInteractor implementation.
+type VoiceInteractorStub struct {
+	Impl IVoiceInteractor
+}
+
+var _ binder.TransactionReceiver = (*VoiceInteractorStub)(nil)
+
+func (s *VoiceInteractorStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVoiceInteractorStartConfirmation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IVoiceInteractorCallback
+		_ = _arg_callback
+		var _arg_prompt interface{}
+		var _arg_extras interface{}
+		_result, _err := s.Impl.StartConfirmation(ctx, _arg_callback, _arg_prompt, _arg_extras)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIVoiceInteractorStartPickOption:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IVoiceInteractorCallback
+		_ = _arg_callback
+		var _arg_prompt interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_options []interface{}
+		_ = _arg_options
+		var _arg_extras interface{}
+		_result, _err := s.Impl.StartPickOption(ctx, _arg_callback, _arg_prompt, _arg_options, _arg_extras)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIVoiceInteractorStartCompleteVoice:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IVoiceInteractorCallback
+		_ = _arg_callback
+		var _arg_prompt interface{}
+		var _arg_extras interface{}
+		_result, _err := s.Impl.StartCompleteVoice(ctx, _arg_callback, _arg_prompt, _arg_extras)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIVoiceInteractorStartAbortVoice:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IVoiceInteractorCallback
+		_ = _arg_callback
+		var _arg_prompt interface{}
+		var _arg_extras interface{}
+		_result, _err := s.Impl.StartAbortVoice(ctx, _arg_callback, _arg_prompt, _arg_extras)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIVoiceInteractorStartCommand:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IVoiceInteractorCallback
+		_ = _arg_callback
+		_arg_command, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_extras interface{}
+		_result, _err := s.Impl.StartCommand(ctx, _arg_callback, _arg_command, _arg_extras)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIVoiceInteractorSupportsCommands:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_commands []string
+		_ = _arg_commands
+		_result, _err := s.Impl.SupportsCommands(ctx, _arg_commands)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIVoiceInteractorNotifyDirectActionsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_assistToken binder.IBinder
+		_ = _arg_assistToken
+		_err = s.Impl.NotifyDirectActionsChanged(ctx, _arg_taskId, _arg_assistToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIVoiceInteractorSetKillCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err := s.Impl.SetKillCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

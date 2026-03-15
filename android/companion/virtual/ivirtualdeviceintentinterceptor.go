@@ -2,6 +2,7 @@ package virtual
 
 import (
 	"context"
+	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -54,4 +55,42 @@ func (p *VirtualDeviceIntentInterceptorProxy) OnIntentIntercepted(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VirtualDeviceIntentInterceptorStub dispatches incoming binder transactions
+// to a typed IVirtualDeviceIntentInterceptor implementation.
+type VirtualDeviceIntentInterceptorStub struct {
+	Impl IVirtualDeviceIntentInterceptor
+}
+
+var _ binder.TransactionReceiver = (*VirtualDeviceIntentInterceptorStub)(nil)
+
+func (s *VirtualDeviceIntentInterceptorStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVirtualDeviceIntentInterceptorOnIntentIntercepted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnIntentIntercepted(ctx, _arg_intent)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

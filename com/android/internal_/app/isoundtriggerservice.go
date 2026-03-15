@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	soundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -209,4 +210,128 @@ func (p *SoundTriggerServiceProxy) SetInPhoneCallState(
 	}
 
 	return nil
+}
+
+// SoundTriggerServiceStub dispatches incoming binder transactions
+// to a typed ISoundTriggerService implementation.
+type SoundTriggerServiceStub struct {
+	Impl ISoundTriggerService
+}
+
+var _ binder.TransactionReceiver = (*SoundTriggerServiceStub)(nil)
+
+func (s *SoundTriggerServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISoundTriggerServiceAttachAsOriginator:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_originatorIdentity interface{}
+		var _arg_moduleProperties soundtrigger.SoundTriggerModuleProperties
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_moduleProperties.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client binder.IBinder
+		_ = _arg_client
+		_result, _err := s.Impl.AttachAsOriginator(ctx, _arg_originatorIdentity, _arg_moduleProperties, _arg_client)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionISoundTriggerServiceAttachAsMiddleman:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_middlemanIdentity interface{}
+		var _arg_originatorIdentity interface{}
+		var _arg_moduleProperties soundtrigger.SoundTriggerModuleProperties
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_moduleProperties.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client binder.IBinder
+		_ = _arg_client
+		_result, _err := s.Impl.AttachAsMiddleman(ctx, _arg_middlemanIdentity, _arg_originatorIdentity, _arg_moduleProperties, _arg_client)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionISoundTriggerServiceListModuleProperties:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_originatorIdentity interface{}
+		_result, _err := s.Impl.ListModuleProperties(ctx, _arg_originatorIdentity)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionISoundTriggerServiceAttachInjection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_injection interface{}
+		_err := s.Impl.AttachInjection(ctx, _arg_injection)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISoundTriggerServiceSetInPhoneCallState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isInPhoneCall, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetInPhoneCallState(ctx, _arg_isInPhoneCall)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package rating
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -122,4 +123,74 @@ func (p *PmtRatingInterfaceProxy) RemovePmtRatingListener(
 	}
 
 	return nil
+}
+
+// PmtRatingInterfaceStub dispatches incoming binder transactions
+// to a typed IPmtRatingInterface implementation.
+type PmtRatingInterfaceStub struct {
+	Impl IPmtRatingInterface
+}
+
+var _ binder.TransactionReceiver = (*PmtRatingInterfaceStub)(nil)
+
+func (s *PmtRatingInterfaceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPmtRatingInterfaceGetPmtRating:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionToken, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPmtRating(ctx, _arg_sessionToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionIPmtRatingInterfaceAddPmtRatingListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_clientToken, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IPmtRatingListener
+		_ = _arg_listener
+		_err = s.Impl.AddPmtRatingListener(ctx, _arg_clientToken, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIPmtRatingInterfaceRemovePmtRatingListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IPmtRatingListener
+		_ = _arg_listener
+		_err := s.Impl.RemovePmtRatingListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

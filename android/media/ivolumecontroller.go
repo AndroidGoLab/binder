@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -166,4 +167,104 @@ func (p *VolumeControllerProxy) DisplayCsdWarning(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VolumeControllerStub dispatches incoming binder transactions
+// to a typed IVolumeController implementation.
+type VolumeControllerStub struct {
+	Impl IVolumeController
+}
+
+var _ binder.TransactionReceiver = (*VolumeControllerStub)(nil)
+
+func (s *VolumeControllerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVolumeControllerDisplaySafeVolumeWarning:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DisplaySafeVolumeWarning(ctx, _arg_flags)
+		_ = _err
+		return nil, nil
+	case TransactionIVolumeControllerVolumeChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_streamType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.VolumeChanged(ctx, _arg_streamType, _arg_flags)
+		_ = _err
+		return nil, nil
+	case TransactionIVolumeControllerMasterMuteChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.MasterMuteChanged(ctx, _arg_flags)
+		_ = _err
+		return nil, nil
+	case TransactionIVolumeControllerSetLayoutDirection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_layoutDirection, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetLayoutDirection(ctx, _arg_layoutDirection)
+		_ = _err
+		return nil, nil
+	case TransactionIVolumeControllerDismiss:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Dismiss(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIVolumeControllerSetA11yMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetA11yMode(ctx, _arg_mode)
+		_ = _err
+		return nil, nil
+	case TransactionIVolumeControllerDisplayCsdWarning:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_warning, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_displayDurationMs, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DisplayCsdWarning(ctx, _arg_warning, _arg_displayDurationMs)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

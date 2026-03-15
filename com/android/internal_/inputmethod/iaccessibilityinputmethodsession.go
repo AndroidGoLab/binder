@@ -2,6 +2,7 @@ package inputmethod
 
 import (
 	"context"
+	"fmt"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -121,4 +122,94 @@ func (p *AccessibilityInputMethodSessionProxy) InvalidateInput(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AccessibilityInputMethodSessionStub dispatches incoming binder transactions
+// to a typed IAccessibilityInputMethodSession implementation.
+type AccessibilityInputMethodSessionStub struct {
+	Impl IAccessibilityInputMethodSession
+}
+
+var _ binder.TransactionReceiver = (*AccessibilityInputMethodSessionStub)(nil)
+
+func (s *AccessibilityInputMethodSessionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAccessibilityInputMethodSessionUpdateSelection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_oldSelStart, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_oldSelEnd, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newSelStart, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newSelEnd, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_candidatesStart, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_candidatesEnd, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateSelection(ctx, _arg_oldSelStart, _arg_oldSelEnd, _arg_newSelStart, _arg_newSelEnd, _arg_candidatesStart, _arg_candidatesEnd)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityInputMethodSessionFinishInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.FinishInput(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityInputMethodSessionFinishSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.FinishSession(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityInputMethodSessionInvalidateInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_editorInfo viewInputmethod.EditorInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_editorInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_connection IRemoteAccessibilityInputConnection
+		_ = _arg_connection
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.InvalidateInput(ctx, _arg_editorInfo, _arg_connection, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

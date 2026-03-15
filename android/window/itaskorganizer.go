@@ -2,6 +2,7 @@ package window
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -205,4 +206,127 @@ func (p *TaskOrganizerProxy) OnImeDrawnOnTask(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TaskOrganizerStub dispatches incoming binder transactions
+// to a typed ITaskOrganizer implementation.
+type TaskOrganizerStub struct {
+	Impl ITaskOrganizer
+}
+
+var _ binder.TransactionReceiver = (*TaskOrganizerStub)(nil)
+
+func (s *TaskOrganizerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITaskOrganizerAddStartingWindow:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info StartingWindowInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.AddStartingWindow(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionITaskOrganizerRemoveStartingWindow:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_removalInfo StartingWindowRemovalInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_removalInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RemoveStartingWindow(ctx, _arg_removalInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITaskOrganizerCopySplashScreenView:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CopySplashScreenView(ctx, _arg_taskId)
+		_ = _err
+		return nil, nil
+	case TransactionITaskOrganizerOnAppSplashScreenViewRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAppSplashScreenViewRemoved(ctx, _arg_taskId)
+		_ = _err
+		return nil, nil
+	case TransactionITaskOrganizerOnTaskAppeared:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo interface{}
+		var _arg_leash interface{}
+		_err := s.Impl.OnTaskAppeared(ctx, _arg_taskInfo, _arg_leash)
+		_ = _err
+		return nil, nil
+	case TransactionITaskOrganizerOnTaskVanished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo interface{}
+		_err := s.Impl.OnTaskVanished(ctx, _arg_taskInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITaskOrganizerOnTaskInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo interface{}
+		_err := s.Impl.OnTaskInfoChanged(ctx, _arg_taskInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITaskOrganizerOnBackPressedOnTaskRoot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo interface{}
+		_err := s.Impl.OnBackPressedOnTaskRoot(ctx, _arg_taskInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITaskOrganizerOnImeDrawnOnTask:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnImeDrawnOnTask(ctx, _arg_taskId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package euicc
 
 import (
 	"context"
+	"fmt"
 	telephonyEuicc "github.com/xaionaro-go/binder/android/telephony/euicc"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -62,4 +63,37 @@ func (p *RetrieveNotificationListCallbackProxy) OnComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RetrieveNotificationListCallbackStub dispatches incoming binder transactions
+// to a typed IRetrieveNotificationListCallback implementation.
+type RetrieveNotificationListCallbackStub struct {
+	Impl IRetrieveNotificationListCallback
+}
+
+var _ binder.TransactionReceiver = (*RetrieveNotificationListCallbackStub)(nil)
+
+func (s *RetrieveNotificationListCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRetrieveNotificationListCallbackOnComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_notifications []telephonyEuicc.EuiccNotification
+		_ = _arg_notifications
+		_err = s.Impl.OnComplete(ctx, _arg_resultCode, _arg_notifications)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

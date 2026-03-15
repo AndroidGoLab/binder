@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	power "github.com/xaionaro-go/binder/android/hardware/power"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -197,4 +198,100 @@ func (p *HintSessionProxy) AssociateToLayers(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// HintSessionStub dispatches incoming binder transactions
+// to a typed IHintSession implementation.
+type HintSessionStub struct {
+	Impl IHintSession
+}
+
+var _ binder.TransactionReceiver = (*HintSessionStub)(nil)
+
+func (s *HintSessionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIHintSessionUpdateTargetWorkDuration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_targetDurationNanos, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateTargetWorkDuration(ctx, _arg_targetDurationNanos)
+		_ = _err
+		return nil, nil
+	case TransactionIHintSessionReportActualWorkDuration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_actualDurationNanos []int64
+		_ = _arg_actualDurationNanos
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_timeStampNanos []int64
+		_ = _arg_timeStampNanos
+		_err := s.Impl.ReportActualWorkDuration(ctx, _arg_actualDurationNanos, _arg_timeStampNanos)
+		_ = _err
+		return nil, nil
+	case TransactionIHintSessionClose:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Close(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIHintSessionSendHint:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_hint, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendHint(ctx, _arg_hint)
+		_ = _err
+		return nil, nil
+	case TransactionIHintSessionSetMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetMode(ctx, _arg_mode, _arg_enabled)
+		_ = _err
+		return nil, nil
+	case TransactionIHintSessionReportActualWorkDuration2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_workDurations []power.WorkDuration
+		_ = _arg_workDurations
+		_err := s.Impl.ReportActualWorkDuration2(ctx, _arg_workDurations)
+		_ = _err
+		return nil, nil
+	case TransactionIHintSessionAssociateToLayers:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_layerTokens []binder.IBinder
+		_ = _arg_layerTokens
+		_err := s.Impl.AssociateToLayers(ctx, _arg_layerTokens)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

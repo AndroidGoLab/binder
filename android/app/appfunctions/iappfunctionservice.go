@@ -2,6 +2,7 @@ package appfunctions
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,51 @@ func (p *AppFunctionServiceProxy) ExecuteAppFunction(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AppFunctionServiceStub dispatches incoming binder transactions
+// to a typed IAppFunctionService implementation.
+type AppFunctionServiceStub struct {
+	Impl IAppFunctionService
+}
+
+var _ binder.TransactionReceiver = (*AppFunctionServiceStub)(nil)
+
+func (s *AppFunctionServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAppFunctionServiceExecuteAppFunction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request ExecuteAppFunctionRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cancellationCallback ICancellationCallback
+		_ = _arg_cancellationCallback
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IExecuteAppFunctionCallback
+		_ = _arg_callback
+		_err := s.Impl.ExecuteAppFunction(ctx, _arg_request, _arg_cancellationCallback, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

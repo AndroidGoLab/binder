@@ -2,6 +2,7 @@ package supplicant
 
 import (
 	"context"
+	"fmt"
 	supplicantISupplicantStaIfaceCallback "github.com/xaionaro-go/binder/android/hardware/wifi/supplicant/ISupplicantStaIfaceCallback"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -1133,4 +1134,724 @@ func (p *SupplicantStaIfaceCallbackProxy) OnUsdMessageReceived(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SupplicantStaIfaceCallbackStub dispatches incoming binder transactions
+// to a typed ISupplicantStaIfaceCallback implementation.
+type SupplicantStaIfaceCallbackStub struct {
+	Impl ISupplicantStaIfaceCallback
+}
+
+var _ binder.TransactionReceiver = (*SupplicantStaIfaceCallbackStub)(nil)
+
+func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISupplicantStaIfaceCallbackOnAnqpQueryDone:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bssid []byte
+		_ = _arg_bssid
+		var _arg_data AnqpData
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_hs20Data Hs20AnqpData
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_hs20Data.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAnqpQueryDone(ctx, _arg_bssid, _arg_data, _arg_hs20Data)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnAssociationRejected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_assocRejectData AssociationRejectionData
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_assocRejectData.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAssociationRejected(ctx, _arg_assocRejectData)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnAuthenticationTimeout:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bssid []byte
+		_ = _arg_bssid
+		_err := s.Impl.OnAuthenticationTimeout(ctx, _arg_bssid)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnAuxiliarySupplicantEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_eventCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_eventCode := AuxiliarySupplicantEventCode(_raw_eventCode)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bssid []byte
+		_ = _arg_bssid
+		_arg_reasonString, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAuxiliarySupplicantEvent(ctx, _arg_eventCode, _arg_bssid, _arg_reasonString)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnBssTmHandlingDone:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_tmData BssTmData
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_tmData.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnBssTmHandlingDone(ctx, _arg_tmData)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnBssidChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_reason, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason := BssidChangeReason(_raw_reason)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bssid []byte
+		_ = _arg_bssid
+		_err = s.Impl.OnBssidChanged(ctx, _arg_reason, _arg_bssid)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnDisconnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bssid []byte
+		_ = _arg_bssid
+		_arg_locallyGenerated, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_reasonCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reasonCode := StaIfaceReasonCode(_raw_reasonCode)
+		_err = s.Impl.OnDisconnected(ctx, _arg_bssid, _arg_locallyGenerated, _arg_reasonCode)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnDppFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_code, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_code := DppFailureCode(_raw_code)
+		_arg_ssid, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_channelList, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bandList []uint16
+		_ = _arg_bandList
+		_err = s.Impl.OnDppFailure(ctx, _arg_code, _arg_ssid, _arg_channelList, _arg_bandList)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnDppProgress:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_code, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_code := DppProgressCode(_raw_code)
+		_err = s.Impl.OnDppProgress(ctx, _arg_code)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnDppSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_event, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_event := DppEventType(_raw_event)
+		_err = s.Impl.OnDppSuccess(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnDppSuccessConfigReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_ssid []byte
+		_ = _arg_ssid
+		_arg_password, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_psk []byte
+		_ = _arg_psk
+		_raw_securityAkm, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_securityAkm := DppAkm(_raw_securityAkm)
+		var _arg_dppConnectionKeys DppConnectionKeys
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_dppConnectionKeys.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnDppSuccessConfigReceived(ctx, _arg_ssid, _arg_password, _arg_psk, _arg_securityAkm, _arg_dppConnectionKeys)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnDppSuccessConfigSent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnDppSuccessConfigSent(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnEapFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bssid []byte
+		_ = _arg_bssid
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnEapFailure(ctx, _arg_bssid, _arg_errorCode)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnExtRadioWorkStart:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnExtRadioWorkStart(ctx, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnExtRadioWorkTimeout:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnExtRadioWorkTimeout(ctx, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnHs20DeauthImminentNotice:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bssid []byte
+		_ = _arg_bssid
+		_arg_reasonCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reAuthDelayInSec, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_url, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnHs20DeauthImminentNotice(ctx, _arg_bssid, _arg_reasonCode, _arg_reAuthDelayInSec, _arg_url)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnHs20IconQueryDone:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bssid []byte
+		_ = _arg_bssid
+		_arg_fileName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []byte
+		_ = _arg_data
+		_err = s.Impl.OnHs20IconQueryDone(ctx, _arg_bssid, _arg_fileName, _arg_data)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnHs20SubscriptionRemediation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bssid []byte
+		_ = _arg_bssid
+		_raw_osuMethod, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_osuMethod := OsuMethod(_raw_osuMethod)
+		_arg_url, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnHs20SubscriptionRemediation(ctx, _arg_bssid, _arg_osuMethod, _arg_url)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnHs20TermsAndConditionsAcceptanceRequestedNotification:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bssid []byte
+		_ = _arg_bssid
+		_arg_url, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnHs20TermsAndConditionsAcceptanceRequestedNotification(ctx, _arg_bssid, _arg_url)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnNetworkAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNetworkAdded(ctx, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnNetworkNotFound:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_ssid []byte
+		_ = _arg_ssid
+		_err := s.Impl.OnNetworkNotFound(ctx, _arg_ssid)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnNetworkRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNetworkRemoved(ctx, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnPmkCacheAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_expirationTimeInSec, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_serializedEntry []byte
+		_ = _arg_serializedEntry
+		_err = s.Impl.OnPmkCacheAdded(ctx, _arg_expirationTimeInSec, _arg_serializedEntry)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_newState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newState := StaIfaceCallbackState(_raw_newState)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bssid []byte
+		_ = _arg_bssid
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_ssid []byte
+		_ = _arg_ssid
+		_arg_filsHlpSent, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStateChanged(ctx, _arg_newState, _arg_bssid, _arg_id, _arg_ssid, _arg_filsHlpSent)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnWpsEventFail:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bssid []byte
+		_ = _arg_bssid
+		_raw_configError, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_configError := WpsConfigError(_raw_configError)
+		_raw_errorInd, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_errorInd := WpsErrorIndication(_raw_errorInd)
+		_err = s.Impl.OnWpsEventFail(ctx, _arg_bssid, _arg_configError, _arg_errorInd)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnWpsEventPbcOverlap:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnWpsEventPbcOverlap(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnWpsEventSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnWpsEventSuccess(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnQosPolicyReset:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnQosPolicyReset(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnQosPolicyRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_qosPolicyRequestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_qosPolicyData []QosPolicyData
+		_ = _arg_qosPolicyData
+		_err = s.Impl.OnQosPolicyRequest(ctx, _arg_qosPolicyRequestId, _arg_qosPolicyData)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnMloLinksInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason := supplicantISupplicantStaIfaceCallback.MloLinkInfoChangeReason(_raw_reason)
+		_err = s.Impl.OnMloLinksInfoChanged(ctx, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnDppConfigReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_configData DppConfigurationData
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_configData.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnDppConfigReceived(ctx, _arg_configData)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnDppConnectionStatusResultSent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_code, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_code := DppStatusErrorCode(_raw_code)
+		_err = s.Impl.OnDppConnectionStatusResultSent(ctx, _arg_code)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnBssFrequencyChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_frequencyMhz, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnBssFrequencyChanged(ctx, _arg_frequencyMhz)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnSupplicantStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_stateChangeData SupplicantStateChangeData
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_stateChangeData.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSupplicantStateChanged(ctx, _arg_stateChangeData)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnQosPolicyResponseForScs:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_qosPolicyScsResponseStatus []QosPolicyScsResponseStatus
+		_ = _arg_qosPolicyScsResponseStatus
+		_err := s.Impl.OnQosPolicyResponseForScs(ctx, _arg_qosPolicyScsResponseStatus)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnPmkSaCacheAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_pmkSaData PmkSaCacheData
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pmkSaData.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPmkSaCacheAdded(ctx, _arg_pmkSaData)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnUsdPublishStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_publishId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUsdPublishStarted(ctx, _arg_cmdId, _arg_publishId)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnUsdSubscribeStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subscribeId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUsdSubscribeStarted(ctx, _arg_cmdId, _arg_subscribeId)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnUsdPublishConfigFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUsdPublishConfigFailed(ctx, _arg_cmdId)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnUsdSubscribeConfigFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUsdSubscribeConfigFailed(ctx, _arg_cmdId)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnUsdPublishTerminated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_publishId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_reasonCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reasonCode := UsdReasonCode(_raw_reasonCode)
+		_err = s.Impl.OnUsdPublishTerminated(ctx, _arg_publishId, _arg_reasonCode)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnUsdSubscribeTerminated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subscribeId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_reasonCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reasonCode := UsdReasonCode(_raw_reasonCode)
+		_err = s.Impl.OnUsdSubscribeTerminated(ctx, _arg_subscribeId, _arg_reasonCode)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnUsdPublishReplied:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info UsdServiceDiscoveryInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnUsdPublishReplied(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnUsdServiceDiscovered:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info UsdServiceDiscoveryInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnUsdServiceDiscovered(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaIfaceCallbackOnUsdMessageReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_messageInfo UsdMessageInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_messageInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnUsdMessageReceived(ctx, _arg_messageInfo)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

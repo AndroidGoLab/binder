@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -101,4 +102,66 @@ func (p *WwanSelectorCallbackProxy) OnCancel(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// WwanSelectorCallbackStub dispatches incoming binder transactions
+// to a typed IWwanSelectorCallback implementation.
+type WwanSelectorCallbackStub struct {
+	Impl IWwanSelectorCallback
+}
+
+var _ binder.TransactionReceiver = (*WwanSelectorCallbackStub)(nil)
+
+func (s *WwanSelectorCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWwanSelectorCallbackOnRequestEmergencyNetworkScan:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_preferredNetworks []int32
+		_ = _arg_preferredNetworks
+		_arg_scanType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_resetScan, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cb IWwanSelectorResultCallback
+		_ = _arg_cb
+		_err = s.Impl.OnRequestEmergencyNetworkScan(ctx, _arg_preferredNetworks, _arg_scanType, _arg_resetScan, _arg_cb)
+		_ = _err
+		return nil, nil
+	case TransactionIWwanSelectorCallbackOnDomainSelected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_domain, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_useEmergencyPdn, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDomainSelected(ctx, _arg_domain, _arg_useEmergencyPdn)
+		_ = _err
+		return nil, nil
+	case TransactionIWwanSelectorCallbackOnCancel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnCancel(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

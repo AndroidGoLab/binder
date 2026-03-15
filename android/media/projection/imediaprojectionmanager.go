@@ -2,6 +2,7 @@ package projection
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -564,4 +565,345 @@ func (p *MediaProjectionManagerProxy) NotifyCaptureBoundsChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MediaProjectionManagerStub dispatches incoming binder transactions
+// to a typed IMediaProjectionManager implementation.
+type MediaProjectionManagerStub struct {
+	Impl IMediaProjectionManager
+}
+
+var _ binder.TransactionReceiver = (*MediaProjectionManagerStub)(nil)
+
+func (s *MediaProjectionManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMediaProjectionManagerHasProjectionPermission:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_processUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.HasProjectionPermission(ctx, _arg_processUid, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIMediaProjectionManagerCreateProjection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_processUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_permanentGrant, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateProjection(ctx, _arg_processUid, _arg_packageName, _arg_type_, _arg_permanentGrant, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIMediaProjectionManagerGetProjection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_processUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetProjection(ctx, _arg_processUid, _arg_packageName)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIMediaProjectionManagerIsCurrentProjection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_projection IMediaProjection
+		_ = _arg_projection
+		_result, _err := s.Impl.IsCurrentProjection(ctx, _arg_projection)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIMediaProjectionManagerRequestConsentForInvalidProjection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_projection IMediaProjection
+		_ = _arg_projection
+		_err := s.Impl.RequestConsentForInvalidProjection(ctx, _arg_projection)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaProjectionManagerGetActiveProjectionInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetActiveProjectionInfo(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIMediaProjectionManagerStopActiveProjection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_stopReason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_stopReason := StopReason(_raw_stopReason)
+		_err = s.Impl.StopActiveProjection(ctx, _arg_stopReason)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaProjectionManagerNotifyActiveProjectionCapturedContentVisibilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isVisible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyActiveProjectionCapturedContentVisibilityChanged(ctx, _arg_isVisible)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaProjectionManagerAddCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IMediaProjectionWatcherCallback
+		_ = _arg_callback
+		_result, _err := s.Impl.AddCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIMediaProjectionManagerRemoveCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IMediaProjectionWatcherCallback
+		_ = _arg_callback
+		_err := s.Impl.RemoveCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaProjectionManagerSetContentRecordingSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_incomingSession interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_projection IMediaProjection
+		_ = _arg_projection
+		_result, _err := s.Impl.SetContentRecordingSession(ctx, _arg_incomingSession, _arg_projection)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIMediaProjectionManagerSetUserReviewGrantedConsentResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_consentResult, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_consentResult := ReviewGrantedConsentResult(_raw_consentResult)
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_projection *IMediaProjection
+		_ = _arg_projection
+		_err = s.Impl.SetUserReviewGrantedConsentResult(ctx, _arg_consentResult, _arg_projection)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMediaProjectionManagerNotifyPermissionRequestInitiated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_hostProcessUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionCreationSource, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyPermissionRequestInitiated(ctx, _arg_hostProcessUid, _arg_sessionCreationSource)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaProjectionManagerNotifyPermissionRequestDisplayed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_hostProcessUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyPermissionRequestDisplayed(ctx, _arg_hostProcessUid)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaProjectionManagerNotifyPermissionRequestCancelled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_hostProcessUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyPermissionRequestCancelled(ctx, _arg_hostProcessUid)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaProjectionManagerNotifyAppSelectorDisplayed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_hostProcessUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyAppSelectorDisplayed(ctx, _arg_hostProcessUid)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaProjectionManagerNotifyWindowingModeChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_contentToRecord, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_targetProcessUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_windowingMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyWindowingModeChanged(ctx, _arg_contentToRecord, _arg_targetProcessUid, _arg_windowingMode)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaProjectionManagerNotifyCaptureBoundsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_contentToRecord, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_targetProcessUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_captureBounds graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_captureBounds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyCaptureBoundsChanged(ctx, _arg_contentToRecord, _arg_targetProcessUid, _arg_captureBounds)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

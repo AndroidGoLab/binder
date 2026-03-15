@@ -2,6 +2,7 @@ package tv
 
 import (
 	"context"
+	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	hdmi "github.com/xaionaro-go/binder/android/hardware/hdmi"
 	view "github.com/xaionaro-go/binder/android/view"
@@ -346,4 +347,247 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceUpdated(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TvInputServiceStub dispatches incoming binder transactions
+// to a typed ITvInputService implementation.
+type TvInputServiceStub struct {
+	Impl ITvInputService
+}
+
+var _ binder.TransactionReceiver = (*TvInputServiceStub)(nil)
+
+func (s *TvInputServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITvInputServiceRegisterCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITvInputServiceCallback
+		_ = _arg_callback
+		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputServiceUnregisterCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITvInputServiceCallback
+		_ = _arg_callback
+		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputServiceCreateSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_channel view.InputChannel
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_channel.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITvInputSessionCallback
+		_ = _arg_callback
+		_arg_inputId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_tvAppAttributionSource content.AttributionSource
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_tvAppAttributionSource.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.CreateSession(ctx, _arg_channel, _arg_callback, _arg_inputId, _arg_sessionId, _arg_tvAppAttributionSource)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputServiceCreateRecordingSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITvInputSessionCallback
+		_ = _arg_callback
+		_arg_inputId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CreateRecordingSession(ctx, _arg_callback, _arg_inputId, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputServiceGetAvailableExtensionInterfaceNames:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAvailableExtensionInterfaceNames(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITvInputServiceGetExtensionInterface:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetExtensionInterface(ctx, _arg_name)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionITvInputServiceGetExtensionInterfacePermission:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetExtensionInterfacePermission(ctx, _arg_name)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	case TransactionITvInputServiceNotifyHardwareAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_hardwareInfo TvInputHardwareInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_hardwareInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NotifyHardwareAdded(ctx, _arg_hardwareInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputServiceNotifyHardwareRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_hardwareInfo TvInputHardwareInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_hardwareInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NotifyHardwareRemoved(ctx, _arg_hardwareInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputServiceNotifyHdmiDeviceAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_deviceInfo hdmi.HdmiDeviceInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_deviceInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NotifyHdmiDeviceAdded(ctx, _arg_deviceInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputServiceNotifyHdmiDeviceRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_deviceInfo hdmi.HdmiDeviceInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_deviceInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NotifyHdmiDeviceRemoved(ctx, _arg_deviceInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputServiceNotifyHdmiDeviceUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_deviceInfo hdmi.HdmiDeviceInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_deviceInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NotifyHdmiDeviceUpdated(ctx, _arg_deviceInfo)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package net
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,32 @@ func (p *PacProxyInstalledListenerProxy) OnPacProxyInstalled(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PacProxyInstalledListenerStub dispatches incoming binder transactions
+// to a typed IPacProxyInstalledListener implementation.
+type PacProxyInstalledListenerStub struct {
+	Impl IPacProxyInstalledListener
+}
+
+var _ binder.TransactionReceiver = (*PacProxyInstalledListenerStub)(nil)
+
+func (s *PacProxyInstalledListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPacProxyInstalledListenerOnPacProxyInstalled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_network interface{}
+		var _arg_proxy interface{}
+		_err := s.Impl.OnPacProxyInstalled(ctx, _arg_network, _arg_proxy)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

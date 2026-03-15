@@ -1,6 +1,7 @@
 package os
 
 import (
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 )
 
@@ -70,3 +71,22 @@ func (p *InputConstantsProxy) AsBinder() binder.IBinder {
 }
 
 var _ IInputConstants = (*InputConstantsProxy)(nil)
+
+// InputConstantsStub dispatches incoming binder transactions
+// to a typed IInputConstants implementation.
+type InputConstantsStub struct {
+	Impl IInputConstants
+}
+
+var _ binder.TransactionReceiver = (*InputConstantsStub)(nil)
+
+func (s *InputConstantsStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
+}

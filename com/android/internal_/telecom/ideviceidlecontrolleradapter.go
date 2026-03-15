@@ -2,6 +2,7 @@ package telecom
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -65,4 +66,50 @@ func (p *DeviceIdleControllerAdapterProxy) ExemptAppTemporarilyForEvent(
 	}
 
 	return nil
+}
+
+// DeviceIdleControllerAdapterStub dispatches incoming binder transactions
+// to a typed IDeviceIdleControllerAdapter implementation.
+type DeviceIdleControllerAdapterStub struct {
+	Impl IDeviceIdleControllerAdapter
+}
+
+var _ binder.TransactionReceiver = (*DeviceIdleControllerAdapterStub)(nil)
+
+func (s *DeviceIdleControllerAdapterStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDeviceIdleControllerAdapterExemptAppTemporarilyForEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_duration, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ExemptAppTemporarilyForEvent(ctx, _arg_packageName, _arg_duration, _arg_reason)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

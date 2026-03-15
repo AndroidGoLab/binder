@@ -2,6 +2,7 @@ package soundtrigger_middleware
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -86,4 +87,51 @@ func (p *InjectGlobalEventProxy) TriggerOnResourcesAvailable(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InjectGlobalEventStub dispatches incoming binder transactions
+// to a typed IInjectGlobalEvent implementation.
+type InjectGlobalEventStub struct {
+	Impl IInjectGlobalEvent
+}
+
+var _ binder.TransactionReceiver = (*InjectGlobalEventStub)(nil)
+
+func (s *InjectGlobalEventStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInjectGlobalEventTriggerRestart:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.TriggerRestart(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInjectGlobalEventSetResourceContention:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isContended, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IAcknowledgeEvent
+		_ = _arg_callback
+		_err = s.Impl.SetResourceContention(ctx, _arg_isContended, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIInjectGlobalEventTriggerOnResourcesAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.TriggerOnResourcesAvailable(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

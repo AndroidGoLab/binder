@@ -2,6 +2,7 @@ package secureclock
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -73,4 +74,43 @@ func (p *SecureClockProxy) GenerateTimeStamp(
 		}
 	}
 	return _result, nil
+}
+
+// SecureClockStub dispatches incoming binder transactions
+// to a typed ISecureClock implementation.
+type SecureClockStub struct {
+	Impl ISecureClock
+}
+
+var _ binder.TransactionReceiver = (*SecureClockStub)(nil)
+
+func (s *SecureClockStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISecureClockGenerateTimeStamp:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_challenge, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GenerateTimeStamp(ctx, _arg_challenge)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

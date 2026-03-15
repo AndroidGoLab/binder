@@ -2,6 +2,7 @@ package audiocontrol
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -68,4 +69,36 @@ func (p *AudioGainCallbackProxy) OnAudioDeviceGainsChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AudioGainCallbackStub dispatches incoming binder transactions
+// to a typed IAudioGainCallback implementation.
+type AudioGainCallbackStub struct {
+	Impl IAudioGainCallback
+}
+
+var _ binder.TransactionReceiver = (*AudioGainCallbackStub)(nil)
+
+func (s *AudioGainCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAudioGainCallbackOnAudioDeviceGainsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_reasons []Reasons
+		_ = _arg_reasons
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_gains []AudioGainConfigInfo
+		_ = _arg_gains
+		_err := s.Impl.OnAudioDeviceGainsChanged(ctx, _arg_reasons, _arg_gains)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

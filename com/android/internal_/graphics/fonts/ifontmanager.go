@@ -2,6 +2,7 @@ package fonts
 
 import (
 	"context"
+	"fmt"
 	graphicsFonts "github.com/xaionaro-go/binder/android/graphics/fonts"
 	text "github.com/xaionaro-go/binder/android/text"
 	"github.com/xaionaro-go/binder/binder"
@@ -113,4 +114,59 @@ func (p *FontManagerProxy) UpdateFontFamily(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// FontManagerStub dispatches incoming binder transactions
+// to a typed IFontManager implementation.
+type FontManagerStub struct {
+	Impl IFontManager
+}
+
+var _ binder.TransactionReceiver = (*FontManagerStub)(nil)
+
+func (s *FontManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIFontManagerGetFontConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetFontConfig(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIFontManagerUpdateFontFamily:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_request []graphicsFonts.FontUpdateRequest
+		_ = _arg_request
+		_arg_baseVersion, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.UpdateFontFamily(ctx, _arg_request, _arg_baseVersion)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

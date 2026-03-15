@@ -2,6 +2,7 @@ package usb
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -233,4 +234,202 @@ func (p *UsbCallbackProxy) NotifyResetUsbPortStatus(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// UsbCallbackStub dispatches incoming binder transactions
+// to a typed IUsbCallback implementation.
+type UsbCallbackStub struct {
+	Impl IUsbCallback
+}
+
+var _ binder.TransactionReceiver = (*UsbCallbackStub)(nil)
+
+func (s *UsbCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIUsbCallbackNotifyPortStatusChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_currentPortStatus []PortStatus
+		_ = _arg_currentPortStatus
+		_raw_retval, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_retval := Status(_raw_retval)
+		_err = s.Impl.NotifyPortStatusChange(ctx, _arg_currentPortStatus, _arg_retval)
+		_ = _err
+		return nil, nil
+	case TransactionIUsbCallbackNotifyRoleSwitchStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_portName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_newRole PortRole
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_newRole.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_raw_retval, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_retval := Status(_raw_retval)
+		_arg_transactionId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyRoleSwitchStatus(ctx, _arg_portName, _arg_newRole, _arg_retval, _arg_transactionId)
+		_ = _err
+		return nil, nil
+	case TransactionIUsbCallbackNotifyEnableUsbDataStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_portName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_retval, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_retval := Status(_raw_retval)
+		_arg_transactionId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyEnableUsbDataStatus(ctx, _arg_portName, _arg_enable, _arg_retval, _arg_transactionId)
+		_ = _err
+		return nil, nil
+	case TransactionIUsbCallbackNotifyEnableUsbDataWhileDockedStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_portName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_retval, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_retval := Status(_raw_retval)
+		_arg_transactionId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyEnableUsbDataWhileDockedStatus(ctx, _arg_portName, _arg_retval, _arg_transactionId)
+		_ = _err
+		return nil, nil
+	case TransactionIUsbCallbackNotifyContaminantEnabledStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_portName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_retval, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_retval := Status(_raw_retval)
+		_arg_transactionId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyContaminantEnabledStatus(ctx, _arg_portName, _arg_enable, _arg_retval, _arg_transactionId)
+		_ = _err
+		return nil, nil
+	case TransactionIUsbCallbackNotifyQueryPortStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_portName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_retval, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_retval := Status(_raw_retval)
+		_arg_transactionId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyQueryPortStatus(ctx, _arg_portName, _arg_retval, _arg_transactionId)
+		_ = _err
+		return nil, nil
+	case TransactionIUsbCallbackNotifyLimitPowerTransferStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_portName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_limit, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_retval, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_retval := Status(_raw_retval)
+		_arg_transactionId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyLimitPowerTransferStatus(ctx, _arg_portName, _arg_limit, _arg_retval, _arg_transactionId)
+		_ = _err
+		return nil, nil
+	case TransactionIUsbCallbackNotifyResetUsbPortStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_portName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_retval, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_retval := Status(_raw_retval)
+		_arg_transactionId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyResetUsbPortStatus(ctx, _arg_portName, _arg_retval, _arg_transactionId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

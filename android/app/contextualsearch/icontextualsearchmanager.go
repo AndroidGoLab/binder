@@ -2,6 +2,7 @@ package contextualsearch
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -71,4 +72,47 @@ func (p *ContextualSearchManagerProxy) GetContextualSearchState(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ContextualSearchManagerStub dispatches incoming binder transactions
+// to a typed IContextualSearchManager implementation.
+type ContextualSearchManagerStub struct {
+	Impl IContextualSearchManager
+}
+
+var _ binder.TransactionReceiver = (*ContextualSearchManagerStub)(nil)
+
+func (s *ContextualSearchManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIContextualSearchManagerStartContextualSearch:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_entrypoint, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StartContextualSearch(ctx, _arg_entrypoint)
+		_ = _err
+		return nil, nil
+	case TransactionIContextualSearchManagerGetContextualSearchState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IContextualSearchCallback
+		_ = _arg_callback
+		_err := s.Impl.GetContextualSearchState(ctx, _arg_token, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

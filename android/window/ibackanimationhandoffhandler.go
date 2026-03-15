@@ -2,6 +2,7 @@ package window
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -65,4 +66,36 @@ func (p *BackAnimationHandoffHandlerProxy) HandOffAnimation(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BackAnimationHandoffHandlerStub dispatches incoming binder transactions
+// to a typed IBackAnimationHandoffHandler implementation.
+type BackAnimationHandoffHandlerStub struct {
+	Impl IBackAnimationHandoffHandler
+}
+
+var _ binder.TransactionReceiver = (*BackAnimationHandoffHandlerStub)(nil)
+
+func (s *BackAnimationHandoffHandlerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBackAnimationHandoffHandlerHandOffAnimation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_targets []interface{}
+		_ = _arg_targets
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_states []WindowAnimationState
+		_ = _arg_states
+		_err := s.Impl.HandOffAnimation(ctx, _arg_targets, _arg_states)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

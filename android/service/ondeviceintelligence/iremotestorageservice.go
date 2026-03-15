@@ -2,6 +2,7 @@ package ondeviceintelligence
 
 import (
 	"context"
+	"fmt"
 	appOndeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
@@ -85,4 +86,77 @@ func (p *RemoteStorageServiceProxy) GetReadOnlyFeatureFileDescriptorMap(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RemoteStorageServiceStub dispatches incoming binder transactions
+// to a typed IRemoteStorageService implementation.
+type RemoteStorageServiceStub struct {
+	Impl IRemoteStorageService
+}
+
+var _ binder.TransactionReceiver = (*RemoteStorageServiceStub)(nil)
+
+func (s *RemoteStorageServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRemoteStorageServiceGetReadOnlyFileDescriptor:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_filePath, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GetReadOnlyFileDescriptor(ctx, _arg_filePath, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteStorageServiceGetReadOnlyFeatureFileDescriptorMap:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_feature appOndeviceintelligence.Feature
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_remoteCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_remoteCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetReadOnlyFeatureFileDescriptorMap(ctx, _arg_feature, _arg_remoteCallback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

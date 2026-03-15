@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -258,4 +259,206 @@ func (p *MediaRoute2ProviderServiceProxy) ReleaseSession(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MediaRoute2ProviderServiceStub dispatches incoming binder transactions
+// to a typed IMediaRoute2ProviderService implementation.
+type MediaRoute2ProviderServiceStub struct {
+	Impl IMediaRoute2ProviderService
+}
+
+var _ binder.TransactionReceiver = (*MediaRoute2ProviderServiceStub)(nil)
+
+func (s *MediaRoute2ProviderServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMediaRoute2ProviderServiceSetCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IMediaRoute2ProviderServiceCallback
+		_ = _arg_callback
+		_err := s.Impl.SetCallback(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRoute2ProviderServiceUpdateDiscoveryPreference:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_discoveryPreference RouteDiscoveryPreference
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_discoveryPreference.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.UpdateDiscoveryPreference(ctx, _arg_discoveryPreference)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRoute2ProviderServiceSetRouteVolume:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_routeId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_volume, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetRouteVolume(ctx, _arg_requestId, _arg_routeId, _arg_volume)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRoute2ProviderServiceRequestCreateSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_routeId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionHints *interface{}
+		_err = s.Impl.RequestCreateSession(ctx, _arg_requestId, _arg_packageName, _arg_routeId, _arg_sessionHints)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRoute2ProviderServiceRequestCreateSystemMediaSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_routeId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionHints *interface{}
+		_err = s.Impl.RequestCreateSystemMediaSession(ctx, _arg_requestId, _arg_uid, _arg_packageName, _arg_routeId, _arg_sessionHints)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRoute2ProviderServiceSelectRoute:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_routeId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SelectRoute(ctx, _arg_requestId, _arg_sessionId, _arg_routeId)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRoute2ProviderServiceDeselectRoute:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_routeId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DeselectRoute(ctx, _arg_requestId, _arg_sessionId, _arg_routeId)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRoute2ProviderServiceTransferToRoute:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_routeId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.TransferToRoute(ctx, _arg_requestId, _arg_sessionId, _arg_routeId)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRoute2ProviderServiceSetSessionVolume:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_volume, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSessionVolume(ctx, _arg_requestId, _arg_sessionId, _arg_volume)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRoute2ProviderServiceReleaseSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ReleaseSession(ctx, _arg_requestId, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

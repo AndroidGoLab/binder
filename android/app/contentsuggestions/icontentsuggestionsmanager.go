@@ -2,6 +2,7 @@ package contentsuggestions
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
@@ -251,4 +252,214 @@ func (p *ContentSuggestionsManagerProxy) SetDefaultServiceEnabled(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ContentSuggestionsManagerStub dispatches incoming binder transactions
+// to a typed IContentSuggestionsManager implementation.
+type ContentSuggestionsManagerStub struct {
+	Impl IContentSuggestionsManager
+}
+
+var _ binder.TransactionReceiver = (*ContentSuggestionsManagerStub)(nil)
+
+func (s *ContentSuggestionsManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIContentSuggestionsManagerProvideContextImage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_imageContextRequestExtras os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_imageContextRequestExtras.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ProvideContextImage(ctx, _arg_taskId, _arg_imageContextRequestExtras)
+		_ = _err
+		return nil, nil
+	case TransactionIContentSuggestionsManagerProvideContextBitmap:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		var _arg_bitmap graphics.Bitmap
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bitmap.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_imageContextRequestExtras os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_imageContextRequestExtras.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ProvideContextBitmap(ctx, _arg_bitmap, _arg_imageContextRequestExtras)
+		_ = _err
+		return nil, nil
+	case TransactionIContentSuggestionsManagerSuggestContentSelections:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request SelectionsRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ISelectionsCallback
+		_ = _arg_callback
+		_err := s.Impl.SuggestContentSelections(ctx, _arg_request, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIContentSuggestionsManagerClassifyContentSelections:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request ClassificationsRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IClassificationsCallback
+		_ = _arg_callback
+		_err := s.Impl.ClassifyContentSelections(ctx, _arg_request, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIContentSuggestionsManagerNotifyInteraction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_interaction os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_interaction.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyInteraction(ctx, _arg_requestId, _arg_interaction)
+		_ = _err
+		return nil, nil
+	case TransactionIContentSuggestionsManagerIsEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_receiver internalOs.IResultReceiver
+		_ = _arg_receiver
+		_err := s.Impl.IsEnabled(ctx, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIContentSuggestionsManagerResetTemporaryService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ResetTemporaryService(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIContentSuggestionsManagerSetTemporaryService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_serviceName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_duration, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetTemporaryService(ctx, _arg_serviceName, _arg_duration)
+		_ = _err
+		return nil, nil
+	case TransactionIContentSuggestionsManagerSetDefaultServiceEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDefaultServiceEnabled(ctx, _arg_enabled)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package contentsuggestions
 
 import (
 	"context"
+	"fmt"
 	appContentsuggestions "github.com/xaionaro-go/binder/android/app/contentsuggestions"
 	os "github.com/xaionaro-go/binder/android/os"
 	view "github.com/xaionaro-go/binder/android/view"
@@ -135,4 +136,125 @@ func (p *ContentSuggestionsServiceProxy) NotifyInteraction(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ContentSuggestionsServiceStub dispatches incoming binder transactions
+// to a typed IContentSuggestionsService implementation.
+type ContentSuggestionsServiceStub struct {
+	Impl IContentSuggestionsService
+}
+
+var _ binder.TransactionReceiver = (*ContentSuggestionsServiceStub)(nil)
+
+func (s *ContentSuggestionsServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIContentSuggestionsServiceProvideContextImage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_snapshot view.WindowManagerTaskSnapshot
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_snapshot.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_imageContextRequestExtras os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_imageContextRequestExtras.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ProvideContextImage(ctx, _arg_taskId, _arg_snapshot, _arg_imageContextRequestExtras)
+		_ = _err
+		return nil, nil
+	case TransactionIContentSuggestionsServiceSuggestContentSelections:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request appContentsuggestions.SelectionsRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback appContentsuggestions.ISelectionsCallback
+		_ = _arg_callback
+		_err := s.Impl.SuggestContentSelections(ctx, _arg_request, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIContentSuggestionsServiceClassifyContentSelections:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request appContentsuggestions.ClassificationsRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback appContentsuggestions.IClassificationsCallback
+		_ = _arg_callback
+		_err := s.Impl.ClassifyContentSelections(ctx, _arg_request, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIContentSuggestionsServiceNotifyInteraction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_interaction os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_interaction.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyInteraction(ctx, _arg_requestId, _arg_interaction)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

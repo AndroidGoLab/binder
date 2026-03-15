@@ -2,6 +2,7 @@ package hwcrypto
 
 import (
 	"context"
+	"fmt"
 	neuralnetworks "github.com/xaionaro-go/binder/android/hardware/neuralnetworks"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -224,4 +225,102 @@ func (p *OpaqueKeyProxy) SetProtectionId(
 	}
 
 	return nil
+}
+
+// OpaqueKeyStub dispatches incoming binder transactions
+// to a typed IOpaqueKey implementation.
+type OpaqueKeyStub struct {
+	Impl IOpaqueKey
+}
+
+var _ binder.TransactionReceiver = (*OpaqueKeyStub)(nil)
+
+func (s *OpaqueKeyStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIOpaqueKeyExportWrappedKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_wrappingKey IOpaqueKey
+		_ = _arg_wrappingKey
+		_result, _err := s.Impl.ExportWrappedKey(ctx, _arg_wrappingKey)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIOpaqueKeyGetKeyPolicy:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetKeyPolicy(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIOpaqueKeyGetPublicKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPublicKey(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIOpaqueKeyGetShareableToken:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sealingDicePolicy []byte
+		_ = _arg_sealingDicePolicy
+		_result, _err := s.Impl.GetShareableToken(ctx, _arg_sealingDicePolicy)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIOpaqueKeySetProtectionId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_protectionId interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_allowedOperations []neuralnetworks.OperationType
+		_ = _arg_allowedOperations
+		_err := s.Impl.SetProtectionId(ctx, _arg_protectionId, _arg_allowedOperations)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

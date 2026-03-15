@@ -2,6 +2,7 @@ package c2
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -62,4 +63,47 @@ func (p *InputSinkProxy) Queue(
 	}
 
 	return nil
+}
+
+// InputSinkStub dispatches incoming binder transactions
+// to a typed IInputSink implementation.
+type InputSinkStub struct {
+	Impl IInputSink
+}
+
+var _ binder.TransactionReceiver = (*InputSinkStub)(nil)
+
+func (s *InputSinkStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInputSinkQueue:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_workBundle WorkBundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_workBundle.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.Queue(ctx, _arg_workBundle)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

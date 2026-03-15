@@ -2,6 +2,7 @@ package window
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -58,4 +59,36 @@ func (p *WindowlessStartingSurfaceCallbackProxy) OnSurfaceAdded(
 	}
 
 	return nil
+}
+
+// WindowlessStartingSurfaceCallbackStub dispatches incoming binder transactions
+// to a typed IWindowlessStartingSurfaceCallback implementation.
+type WindowlessStartingSurfaceCallbackStub struct {
+	Impl IWindowlessStartingSurfaceCallback
+}
+
+var _ binder.TransactionReceiver = (*WindowlessStartingSurfaceCallbackStub)(nil)
+
+func (s *WindowlessStartingSurfaceCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWindowlessStartingSurfaceCallbackOnSurfaceAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_addedSurface interface{}
+		_err := s.Impl.OnSurfaceAdded(ctx, _arg_addedSurface)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

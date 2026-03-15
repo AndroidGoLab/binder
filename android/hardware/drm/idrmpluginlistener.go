@@ -2,6 +2,7 @@ package drm
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -161,4 +162,82 @@ func (p *DrmPluginListenerProxy) OnSessionLostState(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DrmPluginListenerStub dispatches incoming binder transactions
+// to a typed IDrmPluginListener implementation.
+type DrmPluginListenerStub struct {
+	Impl IDrmPluginListener
+}
+
+var _ binder.TransactionReceiver = (*DrmPluginListenerStub)(nil)
+
+func (s *DrmPluginListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDrmPluginListenerOnEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_eventType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_eventType := EventType(_raw_eventType)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sessionId []byte
+		_ = _arg_sessionId
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []byte
+		_ = _arg_data
+		_err = s.Impl.OnEvent(ctx, _arg_eventType, _arg_sessionId, _arg_data)
+		_ = _err
+		return nil, nil
+	case TransactionIDrmPluginListenerOnExpirationUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sessionId []byte
+		_ = _arg_sessionId
+		_arg_expiryTimeInMS, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnExpirationUpdate(ctx, _arg_sessionId, _arg_expiryTimeInMS)
+		_ = _err
+		return nil, nil
+	case TransactionIDrmPluginListenerOnKeysChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sessionId []byte
+		_ = _arg_sessionId
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keyStatusList []KeyStatus
+		_ = _arg_keyStatusList
+		_arg_hasNewUsableKey, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnKeysChange(ctx, _arg_sessionId, _arg_keyStatusList, _arg_hasNewUsableKey)
+		_ = _err
+		return nil, nil
+	case TransactionIDrmPluginListenerOnSessionLostState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sessionId []byte
+		_ = _arg_sessionId
+		_err := s.Impl.OnSessionLostState(ctx, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

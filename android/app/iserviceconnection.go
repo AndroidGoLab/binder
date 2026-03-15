@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -53,4 +54,38 @@ func (p *ServiceConnectionProxy) Connected(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ServiceConnectionStub dispatches incoming binder transactions
+// to a typed IServiceConnection implementation.
+type ServiceConnectionStub struct {
+	Impl IServiceConnection
+}
+
+var _ binder.TransactionReceiver = (*ServiceConnectionStub)(nil)
+
+func (s *ServiceConnectionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIServiceConnectionConnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_name interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_service binder.IBinder
+		_ = _arg_service
+		_arg_dead, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Connected(ctx, _arg_name, _arg_service, _arg_dead)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

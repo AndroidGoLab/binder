@@ -2,6 +2,7 @@ package tv
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -310,4 +311,217 @@ func (p *TvRemoteServiceInputProxy) SendGamepadAxisValue(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TvRemoteServiceInputStub dispatches incoming binder transactions
+// to a typed ITvRemoteServiceInput implementation.
+type TvRemoteServiceInputStub struct {
+	Impl ITvRemoteServiceInput
+}
+
+var _ binder.TransactionReceiver = (*TvRemoteServiceInputStub)(nil)
+
+func (s *TvRemoteServiceInputStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITvRemoteServiceInputOpenInputBridge:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_width, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_height, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_maxPointers, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OpenInputBridge(ctx, _arg_token, _arg_name, _arg_width, _arg_height, _arg_maxPointers)
+		_ = _err
+		return nil, nil
+	case TransactionITvRemoteServiceInputCloseInputBridge:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_err := s.Impl.CloseInputBridge(ctx, _arg_token)
+		_ = _err
+		return nil, nil
+	case TransactionITvRemoteServiceInputClearInputBridge:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_err := s.Impl.ClearInputBridge(ctx, _arg_token)
+		_ = _err
+		return nil, nil
+	case TransactionITvRemoteServiceInputSendTimestamp:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_timestamp, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendTimestamp(ctx, _arg_token, _arg_timestamp)
+		_ = _err
+		return nil, nil
+	case TransactionITvRemoteServiceInputSendKeyDown:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_keyCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendKeyDown(ctx, _arg_token, _arg_keyCode)
+		_ = _err
+		return nil, nil
+	case TransactionITvRemoteServiceInputSendKeyUp:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_keyCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendKeyUp(ctx, _arg_token, _arg_keyCode)
+		_ = _err
+		return nil, nil
+	case TransactionITvRemoteServiceInputSendPointerDown:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_pointerId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_x, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_y, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendPointerDown(ctx, _arg_token, _arg_pointerId, _arg_x, _arg_y)
+		_ = _err
+		return nil, nil
+	case TransactionITvRemoteServiceInputSendPointerUp:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_pointerId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendPointerUp(ctx, _arg_token, _arg_pointerId)
+		_ = _err
+		return nil, nil
+	case TransactionITvRemoteServiceInputSendPointerSync:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_err := s.Impl.SendPointerSync(ctx, _arg_token)
+		_ = _err
+		return nil, nil
+	case TransactionITvRemoteServiceInputOpenGamepadBridge:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OpenGamepadBridge(ctx, _arg_token, _arg_name)
+		_ = _err
+		return nil, nil
+	case TransactionITvRemoteServiceInputSendGamepadKeyDown:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_keyCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendGamepadKeyDown(ctx, _arg_token, _arg_keyCode)
+		_ = _err
+		return nil, nil
+	case TransactionITvRemoteServiceInputSendGamepadKeyUp:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_keyCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendGamepadKeyUp(ctx, _arg_token, _arg_keyCode)
+		_ = _err
+		return nil, nil
+	case TransactionITvRemoteServiceInputSendGamepadAxisValue:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_axis, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_value, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendGamepadAxisValue(ctx, _arg_token, _arg_axis, _arg_value)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

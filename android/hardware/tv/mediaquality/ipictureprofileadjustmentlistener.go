@@ -2,6 +2,7 @@ package mediaquality
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -132,4 +133,81 @@ func (p *PictureProfileAdjustmentListenerProxy) OnRequestPictureParameters(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PictureProfileAdjustmentListenerStub dispatches incoming binder transactions
+// to a typed IPictureProfileAdjustmentListener implementation.
+type PictureProfileAdjustmentListenerStub struct {
+	Impl IPictureProfileAdjustmentListener
+}
+
+var _ binder.TransactionReceiver = (*PictureProfileAdjustmentListenerStub)(nil)
+
+func (s *PictureProfileAdjustmentListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPictureProfileAdjustmentListenerOnPictureProfileAdjusted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_pictureProfile PictureProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pictureProfile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPictureProfileAdjusted(ctx, _arg_pictureProfile)
+		_ = _err
+		return nil, nil
+	case TransactionIPictureProfileAdjustmentListenerOnParamCapabilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pictureProfileId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_caps []ParamCapability
+		_ = _arg_caps
+		_err = s.Impl.OnParamCapabilityChanged(ctx, _arg_pictureProfileId, _arg_caps)
+		_ = _err
+		return nil, nil
+	case TransactionIPictureProfileAdjustmentListenerOnVendorParamCapabilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pictureProfileId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_caps []VendorParamCapability
+		_ = _arg_caps
+		_err = s.Impl.OnVendorParamCapabilityChanged(ctx, _arg_pictureProfileId, _arg_caps)
+		_ = _err
+		return nil, nil
+	case TransactionIPictureProfileAdjustmentListenerOnRequestPictureParameters:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pictureProfileId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRequestPictureParameters(ctx, _arg_pictureProfileId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -600,4 +601,436 @@ func (p *TaskStackListenerProxy) OnLockTaskModeChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TaskStackListenerStub dispatches incoming binder transactions
+// to a typed ITaskStackListener implementation.
+type TaskStackListenerStub struct {
+	Impl ITaskStackListener
+}
+
+var _ binder.TransactionReceiver = (*TaskStackListenerStub)(nil)
+
+func (s *TaskStackListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITaskStackListenerOnTaskStackChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnTaskStackChanged(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnActivityPinned:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_stackId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnActivityPinned(ctx, _arg_packageName, _arg_taskId, _arg_stackId)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnActivityUnpinned:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnActivityUnpinned(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnActivityRestartAttempt:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_task ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_task.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_homeTaskVisible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_clearedTask, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_wasVisible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnActivityRestartAttempt(ctx, _arg_task, _arg_homeTaskVisible, _arg_clearedTask, _arg_wasVisible)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnActivityForcedResizable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnActivityForcedResizable(ctx, _arg_packageName, _arg_taskId, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnActivityDismissingDockedTask:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnActivityDismissingDockedTask(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnActivityLaunchOnSecondaryDisplayFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_requestedDisplayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnActivityLaunchOnSecondaryDisplayFailed(ctx, _arg_taskInfo, _arg_requestedDisplayId)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnActivityLaunchOnSecondaryDisplayRerouted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_requestedDisplayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnActivityLaunchOnSecondaryDisplayRerouted(ctx, _arg_taskInfo, _arg_requestedDisplayId)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnTaskCreated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_componentName interface{}
+		_err = s.Impl.OnTaskCreated(ctx, _arg_taskId, _arg_componentName)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnTaskRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTaskRemoved(ctx, _arg_taskId)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnTaskMovedToFront:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnTaskMovedToFront(ctx, _arg_taskInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnTaskDescriptionChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnTaskDescriptionChanged(ctx, _arg_taskInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnActivityRequestedOrientationChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_requestedOrientation, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnActivityRequestedOrientationChanged(ctx, _arg_taskId, _arg_requestedOrientation)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnTaskRemovalStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnTaskRemovalStarted(ctx, _arg_taskInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnTaskProfileLocked:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnTaskProfileLocked(ctx, _arg_taskInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnTaskSnapshotChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_snapshot interface{}
+		_err = s.Impl.OnTaskSnapshotChanged(ctx, _arg_taskId, _arg_snapshot)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnTaskSnapshotInvalidated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTaskSnapshotInvalidated(ctx, _arg_taskId)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnBackPressedOnTaskRoot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnBackPressedOnTaskRoot(ctx, _arg_taskInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnTaskDisplayChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newDisplayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTaskDisplayChanged(ctx, _arg_taskId, _arg_newDisplayId)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnRecentTaskListUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRecentTaskListUpdated(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnRecentTaskListFrozenChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_frozen, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRecentTaskListFrozenChanged(ctx, _arg_frozen)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnRecentTaskRemovedForAddTask:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRecentTaskRemovedForAddTask(ctx, _arg_taskId)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnTaskFocusChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_focused, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTaskFocusChanged(ctx, _arg_taskId, _arg_focused)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnTaskRequestedOrientationChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_requestedOrientation, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTaskRequestedOrientationChanged(ctx, _arg_taskId, _arg_requestedOrientation)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnActivityRotation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnActivityRotation(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnTaskMovedToBack:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_taskInfo ActivityManagerRunningTaskInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnTaskMovedToBack(ctx, _arg_taskInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITaskStackListenerOnLockTaskModeChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnLockTaskModeChanged(ctx, _arg_mode)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -94,4 +95,52 @@ func (p *SystemUpdateManagerProxy) UpdateSystemUpdateInfo(
 	}
 
 	return nil
+}
+
+// SystemUpdateManagerStub dispatches incoming binder transactions
+// to a typed ISystemUpdateManager implementation.
+type SystemUpdateManagerStub struct {
+	Impl ISystemUpdateManager
+}
+
+var _ binder.TransactionReceiver = (*SystemUpdateManagerStub)(nil)
+
+func (s *SystemUpdateManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISystemUpdateManagerRetrieveSystemUpdateInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RetrieveSystemUpdateInfo(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionISystemUpdateManagerUpdateSystemUpdateInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_data interface{}
+		_err := s.Impl.UpdateSystemUpdateInfo(ctx, _arg_data)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

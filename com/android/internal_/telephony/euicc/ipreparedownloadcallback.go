@@ -2,6 +2,7 @@ package euicc
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,37 @@ func (p *PrepareDownloadCallbackProxy) OnComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PrepareDownloadCallbackStub dispatches incoming binder transactions
+// to a typed IPrepareDownloadCallback implementation.
+type PrepareDownloadCallbackStub struct {
+	Impl IPrepareDownloadCallback
+}
+
+var _ binder.TransactionReceiver = (*PrepareDownloadCallbackStub)(nil)
+
+func (s *PrepareDownloadCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPrepareDownloadCallbackOnComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_response []byte
+		_ = _arg_response
+		_err = s.Impl.OnComplete(ctx, _arg_resultCode, _arg_response)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

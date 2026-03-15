@@ -2,6 +2,7 @@ package attention
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -71,4 +72,49 @@ func (p *AttentionCallbackProxy) OnFailure(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AttentionCallbackStub dispatches incoming binder transactions
+// to a typed IAttentionCallback implementation.
+type AttentionCallbackStub struct {
+	Impl IAttentionCallback
+}
+
+var _ binder.TransactionReceiver = (*AttentionCallbackStub)(nil)
+
+func (s *AttentionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAttentionCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timestamp, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSuccess(ctx, _arg_result, _arg_timestamp)
+		_ = _err
+		return nil, nil
+	case TransactionIAttentionCallbackOnFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_error_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFailure(ctx, _arg_error_)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

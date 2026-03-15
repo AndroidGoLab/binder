@@ -2,6 +2,7 @@ package pip
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -86,4 +87,52 @@ func (p *PipAnimationListenerProxy) OnExpandPip(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PipAnimationListenerStub dispatches incoming binder transactions
+// to a typed IPipAnimationListener implementation.
+type PipAnimationListenerStub struct {
+	Impl IPipAnimationListener
+}
+
+var _ binder.TransactionReceiver = (*PipAnimationListenerStub)(nil)
+
+func (s *PipAnimationListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPipAnimationListenerOnPipAnimationStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnPipAnimationStarted(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIPipAnimationListenerOnPipResourceDimensionsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cornerRadius, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_shadowRadius, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnPipResourceDimensionsChanged(ctx, _arg_cornerRadius, _arg_shadowRadius)
+		_ = _err
+		return nil, nil
+	case TransactionIPipAnimationListenerOnExpandPip:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnExpandPip(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

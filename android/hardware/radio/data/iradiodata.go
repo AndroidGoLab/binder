@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"fmt"
 	radio "github.com/xaionaro-go/binder/android/hardware/radio"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -421,4 +422,314 @@ func (p *RadioDataProxy) StopKeepalive(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RadioDataStub dispatches incoming binder transactions
+// to a typed IRadioData implementation.
+type RadioDataStub struct {
+	Impl IRadioData
+}
+
+var _ binder.TransactionReceiver = (*RadioDataStub)(nil)
+
+func (s *RadioDataStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRadioDataAllocatePduSessionId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AllocatePduSessionId(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataCancelHandover:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CancelHandover(ctx, _arg_serial, _arg_callId)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataDeactivateDataCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason := DataRequestReason(_raw_reason)
+		_err = s.Impl.DeactivateDataCall(ctx, _arg_serial, _arg_cid, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataGetDataCallList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetDataCallList(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataGetSlicingConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetSlicingConfig(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataReleasePduSessionId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ReleasePduSessionId(ctx, _arg_serial, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataResponseAcknowledgement:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ResponseAcknowledgement(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataSetDataAllowed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_allow, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDataAllowed(ctx, _arg_serial, _arg_allow)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataSetDataProfile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_profiles []DataProfileInfo
+		_ = _arg_profiles
+		_err = s.Impl.SetDataProfile(ctx, _arg_serial, _arg_profiles)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataSetDataThrottling:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_dataThrottlingAction, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dataThrottlingAction := DataThrottlingAction(_raw_dataThrottlingAction)
+		_arg_completionDurationMillis, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDataThrottling(ctx, _arg_serial, _arg_dataThrottlingAction, _arg_completionDurationMillis)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataSetInitialAttachApn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_dataProfileInfo *DataProfileInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_dataProfileInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SetInitialAttachApn(ctx, _arg_serial, _arg_dataProfileInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataSetResponseFunctions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_radioDataResponse IRadioDataResponse
+		_ = _arg_radioDataResponse
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_radioDataIndication IRadioDataIndication
+		_ = _arg_radioDataIndication
+		_err := s.Impl.SetResponseFunctions(ctx, _arg_radioDataResponse, _arg_radioDataIndication)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataSetupDataCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_accessNetwork, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_accessNetwork := radio.AccessNetwork(_raw_accessNetwork)
+		var _arg_dataProfileInfo DataProfileInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_dataProfileInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_roamingAllowed, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason := DataRequestReason(_raw_reason)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_addresses []LinkAddress
+		_ = _arg_addresses
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_dnses []string
+		_ = _arg_dnses
+		_arg_pduSessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sliceInfo *SliceInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sliceInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_matchAllRuleAllowed, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetupDataCall(ctx, _arg_serial, _arg_accessNetwork, _arg_dataProfileInfo, _arg_roamingAllowed, _arg_reason, _arg_addresses, _arg_dnses, _arg_pduSessionId, _arg_sliceInfo, _arg_matchAllRuleAllowed)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataStartHandover:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StartHandover(ctx, _arg_serial, _arg_callId)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataStartKeepalive:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_keepalive KeepaliveRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_keepalive.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StartKeepalive(ctx, _arg_serial, _arg_keepalive)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioDataStopKeepalive:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionHandle, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StopKeepalive(ctx, _arg_serial, _arg_sessionHandle)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

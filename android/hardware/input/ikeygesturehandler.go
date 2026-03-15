@@ -2,6 +2,7 @@ package input
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -102,4 +103,68 @@ func (p *KeyGestureHandlerProxy) IsKeyGestureSupported(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// KeyGestureHandlerStub dispatches incoming binder transactions
+// to a typed IKeyGestureHandler implementation.
+type KeyGestureHandlerStub struct {
+	Impl IKeyGestureHandler
+}
+
+var _ binder.TransactionReceiver = (*KeyGestureHandlerStub)(nil)
+
+func (s *KeyGestureHandlerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIKeyGestureHandlerHandleKeyGesture:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event AidlKeyGestureEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_focusedToken binder.IBinder
+		_ = _arg_focusedToken
+		_result, _err := s.Impl.HandleKeyGesture(ctx, _arg_event, _arg_focusedToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIKeyGestureHandlerIsKeyGestureSupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_gestureType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsKeyGestureSupported(ctx, _arg_gestureType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

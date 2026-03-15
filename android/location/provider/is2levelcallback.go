@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -67,4 +68,41 @@ func (p *S2LevelCallbackProxy) OnError(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// S2LevelCallbackStub dispatches incoming binder transactions
+// to a typed IS2LevelCallback implementation.
+type S2LevelCallbackStub struct {
+	Impl IS2LevelCallback
+}
+
+var _ binder.TransactionReceiver = (*S2LevelCallbackStub)(nil)
+
+func (s *S2LevelCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIS2LevelCallbackOnResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_s2Level, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnResult(ctx, _arg_s2Level)
+		_ = _err
+		return nil, nil
+	case TransactionIS2LevelCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnError(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

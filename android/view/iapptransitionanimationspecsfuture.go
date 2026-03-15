@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -71,4 +72,37 @@ func (p *AppTransitionAnimationSpecsFutureProxy) Get(
 		}
 	}
 	return _result, nil
+}
+
+// AppTransitionAnimationSpecsFutureStub dispatches incoming binder transactions
+// to a typed IAppTransitionAnimationSpecsFuture implementation.
+type AppTransitionAnimationSpecsFutureStub struct {
+	Impl IAppTransitionAnimationSpecsFuture
+}
+
+var _ binder.TransactionReceiver = (*AppTransitionAnimationSpecsFutureStub)(nil)
+
+func (s *AppTransitionAnimationSpecsFutureStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAppTransitionAnimationSpecsFutureGet:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.Get(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

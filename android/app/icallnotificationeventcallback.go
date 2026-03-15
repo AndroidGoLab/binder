@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -71,4 +72,47 @@ func (p *CallNotificationEventCallbackProxy) OnCallNotificationRemoved(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CallNotificationEventCallbackStub dispatches incoming binder transactions
+// to a typed ICallNotificationEventCallback implementation.
+type CallNotificationEventCallbackStub struct {
+	Impl ICallNotificationEventCallback
+}
+
+var _ binder.TransactionReceiver = (*CallNotificationEventCallbackStub)(nil)
+
+func (s *CallNotificationEventCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICallNotificationEventCallbackOnCallNotificationPosted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_userHandle interface{}
+		_err = s.Impl.OnCallNotificationPosted(ctx, _arg_packageName, _arg_userHandle)
+		_ = _err
+		return nil, nil
+	case TransactionICallNotificationEventCallbackOnCallNotificationRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_userHandle interface{}
+		_err = s.Impl.OnCallNotificationRemoved(ctx, _arg_packageName, _arg_userHandle)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

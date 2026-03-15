@@ -2,6 +2,7 @@ package voice
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -147,4 +148,97 @@ func (p *DetectorSessionVisualQueryDetectionCallbackProxy) OnQueryRejected(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DetectorSessionVisualQueryDetectionCallbackStub dispatches incoming binder transactions
+// to a typed IDetectorSessionVisualQueryDetectionCallback implementation.
+type DetectorSessionVisualQueryDetectionCallbackStub struct {
+	Impl IDetectorSessionVisualQueryDetectionCallback
+}
+
+var _ binder.TransactionReceiver = (*DetectorSessionVisualQueryDetectionCallbackStub)(nil)
+
+func (s *DetectorSessionVisualQueryDetectionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDetectorSessionVisualQueryDetectionCallbackOnAttentionGained:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_attentionResult VisualQueryAttentionResult
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attentionResult.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAttentionGained(ctx, _arg_attentionResult)
+		_ = _err
+		return nil, nil
+	case TransactionIDetectorSessionVisualQueryDetectionCallbackOnAttentionLost:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_interactionIntention, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAttentionLost(ctx, _arg_interactionIntention)
+		_ = _err
+		return nil, nil
+	case TransactionIDetectorSessionVisualQueryDetectionCallbackOnQueryDetected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_partialQuery, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnQueryDetected(ctx, _arg_partialQuery)
+		_ = _err
+		return nil, nil
+	case TransactionIDetectorSessionVisualQueryDetectionCallbackOnResultDetected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_partialResult VisualQueryDetectedResult
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_partialResult.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnResultDetected(ctx, _arg_partialResult)
+		_ = _err
+		return nil, nil
+	case TransactionIDetectorSessionVisualQueryDetectionCallbackOnQueryFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnQueryFinished(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIDetectorSessionVisualQueryDetectionCallbackOnQueryRejected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnQueryRejected(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

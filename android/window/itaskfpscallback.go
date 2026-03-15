@@ -2,6 +2,7 @@ package window
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *TaskFpsCallbackProxy) OnFpsReported(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TaskFpsCallbackStub dispatches incoming binder transactions
+// to a typed ITaskFpsCallback implementation.
+type TaskFpsCallbackStub struct {
+	Impl ITaskFpsCallback
+}
+
+var _ binder.TransactionReceiver = (*TaskFpsCallbackStub)(nil)
+
+func (s *TaskFpsCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITaskFpsCallbackOnFpsReported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fps, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFpsReported(ctx, _arg_fps)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

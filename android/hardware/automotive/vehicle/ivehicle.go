@@ -2,6 +2,7 @@ package vehicle
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -463,4 +464,245 @@ func (p *VehicleProxy) UnregisterSupportedValueChangeCallback(
 	}
 
 	return nil
+}
+
+// VehicleStub dispatches incoming binder transactions
+// to a typed IVehicle implementation.
+type VehicleStub struct {
+	Impl IVehicle
+}
+
+var _ binder.TransactionReceiver = (*VehicleStub)(nil)
+
+func (s *VehicleStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVehicleGetAllPropConfigs:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetAllPropConfigs(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIVehicleGetPropConfigs:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_props []int32
+		_ = _arg_props
+		_result, _err := s.Impl.GetPropConfigs(ctx, _arg_props)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIVehicleGetValues:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IVehicleCallback
+		_ = _arg_callback
+		var _arg_requests GetValueRequests
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_requests.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetValues(ctx, _arg_callback, _arg_requests)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIVehicleSetValues:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IVehicleCallback
+		_ = _arg_callback
+		var _arg_requests SetValueRequests
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_requests.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetValues(ctx, _arg_callback, _arg_requests)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIVehicleSubscribe:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IVehicleCallback
+		_ = _arg_callback
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_options []SubscribeOptions
+		_ = _arg_options
+		_arg_maxSharedMemoryFileCount, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Subscribe(ctx, _arg_callback, _arg_options, _arg_maxSharedMemoryFileCount)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIVehicleUnsubscribe:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IVehicleCallback
+		_ = _arg_callback
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_propIds []int32
+		_ = _arg_propIds
+		_err := s.Impl.Unsubscribe(ctx, _arg_callback, _arg_propIds)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIVehicleReturnSharedMemory:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IVehicleCallback
+		_ = _arg_callback
+		_arg_sharedMemoryId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ReturnSharedMemory(ctx, _arg_callback, _arg_sharedMemoryId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIVehicleGetSupportedValuesLists:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_propIdAreaIds []PropIdAreaId
+		_ = _arg_propIdAreaIds
+		_result, _err := s.Impl.GetSupportedValuesLists(ctx, _arg_propIdAreaIds)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIVehicleGetMinMaxSupportedValue:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_propIdAreaIds []PropIdAreaId
+		_ = _arg_propIdAreaIds
+		_result, _err := s.Impl.GetMinMaxSupportedValue(ctx, _arg_propIdAreaIds)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIVehicleRegisterSupportedValueChangeCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IVehicleCallback
+		_ = _arg_callback
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_propIdAreaIds []PropIdAreaId
+		_ = _arg_propIdAreaIds
+		_err := s.Impl.RegisterSupportedValueChangeCallback(ctx, _arg_callback, _arg_propIdAreaIds)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIVehicleUnregisterSupportedValueChangeCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IVehicleCallback
+		_ = _arg_callback
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_propIdAreaIds []PropIdAreaId
+		_ = _arg_propIdAreaIds
+		_err := s.Impl.UnregisterSupportedValueChangeCallback(ctx, _arg_callback, _arg_propIdAreaIds)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

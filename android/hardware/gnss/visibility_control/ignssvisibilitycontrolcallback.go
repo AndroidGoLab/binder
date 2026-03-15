@@ -2,6 +2,7 @@ package visibility_control
 
 import (
 	"context"
+	"fmt"
 	visibility_controlIGnssVisibilityControlCallback "github.com/xaionaro-go/binder/android/hardware/gnss/visibility_control/IGnssVisibilityControlCallback"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -94,4 +95,60 @@ func (p *GnssVisibilityControlCallbackProxy) IsInEmergencySession(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// GnssVisibilityControlCallbackStub dispatches incoming binder transactions
+// to a typed IGnssVisibilityControlCallback implementation.
+type GnssVisibilityControlCallbackStub struct {
+	Impl IGnssVisibilityControlCallback
+}
+
+var _ binder.TransactionReceiver = (*GnssVisibilityControlCallbackStub)(nil)
+
+func (s *GnssVisibilityControlCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssVisibilityControlCallbackNfwNotifyCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_notification visibility_controlIGnssVisibilityControlCallback.NfwNotification
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_notification.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NfwNotifyCb(ctx, _arg_notification)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssVisibilityControlCallbackIsInEmergencySession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsInEmergencySession(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

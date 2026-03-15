@@ -2,6 +2,7 @@ package proxy
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -90,4 +91,51 @@ func (p *ScreenshotProxyProxy) DismissKeyguard(
 	}
 
 	return nil
+}
+
+// ScreenshotProxyStub dispatches incoming binder transactions
+// to a typed IScreenshotProxy implementation.
+type ScreenshotProxyStub struct {
+	Impl IScreenshotProxy
+}
+
+var _ binder.TransactionReceiver = (*ScreenshotProxyStub)(nil)
+
+func (s *ScreenshotProxyStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIScreenshotProxyIsNotificationShadeExpanded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsNotificationShadeExpanded(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIScreenshotProxyDismissKeyguard:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IOnDoneCallback
+		_ = _arg_callback
+		_err := s.Impl.DismissKeyguard(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

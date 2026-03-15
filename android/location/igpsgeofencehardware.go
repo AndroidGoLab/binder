@@ -2,6 +2,7 @@ package location
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -210,4 +211,136 @@ func (p *GpsGeofenceHardwareProxy) ResumeHardwareGeofence(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// GpsGeofenceHardwareStub dispatches incoming binder transactions
+// to a typed IGpsGeofenceHardware implementation.
+type GpsGeofenceHardwareStub struct {
+	Impl IGpsGeofenceHardware
+}
+
+var _ binder.TransactionReceiver = (*GpsGeofenceHardwareStub)(nil)
+
+func (s *GpsGeofenceHardwareStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGpsGeofenceHardwareIsHardwareGeofenceSupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsHardwareGeofenceSupported(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIGpsGeofenceHardwareAddCircularHardwareGeofence:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_geofenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_latitude, _err := data.ReadFloat64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_longitude, _err := data.ReadFloat64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_radius, _err := data.ReadFloat64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_lastTransition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_monitorTransition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_notificationResponsiveness, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_unknownTimer, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.AddCircularHardwareGeofence(ctx, _arg_geofenceId, _arg_latitude, _arg_longitude, _arg_radius, _arg_lastTransition, _arg_monitorTransition, _arg_notificationResponsiveness, _arg_unknownTimer)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIGpsGeofenceHardwareRemoveHardwareGeofence:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_geofenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RemoveHardwareGeofence(ctx, _arg_geofenceId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIGpsGeofenceHardwarePauseHardwareGeofence:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_geofenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.PauseHardwareGeofence(ctx, _arg_geofenceId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIGpsGeofenceHardwareResumeHardwareGeofence:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_geofenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_monitorTransition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ResumeHardwareGeofence(ctx, _arg_geofenceId, _arg_monitorTransition)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

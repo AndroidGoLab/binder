@@ -1,6 +1,7 @@
 package IInstalld
 
 import (
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 )
 
@@ -27,3 +28,22 @@ func (p *FsveritySetupAuthTokenProxy) AsBinder() binder.IBinder {
 }
 
 var _ IFsveritySetupAuthToken = (*FsveritySetupAuthTokenProxy)(nil)
+
+// FsveritySetupAuthTokenStub dispatches incoming binder transactions
+// to a typed IFsveritySetupAuthToken implementation.
+type FsveritySetupAuthTokenStub struct {
+	Impl IFsveritySetupAuthToken
+}
+
+var _ binder.TransactionReceiver = (*FsveritySetupAuthTokenStub)(nil)
+
+func (s *FsveritySetupAuthTokenStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
+}

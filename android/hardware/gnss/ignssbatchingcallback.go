@@ -2,6 +2,7 @@ package gnss
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -68,4 +69,38 @@ func (p *GnssBatchingCallbackProxy) GnssLocationBatchCb(
 	}
 
 	return nil
+}
+
+// GnssBatchingCallbackStub dispatches incoming binder transactions
+// to a typed IGnssBatchingCallback implementation.
+type GnssBatchingCallbackStub struct {
+	Impl IGnssBatchingCallback
+}
+
+var _ binder.TransactionReceiver = (*GnssBatchingCallbackStub)(nil)
+
+func (s *GnssBatchingCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssBatchingCallbackGnssLocationBatchCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_locations []GnssLocation
+		_ = _arg_locations
+		_err := s.Impl.GnssLocationBatchCb(ctx, _arg_locations)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

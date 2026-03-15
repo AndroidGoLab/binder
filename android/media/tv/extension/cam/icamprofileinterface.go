@@ -2,6 +2,7 @@ package cam
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -96,4 +97,55 @@ func (p *CamProfileInterfaceProxy) RequestResendProfileInfoBroadcastACON(
 	}
 
 	return nil
+}
+
+// CamProfileInterfaceStub dispatches incoming binder transactions
+// to a typed ICamProfileInterface implementation.
+type CamProfileInterfaceStub struct {
+	Impl ICamProfileInterface
+}
+
+var _ binder.TransactionReceiver = (*CamProfileInterfaceStub)(nil)
+
+func (s *CamProfileInterfaceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICamProfileInterfaceGetCamServiceUpdateInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotNumber, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCamServiceUpdateInfo(ctx, _arg_slotNumber)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionICamProfileInterfaceRequestResendProfileInfoBroadcastACON:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RequestResendProfileInfoBroadcastACON(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

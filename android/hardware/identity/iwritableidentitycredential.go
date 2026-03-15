@@ -2,6 +2,7 @@ package identity
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -392,4 +393,196 @@ func (p *WritableIdentityCredentialProxy) SetRemotelyProvisionedAttestationKey(
 	}
 
 	return nil
+}
+
+// WritableIdentityCredentialStub dispatches incoming binder transactions
+// to a typed IWritableIdentityCredential implementation.
+type WritableIdentityCredentialStub struct {
+	Impl IWritableIdentityCredential
+}
+
+var _ binder.TransactionReceiver = (*WritableIdentityCredentialStub)(nil)
+
+func (s *WritableIdentityCredentialStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWritableIdentityCredentialGetAttestationCertificate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_attestationApplicationId []byte
+		_ = _arg_attestationApplicationId
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_attestationChallenge []byte
+		_ = _arg_attestationChallenge
+		_result, _err := s.Impl.GetAttestationCertificate(ctx, _arg_attestationApplicationId, _arg_attestationChallenge)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIWritableIdentityCredentialStartPersonalization:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_accessControlProfileCount, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_entryCounts []int32
+		_ = _arg_entryCounts
+		_err = s.Impl.StartPersonalization(ctx, _arg_accessControlProfileCount, _arg_entryCounts)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWritableIdentityCredentialAddAccessControlProfile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_readerCertificate Certificate
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_readerCertificate.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_userAuthenticationRequired, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timeoutMillis, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_secureUserId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.AddAccessControlProfile(ctx, _arg_id, _arg_readerCertificate, _arg_userAuthenticationRequired, _arg_timeoutMillis, _arg_secureUserId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIWritableIdentityCredentialBeginAddEntry:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_accessControlProfileIds []int32
+		_ = _arg_accessControlProfileIds
+		_arg_nameSpace, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_name, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_entrySize, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.BeginAddEntry(ctx, _arg_accessControlProfileIds, _arg_nameSpace, _arg_name, _arg_entrySize)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWritableIdentityCredentialAddEntryValue:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_content []byte
+		_ = _arg_content
+		_result, _err := s.Impl.AddEntryValue(ctx, _arg_content)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIWritableIdentityCredentialFinishAddingEntries:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.FinishAddingEntries(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWritableIdentityCredentialSetExpectedProofOfProvisioningSize:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_expectedProofOfProvisioningSize, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetExpectedProofOfProvisioningSize(ctx, _arg_expectedProofOfProvisioningSize)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIWritableIdentityCredentialSetRemotelyProvisionedAttestationKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_attestationKeyBlob []byte
+		_ = _arg_attestationKeyBlob
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_attestationCertificate []byte
+		_ = _arg_attestationCertificate
+		_err := s.Impl.SetRemotelyProvisionedAttestationKey(ctx, _arg_attestationKeyBlob, _arg_attestationCertificate)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

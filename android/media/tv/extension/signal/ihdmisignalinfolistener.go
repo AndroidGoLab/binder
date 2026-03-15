@@ -2,6 +2,7 @@ package signal
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -69,4 +70,45 @@ func (p *HdmiSignalInfoListenerProxy) OnLowLatencyModeChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// HdmiSignalInfoListenerStub dispatches incoming binder transactions
+// to a typed IHdmiSignalInfoListener implementation.
+type HdmiSignalInfoListenerStub struct {
+	Impl IHdmiSignalInfoListener
+}
+
+var _ binder.TransactionReceiver = (*HdmiSignalInfoListenerStub)(nil)
+
+func (s *HdmiSignalInfoListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIHdmiSignalInfoListenerOnSignalInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionToken, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSignalInfoChanged(ctx, _arg_sessionToken)
+		_ = _err
+		return nil, nil
+	case TransactionIHdmiSignalInfoListenerOnLowLatencyModeChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnLowLatencyModeChanged(ctx, _arg_enable)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

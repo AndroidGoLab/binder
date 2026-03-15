@@ -2,6 +2,7 @@ package appfunctions
 
 import (
 	"context"
+	"fmt"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
@@ -111,4 +112,90 @@ func (p *AppFunctionManagerProxy) SetAppFunctionEnabled(
 	}
 
 	return nil
+}
+
+// AppFunctionManagerStub dispatches incoming binder transactions
+// to a typed IAppFunctionManager implementation.
+type AppFunctionManagerStub struct {
+	Impl IAppFunctionManager
+}
+
+var _ binder.TransactionReceiver = (*AppFunctionManagerStub)(nil)
+
+func (s *AppFunctionManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAppFunctionManagerExecuteAppFunction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request ExecuteAppFunctionAidlRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IExecuteAppFunctionCallback
+		_ = _arg_callback
+		_result, _err := s.Impl.ExecuteAppFunction(ctx, _arg_request, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIAppFunctionManagerSetAppFunctionEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_functionIdentifier, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_userHandle os.UserHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userHandle.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_enabledState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IAppFunctionEnabledCallback
+		_ = _arg_callback
+		_err = s.Impl.SetAppFunctionEnabled(ctx, _arg_functionIdentifier, _arg_userHandle, _arg_enabledState, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

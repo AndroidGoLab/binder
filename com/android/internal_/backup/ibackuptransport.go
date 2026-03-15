@@ -2,6 +2,7 @@ package backup
 
 import (
 	"context"
+	"fmt"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
@@ -698,4 +699,563 @@ func (p *BackupTransportProxy) GetPackagesThatShouldNotUseRestrictedMode(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BackupTransportStub dispatches incoming binder transactions
+// to a typed IBackupTransport implementation.
+type BackupTransportStub struct {
+	Impl IBackupTransport
+}
+
+var _ binder.TransactionReceiver = (*BackupTransportStub)(nil)
+
+func (s *BackupTransportStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBackupTransportName:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_result infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.Name(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportConfigurationIntent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_resultFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ConfigurationIntent(ctx, _arg_resultFuture)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportCurrentDestinationString:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_resultFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CurrentDestinationString(ctx, _arg_resultFuture)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportDataManagementIntent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_resultFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.DataManagementIntent(ctx, _arg_resultFuture)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportDataManagementIntentLabel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_resultFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.DataManagementIntentLabel(ctx, _arg_resultFuture)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportTransportDirName:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_resultFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.TransportDirName(ctx, _arg_resultFuture)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportRequestBackupTime:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_resultFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestBackupTime(ctx, _arg_resultFuture)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportInitializeDevice:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITransportStatusCallback
+		_ = _arg_callback
+		_err := s.Impl.InitializeDevice(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportPerformBackup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_packageInfo pm.PackageInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_packageInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_inFd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITransportStatusCallback
+		_ = _arg_callback
+		_err = s.Impl.PerformBackup(ctx, _arg_packageInfo, _arg_inFd, _arg_flags, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportClearBackupData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_packageInfo pm.PackageInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_packageInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITransportStatusCallback
+		_ = _arg_callback
+		_err := s.Impl.ClearBackupData(ctx, _arg_packageInfo, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportFinishBackup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITransportStatusCallback
+		_ = _arg_callback
+		_err := s.Impl.FinishBackup(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportGetAvailableRestoreSets:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_resultFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetAvailableRestoreSets(ctx, _arg_resultFuture)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportGetCurrentRestoreSet:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_resultFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetCurrentRestoreSet(ctx, _arg_resultFuture)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportStartRestore:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_packages []pm.PackageInfo
+		_ = _arg_packages
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITransportStatusCallback
+		_ = _arg_callback
+		_err = s.Impl.StartRestore(ctx, _arg_token, _arg_packages, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportNextRestorePackage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_resultFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NextRestorePackage(ctx, _arg_resultFuture)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportGetRestoreData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_outFd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITransportStatusCallback
+		_ = _arg_callback
+		_err = s.Impl.GetRestoreData(ctx, _arg_outFd, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportFinishRestore:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITransportStatusCallback
+		_ = _arg_callback
+		_err := s.Impl.FinishRestore(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportRequestFullBackupTime:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_resultFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestFullBackupTime(ctx, _arg_resultFuture)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportPerformFullBackup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_targetPackage pm.PackageInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_targetPackage.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_socket, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITransportStatusCallback
+		_ = _arg_callback
+		_err = s.Impl.PerformFullBackup(ctx, _arg_targetPackage, _arg_socket, _arg_flags, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportCheckFullBackupSize:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_size, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITransportStatusCallback
+		_ = _arg_callback
+		_err = s.Impl.CheckFullBackupSize(ctx, _arg_size, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportSendBackupData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_numBytes, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITransportStatusCallback
+		_ = _arg_callback
+		_err = s.Impl.SendBackupData(ctx, _arg_numBytes, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportCancelFullBackup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITransportStatusCallback
+		_ = _arg_callback
+		_err := s.Impl.CancelFullBackup(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportIsAppEligibleForBackup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_targetPackage pm.PackageInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_targetPackage.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_isFullBackup, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_resultFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.IsAppEligibleForBackup(ctx, _arg_targetPackage, _arg_isFullBackup, _arg_resultFuture)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportGetBackupQuota:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isFullBackup, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_resultFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GetBackupQuota(ctx, _arg_packageName, _arg_isFullBackup, _arg_resultFuture)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportGetNextFullRestoreDataChunk:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_socket, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITransportStatusCallback
+		_ = _arg_callback
+		_err = s.Impl.GetNextFullRestoreDataChunk(ctx, _arg_socket, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportAbortFullRestore:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ITransportStatusCallback
+		_ = _arg_callback
+		_err := s.Impl.AbortFullRestore(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportGetTransportFlags:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_resultFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetTransportFlags(ctx, _arg_resultFuture)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportGetBackupManagerMonitor:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_resultFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetBackupManagerMonitor(ctx, _arg_resultFuture)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupTransportGetPackagesThatShouldNotUseRestrictedMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_packageNames []string
+		_ = _arg_packageNames
+		_arg_operationType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_resultFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GetPackagesThatShouldNotUseRestrictedMode(ctx, _arg_packageNames, _arg_operationType, _arg_resultFuture)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

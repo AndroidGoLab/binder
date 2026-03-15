@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -253,4 +254,140 @@ func (p *AppOpsUserServiceProxy) AssertEmptyAsyncNoted(
 	}
 
 	return nil
+}
+
+// AppOpsUserServiceStub dispatches incoming binder transactions
+// to a typed IAppOpsUserService implementation.
+type AppOpsUserServiceStub struct {
+	Impl IAppOpsUserService
+}
+
+var _ binder.TransactionReceiver = (*AppOpsUserServiceStub)(nil)
+
+func (s *AppOpsUserServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAppOpsUserServiceCallApiThatNotesSyncOpNativelyAndCheckLog:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IAppOpsUserClient
+		_ = _arg_client
+		_err := s.Impl.CallApiThatNotesSyncOpNativelyAndCheckLog(ctx, _arg_client)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIAppOpsUserServiceCallApiThatNotesNonPermissionSyncOpNativelyAndCheckLog:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IAppOpsUserClient
+		_ = _arg_client
+		_err := s.Impl.CallApiThatNotesNonPermissionSyncOpNativelyAndCheckLog(ctx, _arg_client)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIAppOpsUserServiceCallOnewayApiThatNotesSyncOpNativelyAndCheckLog:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IAppOpsUserClient
+		_ = _arg_client
+		_err := s.Impl.CallOnewayApiThatNotesSyncOpNativelyAndCheckLog(ctx, _arg_client)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIAppOpsUserServiceCallApiThatNotesSyncOpOtherUidNativelyAndCheckLog:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IAppOpsUserClient
+		_ = _arg_client
+		_err := s.Impl.CallApiThatNotesSyncOpOtherUidNativelyAndCheckLog(ctx, _arg_client)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIAppOpsUserServiceCallApiThatNotesAsyncOpNativelyAndCheckCustomMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IAppOpsUserClient
+		_ = _arg_client
+		_err := s.Impl.CallApiThatNotesAsyncOpNativelyAndCheckCustomMessage(ctx, _arg_client)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIAppOpsUserServiceCallApiThatNotesAsyncOpNativelyAndCheckLog:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IAppOpsUserClient
+		_ = _arg_client
+		_err := s.Impl.CallApiThatNotesAsyncOpNativelyAndCheckLog(ctx, _arg_client)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIAppOpsUserServiceCallFreezeAndNoteSyncOp:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client IAppOpsUserClient
+		_ = _arg_client
+		_err := s.Impl.CallFreezeAndNoteSyncOp(ctx, _arg_client)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIAppOpsUserServiceAssertEmptyAsyncNoted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.AssertEmptyAsyncNoted(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

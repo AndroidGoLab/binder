@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *AudioServerStateDispatcherProxy) DispatchAudioServerStateChange(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AudioServerStateDispatcherStub dispatches incoming binder transactions
+// to a typed IAudioServerStateDispatcher implementation.
+type AudioServerStateDispatcherStub struct {
+	Impl IAudioServerStateDispatcher
+}
+
+var _ binder.TransactionReceiver = (*AudioServerStateDispatcherStub)(nil)
+
+func (s *AudioServerStateDispatcherStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAudioServerStateDispatcherDispatchAudioServerStateChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DispatchAudioServerStateChange(ctx, _arg_state)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

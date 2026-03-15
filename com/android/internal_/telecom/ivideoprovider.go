@@ -2,6 +2,7 @@ package telecom
 
 import (
 	"context"
+	"fmt"
 	net "github.com/xaionaro-go/binder/android/net"
 	androidTelecom "github.com/xaionaro-go/binder/android/telecom"
 	"github.com/xaionaro-go/binder/binder"
@@ -273,4 +274,183 @@ func (p *VideoProviderProxy) SetPauseImage(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VideoProviderStub dispatches incoming binder transactions
+// to a typed IVideoProvider implementation.
+type VideoProviderStub struct {
+	Impl IVideoProvider
+}
+
+var _ binder.TransactionReceiver = (*VideoProviderStub)(nil)
+
+func (s *VideoProviderStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVideoProviderAddVideoCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_videoCallbackBinder binder.IBinder
+		_ = _arg_videoCallbackBinder
+		_err := s.Impl.AddVideoCallback(ctx, _arg_videoCallbackBinder)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoProviderRemoveVideoCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_videoCallbackBinder binder.IBinder
+		_ = _arg_videoCallbackBinder
+		_err := s.Impl.RemoveVideoCallback(ctx, _arg_videoCallbackBinder)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoProviderSetCamera:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cameraId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mCallingPackageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_targetSdkVersion, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetCamera(ctx, _arg_cameraId, _arg_mCallingPackageName, _arg_targetSdkVersion)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoProviderSetPreviewSurface:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_surface interface{}
+		_err := s.Impl.SetPreviewSurface(ctx, _arg_surface)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoProviderSetDisplaySurface:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_surface interface{}
+		_err := s.Impl.SetDisplaySurface(ctx, _arg_surface)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoProviderSetDeviceOrientation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_rotation, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDeviceOrientation(ctx, _arg_rotation)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoProviderSetZoom:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_value, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetZoom(ctx, _arg_value)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoProviderSendSessionModifyRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_fromProfile androidTelecom.VideoProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_fromProfile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_toProfile androidTelecom.VideoProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_toProfile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SendSessionModifyRequest(ctx, _arg_fromProfile, _arg_toProfile)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoProviderSendSessionModifyResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_responseProfile androidTelecom.VideoProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_responseProfile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SendSessionModifyResponse(ctx, _arg_responseProfile)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoProviderRequestCameraCapabilities:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RequestCameraCapabilities(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoProviderRequestCallDataUsage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RequestCallDataUsage(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoProviderSetPauseImage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetPauseImage(ctx, _arg_uri)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

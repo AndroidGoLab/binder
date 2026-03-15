@@ -2,6 +2,7 @@ package attention
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *ProximityUpdateCallbackProxy) OnProximityUpdate(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ProximityUpdateCallbackStub dispatches incoming binder transactions
+// to a typed IProximityUpdateCallback implementation.
+type ProximityUpdateCallbackStub struct {
+	Impl IProximityUpdateCallback
+}
+
+var _ binder.TransactionReceiver = (*ProximityUpdateCallbackStub)(nil)
+
+func (s *ProximityUpdateCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIProximityUpdateCallbackOnProximityUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_distance, _err := data.ReadFloat64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnProximityUpdate(ctx, _arg_distance)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package internal
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
@@ -274,4 +275,208 @@ func (p *ImsUtListenerProxy) OnSupplementaryServiceIndication(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ImsUtListenerStub dispatches incoming binder transactions
+// to a typed IImsUtListener implementation.
+type ImsUtListenerStub struct {
+	Impl IImsUtListener
+}
+
+var _ binder.TransactionReceiver = (*ImsUtListenerStub)(nil)
+
+func (s *ImsUtListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIImsUtListenerUtConfigurationUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_ut IImsUt
+		_ = _arg_ut
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UtConfigurationUpdated(ctx, _arg_ut, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIImsUtListenerUtConfigurationUpdateFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_ut IImsUt
+		_ = _arg_ut
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_error_ ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_error_.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.UtConfigurationUpdateFailed(ctx, _arg_ut, _arg_id, _arg_error_)
+		_ = _err
+		return nil, nil
+	case TransactionIImsUtListenerUtConfigurationQueried:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_ut IImsUt
+		_ = _arg_ut
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_ssInfo os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ssInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.UtConfigurationQueried(ctx, _arg_ut, _arg_id, _arg_ssInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsUtListenerUtConfigurationQueryFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_ut IImsUt
+		_ = _arg_ut
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_error_ ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_error_.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.UtConfigurationQueryFailed(ctx, _arg_ut, _arg_id, _arg_error_)
+		_ = _err
+		return nil, nil
+	case TransactionIImsUtListenerLineIdentificationSupplementaryServiceResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_config ims.ImsSsInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.LineIdentificationSupplementaryServiceResponse(ctx, _arg_id, _arg_config)
+		_ = _err
+		return nil, nil
+	case TransactionIImsUtListenerUtConfigurationCallBarringQueried:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_ut IImsUt
+		_ = _arg_ut
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_cbInfo []ims.ImsSsInfo
+		_ = _arg_cbInfo
+		_err = s.Impl.UtConfigurationCallBarringQueried(ctx, _arg_ut, _arg_id, _arg_cbInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsUtListenerUtConfigurationCallForwardQueried:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_ut IImsUt
+		_ = _arg_ut
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_cfInfo []ims.ImsCallForwardInfo
+		_ = _arg_cfInfo
+		_err = s.Impl.UtConfigurationCallForwardQueried(ctx, _arg_ut, _arg_id, _arg_cfInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsUtListenerUtConfigurationCallWaitingQueried:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_ut IImsUt
+		_ = _arg_ut
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_cwInfo []ims.ImsSsInfo
+		_ = _arg_cwInfo
+		_err = s.Impl.UtConfigurationCallWaitingQueried(ctx, _arg_ut, _arg_id, _arg_cwInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsUtListenerOnSupplementaryServiceIndication:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_ssData ims.ImsSsData
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ssData.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSupplementaryServiceIndication(ctx, _arg_ssData)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package location
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -225,4 +226,138 @@ func (p *FusedGeofenceHardwareProxy) ModifyGeofenceOptions(
 	}
 
 	return nil
+}
+
+// FusedGeofenceHardwareStub dispatches incoming binder transactions
+// to a typed IFusedGeofenceHardware implementation.
+type FusedGeofenceHardwareStub struct {
+	Impl IFusedGeofenceHardware
+}
+
+var _ binder.TransactionReceiver = (*FusedGeofenceHardwareStub)(nil)
+
+func (s *FusedGeofenceHardwareStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIFusedGeofenceHardwareIsSupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsSupported(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIFusedGeofenceHardwareAddGeofences:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_geofenceRequestsArray []interface{}
+		_ = _arg_geofenceRequestsArray
+		_err := s.Impl.AddGeofences(ctx, _arg_geofenceRequestsArray)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIFusedGeofenceHardwareRemoveGeofences:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_geofenceIds []int32
+		_ = _arg_geofenceIds
+		_err := s.Impl.RemoveGeofences(ctx, _arg_geofenceIds)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIFusedGeofenceHardwarePauseMonitoringGeofence:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_geofenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PauseMonitoringGeofence(ctx, _arg_geofenceId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIFusedGeofenceHardwareResumeMonitoringGeofence:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_geofenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_monitorTransitions, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ResumeMonitoringGeofence(ctx, _arg_geofenceId, _arg_monitorTransitions)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIFusedGeofenceHardwareModifyGeofenceOptions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_geofenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_lastTransition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_monitorTransitions, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_notificationResponsiveness, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_unknownTimer, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sourcesToUse, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ModifyGeofenceOptions(ctx, _arg_geofenceId, _arg_lastTransition, _arg_monitorTransitions, _arg_notificationResponsiveness, _arg_unknownTimer, _arg_sourcesToUse)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

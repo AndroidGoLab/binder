@@ -2,6 +2,7 @@ package presence
 
 import (
 	"context"
+	"fmt"
 	vehicle "github.com/xaionaro-go/binder/android/hardware/automotive/vehicle"
 	"github.com/xaionaro-go/binder/binder"
 	common "github.com/xaionaro-go/binder/com/android/ims/internal_/uce/common"
@@ -353,4 +354,241 @@ func (p *PresenceServiceProxy) SetNewFeatureTag(
 	}
 	_result = vehicle.StatusCode(_raw)
 	return _result, nil
+}
+
+// PresenceServiceStub dispatches incoming binder transactions
+// to a typed IPresenceService implementation.
+type PresenceServiceStub struct {
+	Impl IPresenceService
+}
+
+var _ binder.TransactionReceiver = (*PresenceServiceStub)(nil)
+
+func (s *PresenceServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPresenceServiceGetVersion:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_presenceServiceHdl, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetVersion(ctx, _arg_presenceServiceHdl)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(int32(_result))
+		return _reply, nil
+	case TransactionIPresenceServiceAddListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_presenceServiceHdl, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_presenceServiceListener IPresenceListener
+		_ = _arg_presenceServiceListener
+		var _arg_presenceServiceListenerHdl common.UceLong
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_presenceServiceListenerHdl.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.AddListener(ctx, _arg_presenceServiceHdl, _arg_presenceServiceListener, _arg_presenceServiceListenerHdl)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(int32(_result))
+		return _reply, nil
+	case TransactionIPresenceServiceRemoveListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_presenceServiceHdl, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_presenceServiceListenerHdl common.UceLong
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_presenceServiceListenerHdl.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.RemoveListener(ctx, _arg_presenceServiceHdl, _arg_presenceServiceListenerHdl)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(int32(_result))
+		return _reply, nil
+	case TransactionIPresenceServiceReenableService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_presenceServiceHdl, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_userData, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ReenableService(ctx, _arg_presenceServiceHdl, _arg_userData)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(int32(_result))
+		return _reply, nil
+	case TransactionIPresenceServicePublishMyCap:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_presenceServiceHdl, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_myCapInfo PresCapInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_myCapInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_userData, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.PublishMyCap(ctx, _arg_presenceServiceHdl, _arg_myCapInfo, _arg_userData)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(int32(_result))
+		return _reply, nil
+	case TransactionIPresenceServiceGetContactCap:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_presenceServiceHdl, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_remoteUri, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_userData, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetContactCap(ctx, _arg_presenceServiceHdl, _arg_remoteUri, _arg_userData)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(int32(_result))
+		return _reply, nil
+	case TransactionIPresenceServiceGetContactListCap:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_presenceServiceHdl, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_remoteUriList []string
+		_ = _arg_remoteUriList
+		_arg_userData, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetContactListCap(ctx, _arg_presenceServiceHdl, _arg_remoteUriList, _arg_userData)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(int32(_result))
+		return _reply, nil
+	case TransactionIPresenceServiceSetNewFeatureTag:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_presenceServiceHdl, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_featureTag, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_serviceInfo PresServiceInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_serviceInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_userData, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetNewFeatureTag(ctx, _arg_presenceServiceHdl, _arg_featureTag, _arg_serviceInfo, _arg_userData)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(int32(_result))
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

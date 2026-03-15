@@ -2,6 +2,7 @@ package remoteaccess
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,37 @@ func (p *RemoteTaskCallbackProxy) OnRemoteTaskRequested(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RemoteTaskCallbackStub dispatches incoming binder transactions
+// to a typed IRemoteTaskCallback implementation.
+type RemoteTaskCallbackStub struct {
+	Impl IRemoteTaskCallback
+}
+
+var _ binder.TransactionReceiver = (*RemoteTaskCallbackStub)(nil)
+
+func (s *RemoteTaskCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRemoteTaskCallbackOnRemoteTaskRequested:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_clientId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []byte
+		_ = _arg_data
+		_err = s.Impl.OnRemoteTaskRequested(ctx, _arg_clientId, _arg_data)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

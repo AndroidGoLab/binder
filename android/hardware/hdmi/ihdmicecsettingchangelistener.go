@@ -2,6 +2,7 @@ package hdmi
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *HdmiCecSettingChangeListenerProxy) OnChange(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// HdmiCecSettingChangeListenerStub dispatches incoming binder transactions
+// to a typed IHdmiCecSettingChangeListener implementation.
+type HdmiCecSettingChangeListenerStub struct {
+	Impl IHdmiCecSettingChangeListener
+}
+
+var _ binder.TransactionReceiver = (*HdmiCecSettingChangeListenerStub)(nil)
+
+func (s *HdmiCecSettingChangeListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIHdmiCecSettingChangeListenerOnChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_setting, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnChange(ctx, _arg_setting)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

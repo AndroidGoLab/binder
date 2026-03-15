@@ -2,6 +2,7 @@ package job
 
 import (
 	"context"
+	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -398,4 +399,296 @@ func (p *JobCallbackProxy) SetNotification(
 	}
 
 	return nil
+}
+
+// JobCallbackStub dispatches incoming binder transactions
+// to a typed IJobCallback implementation.
+type JobCallbackStub struct {
+	Impl IJobCallback
+}
+
+var _ binder.TransactionReceiver = (*JobCallbackStub)(nil)
+
+func (s *JobCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIJobCallbackAcknowledgeGetTransferredDownloadBytesMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_jobId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_workId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_transferredBytes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AcknowledgeGetTransferredDownloadBytesMessage(ctx, _arg_jobId, _arg_workId, _arg_transferredBytes)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIJobCallbackAcknowledgeGetTransferredUploadBytesMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_jobId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_workId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_transferredBytes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AcknowledgeGetTransferredUploadBytesMessage(ctx, _arg_jobId, _arg_workId, _arg_transferredBytes)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIJobCallbackAcknowledgeStartMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_jobId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ongoing, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AcknowledgeStartMessage(ctx, _arg_jobId, _arg_ongoing)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIJobCallbackAcknowledgeStopMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_jobId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reschedule, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AcknowledgeStopMessage(ctx, _arg_jobId, _arg_reschedule)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIJobCallbackDequeueWork:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_jobId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.DequeueWork(ctx, _arg_jobId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIJobCallbackCompleteWork:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_jobId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_workId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CompleteWork(ctx, _arg_jobId, _arg_workId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIJobCallbackJobFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_jobId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reschedule, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.JobFinished(ctx, _arg_jobId, _arg_reschedule)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIJobCallbackHandleAbandonedJob:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_jobId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.HandleAbandonedJob(ctx, _arg_jobId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIJobCallbackUpdateEstimatedNetworkBytes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_jobId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_item JobWorkItem
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_item.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_downloadBytes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_uploadBytes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateEstimatedNetworkBytes(ctx, _arg_jobId, _arg_item, _arg_downloadBytes, _arg_uploadBytes)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIJobCallbackUpdateTransferredNetworkBytes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_jobId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_item JobWorkItem
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_item.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_transferredDownloadBytes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_transferredUploadBytes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateTransferredNetworkBytes(ctx, _arg_jobId, _arg_item, _arg_transferredDownloadBytes, _arg_transferredUploadBytes)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIJobCallbackSetNotification:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_jobId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_notificationId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_notification app.Notification
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_notification.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_jobEndNotificationPolicy, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetNotification(ctx, _arg_jobId, _arg_notificationId, _arg_notification, _arg_jobEndNotificationPolicy)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

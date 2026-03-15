@@ -2,6 +2,7 @@ package internal
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	ims "github.com/xaionaro-go/binder/com/android/ims"
 	"github.com/xaionaro-go/binder/parcel"
@@ -115,4 +116,83 @@ func (p *ImsServiceFeatureCallbackProxy) UpdateCapabilities(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ImsServiceFeatureCallbackStub dispatches incoming binder transactions
+// to a typed IImsServiceFeatureCallback implementation.
+type ImsServiceFeatureCallbackStub struct {
+	Impl IImsServiceFeatureCallback
+}
+
+var _ binder.TransactionReceiver = (*ImsServiceFeatureCallbackStub)(nil)
+
+func (s *ImsServiceFeatureCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIImsServiceFeatureCallbackImsFeatureCreated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_feature ims.ImsFeatureContainer
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ImsFeatureCreated(ctx, _arg_feature, _arg_subId)
+		_ = _err
+		return nil, nil
+	case TransactionIImsServiceFeatureCallbackImsFeatureRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ImsFeatureRemoved(ctx, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionIImsServiceFeatureCallbackImsStatusChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ImsStatusChanged(ctx, _arg_status, _arg_subId)
+		_ = _err
+		return nil, nil
+	case TransactionIImsServiceFeatureCallbackUpdateCapabilities:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_capabilities, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateCapabilities(ctx, _arg_capabilities)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

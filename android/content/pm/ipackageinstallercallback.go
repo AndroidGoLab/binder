@@ -2,6 +2,7 @@ package pm
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -132,4 +133,90 @@ func (p *PackageInstallerCallbackProxy) OnSessionFinished(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PackageInstallerCallbackStub dispatches incoming binder transactions
+// to a typed IPackageInstallerCallback implementation.
+type PackageInstallerCallbackStub struct {
+	Impl IPackageInstallerCallback
+}
+
+var _ binder.TransactionReceiver = (*PackageInstallerCallbackStub)(nil)
+
+func (s *PackageInstallerCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPackageInstallerCallbackOnSessionCreated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSessionCreated(ctx, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	case TransactionIPackageInstallerCallbackOnSessionBadgingChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSessionBadgingChanged(ctx, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	case TransactionIPackageInstallerCallbackOnSessionActiveChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_active, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSessionActiveChanged(ctx, _arg_sessionId, _arg_active)
+		_ = _err
+		return nil, nil
+	case TransactionIPackageInstallerCallbackOnSessionProgressChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_progress, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSessionProgressChanged(ctx, _arg_sessionId, _arg_progress)
+		_ = _err
+		return nil, nil
+	case TransactionIPackageInstallerCallbackOnSessionFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_success, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSessionFinished(ctx, _arg_sessionId, _arg_success)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

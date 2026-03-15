@@ -2,6 +2,7 @@ package speech
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -134,4 +135,83 @@ func (p *RecognitionServiceProxy) TriggerModelDownload(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RecognitionServiceStub dispatches incoming binder transactions
+// to a typed IRecognitionService implementation.
+type RecognitionServiceStub struct {
+	Impl IRecognitionService
+}
+
+var _ binder.TransactionReceiver = (*RecognitionServiceStub)(nil)
+
+func (s *RecognitionServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRecognitionServiceStartListening:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_recognizerIntent interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IRecognitionListener
+		_ = _arg_listener
+		var _arg_attributionSource interface{}
+		_err := s.Impl.StartListening(ctx, _arg_recognizerIntent, _arg_listener, _arg_attributionSource)
+		_ = _err
+		return nil, nil
+	case TransactionIRecognitionServiceStopListening:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IRecognitionListener
+		_ = _arg_listener
+		_err := s.Impl.StopListening(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIRecognitionServiceCancel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IRecognitionListener
+		_ = _arg_listener
+		_arg_isShutdown, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Cancel(ctx, _arg_listener, _arg_isShutdown)
+		_ = _err
+		return nil, nil
+	case TransactionIRecognitionServiceCheckRecognitionSupport:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_recognizerIntent interface{}
+		var _arg_attributionSource interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IRecognitionSupportCallback
+		_ = _arg_listener
+		_err := s.Impl.CheckRecognitionSupport(ctx, _arg_recognizerIntent, _arg_attributionSource, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIRecognitionServiceTriggerModelDownload:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_recognizerIntent interface{}
+		var _arg_attributionSource interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IModelDownloadListener
+		_ = _arg_listener
+		_err := s.Impl.TriggerModelDownload(ctx, _arg_recognizerIntent, _arg_attributionSource, _arg_listener)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

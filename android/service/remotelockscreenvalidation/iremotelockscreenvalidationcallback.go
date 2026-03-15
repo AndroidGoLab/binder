@@ -2,6 +2,7 @@ package remotelockscreenvalidation
 
 import (
 	"context"
+	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -73,4 +74,53 @@ func (p *RemoteLockscreenValidationCallbackProxy) OnFailure(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RemoteLockscreenValidationCallbackStub dispatches incoming binder transactions
+// to a typed IRemoteLockscreenValidationCallback implementation.
+type RemoteLockscreenValidationCallbackStub struct {
+	Impl IRemoteLockscreenValidationCallback
+}
+
+var _ binder.TransactionReceiver = (*RemoteLockscreenValidationCallbackStub)(nil)
+
+func (s *RemoteLockscreenValidationCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRemoteLockscreenValidationCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_result app.RemoteLockscreenValidationResult
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSuccess(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIRemoteLockscreenValidationCallbackOnFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_message, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFailure(ctx, _arg_message)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

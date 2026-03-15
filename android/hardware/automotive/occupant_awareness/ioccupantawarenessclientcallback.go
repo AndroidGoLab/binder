@@ -2,6 +2,7 @@ package occupant_awareness
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -74,4 +75,58 @@ func (p *OccupantAwarenessClientCallbackProxy) OnDetectionEvent(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// OccupantAwarenessClientCallbackStub dispatches incoming binder transactions
+// to a typed IOccupantAwarenessClientCallback implementation.
+type OccupantAwarenessClientCallbackStub struct {
+	Impl IOccupantAwarenessClientCallback
+}
+
+var _ binder.TransactionReceiver = (*OccupantAwarenessClientCallbackStub)(nil)
+
+func (s *OccupantAwarenessClientCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIOccupantAwarenessClientCallbackOnSystemStatusChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_detectionFlags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_status, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := OccupantAwarenessStatus(_raw_status)
+		_err = s.Impl.OnSystemStatusChanged(ctx, _arg_detectionFlags, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIOccupantAwarenessClientCallbackOnDetectionEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_detections OccupantDetections
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_detections.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnDetectionEvent(ctx, _arg_detections)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

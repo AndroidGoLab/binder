@@ -2,6 +2,7 @@ package renderer
 
 import (
 	"context"
+	"fmt"
 	print "github.com/xaionaro-go/binder/android/print"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -112,4 +113,82 @@ func (p *PdfRendererProxy) CloseDocument(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PdfRendererStub dispatches incoming binder transactions
+// to a typed IPdfRenderer implementation.
+type PdfRendererStub struct {
+	Impl IPdfRenderer
+}
+
+var _ binder.TransactionReceiver = (*PdfRendererStub)(nil)
+
+func (s *PdfRendererStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPdfRendererOpenDocument:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_source, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.OpenDocument(ctx, _arg_source)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIPdfRendererRenderPage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pageIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_bitmapWidth, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_bitmapHeight, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_attributes print.PrintAttributes
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributes.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_destination, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RenderPage(ctx, _arg_pageIndex, _arg_bitmapWidth, _arg_bitmapHeight, _arg_attributes, _arg_destination)
+		_ = _err
+		return nil, nil
+	case TransactionIPdfRendererCloseDocument:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.CloseDocument(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

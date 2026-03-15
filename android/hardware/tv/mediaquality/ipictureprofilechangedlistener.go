@@ -2,6 +2,7 @@ package mediaquality
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -53,4 +54,42 @@ func (p *PictureProfileChangedListenerProxy) OnPictureProfileChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PictureProfileChangedListenerStub dispatches incoming binder transactions
+// to a typed IPictureProfileChangedListener implementation.
+type PictureProfileChangedListenerStub struct {
+	Impl IPictureProfileChangedListener
+}
+
+var _ binder.TransactionReceiver = (*PictureProfileChangedListenerStub)(nil)
+
+func (s *PictureProfileChangedListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPictureProfileChangedListenerOnPictureProfileChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_pictureProfile PictureProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pictureProfile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPictureProfileChanged(ctx, _arg_pictureProfile)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

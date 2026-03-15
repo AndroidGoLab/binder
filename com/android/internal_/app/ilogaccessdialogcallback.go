@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -73,4 +74,53 @@ func (p *LogAccessDialogCallbackProxy) DeclineAccessForClient(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// LogAccessDialogCallbackStub dispatches incoming binder transactions
+// to a typed ILogAccessDialogCallback implementation.
+type LogAccessDialogCallbackStub struct {
+	Impl ILogAccessDialogCallback
+}
+
+var _ binder.TransactionReceiver = (*LogAccessDialogCallbackStub)(nil)
+
+func (s *LogAccessDialogCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionILogAccessDialogCallbackApproveAccessForClient:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ApproveAccessForClient(ctx, _arg_uid, _arg_packageName)
+		_ = _err
+		return nil, nil
+	case TransactionILogAccessDialogCallbackDeclineAccessForClient:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DeclineAccessForClient(ctx, _arg_uid, _arg_packageName)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package config
 
 import (
 	"context"
+	"fmt"
 	radio "github.com/xaionaro-go/binder/android/hardware/radio"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -292,4 +293,242 @@ func (p *RadioConfigResponseProxy) SetSimTypeResponse(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RadioConfigResponseStub dispatches incoming binder transactions
+// to a typed IRadioConfigResponse implementation.
+type RadioConfigResponseStub struct {
+	Impl IRadioConfigResponse
+}
+
+var _ binder.TransactionReceiver = (*RadioConfigResponseStub)(nil)
+
+func (s *RadioConfigResponseStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRadioConfigResponseGetHalDeviceCapabilitiesResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_modemReducedFeatureSet1, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetHalDeviceCapabilitiesResponse(ctx, _arg_info, _arg_modemReducedFeatureSet1)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioConfigResponseGetNumOfLiveModemsResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_numOfLiveModems, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetNumOfLiveModemsResponse(ctx, _arg_info, _arg_numOfLiveModems)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioConfigResponseGetPhoneCapabilityResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_phoneCapability PhoneCapability
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_phoneCapability.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetPhoneCapabilityResponse(ctx, _arg_info, _arg_phoneCapability)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioConfigResponseGetSimSlotsStatusResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_slotStatus []SimSlotStatus
+		_ = _arg_slotStatus
+		_err := s.Impl.GetSimSlotsStatusResponse(ctx, _arg_info, _arg_slotStatus)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioConfigResponseSetNumOfLiveModemsResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetNumOfLiveModemsResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioConfigResponseSetPreferredDataModemResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetPreferredDataModemResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioConfigResponseSetSimSlotsMappingResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetSimSlotsMappingResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioConfigResponseGetSimultaneousCallingSupportResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_enabledLogicalSlots []int32
+		_ = _arg_enabledLogicalSlots
+		_err := s.Impl.GetSimultaneousCallingSupportResponse(ctx, _arg_info, _arg_enabledLogicalSlots)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioConfigResponseGetSimTypeInfoResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_simTypeInfo []SimTypeInfo
+		_ = _arg_simTypeInfo
+		_err := s.Impl.GetSimTypeInfoResponse(ctx, _arg_info, _arg_simTypeInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioConfigResponseSetSimTypeResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info radio.RadioResponseInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetSimTypeResponse(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

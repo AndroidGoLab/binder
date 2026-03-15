@@ -2,6 +2,7 @@ package tv
 
 import (
 	"context"
+	"fmt"
 	tuner "github.com/xaionaro-go/binder/android/hardware/tv/tuner"
 	net "github.com/xaionaro-go/binder/android/net"
 	os "github.com/xaionaro-go/binder/android/os"
@@ -654,4 +655,445 @@ func (p *TvInputSessionCallbackProxy) OnTvInputSessionData(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TvInputSessionCallbackStub dispatches incoming binder transactions
+// to a typed ITvInputSessionCallback implementation.
+type TvInputSessionCallbackStub struct {
+	Impl ITvInputSessionCallback
+}
+
+var _ binder.TransactionReceiver = (*TvInputSessionCallbackStub)(nil)
+
+func (s *TvInputSessionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITvInputSessionCallbackOnSessionCreated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_session ITvInputSession
+		_ = _arg_session
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_hardwareSessionToken binder.IBinder
+		_ = _arg_hardwareSessionToken
+		_err := s.Impl.OnSessionCreated(ctx, _arg_session, _arg_hardwareSessionToken)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnSessionEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_args os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnSessionEvent(ctx, _arg_name, _arg_args)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnChannelRetuned:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_channelUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_channelUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnChannelRetuned(ctx, _arg_channelUri)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnAudioPresentationsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_tvAudioPresentations []tuner.AudioPresentation
+		_ = _arg_tvAudioPresentations
+		_err := s.Impl.OnAudioPresentationsChanged(ctx, _arg_tvAudioPresentations)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnAudioPresentationSelected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_presentationId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_programId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAudioPresentationSelected(ctx, _arg_presentationId, _arg_programId)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnTracksChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_tracks []TvTrackInfo
+		_ = _arg_tracks
+		_err := s.Impl.OnTracksChanged(ctx, _arg_tracks)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnTrackSelected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_trackId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTrackSelected(ctx, _arg_type_, _arg_trackId)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnVideoAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnVideoAvailable(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnVideoUnavailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnVideoUnavailable(ctx, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnVideoFreezeUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isFrozen, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnVideoFreezeUpdated(ctx, _arg_isFrozen)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnContentAllowed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnContentAllowed(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnContentBlocked:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_rating, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnContentBlocked(ctx, _arg_rating)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnLayoutSurface:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_left, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_top, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_right, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_bottom, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnLayoutSurface(ctx, _arg_left, _arg_top, _arg_right, _arg_bottom)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnTimeShiftStatusChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTimeShiftStatusChanged(ctx, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnTimeShiftStartPositionChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_timeMs, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTimeShiftStartPositionChanged(ctx, _arg_timeMs)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnTimeShiftCurrentPositionChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_timeMs, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTimeShiftCurrentPositionChanged(ctx, _arg_timeMs)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnAitInfoUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_aitInfo AitInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_aitInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAitInfoUpdated(ctx, _arg_aitInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnSignalStrength:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_strength, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSignalStrength(ctx, _arg_strength)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnCueingMessageAvailability:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_available, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCueingMessageAvailability(ctx, _arg_available)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnTimeShiftMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTimeShiftMode(ctx, _arg_mode)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnAvailableSpeeds:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_speeds []float32
+		_ = _arg_speeds
+		_err := s.Impl.OnAvailableSpeeds(ctx, _arg_speeds)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnTuned:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_channelUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_channelUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnTuned(ctx, _arg_channelUri)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnRecordingStopped:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_recordedProgramUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_recordedProgramUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnRecordingStopped(ctx, _arg_recordedProgramUri)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_error_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_error_)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnBroadcastInfoResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_response BroadcastInfoResponse
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_response.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnBroadcastInfoResponse(ctx, _arg_response)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnAdResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_response AdResponse
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_response.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAdResponse(ctx, _arg_response)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnAdBufferConsumed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_buffer AdBuffer
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_buffer.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAdBufferConsumed(ctx, _arg_buffer)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnTvMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_data os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnTvMessage(ctx, _arg_type_, _arg_data)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputSessionCallbackOnTvInputSessionData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_type_, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_data os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnTvInputSessionData(ctx, _arg_type_, _arg_data)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

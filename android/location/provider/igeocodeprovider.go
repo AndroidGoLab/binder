@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -79,4 +80,67 @@ func (p *GeocodeProviderProxy) ReverseGeocode(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GeocodeProviderStub dispatches incoming binder transactions
+// to a typed IGeocodeProvider implementation.
+type GeocodeProviderStub struct {
+	Impl IGeocodeProvider
+}
+
+var _ binder.TransactionReceiver = (*GeocodeProviderStub)(nil)
+
+func (s *GeocodeProviderStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGeocodeProviderForwardGeocode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request ForwardGeocodeRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGeocodeCallback
+		_ = _arg_callback
+		_err := s.Impl.ForwardGeocode(ctx, _arg_request, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIGeocodeProviderReverseGeocode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request ReverseGeocodeRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGeocodeCallback
+		_ = _arg_callback
+		_err := s.Impl.ReverseGeocode(ctx, _arg_request, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package gnss
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -58,4 +59,36 @@ func (p *GnssDebugProxy) GetDebugData(
 	}
 
 	return _result, nil
+}
+
+// GnssDebugStub dispatches incoming binder transactions
+// to a typed IGnssDebug implementation.
+type GnssDebugStub struct {
+	Impl IGnssDebug
+}
+
+var _ binder.TransactionReceiver = (*GnssDebugStub)(nil)
+
+func (s *GnssDebugStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssDebugGetDebugData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDebugData(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

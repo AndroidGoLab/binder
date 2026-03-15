@@ -1,6 +1,7 @@
 package display
 
 import (
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 )
 
@@ -34,3 +35,22 @@ func (p *DeviceProductInfoConstantsProxy) AsBinder() binder.IBinder {
 }
 
 var _ IDeviceProductInfoConstants = (*DeviceProductInfoConstantsProxy)(nil)
+
+// DeviceProductInfoConstantsStub dispatches incoming binder transactions
+// to a typed IDeviceProductInfoConstants implementation.
+type DeviceProductInfoConstantsStub struct {
+	Impl IDeviceProductInfoConstants
+}
+
+var _ binder.TransactionReceiver = (*DeviceProductInfoConstantsStub)(nil)
+
+func (s *DeviceProductInfoConstantsStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
+}

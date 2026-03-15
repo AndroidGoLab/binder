@@ -2,6 +2,7 @@ package policy
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *KeyguardExitCallbackProxy) OnKeyguardExitResult(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// KeyguardExitCallbackStub dispatches incoming binder transactions
+// to a typed IKeyguardExitCallback implementation.
+type KeyguardExitCallbackStub struct {
+	Impl IKeyguardExitCallback
+}
+
+var _ binder.TransactionReceiver = (*KeyguardExitCallbackStub)(nil)
+
+func (s *KeyguardExitCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIKeyguardExitCallbackOnKeyguardExitResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_success, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnKeyguardExitResult(ctx, _arg_success)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

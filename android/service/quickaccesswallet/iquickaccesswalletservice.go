@@ -2,6 +2,7 @@ package quickaccesswallet
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -178,4 +179,132 @@ func (p *QuickAccessWalletServiceProxy) OnGestureTargetActivityIntentRequested(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// QuickAccessWalletServiceStub dispatches incoming binder transactions
+// to a typed IQuickAccessWalletService implementation.
+type QuickAccessWalletServiceStub struct {
+	Impl IQuickAccessWalletService
+}
+
+var _ binder.TransactionReceiver = (*QuickAccessWalletServiceStub)(nil)
+
+func (s *QuickAccessWalletServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIQuickAccessWalletServiceOnWalletCardsRequested:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request GetWalletCardsRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IQuickAccessWalletServiceCallbacks
+		_ = _arg_callback
+		_err := s.Impl.OnWalletCardsRequested(ctx, _arg_request, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIQuickAccessWalletServiceOnWalletCardSelected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request SelectWalletCardRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnWalletCardSelected(ctx, _arg_request)
+		_ = _err
+		return nil, nil
+	case TransactionIQuickAccessWalletServiceOnWalletDismissed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnWalletDismissed(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIQuickAccessWalletServiceRegisterWalletServiceEventListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request WalletServiceEventListenerRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IQuickAccessWalletServiceCallbacks
+		_ = _arg_callback
+		_err := s.Impl.RegisterWalletServiceEventListener(ctx, _arg_request, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIQuickAccessWalletServiceUnregisterWalletServiceEventListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request WalletServiceEventListenerRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.UnregisterWalletServiceEventListener(ctx, _arg_request)
+		_ = _err
+		return nil, nil
+	case TransactionIQuickAccessWalletServiceOnTargetActivityIntentRequested:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbacks IQuickAccessWalletServiceCallbacks
+		_ = _arg_callbacks
+		_err := s.Impl.OnTargetActivityIntentRequested(ctx, _arg_callbacks)
+		_ = _err
+		return nil, nil
+	case TransactionIQuickAccessWalletServiceOnGestureTargetActivityIntentRequested:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbacks IQuickAccessWalletServiceCallbacks
+		_ = _arg_callbacks
+		_err := s.Impl.OnGestureTargetActivityIntentRequested(ctx, _arg_callbacks)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

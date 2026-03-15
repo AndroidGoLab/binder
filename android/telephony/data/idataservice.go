@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"fmt"
 	telephony "github.com/xaionaro-go/binder/android/telephony"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -380,4 +381,317 @@ func (p *DataServiceProxy) RequestNetworkValidation(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DataServiceStub dispatches incoming binder transactions
+// to a typed IDataService implementation.
+type DataServiceStub struct {
+	Impl IDataService
+}
+
+var _ binder.TransactionReceiver = (*DataServiceStub)(nil)
+
+func (s *DataServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDataServiceCreateDataServiceProvider:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CreateDataServiceProvider(ctx, _arg_slotId)
+		_ = _err
+		return nil, nil
+	case TransactionIDataServiceRemoveDataServiceProvider:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RemoveDataServiceProvider(ctx, _arg_slotId)
+		_ = _err
+		return nil, nil
+	case TransactionIDataServiceSetupDataCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_accessNetwork, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_dataProfile DataProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_dataProfile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_isRoaming, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_allowRoaming, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_linkProperties interface{}
+		_arg_pduSessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sliceInfo NetworkSliceInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sliceInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_trafficDescriptor TrafficDescriptor
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_trafficDescriptor.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_matchAllRuleAllowed, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDataServiceCallback
+		_ = _arg_callback
+		_err = s.Impl.SetupDataCall(ctx, _arg_slotId, _arg_accessNetwork, _arg_dataProfile, _arg_isRoaming, _arg_allowRoaming, _arg_reason, _arg_linkProperties, _arg_pduSessionId, _arg_sliceInfo, _arg_trafficDescriptor, _arg_matchAllRuleAllowed, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIDataServiceDeactivateDataCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDataServiceCallback
+		_ = _arg_callback
+		_err = s.Impl.DeactivateDataCall(ctx, _arg_slotId, _arg_cid, _arg_reason, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIDataServiceSetInitialAttachApn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_dataProfile DataProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_dataProfile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_isRoaming, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDataServiceCallback
+		_ = _arg_callback
+		_err = s.Impl.SetInitialAttachApn(ctx, _arg_slotId, _arg_dataProfile, _arg_isRoaming, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIDataServiceSetDataProfile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_dps []DataProfile
+		_ = _arg_dps
+		_arg_isRoaming, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDataServiceCallback
+		_ = _arg_callback
+		_err = s.Impl.SetDataProfile(ctx, _arg_slotId, _arg_dps, _arg_isRoaming, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIDataServiceRequestDataCallList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDataServiceCallback
+		_ = _arg_callback
+		_err = s.Impl.RequestDataCallList(ctx, _arg_slotId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIDataServiceRegisterForDataCallListChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDataServiceCallback
+		_ = _arg_callback
+		_err = s.Impl.RegisterForDataCallListChanged(ctx, _arg_slotId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIDataServiceUnregisterForDataCallListChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDataServiceCallback
+		_ = _arg_callback
+		_err = s.Impl.UnregisterForDataCallListChanged(ctx, _arg_slotId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIDataServiceStartHandover:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDataServiceCallback
+		_ = _arg_callback
+		_err = s.Impl.StartHandover(ctx, _arg_slotId, _arg_cid, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIDataServiceCancelHandover:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDataServiceCallback
+		_ = _arg_callback
+		_err = s.Impl.CancelHandover(ctx, _arg_slotId, _arg_cid, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIDataServiceRegisterForUnthrottleApn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDataServiceCallback
+		_ = _arg_callback
+		_err = s.Impl.RegisterForUnthrottleApn(ctx, _arg_slotIndex, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIDataServiceUnregisterForUnthrottleApn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDataServiceCallback
+		_ = _arg_callback
+		_err = s.Impl.UnregisterForUnthrottleApn(ctx, _arg_slotIndex, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIDataServiceRequestNetworkValidation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback telephony.IIntegerConsumer
+		_ = _arg_callback
+		_err = s.Impl.RequestNetworkValidation(ctx, _arg_slotId, _arg_cid, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

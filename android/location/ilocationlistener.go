@@ -2,6 +2,7 @@ package location
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -100,4 +101,60 @@ func (p *LocationListenerProxy) OnFlushComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// LocationListenerStub dispatches incoming binder transactions
+// to a typed ILocationListener implementation.
+type LocationListenerStub struct {
+	Impl ILocationListener
+}
+
+var _ binder.TransactionReceiver = (*LocationListenerStub)(nil)
+
+func (s *LocationListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionILocationListenerOnLocationChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_locations []Location
+		_ = _arg_locations
+		var _arg_onCompleteCallback *interface{}
+		_err := s.Impl.OnLocationChanged(ctx, _arg_locations, _arg_onCompleteCallback)
+		_ = _err
+		return nil, nil
+	case TransactionILocationListenerOnProviderEnabledChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_provider, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnProviderEnabledChanged(ctx, _arg_provider, _arg_enabled)
+		_ = _err
+		return nil, nil
+	case TransactionILocationListenerOnFlushComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFlushComplete(ctx, _arg_requestCode)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

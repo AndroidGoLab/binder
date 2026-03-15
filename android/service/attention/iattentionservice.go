@@ -2,6 +2,7 @@ package attention
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -105,4 +106,60 @@ func (p *AttentionServiceProxy) OnStopProximityUpdates(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AttentionServiceStub dispatches incoming binder transactions
+// to a typed IAttentionService implementation.
+type AttentionServiceStub struct {
+	Impl IAttentionService
+}
+
+var _ binder.TransactionReceiver = (*AttentionServiceStub)(nil)
+
+func (s *AttentionServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAttentionServiceCheckAttention:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IAttentionCallback
+		_ = _arg_callback
+		_err := s.Impl.CheckAttention(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIAttentionServiceCancelAttentionCheck:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IAttentionCallback
+		_ = _arg_callback
+		_err := s.Impl.CancelAttentionCheck(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIAttentionServiceOnStartProximityUpdates:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IProximityUpdateCallback
+		_ = _arg_callback
+		_err := s.Impl.OnStartProximityUpdates(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIAttentionServiceOnStopProximityUpdates:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnStopProximityUpdates(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

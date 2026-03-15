@@ -2,6 +2,7 @@ package iris
 
 import (
 	"context"
+	"fmt"
 	biometrics "github.com/xaionaro-go/binder/android/hardware/biometrics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -69,4 +70,38 @@ func (p *IrisServiceProxy) RegisterAuthenticators(
 	}
 
 	return nil
+}
+
+// IrisServiceStub dispatches incoming binder transactions
+// to a typed IIrisService implementation.
+type IrisServiceStub struct {
+	Impl IIrisService
+}
+
+var _ binder.TransactionReceiver = (*IrisServiceStub)(nil)
+
+func (s *IrisServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIIrisServiceRegisterAuthenticators:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_hidlSensors []biometrics.SensorPropertiesInternal
+		_ = _arg_hidlSensors
+		_err := s.Impl.RegisterAuthenticators(ctx, _arg_hidlSensors)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

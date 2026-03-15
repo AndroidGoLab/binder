@@ -1,6 +1,7 @@
 package aidl
 
 import (
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 )
 
@@ -27,3 +28,22 @@ func (p *EmptyProxy) AsBinder() binder.IBinder {
 }
 
 var _ IEmpty = (*EmptyProxy)(nil)
+
+// EmptyStub dispatches incoming binder transactions
+// to a typed IEmpty implementation.
+type EmptyStub struct {
+	Impl IEmpty
+}
+
+var _ binder.TransactionReceiver = (*EmptyStub)(nil)
+
+func (s *EmptyStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
+}

@@ -2,6 +2,7 @@ package pm
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -273,4 +274,171 @@ func (p *OnAppsChangedListenerProxy) OnUserConfigChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// OnAppsChangedListenerStub dispatches incoming binder transactions
+// to a typed IOnAppsChangedListener implementation.
+type OnAppsChangedListenerStub struct {
+	Impl IOnAppsChangedListener
+}
+
+var _ binder.TransactionReceiver = (*OnAppsChangedListenerStub)(nil)
+
+func (s *OnAppsChangedListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIOnAppsChangedListenerOnPackageRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_user interface{}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnPackageRemoved(ctx, _arg_user, _arg_packageName)
+		_ = _err
+		return nil, nil
+	case TransactionIOnAppsChangedListenerOnPackageAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_user interface{}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnPackageAdded(ctx, _arg_user, _arg_packageName)
+		_ = _err
+		return nil, nil
+	case TransactionIOnAppsChangedListenerOnPackageChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_user interface{}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnPackageChanged(ctx, _arg_user, _arg_packageName)
+		_ = _err
+		return nil, nil
+	case TransactionIOnAppsChangedListenerOnPackagesAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_user interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_packageNames []string
+		_ = _arg_packageNames
+		_arg_replacing, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnPackagesAvailable(ctx, _arg_user, _arg_packageNames, _arg_replacing)
+		_ = _err
+		return nil, nil
+	case TransactionIOnAppsChangedListenerOnPackagesUnavailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_user interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_packageNames []string
+		_ = _arg_packageNames
+		_arg_replacing, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnPackagesUnavailable(ctx, _arg_user, _arg_packageNames, _arg_replacing)
+		_ = _err
+		return nil, nil
+	case TransactionIOnAppsChangedListenerOnPackagesSuspended:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_user interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_packageNames []string
+		_ = _arg_packageNames
+		var _arg_launcherExtras interface{}
+		_err := s.Impl.OnPackagesSuspended(ctx, _arg_user, _arg_packageNames, _arg_launcherExtras)
+		_ = _err
+		return nil, nil
+	case TransactionIOnAppsChangedListenerOnPackagesUnsuspended:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_user interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_packageNames []string
+		_ = _arg_packageNames
+		_err := s.Impl.OnPackagesUnsuspended(ctx, _arg_user, _arg_packageNames)
+		_ = _err
+		return nil, nil
+	case TransactionIOnAppsChangedListenerOnShortcutChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_user interface{}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_shortcuts ParceledListSlice
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_shortcuts.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnShortcutChanged(ctx, _arg_user, _arg_packageName, _arg_shortcuts)
+		_ = _err
+		return nil, nil
+	case TransactionIOnAppsChangedListenerOnPackageLoadingProgressChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_user interface{}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_progress, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnPackageLoadingProgressChanged(ctx, _arg_user, _arg_packageName, _arg_progress)
+		_ = _err
+		return nil, nil
+	case TransactionIOnAppsChangedListenerOnUserConfigChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_launcherUserInfo LauncherUserInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_launcherUserInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnUserConfigChanged(ctx, _arg_launcherUserInfo)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package interactive
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	tv "github.com/xaionaro-go/binder/android/media/tv"
 	net "github.com/xaionaro-go/binder/android/net"
@@ -716,4 +717,545 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnAdRequest(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TvInteractiveAppSessionCallbackStub dispatches incoming binder transactions
+// to a typed ITvInteractiveAppSessionCallback implementation.
+type TvInteractiveAppSessionCallbackStub struct {
+	Impl ITvInteractiveAppSessionCallback
+}
+
+var _ binder.TransactionReceiver = (*TvInteractiveAppSessionCallbackStub)(nil)
+
+func (s *TvInteractiveAppSessionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITvInteractiveAppSessionCallbackOnSessionCreated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_session ITvInteractiveAppSession
+		_ = _arg_session
+		_err := s.Impl.OnSessionCreated(ctx, _arg_session)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnLayoutSurface:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_left, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_top, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_right, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_bottom, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnLayoutSurface(ctx, _arg_left, _arg_top, _arg_right, _arg_bottom)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnBroadcastInfoRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request tv.BroadcastInfoRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnBroadcastInfoRequest(ctx, _arg_request)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRemoveBroadcastInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRemoveBroadcastInfo(ctx, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnSessionStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_err, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSessionStateChanged(ctx, _arg_state, _arg_err)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnBiInteractiveAppCreated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_biIAppUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_biIAppUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_biIAppId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnBiInteractiveAppCreated(ctx, _arg_biIAppUri, _arg_biIAppId)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnTeletextAppStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTeletextAppStateChanged(ctx, _arg_state)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnAdBufferReady:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_buffer tv.AdBuffer
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_buffer.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAdBufferReady(ctx, _arg_buffer)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnCommandRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_parameters os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_parameters.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnCommandRequest(ctx, _arg_cmdType, _arg_parameters)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnTimeShiftCommandRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cmdType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_parameters os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_parameters.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnTimeShiftCommandRequest(ctx, _arg_cmdType, _arg_parameters)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnSetVideoBounds:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_rect graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_rect.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSetVideoBounds(ctx, _arg_rect)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestCurrentVideoBounds:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRequestCurrentVideoBounds(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestCurrentChannelUri:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRequestCurrentChannelUri(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestCurrentChannelLcn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRequestCurrentChannelLcn(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestStreamVolume:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRequestStreamVolume(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestTrackInfoList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRequestTrackInfoList(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestCurrentTvInputId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRequestCurrentTvInputId(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestTimeShiftMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRequestTimeShiftMode(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestAvailableSpeeds:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRequestAvailableSpeeds(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestSelectedTrackInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRequestSelectedTrackInfo(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestStartRecording:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_programUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_programUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnRequestStartRecording(ctx, _arg_requestId, _arg_programUri)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestStopRecording:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_recordingId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRequestStopRecording(ctx, _arg_recordingId)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestScheduleRecording:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_inputId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_channelUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_channelUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_programUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_programUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_params os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnRequestScheduleRecording(ctx, _arg_requestId, _arg_inputId, _arg_channelUri, _arg_programUri, _arg_params)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestScheduleRecording2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_inputId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_channelUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_channelUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_start, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_duration, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_repeat, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_params os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnRequestScheduleRecording2(ctx, _arg_requestId, _arg_inputId, _arg_channelUri, _arg_start, _arg_duration, _arg_repeat, _arg_params)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnSetTvRecordingInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_recordingId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_recordingInfo tv.TvRecordingInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_recordingInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnSetTvRecordingInfo(ctx, _arg_recordingId, _arg_recordingInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestTvRecordingInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_recordingId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRequestTvRecordingInfo(ctx, _arg_recordingId)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestTvRecordingInfoList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRequestTvRecordingInfoList(ctx, _arg_type_)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestSigning:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_algorithm, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_alias, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []byte
+		_ = _arg_data
+		_err = s.Impl.OnRequestSigning(ctx, _arg_id, _arg_algorithm, _arg_alias, _arg_data)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestSigning2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_algorithm, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_host, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_port, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []byte
+		_ = _arg_data
+		_err = s.Impl.OnRequestSigning2(ctx, _arg_id, _arg_algorithm, _arg_host, _arg_port, _arg_data)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnRequestCertificate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_host, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_port, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRequestCertificate(ctx, _arg_host, _arg_port)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppSessionCallbackOnAdRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request tv.AdRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAdRequest(ctx, _arg_request)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

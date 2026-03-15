@@ -2,6 +2,7 @@ package confirmationui
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -77,4 +78,45 @@ func (p *ConfirmationResultCallbackProxy) Result(
 	}
 
 	return nil
+}
+
+// ConfirmationResultCallbackStub dispatches incoming binder transactions
+// to a typed IConfirmationResultCallback implementation.
+type ConfirmationResultCallbackStub struct {
+	Impl IConfirmationResultCallback
+}
+
+var _ binder.TransactionReceiver = (*ConfirmationResultCallbackStub)(nil)
+
+func (s *ConfirmationResultCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIConfirmationResultCallbackResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_error_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_formattedMessage []byte
+		_ = _arg_formattedMessage
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_confirmationToken []byte
+		_ = _arg_confirmationToken
+		_err = s.Impl.Result(ctx, _arg_error_, _arg_formattedMessage, _arg_confirmationToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package ISoundDose
 
 import (
 	"context"
+	"fmt"
 	ISoundDoseIHalSoundDoseCallback "github.com/xaionaro-go/binder/android/hardware/audio/core/sounddose/ISoundDose/IHalSoundDoseCallback"
 	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
@@ -84,4 +85,77 @@ func (p *HalSoundDoseCallbackProxy) OnNewMelValues(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// HalSoundDoseCallbackStub dispatches incoming binder transactions
+// to a typed IHalSoundDoseCallback implementation.
+type HalSoundDoseCallbackStub struct {
+	Impl IHalSoundDoseCallback
+}
+
+var _ binder.TransactionReceiver = (*HalSoundDoseCallbackStub)(nil)
+
+func (s *HalSoundDoseCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIHalSoundDoseCallbackOnMomentaryExposureWarning:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_currentDbA, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_audioDevice common.AudioDevice
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_audioDevice.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnMomentaryExposureWarning(ctx, _arg_currentDbA, _arg_audioDevice)
+		_ = _err
+		return nil, nil
+	case TransactionIHalSoundDoseCallbackOnNewMelValues:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_melRecord ISoundDoseIHalSoundDoseCallback.MelRecord
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_melRecord.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_audioDevice common.AudioDevice
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_audioDevice.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnNewMelValues(ctx, _arg_melRecord, _arg_audioDevice)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	util "github.com/xaionaro-go/binder/android/util"
 	inputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
@@ -412,4 +413,346 @@ func (p *WindowProxy) DumpWindow(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// WindowStub dispatches incoming binder transactions
+// to a typed IWindow implementation.
+type WindowStub struct {
+	Impl IWindow
+}
+
+var _ binder.TransactionReceiver = (*WindowStub)(nil)
+
+func (s *WindowStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWindowExecuteCommand:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_command, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_parameters, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_descriptor, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ExecuteCommand(ctx, _arg_command, _arg_parameters, _arg_descriptor)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowResized:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_frames interface{}
+		_arg_reportDraw, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_newMergedConfiguration util.MergedConfiguration
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_newMergedConfiguration.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_insetsState InsetsState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_insetsState.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_forceLayout, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_alwaysConsumeSystemBars, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_syncSeqId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dragResizing, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_activityWindowInfo *interface{}
+		_err = s.Impl.Resized(ctx, _arg_frames, _arg_reportDraw, _arg_newMergedConfiguration, _arg_insetsState, _arg_forceLayout, _arg_alwaysConsumeSystemBars, _arg_displayId, _arg_syncSeqId, _arg_dragResizing, _arg_activityWindowInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowInsetsControlChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_insetsState InsetsState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_insetsState.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_activeControls InsetsSourceControlArray
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_activeControls.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.InsetsControlChanged(ctx, _arg_insetsState, _arg_activeControls)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowShowInsets:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_types, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fromIme, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_statsToken *inputmethod.ImeTrackerToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ShowInsets(ctx, _arg_types, _arg_fromIme, _arg_statsToken)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowHideInsets:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_types, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fromIme, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_statsToken *inputmethod.ImeTrackerToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.HideInsets(ctx, _arg_types, _arg_fromIme, _arg_statsToken)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowMoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_newX, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newY, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Moved(ctx, _arg_newX, _arg_newY)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowDispatchAppVisibility:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_visible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DispatchAppVisibility(ctx, _arg_visible)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowDispatchGetNewSurface:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.DispatchGetNewSurface(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowCloseSystemDialogs:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CloseSystemDialogs(ctx, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowDispatchWallpaperOffsets:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_x, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_y, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_xStep, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_yStep, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_zoom, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sync, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DispatchWallpaperOffsets(ctx, _arg_x, _arg_y, _arg_xStep, _arg_yStep, _arg_zoom, _arg_sync)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowDispatchWallpaperCommand:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_action, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_x, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_y, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_z, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_extras interface{}
+		_arg_sync, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DispatchWallpaperCommand(ctx, _arg_action, _arg_x, _arg_y, _arg_z, _arg_extras, _arg_sync)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowDispatchDragEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event DragEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.DispatchDragEvent(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowDispatchWindowShown:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.DispatchWindowShown(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowRequestAppKeyboardShortcuts:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver interface{}
+		_arg_deviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RequestAppKeyboardShortcuts(ctx, _arg_receiver, _arg_deviceId)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowRequestScrollCapture:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbacks IScrollCaptureResponseListener
+		_ = _arg_callbacks
+		_err := s.Impl.RequestScrollCapture(ctx, _arg_callbacks)
+		_ = _err
+		return nil, nil
+	case TransactionIWindowDumpWindow:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pfd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DumpWindow(ctx, _arg_pfd)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

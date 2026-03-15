@@ -2,6 +2,7 @@ package accounts
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -399,4 +400,332 @@ func (p *AccountAuthenticatorProxy) IsCredentialsUpdateSuggested(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AccountAuthenticatorStub dispatches incoming binder transactions
+// to a typed IAccountAuthenticator implementation.
+type AccountAuthenticatorStub struct {
+	Impl IAccountAuthenticator
+}
+
+var _ binder.TransactionReceiver = (*AccountAuthenticatorStub)(nil)
+
+func (s *AccountAuthenticatorStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAccountAuthenticatorAddAccount:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_response IAccountAuthenticatorResponse
+		_ = _arg_response
+		_arg_accountType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_authTokenType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_requiredFeatures []string
+		_ = _arg_requiredFeatures
+		var _arg_options interface{}
+		_err = s.Impl.AddAccount(ctx, _arg_response, _arg_accountType, _arg_authTokenType, _arg_requiredFeatures, _arg_options)
+		_ = _err
+		return nil, nil
+	case TransactionIAccountAuthenticatorConfirmCredentials:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_response IAccountAuthenticatorResponse
+		_ = _arg_response
+		var _arg_account Account
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_options interface{}
+		_err := s.Impl.ConfirmCredentials(ctx, _arg_response, _arg_account, _arg_options)
+		_ = _err
+		return nil, nil
+	case TransactionIAccountAuthenticatorGetAuthToken:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_response IAccountAuthenticatorResponse
+		_ = _arg_response
+		var _arg_account Account
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_authTokenType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_options interface{}
+		_err = s.Impl.GetAuthToken(ctx, _arg_response, _arg_account, _arg_authTokenType, _arg_options)
+		_ = _err
+		return nil, nil
+	case TransactionIAccountAuthenticatorGetAuthTokenLabel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_response IAccountAuthenticatorResponse
+		_ = _arg_response
+		_arg_authTokenType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetAuthTokenLabel(ctx, _arg_response, _arg_authTokenType)
+		_ = _err
+		return nil, nil
+	case TransactionIAccountAuthenticatorUpdateCredentials:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_response IAccountAuthenticatorResponse
+		_ = _arg_response
+		var _arg_account Account
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_authTokenType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_options interface{}
+		_err = s.Impl.UpdateCredentials(ctx, _arg_response, _arg_account, _arg_authTokenType, _arg_options)
+		_ = _err
+		return nil, nil
+	case TransactionIAccountAuthenticatorEditProperties:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_response IAccountAuthenticatorResponse
+		_ = _arg_response
+		_arg_accountType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.EditProperties(ctx, _arg_response, _arg_accountType)
+		_ = _err
+		return nil, nil
+	case TransactionIAccountAuthenticatorHasFeatures:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_response IAccountAuthenticatorResponse
+		_ = _arg_response
+		var _arg_account Account
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_features []string
+		_ = _arg_features
+		_err := s.Impl.HasFeatures(ctx, _arg_response, _arg_account, _arg_features)
+		_ = _err
+		return nil, nil
+	case TransactionIAccountAuthenticatorGetAccountRemovalAllowed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_response IAccountAuthenticatorResponse
+		_ = _arg_response
+		var _arg_account Account
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetAccountRemovalAllowed(ctx, _arg_response, _arg_account)
+		_ = _err
+		return nil, nil
+	case TransactionIAccountAuthenticatorGetAccountCredentialsForCloning:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_response IAccountAuthenticatorResponse
+		_ = _arg_response
+		var _arg_account Account
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetAccountCredentialsForCloning(ctx, _arg_response, _arg_account)
+		_ = _err
+		return nil, nil
+	case TransactionIAccountAuthenticatorAddAccountFromCredentials:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_response IAccountAuthenticatorResponse
+		_ = _arg_response
+		var _arg_account Account
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_accountCredentials interface{}
+		_err := s.Impl.AddAccountFromCredentials(ctx, _arg_response, _arg_account, _arg_accountCredentials)
+		_ = _err
+		return nil, nil
+	case TransactionIAccountAuthenticatorStartAddAccountSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_response IAccountAuthenticatorResponse
+		_ = _arg_response
+		_arg_accountType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_authTokenType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_requiredFeatures []string
+		_ = _arg_requiredFeatures
+		var _arg_options interface{}
+		_err = s.Impl.StartAddAccountSession(ctx, _arg_response, _arg_accountType, _arg_authTokenType, _arg_requiredFeatures, _arg_options)
+		_ = _err
+		return nil, nil
+	case TransactionIAccountAuthenticatorStartUpdateCredentialsSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_response IAccountAuthenticatorResponse
+		_ = _arg_response
+		var _arg_account Account
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_authTokenType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_options interface{}
+		_err = s.Impl.StartUpdateCredentialsSession(ctx, _arg_response, _arg_account, _arg_authTokenType, _arg_options)
+		_ = _err
+		return nil, nil
+	case TransactionIAccountAuthenticatorFinishSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_response IAccountAuthenticatorResponse
+		_ = _arg_response
+		_arg_accountType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionBundle interface{}
+		_err = s.Impl.FinishSession(ctx, _arg_response, _arg_accountType, _arg_sessionBundle)
+		_ = _err
+		return nil, nil
+	case TransactionIAccountAuthenticatorIsCredentialsUpdateSuggested:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_response IAccountAuthenticatorResponse
+		_ = _arg_response
+		var _arg_account Account
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_statusToken, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.IsCredentialsUpdateSuggested(ctx, _arg_response, _arg_account, _arg_statusToken)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

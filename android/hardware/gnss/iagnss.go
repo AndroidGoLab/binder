@@ -2,6 +2,7 @@ package gnss
 
 import (
 	"context"
+	"fmt"
 	gnssIAGnss "github.com/xaionaro-go/binder/android/hardware/gnss/IAGnss"
 	gnssIAGnssCallback "github.com/xaionaro-go/binder/android/hardware/gnss/IAGnssCallback"
 	"github.com/xaionaro-go/binder/binder"
@@ -177,4 +178,112 @@ func (p *AGnssProxy) DataConnOpen(
 	}
 
 	return nil
+}
+
+// AGnssStub dispatches incoming binder transactions
+// to a typed IAGnss implementation.
+type AGnssStub struct {
+	Impl IAGnss
+}
+
+var _ binder.TransactionReceiver = (*AGnssStub)(nil)
+
+func (s *AGnssStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAGnssSetCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IAGnssCallback
+		_ = _arg_callback
+		_err := s.Impl.SetCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIAGnssDataConnClosed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.DataConnClosed(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIAGnssDataConnFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.DataConnFailed(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIAGnssSetServer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := gnssIAGnssCallback.AGnssType(_raw_type_)
+		_arg_hostname, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_port, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetServer(ctx, _arg_type_, _arg_hostname, _arg_port)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIAGnssDataConnOpen:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_networkHandle, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_apn, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_apnIpType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_apnIpType := gnssIAGnss.ApnIpType(_raw_apnIpType)
+		_err = s.Impl.DataConnOpen(ctx, _arg_networkHandle, _arg_apn, _arg_apnIpType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

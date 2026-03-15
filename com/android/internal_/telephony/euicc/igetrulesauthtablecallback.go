@@ -2,6 +2,7 @@ package euicc
 
 import (
 	"context"
+	"fmt"
 	telephonyEuicc "github.com/xaionaro-go/binder/android/telephony/euicc"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -56,4 +57,46 @@ func (p *GetRulesAuthTableCallbackProxy) OnComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GetRulesAuthTableCallbackStub dispatches incoming binder transactions
+// to a typed IGetRulesAuthTableCallback implementation.
+type GetRulesAuthTableCallbackStub struct {
+	Impl IGetRulesAuthTableCallback
+}
+
+var _ binder.TransactionReceiver = (*GetRulesAuthTableCallbackStub)(nil)
+
+func (s *GetRulesAuthTableCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGetRulesAuthTableCallbackOnComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_rat telephonyEuicc.EuiccRulesAuthTable
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_rat.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnComplete(ctx, _arg_resultCode, _arg_rat)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package displayhash
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	os "github.com/xaionaro-go/binder/android/os"
 	viewDisplayhash "github.com/xaionaro-go/binder/android/view/displayhash"
@@ -153,4 +154,134 @@ func (p *DisplayHashingServiceProxy) GetIntervalBetweenRequestsMillis(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DisplayHashingServiceStub dispatches incoming binder transactions
+// to a typed IDisplayHashingService implementation.
+type DisplayHashingServiceStub struct {
+	Impl IDisplayHashingService
+}
+
+var _ binder.TransactionReceiver = (*DisplayHashingServiceStub)(nil)
+
+func (s *DisplayHashingServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDisplayHashingServiceGenerateDisplayHash:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_salt []byte
+		_ = _arg_salt
+		var _arg_buffer interface{}
+		var _arg_bounds graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bounds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_hashAlgorithm, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GenerateDisplayHash(ctx, _arg_salt, _arg_buffer, _arg_bounds, _arg_hashAlgorithm, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIDisplayHashingServiceVerifyDisplayHash:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_salt []byte
+		_ = _arg_salt
+		var _arg_displayHash viewDisplayhash.DisplayHash
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_displayHash.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_callback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.VerifyDisplayHash(ctx, _arg_salt, _arg_displayHash, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIDisplayHashingServiceGetDisplayHashAlgorithms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetDisplayHashAlgorithms(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIDisplayHashingServiceGetIntervalBetweenRequestsMillis:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetIntervalBetweenRequestsMillis(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

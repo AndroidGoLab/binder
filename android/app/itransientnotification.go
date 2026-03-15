@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -67,4 +68,40 @@ func (p *TransientNotificationProxy) Hide(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TransientNotificationStub dispatches incoming binder transactions
+// to a typed ITransientNotification implementation.
+type TransientNotificationStub struct {
+	Impl ITransientNotification
+}
+
+var _ binder.TransactionReceiver = (*TransientNotificationStub)(nil)
+
+func (s *TransientNotificationStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITransientNotificationShow:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_windowToken binder.IBinder
+		_ = _arg_windowToken
+		_err := s.Impl.Show(ctx, _arg_windowToken)
+		_ = _err
+		return nil, nil
+	case TransactionITransientNotificationHide:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Hide(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

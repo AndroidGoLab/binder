@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	net "github.com/xaionaro-go/binder/android/net"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
@@ -124,4 +125,85 @@ func (p *CapabilityExchangeEventListenerProxy) OnRemoteCapabilityRequest(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CapabilityExchangeEventListenerStub dispatches incoming binder transactions
+// to a typed ICapabilityExchangeEventListener implementation.
+type CapabilityExchangeEventListenerStub struct {
+	Impl ICapabilityExchangeEventListener
+}
+
+var _ binder.TransactionReceiver = (*CapabilityExchangeEventListenerStub)(nil)
+
+func (s *CapabilityExchangeEventListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICapabilityExchangeEventListenerOnRequestPublishCapabilities:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_publishTriggerType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRequestPublishCapabilities(ctx, _arg_publishTriggerType)
+		_ = _err
+		return nil, nil
+	case TransactionICapabilityExchangeEventListenerOnUnpublish:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnUnpublish(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionICapabilityExchangeEventListenerOnPublishUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_details ims.SipDetails
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_details.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPublishUpdated(ctx, _arg_details)
+		_ = _err
+		return nil, nil
+	case TransactionICapabilityExchangeEventListenerOnRemoteCapabilityRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_contactUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_contactUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_remoteCapabilities []string
+		_ = _arg_remoteCapabilities
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cb IOptionsRequestCallback
+		_ = _arg_cb
+		_err := s.Impl.OnRemoteCapabilityRequest(ctx, _arg_contactUri, _arg_remoteCapabilities, _arg_cb)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

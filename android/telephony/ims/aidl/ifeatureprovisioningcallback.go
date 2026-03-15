@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -77,4 +78,61 @@ func (p *FeatureProvisioningCallbackProxy) OnRcsFeatureProvisioningChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// FeatureProvisioningCallbackStub dispatches incoming binder transactions
+// to a typed IFeatureProvisioningCallback implementation.
+type FeatureProvisioningCallbackStub struct {
+	Impl IFeatureProvisioningCallback
+}
+
+var _ binder.TransactionReceiver = (*FeatureProvisioningCallbackStub)(nil)
+
+func (s *FeatureProvisioningCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIFeatureProvisioningCallbackOnFeatureProvisioningChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isProvisioned, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFeatureProvisioningChanged(ctx, _arg_capability, _arg_tech, _arg_isProvisioned)
+		_ = _err
+		return nil, nil
+	case TransactionIFeatureProvisioningCallbackOnRcsFeatureProvisioningChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isProvisioned, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRcsFeatureProvisioningChanged(ctx, _arg_capability, _arg_tech, _arg_isProvisioned)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

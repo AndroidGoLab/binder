@@ -2,6 +2,7 @@ package inputmethod
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
@@ -484,4 +485,406 @@ func (p *InputMethodPrivilegedOperationsProxy) SetHandwritingTouchableRegion(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InputMethodPrivilegedOperationsStub dispatches incoming binder transactions
+// to a typed IInputMethodPrivilegedOperations implementation.
+type InputMethodPrivilegedOperationsStub struct {
+	Impl IInputMethodPrivilegedOperations
+}
+
+var _ binder.TransactionReceiver = (*InputMethodPrivilegedOperationsStub)(nil)
+
+func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInputMethodPrivilegedOperationsSetImeWindowStatusAsync:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_vis, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_backDisposition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetImeWindowStatusAsync(ctx, _arg_vis, _arg_backDisposition)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsReportStartInputAsync:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_startInputToken binder.IBinder
+		_ = _arg_startInputToken
+		_err := s.Impl.ReportStartInputAsync(ctx, _arg_startInputToken)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsCreateInputContentUriToken:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_contentUri interface{}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.CreateInputContentUriToken(ctx, _arg_contentUri, _arg_packageName, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsReportFullscreenModeAsync:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fullscreen, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ReportFullscreenModeAsync(ctx, _arg_fullscreen)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsSetInputMethod:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SetInputMethod(ctx, _arg_id, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsSetInputMethodAndSubtype:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_subtype viewInputmethod.InputMethodSubtype
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_subtype.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SetInputMethodAndSubtype(ctx, _arg_id, _arg_subtype, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsHideMySoftInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_statsToken viewInputmethod.ImeTrackerToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.HideMySoftInput(ctx, _arg_statsToken, _arg_flags, _arg_reason, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsShowMySoftInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_statsToken viewInputmethod.ImeTrackerToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ShowMySoftInput(ctx, _arg_statsToken, _arg_flags, _arg_reason, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsUpdateStatusIconAsync:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_iconId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateStatusIconAsync(ctx, _arg_packageName, _arg_iconId)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsSwitchToPreviousInputMethod:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SwitchToPreviousInputMethod(ctx, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsSwitchToNextInputMethod:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_onlyCurrentIme, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SwitchToNextInputMethod(ctx, _arg_onlyCurrentIme, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsShouldOfferSwitchingToNextInputMethod:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ShouldOfferSwitchingToNextInputMethod(ctx, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsOnImeSwitchButtonClickFromClient:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnImeSwitchButtonClickFromClient(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsNotifyUserActionAsync:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.NotifyUserActionAsync(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsApplyImeVisibilityAsync:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_showOrHideInputToken binder.IBinder
+		_ = _arg_showOrHideInputToken
+		_arg_setVisible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_statsToken viewInputmethod.ImeTrackerToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ApplyImeVisibilityAsync(ctx, _arg_showOrHideInputToken, _arg_setVisible, _arg_statsToken)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsOnStylusHandwritingReady:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_pid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStylusHandwritingReady(ctx, _arg_requestId, _arg_pid)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsResetStylusHandwriting:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ResetStylusHandwriting(ctx, _arg_requestId)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsSwitchKeyboardLayoutAsync:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_direction, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SwitchKeyboardLayoutAsync(ctx, _arg_direction)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsSetHandwritingSurfaceNotTouchable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_notTouchable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetHandwritingSurfaceNotTouchable(ctx, _arg_notTouchable)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodPrivilegedOperationsSetHandwritingTouchableRegion:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_region graphics.Region
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_region.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.SetHandwritingTouchableRegion(ctx, _arg_region)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

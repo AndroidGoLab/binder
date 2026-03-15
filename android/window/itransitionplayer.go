@@ -2,6 +2,7 @@ package window
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -81,4 +82,69 @@ func (p *TransitionPlayerProxy) RequestStartTransition(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TransitionPlayerStub dispatches incoming binder transactions
+// to a typed ITransitionPlayer implementation.
+type TransitionPlayerStub struct {
+	Impl ITransitionPlayer
+}
+
+var _ binder.TransactionReceiver = (*TransitionPlayerStub)(nil)
+
+func (s *TransitionPlayerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITransitionPlayerOnTransitionReady:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_transitionToken binder.IBinder
+		_ = _arg_transitionToken
+		var _arg_info TransitionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_t interface{}
+		var _arg_finishT interface{}
+		_err := s.Impl.OnTransitionReady(ctx, _arg_transitionToken, _arg_info, _arg_t, _arg_finishT)
+		_ = _err
+		return nil, nil
+	case TransactionITransitionPlayerRequestStartTransition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_transitionToken binder.IBinder
+		_ = _arg_transitionToken
+		var _arg_request TransitionRequestInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestStartTransition(ctx, _arg_transitionToken, _arg_request)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

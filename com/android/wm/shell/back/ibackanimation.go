@@ -2,6 +2,7 @@ package back
 
 import (
 	"context"
+	"fmt"
 	view "github.com/xaionaro-go/binder/android/view"
 	window "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
@@ -121,4 +122,77 @@ func (p *BackAnimationProxy) CustomizeStatusBarAppearance(
 	}
 
 	return nil
+}
+
+// BackAnimationStub dispatches incoming binder transactions
+// to a typed IBackAnimation implementation.
+type BackAnimationStub struct {
+	Impl IBackAnimation
+}
+
+var _ binder.TransactionReceiver = (*BackAnimationStub)(nil)
+
+func (s *BackAnimationStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBackAnimationSetBackToLauncherCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback window.IOnBackInvokedCallback
+		_ = _arg_callback
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_runner view.IRemoteAnimationRunner
+		_ = _arg_runner
+		_err := s.Impl.SetBackToLauncherCallback(ctx, _arg_callback, _arg_runner)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackAnimationClearBackToLauncherCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ClearBackToLauncherCallback(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBackAnimationCustomizeStatusBarAppearance:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_appearance internalView.AppearanceRegion
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_appearance.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.CustomizeStatusBarAppearance(ctx, _arg_appearance)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

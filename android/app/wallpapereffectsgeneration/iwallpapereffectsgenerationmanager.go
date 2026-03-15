@@ -2,6 +2,7 @@ package wallpapereffectsgeneration
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -77,4 +78,64 @@ func (p *WallpaperEffectsGenerationManagerProxy) ReturnCinematicEffectResponse(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// WallpaperEffectsGenerationManagerStub dispatches incoming binder transactions
+// to a typed IWallpaperEffectsGenerationManager implementation.
+type WallpaperEffectsGenerationManagerStub struct {
+	Impl IWallpaperEffectsGenerationManager
+}
+
+var _ binder.TransactionReceiver = (*WallpaperEffectsGenerationManagerStub)(nil)
+
+func (s *WallpaperEffectsGenerationManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWallpaperEffectsGenerationManagerGenerateCinematicEffect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request CinematicEffectRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ICinematicEffectListener
+		_ = _arg_listener
+		_err := s.Impl.GenerateCinematicEffect(ctx, _arg_request, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIWallpaperEffectsGenerationManagerReturnCinematicEffectResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_response CinematicEffectResponse
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_response.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ReturnCinematicEffectResponse(ctx, _arg_response)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

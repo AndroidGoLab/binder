@@ -2,6 +2,7 @@ package contexthub
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -121,4 +122,99 @@ func (p *ContextHubEndpointCallbackProxy) OnMessageReceived(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ContextHubEndpointCallbackStub dispatches incoming binder transactions
+// to a typed IContextHubEndpointCallback implementation.
+type ContextHubEndpointCallbackStub struct {
+	Impl IContextHubEndpointCallback
+}
+
+var _ binder.TransactionReceiver = (*ContextHubEndpointCallbackStub)(nil)
+
+func (s *ContextHubEndpointCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIContextHubEndpointCallbackOnSessionOpenRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_initiator HubEndpointInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_initiator.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_serviceDescriptor, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSessionOpenRequest(ctx, _arg_sessionId, _arg_initiator, _arg_serviceDescriptor)
+		_ = _err
+		return nil, nil
+	case TransactionIContextHubEndpointCallbackOnSessionClosed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSessionClosed(ctx, _arg_sessionId, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionIContextHubEndpointCallbackOnSessionOpenComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSessionOpenComplete(ctx, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	case TransactionIContextHubEndpointCallbackOnMessageReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_message HubMessage
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_message.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnMessageReceived(ctx, _arg_sessionId, _arg_message)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

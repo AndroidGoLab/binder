@@ -2,6 +2,7 @@ package net
 
 import (
 	"context"
+	"fmt"
 	data "github.com/xaionaro-go/binder/android/hardware/radio/data"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -272,4 +273,193 @@ func (p *NetworkManagementEventObserverProxy) RouteRemoved(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// NetworkManagementEventObserverStub dispatches incoming binder transactions
+// to a typed INetworkManagementEventObserver implementation.
+type NetworkManagementEventObserverStub struct {
+	Impl INetworkManagementEventObserver
+}
+
+var _ binder.TransactionReceiver = (*NetworkManagementEventObserverStub)(nil)
+
+func (s *NetworkManagementEventObserverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionINetworkManagementEventObserverInterfaceStatusChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iface, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_up, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.InterfaceStatusChanged(ctx, _arg_iface, _arg_up)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkManagementEventObserverInterfaceLinkStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iface, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_up, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.InterfaceLinkStateChanged(ctx, _arg_iface, _arg_up)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkManagementEventObserverInterfaceAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iface, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.InterfaceAdded(ctx, _arg_iface)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkManagementEventObserverInterfaceRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iface, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.InterfaceRemoved(ctx, _arg_iface)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkManagementEventObserverAddressUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iface, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_address data.LinkAddress
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_address.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.AddressUpdated(ctx, _arg_iface, _arg_address)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkManagementEventObserverAddressRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iface, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_address data.LinkAddress
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_address.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.AddressRemoved(ctx, _arg_iface, _arg_address)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkManagementEventObserverLimitReached:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_limitName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_iface, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.LimitReached(ctx, _arg_limitName, _arg_iface)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkManagementEventObserverInterfaceClassDataActivityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_label, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_active, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tsNanos, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.InterfaceClassDataActivityChanged(ctx, _arg_label, _arg_active, _arg_tsNanos, _arg_uid)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkManagementEventObserverInterfaceDnsServerInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iface, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_lifetime, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_servers []string
+		_ = _arg_servers
+		_err = s.Impl.InterfaceDnsServerInfo(ctx, _arg_iface, _arg_lifetime, _arg_servers)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkManagementEventObserverRouteUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_route interface{}
+		_err := s.Impl.RouteUpdated(ctx, _arg_route)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkManagementEventObserverRouteRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_route interface{}
+		_err := s.Impl.RouteRemoved(ctx, _arg_route)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

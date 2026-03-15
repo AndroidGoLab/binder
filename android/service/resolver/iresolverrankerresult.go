@@ -2,6 +2,7 @@ package resolver
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,33 @@ func (p *ResolverRankerResultProxy) SendResult(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ResolverRankerResultStub dispatches incoming binder transactions
+// to a typed IResolverRankerResult implementation.
+type ResolverRankerResultStub struct {
+	Impl IResolverRankerResult
+}
+
+var _ binder.TransactionReceiver = (*ResolverRankerResultStub)(nil)
+
+func (s *ResolverRankerResultStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIResolverRankerResultSendResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_results []ResolverTarget
+		_ = _arg_results
+		_err := s.Impl.SendResult(ctx, _arg_results)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

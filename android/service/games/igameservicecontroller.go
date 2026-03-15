@@ -2,6 +2,7 @@ package games
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *GameServiceControllerProxy) CreateGameSession(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GameServiceControllerStub dispatches incoming binder transactions
+// to a typed IGameServiceController implementation.
+type GameServiceControllerStub struct {
+	Impl IGameServiceController
+}
+
+var _ binder.TransactionReceiver = (*GameServiceControllerStub)(nil)
+
+func (s *GameServiceControllerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGameServiceControllerCreateGameSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CreateGameSession(ctx, _arg_taskId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

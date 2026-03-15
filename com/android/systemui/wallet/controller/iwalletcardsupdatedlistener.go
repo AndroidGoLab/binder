@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"fmt"
 	quickaccesswallet "github.com/xaionaro-go/binder/android/service/quickaccesswallet"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -69,4 +70,38 @@ func (p *WalletCardsUpdatedListenerProxy) RegisterNewWalletCards(
 	}
 
 	return nil
+}
+
+// WalletCardsUpdatedListenerStub dispatches incoming binder transactions
+// to a typed IWalletCardsUpdatedListener implementation.
+type WalletCardsUpdatedListenerStub struct {
+	Impl IWalletCardsUpdatedListener
+}
+
+var _ binder.TransactionReceiver = (*WalletCardsUpdatedListenerStub)(nil)
+
+func (s *WalletCardsUpdatedListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWalletCardsUpdatedListenerRegisterNewWalletCards:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_cards []quickaccesswallet.WalletCard
+		_ = _arg_cards
+		_err := s.Impl.RegisterNewWalletCards(ctx, _arg_cards)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

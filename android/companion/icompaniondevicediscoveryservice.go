@@ -2,6 +2,7 @@ package companion
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
 	"github.com/xaionaro-go/binder/parcel"
@@ -80,4 +81,67 @@ func (p *CompanionDeviceDiscoveryServiceProxy) OnAssociationCreated(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CompanionDeviceDiscoveryServiceStub dispatches incoming binder transactions
+// to a typed ICompanionDeviceDiscoveryService implementation.
+type CompanionDeviceDiscoveryServiceStub struct {
+	Impl ICompanionDeviceDiscoveryService
+}
+
+var _ binder.TransactionReceiver = (*CompanionDeviceDiscoveryServiceStub)(nil)
+
+func (s *CompanionDeviceDiscoveryServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICompanionDeviceDiscoveryServiceStartDiscovery:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request AssociationRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_applicationCallback IAssociationRequestCallback
+		_ = _arg_applicationCallback
+		var _arg_serviceCallback infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_serviceCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.StartDiscovery(ctx, _arg_request, _arg_applicationCallback, _arg_serviceCallback)
+		_ = _err
+		return nil, nil
+	case TransactionICompanionDeviceDiscoveryServiceOnAssociationCreated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnAssociationCreated(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package pm
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -52,4 +53,38 @@ func (p *PackageDeleteObserverProxy) PackageDeleted(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PackageDeleteObserverStub dispatches incoming binder transactions
+// to a typed IPackageDeleteObserver implementation.
+type PackageDeleteObserverStub struct {
+	Impl IPackageDeleteObserver
+}
+
+var _ binder.TransactionReceiver = (*PackageDeleteObserverStub)(nil)
+
+func (s *PackageDeleteObserverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPackageDeleteObserverPackageDeleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_returnCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PackageDeleted(ctx, _arg_packageName, _arg_returnCode)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

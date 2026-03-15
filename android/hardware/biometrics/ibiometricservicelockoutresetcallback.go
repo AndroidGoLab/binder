@@ -2,6 +2,7 @@ package biometrics
 
 import (
 	"context"
+	"fmt"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -53,4 +54,37 @@ func (p *BiometricServiceLockoutResetCallbackProxy) OnLockoutReset(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BiometricServiceLockoutResetCallbackStub dispatches incoming binder transactions
+// to a typed IBiometricServiceLockoutResetCallback implementation.
+type BiometricServiceLockoutResetCallbackStub struct {
+	Impl IBiometricServiceLockoutResetCallback
+}
+
+var _ binder.TransactionReceiver = (*BiometricServiceLockoutResetCallbackStub)(nil)
+
+func (s *BiometricServiceLockoutResetCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBiometricServiceLockoutResetCallbackOnLockoutReset:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sensorId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ondeviceintelligence.IRemoteCallback
+		_ = _arg_callback
+		_err = s.Impl.OnLockoutReset(ctx, _arg_sensorId, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

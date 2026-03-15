@@ -2,6 +2,7 @@ package pinner
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -71,4 +72,37 @@ func (p *PinnerServiceProxy) GetPinnerStats(
 		}
 	}
 	return _result, nil
+}
+
+// PinnerServiceStub dispatches incoming binder transactions
+// to a typed IPinnerService implementation.
+type PinnerServiceStub struct {
+	Impl IPinnerService
+}
+
+var _ binder.TransactionReceiver = (*PinnerServiceStub)(nil)
+
+func (s *PinnerServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPinnerServiceGetPinnerStats:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetPinnerStats(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

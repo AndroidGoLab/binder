@@ -2,6 +2,7 @@ package notification
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,33 @@ func (p *ConditionListenerProxy) OnConditionsReceived(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ConditionListenerStub dispatches incoming binder transactions
+// to a typed IConditionListener implementation.
+type ConditionListenerStub struct {
+	Impl IConditionListener
+}
+
+var _ binder.TransactionReceiver = (*ConditionListenerStub)(nil)
+
+func (s *ConditionListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIConditionListenerOnConditionsReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_conditions []Condition
+		_ = _arg_conditions
+		_err := s.Impl.OnConditionsReceived(ctx, _arg_conditions)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

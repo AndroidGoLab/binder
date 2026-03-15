@@ -2,6 +2,7 @@ package fingerprint
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -90,4 +91,60 @@ func (p *UdfpsRefreshRateRequestCallbackProxy) OnAuthenticationPossible(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// UdfpsRefreshRateRequestCallbackStub dispatches incoming binder transactions
+// to a typed IUdfpsRefreshRateRequestCallback implementation.
+type UdfpsRefreshRateRequestCallbackStub struct {
+	Impl IUdfpsRefreshRateRequestCallback
+}
+
+var _ binder.TransactionReceiver = (*UdfpsRefreshRateRequestCallbackStub)(nil)
+
+func (s *UdfpsRefreshRateRequestCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIUdfpsRefreshRateRequestCallbackOnRequestEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRequestEnabled(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIUdfpsRefreshRateRequestCallbackOnRequestDisabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRequestDisabled(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIUdfpsRefreshRateRequestCallbackOnAuthenticationPossible:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isPossible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAuthenticationPossible(ctx, _arg_displayId, _arg_isPossible)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package recents
 
 import (
 	"context"
+	"fmt"
 	common "github.com/xaionaro-go/binder/android/hardware/input/common"
 	os "github.com/xaionaro-go/binder/android/os"
 	view "github.com/xaionaro-go/binder/android/view"
@@ -530,4 +531,333 @@ func (p *SystemUiProxyProxy) UpdateContextualEduStats(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SystemUiProxyStub dispatches incoming binder transactions
+// to a typed ISystemUiProxy implementation.
+type SystemUiProxyStub struct {
+	Impl ISystemUiProxy
+}
+
+var _ binder.TransactionReceiver = (*SystemUiProxyStub)(nil)
+
+func (s *SystemUiProxyStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISystemUiProxyStartScreenPinning:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StartScreenPinning(ctx, _arg_taskId)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyOnOverviewShown:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fromHome, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnOverviewShown(ctx, _arg_fromHome)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyOnStatusBarTouchEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event common.MotionEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnStatusBarTouchEvent(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyOnAssistantProgress:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_progress, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAssistantProgress(ctx, _arg_progress)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyOnAssistantGestureCompletion:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_velocity, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAssistantGestureCompletion(ctx, _arg_velocity)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyStartAssistant:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_bundle os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bundle.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.StartAssistant(ctx, _arg_bundle)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxySetAssistantOverridesRequested:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_invocationTypes []int32
+		_ = _arg_invocationTypes
+		_err := s.Impl.SetAssistantOverridesRequested(ctx, _arg_invocationTypes)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyNotifyAccessibilityButtonClicked:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyAccessibilityButtonClicked(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyNotifyAccessibilityButtonLongClicked:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.NotifyAccessibilityButtonLongClicked(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyStopScreenPinning:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StopScreenPinning(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyNotifyPrioritizedRotation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_rotation, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyPrioritizedRotation(ctx, _arg_rotation)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyExpandNotificationPanel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ExpandNotificationPanel(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyOnBackEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_keyEvent view.KeyEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_keyEvent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnBackEvent(ctx, _arg_keyEvent)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxySetHomeRotationEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetHomeRotationEnabled(ctx, _arg_enabled)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyNotifyTaskbarStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_visible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_stashed, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyTaskbarStatus(ctx, _arg_visible, _arg_stashed)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyNotifyTaskbarAutohideSuspend:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_suspend, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyTaskbarAutohideSuspend(ctx, _arg_suspend)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyOnImeSwitcherPressed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnImeSwitcherPressed(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyToggleNotificationPanel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ToggleNotificationPanel(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyTakeScreenshot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request util.ScreenshotRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.TakeScreenshot(ctx, _arg_request)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyOnStatusBarTrackpadEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event common.MotionEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnStatusBarTrackpadEvent(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyAnimateNavBarLongPress:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isTouchDown, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_shrink, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_durationMs, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AnimateNavBarLongPress(ctx, _arg_isTouchDown, _arg_shrink, _arg_durationMs)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxySetOverrideHomeButtonLongPress:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_duration, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_slopMultiplier, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_haptic, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetOverrideHomeButtonLongPress(ctx, _arg_duration, _arg_slopMultiplier, _arg_haptic)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyToggleQuickSettingsPanel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ToggleQuickSettingsPanel(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyOnImeSwitcherLongPress:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnImeSwitcherLongPress(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISystemUiProxyUpdateContextualEduStats:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isTrackpadGesture, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_gestureType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateContextualEduStats(ctx, _arg_isTrackpadGesture, _arg_gestureType)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

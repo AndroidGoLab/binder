@@ -2,6 +2,7 @@ package audiopolicy
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -166,4 +167,100 @@ func (p *AudioPolicyCallbackProxy) NotifyUnregistration(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AudioPolicyCallbackStub dispatches incoming binder transactions
+// to a typed IAudioPolicyCallback implementation.
+type AudioPolicyCallbackStub struct {
+	Impl IAudioPolicyCallback
+}
+
+var _ binder.TransactionReceiver = (*AudioPolicyCallbackStub)(nil)
+
+func (s *AudioPolicyCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAudioPolicyCallbackNotifyAudioFocusGrant:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_afi interface{}
+		_arg_requestResult, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyAudioFocusGrant(ctx, _arg_afi, _arg_requestResult)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioPolicyCallbackNotifyAudioFocusLoss:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_afi interface{}
+		_arg_wasNotified, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyAudioFocusLoss(ctx, _arg_afi, _arg_wasNotified)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioPolicyCallbackNotifyAudioFocusRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_afi interface{}
+		_arg_requestResult, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyAudioFocusRequest(ctx, _arg_afi, _arg_requestResult)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioPolicyCallbackNotifyAudioFocusAbandon:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_afi interface{}
+		_err := s.Impl.NotifyAudioFocusAbandon(ctx, _arg_afi)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioPolicyCallbackNotifyMixStateUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_regId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyMixStateUpdate(ctx, _arg_regId, _arg_state)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioPolicyCallbackNotifyVolumeAdjust:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_adjustment, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyVolumeAdjust(ctx, _arg_adjustment)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioPolicyCallbackNotifyUnregistration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.NotifyUnregistration(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

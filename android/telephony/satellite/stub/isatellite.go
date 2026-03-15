@@ -2,6 +2,7 @@ package stub
 
 import (
 	"context"
+	"fmt"
 	telephony "github.com/xaionaro-go/binder/android/telephony"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -521,4 +522,333 @@ func (p *SatelliteProxy) UpdateSystemSelectionChannels(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SatelliteStub dispatches incoming binder transactions
+// to a typed ISatellite implementation.
+type SatelliteStub struct {
+	Impl ISatellite
+}
+
+var _ binder.TransactionReceiver = (*SatelliteStub)(nil)
+
+func (s *SatelliteStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISatelliteSetSatelliteListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ISatelliteListener
+		_ = _arg_listener
+		_err := s.Impl.SetSatelliteListener(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteRequestSatelliteListeningEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timeout, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		_err = s.Impl.RequestSatelliteListeningEnabled(ctx, _arg_enable, _arg_timeout, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteEnableTerrestrialNetworkScanWhileSatelliteModeIsOn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_errorCallback telephony.IIntegerConsumer
+		_ = _arg_errorCallback
+		_err = s.Impl.EnableTerrestrialNetworkScanWhileSatelliteModeIsOn(ctx, _arg_enabled, _arg_errorCallback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteRequestSatelliteEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_enableAttributes SatelliteModemEnableRequestAttributes
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_enableAttributes.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		_err := s.Impl.RequestSatelliteEnabled(ctx, _arg_enableAttributes, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteRequestIsSatelliteEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback telephony.IBooleanConsumer
+		_ = _arg_callback
+		_err := s.Impl.RequestIsSatelliteEnabled(ctx, _arg_resultCallback, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteRequestIsSatelliteSupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback telephony.IBooleanConsumer
+		_ = _arg_callback
+		_err := s.Impl.RequestIsSatelliteSupported(ctx, _arg_resultCallback, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteRequestSatelliteCapabilities:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ISatelliteCapabilitiesConsumer
+		_ = _arg_callback
+		_err := s.Impl.RequestSatelliteCapabilities(ctx, _arg_resultCallback, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteStartSendingSatellitePointingInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		_err := s.Impl.StartSendingSatellitePointingInfo(ctx, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteStopSendingSatellitePointingInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		_err := s.Impl.StopSendingSatellitePointingInfo(ctx, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionISatellitePollPendingSatelliteDatagrams:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		_err := s.Impl.PollPendingSatelliteDatagrams(ctx, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteSendSatelliteDatagram:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_datagram SatelliteDatagram
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_datagram.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_isEmergency, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		_err = s.Impl.SendSatelliteDatagram(ctx, _arg_datagram, _arg_isEmergency, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteRequestSatelliteModemState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback telephony.IIntegerConsumer
+		_ = _arg_callback
+		_err := s.Impl.RequestSatelliteModemState(ctx, _arg_resultCallback, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteRequestTimeForNextSatelliteVisibility:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback telephony.IIntegerConsumer
+		_ = _arg_callback
+		_err := s.Impl.RequestTimeForNextSatelliteVisibility(ctx, _arg_resultCallback, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteSetSatellitePlmn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_simSlot, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_carrierPlmnList []string
+		_ = _arg_carrierPlmnList
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_allSatellitePlmnList []string
+		_ = _arg_allSatellitePlmnList
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		_err = s.Impl.SetSatellitePlmn(ctx, _arg_simSlot, _arg_carrierPlmnList, _arg_allSatellitePlmnList, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteSetSatelliteEnabledForCarrier:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_simSlot, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_satelliteEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback telephony.IIntegerConsumer
+		_ = _arg_callback
+		_err = s.Impl.SetSatelliteEnabledForCarrier(ctx, _arg_simSlot, _arg_satelliteEnabled, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteRequestIsSatelliteEnabledForCarrier:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_simSlot, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback telephony.IBooleanConsumer
+		_ = _arg_callback
+		_err = s.Impl.RequestIsSatelliteEnabledForCarrier(ctx, _arg_simSlot, _arg_resultCallback, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteRequestSignalStrength:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback INtnSignalStrengthConsumer
+		_ = _arg_callback
+		_err := s.Impl.RequestSignalStrength(ctx, _arg_resultCallback, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteStartSendingNtnSignalStrength:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		_err := s.Impl.StartSendingNtnSignalStrength(ctx, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteStopSendingNtnSignalStrength:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		_err := s.Impl.StopSendingNtnSignalStrength(ctx, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteAbortSendingSatelliteDatagrams:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		_err := s.Impl.AbortSendingSatelliteDatagrams(ctx, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteUpdateSatelliteSubscription:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iccId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		_err = s.Impl.UpdateSatelliteSubscription(ctx, _arg_iccId, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteUpdateSystemSelectionChannels:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_systemSelectionSpecifiers []SystemSelectionSpecifier
+		_ = _arg_systemSelectionSpecifiers
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_resultCallback telephony.IIntegerConsumer
+		_ = _arg_resultCallback
+		_err := s.Impl.UpdateSystemSelectionChannels(ctx, _arg_systemSelectionSpecifiers, _arg_resultCallback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

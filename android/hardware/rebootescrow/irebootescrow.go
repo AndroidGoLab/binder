@@ -2,6 +2,7 @@ package rebootescrow
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -107,4 +108,52 @@ func (p *RebootEscrowProxy) RetrieveKey(
 		}
 	}
 	return _result, nil
+}
+
+// RebootEscrowStub dispatches incoming binder transactions
+// to a typed IRebootEscrow implementation.
+type RebootEscrowStub struct {
+	Impl IRebootEscrow
+}
+
+var _ binder.TransactionReceiver = (*RebootEscrowStub)(nil)
+
+func (s *RebootEscrowStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRebootEscrowStoreKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_kek []byte
+		_ = _arg_kek
+		_err := s.Impl.StoreKey(ctx, _arg_kek)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIRebootEscrowRetrieveKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RetrieveKey(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

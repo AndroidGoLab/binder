@@ -2,6 +2,7 @@ package games
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -86,4 +87,52 @@ func (p *GameSessionProxy) OnTaskFocusChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GameSessionStub dispatches incoming binder transactions
+// to a typed IGameSession implementation.
+type GameSessionStub struct {
+	Impl IGameSession
+}
+
+var _ binder.TransactionReceiver = (*GameSessionStub)(nil)
+
+func (s *GameSessionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGameSessionOnDestroyed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnDestroyed(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIGameSessionOnTransientSystemBarVisibilityFromRevealGestureChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_visibleDueToGesture, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTransientSystemBarVisibilityFromRevealGestureChanged(ctx, _arg_visibleDueToGesture)
+		_ = _err
+		return nil, nil
+	case TransactionIGameSessionOnTaskFocusChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_focused, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTaskFocusChanged(ctx, _arg_focused)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

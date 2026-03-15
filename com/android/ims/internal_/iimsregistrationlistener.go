@@ -2,6 +2,7 @@ package internal
 
 import (
 	"context"
+	"fmt"
 	net "github.com/xaionaro-go/binder/android/net"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
@@ -290,4 +291,168 @@ func (p *ImsRegistrationListenerProxy) RegistrationChangeFailed(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ImsRegistrationListenerStub dispatches incoming binder transactions
+// to a typed IImsRegistrationListener implementation.
+type ImsRegistrationListenerStub struct {
+	Impl IImsRegistrationListener
+}
+
+var _ binder.TransactionReceiver = (*ImsRegistrationListenerStub)(nil)
+
+func (s *ImsRegistrationListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIImsRegistrationListenerRegistrationConnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RegistrationConnected(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationListenerRegistrationProgressing:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RegistrationProgressing(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationListenerRegistrationConnectedWithRadioTech:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_imsRadioTech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RegistrationConnectedWithRadioTech(ctx, _arg_imsRadioTech)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationListenerRegistrationProgressingWithRadioTech:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_imsRadioTech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RegistrationProgressingWithRadioTech(ctx, _arg_imsRadioTech)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationListenerRegistrationDisconnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_imsReasonInfo ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_imsReasonInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RegistrationDisconnected(ctx, _arg_imsReasonInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationListenerRegistrationResumed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RegistrationResumed(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationListenerRegistrationSuspended:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RegistrationSuspended(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationListenerRegistrationServiceCapabilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serviceClass, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_event, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RegistrationServiceCapabilityChanged(ctx, _arg_serviceClass, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationListenerRegistrationFeatureCapabilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serviceClass, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_enabledFeatures []int32
+		_ = _arg_enabledFeatures
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_disabledFeatures []int32
+		_ = _arg_disabledFeatures
+		_err = s.Impl.RegistrationFeatureCapabilityChanged(ctx, _arg_serviceClass, _arg_enabledFeatures, _arg_disabledFeatures)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationListenerVoiceMessageCountUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_count, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.VoiceMessageCountUpdate(ctx, _arg_count)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationListenerRegistrationAssociatedUriChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_uris []net.Uri
+		_ = _arg_uris
+		_err := s.Impl.RegistrationAssociatedUriChanged(ctx, _arg_uris)
+		_ = _err
+		return nil, nil
+	case TransactionIImsRegistrationListenerRegistrationChangeFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_targetAccessTech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_imsReasonInfo ims.ImsReasonInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_imsReasonInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RegistrationChangeFailed(ctx, _arg_targetAccessTech, _arg_imsReasonInfo)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

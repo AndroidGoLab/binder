@@ -2,6 +2,7 @@ package dreams
 
 import (
 	"context"
+	"fmt"
 	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -175,4 +176,110 @@ func (p *DreamOverlayClientProxy) ComeToFront(
 	}
 
 	return nil
+}
+
+// DreamOverlayClientStub dispatches incoming binder transactions
+// to a typed IDreamOverlayClient implementation.
+type DreamOverlayClientStub struct {
+	Impl IDreamOverlayClient
+}
+
+var _ binder.TransactionReceiver = (*DreamOverlayClientStub)(nil)
+
+func (s *DreamOverlayClientStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDreamOverlayClientStartDream:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_params view.WindowManagerLayoutParams
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDreamOverlayCallback
+		_ = _arg_callback
+		_arg_dreamComponent, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isPreview, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_shouldShowComplications, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StartDream(ctx, _arg_params, _arg_callback, _arg_dreamComponent, _arg_isPreview, _arg_shouldShowComplications)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIDreamOverlayClientWakeUp:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.WakeUp(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIDreamOverlayClientEndDream:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.EndDream(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIDreamOverlayClientOnWakeRequested:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnWakeRequested(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIDreamOverlayClientComeToFront:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ComeToFront(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,39 @@ func (p *StorageShutdownObserverProxy) OnShutDownComplete(
 	}
 
 	return nil
+}
+
+// StorageShutdownObserverStub dispatches incoming binder transactions
+// to a typed IStorageShutdownObserver implementation.
+type StorageShutdownObserverStub struct {
+	Impl IStorageShutdownObserver
+}
+
+var _ binder.TransactionReceiver = (*StorageShutdownObserverStub)(nil)
+
+func (s *StorageShutdownObserverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIStorageShutdownObserverOnShutDownComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_statusCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnShutDownComplete(ctx, _arg_statusCode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

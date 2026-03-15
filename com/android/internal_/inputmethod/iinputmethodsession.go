@@ -2,6 +2,7 @@ package inputmethod
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
@@ -274,4 +275,195 @@ func (p *InputMethodSessionProxy) InvalidateInput(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InputMethodSessionStub dispatches incoming binder transactions
+// to a typed IInputMethodSession implementation.
+type InputMethodSessionStub struct {
+	Impl IInputMethodSession
+}
+
+var _ binder.TransactionReceiver = (*InputMethodSessionStub)(nil)
+
+func (s *InputMethodSessionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInputMethodSessionUpdateExtractedText:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_text viewInputmethod.ExtractedText
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_text.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.UpdateExtractedText(ctx, _arg_token, _arg_text)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodSessionUpdateSelection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_oldSelStart, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_oldSelEnd, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newSelStart, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newSelEnd, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_candidatesStart, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_candidatesEnd, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateSelection(ctx, _arg_oldSelStart, _arg_oldSelEnd, _arg_newSelStart, _arg_newSelEnd, _arg_candidatesStart, _arg_candidatesEnd)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodSessionViewClicked:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_focusChanged, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ViewClicked(ctx, _arg_focusChanged)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodSessionUpdateCursor:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_newCursor graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_newCursor.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.UpdateCursor(ctx, _arg_newCursor)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodSessionDisplayCompletions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_completions []viewInputmethod.CompletionInfo
+		_ = _arg_completions
+		_err := s.Impl.DisplayCompletions(ctx, _arg_completions)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodSessionAppPrivateCommand:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_action, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_data interface{}
+		_err = s.Impl.AppPrivateCommand(ctx, _arg_action, _arg_data)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodSessionFinishSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.FinishSession(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodSessionUpdateCursorAnchorInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_cursorAnchorInfo viewInputmethod.CursorAnchorInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cursorAnchorInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.UpdateCursorAnchorInfo(ctx, _arg_cursorAnchorInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodSessionRemoveImeSurface:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RemoveImeSurface(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodSessionFinishInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.FinishInput(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodSessionInvalidateInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_editorInfo viewInputmethod.EditorInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_editorInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_inputConnection IRemoteInputConnection
+		_ = _arg_inputConnection
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.InvalidateInput(ctx, _arg_editorInfo, _arg_inputConnection, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

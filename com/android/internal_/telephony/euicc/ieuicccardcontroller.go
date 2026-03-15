@@ -2,6 +2,7 @@ package euicc
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -686,4 +687,516 @@ func (p *EuiccCardControllerProxy) RemoveNotificationFromList(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// EuiccCardControllerStub dispatches incoming binder transactions
+// to a typed IEuiccCardController implementation.
+type EuiccCardControllerStub struct {
+	Impl IEuiccCardController
+}
+
+var _ binder.TransactionReceiver = (*EuiccCardControllerStub)(nil)
+
+func (s *EuiccCardControllerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIEuiccCardControllerGetAllProfiles:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetAllProfilesCallback
+		_ = _arg_callback
+		_err = s.Impl.GetAllProfiles(ctx, _arg_cardId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerGetProfile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_iccid, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetProfileCallback
+		_ = _arg_callback
+		_err = s.Impl.GetProfile(ctx, _arg_cardId, _arg_iccid, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerGetEnabledProfile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_portIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetProfileCallback
+		_ = _arg_callback
+		_err = s.Impl.GetEnabledProfile(ctx, _arg_cardId, _arg_portIndex, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerDisableProfile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_iccid, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_refresh, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDisableProfileCallback
+		_ = _arg_callback
+		_err = s.Impl.DisableProfile(ctx, _arg_cardId, _arg_iccid, _arg_refresh, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerSwitchToProfile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_iccid, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_portIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_refresh, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ISwitchToProfileCallback
+		_ = _arg_callback
+		_err = s.Impl.SwitchToProfile(ctx, _arg_cardId, _arg_iccid, _arg_portIndex, _arg_refresh, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerSetNickname:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_iccid, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_nickname, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ISetNicknameCallback
+		_ = _arg_callback
+		_err = s.Impl.SetNickname(ctx, _arg_cardId, _arg_iccid, _arg_nickname, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerDeleteProfile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_iccid, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDeleteProfileCallback
+		_ = _arg_callback
+		_err = s.Impl.DeleteProfile(ctx, _arg_cardId, _arg_iccid, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerResetMemory:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_options, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IResetMemoryCallback
+		_ = _arg_callback
+		_err = s.Impl.ResetMemory(ctx, _arg_cardId, _arg_options, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerGetDefaultSmdpAddress:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetDefaultSmdpAddressCallback
+		_ = _arg_callback
+		_err = s.Impl.GetDefaultSmdpAddress(ctx, _arg_cardId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerGetSmdsAddress:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetSmdsAddressCallback
+		_ = _arg_callback
+		_err = s.Impl.GetSmdsAddress(ctx, _arg_cardId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerSetDefaultSmdpAddress:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_address, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ISetDefaultSmdpAddressCallback
+		_ = _arg_callback
+		_err = s.Impl.SetDefaultSmdpAddress(ctx, _arg_cardId, _arg_address, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerGetRulesAuthTable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetRulesAuthTableCallback
+		_ = _arg_callback
+		_err = s.Impl.GetRulesAuthTable(ctx, _arg_cardId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerGetEuiccChallenge:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetEuiccChallengeCallback
+		_ = _arg_callback
+		_err = s.Impl.GetEuiccChallenge(ctx, _arg_cardId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerGetEuiccInfo1:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetEuiccInfo1Callback
+		_ = _arg_callback
+		_err = s.Impl.GetEuiccInfo1(ctx, _arg_cardId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerGetEuiccInfo2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetEuiccInfo2Callback
+		_ = _arg_callback
+		_err = s.Impl.GetEuiccInfo2(ctx, _arg_cardId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerAuthenticateServer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_matchingId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_serverSigned1 []byte
+		_ = _arg_serverSigned1
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_serverSignature1 []byte
+		_ = _arg_serverSignature1
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_euiccCiPkIdToBeUsed []byte
+		_ = _arg_euiccCiPkIdToBeUsed
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_serverCertificatein []byte
+		_ = _arg_serverCertificatein
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IAuthenticateServerCallback
+		_ = _arg_callback
+		_err = s.Impl.AuthenticateServer(ctx, _arg_cardId, _arg_matchingId, _arg_serverSigned1, _arg_serverSignature1, _arg_euiccCiPkIdToBeUsed, _arg_serverCertificatein, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerPrepareDownload:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_hashCc []byte
+		_ = _arg_hashCc
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_smdpSigned2 []byte
+		_ = _arg_smdpSigned2
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_smdpSignature2 []byte
+		_ = _arg_smdpSignature2
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_smdpCertificate []byte
+		_ = _arg_smdpCertificate
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IPrepareDownloadCallback
+		_ = _arg_callback
+		_err = s.Impl.PrepareDownload(ctx, _arg_cardId, _arg_hashCc, _arg_smdpSigned2, _arg_smdpSignature2, _arg_smdpCertificate, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerLoadBoundProfilePackage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_boundProfilePackage []byte
+		_ = _arg_boundProfilePackage
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ILoadBoundProfilePackageCallback
+		_ = _arg_callback
+		_err = s.Impl.LoadBoundProfilePackage(ctx, _arg_cardId, _arg_boundProfilePackage, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerCancelSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_transactionId []byte
+		_ = _arg_transactionId
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ICancelSessionCallback
+		_ = _arg_callback
+		_err = s.Impl.CancelSession(ctx, _arg_cardId, _arg_transactionId, _arg_reason, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerListNotifications:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_events, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IListNotificationsCallback
+		_ = _arg_callback
+		_err = s.Impl.ListNotifications(ctx, _arg_cardId, _arg_events, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerRetrieveNotificationList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_events, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IRetrieveNotificationListCallback
+		_ = _arg_callback
+		_err = s.Impl.RetrieveNotificationList(ctx, _arg_cardId, _arg_events, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerRetrieveNotification:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_seqNumber, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IRetrieveNotificationCallback
+		_ = _arg_callback
+		_err = s.Impl.RetrieveNotification(ctx, _arg_cardId, _arg_seqNumber, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccCardControllerRemoveNotificationFromList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cardId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_seqNumber, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IRemoveNotificationFromListCallback
+		_ = _arg_callback
+		_err = s.Impl.RemoveNotificationFromList(ctx, _arg_cardId, _arg_seqNumber, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -159,4 +160,117 @@ func (p *UidObserverProxy) OnUidCachedChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// UidObserverStub dispatches incoming binder transactions
+// to a typed IUidObserver implementation.
+type UidObserverStub struct {
+	Impl IUidObserver
+}
+
+var _ binder.TransactionReceiver = (*UidObserverStub)(nil)
+
+func (s *UidObserverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIUidObserverOnUidGone:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_disabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUidGone(ctx, _arg_uid, _arg_disabled)
+		_ = _err
+		return nil, nil
+	case TransactionIUidObserverOnUidActive:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUidActive(ctx, _arg_uid)
+		_ = _err
+		return nil, nil
+	case TransactionIUidObserverOnUidIdle:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_disabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUidIdle(ctx, _arg_uid, _arg_disabled)
+		_ = _err
+		return nil, nil
+	case TransactionIUidObserverOnUidStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_procState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_procStateSeq, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUidStateChanged(ctx, _arg_uid, _arg_procState, _arg_procStateSeq, _arg_capability)
+		_ = _err
+		return nil, nil
+	case TransactionIUidObserverOnUidProcAdjChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_adj, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUidProcAdjChanged(ctx, _arg_uid, _arg_adj)
+		_ = _err
+		return nil, nil
+	case TransactionIUidObserverOnUidCachedChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cached, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUidCachedChanged(ctx, _arg_uid, _arg_cached)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

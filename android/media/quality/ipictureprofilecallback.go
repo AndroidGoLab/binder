@@ -2,6 +2,7 @@ package quality
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -154,4 +155,121 @@ func (p *PictureProfileCallbackProxy) OnError(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PictureProfileCallbackStub dispatches incoming binder transactions
+// to a typed IPictureProfileCallback implementation.
+type PictureProfileCallbackStub struct {
+	Impl IPictureProfileCallback
+}
+
+var _ binder.TransactionReceiver = (*PictureProfileCallbackStub)(nil)
+
+func (s *PictureProfileCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPictureProfileCallbackOnPictureProfileAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_p_ PictureProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_p_.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnPictureProfileAdded(ctx, _arg_id, _arg_p_)
+		_ = _err
+		return nil, nil
+	case TransactionIPictureProfileCallbackOnPictureProfileUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_p_ PictureProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_p_.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnPictureProfileUpdated(ctx, _arg_id, _arg_p_)
+		_ = _err
+		return nil, nil
+	case TransactionIPictureProfileCallbackOnPictureProfileRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_p_ PictureProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_p_.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnPictureProfileRemoved(ctx, _arg_id, _arg_p_)
+		_ = _err
+		return nil, nil
+	case TransactionIPictureProfileCallbackOnParamCapabilitiesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_caps []ParamCapability
+		_ = _arg_caps
+		_err = s.Impl.OnParamCapabilitiesChanged(ctx, _arg_id, _arg_caps)
+		_ = _err
+		return nil, nil
+	case TransactionIPictureProfileCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_err, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_id, _arg_err)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

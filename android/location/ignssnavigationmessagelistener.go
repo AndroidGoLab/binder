@@ -2,6 +2,7 @@ package location
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -72,4 +73,53 @@ func (p *GnssNavigationMessageListenerProxy) OnStatusChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GnssNavigationMessageListenerStub dispatches incoming binder transactions
+// to a typed IGnssNavigationMessageListener implementation.
+type GnssNavigationMessageListenerStub struct {
+	Impl IGnssNavigationMessageListener
+}
+
+var _ binder.TransactionReceiver = (*GnssNavigationMessageListenerStub)(nil)
+
+func (s *GnssNavigationMessageListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssNavigationMessageListenerOnGnssNavigationMessageReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event GnssNavigationMessage
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnGnssNavigationMessageReceived(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIGnssNavigationMessageListenerOnStatusChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStatusChanged(ctx, _arg_status)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

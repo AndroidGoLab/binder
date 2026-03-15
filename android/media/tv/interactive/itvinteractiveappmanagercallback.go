@@ -2,6 +2,7 @@ package interactive
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -135,4 +136,98 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnStateChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TvInteractiveAppManagerCallbackStub dispatches incoming binder transactions
+// to a typed ITvInteractiveAppManagerCallback implementation.
+type TvInteractiveAppManagerCallbackStub struct {
+	Impl ITvInteractiveAppManagerCallback
+}
+
+var _ binder.TransactionReceiver = (*TvInteractiveAppManagerCallbackStub)(nil)
+
+func (s *TvInteractiveAppManagerCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITvInteractiveAppManagerCallbackOnInteractiveAppServiceAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iAppServiceId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnInteractiveAppServiceAdded(ctx, _arg_iAppServiceId)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppManagerCallbackOnInteractiveAppServiceRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iAppServiceId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnInteractiveAppServiceRemoved(ctx, _arg_iAppServiceId)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppManagerCallbackOnInteractiveAppServiceUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iAppServiceId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnInteractiveAppServiceUpdated(ctx, _arg_iAppServiceId)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppManagerCallbackOnTvInteractiveAppServiceInfoUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_tvIAppInfo TvInteractiveAppServiceInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_tvIAppInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnTvInteractiveAppServiceInfoUpdated(ctx, _arg_tvIAppInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITvInteractiveAppManagerCallbackOnStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_iAppServiceId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_err, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStateChanged(ctx, _arg_iAppServiceId, _arg_type_, _arg_state, _arg_err)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

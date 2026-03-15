@@ -2,6 +2,7 @@ package uwb
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -78,4 +79,50 @@ func (p *UwbClientCallbackProxy) OnHalEvent(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// UwbClientCallbackStub dispatches incoming binder transactions
+// to a typed IUwbClientCallback implementation.
+type UwbClientCallbackStub struct {
+	Impl IUwbClientCallback
+}
+
+var _ binder.TransactionReceiver = (*UwbClientCallbackStub)(nil)
+
+func (s *UwbClientCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIUwbClientCallbackOnUciMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []byte
+		_ = _arg_data
+		_err := s.Impl.OnUciMessage(ctx, _arg_data)
+		_ = _err
+		return nil, nil
+	case TransactionIUwbClientCallbackOnHalEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_event, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_event := UwbEvent(_raw_event)
+		_raw_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := UwbStatus(_raw_status)
+		_err = s.Impl.OnHalEvent(ctx, _arg_event, _arg_status)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

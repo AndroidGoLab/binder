@@ -2,6 +2,7 @@ package window
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -253,4 +254,183 @@ func (p *TaskFragmentOrganizerControllerProxy) ApplyTransaction(
 	}
 
 	return nil
+}
+
+// TaskFragmentOrganizerControllerStub dispatches incoming binder transactions
+// to a typed ITaskFragmentOrganizerController implementation.
+type TaskFragmentOrganizerControllerStub struct {
+	Impl ITaskFragmentOrganizerController
+}
+
+var _ binder.TransactionReceiver = (*TaskFragmentOrganizerControllerStub)(nil)
+
+func (s *TaskFragmentOrganizerControllerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITaskFragmentOrganizerControllerRegisterOrganizer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_organizer ITaskFragmentOrganizer
+		_ = _arg_organizer
+		_arg_isSystemOrganizer, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RegisterOrganizer(ctx, _arg_organizer, _arg_isSystemOrganizer)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITaskFragmentOrganizerControllerUnregisterOrganizer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_organizer ITaskFragmentOrganizer
+		_ = _arg_organizer
+		_err := s.Impl.UnregisterOrganizer(ctx, _arg_organizer)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITaskFragmentOrganizerControllerRegisterRemoteAnimations:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_organizer ITaskFragmentOrganizer
+		_ = _arg_organizer
+		var _arg_definition interface{}
+		_err := s.Impl.RegisterRemoteAnimations(ctx, _arg_organizer, _arg_definition)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITaskFragmentOrganizerControllerUnregisterRemoteAnimations:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_organizer ITaskFragmentOrganizer
+		_ = _arg_organizer
+		_err := s.Impl.UnregisterRemoteAnimations(ctx, _arg_organizer)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITaskFragmentOrganizerControllerSetSavedState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_organizer ITaskFragmentOrganizer
+		_ = _arg_organizer
+		var _arg_savedState interface{}
+		_err := s.Impl.SetSavedState(ctx, _arg_organizer, _arg_savedState)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITaskFragmentOrganizerControllerOnTransactionHandled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_transactionToken binder.IBinder
+		_ = _arg_transactionToken
+		var _arg_wct WindowContainerTransaction
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_wct.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_transitionType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_shouldApplyIndependently, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTransactionHandled(ctx, _arg_transactionToken, _arg_wct, _arg_transitionType, _arg_shouldApplyIndependently)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionITaskFragmentOrganizerControllerApplyTransaction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_wct WindowContainerTransaction
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_wct.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_transitionType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_shouldApplyIndependently, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_remoteTransition RemoteTransition
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_remoteTransition.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ApplyTransaction(ctx, _arg_wct, _arg_transitionType, _arg_shouldApplyIndependently, _arg_remoteTransition)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package tuner
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -204,4 +205,116 @@ func (p *LnbProxy) Close(
 	}
 
 	return nil
+}
+
+// LnbStub dispatches incoming binder transactions
+// to a typed ILnb implementation.
+type LnbStub struct {
+	Impl ILnb
+}
+
+var _ binder.TransactionReceiver = (*LnbStub)(nil)
+
+func (s *LnbStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionILnbSetCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ILnbCallback
+		_ = _arg_callback
+		_err := s.Impl.SetCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionILnbSetVoltage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_voltage, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_voltage := LnbVoltage(_raw_voltage)
+		_err = s.Impl.SetVoltage(ctx, _arg_voltage)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionILnbSetTone:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_tone, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tone := LnbTone(_raw_tone)
+		_err = s.Impl.SetTone(ctx, _arg_tone)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionILnbSetSatellitePosition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_position, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_position := LnbPosition(_raw_position)
+		_err = s.Impl.SetSatellitePosition(ctx, _arg_position)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionILnbSendDiseqcMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_diseqcMessage []byte
+		_ = _arg_diseqcMessage
+		_err := s.Impl.SendDiseqcMessage(ctx, _arg_diseqcMessage)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionILnbClose:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Close(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package sap
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -280,4 +281,203 @@ func (p *SapCallbackProxy) TransferProtocolResponse(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SapCallbackStub dispatches incoming binder transactions
+// to a typed ISapCallback implementation.
+type SapCallbackStub struct {
+	Impl ISapCallback
+}
+
+var _ binder.TransactionReceiver = (*SapCallbackStub)(nil)
+
+func (s *SapCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISapCallbackApduResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_resultCode := SapResultCode(_raw_resultCode)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_apduRsp []byte
+		_ = _arg_apduRsp
+		_err = s.Impl.ApduResponse(ctx, _arg_serial, _arg_resultCode, _arg_apduRsp)
+		_ = _err
+		return nil, nil
+	case TransactionISapCallbackConnectResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_sapConnectRsp, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sapConnectRsp := SapConnectRsp(_raw_sapConnectRsp)
+		_arg_maxMsgSizeBytes, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ConnectResponse(ctx, _arg_serial, _arg_sapConnectRsp, _arg_maxMsgSizeBytes)
+		_ = _err
+		return nil, nil
+	case TransactionISapCallbackDisconnectIndication:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_disconnectType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_disconnectType := SapDisconnectType(_raw_disconnectType)
+		_err = s.Impl.DisconnectIndication(ctx, _arg_serial, _arg_disconnectType)
+		_ = _err
+		return nil, nil
+	case TransactionISapCallbackDisconnectResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DisconnectResponse(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionISapCallbackErrorResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ErrorResponse(ctx, _arg_serial)
+		_ = _err
+		return nil, nil
+	case TransactionISapCallbackPowerResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_resultCode := SapResultCode(_raw_resultCode)
+		_err = s.Impl.PowerResponse(ctx, _arg_serial, _arg_resultCode)
+		_ = _err
+		return nil, nil
+	case TransactionISapCallbackResetSimResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_resultCode := SapResultCode(_raw_resultCode)
+		_err = s.Impl.ResetSimResponse(ctx, _arg_serial, _arg_resultCode)
+		_ = _err
+		return nil, nil
+	case TransactionISapCallbackStatusIndication:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := SapStatus(_raw_status)
+		_err = s.Impl.StatusIndication(ctx, _arg_serial, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionISapCallbackTransferAtrResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_resultCode := SapResultCode(_raw_resultCode)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_atr []byte
+		_ = _arg_atr
+		_err = s.Impl.TransferAtrResponse(ctx, _arg_serial, _arg_resultCode, _arg_atr)
+		_ = _err
+		return nil, nil
+	case TransactionISapCallbackTransferCardReaderStatusResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_resultCode := SapResultCode(_raw_resultCode)
+		_arg_cardReaderStatus, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.TransferCardReaderStatusResponse(ctx, _arg_serial, _arg_resultCode, _arg_cardReaderStatus)
+		_ = _err
+		return nil, nil
+	case TransactionISapCallbackTransferProtocolResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_resultCode := SapResultCode(_raw_resultCode)
+		_err = s.Impl.TransferProtocolResponse(ctx, _arg_serial, _arg_resultCode)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

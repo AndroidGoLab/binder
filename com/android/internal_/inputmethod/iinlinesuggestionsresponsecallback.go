@@ -2,6 +2,7 @@ package inputmethod
 
 import (
 	"context"
+	"fmt"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -55,4 +56,43 @@ func (p *InlineSuggestionsResponseCallbackProxy) OnInlineSuggestionsResponse(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InlineSuggestionsResponseCallbackStub dispatches incoming binder transactions
+// to a typed IInlineSuggestionsResponseCallback implementation.
+type InlineSuggestionsResponseCallbackStub struct {
+	Impl IInlineSuggestionsResponseCallback
+}
+
+var _ binder.TransactionReceiver = (*InlineSuggestionsResponseCallbackStub)(nil)
+
+func (s *InlineSuggestionsResponseCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInlineSuggestionsResponseCallbackOnInlineSuggestionsResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_fieldId interface{}
+		var _arg_response viewInputmethod.InlineSuggestionsResponse
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_response.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnInlineSuggestionsResponse(ctx, _arg_fieldId, _arg_response)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package wifi
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -956,4 +957,897 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyRangingResults(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// WifiNanIfaceEventCallbackStub dispatches incoming binder transactions
+// to a typed IWifiNanIfaceEventCallback implementation.
+type WifiNanIfaceEventCallbackStub struct {
+	Impl IWifiNanIfaceEventCallback
+}
+
+var _ binder.TransactionReceiver = (*WifiNanIfaceEventCallbackStub)(nil)
+
+func (s *WifiNanIfaceEventCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIWifiNanIfaceEventCallbackEventClusterEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event NanClusterEventInd
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.EventClusterEvent(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackEventDataPathConfirm:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event NanDataPathConfirmInd
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.EventDataPathConfirm(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackEventDataPathRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event NanDataPathRequestInd
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.EventDataPathRequest(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackEventDataPathScheduleUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event NanDataPathScheduleUpdateInd
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.EventDataPathScheduleUpdate(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackEventDataPathTerminated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_ndpInstanceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.EventDataPathTerminated(ctx, _arg_ndpInstanceId)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackEventDisabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.EventDisabled(ctx, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackEventFollowupReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event NanFollowupReceivedInd
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.EventFollowupReceived(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackEventMatch:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event NanMatchInd
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.EventMatch(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackEventMatchExpired:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_discoverySessionId, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_peerId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.EventMatchExpired(ctx, _arg_discoverySessionId, _arg_peerId)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackEventPublishTerminated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.EventPublishTerminated(ctx, _arg_sessionId, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackEventSubscribeTerminated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.EventSubscribeTerminated(ctx, _arg_sessionId, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackEventTransmitFollowup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.EventTransmitFollowup(ctx, _arg_id, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackEventSuspensionModeChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event NanSuspensionModeChangeInd
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.EventSuspensionModeChanged(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyCapabilitiesResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_capabilities NanCapabilities
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_capabilities.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyCapabilitiesResponse(ctx, _arg_id, _arg_status, _arg_capabilities)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyConfigResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyConfigResponse(ctx, _arg_id, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyCreateDataInterfaceResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyCreateDataInterfaceResponse(ctx, _arg_id, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyDeleteDataInterfaceResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyDeleteDataInterfaceResponse(ctx, _arg_id, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyDisableResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyDisableResponse(ctx, _arg_id, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyEnableResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyEnableResponse(ctx, _arg_id, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyInitiateDataPathResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_ndpInstanceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyInitiateDataPathResponse(ctx, _arg_id, _arg_status, _arg_ndpInstanceId)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyRespondToDataPathIndicationResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyRespondToDataPathIndicationResponse(ctx, _arg_id, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyStartPublishResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_sessionId, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyStartPublishResponse(ctx, _arg_id, _arg_status, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyStartSubscribeResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_sessionId, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyStartSubscribeResponse(ctx, _arg_id, _arg_status, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyStopPublishResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyStopPublishResponse(ctx, _arg_id, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyStopSubscribeResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyStopSubscribeResponse(ctx, _arg_id, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyTerminateDataPathResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyTerminateDataPathResponse(ctx, _arg_id, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifySuspendResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifySuspendResponse(ctx, _arg_id, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyResumeResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyResumeResponse(ctx, _arg_id, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyTransmitFollowupResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyTransmitFollowupResponse(ctx, _arg_id, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackEventPairingRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event NanPairingRequestInd
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.EventPairingRequest(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackEventPairingConfirm:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event NanPairingConfirmInd
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.EventPairingConfirm(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyInitiatePairingResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_pairingInstanceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyInitiatePairingResponse(ctx, _arg_id, _arg_status, _arg_pairingInstanceId)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyRespondToPairingIndicationResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyRespondToPairingIndicationResponse(ctx, _arg_id, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackEventBootstrappingRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event NanBootstrappingRequestInd
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.EventBootstrappingRequest(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackEventBootstrappingConfirm:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event NanBootstrappingConfirmInd
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.EventBootstrappingConfirm(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyInitiateBootstrappingResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_bootstrappingInstanceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyInitiateBootstrappingResponse(ctx, _arg_id, _arg_status, _arg_bootstrappingInstanceId)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyRespondToBootstrappingIndicationResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyRespondToBootstrappingIndicationResponse(ctx, _arg_id, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyTerminatePairingResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id := uint16(_raw_id)
+		var _arg_status NanStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyTerminatePairingResponse(ctx, _arg_id, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIWifiNanIfaceEventCallbackNotifyRangingResults:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_results []RttResult
+		_ = _arg_results
+		_arg_discoverySessionId, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyRangingResults(ctx, _arg_results, _arg_discoverySessionId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package remotelockscreenvalidation
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -68,4 +69,41 @@ func (p *RemoteLockscreenValidationServiceProxy) ValidateLockscreenGuess(
 	}
 
 	return nil
+}
+
+// RemoteLockscreenValidationServiceStub dispatches incoming binder transactions
+// to a typed IRemoteLockscreenValidationService implementation.
+type RemoteLockscreenValidationServiceStub struct {
+	Impl IRemoteLockscreenValidationService
+}
+
+var _ binder.TransactionReceiver = (*RemoteLockscreenValidationServiceStub)(nil)
+
+func (s *RemoteLockscreenValidationServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRemoteLockscreenValidationServiceValidateLockscreenGuess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_guess []byte
+		_ = _arg_guess
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IRemoteLockscreenValidationCallback
+		_ = _arg_callback
+		_err := s.Impl.ValidateLockscreenGuess(ctx, _arg_guess, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

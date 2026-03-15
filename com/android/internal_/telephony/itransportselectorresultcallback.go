@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,33 @@ func (p *TransportSelectorResultCallbackProxy) OnCompleted(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TransportSelectorResultCallbackStub dispatches incoming binder transactions
+// to a typed ITransportSelectorResultCallback implementation.
+type TransportSelectorResultCallbackStub struct {
+	Impl ITransportSelectorResultCallback
+}
+
+var _ binder.TransactionReceiver = (*TransportSelectorResultCallbackStub)(nil)
+
+func (s *TransportSelectorResultCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITransportSelectorResultCallbackOnCompleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cb IWwanSelectorCallback
+		_ = _arg_cb
+		_err := s.Impl.OnCompleted(ctx, _arg_cb)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

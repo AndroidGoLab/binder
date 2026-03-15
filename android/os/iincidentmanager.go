@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -287,4 +288,177 @@ func (p *IncidentManagerProxy) DeleteAllIncidentReports(
 	}
 
 	return nil
+}
+
+// IncidentManagerStub dispatches incoming binder transactions
+// to a typed IIncidentManager implementation.
+type IncidentManagerStub struct {
+	Impl IIncidentManager
+}
+
+var _ binder.TransactionReceiver = (*IncidentManagerStub)(nil)
+
+func (s *IncidentManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIIncidentManagerReportIncident:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_args interface{}
+		_err := s.Impl.ReportIncident(ctx, _arg_args)
+		_ = _err
+		return nil, nil
+	case TransactionIIncidentManagerReportIncidentToStream:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_args interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IIncidentReportStatusListener
+		_ = _arg_listener
+		var _arg_stream interface{}
+		_err := s.Impl.ReportIncidentToStream(ctx, _arg_args, _arg_listener, _arg_stream)
+		_ = _err
+		return nil, nil
+	case TransactionIIncidentManagerReportIncidentToDumpstate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_stream interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IIncidentReportStatusListener
+		_ = _arg_listener
+		_err := s.Impl.ReportIncidentToDumpstate(ctx, _arg_stream, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIIncidentManagerRegisterSection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IIncidentDumpCallback
+		_ = _arg_callback
+		_err = s.Impl.RegisterSection(ctx, _arg_id, _arg_name, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIIncidentManagerUnregisterSection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UnregisterSection(ctx, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIIncidentManagerSystemRunning:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.SystemRunning(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIIncidentManagerGetIncidentReportList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cls, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetIncidentReportList(ctx, _arg_pkg, _arg_cls)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIIncidentManagerGetIncidentReport:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cls, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetIncidentReport(ctx, _arg_pkg, _arg_cls, _arg_id)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	case TransactionIIncidentManagerDeleteIncidentReports:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cls, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DeleteIncidentReports(ctx, _arg_pkg, _arg_cls, _arg_id)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIIncidentManagerDeleteAllIncidentReports:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DeleteAllIncidentReports(ctx, _arg_pkg)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

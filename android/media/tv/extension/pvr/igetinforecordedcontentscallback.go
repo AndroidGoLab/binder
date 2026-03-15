@@ -2,6 +2,7 @@ package pvr
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,39 @@ func (p *GetInfoRecordedContentsCallbackProxy) OnRecordedContentsGetInfo(
 	}
 
 	return nil
+}
+
+// GetInfoRecordedContentsCallbackStub dispatches incoming binder transactions
+// to a typed IGetInfoRecordedContentsCallback implementation.
+type GetInfoRecordedContentsCallbackStub struct {
+	Impl IGetInfoRecordedContentsCallback
+}
+
+var _ binder.TransactionReceiver = (*GetInfoRecordedContentsCallbackStub)(nil)
+
+func (s *GetInfoRecordedContentsCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGetInfoRecordedContentsCallbackOnRecordedContentsGetInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRecordedContentsGetInfo(ctx, _arg_result)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package core
 
 import (
 	"context"
+	"fmt"
 	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -84,4 +85,43 @@ func (p *StreamOutEventCallbackProxy) OnRecommendedLatencyModeChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// StreamOutEventCallbackStub dispatches incoming binder transactions
+// to a typed IStreamOutEventCallback implementation.
+type StreamOutEventCallbackStub struct {
+	Impl IStreamOutEventCallback
+}
+
+var _ binder.TransactionReceiver = (*StreamOutEventCallbackStub)(nil)
+
+func (s *StreamOutEventCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIStreamOutEventCallbackOnCodecFormatChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_audioMetadata []byte
+		_ = _arg_audioMetadata
+		_err := s.Impl.OnCodecFormatChanged(ctx, _arg_audioMetadata)
+		_ = _err
+		return nil, nil
+	case TransactionIStreamOutEventCallbackOnRecommendedLatencyModeChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_modes []common.AudioLatencyMode
+		_ = _arg_modes
+		_err := s.Impl.OnRecommendedLatencyModeChanged(ctx, _arg_modes)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

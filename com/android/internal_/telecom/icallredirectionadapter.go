@@ -2,6 +2,7 @@ package telecom
 
 import (
 	"context"
+	"fmt"
 	net "github.com/xaionaro-go/binder/android/net"
 	androidTelecom "github.com/xaionaro-go/binder/android/telecom"
 	"github.com/xaionaro-go/binder/binder"
@@ -96,4 +97,72 @@ func (p *CallRedirectionAdapterProxy) RedirectCall(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CallRedirectionAdapterStub dispatches incoming binder transactions
+// to a typed ICallRedirectionAdapter implementation.
+type CallRedirectionAdapterStub struct {
+	Impl ICallRedirectionAdapter
+}
+
+var _ binder.TransactionReceiver = (*CallRedirectionAdapterStub)(nil)
+
+func (s *CallRedirectionAdapterStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICallRedirectionAdapterCancelCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.CancelCall(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionICallRedirectionAdapterPlaceCallUnmodified:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.PlaceCallUnmodified(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionICallRedirectionAdapterRedirectCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_handle net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_handle.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_targetPhoneAccount androidTelecom.PhoneAccountHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_targetPhoneAccount.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_confirmFirst, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RedirectCall(ctx, _arg_handle, _arg_targetPhoneAccount, _arg_confirmFirst)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

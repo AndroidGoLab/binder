@@ -2,6 +2,7 @@ package macsec
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -322,4 +323,128 @@ func (p *MacsecPskPluginProxy) UnwrapSak(
 		}
 	}
 	return _result, nil
+}
+
+// MacsecPskPluginStub dispatches incoming binder transactions
+// to a typed IMacsecPskPlugin implementation.
+type MacsecPskPluginStub struct {
+	Impl IMacsecPskPlugin
+}
+
+var _ binder.TransactionReceiver = (*MacsecPskPluginStub)(nil)
+
+func (s *MacsecPskPluginStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMacsecPskPluginAddTestKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keyId []byte
+		_ = _arg_keyId
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_CAK []byte
+		_ = _arg_CAK
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_CKN []byte
+		_ = _arg_CKN
+		_err := s.Impl.AddTestKey(ctx, _arg_keyId, _arg_CAK, _arg_CKN)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIMacsecPskPluginCalcIcv:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keyId []byte
+		_ = _arg_keyId
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []byte
+		_ = _arg_data
+		_result, _err := s.Impl.CalcIcv(ctx, _arg_keyId, _arg_data)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIMacsecPskPluginGenerateSak:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keyId []byte
+		_ = _arg_keyId
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []byte
+		_ = _arg_data
+		_arg_sakLength, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GenerateSak(ctx, _arg_keyId, _arg_data, _arg_sakLength)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIMacsecPskPluginWrapSak:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keyId []byte
+		_ = _arg_keyId
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sak []byte
+		_ = _arg_sak
+		_result, _err := s.Impl.WrapSak(ctx, _arg_keyId, _arg_sak)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIMacsecPskPluginUnwrapSak:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keyId []byte
+		_ = _arg_keyId
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sak []byte
+		_ = _arg_sak
+		_result, _err := s.Impl.UnwrapSak(ctx, _arg_keyId, _arg_sak)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

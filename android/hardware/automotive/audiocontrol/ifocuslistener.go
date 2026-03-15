@@ -2,6 +2,7 @@ package audiocontrol
 
 import (
 	"context"
+	"fmt"
 	common "github.com/xaionaro-go/binder/android/hardware/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -126,4 +127,109 @@ func (p *FocusListenerProxy) RequestAudioFocusWithMetaData(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// FocusListenerStub dispatches incoming binder transactions
+// to a typed IFocusListener implementation.
+type FocusListenerStub struct {
+	Impl IFocusListener
+}
+
+var _ binder.TransactionReceiver = (*FocusListenerStub)(nil)
+
+func (s *FocusListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIFocusListenerAbandonAudioFocus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_usage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_zoneId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AbandonAudioFocus(ctx, _arg_usage, _arg_zoneId)
+		_ = _err
+		return nil, nil
+	case TransactionIFocusListenerRequestAudioFocus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_usage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_zoneId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_focusGain, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_focusGain := AudioFocusChange(_raw_focusGain)
+		_err = s.Impl.RequestAudioFocus(ctx, _arg_usage, _arg_zoneId, _arg_focusGain)
+		_ = _err
+		return nil, nil
+	case TransactionIFocusListenerAbandonAudioFocusWithMetaData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_playbackMetaData common.PlaybackTrackMetadata
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_playbackMetaData.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_zoneId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AbandonAudioFocusWithMetaData(ctx, _arg_playbackMetaData, _arg_zoneId)
+		_ = _err
+		return nil, nil
+	case TransactionIFocusListenerRequestAudioFocusWithMetaData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_playbackMetaData common.PlaybackTrackMetadata
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_playbackMetaData.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_zoneId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_focusGain, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_focusGain := AudioFocusChange(_raw_focusGain)
+		_err = s.Impl.RequestAudioFocusWithMetaData(ctx, _arg_playbackMetaData, _arg_zoneId, _arg_focusGain)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package ondeviceintelligence
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -81,4 +82,49 @@ func (p *ListFeaturesCallbackProxy) OnFailure(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ListFeaturesCallbackStub dispatches incoming binder transactions
+// to a typed IListFeaturesCallback implementation.
+type ListFeaturesCallbackStub struct {
+	Impl IListFeaturesCallback
+}
+
+var _ binder.TransactionReceiver = (*ListFeaturesCallbackStub)(nil)
+
+func (s *ListFeaturesCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIListFeaturesCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_result []Feature
+		_ = _arg_result
+		_err := s.Impl.OnSuccess(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIListFeaturesCallbackOnFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_errorMessage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_errorParams interface{}
+		_err = s.Impl.OnFailure(ctx, _arg_errorCode, _arg_errorMessage, _arg_errorParams)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

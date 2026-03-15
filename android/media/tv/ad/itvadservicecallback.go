@@ -1,6 +1,7 @@
 package ad
 
 import (
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 )
 
@@ -27,3 +28,22 @@ func (p *TvAdServiceCallbackProxy) AsBinder() binder.IBinder {
 }
 
 var _ ITvAdServiceCallback = (*TvAdServiceCallbackProxy)(nil)
+
+// TvAdServiceCallbackStub dispatches incoming binder transactions
+// to a typed ITvAdServiceCallback implementation.
+type TvAdServiceCallbackStub struct {
+	Impl ITvAdServiceCallback
+}
+
+var _ binder.TransactionReceiver = (*TvAdServiceCallbackStub)(nil)
+
+func (s *TvAdServiceCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
+}

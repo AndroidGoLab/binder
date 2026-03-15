@@ -2,6 +2,7 @@ package euicc
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -53,4 +54,42 @@ func (p *GetDefaultDownloadableSubscriptionListCallbackProxy) OnComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GetDefaultDownloadableSubscriptionListCallbackStub dispatches incoming binder transactions
+// to a typed IGetDefaultDownloadableSubscriptionListCallback implementation.
+type GetDefaultDownloadableSubscriptionListCallbackStub struct {
+	Impl IGetDefaultDownloadableSubscriptionListCallback
+}
+
+var _ binder.TransactionReceiver = (*GetDefaultDownloadableSubscriptionListCallbackStub)(nil)
+
+func (s *GetDefaultDownloadableSubscriptionListCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGetDefaultDownloadableSubscriptionListCallbackOnComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_result GetDefaultDownloadableSubscriptionListResult
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnComplete(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

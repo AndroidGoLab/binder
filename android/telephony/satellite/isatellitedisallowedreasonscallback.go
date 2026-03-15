@@ -2,6 +2,7 @@ package satellite
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -57,4 +58,33 @@ func (p *SatelliteDisallowedReasonsCallbackProxy) OnSatelliteDisallowedReasonsCh
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SatelliteDisallowedReasonsCallbackStub dispatches incoming binder transactions
+// to a typed ISatelliteDisallowedReasonsCallback implementation.
+type SatelliteDisallowedReasonsCallbackStub struct {
+	Impl ISatelliteDisallowedReasonsCallback
+}
+
+var _ binder.TransactionReceiver = (*SatelliteDisallowedReasonsCallbackStub)(nil)
+
+func (s *SatelliteDisallowedReasonsCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISatelliteDisallowedReasonsCallbackOnSatelliteDisallowedReasonsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_disallowedReasons []int32
+		_ = _arg_disallowedReasons
+		_err := s.Impl.OnSatelliteDisallowedReasonsChanged(ctx, _arg_disallowedReasons)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

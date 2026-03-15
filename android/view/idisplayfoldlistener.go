@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -52,4 +53,38 @@ func (p *DisplayFoldListenerProxy) OnDisplayFoldChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DisplayFoldListenerStub dispatches incoming binder transactions
+// to a typed IDisplayFoldListener implementation.
+type DisplayFoldListenerStub struct {
+	Impl IDisplayFoldListener
+}
+
+var _ binder.TransactionReceiver = (*DisplayFoldListenerStub)(nil)
+
+func (s *DisplayFoldListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDisplayFoldListenerOnDisplayFoldChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_folded, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDisplayFoldChanged(ctx, _arg_displayId, _arg_folded)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package cam
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -52,4 +53,38 @@ func (p *CamHostControlTuneQuietlyFlagListenerProxy) OnHcTuneQuietlyFlagChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CamHostControlTuneQuietlyFlagListenerStub dispatches incoming binder transactions
+// to a typed ICamHostControlTuneQuietlyFlagListener implementation.
+type CamHostControlTuneQuietlyFlagListenerStub struct {
+	Impl ICamHostControlTuneQuietlyFlagListener
+}
+
+var _ binder.TransactionReceiver = (*CamHostControlTuneQuietlyFlagListenerStub)(nil)
+
+func (s *CamHostControlTuneQuietlyFlagListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICamHostControlTuneQuietlyFlagListenerOnHcTuneQuietlyFlagChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionToken, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_tuneQuietlyFlag, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnHcTuneQuietlyFlagChanged(ctx, _arg_sessionToken, _arg_tuneQuietlyFlag)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

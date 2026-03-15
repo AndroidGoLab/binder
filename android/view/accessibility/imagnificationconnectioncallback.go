@@ -2,6 +2,7 @@ package accessibility
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -162,4 +163,125 @@ func (p *MagnificationConnectionCallbackProxy) OnMove(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MagnificationConnectionCallbackStub dispatches incoming binder transactions
+// to a typed IMagnificationConnectionCallback implementation.
+type MagnificationConnectionCallbackStub struct {
+	Impl IMagnificationConnectionCallback
+}
+
+var _ binder.TransactionReceiver = (*MagnificationConnectionCallbackStub)(nil)
+
+func (s *MagnificationConnectionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMagnificationConnectionCallbackOnWindowMagnifierBoundsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_bounds graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bounds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnWindowMagnifierBoundsChanged(ctx, _arg_displayId, _arg_bounds)
+		_ = _err
+		return nil, nil
+	case TransactionIMagnificationConnectionCallbackOnChangeMagnificationMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_magnificationMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnChangeMagnificationMode(ctx, _arg_displayId, _arg_magnificationMode)
+		_ = _err
+		return nil, nil
+	case TransactionIMagnificationConnectionCallbackOnSourceBoundsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sourceBounds graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sourceBounds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnSourceBoundsChanged(ctx, _arg_displayId, _arg_sourceBounds)
+		_ = _err
+		return nil, nil
+	case TransactionIMagnificationConnectionCallbackOnPerformScaleAction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_scale, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_updatePersistence, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnPerformScaleAction(ctx, _arg_displayId, _arg_scale, _arg_updatePersistence)
+		_ = _err
+		return nil, nil
+	case TransactionIMagnificationConnectionCallbackOnAccessibilityActionPerformed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAccessibilityActionPerformed(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIMagnificationConnectionCallbackOnMove:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnMove(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

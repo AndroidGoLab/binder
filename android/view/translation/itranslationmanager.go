@@ -2,6 +2,7 @@ package translation
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -252,4 +253,202 @@ func (p *TranslationManagerProxy) OnTranslationFinished(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TranslationManagerStub dispatches incoming binder transactions
+// to a typed ITranslationManager implementation.
+type TranslationManagerStub struct {
+	Impl ITranslationManager
+}
+
+var _ binder.TransactionReceiver = (*TranslationManagerStub)(nil)
+
+func (s *TranslationManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITranslationManagerOnTranslationCapabilitiesRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sourceFormat, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destFormat, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver interface{}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTranslationCapabilitiesRequest(ctx, _arg_sourceFormat, _arg_destFormat, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionITranslationManagerRegisterTranslationCapabilityCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RegisterTranslationCapabilityCallback(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionITranslationManagerUnregisterTranslationCapabilityCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.UnregisterTranslationCapabilityCallback(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionITranslationManagerOnSessionCreated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_translationContext TranslationContext
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_translationContext.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver interface{}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSessionCreated(ctx, _arg_translationContext, _arg_sessionId, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionITranslationManagerUpdateUiTranslationState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_sourceSpec TranslationSpec
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sourceSpec.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_targetSpec TranslationSpec
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_targetSpec.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_viewIds []interface{}
+		_ = _arg_viewIds
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_uiTranslationSpec UiTranslationSpec
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uiTranslationSpec.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateUiTranslationState(ctx, _arg_state, _arg_sourceSpec, _arg_targetSpec, _arg_viewIds, _arg_token, _arg_taskId, _arg_uiTranslationSpec)
+		_ = _err
+		return nil, nil
+	case TransactionITranslationManagerRegisterUiTranslationStateCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RegisterUiTranslationStateCallback(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionITranslationManagerUnregisterUiTranslationStateCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.UnregisterUiTranslationStateCallback(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionITranslationManagerGetServiceSettingsActivity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_result interface{}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.GetServiceSettingsActivity(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionITranslationManagerOnTranslationFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_activityDestroyed, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		var _arg_componentName interface{}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTranslationFinished(ctx, _arg_activityDestroyed, _arg_token, _arg_componentName)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

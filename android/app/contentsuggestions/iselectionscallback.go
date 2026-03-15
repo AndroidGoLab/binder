@@ -2,6 +2,7 @@ package contentsuggestions
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -61,4 +62,37 @@ func (p *SelectionsCallbackProxy) OnContentSelectionsAvailable(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SelectionsCallbackStub dispatches incoming binder transactions
+// to a typed ISelectionsCallback implementation.
+type SelectionsCallbackStub struct {
+	Impl ISelectionsCallback
+}
+
+var _ binder.TransactionReceiver = (*SelectionsCallbackStub)(nil)
+
+func (s *SelectionsCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISelectionsCallbackOnContentSelectionsAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_statusCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_selections []ContentSelection
+		_ = _arg_selections
+		_err = s.Impl.OnContentSelectionsAvailable(ctx, _arg_statusCode, _arg_selections)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -75,4 +76,55 @@ func (p *PopulationDensityProviderProxy) GetCoarsenedS2Cells(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PopulationDensityProviderStub dispatches incoming binder transactions
+// to a typed IPopulationDensityProvider implementation.
+type PopulationDensityProviderStub struct {
+	Impl IPopulationDensityProvider
+}
+
+var _ binder.TransactionReceiver = (*PopulationDensityProviderStub)(nil)
+
+func (s *PopulationDensityProviderStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPopulationDensityProviderGetDefaultCoarseningLevel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IS2LevelCallback
+		_ = _arg_callback
+		_err := s.Impl.GetDefaultCoarseningLevel(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPopulationDensityProviderGetCoarsenedS2Cells:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_latitudeDegrees, _err := data.ReadFloat64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_longitudeDegrees, _err := data.ReadFloat64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_numAdditionalCells, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IS2CellIdsCallback
+		_ = _arg_callback
+		_err = s.Impl.GetCoarsenedS2Cells(ctx, _arg_latitudeDegrees, _arg_longitudeDegrees, _arg_numAdditionalCells, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

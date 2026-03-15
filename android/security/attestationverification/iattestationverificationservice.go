@@ -2,6 +2,7 @@ package attestationverification
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
@@ -69,4 +70,57 @@ func (p *AttestationVerificationServiceProxy) OnVerifyAttestation(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AttestationVerificationServiceStub dispatches incoming binder transactions
+// to a typed IAttestationVerificationService implementation.
+type AttestationVerificationServiceStub struct {
+	Impl IAttestationVerificationService
+}
+
+var _ binder.TransactionReceiver = (*AttestationVerificationServiceStub)(nil)
+
+func (s *AttestationVerificationServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAttestationVerificationServiceOnVerifyAttestation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_requirements os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_requirements.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_attestation []byte
+		_ = _arg_attestation
+		var _arg_callback infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnVerifyAttestation(ctx, _arg_requirements, _arg_attestation, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package internal
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -85,4 +86,50 @@ func (p *ImsMultiEndpointProxy) RequestImsExternalCallStateInfo(
 	}
 
 	return nil
+}
+
+// ImsMultiEndpointStub dispatches incoming binder transactions
+// to a typed IImsMultiEndpoint implementation.
+type ImsMultiEndpointStub struct {
+	Impl IImsMultiEndpoint
+}
+
+var _ binder.TransactionReceiver = (*ImsMultiEndpointStub)(nil)
+
+func (s *ImsMultiEndpointStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIImsMultiEndpointSetListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IImsExternalCallStateListener
+		_ = _arg_listener
+		_err := s.Impl.SetListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIImsMultiEndpointRequestImsExternalCallStateInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RequestImsExternalCallStateInfo(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

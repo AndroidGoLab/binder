@@ -2,6 +2,7 @@ package occupant_awareness
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -229,4 +230,116 @@ func (p *OccupantAwarenessProxy) GetLatestDetection(
 	}
 
 	return nil
+}
+
+// OccupantAwarenessStub dispatches incoming binder transactions
+// to a typed IOccupantAwareness implementation.
+type OccupantAwarenessStub struct {
+	Impl IOccupantAwareness
+}
+
+var _ binder.TransactionReceiver = (*OccupantAwarenessStub)(nil)
+
+func (s *OccupantAwarenessStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIOccupantAwarenessStartDetection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.StartDetection(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WritePaddedByte(byte(_result))
+		return _reply, nil
+	case TransactionIOccupantAwarenessStopDetection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.StopDetection(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WritePaddedByte(byte(_result))
+		return _reply, nil
+	case TransactionIOccupantAwarenessGetCapabilityForRole:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_occupantRole, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_occupantRole := Role(_raw_occupantRole)
+		_result, _err := s.Impl.GetCapabilityForRole(ctx, _arg_occupantRole)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIOccupantAwarenessGetState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_occupantRole, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_occupantRole := Role(_raw_occupantRole)
+		_arg_detectionCapability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetState(ctx, _arg_occupantRole, _arg_detectionCapability)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WritePaddedByte(byte(_result))
+		return _reply, nil
+	case TransactionIOccupantAwarenessSetCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IOccupantAwarenessClientCallback
+		_ = _arg_callback
+		_err := s.Impl.SetCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIOccupantAwarenessGetLatestDetection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.GetLatestDetection(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

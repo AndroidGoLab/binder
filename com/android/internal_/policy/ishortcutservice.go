@@ -2,6 +2,7 @@ package policy
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *ShortcutServiceProxy) NotifyShortcutKeyPressed(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ShortcutServiceStub dispatches incoming binder transactions
+// to a typed IShortcutService implementation.
+type ShortcutServiceStub struct {
+	Impl IShortcutService
+}
+
+var _ binder.TransactionReceiver = (*ShortcutServiceStub)(nil)
+
+func (s *ShortcutServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIShortcutServiceNotifyShortcutKeyPressed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_shortcutCode, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyShortcutKeyPressed(ctx, _arg_shortcutCode)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

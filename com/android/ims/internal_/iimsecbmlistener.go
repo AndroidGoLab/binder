@@ -2,6 +2,7 @@ package internal
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -65,4 +66,37 @@ func (p *ImsEcbmListenerProxy) ExitedECBM(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ImsEcbmListenerStub dispatches incoming binder transactions
+// to a typed IImsEcbmListener implementation.
+type ImsEcbmListenerStub struct {
+	Impl IImsEcbmListener
+}
+
+var _ binder.TransactionReceiver = (*ImsEcbmListenerStub)(nil)
+
+func (s *ImsEcbmListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIImsEcbmListenerEnteredECBM:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.EnteredECBM(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIImsEcbmListenerExitedECBM:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ExitedECBM(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

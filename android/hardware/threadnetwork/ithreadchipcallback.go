@@ -2,6 +2,7 @@ package threadnetwork
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -57,4 +58,33 @@ func (p *ThreadChipCallbackProxy) OnReceiveSpinelFrame(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ThreadChipCallbackStub dispatches incoming binder transactions
+// to a typed IThreadChipCallback implementation.
+type ThreadChipCallbackStub struct {
+	Impl IThreadChipCallback
+}
+
+var _ binder.TransactionReceiver = (*ThreadChipCallbackStub)(nil)
+
+func (s *ThreadChipCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIThreadChipCallbackOnReceiveSpinelFrame:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_frame []byte
+		_ = _arg_frame
+		_err := s.Impl.OnReceiveSpinelFrame(ctx, _arg_frame)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

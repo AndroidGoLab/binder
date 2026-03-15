@@ -2,6 +2,7 @@ package location
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -62,4 +63,47 @@ func (p *ActivityRecognitionHardwareSinkProxy) OnActivityChanged(
 	}
 
 	return nil
+}
+
+// ActivityRecognitionHardwareSinkStub dispatches incoming binder transactions
+// to a typed IActivityRecognitionHardwareSink implementation.
+type ActivityRecognitionHardwareSinkStub struct {
+	Impl IActivityRecognitionHardwareSink
+}
+
+var _ binder.TransactionReceiver = (*ActivityRecognitionHardwareSinkStub)(nil)
+
+func (s *ActivityRecognitionHardwareSinkStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIActivityRecognitionHardwareSinkOnActivityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event ActivityChangedEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnActivityChanged(ctx, _arg_event)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

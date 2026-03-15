@@ -2,6 +2,7 @@ package nfc
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -96,4 +97,60 @@ func (p *NfcClientCallbackProxy) SendEvent(
 	}
 
 	return nil
+}
+
+// NfcClientCallbackStub dispatches incoming binder transactions
+// to a typed INfcClientCallback implementation.
+type NfcClientCallbackStub struct {
+	Impl INfcClientCallback
+}
+
+var _ binder.TransactionReceiver = (*NfcClientCallbackStub)(nil)
+
+func (s *NfcClientCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionINfcClientCallbackSendData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []byte
+		_ = _arg_data
+		_err := s.Impl.SendData(ctx, _arg_data)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionINfcClientCallbackSendEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_event, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_event := NfcEvent(_raw_event)
+		_raw_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := NfcStatus(_raw_status)
+		_err = s.Impl.SendEvent(ctx, _arg_event, _arg_status)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	soundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -285,4 +286,184 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) Detach(
 	}
 
 	return nil
+}
+
+// VoiceInteractionSoundTriggerSessionStub dispatches incoming binder transactions
+// to a typed IVoiceInteractionSoundTriggerSession implementation.
+type VoiceInteractionSoundTriggerSessionStub struct {
+	Impl IVoiceInteractionSoundTriggerSession
+}
+
+var _ binder.TransactionReceiver = (*VoiceInteractionSoundTriggerSessionStub)(nil)
+
+func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVoiceInteractionSoundTriggerSessionGetDspModuleProperties:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetDspModuleProperties(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIVoiceInteractionSoundTriggerSessionStartRecognition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_keyphraseId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_bcp47Locale, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IHotwordRecognitionStatusCallback
+		_ = _arg_callback
+		var _arg_recognitionConfig soundtrigger.SoundTriggerRecognitionConfig
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_recognitionConfig.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_runInBatterySaver, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.StartRecognition(ctx, _arg_keyphraseId, _arg_bcp47Locale, _arg_callback, _arg_recognitionConfig, _arg_runInBatterySaver)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIVoiceInteractionSoundTriggerSessionStopRecognition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_keyphraseId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IHotwordRecognitionStatusCallback
+		_ = _arg_callback
+		_result, _err := s.Impl.StopRecognition(ctx, _arg_keyphraseId, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIVoiceInteractionSoundTriggerSessionSetParameter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_keyphraseId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_modelParam, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_modelParam := soundtrigger.ModelParams(_raw_modelParam)
+		_arg_value, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetParameter(ctx, _arg_keyphraseId, _arg_modelParam, _arg_value)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIVoiceInteractionSoundTriggerSessionGetParameter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_keyphraseId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_modelParam, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_modelParam := soundtrigger.ModelParams(_raw_modelParam)
+		_result, _err := s.Impl.GetParameter(ctx, _arg_keyphraseId, _arg_modelParam)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIVoiceInteractionSoundTriggerSessionQueryParameter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_keyphraseId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_modelParam, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_modelParam := soundtrigger.ModelParams(_raw_modelParam)
+		_result, _err := s.Impl.QueryParameter(ctx, _arg_keyphraseId, _arg_modelParam)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIVoiceInteractionSoundTriggerSessionDetach:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Detach(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

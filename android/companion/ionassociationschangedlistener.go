@@ -2,6 +2,7 @@ package companion
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,33 @@ func (p *OnAssociationsChangedListenerProxy) OnAssociationsChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// OnAssociationsChangedListenerStub dispatches incoming binder transactions
+// to a typed IOnAssociationsChangedListener implementation.
+type OnAssociationsChangedListenerStub struct {
+	Impl IOnAssociationsChangedListener
+}
+
+var _ binder.TransactionReceiver = (*OnAssociationsChangedListenerStub)(nil)
+
+func (s *OnAssociationsChangedListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIOnAssociationsChangedListenerOnAssociationsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_associations []AssociationInfo
+		_ = _arg_associations
+		_err := s.Impl.OnAssociationsChanged(ctx, _arg_associations)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

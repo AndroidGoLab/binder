@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -52,4 +53,38 @@ func (p *MediaResourceMonitorProxy) NotifyResourceGranted(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MediaResourceMonitorStub dispatches incoming binder transactions
+// to a typed IMediaResourceMonitor implementation.
+type MediaResourceMonitorStub struct {
+	Impl IMediaResourceMonitor
+}
+
+var _ binder.TransactionReceiver = (*MediaResourceMonitorStub)(nil)
+
+func (s *MediaResourceMonitorStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMediaResourceMonitorNotifyResourceGranted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyResourceGranted(ctx, _arg_pid, _arg_type_)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

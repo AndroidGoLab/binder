@@ -2,6 +2,7 @@ package voice
 
 import (
 	"context"
+	"fmt"
 	assist "github.com/xaionaro-go/binder/android/app/assist"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
@@ -244,4 +245,177 @@ func (p *VoiceInteractionSessionProxy) NotifyVisibleActivityInfoChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VoiceInteractionSessionStub dispatches incoming binder transactions
+// to a typed IVoiceInteractionSession implementation.
+type VoiceInteractionSessionStub struct {
+	Impl IVoiceInteractionSession
+}
+
+var _ binder.TransactionReceiver = (*VoiceInteractionSessionStub)(nil)
+
+func (s *VoiceInteractionSessionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVoiceInteractionSessionShow:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionArgs interface{}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_showCallback interface{}
+		_err = s.Impl.Show(ctx, _arg_sessionArgs, _arg_flags, _arg_showCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionSessionHide:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Hide(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionSessionHandleAssist:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_activityId binder.IBinder
+		_ = _arg_activityId
+		var _arg_assistData interface{}
+		var _arg_structure assist.AssistStructure
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_structure.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_content assist.AssistContent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_content.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_index, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_count, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.HandleAssist(ctx, _arg_taskId, _arg_activityId, _arg_assistData, _arg_structure, _arg_content, _arg_index, _arg_count)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionSessionHandleScreenshot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_screenshot graphics.Bitmap
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_screenshot.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.HandleScreenshot(ctx, _arg_screenshot)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionSessionTaskStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intent interface{}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.TaskStarted(ctx, _arg_intent, _arg_taskId)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionSessionTaskFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intent interface{}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.TaskFinished(ctx, _arg_intent, _arg_taskId)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionSessionCloseSystemDialogs:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.CloseSystemDialogs(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionSessionOnLockscreenShown:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnLockscreenShown(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionSessionDestroy:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Destroy(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIVoiceInteractionSessionNotifyVisibleActivityInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_visibleActivityInfo VisibleActivityInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_visibleActivityInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyVisibleActivityInfoChanged(ctx, _arg_visibleActivityInfo, _arg_type_)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

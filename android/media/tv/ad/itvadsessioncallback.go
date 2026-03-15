@@ -2,6 +2,7 @@ package ad
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -200,4 +201,129 @@ func (p *TvAdSessionCallbackProxy) OnTvAdSessionData(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TvAdSessionCallbackStub dispatches incoming binder transactions
+// to a typed ITvAdSessionCallback implementation.
+type TvAdSessionCallbackStub struct {
+	Impl ITvAdSessionCallback
+}
+
+var _ binder.TransactionReceiver = (*TvAdSessionCallbackStub)(nil)
+
+func (s *TvAdSessionCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITvAdSessionCallbackOnSessionCreated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_session ITvAdSession
+		_ = _arg_session
+		_err := s.Impl.OnSessionCreated(ctx, _arg_session)
+		_ = _err
+		return nil, nil
+	case TransactionITvAdSessionCallbackOnLayoutSurface:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_left, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_top, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_right, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_bottom, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnLayoutSurface(ctx, _arg_left, _arg_top, _arg_right, _arg_bottom)
+		_ = _err
+		return nil, nil
+	case TransactionITvAdSessionCallbackOnRequestCurrentVideoBounds:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRequestCurrentVideoBounds(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITvAdSessionCallbackOnRequestCurrentChannelUri:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRequestCurrentChannelUri(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITvAdSessionCallbackOnRequestTrackInfoList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRequestTrackInfoList(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITvAdSessionCallbackOnRequestCurrentTvInputId:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRequestCurrentTvInputId(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITvAdSessionCallbackOnRequestSigning:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_algorithm, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_alias, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []byte
+		_ = _arg_data
+		_err = s.Impl.OnRequestSigning(ctx, _arg_id, _arg_algorithm, _arg_alias, _arg_data)
+		_ = _err
+		return nil, nil
+	case TransactionITvAdSessionCallbackOnTvAdSessionData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_type_, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_data os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnTvAdSessionData(ctx, _arg_type_, _arg_data)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -147,4 +148,104 @@ func (p *SipDelegateConnectionStateCallbackProxy) OnDestroyed(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SipDelegateConnectionStateCallbackStub dispatches incoming binder transactions
+// to a typed ISipDelegateConnectionStateCallback implementation.
+type SipDelegateConnectionStateCallbackStub struct {
+	Impl ISipDelegateConnectionStateCallback
+}
+
+var _ binder.TransactionReceiver = (*SipDelegateConnectionStateCallbackStub)(nil)
+
+func (s *SipDelegateConnectionStateCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISipDelegateConnectionStateCallbackOnCreated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c ISipDelegate
+		_ = _arg_c
+		_err := s.Impl.OnCreated(ctx, _arg_c)
+		_ = _err
+		return nil, nil
+	case TransactionISipDelegateConnectionStateCallbackOnFeatureTagStatusChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_registrationState ims.DelegateRegistrationState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_registrationState.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_deniedFeatureTags []ims.FeatureTagState
+		_ = _arg_deniedFeatureTags
+		_err := s.Impl.OnFeatureTagStatusChanged(ctx, _arg_registrationState, _arg_deniedFeatureTags)
+		_ = _err
+		return nil, nil
+	case TransactionISipDelegateConnectionStateCallbackOnImsConfigurationChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_registeredSipConfig ims.SipDelegateImsConfiguration
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_registeredSipConfig.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnImsConfigurationChanged(ctx, _arg_registeredSipConfig)
+		_ = _err
+		return nil, nil
+	case TransactionISipDelegateConnectionStateCallbackOnConfigurationChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_registeredSipConfig ims.SipDelegateConfiguration
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_registeredSipConfig.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnConfigurationChanged(ctx, _arg_registeredSipConfig)
+		_ = _err
+		return nil, nil
+	case TransactionISipDelegateConnectionStateCallbackOnDestroyed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDestroyed(ctx, _arg_reason)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package net
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -152,4 +153,130 @@ func (p *NetdEventCallbackProxy) OnConnectEvent(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// NetdEventCallbackStub dispatches incoming binder transactions
+// to a typed INetdEventCallback implementation.
+type NetdEventCallbackStub struct {
+	Impl INetdEventCallback
+}
+
+var _ binder.TransactionReceiver = (*NetdEventCallbackStub)(nil)
+
+func (s *NetdEventCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionINetdEventCallbackOnDnsEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_netId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_eventType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_returnCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_hostname, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_ipAddresses []string
+		_ = _arg_ipAddresses
+		_arg_ipAddressesCount, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timestamp, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDnsEvent(ctx, _arg_netId, _arg_eventType, _arg_returnCode, _arg_hostname, _arg_ipAddresses, _arg_ipAddressesCount, _arg_timestamp, _arg_uid)
+		_ = _err
+		return nil, nil
+	case TransactionINetdEventCallbackOnNat64PrefixEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_netId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_added, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_prefixString, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_prefixLength, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNat64PrefixEvent(ctx, _arg_netId, _arg_added, _arg_prefixString, _arg_prefixLength)
+		_ = _err
+		return nil, nil
+	case TransactionINetdEventCallbackOnPrivateDnsValidationEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_netId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ipAddress, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_hostname, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_validated, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnPrivateDnsValidationEvent(ctx, _arg_netId, _arg_ipAddress, _arg_hostname, _arg_validated)
+		_ = _err
+		return nil, nil
+	case TransactionINetdEventCallbackOnConnectEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_ipAddr, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_port, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timestamp, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnConnectEvent(ctx, _arg_ipAddr, _arg_port, _arg_timestamp, _arg_uid)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package sensors
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -103,4 +104,53 @@ func (p *SensorsCallbackProxy) OnDynamicSensorsDisconnected(
 	}
 
 	return nil
+}
+
+// SensorsCallbackStub dispatches incoming binder transactions
+// to a typed ISensorsCallback implementation.
+type SensorsCallbackStub struct {
+	Impl ISensorsCallback
+}
+
+var _ binder.TransactionReceiver = (*SensorsCallbackStub)(nil)
+
+func (s *SensorsCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISensorsCallbackOnDynamicSensorsConnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sensorInfos []SensorInfo
+		_ = _arg_sensorInfos
+		_err := s.Impl.OnDynamicSensorsConnected(ctx, _arg_sensorInfos)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISensorsCallbackOnDynamicSensorsDisconnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sensorHandles []int32
+		_ = _arg_sensorHandles
+		_err := s.Impl.OnDynamicSensorsDisconnected(ctx, _arg_sensorHandles)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package bufferstreams
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -128,4 +129,85 @@ func (p *BufferSubscriberProxy) OnComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BufferSubscriberStub dispatches incoming binder transactions
+// to a typed IBufferSubscriber implementation.
+type BufferSubscriberStub struct {
+	Impl IBufferSubscriber
+}
+
+var _ binder.TransactionReceiver = (*BufferSubscriberStub)(nil)
+
+func (s *BufferSubscriberStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBufferSubscriberOnSubscribe:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_subscription IBufferSubscription
+		_ = _arg_subscription
+		_err := s.Impl.OnSubscribe(ctx, _arg_subscription)
+		_ = _err
+		return nil, nil
+	case TransactionIBufferSubscriberOnBufferCacheUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_update BufferCacheUpdate
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnBufferCacheUpdate(ctx, _arg_update)
+		_ = _err
+		return nil, nil
+	case TransactionIBufferSubscriberOnNext:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_frame Frame
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_frame.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnNext(ctx, _arg_frame)
+		_ = _err
+		return nil, nil
+	case TransactionIBufferSubscriberOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnError(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIBufferSubscriberOnComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnComplete(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

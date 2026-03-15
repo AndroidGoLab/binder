@@ -2,6 +2,7 @@ package input
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -52,4 +53,38 @@ func (p *StickyModifierStateListenerProxy) OnStickyModifierStateChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// StickyModifierStateListenerStub dispatches incoming binder transactions
+// to a typed IStickyModifierStateListener implementation.
+type StickyModifierStateListenerStub struct {
+	Impl IStickyModifierStateListener
+}
+
+var _ binder.TransactionReceiver = (*StickyModifierStateListenerStub)(nil)
+
+func (s *StickyModifierStateListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIStickyModifierStateListenerOnStickyModifierStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modifierState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_lockedModifierState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStickyModifierStateChanged(ctx, _arg_modifierState, _arg_lockedModifierState)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

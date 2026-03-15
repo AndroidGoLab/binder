@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -65,4 +66,50 @@ func (p *GameModeListenerProxy) OnGameModeChanged(
 	}
 
 	return nil
+}
+
+// GameModeListenerStub dispatches incoming binder transactions
+// to a typed IGameModeListener implementation.
+type GameModeListenerStub struct {
+	Impl IGameModeListener
+}
+
+var _ binder.TransactionReceiver = (*GameModeListenerStub)(nil)
+
+func (s *GameModeListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGameModeListenerOnGameModeChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_gameModeFrom, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_gameModeTo, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGameModeChanged(ctx, _arg_packageName, _arg_gameModeFrom, _arg_gameModeTo)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

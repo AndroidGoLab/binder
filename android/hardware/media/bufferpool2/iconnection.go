@@ -2,6 +2,7 @@ package bufferpool2
 
 import (
 	"context"
+	"fmt"
 	bufferpool2IConnection "github.com/xaionaro-go/binder/android/hardware/media/bufferpool2/IConnection"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -109,4 +110,52 @@ func (p *ConnectionProxy) Sync(
 	}
 
 	return nil
+}
+
+// ConnectionStub dispatches incoming binder transactions
+// to a typed IConnection implementation.
+type ConnectionStub struct {
+	Impl IConnection
+}
+
+var _ binder.TransactionReceiver = (*ConnectionStub)(nil)
+
+func (s *ConnectionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIConnectionFetch:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_fetchInfos []bufferpool2IConnection.FetchInfo
+		_ = _arg_fetchInfos
+		_result, _err := s.Impl.Fetch(ctx, _arg_fetchInfos)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIConnectionSync:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Sync(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

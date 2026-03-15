@@ -2,6 +2,7 @@ package secure_element
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -61,4 +62,43 @@ func (p *SecureElementCallbackProxy) OnStateChange(
 	}
 
 	return nil
+}
+
+// SecureElementCallbackStub dispatches incoming binder transactions
+// to a typed ISecureElementCallback implementation.
+type SecureElementCallbackStub struct {
+	Impl ISecureElementCallback
+}
+
+var _ binder.TransactionReceiver = (*SecureElementCallbackStub)(nil)
+
+func (s *SecureElementCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISecureElementCallbackOnStateChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_connected, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_debugReason, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStateChange(ctx, _arg_connected, _arg_debugReason)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package ondeviceintelligence
 
 import (
 	"context"
+	"fmt"
 	appOndeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
@@ -201,4 +202,240 @@ func (p *OnDeviceSandboxedInferenceServiceProxy) UpdateProcessingState(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// OnDeviceSandboxedInferenceServiceStub dispatches incoming binder transactions
+// to a typed IOnDeviceSandboxedInferenceService implementation.
+type OnDeviceSandboxedInferenceServiceStub struct {
+	Impl IOnDeviceSandboxedInferenceService
+}
+
+var _ binder.TransactionReceiver = (*OnDeviceSandboxedInferenceServiceStub)(nil)
+
+func (s *OnDeviceSandboxedInferenceServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIOnDeviceSandboxedInferenceServiceRegisterRemoteStorageService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_storageService IRemoteStorageService
+		_ = _arg_storageService
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_remoteCallback appOndeviceintelligence.IRemoteCallback
+		_ = _arg_remoteCallback
+		_err := s.Impl.RegisterRemoteStorageService(ctx, _arg_storageService, _arg_remoteCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIOnDeviceSandboxedInferenceServiceRequestTokenInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callerUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_feature appOndeviceintelligence.Feature
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_request os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_cancellationSignal infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cancellationSignal.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_tokenInfoCallback appOndeviceintelligence.ITokenInfoCallback
+		_ = _arg_tokenInfoCallback
+		_err = s.Impl.RequestTokenInfo(ctx, _arg_callerUid, _arg_feature, _arg_request, _arg_cancellationSignal, _arg_tokenInfoCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIOnDeviceSandboxedInferenceServiceProcessRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callerUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_feature appOndeviceintelligence.Feature
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_request os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_requestType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_cancellationSignal infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cancellationSignal.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_processingSignal infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_processingSignal.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback appOndeviceintelligence.IResponseCallback
+		_ = _arg_callback
+		_err = s.Impl.ProcessRequest(ctx, _arg_callerUid, _arg_feature, _arg_request, _arg_requestType, _arg_cancellationSignal, _arg_processingSignal, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIOnDeviceSandboxedInferenceServiceProcessRequestStreaming:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callerUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_feature appOndeviceintelligence.Feature
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_request os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_requestType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_cancellationSignal infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cancellationSignal.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_processingSignal infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_processingSignal.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback appOndeviceintelligence.IStreamingResponseCallback
+		_ = _arg_callback
+		_err = s.Impl.ProcessRequestStreaming(ctx, _arg_callerUid, _arg_feature, _arg_request, _arg_requestType, _arg_cancellationSignal, _arg_processingSignal, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIOnDeviceSandboxedInferenceServiceUpdateProcessingState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_processingState os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_processingState.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IProcessingUpdateStatusCallback
+		_ = _arg_callback
+		_err := s.Impl.UpdateProcessingState(ctx, _arg_processingState, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

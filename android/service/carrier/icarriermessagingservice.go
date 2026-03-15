@@ -2,6 +2,7 @@ package carrier
 
 import (
 	"context"
+	"fmt"
 	net "github.com/xaionaro-go/binder/android/net"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -221,4 +222,213 @@ func (p *CarrierMessagingServiceProxy) DownloadMms(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CarrierMessagingServiceStub dispatches incoming binder transactions
+// to a typed ICarrierMessagingService implementation.
+type CarrierMessagingServiceStub struct {
+	Impl ICarrierMessagingService
+}
+
+var _ binder.TransactionReceiver = (*CarrierMessagingServiceStub)(nil)
+
+func (s *CarrierMessagingServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICarrierMessagingServiceFilterSms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_pdu MessagePdu
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pdu.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_format, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destPort, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ICarrierMessagingCallback
+		_ = _arg_callback
+		_err = s.Impl.FilterSms(ctx, _arg_pdu, _arg_format, _arg_destPort, _arg_subId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionICarrierMessagingServiceSendTextSms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_text, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destAddress, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sendSmsFlag, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ICarrierMessagingCallback
+		_ = _arg_callback
+		_err = s.Impl.SendTextSms(ctx, _arg_text, _arg_subId, _arg_destAddress, _arg_sendSmsFlag, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionICarrierMessagingServiceSendDataSms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []byte
+		_ = _arg_data
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destAddress, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destPort, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sendSmsFlag, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ICarrierMessagingCallback
+		_ = _arg_callback
+		_err = s.Impl.SendDataSms(ctx, _arg_data, _arg_subId, _arg_destAddress, _arg_destPort, _arg_sendSmsFlag, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionICarrierMessagingServiceSendMultipartTextSms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_parts []string
+		_ = _arg_parts
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destAddress, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sendSmsFlag, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ICarrierMessagingCallback
+		_ = _arg_callback
+		_err = s.Impl.SendMultipartTextSms(ctx, _arg_parts, _arg_subId, _arg_destAddress, _arg_sendSmsFlag, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionICarrierMessagingServiceSendMms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_pduUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pduUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_location net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_location.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ICarrierMessagingCallback
+		_ = _arg_callback
+		_err = s.Impl.SendMms(ctx, _arg_pduUri, _arg_subId, _arg_location, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionICarrierMessagingServiceDownloadMms:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_pduUri net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pduUri.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_location net.Uri
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_location.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ICarrierMessagingCallback
+		_ = _arg_callback
+		_err = s.Impl.DownloadMms(ctx, _arg_pduUri, _arg_subId, _arg_location, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

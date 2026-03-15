@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -148,4 +149,88 @@ func (p *SubscribeResponseCallbackProxy) OnTerminated(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SubscribeResponseCallbackStub dispatches incoming binder transactions
+// to a typed ISubscribeResponseCallback implementation.
+type SubscribeResponseCallbackStub struct {
+	Impl ISubscribeResponseCallback
+}
+
+var _ binder.TransactionReceiver = (*SubscribeResponseCallbackStub)(nil)
+
+func (s *SubscribeResponseCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISubscribeResponseCallbackOnCommandError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_code, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCommandError(ctx, _arg_code)
+		_ = _err
+		return nil, nil
+	case TransactionISubscribeResponseCallbackOnNetworkResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_detail ims.SipDetails
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_detail.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnNetworkResponse(ctx, _arg_detail)
+		_ = _err
+		return nil, nil
+	case TransactionISubscribeResponseCallbackOnNotifyCapabilitiesUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pidfXmls []string
+		_ = _arg_pidfXmls
+		_err := s.Impl.OnNotifyCapabilitiesUpdate(ctx, _arg_pidfXmls)
+		_ = _err
+		return nil, nil
+	case TransactionISubscribeResponseCallbackOnResourceTerminated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_uriTerminatedReason []ims.RcsContactTerminatedReason
+		_ = _arg_uriTerminatedReason
+		_err := s.Impl.OnResourceTerminated(ctx, _arg_uriTerminatedReason)
+		_ = _err
+		return nil, nil
+	case TransactionISubscribeResponseCallbackOnTerminated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_retryAfterMilliseconds, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTerminated(ctx, _arg_reason, _arg_retryAfterMilliseconds)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

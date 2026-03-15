@@ -2,6 +2,7 @@ package appclips
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -69,4 +70,43 @@ func (p *AppClipsScreenshotHelperServiceProxy) TakeScreenshot(
 		}
 	}
 	return _result, nil
+}
+
+// AppClipsScreenshotHelperServiceStub dispatches incoming binder transactions
+// to a typed IAppClipsScreenshotHelperService implementation.
+type AppClipsScreenshotHelperServiceStub struct {
+	Impl IAppClipsScreenshotHelperService
+}
+
+var _ binder.TransactionReceiver = (*AppClipsScreenshotHelperServiceStub)(nil)
+
+func (s *AppClipsScreenshotHelperServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAppClipsScreenshotHelperServiceTakeScreenshot:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.TakeScreenshot(ctx, _arg_displayId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package net
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -201,4 +202,131 @@ func (p *IpConnectivityMetricsProxy) RemoveNetdEventCallback(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// IpConnectivityMetricsStub dispatches incoming binder transactions
+// to a typed IIpConnectivityMetrics implementation.
+type IpConnectivityMetricsStub struct {
+	Impl IIpConnectivityMetrics
+}
+
+var _ binder.TransactionReceiver = (*IpConnectivityMetricsStub)(nil)
+
+func (s *IpConnectivityMetricsStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIIpConnectivityMetricsLogEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event ConnectivityMetricsEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.LogEvent(ctx, _arg_event)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIIpConnectivityMetricsLogDefaultNetworkValidity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_valid, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.LogDefaultNetworkValidity(ctx, _arg_valid)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIIpConnectivityMetricsLogDefaultNetworkEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_defaultNetwork interface{}
+		_arg_score, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_validated, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_lp interface{}
+		var _arg_nc interface{}
+		var _arg_previousDefaultNetwork interface{}
+		_arg_previousScore, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_previousLp interface{}
+		var _arg_previousNc interface{}
+		_err = s.Impl.LogDefaultNetworkEvent(ctx, _arg_defaultNetwork, _arg_score, _arg_validated, _arg_lp, _arg_nc, _arg_previousDefaultNetwork, _arg_previousScore, _arg_previousLp, _arg_previousNc)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIIpConnectivityMetricsAddNetdEventCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callerType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback INetdEventCallback
+		_ = _arg_callback
+		_result, _err := s.Impl.AddNetdEventCallback(ctx, _arg_callerType, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIIpConnectivityMetricsRemoveNetdEventCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callerType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RemoveNetdEventCallback(ctx, _arg_callerType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

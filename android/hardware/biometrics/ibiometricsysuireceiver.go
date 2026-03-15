@@ -2,6 +2,7 @@ package biometrics
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -148,4 +149,80 @@ func (p *BiometricSysuiReceiverProxy) OnStartFingerprintNow(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BiometricSysuiReceiverStub dispatches incoming binder transactions
+// to a typed IBiometricSysuiReceiver implementation.
+type BiometricSysuiReceiverStub struct {
+	Impl IBiometricSysuiReceiver
+}
+
+var _ binder.TransactionReceiver = (*BiometricSysuiReceiverStub)(nil)
+
+func (s *BiometricSysuiReceiverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBiometricSysuiReceiverOnDialogDismissed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_credentialAttestation []byte
+		_ = _arg_credentialAttestation
+		_err = s.Impl.OnDialogDismissed(ctx, _arg_reason, _arg_credentialAttestation)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricSysuiReceiverOnTryAgainPressed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnTryAgainPressed(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricSysuiReceiverOnDeviceCredentialPressed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnDeviceCredentialPressed(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricSysuiReceiverOnSystemEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_event, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSystemEvent(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricSysuiReceiverOnDialogAnimatedIn:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_startFingerprintNow, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDialogAnimatedIn(ctx, _arg_startFingerprintNow)
+		_ = _err
+		return nil, nil
+	case TransactionIBiometricSysuiReceiverOnStartFingerprintNow:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnStartFingerprintNow(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

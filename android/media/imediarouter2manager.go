@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -216,4 +217,162 @@ func (p *MediaRouter2ManagerProxy) InvalidateInstance(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MediaRouter2ManagerStub dispatches incoming binder transactions
+// to a typed IMediaRouter2Manager implementation.
+type MediaRouter2ManagerStub struct {
+	Impl IMediaRouter2Manager
+}
+
+var _ binder.TransactionReceiver = (*MediaRouter2ManagerStub)(nil)
+
+func (s *MediaRouter2ManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMediaRouter2ManagerNotifySessionCreated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_session RoutingSessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_session.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifySessionCreated(ctx, _arg_requestId, _arg_session)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRouter2ManagerNotifySessionUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_session RoutingSessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_session.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NotifySessionUpdated(ctx, _arg_session)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRouter2ManagerNotifySessionReleased:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_session RoutingSessionInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_session.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NotifySessionReleased(ctx, _arg_session)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRouter2ManagerNotifyDiscoveryPreferenceChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_discoveryPreference RouteDiscoveryPreference
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_discoveryPreference.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyDiscoveryPreferenceChanged(ctx, _arg_packageName, _arg_discoveryPreference)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRouter2ManagerNotifyRouteListingPreferenceChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_routeListingPreference *RouteListingPreference
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_routeListingPreference.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyRouteListingPreferenceChange(ctx, _arg_packageName, _arg_routeListingPreference)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRouter2ManagerNotifyRoutesUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_routes []MediaRoute2Info
+		_ = _arg_routes
+		_err := s.Impl.NotifyRoutesUpdated(ctx, _arg_routes)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRouter2ManagerNotifyRequestFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.NotifyRequestFailed(ctx, _arg_requestId, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaRouter2ManagerInvalidateInstance:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.InvalidateInstance(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

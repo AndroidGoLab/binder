@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -196,4 +197,159 @@ func (p *MediaBrowserServiceProxy) RemoveSubscription(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// MediaBrowserServiceStub dispatches incoming binder transactions
+// to a typed IMediaBrowserService implementation.
+type MediaBrowserServiceStub struct {
+	Impl IMediaBrowserService
+}
+
+var _ binder.TransactionReceiver = (*MediaBrowserServiceStub)(nil)
+
+func (s *MediaBrowserServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIMediaBrowserServiceConnect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pkg, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_rootHints os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_rootHints.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbacks IMediaBrowserServiceCallbacks
+		_ = _arg_callbacks
+		_err = s.Impl.Connect(ctx, _arg_pkg, _arg_rootHints, _arg_callbacks)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaBrowserServiceDisconnect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbacks IMediaBrowserServiceCallbacks
+		_ = _arg_callbacks
+		_err := s.Impl.Disconnect(ctx, _arg_callbacks)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaBrowserServiceAddSubscriptionDeprecated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uri, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbacks IMediaBrowserServiceCallbacks
+		_ = _arg_callbacks
+		_err = s.Impl.AddSubscriptionDeprecated(ctx, _arg_uri, _arg_callbacks)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaBrowserServiceRemoveSubscriptionDeprecated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uri, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbacks IMediaBrowserServiceCallbacks
+		_ = _arg_callbacks
+		_err = s.Impl.RemoveSubscriptionDeprecated(ctx, _arg_uri, _arg_callbacks)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaBrowserServiceGetMediaItem:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uri, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_cb os.ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cb.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbacks IMediaBrowserServiceCallbacks
+		_ = _arg_callbacks
+		_err = s.Impl.GetMediaItem(ctx, _arg_uri, _arg_cb, _arg_callbacks)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaBrowserServiceAddSubscription:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uri, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbacks IMediaBrowserServiceCallbacks
+		_ = _arg_callbacks
+		_err = s.Impl.AddSubscription(ctx, _arg_uri, _arg_token, _arg_options, _arg_callbacks)
+		_ = _err
+		return nil, nil
+	case TransactionIMediaBrowserServiceRemoveSubscription:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uri, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbacks IMediaBrowserServiceCallbacks
+		_ = _arg_callbacks
+		_err = s.Impl.RemoveSubscription(ctx, _arg_uri, _arg_token, _arg_callbacks)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

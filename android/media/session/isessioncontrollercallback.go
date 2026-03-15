@@ -2,6 +2,7 @@ package session
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -184,4 +185,112 @@ func (p *SessionControllerCallbackProxy) OnVolumeInfoChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SessionControllerCallbackStub dispatches incoming binder transactions
+// to a typed ISessionControllerCallback implementation.
+type SessionControllerCallbackStub struct {
+	Impl ISessionControllerCallback
+}
+
+var _ binder.TransactionReceiver = (*SessionControllerCallbackStub)(nil)
+
+func (s *SessionControllerCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISessionControllerCallbackOnEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_event, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_extras interface{}
+		_err = s.Impl.OnEvent(ctx, _arg_event, _arg_extras)
+		_ = _err
+		return nil, nil
+	case TransactionISessionControllerCallbackOnSessionDestroyed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnSessionDestroyed(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISessionControllerCallbackOnPlaybackStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_state PlaybackState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_state.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPlaybackStateChanged(ctx, _arg_state)
+		_ = _err
+		return nil, nil
+	case TransactionISessionControllerCallbackOnMetadataChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_metadata interface{}
+		_err := s.Impl.OnMetadataChanged(ctx, _arg_metadata)
+		_ = _err
+		return nil, nil
+	case TransactionISessionControllerCallbackOnQueueChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_queue interface{}
+		_err := s.Impl.OnQueueChanged(ctx, _arg_queue)
+		_ = _err
+		return nil, nil
+	case TransactionISessionControllerCallbackOnQueueTitleChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_title interface{}
+		_err := s.Impl.OnQueueTitleChanged(ctx, _arg_title)
+		_ = _err
+		return nil, nil
+	case TransactionISessionControllerCallbackOnExtrasChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_extras interface{}
+		_err := s.Impl.OnExtrasChanged(ctx, _arg_extras)
+		_ = _err
+		return nil, nil
+	case TransactionISessionControllerCallbackOnVolumeInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info MediaControllerPlaybackInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnVolumeInfoChanged(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package display
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -82,4 +83,44 @@ func (p *VirtualDisplayCallbackProxy) OnStopped(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VirtualDisplayCallbackStub dispatches incoming binder transactions
+// to a typed IVirtualDisplayCallback implementation.
+type VirtualDisplayCallbackStub struct {
+	Impl IVirtualDisplayCallback
+}
+
+var _ binder.TransactionReceiver = (*VirtualDisplayCallbackStub)(nil)
+
+func (s *VirtualDisplayCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVirtualDisplayCallbackOnPaused:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnPaused(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIVirtualDisplayCallbackOnResumed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnResumed(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIVirtualDisplayCallbackOnStopped:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnStopped(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

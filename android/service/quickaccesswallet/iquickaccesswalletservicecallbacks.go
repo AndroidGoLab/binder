@@ -2,6 +2,7 @@ package quickaccesswallet
 
 import (
 	"context"
+	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -142,4 +143,118 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnGestureTargetActivityPendingI
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// QuickAccessWalletServiceCallbacksStub dispatches incoming binder transactions
+// to a typed IQuickAccessWalletServiceCallbacks implementation.
+type QuickAccessWalletServiceCallbacksStub struct {
+	Impl IQuickAccessWalletServiceCallbacks
+}
+
+var _ binder.TransactionReceiver = (*QuickAccessWalletServiceCallbacksStub)(nil)
+
+func (s *QuickAccessWalletServiceCallbacksStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIQuickAccessWalletServiceCallbacksOnGetWalletCardsSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_response GetWalletCardsResponse
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_response.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnGetWalletCardsSuccess(ctx, _arg_response)
+		_ = _err
+		return nil, nil
+	case TransactionIQuickAccessWalletServiceCallbacksOnGetWalletCardsFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_error_ GetWalletCardsError
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_error_.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnGetWalletCardsFailure(ctx, _arg_error_)
+		_ = _err
+		return nil, nil
+	case TransactionIQuickAccessWalletServiceCallbacksOnWalletServiceEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event WalletServiceEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnWalletServiceEvent(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIQuickAccessWalletServiceCallbacksOnTargetActivityPendingIntentReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_pendingIntent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pendingIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnTargetActivityPendingIntentReceived(ctx, _arg_pendingIntent)
+		_ = _err
+		return nil, nil
+	case TransactionIQuickAccessWalletServiceCallbacksOnGestureTargetActivityPendingIntentReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_pendingIntent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pendingIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnGestureTargetActivityPendingIntentReceived(ctx, _arg_pendingIntent)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

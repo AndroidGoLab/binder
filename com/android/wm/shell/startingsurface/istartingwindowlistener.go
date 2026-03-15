@@ -2,6 +2,7 @@ package startingsurface
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -54,4 +55,42 @@ func (p *StartingWindowListenerProxy) OnTaskLaunching(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// StartingWindowListenerStub dispatches incoming binder transactions
+// to a typed IStartingWindowListener implementation.
+type StartingWindowListenerStub struct {
+	Impl IStartingWindowListener
+}
+
+var _ binder.TransactionReceiver = (*StartingWindowListenerStub)(nil)
+
+func (s *StartingWindowListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIStartingWindowListenerOnTaskLaunching:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_supportedType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_splashScreenBackgroundColor, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTaskLaunching(ctx, _arg_taskId, _arg_supportedType, _arg_splashScreenBackgroundColor)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

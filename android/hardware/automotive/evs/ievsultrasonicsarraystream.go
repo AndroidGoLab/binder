@@ -2,6 +2,7 @@ package evs
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -75,4 +76,61 @@ func (p *EvsUltrasonicsArrayStreamProxy) Notify(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// EvsUltrasonicsArrayStreamStub dispatches incoming binder transactions
+// to a typed IEvsUltrasonicsArrayStream implementation.
+type EvsUltrasonicsArrayStreamStub struct {
+	Impl IEvsUltrasonicsArrayStream
+}
+
+var _ binder.TransactionReceiver = (*EvsUltrasonicsArrayStreamStub)(nil)
+
+func (s *EvsUltrasonicsArrayStreamStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIEvsUltrasonicsArrayStreamDeliverDataFrame:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_dataFrameDesc UltrasonicsDataFrameDesc
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_dataFrameDesc.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.DeliverDataFrame(ctx, _arg_dataFrameDesc)
+		_ = _err
+		return nil, nil
+	case TransactionIEvsUltrasonicsArrayStreamNotify:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event EvsEventDesc
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.Notify(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

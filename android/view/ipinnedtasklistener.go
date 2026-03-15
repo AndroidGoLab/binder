@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -71,4 +72,49 @@ func (p *PinnedTaskListenerProxy) OnImeVisibilityChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PinnedTaskListenerStub dispatches incoming binder transactions
+// to a typed IPinnedTaskListener implementation.
+type PinnedTaskListenerStub struct {
+	Impl IPinnedTaskListener
+}
+
+var _ binder.TransactionReceiver = (*PinnedTaskListenerStub)(nil)
+
+func (s *PinnedTaskListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPinnedTaskListenerOnMovementBoundsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fromImeAdjustment, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnMovementBoundsChanged(ctx, _arg_fromImeAdjustment)
+		_ = _err
+		return nil, nil
+	case TransactionIPinnedTaskListenerOnImeVisibilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_imeVisible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_imeHeight, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnImeVisibilityChanged(ctx, _arg_imeVisible, _arg_imeHeight)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

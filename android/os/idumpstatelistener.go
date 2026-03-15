@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -133,4 +134,74 @@ func (p *DumpstateListenerProxy) OnUiIntensiveBugreportDumpsFinished(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DumpstateListenerStub dispatches incoming binder transactions
+// to a typed IDumpstateListener implementation.
+type DumpstateListenerStub struct {
+	Impl IDumpstateListener
+}
+
+var _ binder.TransactionReceiver = (*DumpstateListenerStub)(nil)
+
+func (s *DumpstateListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDumpstateListenerOnProgress:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_progress, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnProgress(ctx, _arg_progress)
+		_ = _err
+		return nil, nil
+	case TransactionIDumpstateListenerOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_errorCode)
+		_ = _err
+		return nil, nil
+	case TransactionIDumpstateListenerOnFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_bugreportFile, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFinished(ctx, _arg_bugreportFile)
+		_ = _err
+		return nil, nil
+	case TransactionIDumpstateListenerOnScreenshotTaken:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_success, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnScreenshotTaken(ctx, _arg_success)
+		_ = _err
+		return nil, nil
+	case TransactionIDumpstateListenerOnUiIntensiveBugreportDumpsFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnUiIntensiveBugreportDumpsFinished(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

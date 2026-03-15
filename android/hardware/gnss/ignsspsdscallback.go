@@ -2,6 +2,7 @@ package gnss
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,40 @@ func (p *GnssPsdsCallbackProxy) DownloadRequestCb(
 	}
 
 	return nil
+}
+
+// GnssPsdsCallbackStub dispatches incoming binder transactions
+// to a typed IGnssPsdsCallback implementation.
+type GnssPsdsCallbackStub struct {
+	Impl IGnssPsdsCallback
+}
+
+var _ binder.TransactionReceiver = (*GnssPsdsCallbackStub)(nil)
+
+func (s *GnssPsdsCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssPsdsCallbackDownloadRequestCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_psdsType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_psdsType := PsdsType(_raw_psdsType)
+		_err = s.Impl.DownloadRequestCb(ctx, _arg_psdsType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

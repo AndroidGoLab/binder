@@ -2,6 +2,7 @@ package incremental
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -974,4 +975,589 @@ func (p *IncrementalServiceProxy) GetMetrics(
 	}
 
 	return _result, nil
+}
+
+// IncrementalServiceStub dispatches incoming binder transactions
+// to a typed IIncrementalService implementation.
+type IncrementalServiceStub struct {
+	Impl IIncrementalService
+}
+
+var _ binder.TransactionReceiver = (*IncrementalServiceStub)(nil)
+
+func (s *IncrementalServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIIncrementalServiceOpenStorage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.OpenStorage(ctx, _arg_path)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceCreateStorage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_params interface{}
+		_arg_createMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateStorage(ctx, _arg_path, _arg_params, _arg_createMode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceCreateLinkedStorage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_otherStorageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_createMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CreateLinkedStorage(ctx, _arg_path, _arg_otherStorageId, _arg_createMode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceStartLoading:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_params interface{}
+		var _arg_statusListener interface{}
+		var _arg_healthCheckParams StorageHealthCheckParams
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_healthCheckParams.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_healthListener IStorageHealthListener
+		_ = _arg_healthListener
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_perUidReadTimeouts []PerUidReadTimeouts
+		_ = _arg_perUidReadTimeouts
+		_result, _err := s.Impl.StartLoading(ctx, _arg_storageId, _arg_params, _arg_statusListener, _arg_healthCheckParams, _arg_healthListener, _arg_perUidReadTimeouts)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceOnInstallationComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnInstallationComplete(ctx, _arg_storageId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIIncrementalServiceMakeBindMount:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sourcePath, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_targetFullPath, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_bindType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.MakeBindMount(ctx, _arg_storageId, _arg_sourcePath, _arg_targetFullPath, _arg_bindType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceDeleteBindMount:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_targetFullPath, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.DeleteBindMount(ctx, _arg_storageId, _arg_targetFullPath)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceMakeDirectory:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.MakeDirectory(ctx, _arg_storageId, _arg_path)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceMakeDirectories:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.MakeDirectories(ctx, _arg_storageId, _arg_path)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceMakeFile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_params IncrementalNewFileParams
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_content []byte
+		_ = _arg_content
+		_result, _err := s.Impl.MakeFile(ctx, _arg_storageId, _arg_path, _arg_mode, _arg_params, _arg_content)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceMakeFileFromRange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_targetPath, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sourcePath, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_start, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_end, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.MakeFileFromRange(ctx, _arg_storageId, _arg_targetPath, _arg_sourcePath, _arg_start, _arg_end)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceMakeLink:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sourceStorageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sourcePath, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destStorageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_destPath, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.MakeLink(ctx, _arg_sourceStorageId, _arg_sourcePath, _arg_destStorageId, _arg_destPath)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceUnlink:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.Unlink(ctx, _arg_storageId, _arg_path)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceIsFileFullyLoaded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsFileFullyLoaded(ctx, _arg_storageId, _arg_path)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceIsFullyLoaded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsFullyLoaded(ctx, _arg_storageId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceGetLoadingProgress:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetLoadingProgress(ctx, _arg_storageId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteFloat32(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceGetMetadataByPath:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetMetadataByPath(ctx, _arg_storageId, _arg_path)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIIncrementalServiceGetMetadataById:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_fileId []byte
+		_ = _arg_fileId
+		_result, _err := s.Impl.GetMetadataById(ctx, _arg_storageId, _arg_fileId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIIncrementalServiceDeleteStorage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DeleteStorage(ctx, _arg_storageId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIIncrementalServiceDisallowReadLogs:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DisallowReadLogs(ctx, _arg_storageId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIIncrementalServiceConfigureNativeBinaries:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_apkFullPath, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_libDirRelativePath, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_abi, _err := data.ReadString()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_extractNativeLibs, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ConfigureNativeBinaries(ctx, _arg_storageId, _arg_apkFullPath, _arg_libDirRelativePath, _arg_abi, _arg_extractNativeLibs)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceWaitForNativeBinariesExtraction:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.WaitForNativeBinariesExtraction(ctx, _arg_storageId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceRegisterLoadingProgressListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IStorageLoadingProgressListener
+		_ = _arg_listener
+		_result, _err := s.Impl.RegisterLoadingProgressListener(ctx, _arg_storageId, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceUnregisterLoadingProgressListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.UnregisterLoadingProgressListener(ctx, _arg_storageId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIIncrementalServiceGetMetrics:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storageId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetMetrics(ctx, _arg_storageId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

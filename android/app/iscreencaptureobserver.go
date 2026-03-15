@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -48,4 +49,30 @@ func (p *ScreenCaptureObserverProxy) OnScreenCaptured(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ScreenCaptureObserverStub dispatches incoming binder transactions
+// to a typed IScreenCaptureObserver implementation.
+type ScreenCaptureObserverStub struct {
+	Impl IScreenCaptureObserver
+}
+
+var _ binder.TransactionReceiver = (*ScreenCaptureObserverStub)(nil)
+
+func (s *ScreenCaptureObserverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIScreenCaptureObserverOnScreenCaptured:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnScreenCaptured(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

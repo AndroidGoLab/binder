@@ -2,6 +2,7 @@ package euicc
 
 import (
 	"context"
+	"fmt"
 	serviceEuicc "github.com/xaionaro-go/binder/android/service/euicc"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -56,4 +57,46 @@ func (p *SwitchToProfileCallbackProxy) OnComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SwitchToProfileCallbackStub dispatches incoming binder transactions
+// to a typed ISwitchToProfileCallback implementation.
+type SwitchToProfileCallbackStub struct {
+	Impl ISwitchToProfileCallback
+}
+
+var _ binder.TransactionReceiver = (*SwitchToProfileCallbackStub)(nil)
+
+func (s *SwitchToProfileCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISwitchToProfileCallbackOnComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_profile serviceEuicc.EuiccProfileInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnComplete(ctx, _arg_resultCode, _arg_profile)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

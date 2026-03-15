@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"fmt"
 	telephony "github.com/xaionaro-go/binder/android/telephony"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -102,4 +103,66 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnReconnectQualifiedNetworkType(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// QualifiedNetworksServiceCallbackStub dispatches incoming binder transactions
+// to a typed IQualifiedNetworksServiceCallback implementation.
+type QualifiedNetworksServiceCallbackStub struct {
+	Impl IQualifiedNetworksServiceCallback
+}
+
+var _ binder.TransactionReceiver = (*QualifiedNetworksServiceCallbackStub)(nil)
+
+func (s *QualifiedNetworksServiceCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIQualifiedNetworksServiceCallbackOnQualifiedNetworkTypesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_apnTypes, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_qualifiedNetworkTypes []int32
+		_ = _arg_qualifiedNetworkTypes
+		_err = s.Impl.OnQualifiedNetworkTypesChanged(ctx, _arg_apnTypes, _arg_qualifiedNetworkTypes)
+		_ = _err
+		return nil, nil
+	case TransactionIQualifiedNetworksServiceCallbackOnNetworkValidationRequested:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_networkCapability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback telephony.IIntegerConsumer
+		_ = _arg_callback
+		_err = s.Impl.OnNetworkValidationRequested(ctx, _arg_networkCapability, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIQualifiedNetworksServiceCallbackOnReconnectQualifiedNetworkType:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_apnTypes, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_qualifiedNetworkType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnReconnectQualifiedNetworkType(ctx, _arg_apnTypes, _arg_qualifiedNetworkType)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

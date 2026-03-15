@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -107,4 +108,65 @@ func (p *TransportSelectorCallbackProxy) OnSelectionTerminated(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TransportSelectorCallbackStub dispatches incoming binder transactions
+// to a typed ITransportSelectorCallback implementation.
+type TransportSelectorCallbackStub struct {
+	Impl ITransportSelectorCallback
+}
+
+var _ binder.TransactionReceiver = (*TransportSelectorCallbackStub)(nil)
+
+func (s *TransportSelectorCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITransportSelectorCallbackOnCreated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_selector IDomainSelector
+		_ = _arg_selector
+		_err := s.Impl.OnCreated(ctx, _arg_selector)
+		_ = _err
+		return nil, nil
+	case TransactionITransportSelectorCallbackOnWlanSelected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_useEmergencyPdn, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnWlanSelected(ctx, _arg_useEmergencyPdn)
+		_ = _err
+		return nil, nil
+	case TransactionITransportSelectorCallbackOnWwanSelectedAsync:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cb ITransportSelectorResultCallback
+		_ = _arg_cb
+		_err := s.Impl.OnWwanSelectedAsync(ctx, _arg_cb)
+		_ = _err
+		return nil, nil
+	case TransactionITransportSelectorCallbackOnSelectionTerminated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cause, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSelectionTerminated(ctx, _arg_cause)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

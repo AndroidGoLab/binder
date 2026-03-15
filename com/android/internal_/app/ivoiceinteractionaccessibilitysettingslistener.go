@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *VoiceInteractionAccessibilitySettingsListenerProxy) OnAccessibilityDete
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VoiceInteractionAccessibilitySettingsListenerStub dispatches incoming binder transactions
+// to a typed IVoiceInteractionAccessibilitySettingsListener implementation.
+type VoiceInteractionAccessibilitySettingsListenerStub struct {
+	Impl IVoiceInteractionAccessibilitySettingsListener
+}
+
+var _ binder.TransactionReceiver = (*VoiceInteractionAccessibilitySettingsListenerStub)(nil)
+
+func (s *VoiceInteractionAccessibilitySettingsListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVoiceInteractionAccessibilitySettingsListenerOnAccessibilityDetectionChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAccessibilityDetectionChanged(ctx, _arg_enable)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

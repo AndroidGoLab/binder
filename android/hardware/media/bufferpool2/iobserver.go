@@ -2,6 +2,7 @@ package bufferpool2
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -52,4 +53,38 @@ func (p *ObserverProxy) OnMessage(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ObserverStub dispatches incoming binder transactions
+// to a typed IObserver implementation.
+type ObserverStub struct {
+	Impl IObserver
+}
+
+var _ binder.TransactionReceiver = (*ObserverStub)(nil)
+
+func (s *ObserverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIObserverOnMessage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_connectionId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_msgId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnMessage(ctx, _arg_connectionId, _arg_msgId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

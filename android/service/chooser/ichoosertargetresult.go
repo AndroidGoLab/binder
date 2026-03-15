@@ -2,6 +2,7 @@ package chooser
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,33 @@ func (p *ChooserTargetResultProxy) SendResult(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ChooserTargetResultStub dispatches incoming binder transactions
+// to a typed IChooserTargetResult implementation.
+type ChooserTargetResultStub struct {
+	Impl IChooserTargetResult
+}
+
+var _ binder.TransactionReceiver = (*ChooserTargetResultStub)(nil)
+
+func (s *ChooserTargetResultStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIChooserTargetResultSendResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_targets []ChooserTarget
+		_ = _arg_targets
+		_err := s.Impl.SendResult(ctx, _arg_targets)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -68,4 +69,48 @@ func (p *ShellCallbackProxy) OpenFile(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// ShellCallbackStub dispatches incoming binder transactions
+// to a typed IShellCallback implementation.
+type ShellCallbackStub struct {
+	Impl IShellCallback
+}
+
+var _ binder.TransactionReceiver = (*ShellCallbackStub)(nil)
+
+func (s *ShellCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIShellCallbackOpenFile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_seLinuxContext, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.OpenFile(ctx, _arg_path, _arg_seLinuxContext, _arg_mode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteFileDescriptor(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

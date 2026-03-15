@@ -2,6 +2,7 @@ package print
 
 import (
 	"context"
+	"fmt"
 	drawable "github.com/xaionaro-go/binder/android/graphics/drawable"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -211,4 +212,150 @@ func (p *PrintSpoolerCallbacksProxy) CustomPrinterIconCacheCleared(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PrintSpoolerCallbacksStub dispatches incoming binder transactions
+// to a typed IPrintSpoolerCallbacks implementation.
+type PrintSpoolerCallbacksStub struct {
+	Impl IPrintSpoolerCallbacks
+}
+
+var _ binder.TransactionReceiver = (*PrintSpoolerCallbacksStub)(nil)
+
+func (s *PrintSpoolerCallbacksStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPrintSpoolerCallbacksOnGetPrintJobInfosResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_printJob []PrintJobInfo
+		_ = _arg_printJob
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGetPrintJobInfosResult(ctx, _arg_printJob, _arg_sequence)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintSpoolerCallbacksOnCancelPrintJobResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_canceled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCancelPrintJobResult(ctx, _arg_canceled, _arg_sequence)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintSpoolerCallbacksOnSetPrintJobStateResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_success, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSetPrintJobStateResult(ctx, _arg_success, _arg_sequence)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintSpoolerCallbacksOnSetPrintJobTagResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_success, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSetPrintJobTagResult(ctx, _arg_success, _arg_sequence)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintSpoolerCallbacksOnGetPrintJobInfoResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printJob PrintJobInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printJob.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGetPrintJobInfoResult(ctx, _arg_printJob, _arg_sequence)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintSpoolerCallbacksOnGetCustomPrinterIconResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_icon drawable.Icon
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_icon.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGetCustomPrinterIconResult(ctx, _arg_icon, _arg_sequence)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintSpoolerCallbacksOnCustomPrinterIconCached:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCustomPrinterIconCached(ctx, _arg_sequence)
+		_ = _err
+		return nil, nil
+	case TransactionIPrintSpoolerCallbacksCustomPrinterIconCacheCleared:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CustomPrinterIconCacheCleared(ctx, _arg_sequence)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

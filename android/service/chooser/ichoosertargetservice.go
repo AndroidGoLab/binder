@@ -2,6 +2,7 @@ package chooser
 
 import (
 	"context"
+	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -61,4 +62,57 @@ func (p *ChooserTargetServiceProxy) GetChooserTargets(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ChooserTargetServiceStub dispatches incoming binder transactions
+// to a typed IChooserTargetService implementation.
+type ChooserTargetServiceStub struct {
+	Impl IChooserTargetService
+}
+
+var _ binder.TransactionReceiver = (*ChooserTargetServiceStub)(nil)
+
+func (s *ChooserTargetServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIChooserTargetServiceGetChooserTargets:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_targetComponentName content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_targetComponentName.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_matchedFilter content.IntentFilter
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_matchedFilter.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result IChooserTargetResult
+		_ = _arg_result
+		_err := s.Impl.GetChooserTargets(ctx, _arg_targetComponentName, _arg_matchedFilter, _arg_result)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

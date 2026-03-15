@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -87,4 +88,51 @@ func (p *CarrierPrivilegesCallbackProxy) OnCarrierServiceChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// CarrierPrivilegesCallbackStub dispatches incoming binder transactions
+// to a typed ICarrierPrivilegesCallback implementation.
+type CarrierPrivilegesCallbackStub struct {
+	Impl ICarrierPrivilegesCallback
+}
+
+var _ binder.TransactionReceiver = (*CarrierPrivilegesCallbackStub)(nil)
+
+func (s *CarrierPrivilegesCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICarrierPrivilegesCallbackOnCarrierPrivilegesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_privilegedPackageNames []string
+		_ = _arg_privilegedPackageNames
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_privilegedUids []int32
+		_ = _arg_privilegedUids
+		_err := s.Impl.OnCarrierPrivilegesChanged(ctx, _arg_privilegedPackageNames, _arg_privilegedUids)
+		_ = _err
+		return nil, nil
+	case TransactionICarrierPrivilegesCallbackOnCarrierServiceChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_carrierServicePackageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_carrierServiceUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCarrierServiceChanged(ctx, _arg_carrierServicePackageName, _arg_carrierServiceUid)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

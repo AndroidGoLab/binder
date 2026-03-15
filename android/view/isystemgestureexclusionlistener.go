@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -61,4 +62,58 @@ func (p *SystemGestureExclusionListenerProxy) OnSystemGestureExclusionChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SystemGestureExclusionListenerStub dispatches incoming binder transactions
+// to a typed ISystemGestureExclusionListener implementation.
+type SystemGestureExclusionListenerStub struct {
+	Impl ISystemGestureExclusionListener
+}
+
+var _ binder.TransactionReceiver = (*SystemGestureExclusionListenerStub)(nil)
+
+func (s *SystemGestureExclusionListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISystemGestureExclusionListenerOnSystemGestureExclusionChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_systemGestureExclusion graphics.Region
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_systemGestureExclusion.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_systemGestureExclusionUnrestricted graphics.Region
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_systemGestureExclusionUnrestricted.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnSystemGestureExclusionChanged(ctx, _arg_displayId, _arg_systemGestureExclusion, _arg_systemGestureExclusionUnrestricted)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

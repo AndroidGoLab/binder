@@ -2,6 +2,7 @@ package autofill
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -188,4 +189,152 @@ func (p *AutoFillServiceProxy) OnSessionDestroyed(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AutoFillServiceStub dispatches incoming binder transactions
+// to a typed IAutoFillService implementation.
+type AutoFillServiceStub struct {
+	Impl IAutoFillService
+}
+
+var _ binder.TransactionReceiver = (*AutoFillServiceStub)(nil)
+
+func (s *AutoFillServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAutoFillServiceOnConnectedStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_connected, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnConnectedStateChanged(ctx, _arg_connected)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillServiceOnFillRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request FillRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IFillCallback
+		_ = _arg_callback
+		_err := s.Impl.OnFillRequest(ctx, _arg_request, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillServiceOnFillCredentialRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request FillRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IFillCallback
+		_ = _arg_callback
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client binder.IBinder
+		_ = _arg_client
+		_err := s.Impl.OnFillCredentialRequest(ctx, _arg_request, _arg_callback, _arg_client)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillServiceOnSaveRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request SaveRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ISaveCallback
+		_ = _arg_callback
+		_err := s.Impl.OnSaveRequest(ctx, _arg_request, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillServiceOnSavedPasswordCountRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver interface{}
+		_err := s.Impl.OnSavedPasswordCountRequest(ctx, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillServiceOnConvertCredentialRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_convertCredentialRequest ConvertCredentialRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_convertCredentialRequest.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_convertCredentialCallback IConvertCredentialCallback
+		_ = _arg_convertCredentialCallback
+		_err := s.Impl.OnConvertCredentialRequest(ctx, _arg_convertCredentialRequest, _arg_convertCredentialCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIAutoFillServiceOnSessionDestroyed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_history FillEventHistory
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_history.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSessionDestroyed(ctx, _arg_history)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

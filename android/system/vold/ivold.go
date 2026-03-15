@@ -2,6 +2,7 @@ package vold
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -65,4 +66,39 @@ func (p *VoldProxy) RegisterCheckpointListener(
 	}
 	_result = CheckpointingState(_raw)
 	return _result, nil
+}
+
+// VoldStub dispatches incoming binder transactions
+// to a typed IVold implementation.
+type VoldStub struct {
+	Impl IVold
+}
+
+var _ binder.TransactionReceiver = (*VoldStub)(nil)
+
+func (s *VoldStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVoldRegisterCheckpointListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IVoldCheckpointListener
+		_ = _arg_listener
+		_result, _err := s.Impl.RegisterCheckpointListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(int32(_result))
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

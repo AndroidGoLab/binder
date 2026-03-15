@@ -2,6 +2,7 @@ package mediaquality
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -53,4 +54,42 @@ func (p *SoundProfileChangedListenerProxy) OnSoundProfileChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SoundProfileChangedListenerStub dispatches incoming binder transactions
+// to a typed ISoundProfileChangedListener implementation.
+type SoundProfileChangedListenerStub struct {
+	Impl ISoundProfileChangedListener
+}
+
+var _ binder.TransactionReceiver = (*SoundProfileChangedListenerStub)(nil)
+
+func (s *SoundProfileChangedListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISoundProfileChangedListenerOnSoundProfileChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_soundProfile SoundProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_soundProfile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSoundProfileChanged(ctx, _arg_soundProfile)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

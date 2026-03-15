@@ -2,6 +2,7 @@ package satellite
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -107,4 +108,67 @@ func (p *SatelliteModemStateCallbackProxy) OnTerrestrialNetworkAvailableChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SatelliteModemStateCallbackStub dispatches incoming binder transactions
+// to a typed ISatelliteModemStateCallback implementation.
+type SatelliteModemStateCallbackStub struct {
+	Impl ISatelliteModemStateCallback
+}
+
+var _ binder.TransactionReceiver = (*SatelliteModemStateCallbackStub)(nil)
+
+func (s *SatelliteModemStateCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISatelliteModemStateCallbackOnSatelliteModemStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSatelliteModemStateChanged(ctx, _arg_state)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteModemStateCallbackOnEmergencyModeChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isEmergency, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnEmergencyModeChanged(ctx, _arg_isEmergency)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteModemStateCallbackOnRegistrationFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_causeCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRegistrationFailure(ctx, _arg_causeCode)
+		_ = _err
+		return nil, nil
+	case TransactionISatelliteModemStateCallbackOnTerrestrialNetworkAvailableChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isAvailable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTerrestrialNetworkAvailableChanged(ctx, _arg_isAvailable)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

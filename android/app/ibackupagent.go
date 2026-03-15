@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
 	"github.com/xaionaro-go/binder/parcel"
@@ -327,4 +328,270 @@ func (p *BackupAgentProxy) ClearBackupRestoreEventLogger(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BackupAgentStub dispatches incoming binder transactions
+// to a typed IBackupAgent implementation.
+type BackupAgentStub struct {
+	Impl IBackupAgent
+}
+
+var _ binder.TransactionReceiver = (*BackupAgentStub)(nil)
+
+func (s *BackupAgentStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBackupAgentDoBackup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_oldState, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_data, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newState, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_quotaBytes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callbackBinder interface{}
+		_arg_transportFlags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DoBackup(ctx, _arg_oldState, _arg_data, _arg_newState, _arg_quotaBytes, _arg_callbackBinder, _arg_transportFlags)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupAgentDoRestore:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_data, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_appVersionCode, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newState, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callbackBinder interface{}
+		_err = s.Impl.DoRestore(ctx, _arg_data, _arg_appVersionCode, _arg_newState, _arg_token, _arg_callbackBinder)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupAgentDoRestoreWithExcludedKeys:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_data, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_appVersionCode, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newState, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callbackBinder interface{}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_excludedKeys []string
+		_ = _arg_excludedKeys
+		_err = s.Impl.DoRestoreWithExcludedKeys(ctx, _arg_data, _arg_appVersionCode, _arg_newState, _arg_token, _arg_callbackBinder, _arg_excludedKeys)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupAgentDoFullBackup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_data, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_quotaBytes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callbackBinder interface{}
+		_arg_transportFlags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DoFullBackup(ctx, _arg_data, _arg_quotaBytes, _arg_token, _arg_callbackBinder, _arg_transportFlags)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupAgentDoMeasureFullBackup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_quotaBytes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callbackBinder interface{}
+		_arg_transportFlags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DoMeasureFullBackup(ctx, _arg_quotaBytes, _arg_token, _arg_callbackBinder, _arg_transportFlags)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupAgentDoQuotaExceeded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_backupDataBytes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_quotaBytes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callbackBinder interface{}
+		_err = s.Impl.DoQuotaExceeded(ctx, _arg_backupDataBytes, _arg_quotaBytes, _arg_callbackBinder)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupAgentDoRestoreFile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_data, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_size, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_domain, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_path, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mtime, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callbackBinder interface{}
+		_err = s.Impl.DoRestoreFile(ctx, _arg_data, _arg_size, _arg_type_, _arg_domain, _arg_path, _arg_mode, _arg_mtime, _arg_token, _arg_callbackBinder)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupAgentDoRestoreFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callbackBinder interface{}
+		_err = s.Impl.DoRestoreFinished(ctx, _arg_token, _arg_callbackBinder)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupAgentFail:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_message, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Fail(ctx, _arg_message)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupAgentGetLoggerResults:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_resultsFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultsFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetLoggerResults(ctx, _arg_resultsFuture)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupAgentGetOperationType:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_operationTypeFuture infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_operationTypeFuture.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetOperationType(ctx, _arg_operationTypeFuture)
+		_ = _err
+		return nil, nil
+	case TransactionIBackupAgentClearBackupRestoreEventLogger:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ClearBackupRestoreEventLogger(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

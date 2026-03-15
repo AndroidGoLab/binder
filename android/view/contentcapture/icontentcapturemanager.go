@@ -2,6 +2,7 @@ package contentcapture
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -299,4 +300,198 @@ func (p *ContentCaptureManagerProxy) OnLoginDetected(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ContentCaptureManagerStub dispatches incoming binder transactions
+// to a typed IContentCaptureManager implementation.
+type ContentCaptureManagerStub struct {
+	Impl IContentCaptureManager
+}
+
+var _ binder.TransactionReceiver = (*ContentCaptureManagerStub)(nil)
+
+func (s *ContentCaptureManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIContentCaptureManagerStartSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_activityToken binder.IBinder
+		_ = _arg_activityToken
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_shareableActivityToken binder.IBinder
+		_ = _arg_shareableActivityToken
+		var _arg_componentName interface{}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_result interface{}
+		_err = s.Impl.StartSession(ctx, _arg_activityToken, _arg_shareableActivityToken, _arg_componentName, _arg_sessionId, _arg_flags, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIContentCaptureManagerFinishSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.FinishSession(ctx, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	case TransactionIContentCaptureManagerGetServiceComponentName:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_result interface{}
+		_err := s.Impl.GetServiceComponentName(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIContentCaptureManagerRemoveData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request DataRemovalRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RemoveData(ctx, _arg_request)
+		_ = _err
+		return nil, nil
+	case TransactionIContentCaptureManagerShareData:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request DataShareRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_adapter IDataShareWriteAdapter
+		_ = _arg_adapter
+		_err := s.Impl.ShareData(ctx, _arg_request, _arg_adapter)
+		_ = _err
+		return nil, nil
+	case TransactionIContentCaptureManagerIsContentCaptureFeatureEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_result interface{}
+		_err := s.Impl.IsContentCaptureFeatureEnabled(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIContentCaptureManagerGetServiceSettingsActivity:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_result interface{}
+		_err := s.Impl.GetServiceSettingsActivity(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIContentCaptureManagerGetContentCaptureConditions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_result interface{}
+		_err = s.Impl.GetContentCaptureConditions(ctx, _arg_packageName, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIContentCaptureManagerResetTemporaryService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ResetTemporaryService(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIContentCaptureManagerSetTemporaryService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_serviceName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_duration, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetTemporaryService(ctx, _arg_serviceName, _arg_duration)
+		_ = _err
+		return nil, nil
+	case TransactionIContentCaptureManagerSetDefaultServiceEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetDefaultServiceEnabled(ctx, _arg_enabled)
+		_ = _err
+		return nil, nil
+	case TransactionIContentCaptureManagerRegisterContentCaptureOptionsCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IContentCaptureOptionsCallback
+		_ = _arg_callback
+		_err = s.Impl.RegisterContentCaptureOptionsCallback(ctx, _arg_packageName, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIContentCaptureManagerOnLoginDetected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_events interface{}
+		_err := s.Impl.OnLoginDetected(ctx, _arg_events)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

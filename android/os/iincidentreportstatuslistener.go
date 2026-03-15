@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -108,4 +109,59 @@ func (p *IncidentReportStatusListenerProxy) OnReportFailed(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// IncidentReportStatusListenerStub dispatches incoming binder transactions
+// to a typed IIncidentReportStatusListener implementation.
+type IncidentReportStatusListenerStub struct {
+	Impl IIncidentReportStatusListener
+}
+
+var _ binder.TransactionReceiver = (*IncidentReportStatusListenerStub)(nil)
+
+func (s *IncidentReportStatusListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIIncidentReportStatusListenerOnReportStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnReportStarted(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIIncidentReportStatusListenerOnReportSectionStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_section, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnReportSectionStatus(ctx, _arg_section, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIIncidentReportStatusListenerOnReportFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnReportFinished(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIIncidentReportStatusListenerOnReportFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnReportFailed(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

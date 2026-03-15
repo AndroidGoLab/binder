@@ -2,6 +2,7 @@ package backup
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -118,4 +119,70 @@ func (p *RestoreObserverProxy) RestoreFinished(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RestoreObserverStub dispatches incoming binder transactions
+// to a typed IRestoreObserver implementation.
+type RestoreObserverStub struct {
+	Impl IRestoreObserver
+}
+
+var _ binder.TransactionReceiver = (*RestoreObserverStub)(nil)
+
+func (s *RestoreObserverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRestoreObserverRestoreSetsAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_result []RestoreSet
+		_ = _arg_result
+		_err := s.Impl.RestoreSetsAvailable(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIRestoreObserverRestoreStarting:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_numPackages, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RestoreStarting(ctx, _arg_numPackages)
+		_ = _err
+		return nil, nil
+	case TransactionIRestoreObserverOnUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_nowBeingRestored, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_curentPackage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUpdate(ctx, _arg_nowBeingRestored, _arg_curentPackage)
+		_ = _err
+		return nil, nil
+	case TransactionIRestoreObserverRestoreFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_error_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RestoreFinished(ctx, _arg_error_)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

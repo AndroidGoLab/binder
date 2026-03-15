@@ -2,6 +2,7 @@ package logcat
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -81,4 +82,69 @@ func (p *LogcatManagerServiceProxy) FinishThread(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// LogcatManagerServiceStub dispatches incoming binder transactions
+// to a typed ILogcatManagerService implementation.
+type LogcatManagerServiceStub struct {
+	Impl ILogcatManagerService
+}
+
+var _ binder.TransactionReceiver = (*LogcatManagerServiceStub)(nil)
+
+func (s *LogcatManagerServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionILogcatManagerServiceStartThread:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_gid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_pid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StartThread(ctx, _arg_uid, _arg_gid, _arg_pid, _arg_fd)
+		_ = _err
+		return nil, nil
+	case TransactionILogcatManagerServiceFinishThread:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_gid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_pid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.FinishThread(ctx, _arg_uid, _arg_gid, _arg_pid, _arg_fd)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

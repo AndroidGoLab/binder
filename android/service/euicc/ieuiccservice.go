@@ -2,6 +2,7 @@ package euicc
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	telephonyEuicc "github.com/xaionaro-go/binder/android/telephony/euicc"
 	"github.com/xaionaro-go/binder/binder"
@@ -412,4 +413,339 @@ func (p *EuiccServiceProxy) GetAvailableMemoryInBytes(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// EuiccServiceStub dispatches incoming binder transactions
+// to a typed IEuiccService implementation.
+type EuiccServiceStub struct {
+	Impl IEuiccService
+}
+
+var _ binder.TransactionReceiver = (*EuiccServiceStub)(nil)
+
+func (s *EuiccServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIEuiccServiceDownloadSubscription:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_portIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_subscription telephonyEuicc.DownloadableSubscription
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_subscription.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_switchAfterDownload, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_forceDeactivateSim, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_resolvedBundle os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resolvedBundle.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDownloadSubscriptionCallback
+		_ = _arg_callback
+		_err = s.Impl.DownloadSubscription(ctx, _arg_slotId, _arg_portIndex, _arg_subscription, _arg_switchAfterDownload, _arg_forceDeactivateSim, _arg_resolvedBundle, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccServiceGetDownloadableSubscriptionMetadata:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_portIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_subscription telephonyEuicc.DownloadableSubscription
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_subscription.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_switchAfterDownload, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_forceDeactivateSim, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetDownloadableSubscriptionMetadataCallback
+		_ = _arg_callback
+		_err = s.Impl.GetDownloadableSubscriptionMetadata(ctx, _arg_slotId, _arg_portIndex, _arg_subscription, _arg_switchAfterDownload, _arg_forceDeactivateSim, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccServiceGetEid:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetEidCallback
+		_ = _arg_callback
+		_err = s.Impl.GetEid(ctx, _arg_slotId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccServiceGetOtaStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetOtaStatusCallback
+		_ = _arg_callback
+		_err = s.Impl.GetOtaStatus(ctx, _arg_slotId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccServiceStartOtaIfNecessary:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_statusChangedCallback IOtaStatusChangedCallback
+		_ = _arg_statusChangedCallback
+		_err = s.Impl.StartOtaIfNecessary(ctx, _arg_slotId, _arg_statusChangedCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccServiceGetEuiccProfileInfoList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetEuiccProfileInfoListCallback
+		_ = _arg_callback
+		_err = s.Impl.GetEuiccProfileInfoList(ctx, _arg_slotId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccServiceGetDefaultDownloadableSubscriptionList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_forceDeactivateSim, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetDefaultDownloadableSubscriptionListCallback
+		_ = _arg_callback
+		_err = s.Impl.GetDefaultDownloadableSubscriptionList(ctx, _arg_slotId, _arg_forceDeactivateSim, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccServiceGetEuiccInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetEuiccInfoCallback
+		_ = _arg_callback
+		_err = s.Impl.GetEuiccInfo(ctx, _arg_slotId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccServiceDeleteSubscription:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_iccid, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IDeleteSubscriptionCallback
+		_ = _arg_callback
+		_err = s.Impl.DeleteSubscription(ctx, _arg_slotId, _arg_iccid, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccServiceSwitchToSubscription:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_portIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_iccid, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_forceDeactivateSim, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ISwitchToSubscriptionCallback
+		_ = _arg_callback
+		_arg_useLegacyApi, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SwitchToSubscription(ctx, _arg_slotId, _arg_portIndex, _arg_iccid, _arg_forceDeactivateSim, _arg_callback, _arg_useLegacyApi)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccServiceUpdateSubscriptionNickname:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_iccid, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_nickname, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IUpdateSubscriptionNicknameCallback
+		_ = _arg_callback
+		_err = s.Impl.UpdateSubscriptionNickname(ctx, _arg_slotId, _arg_iccid, _arg_nickname, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccServiceEraseSubscriptions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IEraseSubscriptionsCallback
+		_ = _arg_callback
+		_err = s.Impl.EraseSubscriptions(ctx, _arg_slotId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccServiceEraseSubscriptionsWithOptions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotIndex, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_options, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IEraseSubscriptionsCallback
+		_ = _arg_callback
+		_err = s.Impl.EraseSubscriptionsWithOptions(ctx, _arg_slotIndex, _arg_options, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccServiceRetainSubscriptionsForFactoryReset:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IRetainSubscriptionsForFactoryResetCallback
+		_ = _arg_callback
+		_err = s.Impl.RetainSubscriptionsForFactoryReset(ctx, _arg_slotId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccServiceDump:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IEuiccServiceDumpResultCallback
+		_ = _arg_callback
+		_err := s.Impl.Dump(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIEuiccServiceGetAvailableMemoryInBytes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slotId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetAvailableMemoryInBytesCallback
+		_ = _arg_callback
+		_err = s.Impl.GetAvailableMemoryInBytes(ctx, _arg_slotId, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

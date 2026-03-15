@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -60,4 +61,33 @@ func (p *SipDialogStateCallbackProxy) OnActiveSipDialogsChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SipDialogStateCallbackStub dispatches incoming binder transactions
+// to a typed ISipDialogStateCallback implementation.
+type SipDialogStateCallbackStub struct {
+	Impl ISipDialogStateCallback
+}
+
+var _ binder.TransactionReceiver = (*SipDialogStateCallbackStub)(nil)
+
+func (s *SipDialogStateCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISipDialogStateCallbackOnActiveSipDialogsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_dialogs []ims.SipDialogState
+		_ = _arg_dialogs
+		_err := s.Impl.OnActiveSipDialogsChanged(ctx, _arg_dialogs)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

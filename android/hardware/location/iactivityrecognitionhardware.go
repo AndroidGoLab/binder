@@ -2,6 +2,7 @@ package location
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -274,4 +275,145 @@ func (p *ActivityRecognitionHardwareProxy) Flush(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// ActivityRecognitionHardwareStub dispatches incoming binder transactions
+// to a typed IActivityRecognitionHardware implementation.
+type ActivityRecognitionHardwareStub struct {
+	Impl IActivityRecognitionHardware
+}
+
+var _ binder.TransactionReceiver = (*ActivityRecognitionHardwareStub)(nil)
+
+func (s *ActivityRecognitionHardwareStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIActivityRecognitionHardwareGetSupportedActivities:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetSupportedActivities(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIActivityRecognitionHardwareIsActivitySupported:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_activityType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsActivitySupported(ctx, _arg_activityType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIActivityRecognitionHardwareRegisterSink:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sink IActivityRecognitionHardwareSink
+		_ = _arg_sink
+		_result, _err := s.Impl.RegisterSink(ctx, _arg_sink)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIActivityRecognitionHardwareUnregisterSink:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sink IActivityRecognitionHardwareSink
+		_ = _arg_sink
+		_result, _err := s.Impl.UnregisterSink(ctx, _arg_sink)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIActivityRecognitionHardwareEnableActivityEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_activityType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_eventType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reportLatencyNs, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.EnableActivityEvent(ctx, _arg_activityType, _arg_eventType, _arg_reportLatencyNs)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIActivityRecognitionHardwareDisableActivityEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_activityType, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_eventType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.DisableActivityEvent(ctx, _arg_activityType, _arg_eventType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIActivityRecognitionHardwareFlush:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.Flush(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

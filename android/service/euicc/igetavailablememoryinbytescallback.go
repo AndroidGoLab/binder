@@ -2,6 +2,7 @@ package euicc
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -69,4 +70,45 @@ func (p *GetAvailableMemoryInBytesCallbackProxy) OnUnsupportedOperationException
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GetAvailableMemoryInBytesCallbackStub dispatches incoming binder transactions
+// to a typed IGetAvailableMemoryInBytesCallback implementation.
+type GetAvailableMemoryInBytesCallbackStub struct {
+	Impl IGetAvailableMemoryInBytesCallback
+}
+
+var _ binder.TransactionReceiver = (*GetAvailableMemoryInBytesCallbackStub)(nil)
+
+func (s *GetAvailableMemoryInBytesCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGetAvailableMemoryInBytesCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_availableMemoryInBytes, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSuccess(ctx, _arg_availableMemoryInBytes)
+		_ = _err
+		return nil, nil
+	case TransactionIGetAvailableMemoryInBytesCallbackOnUnsupportedOperationException:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_message, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUnsupportedOperationException(ctx, _arg_message)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

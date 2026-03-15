@@ -2,6 +2,7 @@ package euicc
 
 import (
 	"context"
+	"fmt"
 	telephonyEuicc "github.com/xaionaro-go/binder/android/telephony/euicc"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -56,4 +57,46 @@ func (p *RetrieveNotificationCallbackProxy) OnComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RetrieveNotificationCallbackStub dispatches incoming binder transactions
+// to a typed IRetrieveNotificationCallback implementation.
+type RetrieveNotificationCallbackStub struct {
+	Impl IRetrieveNotificationCallback
+}
+
+var _ binder.TransactionReceiver = (*RetrieveNotificationCallbackStub)(nil)
+
+func (s *RetrieveNotificationCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRetrieveNotificationCallbackOnComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_notification telephonyEuicc.EuiccNotification
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_notification.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnComplete(ctx, _arg_resultCode, _arg_notification)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

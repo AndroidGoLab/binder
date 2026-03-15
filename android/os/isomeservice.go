@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,4 +60,39 @@ func (p *SomeServiceProxy) ReadDisk(
 	}
 
 	return nil
+}
+
+// SomeServiceStub dispatches incoming binder transactions
+// to a typed ISomeService implementation.
+type SomeServiceStub struct {
+	Impl ISomeService
+}
+
+var _ binder.TransactionReceiver = (*SomeServiceStub)(nil)
+
+func (s *SomeServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISomeServiceReadDisk:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_times, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ReadDisk(ctx, _arg_times)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

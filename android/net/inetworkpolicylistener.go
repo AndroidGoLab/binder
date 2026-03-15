@@ -2,6 +2,7 @@ package net
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -198,4 +199,129 @@ func (p *NetworkPolicyListenerProxy) OnBlockedReasonChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// NetworkPolicyListenerStub dispatches incoming binder transactions
+// to a typed INetworkPolicyListener implementation.
+type NetworkPolicyListenerStub struct {
+	Impl INetworkPolicyListener
+}
+
+var _ binder.TransactionReceiver = (*NetworkPolicyListenerStub)(nil)
+
+func (s *NetworkPolicyListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionINetworkPolicyListenerOnUidRulesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_uidRules, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUidRulesChanged(ctx, _arg_uid, _arg_uidRules)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkPolicyListenerOnMeteredIfacesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_meteredIfaces []string
+		_ = _arg_meteredIfaces
+		_err := s.Impl.OnMeteredIfacesChanged(ctx, _arg_meteredIfaces)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkPolicyListenerOnRestrictBackgroundChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_restrictBackground, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRestrictBackgroundChanged(ctx, _arg_restrictBackground)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkPolicyListenerOnUidPoliciesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_uidPolicies, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUidPoliciesChanged(ctx, _arg_uid, _arg_uidPolicies)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkPolicyListenerOnSubscriptionOverride:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_overrideMask, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_overrideValue, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_networkTypes []int32
+		_ = _arg_networkTypes
+		_err = s.Impl.OnSubscriptionOverride(ctx, _arg_subId, _arg_overrideMask, _arg_overrideValue, _arg_networkTypes)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkPolicyListenerOnSubscriptionPlansChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_plans []interface{}
+		_ = _arg_plans
+		_err = s.Impl.OnSubscriptionPlansChanged(ctx, _arg_subId, _arg_plans)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkPolicyListenerOnBlockedReasonChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_oldBlockedReason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newBlockedReason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnBlockedReasonChanged(ctx, _arg_uid, _arg_oldBlockedReason, _arg_newBlockedReason)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

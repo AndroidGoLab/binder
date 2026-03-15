@@ -2,6 +2,7 @@ package telecom
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	androidTelecom "github.com/xaionaro-go/binder/android/telecom"
 	"github.com/xaionaro-go/binder/binder"
@@ -392,4 +393,272 @@ func (p *InCallServiceProxy) OnHandoverComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InCallServiceStub dispatches incoming binder transactions
+// to a typed IInCallService implementation.
+type InCallServiceStub struct {
+	Impl IInCallService
+}
+
+var _ binder.TransactionReceiver = (*InCallServiceStub)(nil)
+
+func (s *InCallServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInCallServiceSetInCallAdapter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_inCallAdapter IInCallAdapter
+		_ = _arg_inCallAdapter
+		_err := s.Impl.SetInCallAdapter(ctx, _arg_inCallAdapter)
+		_ = _err
+		return nil, nil
+	case TransactionIInCallServiceAddCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_call androidTelecom.ParcelableCall
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_call.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.AddCall(ctx, _arg_call)
+		_ = _err
+		return nil, nil
+	case TransactionIInCallServiceUpdateCall:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_call androidTelecom.ParcelableCall
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_call.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.UpdateCall(ctx, _arg_call)
+		_ = _err
+		return nil, nil
+	case TransactionIInCallServiceSetPostDial:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_remaining, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetPostDial(ctx, _arg_callId, _arg_remaining)
+		_ = _err
+		return nil, nil
+	case TransactionIInCallServiceSetPostDialWait:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_remaining, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetPostDialWait(ctx, _arg_callId, _arg_remaining)
+		_ = _err
+		return nil, nil
+	case TransactionIInCallServiceOnCallAudioStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callAudioState androidTelecom.CallAudioState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callAudioState.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnCallAudioStateChanged(ctx, _arg_callAudioState)
+		_ = _err
+		return nil, nil
+	case TransactionIInCallServiceOnCallEndpointChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callEndpoint androidTelecom.CallEndpoint
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callEndpoint.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnCallEndpointChanged(ctx, _arg_callEndpoint)
+		_ = _err
+		return nil, nil
+	case TransactionIInCallServiceOnAvailableCallEndpointsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_availableCallEndpoints []androidTelecom.CallEndpoint
+		_ = _arg_availableCallEndpoints
+		_err := s.Impl.OnAvailableCallEndpointsChanged(ctx, _arg_availableCallEndpoints)
+		_ = _err
+		return nil, nil
+	case TransactionIInCallServiceOnMuteStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isMuted, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnMuteStateChanged(ctx, _arg_isMuted)
+		_ = _err
+		return nil, nil
+	case TransactionIInCallServiceBringToForeground:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_showDialpad, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.BringToForeground(ctx, _arg_showDialpad)
+		_ = _err
+		return nil, nil
+	case TransactionIInCallServiceOnCanAddCallChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_canAddCall, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCanAddCallChanged(ctx, _arg_canAddCall)
+		_ = _err
+		return nil, nil
+	case TransactionIInCallServiceSilenceRinger:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.SilenceRinger(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIInCallServiceOnConnectionEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_event, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnConnectionEvent(ctx, _arg_callId, _arg_event, _arg_extras)
+		_ = _err
+		return nil, nil
+	case TransactionIInCallServiceOnRttUpgradeRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRttUpgradeRequest(ctx, _arg_callId, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIInCallServiceOnRttInitiationFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRttInitiationFailure(ctx, _arg_callId, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionIInCallServiceOnHandoverFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_error_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnHandoverFailed(ctx, _arg_callId, _arg_error_)
+		_ = _err
+		return nil, nil
+	case TransactionIInCallServiceOnHandoverComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnHandoverComplete(ctx, _arg_callId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

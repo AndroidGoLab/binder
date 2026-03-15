@@ -2,6 +2,7 @@ package autofill
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -71,4 +72,50 @@ func (p *ConvertCredentialCallbackProxy) OnFailure(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ConvertCredentialCallbackStub dispatches incoming binder transactions
+// to a typed IConvertCredentialCallback implementation.
+type ConvertCredentialCallbackStub struct {
+	Impl IConvertCredentialCallback
+}
+
+var _ binder.TransactionReceiver = (*ConvertCredentialCallbackStub)(nil)
+
+func (s *ConvertCredentialCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIConvertCredentialCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_convertCredentialResponse ConvertCredentialResponse
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_convertCredentialResponse.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSuccess(ctx, _arg_convertCredentialResponse)
+		_ = _err
+		return nil, nil
+	case TransactionIConvertCredentialCallbackOnFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_message interface{}
+		_err := s.Impl.OnFailure(ctx, _arg_message)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

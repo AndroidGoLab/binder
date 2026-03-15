@@ -2,6 +2,7 @@ package recents
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	os "github.com/xaionaro-go/binder/android/os"
 	view "github.com/xaionaro-go/binder/android/view"
@@ -155,4 +156,98 @@ func (p *RecentsAnimationRunnerProxy) OnTasksAppeared(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RecentsAnimationRunnerStub dispatches incoming binder transactions
+// to a typed IRecentsAnimationRunner implementation.
+type RecentsAnimationRunnerStub struct {
+	Impl IRecentsAnimationRunner
+}
+
+var _ binder.TransactionReceiver = (*RecentsAnimationRunnerStub)(nil)
+
+func (s *RecentsAnimationRunnerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRecentsAnimationRunnerOnAnimationCanceled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_taskIds []int32
+		_ = _arg_taskIds
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_taskSnapshots []view.WindowManagerTaskSnapshot
+		_ = _arg_taskSnapshots
+		_err := s.Impl.OnAnimationCanceled(ctx, _arg_taskIds, _arg_taskSnapshots)
+		_ = _err
+		return nil, nil
+	case TransactionIRecentsAnimationRunnerOnAnimationStart:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_controller IRecentsAnimationController
+		_ = _arg_controller
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_apps []view.RemoteAnimationTarget
+		_ = _arg_apps
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_wallpapers []view.RemoteAnimationTarget
+		_ = _arg_wallpapers
+		var _arg_homeContentInsets graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_homeContentInsets.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_minimizedHomeBounds graphics.Rect
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_minimizedHomeBounds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnAnimationStart(ctx, _arg_controller, _arg_apps, _arg_wallpapers, _arg_homeContentInsets, _arg_minimizedHomeBounds, _arg_extras)
+		_ = _err
+		return nil, nil
+	case TransactionIRecentsAnimationRunnerOnTasksAppeared:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_app []view.RemoteAnimationTarget
+		_ = _arg_app
+		_err := s.Impl.OnTasksAppeared(ctx, _arg_app)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

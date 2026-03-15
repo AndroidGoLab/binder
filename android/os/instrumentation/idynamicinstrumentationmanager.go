@@ -2,6 +2,7 @@ package instrumentation
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -69,4 +70,62 @@ func (p *DynamicInstrumentationManagerProxy) GetExecutableMethodFileOffsets(
 	}
 
 	return nil
+}
+
+// DynamicInstrumentationManagerStub dispatches incoming binder transactions
+// to a typed IDynamicInstrumentationManager implementation.
+type DynamicInstrumentationManagerStub struct {
+	Impl IDynamicInstrumentationManager
+}
+
+var _ binder.TransactionReceiver = (*DynamicInstrumentationManagerStub)(nil)
+
+func (s *DynamicInstrumentationManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDynamicInstrumentationManagerGetExecutableMethodFileOffsets:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_targetProcess TargetProcess
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_targetProcess.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_methodDescriptor MethodDescriptor
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_methodDescriptor.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IOffsetCallback
+		_ = _arg_callback
+		_err := s.Impl.GetExecutableMethodFileOffsets(ctx, _arg_targetProcess, _arg_methodDescriptor, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

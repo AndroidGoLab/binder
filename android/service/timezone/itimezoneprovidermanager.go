@@ -2,6 +2,7 @@ package timezone
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -53,4 +54,42 @@ func (p *TimeZoneProviderManagerProxy) OnTimeZoneProviderEvent(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TimeZoneProviderManagerStub dispatches incoming binder transactions
+// to a typed ITimeZoneProviderManager implementation.
+type TimeZoneProviderManagerStub struct {
+	Impl ITimeZoneProviderManager
+}
+
+var _ binder.TransactionReceiver = (*TimeZoneProviderManagerStub)(nil)
+
+func (s *TimeZoneProviderManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITimeZoneProviderManagerOnTimeZoneProviderEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_timeZoneProviderEvent TimeZoneProviderEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_timeZoneProviderEvent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnTimeZoneProviderEvent(ctx, _arg_timeZoneProviderEvent)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

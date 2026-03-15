@@ -2,6 +2,7 @@ package inputflinger
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -64,4 +65,38 @@ func (p *InputFlingerRustProxy) CreateInputFilter(
 	}
 	_result = NewInputFilterProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
+}
+
+// InputFlingerRustStub dispatches incoming binder transactions
+// to a typed IInputFlingerRust implementation.
+type InputFlingerRustStub struct {
+	Impl IInputFlingerRust
+}
+
+var _ binder.TransactionReceiver = (*InputFlingerRustStub)(nil)
+
+func (s *InputFlingerRustStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInputFlingerRustCreateInputFilter:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callbacks interface{}
+		_result, _err := s.Impl.CreateInputFilter(ctx, _arg_callbacks)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

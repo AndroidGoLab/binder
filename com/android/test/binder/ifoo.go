@@ -1,6 +1,7 @@
 package binder
 
 import (
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 )
 
@@ -27,3 +28,22 @@ func (p *FooProxy) AsBinder() binder.IBinder {
 }
 
 var _ IFoo = (*FooProxy)(nil)
+
+// FooStub dispatches incoming binder transactions
+// to a typed IFoo implementation.
+type FooStub struct {
+	Impl IFoo
+}
+
+var _ binder.TransactionReceiver = (*FooStub)(nil)
+
+func (s *FooStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
+}

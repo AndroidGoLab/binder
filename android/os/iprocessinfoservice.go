@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -143,4 +144,53 @@ func (p *ProcessInfoServiceProxy) GetProcessStatesAndOomScoresFromPids(
 	}
 
 	return nil
+}
+
+// ProcessInfoServiceStub dispatches incoming binder transactions
+// to a typed IProcessInfoService implementation.
+type ProcessInfoServiceStub struct {
+	Impl IProcessInfoService
+}
+
+var _ binder.TransactionReceiver = (*ProcessInfoServiceStub)(nil)
+
+func (s *ProcessInfoServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIProcessInfoServiceGetProcessStatesFromPids:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pids []int32
+		_ = _arg_pids
+		_err := s.Impl.GetProcessStatesFromPids(ctx, _arg_pids)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIProcessInfoServiceGetProcessStatesAndOomScoresFromPids:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_pids []int32
+		_ = _arg_pids
+		_err := s.Impl.GetProcessStatesAndOomScoresFromPids(ctx, _arg_pids)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

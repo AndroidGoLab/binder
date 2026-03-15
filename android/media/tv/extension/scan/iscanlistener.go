@@ -2,6 +2,7 @@ package scan
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -116,4 +117,87 @@ func (p *ScanListenerProxy) OnStoreCompleted(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ScanListenerStub dispatches incoming binder transactions
+// to a typed IScanListener implementation.
+type ScanListenerStub struct {
+	Impl IScanListener
+}
+
+var _ binder.TransactionReceiver = (*ScanListenerStub)(nil)
+
+func (s *ScanListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIScanListenerOnEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_eventArgs os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_eventArgs.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnEvent(ctx, _arg_eventArgs)
+		_ = _err
+		return nil, nil
+	case TransactionIScanListenerOnScanProgress:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_scanProgress, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_scanProgressInfo os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_scanProgressInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnScanProgress(ctx, _arg_scanProgress, _arg_scanProgressInfo)
+		_ = _err
+		return nil, nil
+	case TransactionIScanListenerOnScanCompleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_scanResult, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnScanCompleted(ctx, _arg_scanResult)
+		_ = _err
+		return nil, nil
+	case TransactionIScanListenerOnStoreCompleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_storeResult, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStoreCompleted(ctx, _arg_storeResult)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

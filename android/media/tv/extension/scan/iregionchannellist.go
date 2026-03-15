@@ -2,6 +2,7 @@ package scan
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -97,4 +98,56 @@ func (p *RegionChannelListProxy) SetListener(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// RegionChannelListStub dispatches incoming binder transactions
+// to a typed IRegionChannelList implementation.
+type RegionChannelListStub struct {
+	Impl IRegionChannelList
+}
+
+var _ binder.TransactionReceiver = (*RegionChannelListStub)(nil)
+
+func (s *RegionChannelListStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRegionChannelListSetRegionChannelList:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_regionChannelList, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetRegionChannelList(ctx, _arg_regionChannelList)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIRegionChannelListSetListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IRegionChannelListListener
+		_ = _arg_listener
+		_result, _err := s.Impl.SetListener(ctx, _arg_listener)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

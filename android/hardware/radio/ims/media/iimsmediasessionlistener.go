@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -214,4 +215,168 @@ func (p *ImsMediaSessionListenerProxy) NotifyRtpReceptionStats(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ImsMediaSessionListenerStub dispatches incoming binder transactions
+// to a typed IImsMediaSessionListener implementation.
+type ImsMediaSessionListenerStub struct {
+	Impl IImsMediaSessionListener
+}
+
+var _ binder.TransactionReceiver = (*ImsMediaSessionListenerStub)(nil)
+
+func (s *ImsMediaSessionListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIImsMediaSessionListenerOnModifySessionResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_config RtpConfig
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_raw_error_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_error_ := RtpError(_raw_error_)
+		_err = s.Impl.OnModifySessionResponse(ctx, _arg_config, _arg_error_)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMediaSessionListenerOnFirstMediaPacketReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_config RtpConfig
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnFirstMediaPacketReceived(ctx, _arg_config)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMediaSessionListenerOnHeaderExtensionReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_extensions []RtpHeaderExtension
+		_ = _arg_extensions
+		_err := s.Impl.OnHeaderExtensionReceived(ctx, _arg_extensions)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMediaSessionListenerNotifyMediaQualityStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_quality MediaQualityStatus
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_quality.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NotifyMediaQualityStatus(ctx, _arg_quality)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMediaSessionListenerTriggerAnbrQuery:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_config RtpConfig
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.TriggerAnbrQuery(ctx, _arg_config)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMediaSessionListenerOnDtmfReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_dtmfDigit, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_dtmfDigit := uint16(_raw_dtmfDigit)
+		_arg_durationMs, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDtmfReceived(ctx, _arg_dtmfDigit, _arg_durationMs)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMediaSessionListenerOnCallQualityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callQuality CallQuality
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callQuality.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnCallQualityChanged(ctx, _arg_callQuality)
+		_ = _err
+		return nil, nil
+	case TransactionIImsMediaSessionListenerNotifyRtpReceptionStats:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_stats RtpReceptionStats
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_stats.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NotifyRtpReceptionStats(ctx, _arg_stats)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package ondeviceintelligence
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -108,4 +109,64 @@ func (p *StreamingResponseCallbackProxy) OnDataAugmentRequest(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// StreamingResponseCallbackStub dispatches incoming binder transactions
+// to a typed IStreamingResponseCallback implementation.
+type StreamingResponseCallbackStub struct {
+	Impl IStreamingResponseCallback
+}
+
+var _ binder.TransactionReceiver = (*StreamingResponseCallbackStub)(nil)
+
+func (s *StreamingResponseCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIStreamingResponseCallbackOnNewContent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_processedResult interface{}
+		_err := s.Impl.OnNewContent(ctx, _arg_processedResult)
+		_ = _err
+		return nil, nil
+	case TransactionIStreamingResponseCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_result interface{}
+		_err := s.Impl.OnSuccess(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	case TransactionIStreamingResponseCallbackOnFailure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_errorMessage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_errorParams interface{}
+		_err = s.Impl.OnFailure(ctx, _arg_errorCode, _arg_errorMessage, _arg_errorParams)
+		_ = _err
+		return nil, nil
+	case TransactionIStreamingResponseCallbackOnDataAugmentRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_processedContent interface{}
+		var _arg_responseCallback interface{}
+		_err := s.Impl.OnDataAugmentRequest(ctx, _arg_processedContent, _arg_responseCallback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

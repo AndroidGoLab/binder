@@ -2,6 +2,7 @@ package pvr
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -66,4 +67,36 @@ func (p *DeleteRecordedContentsCallbackProxy) OnRecordedContentsDeleted(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DeleteRecordedContentsCallbackStub dispatches incoming binder transactions
+// to a typed IDeleteRecordedContentsCallback implementation.
+type DeleteRecordedContentsCallbackStub struct {
+	Impl IDeleteRecordedContentsCallback
+}
+
+var _ binder.TransactionReceiver = (*DeleteRecordedContentsCallbackStub)(nil)
+
+func (s *DeleteRecordedContentsCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDeleteRecordedContentsCallbackOnRecordedContentsDeleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_contentUri []string
+		_ = _arg_contentUri
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_result []int32
+		_ = _arg_result
+		_err := s.Impl.OnRecordedContentsDeleted(ctx, _arg_contentUri, _arg_result)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

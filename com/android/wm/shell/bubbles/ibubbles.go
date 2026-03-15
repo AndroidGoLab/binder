@@ -2,6 +2,7 @@ package bubbles
 
 import (
 	"context"
+	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
 	"github.com/xaionaro-go/binder/binder"
@@ -316,4 +317,215 @@ func (p *BubblesProxy) ShowExpandedView(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BubblesStub dispatches incoming binder transactions
+// to a typed IBubbles implementation.
+type BubblesStub struct {
+	Impl IBubbles
+}
+
+var _ binder.TransactionReceiver = (*BubblesStub)(nil)
+
+func (s *BubblesStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBubblesRegisterBubbleListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IBubblesListener
+		_ = _arg_listener
+		_err := s.Impl.RegisterBubbleListener(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIBubblesUnregisterBubbleListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener IBubblesListener
+		_ = _arg_listener
+		_err := s.Impl.UnregisterBubbleListener(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIBubblesShowBubble:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_key, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_topOnScreen, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ShowBubble(ctx, _arg_key, _arg_topOnScreen)
+		_ = _err
+		return nil, nil
+	case TransactionIBubblesDragBubbleToDismiss:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_key, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_timestamp, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DragBubbleToDismiss(ctx, _arg_key, _arg_timestamp)
+		_ = _err
+		return nil, nil
+	case TransactionIBubblesRemoveAllBubbles:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RemoveAllBubbles(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIBubblesCollapseBubbles:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.CollapseBubbles(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIBubblesStartBubbleDrag:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_key, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StartBubbleDrag(ctx, _arg_key)
+		_ = _err
+		return nil, nil
+	case TransactionIBubblesShowUserEducation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_positionX, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_positionY, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ShowUserEducation(ctx, _arg_positionX, _arg_positionY)
+		_ = _err
+		return nil, nil
+	case TransactionIBubblesSetBubbleBarLocation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_location sharedBubbles.BubbleBarLocation
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_location.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_source, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetBubbleBarLocation(ctx, _arg_location, _arg_source)
+		_ = _err
+		return nil, nil
+	case TransactionIBubblesUpdateBubbleBarTopOnScreen:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_topOnScreen, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateBubbleBarTopOnScreen(ctx, _arg_topOnScreen)
+		_ = _err
+		return nil, nil
+	case TransactionIBubblesStopBubbleDrag:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_location sharedBubbles.BubbleBarLocation
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_location.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_topOnScreen, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StopBubbleDrag(ctx, _arg_location, _arg_topOnScreen)
+		_ = _err
+		return nil, nil
+	case TransactionIBubblesShowShortcutBubble:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_info pm.ShortcutInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ShowShortcutBubble(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIBubblesShowAppBubble:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ShowAppBubble(ctx, _arg_intent)
+		_ = _err
+		return nil, nil
+	case TransactionIBubblesShowExpandedView:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ShowExpandedView(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package ambientcontext
 
 import (
 	"context"
+	"fmt"
 	appAmbientcontext "github.com/xaionaro-go/binder/android/app/ambientcontext"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
@@ -119,4 +120,107 @@ func (p *AmbientContextDetectionServiceProxy) QueryServiceStatus(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AmbientContextDetectionServiceStub dispatches incoming binder transactions
+// to a typed IAmbientContextDetectionService implementation.
+type AmbientContextDetectionServiceStub struct {
+	Impl IAmbientContextDetectionService
+}
+
+var _ binder.TransactionReceiver = (*AmbientContextDetectionServiceStub)(nil)
+
+func (s *AmbientContextDetectionServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAmbientContextDetectionServiceStartDetection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request appAmbientcontext.AmbientContextEventRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_detectionResultCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_detectionResultCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_statusCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StartDetection(ctx, _arg_request, _arg_packageName, _arg_detectionResultCallback, _arg_statusCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIAmbientContextDetectionServiceStopDetection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StopDetection(ctx, _arg_packageName)
+		_ = _err
+		return nil, nil
+	case TransactionIAmbientContextDetectionServiceQueryServiceStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_eventTypes []int32
+		_ = _arg_eventTypes
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_callback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.QueryServiceStatus(ctx, _arg_eventTypes, _arg_packageName, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

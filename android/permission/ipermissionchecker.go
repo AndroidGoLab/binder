@@ -2,6 +2,7 @@ package permission
 
 import (
 	"context"
+	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -165,4 +166,145 @@ func (p *PermissionCheckerProxy) CheckOp(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// PermissionCheckerStub dispatches incoming binder transactions
+// to a typed IPermissionChecker implementation.
+type PermissionCheckerStub struct {
+	Impl IPermissionChecker
+}
+
+var _ binder.TransactionReceiver = (*PermissionCheckerStub)(nil)
+
+func (s *PermissionCheckerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPermissionCheckerCheckPermission:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_permission, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_attributionSource content.AttributionSourceState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_message, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_forDataDelivery, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_startDataDelivery, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fromDatasource, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_attributedOp, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CheckPermission(ctx, _arg_permission, _arg_attributionSource, _arg_message, _arg_forDataDelivery, _arg_startDataDelivery, _arg_fromDatasource, _arg_attributedOp)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIPermissionCheckerFinishDataDelivery:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_op, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_attributionSource content.AttributionSourceState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_fromDatasource, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.FinishDataDelivery(ctx, _arg_op, _arg_attributionSource, _arg_fromDatasource)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIPermissionCheckerCheckOp:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_op, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_attributionSource content.AttributionSourceState
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_message, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_forDataDelivery, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_startDataDelivery, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.CheckOp(ctx, _arg_op, _arg_attributionSource, _arg_message, _arg_forDataDelivery, _arg_startDataDelivery)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

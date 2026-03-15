@@ -2,6 +2,7 @@ package statusbar
 
 import (
 	"context"
+	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	content "github.com/xaionaro-go/binder/android/content"
 	drawable "github.com/xaionaro-go/binder/android/graphics/drawable"
@@ -1707,4 +1708,1140 @@ func (p *StatusBarProxy) MoveFocusedTaskToDesktop(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// StatusBarStub dispatches incoming binder transactions
+// to a typed IStatusBar implementation.
+type StatusBarStub struct {
+	Impl IStatusBar
+}
+
+var _ binder.TransactionReceiver = (*StatusBarStub)(nil)
+
+func (s *StatusBarStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIStatusBarSetIcon:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slot, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_icon StatusBarIcon
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_icon.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SetIcon(ctx, _arg_slot, _arg_icon)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarRemoveIcon:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_slot, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RemoveIcon(ctx, _arg_slot)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarDisable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state1, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state2, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Disable(ctx, _arg_displayId, _arg_state1, _arg_state2)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarAnimateExpandNotificationsPanel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.AnimateExpandNotificationsPanel(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarAnimateExpandSettingsPanel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_subPanel, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AnimateExpandSettingsPanel(ctx, _arg_subPanel)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarAnimateCollapsePanels:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.AnimateCollapsePanels(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarToggleNotificationsPanel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ToggleNotificationsPanel(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarShowWirelessChargingAnimation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_batteryLevel, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ShowWirelessChargingAnimation(ctx, _arg_batteryLevel)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarSetImeWindowStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_vis, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_backDisposition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_showImeSwitcher, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetImeWindowStatus(ctx, _arg_displayId, _arg_vis, _arg_backDisposition, _arg_showImeSwitcher)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarSetWindowState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_display, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_window, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetWindowState(ctx, _arg_display, _arg_window, _arg_state)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarShowRecentApps:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_triggeredFromAltTab, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ShowRecentApps(ctx, _arg_triggeredFromAltTab)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarHideRecentApps:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_triggeredFromAltTab, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_triggeredFromHomeKey, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.HideRecentApps(ctx, _arg_triggeredFromAltTab, _arg_triggeredFromHomeKey)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarToggleRecentApps:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ToggleRecentApps(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarToggleTaskbar:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ToggleTaskbar(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarToggleSplitScreen:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ToggleSplitScreen(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarPreloadRecentApps:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.PreloadRecentApps(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarCancelPreloadRecentApps:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.CancelPreloadRecentApps(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarShowScreenPinningRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ShowScreenPinningRequest(ctx, _arg_taskId)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarConfirmImmersivePrompt:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ConfirmImmersivePrompt(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarImmersiveModeChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_rootDisplayAreaId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isImmersiveMode, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ImmersiveModeChanged(ctx, _arg_rootDisplayAreaId, _arg_isImmersiveMode)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarDismissKeyboardShortcutsMenu:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.DismissKeyboardShortcutsMenu(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarToggleKeyboardShortcutsMenu:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_deviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ToggleKeyboardShortcutsMenu(ctx, _arg_deviceId)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarAppTransitionPending:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AppTransitionPending(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarAppTransitionCancelled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AppTransitionCancelled(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarAppTransitionStarting:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_statusBarAnimationsStartTime, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_statusBarAnimationsDuration, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AppTransitionStarting(ctx, _arg_displayId, _arg_statusBarAnimationsStartTime, _arg_statusBarAnimationsDuration)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarAppTransitionFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AppTransitionFinished(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarShowAssistDisclosure:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ShowAssistDisclosure(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarStartAssist:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_args os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.StartAssist(ctx, _arg_args)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarOnCameraLaunchGestureDetected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_source, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCameraLaunchGestureDetected(ctx, _arg_source)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarOnEmergencyActionLaunchGestureDetected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnEmergencyActionLaunchGestureDetected(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarShowPictureInPictureMenu:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ShowPictureInPictureMenu(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarShowGlobalActionsMenu:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ShowGlobalActionsMenu(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarOnProposedRotationChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_rotation, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isValid, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnProposedRotationChanged(ctx, _arg_rotation, _arg_isValid)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarSetTopAppHidesStatusBar:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_hidesStatusBar, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetTopAppHidesStatusBar(ctx, _arg_hidesStatusBar)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarAddQsTile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_tile content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_tile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.AddQsTile(ctx, _arg_tile)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarAddQsTileToFrontOrEnd:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_tile content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_tile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_end, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AddQsTileToFrontOrEnd(ctx, _arg_tile, _arg_end)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarRemQsTile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_tile content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_tile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RemQsTile(ctx, _arg_tile)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarSetQsTiles:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_tiles []string
+		_ = _arg_tiles
+		_err := s.Impl.SetQsTiles(ctx, _arg_tiles)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarClickQsTile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_tile content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_tile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ClickQsTile(ctx, _arg_tile)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarHandleSystemKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_key view.KeyEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_key.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.HandleSystemKey(ctx, _arg_key)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarShowPinningEnterExitToast:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_entering, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ShowPinningEnterExitToast(ctx, _arg_entering)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarShowPinningEscapeToast:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ShowPinningEscapeToast(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarShowShutdownUi:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_isReboot, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ShowShutdownUi(ctx, _arg_isReboot, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarShowAuthenticationDialog:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_promptInfo biometrics.PromptInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_promptInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_sysuiReceiver biometrics.IBiometricSysuiReceiver
+		_ = _arg_sysuiReceiver
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sensorIds []int32
+		_ = _arg_sensorIds
+		_arg_credentialAllowed, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_requireConfirmation, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_operationId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ShowAuthenticationDialog(ctx, _arg_promptInfo, _arg_sysuiReceiver, _arg_sensorIds, _arg_credentialAllowed, _arg_requireConfirmation, _arg_operationId, _arg_requestId)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarOnBiometricAuthenticated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modality, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnBiometricAuthenticated(ctx, _arg_modality)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarOnBiometricHelp:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modality, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_message, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnBiometricHelp(ctx, _arg_modality, _arg_message)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarOnBiometricError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_modality, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_error_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_vendorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnBiometricError(ctx, _arg_modality, _arg_error_, _arg_vendorCode)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarHideAuthenticationDialog:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_requestId, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.HideAuthenticationDialog(ctx, _arg_requestId)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarSetBiometicContextListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener biometrics.IBiometricContextListener
+		_ = _arg_listener
+		_err := s.Impl.SetBiometicContextListener(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarSetUdfpsRefreshRateCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback fingerprint.IUdfpsRefreshRateRequestCallback
+		_ = _arg_callback
+		_err := s.Impl.SetUdfpsRefreshRateCallback(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarOnDisplayReady:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDisplayReady(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarOnSystemBarAttributesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_appearance, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_appearanceRegions []internalView.AppearanceRegion
+		_ = _arg_appearanceRegions
+		_arg_navbarColorManagedByIme, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_behavior, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_requestedVisibleTypes, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_letterboxDetails []LetterboxDetails
+		_ = _arg_letterboxDetails
+		_err = s.Impl.OnSystemBarAttributesChanged(ctx, _arg_displayId, _arg_appearance, _arg_appearanceRegions, _arg_navbarColorManagedByIme, _arg_behavior, _arg_requestedVisibleTypes, _arg_packageName, _arg_letterboxDetails)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarShowTransient:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_types, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isGestureOnSystemBar, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ShowTransient(ctx, _arg_displayId, _arg_types, _arg_isGestureOnSystemBar)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarAbortTransient:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_types, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AbortTransient(ctx, _arg_displayId, _arg_types)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarShowInattentiveSleepWarning:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ShowInattentiveSleepWarning(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarDismissInattentiveSleepWarning:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_animated, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DismissInattentiveSleepWarning(ctx, _arg_animated)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarShowToast:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		var _arg_text interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_windowToken binder.IBinder
+		_ = _arg_windowToken
+		_arg_duration, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback app.ITransientNotificationCallback
+		_ = _arg_callback
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ShowToast(ctx, _arg_uid, _arg_packageName, _arg_token, _arg_text, _arg_windowToken, _arg_duration, _arg_callback, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarHideToast:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_token binder.IBinder
+		_ = _arg_token
+		_err = s.Impl.HideToast(ctx, _arg_packageName, _arg_token)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarStartTracing:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StartTracing(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarStopTracing:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.StopTracing(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarSuppressAmbientDisplay:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_suppress, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SuppressAmbientDisplay(ctx, _arg_suppress)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarRequestMagnificationConnection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_connect, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RequestMagnificationConnection(ctx, _arg_connect)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarPassThroughShellCommand:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_args []string
+		_ = _arg_args
+		_arg_pfd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PassThroughShellCommand(ctx, _arg_args, _arg_pfd)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarSetNavigationBarLumaSamplingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetNavigationBarLumaSamplingEnabled(ctx, _arg_displayId, _arg_enable)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarRunGcForTest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.RunGcForTest(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarRequestTileServiceListeningState:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_componentName content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestTileServiceListeningState(ctx, _arg_componentName)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarRequestAddTile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		var _arg_componentName content.ComponentName
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_appName interface{}
+		var _arg_label interface{}
+		var _arg_icon drawable.Icon
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_icon.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IAddTileResultCallback
+		_ = _arg_callback
+		_err := s.Impl.RequestAddTile(ctx, _arg_componentName, _arg_appName, _arg_label, _arg_icon, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarCancelRequestAddTile:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CancelRequestAddTile(ctx, _arg_packageName)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarUpdateMediaTapToTransferSenderDisplay:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_routeInfo media.MediaRoute2Info
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_routeInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_undoCallback IUndoMediaTransferCallback
+		_ = _arg_undoCallback
+		_err = s.Impl.UpdateMediaTapToTransferSenderDisplay(ctx, _arg_displayState, _arg_routeInfo, _arg_undoCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarUpdateMediaTapToTransferReceiverDisplay:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_routeInfo media.MediaRoute2Info
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_routeInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_appIcon drawable.Icon
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_appIcon.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_appName interface{}
+		_err = s.Impl.UpdateMediaTapToTransferReceiverDisplay(ctx, _arg_displayState, _arg_routeInfo, _arg_appIcon, _arg_appName)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarRegisterNearbyMediaDevicesProvider:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_provider media.INearbyMediaDevicesProvider
+		_ = _arg_provider
+		_err := s.Impl.RegisterNearbyMediaDevicesProvider(ctx, _arg_provider)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarUnregisterNearbyMediaDevicesProvider:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_provider media.INearbyMediaDevicesProvider
+		_ = _arg_provider
+		_err := s.Impl.UnregisterNearbyMediaDevicesProvider(ctx, _arg_provider)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarDumpProto:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_args []string
+		_ = _arg_args
+		_arg_pfd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DumpProto(ctx, _arg_args, _arg_pfd)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarShowRearDisplayDialog:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_currentBaseState, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ShowRearDisplayDialog(ctx, _arg_currentBaseState)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarMoveFocusedTaskToFullscreen:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.MoveFocusedTaskToFullscreen(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarMoveFocusedTaskToStageSplit:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_leftOrTop, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.MoveFocusedTaskToStageSplit(ctx, _arg_displayId, _arg_leftOrTop)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarSetSplitscreenFocus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_leftOrTop, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSplitscreenFocus(ctx, _arg_leftOrTop)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarShowMediaOutputSwitcher:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_targetPackageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_targetUserHandle os.UserHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_targetUserHandle.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ShowMediaOutputSwitcher(ctx, _arg_targetPackageName, _arg_targetUserHandle)
+		_ = _err
+		return nil, nil
+	case TransactionIStatusBarMoveFocusedTaskToDesktop:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.MoveFocusedTaskToDesktop(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

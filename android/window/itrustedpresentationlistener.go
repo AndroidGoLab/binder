@@ -2,6 +2,7 @@ package window
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -66,4 +67,36 @@ func (p *TrustedPresentationListenerProxy) OnTrustedPresentationChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TrustedPresentationListenerStub dispatches incoming binder transactions
+// to a typed ITrustedPresentationListener implementation.
+type TrustedPresentationListenerStub struct {
+	Impl ITrustedPresentationListener
+}
+
+var _ binder.TransactionReceiver = (*TrustedPresentationListenerStub)(nil)
+
+func (s *TrustedPresentationListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITrustedPresentationListenerOnTrustedPresentationChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_enteredTrustedStateIds []int32
+		_ = _arg_enteredTrustedStateIds
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_exitedTrustedStateIds []int32
+		_ = _arg_exitedTrustedStateIds
+		_err := s.Impl.OnTrustedPresentationChanged(ctx, _arg_enteredTrustedStateIds, _arg_exitedTrustedStateIds)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

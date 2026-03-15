@@ -2,6 +2,7 @@ package print
 
 import (
 	"context"
+	"fmt"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -76,4 +77,61 @@ func (p *PrinterDiscoveryObserverProxy) OnPrintersRemoved(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PrinterDiscoveryObserverStub dispatches incoming binder transactions
+// to a typed IPrinterDiscoveryObserver implementation.
+type PrinterDiscoveryObserverStub struct {
+	Impl IPrinterDiscoveryObserver
+}
+
+var _ binder.TransactionReceiver = (*PrinterDiscoveryObserverStub)(nil)
+
+func (s *PrinterDiscoveryObserverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPrinterDiscoveryObserverOnPrintersAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printers pm.ParceledListSlice
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printers.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPrintersAdded(ctx, _arg_printers)
+		_ = _err
+		return nil, nil
+	case TransactionIPrinterDiscoveryObserverOnPrintersRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_printerIds pm.ParceledListSlice
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printerIds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnPrintersRemoved(ctx, _arg_printerIds)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

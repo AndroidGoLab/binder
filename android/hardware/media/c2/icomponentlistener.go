@@ -2,6 +2,7 @@ package c2
 
 import (
 	"context"
+	"fmt"
 	c2IComponentListener "github.com/xaionaro-go/binder/android/hardware/media/c2/IComponentListener"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -162,4 +163,95 @@ func (p *ComponentListenerProxy) OnWorkDone(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ComponentListenerStub dispatches incoming binder transactions
+// to a typed IComponentListener implementation.
+type ComponentListenerStub struct {
+	Impl IComponentListener
+}
+
+var _ binder.TransactionReceiver = (*ComponentListenerStub)(nil)
+
+func (s *ComponentListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIComponentListenerOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_status Status
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_status, _arg_errorCode)
+		_ = _err
+		return nil, nil
+	case TransactionIComponentListenerOnFramesRendered:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_renderedFrames []c2IComponentListener.RenderedFrame
+		_ = _arg_renderedFrames
+		_err := s.Impl.OnFramesRendered(ctx, _arg_renderedFrames)
+		_ = _err
+		return nil, nil
+	case TransactionIComponentListenerOnInputBuffersReleased:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_inputBuffers []c2IComponentListener.InputBuffer
+		_ = _arg_inputBuffers
+		_err := s.Impl.OnInputBuffersReleased(ctx, _arg_inputBuffers)
+		_ = _err
+		return nil, nil
+	case TransactionIComponentListenerOnTripped:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_settingResults []SettingResult
+		_ = _arg_settingResults
+		_err := s.Impl.OnTripped(ctx, _arg_settingResults)
+		_ = _err
+		return nil, nil
+	case TransactionIComponentListenerOnWorkDone:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_workBundle WorkBundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_workBundle.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnWorkDone(ctx, _arg_workBundle)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

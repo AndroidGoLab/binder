@@ -2,6 +2,7 @@ package trust
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -73,4 +74,51 @@ func (p *StrongAuthTrackerProxy) OnIsNonStrongBiometricAllowedChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// StrongAuthTrackerStub dispatches incoming binder transactions
+// to a typed IStrongAuthTracker implementation.
+type StrongAuthTrackerStub struct {
+	Impl IStrongAuthTracker
+}
+
+var _ binder.TransactionReceiver = (*StrongAuthTrackerStub)(nil)
+
+func (s *StrongAuthTrackerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIStrongAuthTrackerOnStrongAuthRequiredChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_strongAuthRequired, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStrongAuthRequiredChanged(ctx, _arg_strongAuthRequired)
+		_ = _err
+		return nil, nil
+	case TransactionIStrongAuthTrackerOnIsNonStrongBiometricAllowedChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_allowed, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnIsNonStrongBiometricAllowedChanged(ctx, _arg_allowed)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package gnss
 
 import (
 	"context"
+	"fmt"
 	gnssIGnssAntennaInfoCallback "github.com/xaionaro-go/binder/android/hardware/gnss/IGnssAntennaInfoCallback"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -69,4 +70,38 @@ func (p *GnssAntennaInfoCallbackProxy) GnssAntennaInfoCb(
 	}
 
 	return nil
+}
+
+// GnssAntennaInfoCallbackStub dispatches incoming binder transactions
+// to a typed IGnssAntennaInfoCallback implementation.
+type GnssAntennaInfoCallbackStub struct {
+	Impl IGnssAntennaInfoCallback
+}
+
+var _ binder.TransactionReceiver = (*GnssAntennaInfoCallbackStub)(nil)
+
+func (s *GnssAntennaInfoCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssAntennaInfoCallbackGnssAntennaInfoCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_gnssAntennaInfos []gnssIGnssAntennaInfoCallback.GnssAntennaInfo
+		_ = _arg_gnssAntennaInfos
+		_err := s.Impl.GnssAntennaInfoCb(ctx, _arg_gnssAntennaInfos)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

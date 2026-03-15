@@ -2,6 +2,7 @@ package res
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -67,4 +68,45 @@ func (p *ResourcesManagerProxy) DumpResources(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// ResourcesManagerStub dispatches incoming binder transactions
+// to a typed IResourcesManager implementation.
+type ResourcesManagerStub struct {
+	Impl IResourcesManager
+}
+
+var _ binder.TransactionReceiver = (*ResourcesManagerStub)(nil)
+
+func (s *ResourcesManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIResourcesManagerDumpResources:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_process, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fd, _err := data.ReadFileDescriptor()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_finishCallback interface{}
+		_result, _err := s.Impl.DumpResources(ctx, _arg_process, _arg_fd, _arg_finishCallback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

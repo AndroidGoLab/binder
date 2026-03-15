@@ -2,6 +2,7 @@ package bufferpool2
 
 import (
 	"context"
+	"fmt"
 	bufferpool2IClientManager "github.com/xaionaro-go/binder/android/hardware/media/bufferpool2/IClientManager"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -108,4 +109,61 @@ func (p *ClientManagerProxy) RegisterPassiveSender(
 		}
 	}
 	return _result, nil
+}
+
+// ClientManagerStub dispatches incoming binder transactions
+// to a typed IClientManager implementation.
+type ClientManagerStub struct {
+	Impl IClientManager
+}
+
+var _ binder.TransactionReceiver = (*ClientManagerStub)(nil)
+
+func (s *ClientManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIClientManagerRegisterSender:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_bufferPool IAccessor
+		_ = _arg_bufferPool
+		_result, _err := s.Impl.RegisterSender(ctx, _arg_bufferPool)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIClientManagerRegisterPassiveSender:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_bufferPool IAccessor
+		_ = _arg_bufferPool
+		_result, _err := s.Impl.RegisterPassiveSender(ctx, _arg_bufferPool)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

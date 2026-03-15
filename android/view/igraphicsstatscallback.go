@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -48,4 +49,30 @@ func (p *GraphicsStatsCallbackProxy) OnRotateGraphicsStatsBuffer(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GraphicsStatsCallbackStub dispatches incoming binder transactions
+// to a typed IGraphicsStatsCallback implementation.
+type GraphicsStatsCallbackStub struct {
+	Impl IGraphicsStatsCallback
+}
+
+var _ binder.TransactionReceiver = (*GraphicsStatsCallbackStub)(nil)
+
+func (s *GraphicsStatsCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGraphicsStatsCallbackOnRotateGraphicsStatsBuffer:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRotateGraphicsStatsBuffer(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

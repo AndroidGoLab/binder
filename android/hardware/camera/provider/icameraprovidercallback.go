@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	common "github.com/xaionaro-go/binder/android/hardware/camera/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -124,4 +125,90 @@ func (p *CameraProviderCallbackProxy) PhysicalCameraDeviceStatusChange(
 	}
 
 	return nil
+}
+
+// CameraProviderCallbackStub dispatches incoming binder transactions
+// to a typed ICameraProviderCallback implementation.
+type CameraProviderCallbackStub struct {
+	Impl ICameraProviderCallback
+}
+
+var _ binder.TransactionReceiver = (*CameraProviderCallbackStub)(nil)
+
+func (s *CameraProviderCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICameraProviderCallbackCameraDeviceStatusChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cameraDeviceName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_newStatus, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newStatus := common.CameraDeviceStatus(_raw_newStatus)
+		_err = s.Impl.CameraDeviceStatusChange(ctx, _arg_cameraDeviceName, _arg_newStatus)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICameraProviderCallbackTorchModeStatusChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cameraDeviceName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_newStatus, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newStatus := common.TorchModeStatus(_raw_newStatus)
+		_err = s.Impl.TorchModeStatusChange(ctx, _arg_cameraDeviceName, _arg_newStatus)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICameraProviderCallbackPhysicalCameraDeviceStatusChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_cameraDeviceName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_physicalCameraDeviceName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_newStatus, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newStatus := common.CameraDeviceStatus(_raw_newStatus)
+		_err = s.Impl.PhysicalCameraDeviceStatusChange(ctx, _arg_cameraDeviceName, _arg_physicalCameraDeviceName, _arg_newStatus)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

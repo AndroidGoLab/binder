@@ -2,6 +2,7 @@ package accessibilityservice
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	common "github.com/xaionaro-go/binder/android/hardware/input/common"
 	inputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
@@ -455,4 +456,301 @@ func (p *AccessibilityServiceClientProxy) StartInput(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AccessibilityServiceClientStub dispatches incoming binder transactions
+// to a typed IAccessibilityServiceClient implementation.
+type AccessibilityServiceClientStub struct {
+	Impl IAccessibilityServiceClient
+}
+
+var _ binder.TransactionReceiver = (*AccessibilityServiceClientStub)(nil)
+
+func (s *AccessibilityServiceClientStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAccessibilityServiceClientInit:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_connection IAccessibilityServiceConnection
+		_ = _arg_connection
+		_arg_connectionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_windowToken binder.IBinder
+		_ = _arg_windowToken
+		_err = s.Impl.Init(ctx, _arg_connection, _arg_connectionId, _arg_windowToken)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientOnAccessibilityEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event interface{}
+		_arg_serviceWantsEvent, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAccessibilityEvent(ctx, _arg_event, _arg_serviceWantsEvent)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientOnInterrupt:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnInterrupt(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientOnGesture:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_gestureEvent AccessibilityGestureEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_gestureEvent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnGesture(ctx, _arg_gestureEvent)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientClearAccessibilityCache:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ClearAccessibilityCache(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientOnKeyEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event interface{}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnKeyEvent(ctx, _arg_event, _arg_sequence)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientOnMagnificationChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_region graphics.Region
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_region.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_config MagnificationConfig
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnMagnificationChanged(ctx, _arg_displayId, _arg_region, _arg_config)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientOnMotionEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_event common.MotionEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnMotionEvent(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientOnTouchStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTouchStateChanged(ctx, _arg_displayId, _arg_state)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientOnSoftKeyboardShowModeChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_showMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSoftKeyboardShowModeChanged(ctx, _arg_showMode)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientOnPerformGestureResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_completedSuccessfully, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnPerformGestureResult(ctx, _arg_sequence, _arg_completedSuccessfully)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientOnFingerprintCapturingGesturesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_capturing, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFingerprintCapturingGesturesChanged(ctx, _arg_capturing)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientOnFingerprintGesture:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_gesture, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnFingerprintGesture(ctx, _arg_gesture)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientOnAccessibilityButtonClicked:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAccessibilityButtonClicked(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientOnAccessibilityButtonAvailabilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_available, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAccessibilityButtonAvailabilityChanged(ctx, _arg_available)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientOnSystemActionsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnSystemActionsChanged(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientCreateImeSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_callback interface{}
+		_err := s.Impl.CreateImeSession(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientSetImeSessionEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_session interface{}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetImeSessionEnabled(ctx, _arg_session, _arg_enabled)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientBindInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.BindInput(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientUnbindInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.UnbindInput(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIAccessibilityServiceClientStartInput:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_connection interface{}
+		var _arg_editorInfo inputmethod.EditorInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_editorInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_restarting, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StartInput(ctx, _arg_connection, _arg_editorInfo, _arg_restarting)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package audio
 
 import (
 	"context"
+	"fmt"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -146,4 +147,82 @@ func (p *BluetoothAudioProviderFactoryProxy) GetProviderInfo(
 		}
 	}
 	return _result, nil
+}
+
+// BluetoothAudioProviderFactoryStub dispatches incoming binder transactions
+// to a typed IBluetoothAudioProviderFactory implementation.
+type BluetoothAudioProviderFactoryStub struct {
+	Impl IBluetoothAudioProviderFactory
+}
+
+var _ binder.TransactionReceiver = (*BluetoothAudioProviderFactoryStub)(nil)
+
+func (s *BluetoothAudioProviderFactoryStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBluetoothAudioProviderFactoryGetProviderCapabilities:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_sessionType, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionType := SessionType(_raw_sessionType)
+		_result, _err := s.Impl.GetProviderCapabilities(ctx, _arg_sessionType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIBluetoothAudioProviderFactoryOpenProvider:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_sessionType, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionType := SessionType(_raw_sessionType)
+		_result, _err := s.Impl.OpenProvider(ctx, _arg_sessionType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIBluetoothAudioProviderFactoryGetProviderInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_sessionType, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_sessionType := SessionType(_raw_sessionType)
+		_result, _err := s.Impl.GetProviderInfo(ctx, _arg_sessionType)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

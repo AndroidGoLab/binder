@@ -2,6 +2,7 @@ package gui
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -58,4 +59,50 @@ func (p *HdrLayerInfoListenerProxy) OnHdrLayerInfoChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// HdrLayerInfoListenerStub dispatches incoming binder transactions
+// to a typed IHdrLayerInfoListener implementation.
+type HdrLayerInfoListenerStub struct {
+	Impl IHdrLayerInfoListener
+}
+
+var _ binder.TransactionReceiver = (*HdrLayerInfoListenerStub)(nil)
+
+func (s *HdrLayerInfoListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIHdrLayerInfoListenerOnHdrLayerInfoChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_numberOfHdrLayers, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_maxW, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_maxH, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_flags, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_maxDesiredHdrSdrRatio, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnHdrLayerInfoChanged(ctx, _arg_numberOfHdrLayers, _arg_maxW, _arg_maxH, _arg_flags, _arg_maxDesiredHdrSdrRatio)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

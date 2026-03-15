@@ -2,6 +2,7 @@ package quality
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -154,4 +155,121 @@ func (p *SoundProfileCallbackProxy) OnError(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SoundProfileCallbackStub dispatches incoming binder transactions
+// to a typed ISoundProfileCallback implementation.
+type SoundProfileCallbackStub struct {
+	Impl ISoundProfileCallback
+}
+
+var _ binder.TransactionReceiver = (*SoundProfileCallbackStub)(nil)
+
+func (s *SoundProfileCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISoundProfileCallbackOnSoundProfileAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_p_ SoundProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_p_.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnSoundProfileAdded(ctx, _arg_id, _arg_p_)
+		_ = _err
+		return nil, nil
+	case TransactionISoundProfileCallbackOnSoundProfileUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_p_ SoundProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_p_.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnSoundProfileUpdated(ctx, _arg_id, _arg_p_)
+		_ = _err
+		return nil, nil
+	case TransactionISoundProfileCallbackOnSoundProfileRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_p_ SoundProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_p_.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnSoundProfileRemoved(ctx, _arg_id, _arg_p_)
+		_ = _err
+		return nil, nil
+	case TransactionISoundProfileCallbackOnParamCapabilitiesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_caps []ParamCapability
+		_ = _arg_caps
+		_err = s.Impl.OnParamCapabilitiesChanged(ctx, _arg_id, _arg_caps)
+		_ = _err
+		return nil, nil
+	case TransactionISoundProfileCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_err, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_id, _arg_err)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

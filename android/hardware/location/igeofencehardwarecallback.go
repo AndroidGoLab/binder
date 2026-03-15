@@ -2,6 +2,7 @@ package location
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -141,4 +142,107 @@ func (p *GeofenceHardwareCallbackProxy) OnGeofenceResume(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GeofenceHardwareCallbackStub dispatches incoming binder transactions
+// to a typed IGeofenceHardwareCallback implementation.
+type GeofenceHardwareCallbackStub struct {
+	Impl IGeofenceHardwareCallback
+}
+
+var _ binder.TransactionReceiver = (*GeofenceHardwareCallbackStub)(nil)
+
+func (s *GeofenceHardwareCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGeofenceHardwareCallbackOnGeofenceTransition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_geofenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_transition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_location interface{}
+		_arg_timestamp, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_monitoringType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGeofenceTransition(ctx, _arg_geofenceId, _arg_transition, _arg_location, _arg_timestamp, _arg_monitoringType)
+		_ = _err
+		return nil, nil
+	case TransactionIGeofenceHardwareCallbackOnGeofenceAdd:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_geofenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGeofenceAdd(ctx, _arg_geofenceId, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIGeofenceHardwareCallbackOnGeofenceRemove:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_geofenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGeofenceRemove(ctx, _arg_geofenceId, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIGeofenceHardwareCallbackOnGeofencePause:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_geofenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGeofencePause(ctx, _arg_geofenceId, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionIGeofenceHardwareCallbackOnGeofenceResume:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_geofenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnGeofenceResume(ctx, _arg_geofenceId, _arg_status)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

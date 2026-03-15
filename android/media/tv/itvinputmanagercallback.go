@@ -2,6 +2,7 @@ package tv
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -159,4 +160,100 @@ func (p *TvInputManagerCallbackProxy) OnCurrentTunedInfosUpdated(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TvInputManagerCallbackStub dispatches incoming binder transactions
+// to a typed ITvInputManagerCallback implementation.
+type TvInputManagerCallbackStub struct {
+	Impl ITvInputManagerCallback
+}
+
+var _ binder.TransactionReceiver = (*TvInputManagerCallbackStub)(nil)
+
+func (s *TvInputManagerCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITvInputManagerCallbackOnInputAdded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_inputId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnInputAdded(ctx, _arg_inputId)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputManagerCallbackOnInputRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_inputId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnInputRemoved(ctx, _arg_inputId)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputManagerCallbackOnInputUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_inputId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnInputUpdated(ctx, _arg_inputId)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputManagerCallbackOnInputStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_inputId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnInputStateChanged(ctx, _arg_inputId, _arg_state)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputManagerCallbackOnTvInputInfoUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_TvInputInfo TvInputInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_TvInputInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnTvInputInfoUpdated(ctx, _arg_TvInputInfo)
+		_ = _err
+		return nil, nil
+	case TransactionITvInputManagerCallbackOnCurrentTunedInfosUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_currentTunedInfos []TunedInfo
+		_ = _arg_currentTunedInfos
+		_err := s.Impl.OnCurrentTunedInfosUpdated(ctx, _arg_currentTunedInfos)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

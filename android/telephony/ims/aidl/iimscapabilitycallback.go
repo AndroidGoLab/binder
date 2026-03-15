@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -96,4 +97,72 @@ func (p *ImsCapabilityCallbackProxy) OnCapabilitiesStatusChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ImsCapabilityCallbackStub dispatches incoming binder transactions
+// to a typed IImsCapabilityCallback implementation.
+type ImsCapabilityCallbackStub struct {
+	Impl IImsCapabilityCallback
+}
+
+var _ binder.TransactionReceiver = (*ImsCapabilityCallbackStub)(nil)
+
+func (s *ImsCapabilityCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIImsCapabilityCallbackOnQueryCapabilityConfiguration:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_radioTech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnQueryCapabilityConfiguration(ctx, _arg_capability, _arg_radioTech, _arg_enabled)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCapabilityCallbackOnChangeCapabilityConfigurationError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_capability, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_radioTech, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnChangeCapabilityConfigurationError(ctx, _arg_capability, _arg_radioTech, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionIImsCapabilityCallbackOnCapabilitiesStatusChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_config, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnCapabilitiesStatusChanged(ctx, _arg_config)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

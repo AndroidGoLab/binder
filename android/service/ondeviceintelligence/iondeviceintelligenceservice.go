@@ -2,6 +2,7 @@ package ondeviceintelligence
 
 import (
 	"context"
+	"fmt"
 	appOndeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
@@ -278,4 +279,223 @@ func (p *OnDeviceIntelligenceServiceProxy) Ready(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// OnDeviceIntelligenceServiceStub dispatches incoming binder transactions
+// to a typed IOnDeviceIntelligenceService implementation.
+type OnDeviceIntelligenceServiceStub struct {
+	Impl IOnDeviceIntelligenceService
+}
+
+var _ binder.TransactionReceiver = (*OnDeviceIntelligenceServiceStub)(nil)
+
+func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIOnDeviceIntelligenceServiceGetVersion:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_remoteCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_remoteCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetVersion(ctx, _arg_remoteCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIOnDeviceIntelligenceServiceGetFeature:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callerUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_featureId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_featureCallback appOndeviceintelligence.IFeatureCallback
+		_ = _arg_featureCallback
+		_err = s.Impl.GetFeature(ctx, _arg_callerUid, _arg_featureId, _arg_featureCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIOnDeviceIntelligenceServiceListFeatures:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callerUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listFeaturesCallback appOndeviceintelligence.IListFeaturesCallback
+		_ = _arg_listFeaturesCallback
+		_err = s.Impl.ListFeatures(ctx, _arg_callerUid, _arg_listFeaturesCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIOnDeviceIntelligenceServiceGetFeatureDetails:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callerUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_feature appOndeviceintelligence.Feature
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_featureDetailsCallback appOndeviceintelligence.IFeatureDetailsCallback
+		_ = _arg_featureDetailsCallback
+		_err = s.Impl.GetFeatureDetails(ctx, _arg_callerUid, _arg_feature, _arg_featureDetailsCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIOnDeviceIntelligenceServiceGetReadOnlyFileDescriptor:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fileName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_future infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.GetReadOnlyFileDescriptor(ctx, _arg_fileName, _arg_future)
+		_ = _err
+		return nil, nil
+	case TransactionIOnDeviceIntelligenceServiceGetReadOnlyFeatureFileDescriptorMap:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_feature appOndeviceintelligence.Feature
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_remoteCallback os.RemoteCallback
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_remoteCallback.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetReadOnlyFeatureFileDescriptorMap(ctx, _arg_feature, _arg_remoteCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIOnDeviceIntelligenceServiceRequestFeatureDownload:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_callerUid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_feature appOndeviceintelligence.Feature
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_cancellationSignal infra.AndroidFuture
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cancellationSignal.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_downloadCallback appOndeviceintelligence.IDownloadCallback
+		_ = _arg_downloadCallback
+		_err = s.Impl.RequestFeatureDownload(ctx, _arg_callerUid, _arg_feature, _arg_cancellationSignal, _arg_downloadCallback)
+		_ = _err
+		return nil, nil
+	case TransactionIOnDeviceIntelligenceServiceRegisterRemoteServices:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_remoteProcessingService IRemoteProcessingService
+		_ = _arg_remoteProcessingService
+		_err := s.Impl.RegisterRemoteServices(ctx, _arg_remoteProcessingService)
+		_ = _err
+		return nil, nil
+	case TransactionIOnDeviceIntelligenceServiceNotifyInferenceServiceConnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.NotifyInferenceServiceConnected(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIOnDeviceIntelligenceServiceNotifyInferenceServiceDisconnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.NotifyInferenceServiceDisconnected(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIOnDeviceIntelligenceServiceReady:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Ready(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

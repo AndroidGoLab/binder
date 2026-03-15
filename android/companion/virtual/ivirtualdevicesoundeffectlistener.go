@@ -2,6 +2,7 @@ package virtual
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *VirtualDeviceSoundEffectListenerProxy) OnPlaySoundEffect(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VirtualDeviceSoundEffectListenerStub dispatches incoming binder transactions
+// to a typed IVirtualDeviceSoundEffectListener implementation.
+type VirtualDeviceSoundEffectListenerStub struct {
+	Impl IVirtualDeviceSoundEffectListener
+}
+
+var _ binder.TransactionReceiver = (*VirtualDeviceSoundEffectListenerStub)(nil)
+
+func (s *VirtualDeviceSoundEffectListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVirtualDeviceSoundEffectListenerOnPlaySoundEffect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_effectType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnPlaySoundEffect(ctx, _arg_effectType)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

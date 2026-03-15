@@ -2,6 +2,7 @@ package telecom
 
 import (
 	"context"
+	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -86,4 +87,43 @@ func (p *RemoteServiceCallbackProxy) OnResult(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RemoteServiceCallbackStub dispatches incoming binder transactions
+// to a typed RemoteServiceCallback implementation.
+type RemoteServiceCallbackStub struct {
+	Impl RemoteServiceCallback
+}
+
+var _ binder.TransactionReceiver = (*RemoteServiceCallbackStub)(nil)
+
+func (s *RemoteServiceCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionRemoteServiceCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnError(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionRemoteServiceCallbackOnResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_components []content.ComponentName
+		_ = _arg_components
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_callServices []binder.IBinder
+		_ = _arg_callServices
+		_err := s.Impl.OnResult(ctx, _arg_components, _arg_callServices)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -64,4 +65,40 @@ func (p *BinderRustNdkInteropTestOtherProxy) Echo(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// BinderRustNdkInteropTestOtherStub dispatches incoming binder transactions
+// to a typed IBinderRustNdkInteropTestOther implementation.
+type BinderRustNdkInteropTestOtherStub struct {
+	Impl IBinderRustNdkInteropTestOther
+}
+
+var _ binder.TransactionReceiver = (*BinderRustNdkInteropTestOtherStub)(nil)
+
+func (s *BinderRustNdkInteropTestOtherStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBinderRustNdkInteropTestOtherEcho:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_str, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.Echo(ctx, _arg_str)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteString16(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

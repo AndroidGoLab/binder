@@ -2,6 +2,7 @@ package device
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -198,4 +199,84 @@ func (p *CameraDeviceCallbackProxy) ReturnStreamBuffers(
 	}
 
 	return nil
+}
+
+// CameraDeviceCallbackStub dispatches incoming binder transactions
+// to a typed ICameraDeviceCallback implementation.
+type CameraDeviceCallbackStub struct {
+	Impl ICameraDeviceCallback
+}
+
+var _ binder.TransactionReceiver = (*CameraDeviceCallbackStub)(nil)
+
+func (s *CameraDeviceCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionICameraDeviceCallbackNotify:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_msgs []NotifyMsg
+		_ = _arg_msgs
+		_err := s.Impl.Notify(ctx, _arg_msgs)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICameraDeviceCallbackProcessCaptureResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_results []CaptureResult
+		_ = _arg_results
+		_err := s.Impl.ProcessCaptureResult(ctx, _arg_results)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionICameraDeviceCallbackRequestStreamBuffers:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_bufReqs []BufferRequest
+		_ = _arg_bufReqs
+		_result, _err := s.Impl.RequestStreamBuffers(ctx, _arg_bufReqs)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(int32(_result))
+		return _reply, nil
+	case TransactionICameraDeviceCallbackReturnStreamBuffers:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_buffers []StreamBuffer
+		_ = _arg_buffers
+		_err := s.Impl.ReturnStreamBuffers(ctx, _arg_buffers)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package content
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -70,4 +71,44 @@ func (p *SyncServiceAdapterProxy) CancelSync(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SyncServiceAdapterStub dispatches incoming binder transactions
+// to a typed ISyncServiceAdapter implementation.
+type SyncServiceAdapterStub struct {
+	Impl ISyncServiceAdapter
+}
+
+var _ binder.TransactionReceiver = (*SyncServiceAdapterStub)(nil)
+
+func (s *SyncServiceAdapterStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISyncServiceAdapterStartSync:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_syncContext ISyncContext
+		_ = _arg_syncContext
+		var _arg_extras interface{}
+		_err := s.Impl.StartSync(ctx, _arg_syncContext, _arg_extras)
+		_ = _err
+		return nil, nil
+	case TransactionISyncServiceAdapterCancelSync:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_syncContext ISyncContext
+		_ = _arg_syncContext
+		_err := s.Impl.CancelSync(ctx, _arg_syncContext)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

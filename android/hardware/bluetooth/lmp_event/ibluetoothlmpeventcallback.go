@@ -2,6 +2,7 @@ package lmp_event
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -107,4 +108,86 @@ func (p *BluetoothLmpEventCallbackProxy) OnRegistered(
 	}
 
 	return nil
+}
+
+// BluetoothLmpEventCallbackStub dispatches incoming binder transactions
+// to a typed IBluetoothLmpEventCallback implementation.
+type BluetoothLmpEventCallbackStub struct {
+	Impl IBluetoothLmpEventCallback
+}
+
+var _ binder.TransactionReceiver = (*BluetoothLmpEventCallbackStub)(nil)
+
+func (s *BluetoothLmpEventCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBluetoothLmpEventCallbackOnEventGenerated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_timestamp Timestamp
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_timestamp.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_raw_addressType, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_addressType := AddressType(_raw_addressType)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_address []byte
+		_ = _arg_address
+		_raw_direction, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_direction := Direction(_raw_direction)
+		_raw_lmpEventId, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_lmpEventId := LmpEventId(_raw_lmpEventId)
+		_raw_connEventCounter, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_connEventCounter := uint16(_raw_connEventCounter)
+		_err = s.Impl.OnEventGenerated(ctx, _arg_timestamp, _arg_addressType, _arg_address, _arg_direction, _arg_lmpEventId, _arg_connEventCounter)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBluetoothLmpEventCallbackOnRegistered:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRegistered(ctx, _arg_status)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	ims "github.com/xaionaro-go/binder/android/hardware/radio/ims"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -60,4 +61,33 @@ func (p *SrvccStartedCallbackProxy) OnSrvccCallNotified(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SrvccStartedCallbackStub dispatches incoming binder transactions
+// to a typed ISrvccStartedCallback implementation.
+type SrvccStartedCallbackStub struct {
+	Impl ISrvccStartedCallback
+}
+
+var _ binder.TransactionReceiver = (*SrvccStartedCallbackStub)(nil)
+
+func (s *SrvccStartedCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISrvccStartedCallbackOnSrvccCallNotified:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_profiles []ims.SrvccCall
+		_ = _arg_profiles
+		_err := s.Impl.OnSrvccCallNotified(ctx, _arg_profiles)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

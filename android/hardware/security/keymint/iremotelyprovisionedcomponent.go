@@ -2,6 +2,7 @@ package keymint
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -264,4 +265,104 @@ func (p *RemotelyProvisionedComponentProxy) GenerateCertificateRequestV2(
 		}
 	}
 	return _result, nil
+}
+
+// RemotelyProvisionedComponentStub dispatches incoming binder transactions
+// to a typed IRemotelyProvisionedComponent implementation.
+type RemotelyProvisionedComponentStub struct {
+	Impl IRemotelyProvisionedComponent
+}
+
+var _ binder.TransactionReceiver = (*RemotelyProvisionedComponentStub)(nil)
+
+func (s *RemotelyProvisionedComponentStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRemotelyProvisionedComponentGetHardwareInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetHardwareInfo(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIRemotelyProvisionedComponentGenerateEcdsaP256KeyPair:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_testMode, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GenerateEcdsaP256KeyPair(ctx, _arg_testMode)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIRemotelyProvisionedComponentGenerateCertificateRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_testMode, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keysToSign []MacedPublicKey
+		_ = _arg_keysToSign
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_endpointEncryptionCertChain []byte
+		_ = _arg_endpointEncryptionCertChain
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_challenge []byte
+		_ = _arg_challenge
+		_result, _err := s.Impl.GenerateCertificateRequest(ctx, _arg_testMode, _arg_keysToSign, _arg_endpointEncryptionCertChain, _arg_challenge)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIRemotelyProvisionedComponentGenerateCertificateRequestV2:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keysToSign []MacedPublicKey
+		_ = _arg_keysToSign
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_challenge []byte
+		_ = _arg_challenge
+		_result, _err := s.Impl.GenerateCertificateRequestV2(ctx, _arg_keysToSign, _arg_challenge)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package translation
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -110,4 +111,69 @@ func (p *TranslationServiceProxy) OnTranslationCapabilitiesRequest(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// TranslationServiceStub dispatches incoming binder transactions
+// to a typed ITranslationService implementation.
+type TranslationServiceStub struct {
+	Impl ITranslationService
+}
+
+var _ binder.TransactionReceiver = (*TranslationServiceStub)(nil)
+
+func (s *TranslationServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITranslationServiceOnConnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback binder.IBinder
+		_ = _arg_callback
+		_err := s.Impl.OnConnected(ctx, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionITranslationServiceOnDisconnected:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnDisconnected(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionITranslationServiceOnCreateTranslationSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_translationContext interface{}
+		_arg_sessionId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.OnCreateTranslationSession(ctx, _arg_translationContext, _arg_sessionId, _arg_receiver)
+		_ = _err
+		return nil, nil
+	case TransactionITranslationServiceOnTranslationCapabilitiesRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sourceFormat, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_targetFormat, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_receiver interface{}
+		_err = s.Impl.OnTranslationCapabilitiesRequest(ctx, _arg_sourceFormat, _arg_targetFormat, _arg_receiver)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

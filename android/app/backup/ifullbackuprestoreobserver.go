@@ -2,6 +2,7 @@ package backup
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -154,4 +155,80 @@ func (p *FullBackupRestoreObserverProxy) OnTimeout(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// FullBackupRestoreObserverStub dispatches incoming binder transactions
+// to a typed IFullBackupRestoreObserver implementation.
+type FullBackupRestoreObserverStub struct {
+	Impl IFullBackupRestoreObserver
+}
+
+var _ binder.TransactionReceiver = (*FullBackupRestoreObserverStub)(nil)
+
+func (s *FullBackupRestoreObserverStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIFullBackupRestoreObserverOnStartBackup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnStartBackup(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIFullBackupRestoreObserverOnBackupPackage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnBackupPackage(ctx, _arg_name)
+		_ = _err
+		return nil, nil
+	case TransactionIFullBackupRestoreObserverOnEndBackup:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnEndBackup(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIFullBackupRestoreObserverOnStartRestore:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnStartRestore(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIFullBackupRestoreObserverOnRestorePackage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_name, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRestorePackage(ctx, _arg_name)
+		_ = _err
+		return nil, nil
+	case TransactionIFullBackupRestoreObserverOnEndRestore:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnEndRestore(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIFullBackupRestoreObserverOnTimeout:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnTimeout(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package sim
 
 import (
 	"context"
+	"fmt"
 	radio "github.com/xaionaro-go/binder/android/hardware/radio"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -269,4 +270,196 @@ func (p *RadioSimIndicationProxy) UiccApplicationsEnablementChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RadioSimIndicationStub dispatches incoming binder transactions
+// to a typed IRadioSimIndication implementation.
+type RadioSimIndicationStub struct {
+	Impl IRadioSimIndication
+}
+
+var _ binder.TransactionReceiver = (*RadioSimIndicationStub)(nil)
+
+func (s *RadioSimIndicationStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRadioSimIndicationCarrierInfoForImsiEncryption:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_info, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_info := radio.RadioIndicationType(_raw_info)
+		_err = s.Impl.CarrierInfoForImsiEncryption(ctx, _arg_info)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimIndicationCdmaSubscriptionSourceChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		_raw_cdmaSource, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_cdmaSource := CdmaSubscriptionSource(_raw_cdmaSource)
+		_err = s.Impl.CdmaSubscriptionSourceChanged(ctx, _arg_type_, _arg_cdmaSource)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimIndicationSimPhonebookChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		_err = s.Impl.SimPhonebookChanged(ctx, _arg_type_)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimIndicationSimPhonebookRecordsReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		_raw_status, _err := data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := PbReceivedStatus(_raw_status)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_records []PhonebookRecordInfo
+		_ = _arg_records
+		_err = s.Impl.SimPhonebookRecordsReceived(ctx, _arg_type_, _arg_status, _arg_records)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimIndicationSimRefresh:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		var _arg_refreshResult SimRefreshResult
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_refreshResult.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SimRefresh(ctx, _arg_type_, _arg_refreshResult)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimIndicationSimStatusChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		_err = s.Impl.SimStatusChanged(ctx, _arg_type_)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimIndicationStkEventNotify:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		_arg_cmd, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StkEventNotify(ctx, _arg_type_, _arg_cmd)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimIndicationStkProactiveCommand:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		_arg_cmd, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StkProactiveCommand(ctx, _arg_type_, _arg_cmd)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimIndicationStkSessionEnd:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		_err = s.Impl.StkSessionEnd(ctx, _arg_type_)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimIndicationSubscriptionStatusChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		_arg_activate, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SubscriptionStatusChanged(ctx, _arg_type_, _arg_activate)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioSimIndicationUiccApplicationsEnablementChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_type_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_type_ := radio.RadioIndicationType(_raw_type_)
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UiccApplicationsEnablementChanged(ctx, _arg_type_, _arg_enabled)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

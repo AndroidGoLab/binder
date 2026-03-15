@@ -2,6 +2,7 @@ package ims
 
 import (
 	"context"
+	"fmt"
 	radio "github.com/xaionaro-go/binder/android/hardware/radio"
 	imsImsCall "github.com/xaionaro-go/binder/android/hardware/radio/ims/ImsCall"
 	"github.com/xaionaro-go/binder/binder"
@@ -232,4 +233,173 @@ func (p *RadioImsProxy) UpdateImsCallStatus(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RadioImsStub dispatches incoming binder transactions
+// to a typed IRadioIms implementation.
+type RadioImsStub struct {
+	Impl IRadioIms
+}
+
+var _ binder.TransactionReceiver = (*RadioImsStub)(nil)
+
+func (s *RadioImsStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRadioImsSetSrvccCallInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_srvccCalls []SrvccCall
+		_ = _arg_srvccCalls
+		_err = s.Impl.SetSrvccCallInfo(ctx, _arg_serial, _arg_srvccCalls)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioImsUpdateImsRegistrationInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_imsRegistration ImsRegistration
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_imsRegistration.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.UpdateImsRegistrationInfo(ctx, _arg_serial, _arg_imsRegistration)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioImsStartImsTraffic:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_imsTrafficType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_imsTrafficType := ImsTrafficType(_raw_imsTrafficType)
+		_raw_accessNetworkType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_accessNetworkType := radio.AccessNetwork(_raw_accessNetworkType)
+		_raw_trafficDirection, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_trafficDirection := imsImsCall.Direction(_raw_trafficDirection)
+		_err = s.Impl.StartImsTraffic(ctx, _arg_serial, _arg_token, _arg_imsTrafficType, _arg_accessNetworkType, _arg_trafficDirection)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioImsStopImsTraffic:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_token, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.StopImsTraffic(ctx, _arg_serial, _arg_token)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioImsTriggerEpsFallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reason := EpsFallbackReason(_raw_reason)
+		_err = s.Impl.TriggerEpsFallback(ctx, _arg_serial, _arg_reason)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioImsSetResponseFunctions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_radioImsResponse IRadioImsResponse
+		_ = _arg_radioImsResponse
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_radioImsIndication IRadioImsIndication
+		_ = _arg_radioImsIndication
+		_err := s.Impl.SetResponseFunctions(ctx, _arg_radioImsResponse, _arg_radioImsIndication)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioImsSendAnbrQuery:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_raw_mediaType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mediaType := ImsStreamType(_raw_mediaType)
+		_raw_direction, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_direction := ImsStreamDirection(_raw_direction)
+		_arg_bitsPerSecond, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SendAnbrQuery(ctx, _arg_serial, _arg_mediaType, _arg_direction, _arg_bitsPerSecond)
+		_ = _err
+		return nil, nil
+	case TransactionIRadioImsUpdateImsCallStatus:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_serial, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_imsCalls []ImsCall
+		_ = _arg_imsCalls
+		_err = s.Impl.UpdateImsCallStatus(ctx, _arg_serial, _arg_imsCalls)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

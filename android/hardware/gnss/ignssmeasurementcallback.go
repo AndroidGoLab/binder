@@ -2,6 +2,7 @@ package gnss
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -62,4 +63,47 @@ func (p *GnssMeasurementCallbackProxy) GnssMeasurementCb(
 	}
 
 	return nil
+}
+
+// GnssMeasurementCallbackStub dispatches incoming binder transactions
+// to a typed IGnssMeasurementCallback implementation.
+type GnssMeasurementCallbackStub struct {
+	Impl IGnssMeasurementCallback
+}
+
+var _ binder.TransactionReceiver = (*GnssMeasurementCallbackStub)(nil)
+
+func (s *GnssMeasurementCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssMeasurementCallbackGnssMeasurementCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_data GnssData
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GnssMeasurementCb(ctx, _arg_data)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -1,6 +1,7 @@
 package hwcrypto
 
 import (
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 )
 
@@ -27,3 +28,22 @@ func (p *CryptoOperationContextProxy) AsBinder() binder.IBinder {
 }
 
 var _ ICryptoOperationContext = (*CryptoOperationContextProxy)(nil)
+
+// CryptoOperationContextStub dispatches incoming binder transactions
+// to a typed ICryptoOperationContext implementation.
+type CryptoOperationContextStub struct {
+	Impl ICryptoOperationContext
+}
+
+var _ binder.TransactionReceiver = (*CryptoOperationContextStub)(nil)
+
+func (s *CryptoOperationContextStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
+}

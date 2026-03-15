@@ -2,6 +2,7 @@ package soundtrigger3
 
 import (
 	"context"
+	"fmt"
 	hardwareSoundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
 	soundtrigger "github.com/xaionaro-go/binder/android/media/soundtrigger"
 	"github.com/xaionaro-go/binder/binder"
@@ -127,4 +128,95 @@ func (p *SoundTriggerHwCallbackProxy) RecognitionCallback(
 	}
 
 	return nil
+}
+
+// SoundTriggerHwCallbackStub dispatches incoming binder transactions
+// to a typed ISoundTriggerHwCallback implementation.
+type SoundTriggerHwCallbackStub struct {
+	Impl ISoundTriggerHwCallback
+}
+
+var _ binder.TransactionReceiver = (*SoundTriggerHwCallbackStub)(nil)
+
+func (s *SoundTriggerHwCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISoundTriggerHwCallbackModelUnloaded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_model, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ModelUnloaded(ctx, _arg_model)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISoundTriggerHwCallbackPhraseRecognitionCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_model, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_event soundtrigger.PhraseRecognitionEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.PhraseRecognitionCallback(ctx, _arg_model, _arg_event)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionISoundTriggerHwCallbackRecognitionCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_model, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_event hardwareSoundtrigger.SoundTriggerRecognitionEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.RecognitionCallback(ctx, _arg_model, _arg_event)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

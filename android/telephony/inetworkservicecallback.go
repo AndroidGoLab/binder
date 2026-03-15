@@ -2,6 +2,7 @@ package telephony
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -72,4 +73,53 @@ func (p *NetworkServiceCallbackProxy) OnNetworkStateChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// NetworkServiceCallbackStub dispatches incoming binder transactions
+// to a typed INetworkServiceCallback implementation.
+type NetworkServiceCallbackStub struct {
+	Impl INetworkServiceCallback
+}
+
+var _ binder.TransactionReceiver = (*NetworkServiceCallbackStub)(nil)
+
+func (s *NetworkServiceCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionINetworkServiceCallbackOnRequestNetworkRegistrationInfoComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_state NetworkRegistrationInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_state.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnRequestNetworkRegistrationInfoComplete(ctx, _arg_result, _arg_state)
+		_ = _err
+		return nil, nil
+	case TransactionINetworkServiceCallbackOnNetworkStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnNetworkStateChanged(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package euicc
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *RetainSubscriptionsForFactoryResetCallbackProxy) OnComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RetainSubscriptionsForFactoryResetCallbackStub dispatches incoming binder transactions
+// to a typed IRetainSubscriptionsForFactoryResetCallback implementation.
+type RetainSubscriptionsForFactoryResetCallbackStub struct {
+	Impl IRetainSubscriptionsForFactoryResetCallback
+}
+
+var _ binder.TransactionReceiver = (*RetainSubscriptionsForFactoryResetCallbackStub)(nil)
+
+func (s *RetainSubscriptionsForFactoryResetCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRetainSubscriptionsForFactoryResetCallbackOnComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_result, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnComplete(ctx, _arg_result)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

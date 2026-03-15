@@ -2,6 +2,7 @@ package appprediction
 
 import (
 	"context"
+	"fmt"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	prediction "github.com/xaionaro-go/binder/android/app/prediction"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
@@ -262,4 +263,258 @@ func (p *PredictionServiceProxy) RequestServiceFeatures(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PredictionServiceStub dispatches incoming binder transactions
+// to a typed IPredictionService implementation.
+type PredictionServiceStub struct {
+	Impl IPredictionService
+}
+
+var _ binder.TransactionReceiver = (*PredictionServiceStub)(nil)
+
+func (s *PredictionServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPredictionServiceOnCreatePredictionSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_context_ prediction.AppPredictionContext
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_context_.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_sessionId prediction.AppPredictionSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnCreatePredictionSession(ctx, _arg_context_, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	case TransactionIPredictionServiceNotifyAppTargetEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId prediction.AppPredictionSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_event prediction.AppTargetEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.NotifyAppTargetEvent(ctx, _arg_sessionId, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIPredictionServiceNotifyLaunchLocationShown:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId prediction.AppPredictionSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_launchLocation, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_targetIds pm.ParceledListSlice
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_targetIds.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.NotifyLaunchLocationShown(ctx, _arg_sessionId, _arg_launchLocation, _arg_targetIds)
+		_ = _err
+		return nil, nil
+	case TransactionIPredictionServiceSortAppTargets:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId prediction.AppPredictionSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_targets pm.ParceledListSlice
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_targets.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback prediction.IPredictionCallback
+		_ = _arg_callback
+		_err := s.Impl.SortAppTargets(ctx, _arg_sessionId, _arg_targets, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPredictionServiceRegisterPredictionUpdates:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId prediction.AppPredictionSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback prediction.IPredictionCallback
+		_ = _arg_callback
+		_err := s.Impl.RegisterPredictionUpdates(ctx, _arg_sessionId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPredictionServiceUnregisterPredictionUpdates:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId prediction.AppPredictionSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback prediction.IPredictionCallback
+		_ = _arg_callback
+		_err := s.Impl.UnregisterPredictionUpdates(ctx, _arg_sessionId, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionIPredictionServiceRequestPredictionUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId prediction.AppPredictionSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.RequestPredictionUpdate(ctx, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	case TransactionIPredictionServiceOnDestroyPredictionSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId prediction.AppPredictionSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnDestroyPredictionSession(ctx, _arg_sessionId)
+		_ = _err
+		return nil, nil
+	case TransactionIPredictionServiceRequestServiceFeatures:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_sessionId prediction.AppPredictionSessionId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ondeviceintelligence.IRemoteCallback
+		_ = _arg_callback
+		_err := s.Impl.RequestServiceFeatures(ctx, _arg_sessionId, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

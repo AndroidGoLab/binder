@@ -2,6 +2,7 @@ package accessibilityservice
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -74,4 +75,40 @@ func (p *BrailleDisplayConnectionProxy) Write(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// BrailleDisplayConnectionStub dispatches incoming binder transactions
+// to a typed IBrailleDisplayConnection implementation.
+type BrailleDisplayConnectionStub struct {
+	Impl IBrailleDisplayConnection
+}
+
+var _ binder.TransactionReceiver = (*BrailleDisplayConnectionStub)(nil)
+
+func (s *BrailleDisplayConnectionStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBrailleDisplayConnectionDisconnect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Disconnect(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIBrailleDisplayConnectionWrite:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_output []byte
+		_ = _arg_output
+		_err := s.Impl.Write(ctx, _arg_output)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

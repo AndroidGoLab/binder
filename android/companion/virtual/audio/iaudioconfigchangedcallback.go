@@ -2,6 +2,7 @@ package audio
 
 import (
 	"context"
+	"fmt"
 	media "github.com/xaionaro-go/binder/android/media"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -88,4 +89,43 @@ func (p *AudioConfigChangedCallbackProxy) OnRecordingConfigChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AudioConfigChangedCallbackStub dispatches incoming binder transactions
+// to a typed IAudioConfigChangedCallback implementation.
+type AudioConfigChangedCallbackStub struct {
+	Impl IAudioConfigChangedCallback
+}
+
+var _ binder.TransactionReceiver = (*AudioConfigChangedCallbackStub)(nil)
+
+func (s *AudioConfigChangedCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAudioConfigChangedCallbackOnPlaybackConfigChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_configs []media.AudioPlaybackConfiguration
+		_ = _arg_configs
+		_err := s.Impl.OnPlaybackConfigChanged(ctx, _arg_configs)
+		_ = _err
+		return nil, nil
+	case TransactionIAudioConfigChangedCallbackOnRecordingConfigChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_configs []media.AudioRecordingConfiguration
+		_ = _arg_configs
+		_err := s.Impl.OnRecordingConfigChanged(ctx, _arg_configs)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

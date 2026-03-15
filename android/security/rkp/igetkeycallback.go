@@ -2,6 +2,7 @@ package rkp
 
 import (
 	"context"
+	"fmt"
 	device "github.com/xaionaro-go/binder/android/hardware/camera/device"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -92,4 +93,65 @@ func (p *GetKeyCallbackProxy) OnError(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GetKeyCallbackStub dispatches incoming binder transactions
+// to a typed IGetKeyCallback implementation.
+type GetKeyCallbackStub struct {
+	Impl IGetKeyCallback
+}
+
+var _ binder.TransactionReceiver = (*GetKeyCallbackStub)(nil)
+
+func (s *GetKeyCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGetKeyCallbackOnSuccess:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_key RemotelyProvisionedKey
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_key.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnSuccess(ctx, _arg_key)
+		_ = _err
+		return nil, nil
+	case TransactionIGetKeyCallbackOnCancel:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnCancel(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIGetKeyCallbackOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_error_, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_error_ := device.ErrorCode(_raw_error_)
+		_arg_description, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_error_, _arg_description)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

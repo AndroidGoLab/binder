@@ -2,6 +2,7 @@ package media
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -50,4 +51,34 @@ func (p *SpatializerHeadTrackerAvailableCallbackProxy) DispatchSpatializerHeadTr
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SpatializerHeadTrackerAvailableCallbackStub dispatches incoming binder transactions
+// to a typed ISpatializerHeadTrackerAvailableCallback implementation.
+type SpatializerHeadTrackerAvailableCallbackStub struct {
+	Impl ISpatializerHeadTrackerAvailableCallback
+}
+
+var _ binder.TransactionReceiver = (*SpatializerHeadTrackerAvailableCallbackStub)(nil)
+
+func (s *SpatializerHeadTrackerAvailableCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISpatializerHeadTrackerAvailableCallbackDispatchSpatializerHeadTrackerAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_available, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.DispatchSpatializerHeadTrackerAvailable(ctx, _arg_available)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package gnss
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -187,4 +188,134 @@ func (p *GnssGeofenceProxy) RemoveGeofence(
 	}
 
 	return nil
+}
+
+// GnssGeofenceStub dispatches incoming binder transactions
+// to a typed IGnssGeofence implementation.
+type GnssGeofenceStub struct {
+	Impl IGnssGeofence
+}
+
+var _ binder.TransactionReceiver = (*GnssGeofenceStub)(nil)
+
+func (s *GnssGeofenceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssGeofenceSetCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGnssGeofenceCallback
+		_ = _arg_callback
+		_err := s.Impl.SetCallback(ctx, _arg_callback)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssGeofenceAddGeofence:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_geofenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_latitudeDegrees, _err := data.ReadFloat64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_longitudeDegrees, _err := data.ReadFloat64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_radiusMeters, _err := data.ReadFloat64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_lastTransition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_monitorTransitions, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_notificationResponsivenessMs, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_unknownTimerMs, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AddGeofence(ctx, _arg_geofenceId, _arg_latitudeDegrees, _arg_longitudeDegrees, _arg_radiusMeters, _arg_lastTransition, _arg_monitorTransitions, _arg_notificationResponsivenessMs, _arg_unknownTimerMs)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssGeofencePauseGeofence:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_geofenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.PauseGeofence(ctx, _arg_geofenceId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssGeofenceResumeGeofence:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_geofenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_monitorTransitions, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ResumeGeofence(ctx, _arg_geofenceId, _arg_monitorTransitions)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIGnssGeofenceRemoveGeofence:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_geofenceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.RemoveGeofence(ctx, _arg_geofenceId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

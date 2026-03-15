@@ -2,6 +2,7 @@ package window
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -147,4 +148,96 @@ func (p *OnBackInvokedCallbackProxy) SetHandoffHandler(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// OnBackInvokedCallbackStub dispatches incoming binder transactions
+// to a typed IOnBackInvokedCallback implementation.
+type OnBackInvokedCallbackStub struct {
+	Impl IOnBackInvokedCallback
+}
+
+var _ binder.TransactionReceiver = (*OnBackInvokedCallbackStub)(nil)
+
+func (s *OnBackInvokedCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIOnBackInvokedCallbackOnBackStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_backMotionEvent BackMotionEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_backMotionEvent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnBackStarted(ctx, _arg_backMotionEvent)
+		_ = _err
+		return nil, nil
+	case TransactionIOnBackInvokedCallbackOnBackProgressed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_backMotionEvent BackMotionEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_backMotionEvent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnBackProgressed(ctx, _arg_backMotionEvent)
+		_ = _err
+		return nil, nil
+	case TransactionIOnBackInvokedCallbackOnBackCancelled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnBackCancelled(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIOnBackInvokedCallbackOnBackInvoked:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnBackInvoked(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIOnBackInvokedCallbackSetTriggerBack:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_triggerBack, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetTriggerBack(ctx, _arg_triggerBack)
+		_ = _err
+		return nil, nil
+	case TransactionIOnBackInvokedCallbackSetHandoffHandler:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_handoffHandler IBackAnimationHandoffHandler
+		_ = _arg_handoffHandler
+		_err := s.Impl.SetHandoffHandler(ctx, _arg_handoffHandler)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

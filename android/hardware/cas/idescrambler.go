@@ -2,6 +2,7 @@ package cas
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -183,4 +184,120 @@ func (p *DescramblerProxy) SetMediaCasSession(
 	}
 
 	return nil
+}
+
+// DescramblerStub dispatches incoming binder transactions
+// to a typed IDescrambler implementation.
+type DescramblerStub struct {
+	Impl IDescrambler
+}
+
+var _ binder.TransactionReceiver = (*DescramblerStub)(nil)
+
+func (s *DescramblerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDescramblerDescramble:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_scramblingControl, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_scramblingControl := ScramblingControl(_raw_scramblingControl)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_subSamples []SubSample
+		_ = _arg_subSamples
+		var _arg_srcBuffer SharedBuffer
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_srcBuffer.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_srcOffset, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_dstBuffer DestinationBuffer
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_dstBuffer.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_dstOffset, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.Descramble(ctx, _arg_scramblingControl, _arg_subSamples, _arg_srcBuffer, _arg_srcOffset, _arg_dstBuffer, _arg_dstOffset)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIDescramblerRelease:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.Release(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIDescramblerRequiresSecureDecoderComponent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_mime, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.RequiresSecureDecoderComponent(ctx, _arg_mime)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionIDescramblerSetMediaCasSession:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_sessionId []byte
+		_ = _arg_sessionId
+		_err := s.Impl.SetMediaCasSession(ctx, _arg_sessionId)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

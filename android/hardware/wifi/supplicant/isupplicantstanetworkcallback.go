@@ -2,6 +2,7 @@ package supplicant
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -174,4 +175,107 @@ func (p *SupplicantStaNetworkCallbackProxy) OnPermanentIdReqDenied(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SupplicantStaNetworkCallbackStub dispatches incoming binder transactions
+// to a typed ISupplicantStaNetworkCallback implementation.
+type SupplicantStaNetworkCallbackStub struct {
+	Impl ISupplicantStaNetworkCallback
+}
+
+var _ binder.TransactionReceiver = (*SupplicantStaNetworkCallbackStub)(nil)
+
+func (s *SupplicantStaNetworkCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISupplicantStaNetworkCallbackOnNetworkEapIdentityRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnNetworkEapIdentityRequest(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaNetworkCallbackOnNetworkEapSimGsmAuthRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_params NetworkRequestEapSimGsmAuthParams
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnNetworkEapSimGsmAuthRequest(ctx, _arg_params)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaNetworkCallbackOnNetworkEapSimUmtsAuthRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_params NetworkRequestEapSimUmtsAuthParams
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnNetworkEapSimUmtsAuthRequest(ctx, _arg_params)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaNetworkCallbackOnTransitionDisable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_ind, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_ind := TransitionDisableIndication(_raw_ind)
+		_err = s.Impl.OnTransitionDisable(ctx, _arg_ind)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaNetworkCallbackOnServerCertificateAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_depth, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_subject []byte
+		_ = _arg_subject
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_certHash []byte
+		_ = _arg_certHash
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_certBlob []byte
+		_ = _arg_certBlob
+		_err = s.Impl.OnServerCertificateAvailable(ctx, _arg_depth, _arg_subject, _arg_certHash, _arg_certBlob)
+		_ = _err
+		return nil, nil
+	case TransactionISupplicantStaNetworkCallbackOnPermanentIdReqDenied:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnPermanentIdReqDenied(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

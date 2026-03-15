@@ -2,6 +2,7 @@ package gnss
 
 import (
 	"context"
+	"fmt"
 	gnssIGnssNavigationMessageCallback "github.com/xaionaro-go/binder/android/hardware/gnss/IGnssNavigationMessageCallback"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -63,4 +64,47 @@ func (p *GnssNavigationMessageCallbackProxy) GnssNavigationMessageCb(
 	}
 
 	return nil
+}
+
+// GnssNavigationMessageCallbackStub dispatches incoming binder transactions
+// to a typed IGnssNavigationMessageCallback implementation.
+type GnssNavigationMessageCallbackStub struct {
+	Impl IGnssNavigationMessageCallback
+}
+
+var _ binder.TransactionReceiver = (*GnssNavigationMessageCallbackStub)(nil)
+
+func (s *GnssNavigationMessageCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGnssNavigationMessageCallbackGnssNavigationMessageCb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_message gnssIGnssNavigationMessageCallback.GnssNavigationMessage
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_message.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GnssNavigationMessageCb(ctx, _arg_message)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package inputmethod
 
 import (
 	"context"
+	"fmt"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -289,4 +290,215 @@ func (p *InputMethodClientProxy) ThrowExceptionFromSystem(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InputMethodClientStub dispatches incoming binder transactions
+// to a typed IInputMethodClient implementation.
+type InputMethodClientStub struct {
+	Impl IInputMethodClient
+}
+
+var _ binder.TransactionReceiver = (*InputMethodClientStub)(nil)
+
+func (s *InputMethodClientStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInputMethodClientOnBindMethod:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_res InputBindResult
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_res.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnBindMethod(ctx, _arg_res)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodClientOnStartInputResult:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_res InputBindResult
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_res.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_startInputSeq, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStartInputResult(ctx, _arg_res, _arg_startInputSeq)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodClientOnBindAccessibilityService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_res InputBindResult
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_res.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnBindAccessibilityService(ctx, _arg_res, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodClientOnUnbindMethod:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_unbindReason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUnbindMethod(ctx, _arg_sequence, _arg_unbindReason)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodClientOnUnbindAccessibilityService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_sequence, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_id, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnUnbindAccessibilityService(ctx, _arg_sequence, _arg_id)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodClientSetActive:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_active, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fullscreen, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetActive(ctx, _arg_active, _arg_fullscreen)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodClientSetInteractive:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_active, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_fullscreen, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetInteractive(ctx, _arg_active, _arg_fullscreen)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodClientSetImeVisibility:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_visible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_statsToken *viewInputmethod.ImeTrackerToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.SetImeVisibility(ctx, _arg_visible, _arg_statsToken)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodClientScheduleStartInputIfNecessary:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fullscreen, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ScheduleStartInputIfNecessary(ctx, _arg_fullscreen)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodClientReportFullscreenMode:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_fullscreen, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ReportFullscreenMode(ctx, _arg_fullscreen)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodClientSetImeTraceEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetImeTraceEnabled(ctx, _arg_enabled)
+		_ = _err
+		return nil, nil
+	case TransactionIInputMethodClientThrowExceptionFromSystem:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_message, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ThrowExceptionFromSystem(ctx, _arg_message)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

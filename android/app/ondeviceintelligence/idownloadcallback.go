@@ -2,6 +2,7 @@ package ondeviceintelligence
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -109,4 +110,69 @@ func (p *DownloadCallbackProxy) OnDownloadCompleted(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DownloadCallbackStub dispatches incoming binder transactions
+// to a typed IDownloadCallback implementation.
+type DownloadCallbackStub struct {
+	Impl IDownloadCallback
+}
+
+var _ binder.TransactionReceiver = (*DownloadCallbackStub)(nil)
+
+func (s *DownloadCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDownloadCallbackOnDownloadStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_bytesToDownload, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDownloadStarted(ctx, _arg_bytesToDownload)
+		_ = _err
+		return nil, nil
+	case TransactionIDownloadCallbackOnDownloadProgress:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_bytesDownloaded, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnDownloadProgress(ctx, _arg_bytesDownloaded)
+		_ = _err
+		return nil, nil
+	case TransactionIDownloadCallbackOnDownloadFailed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_failureStatus, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_errorMessage, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_errorParams interface{}
+		_err = s.Impl.OnDownloadFailed(ctx, _arg_failureStatus, _arg_errorMessage, _arg_errorParams)
+		_ = _err
+		return nil, nil
+	case TransactionIDownloadCallbackOnDownloadCompleted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_downloadParams interface{}
+		_err := s.Impl.OnDownloadCompleted(ctx, _arg_downloadParams)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

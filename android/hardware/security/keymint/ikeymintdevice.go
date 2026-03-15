@@ -2,6 +2,7 @@ package keymint
 
 import (
 	"context"
+	"fmt"
 	secureclock "github.com/xaionaro-go/binder/android/hardware/security/secureclock"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -862,4 +863,399 @@ func (p *KeyMintDeviceProxy) SetAdditionalAttestationInfo(
 	}
 
 	return nil
+}
+
+// KeyMintDeviceStub dispatches incoming binder transactions
+// to a typed IKeyMintDevice implementation.
+type KeyMintDeviceStub struct {
+	Impl IKeyMintDevice
+}
+
+var _ binder.TransactionReceiver = (*KeyMintDeviceStub)(nil)
+
+func (s *KeyMintDeviceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIKeyMintDeviceGetHardwareInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetHardwareInfo(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIKeyMintDeviceAddRngEntropy:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []byte
+		_ = _arg_data
+		_err := s.Impl.AddRngEntropy(ctx, _arg_data)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIKeyMintDeviceGenerateKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keyParams []KeyParameter
+		_ = _arg_keyParams
+		var _arg_attestationKey *AttestationKey
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attestationKey.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.GenerateKey(ctx, _arg_keyParams, _arg_attestationKey)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIKeyMintDeviceImportKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keyParams []KeyParameter
+		_ = _arg_keyParams
+		_raw_keyFormat, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_keyFormat := KeyFormat(_raw_keyFormat)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keyData []byte
+		_ = _arg_keyData
+		var _arg_attestationKey *AttestationKey
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attestationKey.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.ImportKey(ctx, _arg_keyParams, _arg_keyFormat, _arg_keyData, _arg_attestationKey)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIKeyMintDeviceImportWrappedKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_wrappedKeyData []byte
+		_ = _arg_wrappedKeyData
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_wrappingKeyBlob []byte
+		_ = _arg_wrappingKeyBlob
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_maskingKey []byte
+		_ = _arg_maskingKey
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_unwrappingParams []KeyParameter
+		_ = _arg_unwrappingParams
+		_arg_passwordSid, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_biometricSid, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ImportWrappedKey(ctx, _arg_wrappedKeyData, _arg_wrappingKeyBlob, _arg_maskingKey, _arg_unwrappingParams, _arg_passwordSid, _arg_biometricSid)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIKeyMintDeviceUpgradeKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keyBlobToUpgrade []byte
+		_ = _arg_keyBlobToUpgrade
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_upgradeParams []KeyParameter
+		_ = _arg_upgradeParams
+		_result, _err := s.Impl.UpgradeKey(ctx, _arg_keyBlobToUpgrade, _arg_upgradeParams)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIKeyMintDeviceDeleteKey:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keyBlob []byte
+		_ = _arg_keyBlob
+		_err := s.Impl.DeleteKey(ctx, _arg_keyBlob)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIKeyMintDeviceDeleteAllKeys:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.DeleteAllKeys(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIKeyMintDeviceDestroyAttestationIds:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.DestroyAttestationIds(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIKeyMintDeviceBegin:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_raw_purpose, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_purpose := KeyPurpose(_raw_purpose)
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keyBlob []byte
+		_ = _arg_keyBlob
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_params []KeyParameter
+		_ = _arg_params
+		var _arg_authToken *HardwareAuthToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_authToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_result, _err := s.Impl.Begin(ctx, _arg_purpose, _arg_keyBlob, _arg_params, _arg_authToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIKeyMintDeviceDeviceLocked:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_passwordOnly, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_timestampToken *secureclock.TimeStampToken
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_timestampToken.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.DeviceLocked(ctx, _arg_passwordOnly, _arg_timestampToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIKeyMintDeviceEarlyBootEnded:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.EarlyBootEnded(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIKeyMintDeviceConvertStorageKeyToEphemeral:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_storageKeyBlob []byte
+		_ = _arg_storageKeyBlob
+		_result, _err := s.Impl.ConvertStorageKeyToEphemeral(ctx, _arg_storageKeyBlob)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIKeyMintDeviceGetKeyCharacteristics:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_keyBlob []byte
+		_ = _arg_keyBlob
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_appId []byte
+		_ = _arg_appId
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_appData []byte
+		_ = _arg_appData
+		_result, _err := s.Impl.GetKeyCharacteristics(ctx, _arg_keyBlob, _arg_appId, _arg_appData)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIKeyMintDeviceGetRootOfTrustChallenge:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetRootOfTrustChallenge(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIKeyMintDeviceGetRootOfTrust:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_challenge []byte
+		_ = _arg_challenge
+		_result, _err := s.Impl.GetRootOfTrust(ctx, _arg_challenge)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIKeyMintDeviceSendRootOfTrust:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_rootOfTrust []byte
+		_ = _arg_rootOfTrust
+		_err := s.Impl.SendRootOfTrust(ctx, _arg_rootOfTrust)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIKeyMintDeviceSetAdditionalAttestationInfo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_info []KeyParameter
+		_ = _arg_info
+		_err := s.Impl.SetAdditionalAttestationInfo(ctx, _arg_info)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

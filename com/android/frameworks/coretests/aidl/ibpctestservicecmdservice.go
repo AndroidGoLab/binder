@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -178,4 +179,107 @@ func (p *BpcTestServiceCmdServiceProxy) SetBinderProxyCountCallback(
 	}
 
 	return nil
+}
+
+// BpcTestServiceCmdServiceStub dispatches incoming binder transactions
+// to a typed IBpcTestServiceCmdService implementation.
+type BpcTestServiceCmdServiceStub struct {
+	Impl IBpcTestServiceCmdService
+}
+
+var _ binder.TransactionReceiver = (*BpcTestServiceCmdServiceStub)(nil)
+
+func (s *BpcTestServiceCmdServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBpcTestServiceCmdServiceForceGc:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.ForceGc(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBpcTestServiceCmdServiceGetBinderProxyCount:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_uid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetBinderProxyCount(ctx, _arg_uid)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	case TransactionIBpcTestServiceCmdServiceSetBinderProxyWatermarks:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_high, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_low, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_warning, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetBinderProxyWatermarks(ctx, _arg_high, _arg_low, _arg_warning)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBpcTestServiceCmdServiceEnableBinderProxyLimit:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.EnableBinderProxyLimit(ctx, _arg_enable)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBpcTestServiceCmdServiceSetBinderProxyCountCallback:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_observer IBpcCallbackObserver
+		_ = _arg_observer
+		_err := s.Impl.SetBinderProxyCountCallback(ctx, _arg_observer)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

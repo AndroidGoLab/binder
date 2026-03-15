@@ -2,6 +2,7 @@ package recommendation
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -48,4 +49,30 @@ func (p *RecommendationsChangeListenerProxy) OnRecommendationsChanged(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RecommendationsChangeListenerStub dispatches incoming binder transactions
+// to a typed IRecommendationsChangeListener implementation.
+type RecommendationsChangeListenerStub struct {
+	Impl IRecommendationsChangeListener
+}
+
+var _ binder.TransactionReceiver = (*RecommendationsChangeListenerStub)(nil)
+
+func (s *RecommendationsChangeListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRecommendationsChangeListenerOnRecommendationsChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRecommendationsChanged(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

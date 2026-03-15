@@ -2,6 +2,7 @@ package telecom
 
 import (
 	"context"
+	"fmt"
 	androidTelecom "github.com/xaionaro-go/binder/android/telecom"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -183,4 +184,144 @@ func (p *VideoCallbackProxy) ChangeVideoQuality(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VideoCallbackStub dispatches incoming binder transactions
+// to a typed IVideoCallback implementation.
+type VideoCallbackStub struct {
+	Impl IVideoCallback
+}
+
+var _ binder.TransactionReceiver = (*VideoCallbackStub)(nil)
+
+func (s *VideoCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVideoCallbackReceiveSessionModifyRequest:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_videoProfile androidTelecom.VideoProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_videoProfile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ReceiveSessionModifyRequest(ctx, _arg_videoProfile)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoCallbackReceiveSessionModifyResponse:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_requestedProfile androidTelecom.VideoProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_requestedProfile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_responseProfile androidTelecom.VideoProfile
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_responseProfile.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.ReceiveSessionModifyResponse(ctx, _arg_status, _arg_requestedProfile, _arg_responseProfile)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoCallbackHandleCallSessionEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_event, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.HandleCallSessionEvent(ctx, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoCallbackChangePeerDimensions:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_width, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_height, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ChangePeerDimensions(ctx, _arg_width, _arg_height)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoCallbackChangeCallDataUsage:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_dataUsage, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ChangeCallDataUsage(ctx, _arg_dataUsage)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoCallbackChangeCameraCapabilities:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_cameraCapabilities androidTelecom.VideoProfileCameraCapabilities
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cameraCapabilities.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.ChangeCameraCapabilities(ctx, _arg_cameraCapabilities)
+		_ = _err
+		return nil, nil
+	case TransactionIVideoCallbackChangeVideoQuality:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_videoQuality, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ChangeVideoQuality(ctx, _arg_videoQuality)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

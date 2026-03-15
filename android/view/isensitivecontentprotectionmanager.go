@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -54,4 +55,41 @@ func (p *SensitiveContentProtectionManagerProxy) SetSensitiveContentProtection(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SensitiveContentProtectionManagerStub dispatches incoming binder transactions
+// to a typed ISensitiveContentProtectionManager implementation.
+type SensitiveContentProtectionManagerStub struct {
+	Impl ISensitiveContentProtectionManager
+}
+
+var _ binder.TransactionReceiver = (*SensitiveContentProtectionManagerStub)(nil)
+
+func (s *SensitiveContentProtectionManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISensitiveContentProtectionManagerSetSensitiveContentProtection:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_windowToken binder.IBinder
+		_ = _arg_windowToken
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isShowingSensitiveContent, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.SetSensitiveContentProtection(ctx, _arg_windowToken, _arg_packageName, _arg_isShowingSensitiveContent)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

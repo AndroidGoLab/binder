@@ -2,6 +2,7 @@ package os
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -92,4 +93,64 @@ func (p *PowerStatsServiceProxy) GetPowerMonitorReadings(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// PowerStatsServiceStub dispatches incoming binder transactions
+// to a typed IPowerStatsService implementation.
+type PowerStatsServiceStub struct {
+	Impl IPowerStatsService
+}
+
+var _ binder.TransactionReceiver = (*PowerStatsServiceStub)(nil)
+
+func (s *PowerStatsServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIPowerStatsServiceGetSupportedPowerMonitors:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_resultReceiver ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultReceiver.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetSupportedPowerMonitors(ctx, _arg_resultReceiver)
+		_ = _err
+		return nil, nil
+	case TransactionIPowerStatsServiceGetPowerMonitorReadings:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_powerMonitorIndices []int32
+		_ = _arg_powerMonitorIndices
+		var _arg_resultReceiver ResultReceiver
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultReceiver.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.GetPowerMonitorReadings(ctx, _arg_powerMonitorIndices, _arg_resultReceiver)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

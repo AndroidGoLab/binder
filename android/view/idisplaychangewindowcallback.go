@@ -2,6 +2,7 @@ package view
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -58,4 +59,36 @@ func (p *DisplayChangeWindowCallbackProxy) ContinueDisplayChange(
 	}
 
 	return nil
+}
+
+// DisplayChangeWindowCallbackStub dispatches incoming binder transactions
+// to a typed IDisplayChangeWindowCallback implementation.
+type DisplayChangeWindowCallbackStub struct {
+	Impl IDisplayChangeWindowCallback
+}
+
+var _ binder.TransactionReceiver = (*DisplayChangeWindowCallbackStub)(nil)
+
+func (s *DisplayChangeWindowCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDisplayChangeWindowCallbackContinueDisplayChange:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_t interface{}
+		_err := s.Impl.ContinueDisplayChange(ctx, _arg_t)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

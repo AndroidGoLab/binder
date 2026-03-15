@@ -2,6 +2,7 @@ package neuralnetworks
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -172,4 +173,129 @@ func (p *BurstProxy) ExecuteSynchronouslyWithConfig(
 		}
 	}
 	return _result, nil
+}
+
+// BurstStub dispatches incoming binder transactions
+// to a typed IBurst implementation.
+type BurstStub struct {
+	Impl IBurst
+}
+
+var _ binder.TransactionReceiver = (*BurstStub)(nil)
+
+func (s *BurstStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIBurstExecuteSynchronously:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request Request
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_memoryIdentifierTokens []int64
+		_ = _arg_memoryIdentifierTokens
+		_arg_measureTiming, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_deadlineNs, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_loopTimeoutDurationNs, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ExecuteSynchronously(ctx, _arg_request, _arg_memoryIdentifierTokens, _arg_measureTiming, _arg_deadlineNs, _arg_loopTimeoutDurationNs)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionIBurstReleaseMemoryResource:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_memoryIdentifierToken, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ReleaseMemoryResource(ctx, _arg_memoryIdentifierToken)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	case TransactionIBurstExecuteSynchronouslyWithConfig:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request Request
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_memoryIdentifierTokens []int64
+		_ = _arg_memoryIdentifierTokens
+		var _arg_config ExecutionConfig
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_deadlineNs, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.ExecuteSynchronouslyWithConfig(ctx, _arg_request, _arg_memoryIdentifierTokens, _arg_config, _arg_deadlineNs)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

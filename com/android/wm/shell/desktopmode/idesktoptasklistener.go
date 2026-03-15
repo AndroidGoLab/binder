@@ -2,6 +2,7 @@ package desktopmode
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -130,4 +131,86 @@ func (p *DesktopTaskListenerProxy) OnExitDesktopModeTransitionStarted(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// DesktopTaskListenerStub dispatches incoming binder transactions
+// to a typed IDesktopTaskListener implementation.
+type DesktopTaskListenerStub struct {
+	Impl IDesktopTaskListener
+}
+
+var _ binder.TransactionReceiver = (*DesktopTaskListenerStub)(nil)
+
+func (s *DesktopTaskListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIDesktopTaskListenerOnTasksVisibilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_visibleTasksCount, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTasksVisibilityChanged(ctx, _arg_displayId, _arg_visibleTasksCount)
+		_ = _err
+		return nil, nil
+	case TransactionIDesktopTaskListenerOnStashedChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_stashed, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStashedChanged(ctx, _arg_displayId, _arg_stashed)
+		_ = _err
+		return nil, nil
+	case TransactionIDesktopTaskListenerOnTaskbarCornerRoundingUpdate:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_hasTasksRequiringTaskbarRounding, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTaskbarCornerRoundingUpdate(ctx, _arg_hasTasksRequiringTaskbarRounding)
+		_ = _err
+		return nil, nil
+	case TransactionIDesktopTaskListenerOnEnterDesktopModeTransitionStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_transitionDuration, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnEnterDesktopModeTransitionStarted(ctx, _arg_transitionDuration)
+		_ = _err
+		return nil, nil
+	case TransactionIDesktopTaskListenerOnExitDesktopModeTransitionStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_transitionDuration, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnExitDesktopModeTransitionStarted(ctx, _arg_transitionDuration)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

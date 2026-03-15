@@ -2,6 +2,7 @@ package preferences
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -103,4 +104,89 @@ func (p *SettingsPreferenceServiceProxy) SetPreferenceValue(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SettingsPreferenceServiceStub dispatches incoming binder transactions
+// to a typed ISettingsPreferenceService implementation.
+type SettingsPreferenceServiceStub struct {
+	Impl ISettingsPreferenceService
+}
+
+var _ binder.TransactionReceiver = (*SettingsPreferenceServiceStub)(nil)
+
+func (s *SettingsPreferenceServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISettingsPreferenceServiceGetAllPreferenceMetadata:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request MetadataRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IMetadataCallback
+		_ = _arg_callback
+		_err := s.Impl.GetAllPreferenceMetadata(ctx, _arg_request, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISettingsPreferenceServiceGetPreferenceValue:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request GetValueRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback IGetValueCallback
+		_ = _arg_callback
+		_err := s.Impl.GetPreferenceValue(ctx, _arg_request, _arg_callback)
+		_ = _err
+		return nil, nil
+	case TransactionISettingsPreferenceServiceSetPreferenceValue:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_request SetValueRequest
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ISetValueCallback
+		_ = _arg_callback
+		_err := s.Impl.SetPreferenceValue(ctx, _arg_request, _arg_callback)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

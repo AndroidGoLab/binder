@@ -2,6 +2,7 @@ package soundtrigger
 
 import (
 	"context"
+	"fmt"
 	hardwareSoundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -138,4 +139,95 @@ func (p *SoundTriggerDetectionServiceProxy) OnStopOperation(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SoundTriggerDetectionServiceStub dispatches incoming binder transactions
+// to a typed ISoundTriggerDetectionService implementation.
+type SoundTriggerDetectionServiceStub struct {
+	Impl ISoundTriggerDetectionService
+}
+
+var _ binder.TransactionReceiver = (*SoundTriggerDetectionServiceStub)(nil)
+
+func (s *SoundTriggerDetectionServiceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISoundTriggerDetectionServiceSetClient:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_uuid interface{}
+		var _arg_params interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_client ISoundTriggerDetectionServiceClient
+		_ = _arg_client
+		_err := s.Impl.SetClient(ctx, _arg_uuid, _arg_params, _arg_client)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerDetectionServiceRemoveClient:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_uuid interface{}
+		_err := s.Impl.RemoveClient(ctx, _arg_uuid)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerDetectionServiceOnGenericRecognitionEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_uuid interface{}
+		_arg_opId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_event hardwareSoundtrigger.SoundTriggerGenericRecognitionEvent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.OnGenericRecognitionEvent(ctx, _arg_uuid, _arg_opId, _arg_event)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerDetectionServiceOnError:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_uuid interface{}
+		_arg_opId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnError(ctx, _arg_uuid, _arg_opId, _arg_status)
+		_ = _err
+		return nil, nil
+	case TransactionISoundTriggerDetectionServiceOnStopOperation:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_uuid interface{}
+		_arg_opId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnStopOperation(ctx, _arg_uuid, _arg_opId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

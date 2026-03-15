@@ -2,6 +2,7 @@ package euicc
 
 import (
 	"context"
+	"fmt"
 	serviceEuicc "github.com/xaionaro-go/binder/android/service/euicc"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -62,4 +63,37 @@ func (p *GetAllProfilesCallbackProxy) OnComplete(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// GetAllProfilesCallbackStub dispatches incoming binder transactions
+// to a typed IGetAllProfilesCallback implementation.
+type GetAllProfilesCallbackStub struct {
+	Impl IGetAllProfilesCallback
+}
+
+var _ binder.TransactionReceiver = (*GetAllProfilesCallbackStub)(nil)
+
+func (s *GetAllProfilesCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIGetAllProfilesCallbackOnComplete:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_resultCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_profiles []serviceEuicc.EuiccProfileInfo
+		_ = _arg_profiles
+		_err = s.Impl.OnComplete(ctx, _arg_resultCode, _arg_profiles)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

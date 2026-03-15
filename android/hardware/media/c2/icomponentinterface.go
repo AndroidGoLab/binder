@@ -2,6 +2,7 @@ package c2
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -63,4 +64,37 @@ func (p *ComponentInterfaceProxy) GetConfigurable(
 	}
 	_result = NewConfigurableProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
+}
+
+// ComponentInterfaceStub dispatches incoming binder transactions
+// to a typed IComponentInterface implementation.
+type ComponentInterfaceStub struct {
+	Impl IComponentInterface
+}
+
+var _ binder.TransactionReceiver = (*ComponentInterfaceStub)(nil)
+
+func (s *ComponentInterfaceStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIComponentInterfaceGetConfigurable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetConfigurable(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

@@ -2,6 +2,7 @@ package soundtrigger_middleware
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -80,4 +81,43 @@ func (p *InjectRecognitionEventProxy) TriggerAbortRecognition(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// InjectRecognitionEventStub dispatches incoming binder transactions
+// to a typed IInjectRecognitionEvent implementation.
+type InjectRecognitionEventStub struct {
+	Impl IInjectRecognitionEvent
+}
+
+var _ binder.TransactionReceiver = (*InjectRecognitionEventStub)(nil)
+
+func (s *InjectRecognitionEventStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIInjectRecognitionEventTriggerRecognitionEvent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_data []byte
+		_ = _arg_data
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_phraseExtras []interface{}
+		_ = _arg_phraseExtras
+		_err := s.Impl.TriggerRecognitionEvent(ctx, _arg_data, _arg_phraseExtras)
+		_ = _err
+		return nil, nil
+	case TransactionIInjectRecognitionEventTriggerAbortRecognition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.TriggerAbortRecognition(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

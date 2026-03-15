@@ -2,6 +2,7 @@ package recents
 
 import (
 	"context"
+	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
@@ -498,4 +499,336 @@ func (p *OverviewProxyProxy) AppTransitionPending(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// OverviewProxyStub dispatches incoming binder transactions
+// to a typed IOverviewProxy implementation.
+type OverviewProxyStub struct {
+	Impl IOverviewProxy
+}
+
+var _ binder.TransactionReceiver = (*OverviewProxyStub)(nil)
+
+func (s *OverviewProxyStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIOverviewProxyOnActiveNavBarRegionChanges:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_activeRegion graphics.Region
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_activeRegion.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnActiveNavBarRegionChanges(ctx, _arg_activeRegion)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyOnInitialize:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_params os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err := s.Impl.OnInitialize(ctx, _arg_params)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyOnOverviewToggle:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnOverviewToggle(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyOnOverviewShown:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_triggeredFromAltTab, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnOverviewShown(ctx, _arg_triggeredFromAltTab)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyOnOverviewHidden:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_triggeredFromAltTab, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_triggeredFromHomeKey, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnOverviewHidden(ctx, _arg_triggeredFromAltTab, _arg_triggeredFromHomeKey)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyOnAssistantAvailable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_available, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_longPressHomeEnabled, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAssistantAvailable(ctx, _arg_available, _arg_longPressHomeEnabled)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyOnAssistantVisibilityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_visibility, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAssistantVisibilityChanged(ctx, _arg_visibility)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyOnAssistantOverrideInvoked:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_invocationType, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAssistantOverrideInvoked(ctx, _arg_invocationType)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyOnSystemUiStateChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_stateFlags, _err := data.ReadInt64()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSystemUiStateChanged(ctx, _arg_stateFlags)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyOnRotationProposal:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_rotation, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_isValid, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnRotationProposal(ctx, _arg_rotation, _arg_isValid)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyDisable:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state1, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state2, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_animate, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.Disable(ctx, _arg_displayId, _arg_state1, _arg_state2, _arg_animate)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyOnSystemBarAttributesChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_behavior, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnSystemBarAttributesChanged(ctx, _arg_displayId, _arg_behavior)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyOnTransitionModeUpdated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_barMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_checkBarModes, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnTransitionModeUpdated(ctx, _arg_barMode, _arg_checkBarModes)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyOnNavButtonsDarkIntensityChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_darkIntensity, _err := data.ReadFloat32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNavButtonsDarkIntensityChanged(ctx, _arg_darkIntensity)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyOnNavigationBarLumaSamplingEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_enable, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnNavigationBarLumaSamplingEnabled(ctx, _arg_displayId, _arg_enable)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyEnterStageSplitFromRunningApp:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_leftOrTop, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.EnterStageSplitFromRunningApp(ctx, _arg_leftOrTop)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyOnTaskbarToggled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnTaskbarToggled(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyUpdateWallpaperVisibility:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_visible, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.UpdateWallpaperVisibility(ctx, _arg_displayId, _arg_visible)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyCheckNavBarModes:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.CheckNavBarModes(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyFinishBarAnimations:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.FinishBarAnimations(ctx, _arg_displayId)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyTouchAutoDim:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayid, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_reset, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.TouchAutoDim(ctx, _arg_displayid, _arg_reset)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyTransitionTo:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_displayId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_barMode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_animate, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.TransitionTo(ctx, _arg_displayId, _arg_barMode, _arg_animate)
+		_ = _err
+		return nil, nil
+	case TransactionIOverviewProxyAppTransitionPending:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_pending, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.AppTransitionPending(ctx, _arg_pending)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

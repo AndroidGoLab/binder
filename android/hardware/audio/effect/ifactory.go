@@ -2,6 +2,7 @@ package effect
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -176,4 +177,85 @@ func (p *FactoryProxy) DestroyEffect(
 	}
 
 	return nil
+}
+
+// FactoryStub dispatches incoming binder transactions
+// to a typed IFactory implementation.
+type FactoryStub struct {
+	Impl IFactory
+}
+
+var _ binder.TransactionReceiver = (*FactoryStub)(nil)
+
+func (s *FactoryStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIFactoryQueryEffects:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_type_ *interface{}
+		var _arg_implementation *interface{}
+		var _arg_proxy *interface{}
+		_result, _err := s.Impl.QueryEffects(ctx, _arg_type_, _arg_implementation, _arg_proxy)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIFactoryQueryProcessing:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_type_ *interface{}
+		_result, _err := s.Impl.QueryProcessing(ctx, _arg_type_)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIFactoryCreateEffect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_implUuid interface{}
+		_result, _err := s.Impl.CreateEffect(ctx, _arg_implUuid)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	case TransactionIFactoryDestroyEffect:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_handle IEffect
+		_ = _arg_handle
+		_err := s.Impl.DestroyEffect(ctx, _arg_handle)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

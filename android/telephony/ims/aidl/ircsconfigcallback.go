@@ -2,6 +2,7 @@ package aidl
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -138,4 +139,72 @@ func (p *RcsConfigCallbackProxy) OnPreProvisioningReceived(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// RcsConfigCallbackStub dispatches incoming binder transactions
+// to a typed IRcsConfigCallback implementation.
+type RcsConfigCallbackStub struct {
+	Impl IRcsConfigCallback
+}
+
+var _ binder.TransactionReceiver = (*RcsConfigCallbackStub)(nil)
+
+func (s *RcsConfigCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRcsConfigCallbackOnConfigurationChanged:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_config []byte
+		_ = _arg_config
+		_err := s.Impl.OnConfigurationChanged(ctx, _arg_config)
+		_ = _err
+		return nil, nil
+	case TransactionIRcsConfigCallbackOnAutoConfigurationErrorReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_errorCode, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_errorString, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnAutoConfigurationErrorReceived(ctx, _arg_errorCode, _arg_errorString)
+		_ = _err
+		return nil, nil
+	case TransactionIRcsConfigCallbackOnConfigurationReset:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnConfigurationReset(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIRcsConfigCallbackOnRemoved:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.OnRemoved(ctx)
+		_ = _err
+		return nil, nil
+	case TransactionIRcsConfigCallbackOnPreProvisioningReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_config []byte
+		_ = _arg_config
+		_err := s.Impl.OnPreProvisioningReceived(ctx, _arg_config)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

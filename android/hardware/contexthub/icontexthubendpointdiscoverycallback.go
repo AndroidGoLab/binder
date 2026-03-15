@@ -2,6 +2,7 @@ package contexthub
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -89,4 +90,47 @@ func (p *ContextHubEndpointDiscoveryCallbackProxy) OnEndpointsStopped(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// ContextHubEndpointDiscoveryCallbackStub dispatches incoming binder transactions
+// to a typed IContextHubEndpointDiscoveryCallback implementation.
+type ContextHubEndpointDiscoveryCallbackStub struct {
+	Impl IContextHubEndpointDiscoveryCallback
+}
+
+var _ binder.TransactionReceiver = (*ContextHubEndpointDiscoveryCallbackStub)(nil)
+
+func (s *ContextHubEndpointDiscoveryCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIContextHubEndpointDiscoveryCallbackOnEndpointsStarted:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_hubEndpointInfoList []HubEndpointInfo
+		_ = _arg_hubEndpointInfoList
+		_err := s.Impl.OnEndpointsStarted(ctx, _arg_hubEndpointInfoList)
+		_ = _err
+		return nil, nil
+	case TransactionIContextHubEndpointDiscoveryCallbackOnEndpointsStopped:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: array/list param unmarshaling not yet supported in stubs
+		var _arg_hubEndpointInfoList []HubEndpointInfo
+		_ = _arg_hubEndpointInfoList
+		_arg_reason, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnEndpointsStopped(ctx, _arg_hubEndpointInfoList, _arg_reason)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

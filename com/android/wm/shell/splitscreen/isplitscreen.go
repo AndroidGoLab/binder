@@ -2,6 +2,7 @@ package splitscreen
 
 import (
 	"context"
+	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	content "github.com/xaionaro-go/binder/android/content"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
@@ -481,4 +482,588 @@ func (p *SplitScreenProxy) SwitchSplitPosition(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// SplitScreenStub dispatches incoming binder transactions
+// to a typed ISplitScreen implementation.
+type SplitScreenStub struct {
+	Impl ISplitScreen
+}
+
+var _ binder.TransactionReceiver = (*SplitScreenStub)(nil)
+
+func (s *SplitScreenStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionISplitScreenRegisterSplitScreenListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ISplitScreenListener
+		_ = _arg_listener
+		_err := s.Impl.RegisterSplitScreenListener(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionISplitScreenUnregisterSplitScreenListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ISplitScreenListener
+		_ = _arg_listener
+		_err := s.Impl.UnregisterSplitScreenListener(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionISplitScreenRegisterSplitSelectListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ISplitSelectListener
+		_ = _arg_listener
+		_err := s.Impl.RegisterSplitSelectListener(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionISplitScreenUnregisterSplitSelectListener:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ISplitSelectListener
+		_ = _arg_listener
+		_err := s.Impl.UnregisterSplitSelectListener(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionISplitScreenExitSplitScreen:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_toTopTaskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ExitSplitScreen(ctx, _arg_toTopTaskId)
+		_ = _err
+		return nil, nil
+	case TransactionISplitScreenExitSplitScreenOnHide:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_exitSplitScreenOnHide, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.ExitSplitScreenOnHide(ctx, _arg_exitSplitScreenOnHide)
+		_ = _err
+		return nil, nil
+	case TransactionISplitScreenStartTask:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_position, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StartTask(ctx, _arg_taskId, _arg_position, _arg_options)
+		_ = _err
+		return nil, nil
+	case TransactionISplitScreenStartShortcut:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_packageName, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_shortcutId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_position, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_instanceId logging.InstanceId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_instanceId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StartShortcut(ctx, _arg_packageName, _arg_shortcutId, _arg_position, _arg_options, _arg_user, _arg_instanceId)
+		_ = _err
+		return nil, nil
+	case TransactionISplitScreenStartIntent:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_intent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		var _arg_fillInIntent content.Intent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_fillInIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_position, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_instanceId logging.InstanceId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_instanceId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StartIntent(ctx, _arg_intent, _arg_fillInIntent, _arg_position, _arg_options, _arg_instanceId)
+		_ = _err
+		return nil, nil
+	case TransactionISplitScreenStartTasks:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_taskId1, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_options1 os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options1.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_taskId2, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_options2 os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options2.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_splitPosition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_snapPosition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_remoteTransition window.RemoteTransition
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_remoteTransition.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_instanceId logging.InstanceId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_instanceId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StartTasks(ctx, _arg_taskId1, _arg_options1, _arg_taskId2, _arg_options2, _arg_splitPosition, _arg_snapPosition, _arg_remoteTransition, _arg_instanceId)
+		_ = _err
+		return nil, nil
+	case TransactionISplitScreenStartIntentAndTask:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_pendingIntent app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pendingIntent.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_userId1, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_options1 os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options1.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_options2 os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options2.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_sidePosition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_snapPosition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_remoteTransition window.RemoteTransition
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_remoteTransition.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_instanceId logging.InstanceId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_instanceId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StartIntentAndTask(ctx, _arg_pendingIntent, _arg_userId1, _arg_options1, _arg_taskId, _arg_options2, _arg_sidePosition, _arg_snapPosition, _arg_remoteTransition, _arg_instanceId)
+		_ = _err
+		return nil, nil
+	case TransactionISplitScreenStartShortcutAndTask:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_shortcutInfo pm.ShortcutInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_shortcutInfo.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_options1 os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options1.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_taskId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_options2 os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options2.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_splitPosition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_snapPosition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_remoteTransition window.RemoteTransition
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_remoteTransition.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_instanceId logging.InstanceId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_instanceId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StartShortcutAndTask(ctx, _arg_shortcutInfo, _arg_options1, _arg_taskId, _arg_options2, _arg_splitPosition, _arg_snapPosition, _arg_remoteTransition, _arg_instanceId)
+		_ = _err
+		return nil, nil
+	case TransactionISplitScreenStartIntents:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_pendingIntent1 app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pendingIntent1.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_userId1, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_shortcutInfo1 pm.ShortcutInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_shortcutInfo1.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_options1 os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options1.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_pendingIntent2 app.PendingIntent
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pendingIntent2.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_userId2, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_shortcutInfo2 pm.ShortcutInfo
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_shortcutInfo2.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_options2 os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options2.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_splitPosition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_snapPosition, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		var _arg_remoteTransition window.RemoteTransition
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_remoteTransition.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_instanceId logging.InstanceId
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_instanceId.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_err = s.Impl.StartIntents(ctx, _arg_pendingIntent1, _arg_userId1, _arg_shortcutInfo1, _arg_options1, _arg_pendingIntent2, _arg_userId2, _arg_shortcutInfo2, _arg_options2, _arg_splitPosition, _arg_snapPosition, _arg_remoteTransition, _arg_instanceId)
+		_ = _err
+		return nil, nil
+	case TransactionISplitScreenSwitchSplitPosition:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.SwitchSplitPosition(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

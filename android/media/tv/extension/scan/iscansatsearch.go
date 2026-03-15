@@ -2,6 +2,7 @@ package scan
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -64,4 +65,40 @@ func (p *ScanSatSearchProxy) SetCustomizedLnb(
 		return _result, _err
 	}
 	return _result, nil
+}
+
+// ScanSatSearchStub dispatches incoming binder transactions
+// to a typed IScanSatSearch implementation.
+type ScanSatSearchStub struct {
+	Impl IScanSatSearch
+}
+
+var _ binder.TransactionReceiver = (*ScanSatSearchStub)(nil)
+
+func (s *ScanSatSearchStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIScanSatSearchSetCustomizedLnb:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_customizedLnb, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.SetCustomizedLnb(ctx, _arg_customizedLnb)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(_result)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

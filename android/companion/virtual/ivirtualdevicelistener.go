@@ -2,6 +2,7 @@ package virtual
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -69,4 +70,45 @@ func (p *VirtualDeviceListenerProxy) OnVirtualDeviceClosed(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// VirtualDeviceListenerStub dispatches incoming binder transactions
+// to a typed IVirtualDeviceListener implementation.
+type VirtualDeviceListenerStub struct {
+	Impl IVirtualDeviceListener
+}
+
+var _ binder.TransactionReceiver = (*VirtualDeviceListenerStub)(nil)
+
+func (s *VirtualDeviceListenerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIVirtualDeviceListenerOnVirtualDeviceCreated:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_deviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnVirtualDeviceCreated(ctx, _arg_deviceId)
+		_ = _err
+		return nil, nil
+	case TransactionIVirtualDeviceListenerOnVirtualDeviceClosed:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_arg_deviceId, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.OnVirtualDeviceClosed(ctx, _arg_deviceId)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

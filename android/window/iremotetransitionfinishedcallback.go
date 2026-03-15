@@ -2,6 +2,7 @@ package window
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -63,4 +64,48 @@ func (p *RemoteTransitionFinishedCallbackProxy) OnTransitionFinished(
 	}
 
 	return nil
+}
+
+// RemoteTransitionFinishedCallbackStub dispatches incoming binder transactions
+// to a typed IRemoteTransitionFinishedCallback implementation.
+type RemoteTransitionFinishedCallbackStub struct {
+	Impl IRemoteTransitionFinishedCallback
+}
+
+var _ binder.TransactionReceiver = (*RemoteTransitionFinishedCallbackStub)(nil)
+
+func (s *RemoteTransitionFinishedCallbackStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIRemoteTransitionFinishedCallbackOnTransitionFinished:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		var _arg_wct WindowContainerTransaction
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_wct.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_sct interface{}
+		_err := s.Impl.OnTransitionFinished(ctx, _arg_wct, _arg_sct)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

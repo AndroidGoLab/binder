@@ -2,6 +2,7 @@ package textservice
 
 import (
 	"context"
+	"fmt"
 	os "github.com/xaionaro-go/binder/android/os"
 	viewTextservice "github.com/xaionaro-go/binder/android/view/textservice"
 	"github.com/xaionaro-go/binder/binder"
@@ -243,4 +244,155 @@ func (p *TextServicesManagerProxy) GetEnabledSpellCheckers(
 		}
 	}
 	return _result, nil
+}
+
+// TextServicesManagerStub dispatches incoming binder transactions
+// to a typed ITextServicesManager implementation.
+type TextServicesManagerStub struct {
+	Impl ITextServicesManager
+}
+
+var _ binder.TransactionReceiver = (*TextServicesManagerStub)(nil)
+
+func (s *TextServicesManagerStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionITextServicesManagerGetCurrentSpellChecker:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_locale, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCurrentSpellChecker(ctx, _arg_locale)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITextServicesManagerGetCurrentSpellCheckerSubtype:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_allowImplicitlySelectedSubtype, _err := data.ReadBool()
+		if _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetCurrentSpellCheckerSubtype(ctx, _arg_allowImplicitlySelectedSubtype)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
+		return _reply, nil
+	case TransactionITextServicesManagerGetSpellCheckerService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_arg_sciId, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_locale, _err := data.ReadString16()
+		if _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_tsListener ITextServicesSessionListener
+		_ = _arg_tsListener
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_scListener ISpellCheckerSessionListener
+		_ = _arg_scListener
+		var _arg_bundle os.Bundle
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bundle.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		_arg_supportedAttributes, _err := data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_err = s.Impl.GetSpellCheckerService(ctx, _arg_sciId, _arg_locale, _arg_tsListener, _arg_scListener, _arg_bundle, _arg_supportedAttributes)
+		_ = _err
+		return nil, nil
+	case TransactionITextServicesManagerFinishSpellCheckerService:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener ISpellCheckerSessionListener
+		_ = _arg_listener
+		_err := s.Impl.FinishSpellCheckerService(ctx, _arg_listener)
+		_ = _err
+		return nil, nil
+	case TransactionITextServicesManagerIsSpellCheckerEnabled:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.IsSpellCheckerEnabled(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		_reply.WriteBool(_result)
+		return _reply, nil
+	case TransactionITextServicesManagerGetEnabledSpellCheckers:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		if _, _err := data.ReadInt32(); _err != nil {
+			return nil, _err
+		}
+		_result, _err := s.Impl.GetEnabledSpellCheckers(ctx)
+		_reply := parcel.New()
+		if _err != nil {
+			binder.WriteStatus(_reply, _err)
+			return _reply, nil
+		}
+		binder.WriteStatus(_reply, nil)
+		// TODO: array/list return marshaling not yet supported in stubs
+		_ = _result
+		return _reply, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }

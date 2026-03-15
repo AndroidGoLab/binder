@@ -2,6 +2,7 @@ package soundtrigger_middleware
 
 import (
 	"context"
+	"fmt"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -48,4 +49,30 @@ func (p *AcknowledgeEventProxy) EventReceived(
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
 	return _err
+}
+
+// AcknowledgeEventStub dispatches incoming binder transactions
+// to a typed IAcknowledgeEvent implementation.
+type AcknowledgeEventStub struct {
+	Impl IAcknowledgeEvent
+}
+
+var _ binder.TransactionReceiver = (*AcknowledgeEventStub)(nil)
+
+func (s *AcknowledgeEventStub) OnTransaction(
+	ctx context.Context,
+	code binder.TransactionCode,
+	data *parcel.Parcel,
+) (*parcel.Parcel, error) {
+	switch code {
+	case TransactionIAcknowledgeEventEventReceived:
+		if _, _err := data.ReadString16(); _err != nil {
+			return nil, _err
+		}
+		_err := s.Impl.EventReceived(ctx)
+		_ = _err
+		return nil, nil
+	default:
+		return nil, fmt.Errorf("unknown transaction code %d", code)
+	}
 }
