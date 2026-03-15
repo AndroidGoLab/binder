@@ -1,6 +1,7 @@
 package media
 
 import (
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type OpenOutputResponse struct {
 	Output    int32
-	Config    interface{}
+	Config    common.AudioConfig
 	LatencyMs int32
 	Flags     int32
 }
@@ -20,6 +21,9 @@ func (s *OpenOutputResponse) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Output)
+	if _err := s.Config.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.LatencyMs)
 	p.WriteInt32(s.Flags)
 
@@ -37,6 +41,10 @@ func (s *OpenOutputResponse) UnmarshalParcel(
 
 	s.Output, _err = p.ReadInt32()
 	if _err != nil {
+		return _err
+	}
+
+	if _err = s.Config.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

@@ -6,6 +6,7 @@ import (
 	content "github.com/xaionaro-go/binder/android/content"
 	Descriptor "github.com/xaionaro-go/binder/android/hardware/audio/effect/Descriptor"
 	soundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
+	media "github.com/xaionaro-go/binder/android/media"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -116,9 +117,9 @@ type IVoiceInteractionManagerService interface {
 	DisableVisualQueryDetection(ctx context.Context) error
 	StartPerceiving(ctx context.Context, callback interface{}) error
 	StopPerceiving(ctx context.Context) error
-	StartListeningFromMic(ctx context.Context, audioFormat interface{}, callback interface{}) error
+	StartListeningFromMic(ctx context.Context, audioFormat media.AudioFormat, callback interface{}) error
 	StopListeningFromMic(ctx context.Context) error
-	StartListeningFromExternalSource(ctx context.Context, audioStream int32, audioFormat interface{}, options interface{}, token binder.IBinder, callback interface{}) error
+	StartListeningFromExternalSource(ctx context.Context, audioStream int32, audioFormat media.AudioFormat, options interface{}, token binder.IBinder, callback interface{}) error
 	TriggerHardwareRecognitionEventForTest(ctx context.Context, event soundtrigger.SoundTriggerKeyphraseRecognitionEvent, callback IHotwordRecognitionStatusCallback) error
 	StartListeningVisibleActivityChanged(ctx context.Context, token binder.IBinder) error
 	StopListeningVisibleActivityChanged(ctx context.Context, token binder.IBinder) error
@@ -1461,11 +1462,15 @@ func (p *VoiceInteractionManagerServiceProxy) StopPerceiving(
 
 func (p *VoiceInteractionManagerServiceProxy) StartListeningFromMic(
 	ctx context.Context,
-	audioFormat interface{},
+	audioFormat media.AudioFormat,
 	callback interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
+	_data.WriteInt32(1)
+	if _err := audioFormat.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionManagerService, "startListeningFromMic")
 	if _err != nil {
@@ -1512,7 +1517,7 @@ func (p *VoiceInteractionManagerServiceProxy) StopListeningFromMic(
 func (p *VoiceInteractionManagerServiceProxy) StartListeningFromExternalSource(
 	ctx context.Context,
 	audioStream int32,
-	audioFormat interface{},
+	audioFormat media.AudioFormat,
 	options interface{},
 	token binder.IBinder,
 	callback interface{},
@@ -1520,6 +1525,10 @@ func (p *VoiceInteractionManagerServiceProxy) StartListeningFromExternalSource(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
 	_data.WriteFileDescriptor(audioStream)
+	_data.WriteInt32(1)
+	if _err := audioFormat.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteStrongBinder(token.Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionManagerService, "startListeningFromExternalSource")
@@ -2574,7 +2583,18 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_audioFormat interface{}
+		var _arg_audioFormat media.AudioFormat
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_audioFormat.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_callback interface{}
 		_err := s.Impl.StartListeningFromMic(ctx, _arg_audioFormat, _arg_callback)
 		_reply := parcel.New()
@@ -2604,7 +2624,18 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_audioFormat interface{}
+		var _arg_audioFormat media.AudioFormat
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_audioFormat.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_options interface{}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder

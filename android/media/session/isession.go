@@ -3,9 +3,7 @@ package session
 import (
 	"context"
 	"fmt"
-	app "github.com/xaionaro-go/binder/android/app"
 	content "github.com/xaionaro-go/binder/android/content"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -37,20 +35,20 @@ const (
 
 type ISession interface {
 	AsBinder() binder.IBinder
-	SendEvent(ctx context.Context, event string, data os.Bundle) error
+	SendEvent(ctx context.Context, event string, data interface{}) error
 	GetController(ctx context.Context) (ISessionController, error)
 	SetFlags(ctx context.Context, flags int32) error
 	SetActive(ctx context.Context, active bool) error
-	SetMediaButtonReceiver(ctx context.Context, mbr app.PendingIntent) error
+	SetMediaButtonReceiver(ctx context.Context, mbr interface{}) error
 	SetMediaButtonBroadcastReceiver(ctx context.Context, broadcastReceiver content.ComponentName) error
-	SetLaunchPendingIntent(ctx context.Context, pi app.PendingIntent) error
+	SetLaunchPendingIntent(ctx context.Context, pi interface{}) error
 	DestroySession(ctx context.Context) error
 	SetMetadata(ctx context.Context, metadata interface{}, duration int64, metadataDescription string) error
 	SetPlaybackState(ctx context.Context, state PlaybackState) error
 	ResetQueue(ctx context.Context) error
 	GetBinderForSetQueue(ctx context.Context) (binder.IBinder, error)
 	SetQueueTitle(ctx context.Context, title interface{}) error
-	SetExtras(ctx context.Context, extras os.Bundle) error
+	SetExtras(ctx context.Context, extras interface{}) error
 	SetRatingType(ctx context.Context, type_ int32) error
 	SetPlaybackToLocal(ctx context.Context, attributes interface{}) error
 	SetPlaybackToRemote(ctx context.Context, control int32, max_ int32, controlId string) error
@@ -76,15 +74,11 @@ var _ ISession = (*SessionProxy)(nil)
 func (p *SessionProxy) SendEvent(
 	ctx context.Context,
 	event string,
-	data os.Bundle,
+	data interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteString16(event)
-	_data.WriteInt32(1)
-	if _err := data.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "sendEvent")
 	if _err != nil {
@@ -188,14 +182,10 @@ func (p *SessionProxy) SetActive(
 
 func (p *SessionProxy) SetMediaButtonReceiver(
 	ctx context.Context,
-	mbr app.PendingIntent,
+	mbr interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
-	_data.WriteInt32(1)
-	if _err := mbr.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setMediaButtonReceiver")
 	if _err != nil {
@@ -246,14 +236,10 @@ func (p *SessionProxy) SetMediaButtonBroadcastReceiver(
 
 func (p *SessionProxy) SetLaunchPendingIntent(
 	ctx context.Context,
-	pi app.PendingIntent,
+	pi interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
-	_data.WriteInt32(1)
-	if _err := pi.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setLaunchPendingIntent")
 	if _err != nil {
@@ -436,14 +422,10 @@ func (p *SessionProxy) SetQueueTitle(
 
 func (p *SessionProxy) SetExtras(
 	ctx context.Context,
-	extras os.Bundle,
+	extras interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setExtras")
 	if _err != nil {
@@ -592,18 +574,7 @@ func (s *SessionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_data os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_data interface{}
 		_err = s.Impl.SendEvent(ctx, _arg_event, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {
@@ -662,18 +633,7 @@ func (s *SessionStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_mbr app.PendingIntent
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_mbr.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_mbr interface{}
 		_err := s.Impl.SetMediaButtonReceiver(ctx, _arg_mbr)
 		_reply := parcel.New()
 		if _err != nil {
@@ -710,18 +670,7 @@ func (s *SessionStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_pi app.PendingIntent
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_pi.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_pi interface{}
 		_err := s.Impl.SetLaunchPendingIntent(ctx, _arg_pi)
 		_reply := parcel.New()
 		if _err != nil {
@@ -830,18 +779,7 @@ func (s *SessionStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_extras os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_extras interface{}
 		_err := s.Impl.SetExtras(ctx, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {

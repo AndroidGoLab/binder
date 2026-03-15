@@ -3,7 +3,6 @@ package media
 import (
 	"context"
 	"fmt"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -75,7 +74,7 @@ type IMediaRouterService interface {
 	SetDiscoveryRequestWithRouter2(ctx context.Context, router IMediaRouter2, preference RouteDiscoveryPreference) error
 	SetRouteListingPreference(ctx context.Context, router IMediaRouter2, routeListingPreference *RouteListingPreference) error
 	SetRouteVolumeWithRouter2(ctx context.Context, router IMediaRouter2, route MediaRoute2Info, volume int32) error
-	RequestCreateSessionWithRouter2(ctx context.Context, router IMediaRouter2, requestId int32, managerRequestId int64, oldSession RoutingSessionInfo, route MediaRoute2Info, sessionHints *os.Bundle) error
+	RequestCreateSessionWithRouter2(ctx context.Context, router IMediaRouter2, requestId int32, managerRequestId int64, oldSession RoutingSessionInfo, route MediaRoute2Info, sessionHints *interface{}) error
 	SelectRouteWithRouter2(ctx context.Context, router IMediaRouter2, sessionId string, route MediaRoute2Info) error
 	DeselectRouteWithRouter2(ctx context.Context, router IMediaRouter2, sessionId string, route MediaRoute2Info) error
 	TransferToRouteWithRouter2(ctx context.Context, router IMediaRouter2, sessionId string, route MediaRoute2Info) error
@@ -84,14 +83,14 @@ type IMediaRouterService interface {
 	GetRemoteSessions(ctx context.Context, manager IMediaRouter2Manager) ([]RoutingSessionInfo, error)
 	GetSystemSessionInfoForPackage(ctx context.Context, callerPackageName string, targetPackageName string) (RoutingSessionInfo, error)
 	RegisterManager(ctx context.Context, manager IMediaRouter2Manager, packageName string) error
-	RegisterProxyRouter(ctx context.Context, manager IMediaRouter2Manager, callingPackageName string, targetPackageName string, targetUser os.UserHandle) error
+	RegisterProxyRouter(ctx context.Context, manager IMediaRouter2Manager, callingPackageName string, targetPackageName string, targetUser interface{}) error
 	UnregisterManager(ctx context.Context, manager IMediaRouter2Manager) error
 	SetRouteVolumeWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, route MediaRoute2Info, volume int32) error
 	UpdateScanningState(ctx context.Context, manager IMediaRouter2Manager, scanningState int32) error
 	RequestCreateSessionWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, oldSession RoutingSessionInfo, route *MediaRoute2Info) error
 	SelectRouteWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string, route MediaRoute2Info) error
 	DeselectRouteWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string, route MediaRoute2Info) error
-	TransferToRouteWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string, route MediaRoute2Info, transferInitiatorUserHandle os.UserHandle, transferInitiatorPackageName string) error
+	TransferToRouteWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string, route MediaRoute2Info, transferInitiatorUserHandle interface{}, transferInitiatorPackageName string) error
 	SetSessionVolumeWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string, volume int32) error
 	ReleaseSessionWithManager(ctx context.Context, manager IMediaRouter2Manager, requestId int32, sessionId string) error
 	ShowMediaOutputSwitcherWithProxyRouter(ctx context.Context, manager IMediaRouter2Manager) (bool, error)
@@ -706,7 +705,7 @@ func (p *MediaRouterServiceProxy) RequestCreateSessionWithRouter2(
 	managerRequestId int64,
 	oldSession RoutingSessionInfo,
 	route MediaRoute2Info,
-	sessionHints *os.Bundle,
+	sessionHints *interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
@@ -720,13 +719,6 @@ func (p *MediaRouterServiceProxy) RequestCreateSessionWithRouter2(
 	_data.WriteInt32(1)
 	if _err := route.MarshalParcel(_data); _err != nil {
 		return _err
-	}
-	if sessionHints != nil {
-		if _err := (*sessionHints).MarshalParcel(_data); _err != nil {
-			return _err
-		}
-	} else {
-		_data.WriteInt32(-1)
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "requestCreateSessionWithRouter2")
@@ -1015,17 +1007,13 @@ func (p *MediaRouterServiceProxy) RegisterProxyRouter(
 	manager IMediaRouter2Manager,
 	callingPackageName string,
 	targetPackageName string,
-	targetUser os.UserHandle,
+	targetUser interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	_data.WriteStrongBinder(manager.AsBinder().Handle())
 	_data.WriteString16(callingPackageName)
 	_data.WriteString16(targetPackageName)
-	_data.WriteInt32(1)
-	if _err := targetUser.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "registerProxyRouter")
 	if _err != nil {
@@ -1251,7 +1239,7 @@ func (p *MediaRouterServiceProxy) TransferToRouteWithManager(
 	requestId int32,
 	sessionId string,
 	route MediaRoute2Info,
-	transferInitiatorUserHandle os.UserHandle,
+	transferInitiatorUserHandle interface{},
 	transferInitiatorPackageName string,
 ) error {
 	_data := parcel.New()
@@ -1261,10 +1249,6 @@ func (p *MediaRouterServiceProxy) TransferToRouteWithManager(
 	_data.WriteString16(sessionId)
 	_data.WriteInt32(1)
 	if _err := route.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := transferInitiatorUserHandle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(transferInitiatorPackageName)
@@ -1828,18 +1812,7 @@ func (s *MediaRouterServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_sessionHints *os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_sessionHints.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_sessionHints *interface{}
 		_err = s.Impl.RequestCreateSessionWithRouter2(ctx, _arg_router, _arg_requestId, _arg_managerRequestId, _arg_oldSession, _arg_route, _arg_sessionHints)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2058,18 +2031,7 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_targetUser os.UserHandle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_targetUser.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_targetUser interface{}
 		_err = s.Impl.RegisterProxyRouter(ctx, _arg_manager, _arg_callingPackageName, _arg_targetPackageName, _arg_targetUser)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2287,18 +2249,7 @@ func (s *MediaRouterServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_transferInitiatorUserHandle os.UserHandle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_transferInitiatorUserHandle.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_transferInitiatorUserHandle interface{}
 		_arg_transferInitiatorPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

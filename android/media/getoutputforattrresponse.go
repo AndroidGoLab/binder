@@ -2,6 +2,7 @@ package media
 
 import (
 	tuner "github.com/xaionaro-go/binder/android/hardware/tv/tuner"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -14,7 +15,7 @@ type GetOutputForAttrResponse struct {
 	PortId            int32
 	SecondaryOutputs  []int32
 	IsSpatialized     bool
-	ConfigBase        interface{}
+	ConfigBase        common.AudioConfigBase
 	IsBitPerfect      bool
 	Attr              AudioAttributes
 	Volume            float32
@@ -47,6 +48,9 @@ func (s *GetOutputForAttrResponse) MarshalParcel(
 		}
 	}
 	p.WriteBool(s.IsSpatialized)
+	if _err := s.ConfigBase.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteBool(s.IsBitPerfect)
 	if _err := s.Attr.MarshalParcel(p); _err != nil {
 		return _err
@@ -114,6 +118,10 @@ func (s *GetOutputForAttrResponse) UnmarshalParcel(
 
 	s.IsSpatialized, _err = p.ReadBool()
 	if _err != nil {
+		return _err
+	}
+
+	if _err = s.ConfigBase.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

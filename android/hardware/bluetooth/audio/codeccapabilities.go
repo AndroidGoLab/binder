@@ -1,7 +1,6 @@
 package audio
 
 import (
-	audioCodecCapabilities "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/CodecCapabilities"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +8,7 @@ import (
 
 type CodecCapabilities struct {
 	CodecType    CodecType
-	Capabilities audioCodecCapabilities.Capabilities
+	Capabilities interface{}
 }
 
 var _ parcel.Parcelable = (*CodecCapabilities)(nil)
@@ -19,9 +18,6 @@ func (s *CodecCapabilities) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(int32(s.CodecType))
-	if _err := s.Capabilities.MarshalParcel(p); _err != nil {
-		return _err
-	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -40,10 +36,6 @@ func (s *CodecCapabilities) UnmarshalParcel(
 		return _err
 	}
 	s.CodecType = CodecType(_codecTypeRaw)
-
-	if _err = s.Capabilities.UnmarshalParcel(p); _err != nil {
-		return _err
-	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

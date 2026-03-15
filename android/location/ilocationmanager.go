@@ -3,10 +3,8 @@ package location
 import (
 	"context"
 	"fmt"
-	app "github.com/xaionaro-go/binder/android/app"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	locationProvider "github.com/xaionaro-go/binder/android/location/provider"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -86,13 +84,13 @@ type ILocationManager interface {
 	GetCurrentLocation(ctx context.Context, provider string, request LocationRequest, callback ILocationCallback, packageName string, listenerId string) (ondeviceintelligence.ICancellationSignal, error)
 	RegisterLocationListener(ctx context.Context, provider string, request LocationRequest, listener ILocationListener, packageName string, listenerId string) error
 	UnregisterLocationListener(ctx context.Context, listener ILocationListener) error
-	RegisterLocationPendingIntent(ctx context.Context, provider string, request LocationRequest, pendingIntent app.PendingIntent, packageName string) error
-	UnregisterLocationPendingIntent(ctx context.Context, pendingIntent app.PendingIntent) error
+	RegisterLocationPendingIntent(ctx context.Context, provider string, request LocationRequest, pendingIntent interface{}, packageName string) error
+	UnregisterLocationPendingIntent(ctx context.Context, pendingIntent interface{}) error
 	InjectLocation(ctx context.Context, location Location) error
 	RequestListenerFlush(ctx context.Context, provider string, listener ILocationListener, requestCode int32) error
-	RequestPendingIntentFlush(ctx context.Context, provider string, pendingIntent app.PendingIntent, requestCode int32) error
-	RequestGeofence(ctx context.Context, geofence Geofence, intent app.PendingIntent, packageName string) error
-	RemoveGeofence(ctx context.Context, intent app.PendingIntent) error
+	RequestPendingIntentFlush(ctx context.Context, provider string, pendingIntent interface{}, requestCode int32) error
+	RequestGeofence(ctx context.Context, geofence Geofence, intent interface{}, packageName string) error
+	RemoveGeofence(ctx context.Context, intent interface{}) error
 	IsGeocodeAvailable(ctx context.Context) (bool, error)
 	ReverseGeocode(ctx context.Context, request locationProvider.ReverseGeocodeRequest, callback locationProvider.IGeocodeCallback) error
 	ForwardGeocode(ctx context.Context, request locationProvider.ForwardGeocodeRequest, callback locationProvider.IGeocodeCallback) error
@@ -140,10 +138,10 @@ type ILocationManager interface {
 	SetTestProviderLocation(ctx context.Context, provider string, location Location, packageName string) error
 	SetTestProviderEnabled(ctx context.Context, provider string, enabled bool, packageName string) error
 	GetGnssTimeMillis(ctx context.Context) (LocationTime, error)
-	SendExtraCommand(ctx context.Context, provider string, command string, extras os.Bundle) error
+	SendExtraCommand(ctx context.Context, provider string, command string, extras interface{}) error
 	GetBackgroundThrottlingWhitelist(ctx context.Context) ([]string, error)
-	GetIgnoreSettingsAllowlist(ctx context.Context) (os.PackageTagsList, error)
-	GetAdasAllowlist(ctx context.Context) (os.PackageTagsList, error)
+	GetIgnoreSettingsAllowlist(ctx context.Context) (interface{}, error)
+	GetAdasAllowlist(ctx context.Context) (interface{}, error)
 }
 
 type LocationManagerProxy struct {
@@ -321,7 +319,7 @@ func (p *LocationManagerProxy) RegisterLocationPendingIntent(
 	ctx context.Context,
 	provider string,
 	request LocationRequest,
-	pendingIntent app.PendingIntent,
+	pendingIntent interface{},
 	packageName string,
 ) error {
 	_identity := p.remote.Identity()
@@ -330,10 +328,6 @@ func (p *LocationManagerProxy) RegisterLocationPendingIntent(
 	_data.WriteString16(provider)
 	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(packageName)
@@ -359,14 +353,10 @@ func (p *LocationManagerProxy) RegisterLocationPendingIntent(
 
 func (p *LocationManagerProxy) UnregisterLocationPendingIntent(
 	ctx context.Context,
-	pendingIntent app.PendingIntent,
+	pendingIntent interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
-	_data.WriteInt32(1)
-	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationManager, "unregisterLocationPendingIntent")
 	if _err != nil {
@@ -448,16 +438,12 @@ func (p *LocationManagerProxy) RequestListenerFlush(
 func (p *LocationManagerProxy) RequestPendingIntentFlush(
 	ctx context.Context,
 	provider string,
-	pendingIntent app.PendingIntent,
+	pendingIntent interface{},
 	requestCode int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
-	_data.WriteInt32(1)
-	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteInt32(requestCode)
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationManager, "requestPendingIntentFlush")
@@ -481,7 +467,7 @@ func (p *LocationManagerProxy) RequestPendingIntentFlush(
 func (p *LocationManagerProxy) RequestGeofence(
 	ctx context.Context,
 	geofence Geofence,
-	intent app.PendingIntent,
+	intent interface{},
 	packageName string,
 ) error {
 	_identity := p.remote.Identity()
@@ -489,10 +475,6 @@ func (p *LocationManagerProxy) RequestGeofence(
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteInt32(1)
 	if _err := geofence.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(packageName)
@@ -518,14 +500,10 @@ func (p *LocationManagerProxy) RequestGeofence(
 
 func (p *LocationManagerProxy) RemoveGeofence(
 	ctx context.Context,
-	intent app.PendingIntent,
+	intent interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
-	_data.WriteInt32(1)
-	if _err := intent.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationManager, "removeGeofence")
 	if _err != nil {
@@ -2012,16 +1990,12 @@ func (p *LocationManagerProxy) SendExtraCommand(
 	ctx context.Context,
 	provider string,
 	command string,
-	extras os.Bundle,
+	extras interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
 	_data.WriteString16(command)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationManager, "sendExtraCommand")
 	if _err != nil {
@@ -2035,9 +2009,6 @@ func (p *LocationManagerProxy) SendExtraCommand(
 	defer _reply.Recycle()
 
 	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _err
-	}
-	if _err = extras.UnmarshalParcel(_reply); _err != nil {
 		return _err
 	}
 
@@ -2085,8 +2056,8 @@ func (p *LocationManagerProxy) GetBackgroundThrottlingWhitelist(
 
 func (p *LocationManagerProxy) GetIgnoreSettingsAllowlist(
 	ctx context.Context,
-) (os.PackageTagsList, error) {
-	var _result os.PackageTagsList
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
@@ -2105,22 +2076,13 @@ func (p *LocationManagerProxy) GetIgnoreSettingsAllowlist(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
 func (p *LocationManagerProxy) GetAdasAllowlist(
 	ctx context.Context,
-) (os.PackageTagsList, error) {
-	var _result os.PackageTagsList
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 
@@ -2139,15 +2101,6 @@ func (p *LocationManagerProxy) GetAdasAllowlist(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -2325,18 +2278,7 @@ func (s *LocationManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_pendingIntent app.PendingIntent
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_pendingIntent.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_pendingIntent interface{}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2356,18 +2298,7 @@ func (s *LocationManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_pendingIntent app.PendingIntent
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_pendingIntent.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_pendingIntent interface{}
 		_err := s.Impl.UnregisterLocationPendingIntent(ctx, _arg_pendingIntent)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2431,18 +2362,7 @@ func (s *LocationManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_pendingIntent app.PendingIntent
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_pendingIntent.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_pendingIntent interface{}
 		_arg_requestCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2471,18 +2391,7 @@ func (s *LocationManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_intent app.PendingIntent
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_intent interface{}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2502,18 +2411,7 @@ func (s *LocationManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent app.PendingIntent
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_intent interface{}
 		_err := s.Impl.RemoveGeofence(ctx, _arg_intent)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3463,18 +3361,7 @@ func (s *LocationManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_extras interface{}
 		_err = s.Impl.SendExtraCommand(ctx, _arg_provider, _arg_command, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3508,10 +3395,7 @@ func (s *LocationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionILocationManagerGetAdasAllowlist:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -3524,10 +3408,7 @@ func (s *LocationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

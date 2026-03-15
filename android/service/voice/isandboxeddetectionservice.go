@@ -6,6 +6,7 @@ import (
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	content "github.com/xaionaro-go/binder/android/content"
 	soundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
+	media "github.com/xaionaro-go/binder/android/media"
 	speech "github.com/xaionaro-go/binder/android/speech"
 	contentcapture "github.com/xaionaro-go/binder/android/view/contentcapture"
 	"github.com/xaionaro-go/binder/binder"
@@ -31,8 +32,8 @@ const (
 
 type ISandboxedDetectionService interface {
 	AsBinder() binder.IBinder
-	DetectFromDspSource(ctx context.Context, event soundtrigger.SoundTriggerKeyphraseRecognitionEvent, audioFormat interface{}, timeoutMillis int64, callback IDspHotwordDetectionCallback) error
-	DetectFromMicrophoneSource(ctx context.Context, audioStream int32, audioSource int32, audioFormat interface{}, options interface{}, callback IDspHotwordDetectionCallback) error
+	DetectFromDspSource(ctx context.Context, event soundtrigger.SoundTriggerKeyphraseRecognitionEvent, audioFormat media.AudioFormat, timeoutMillis int64, callback IDspHotwordDetectionCallback) error
+	DetectFromMicrophoneSource(ctx context.Context, audioStream int32, audioSource int32, audioFormat media.AudioFormat, options interface{}, callback IDspHotwordDetectionCallback) error
 	DetectWithVisualSignals(ctx context.Context, callback IDetectorSessionVisualQueryDetectionCallback) error
 	UpdateState(ctx context.Context, options interface{}, sharedMemory interface{}, callback ondeviceintelligence.IRemoteCallback) error
 	UpdateAudioFlinger(ctx context.Context, audioFlinger binder.IBinder) error
@@ -62,7 +63,7 @@ var _ ISandboxedDetectionService = (*SandboxedDetectionServiceProxy)(nil)
 func (p *SandboxedDetectionServiceProxy) DetectFromDspSource(
 	ctx context.Context,
 	event soundtrigger.SoundTriggerKeyphraseRecognitionEvent,
-	audioFormat interface{},
+	audioFormat media.AudioFormat,
 	timeoutMillis int64,
 	callback IDspHotwordDetectionCallback,
 ) error {
@@ -70,6 +71,10 @@ func (p *SandboxedDetectionServiceProxy) DetectFromDspSource(
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := audioFormat.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt64(timeoutMillis)
@@ -88,7 +93,7 @@ func (p *SandboxedDetectionServiceProxy) DetectFromMicrophoneSource(
 	ctx context.Context,
 	audioStream int32,
 	audioSource int32,
-	audioFormat interface{},
+	audioFormat media.AudioFormat,
 	options interface{},
 	callback IDspHotwordDetectionCallback,
 ) error {
@@ -96,6 +101,10 @@ func (p *SandboxedDetectionServiceProxy) DetectFromMicrophoneSource(
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
 	_data.WriteFileDescriptor(audioStream)
 	_data.WriteInt32(audioSource)
+	_data.WriteInt32(1)
+	if _err := audioFormat.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "detectFromMicrophoneSource")
@@ -278,7 +287,18 @@ func (s *SandboxedDetectionServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_audioFormat interface{}
+		var _arg_audioFormat media.AudioFormat
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_audioFormat.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_timeoutMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
@@ -301,7 +321,18 @@ func (s *SandboxedDetectionServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_audioFormat interface{}
+		var _arg_audioFormat media.AudioFormat
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_audioFormat.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_options interface{}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDspHotwordDetectionCallback

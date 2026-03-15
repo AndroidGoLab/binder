@@ -2,6 +2,7 @@ package Parameter
 
 import (
 	"fmt"
+	AcousticEchoCanceler "github.com/xaionaro-go/binder/android/hardware/audio/effect/AcousticEchoCanceler"
 	AutomaticGainControlV1 "github.com/xaionaro-go/binder/android/hardware/audio/effect/AutomaticGainControlV1"
 	AutomaticGainControlV2 "github.com/xaionaro-go/binder/android/hardware/audio/effect/AutomaticGainControlV2"
 	BassBoost "github.com/xaionaro-go/binder/android/hardware/audio/effect/BassBoost"
@@ -47,7 +48,7 @@ const (
 type Id struct {
 	Tag                       int32
 	VendorEffectTag           interface{}
-	AcousticEchoCancelerTag   interface{}
+	AcousticEchoCancelerTag   AcousticEchoCanceler.Id
 	AutomaticGainControlV1Tag AutomaticGainControlV1.Id
 	AutomaticGainControlV2Tag AutomaticGainControlV2.Id
 	BassBoostTag              BassBoost.Id
@@ -84,16 +85,16 @@ func (u *Id) SetVendorEffectTag(
 	u.VendorEffectTag = v
 }
 
-func (u *Id) GetAcousticEchoCancelerTag() (interface{}, bool) {
+func (u *Id) GetAcousticEchoCancelerTag() (AcousticEchoCanceler.Id, bool) {
 	if u.Tag != IdTagAcousticEchoCancelerTag {
-		var _zero interface{}
+		var _zero AcousticEchoCanceler.Id
 		return _zero, false
 	}
 	return u.AcousticEchoCancelerTag, true
 }
 
 func (u *Id) SetAcousticEchoCancelerTag(
-	v interface{},
+	v AcousticEchoCanceler.Id,
 ) {
 	u.Tag = IdTagAcousticEchoCancelerTag
 	u.AcousticEchoCancelerTag = v

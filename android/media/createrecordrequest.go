@@ -1,6 +1,7 @@
 package media
 
 import (
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type CreateRecordRequest struct {
 	Attr                    AudioAttributes
-	Config                  interface{}
+	Config                  common.AudioConfigBase
 	ClientInfo              AudioClient
 	Riid                    int32
 	MaxSharedAudioHistoryMs int32
@@ -26,6 +27,9 @@ func (s *CreateRecordRequest) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	if _err := s.Attr.MarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _err := s.Config.MarshalParcel(p); _err != nil {
 		return _err
 	}
 	if _err := s.ClientInfo.MarshalParcel(p); _err != nil {
@@ -52,6 +56,10 @@ func (s *CreateRecordRequest) UnmarshalParcel(
 	}
 
 	if _err = s.Attr.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if _err = s.Config.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

@@ -3,7 +3,6 @@ package projection
 import (
 	"context"
 	"fmt"
-	app "github.com/xaionaro-go/binder/android/app"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -40,10 +39,10 @@ type IMediaProjection interface {
 	ApplyVirtualDisplayFlags(ctx context.Context, flags int32) (int32, error)
 	RegisterCallback(ctx context.Context, callback IMediaProjectionCallback) error
 	UnregisterCallback(ctx context.Context, callback IMediaProjectionCallback) error
-	GetLaunchCookie(ctx context.Context) (app.ActivityOptionsLaunchCookie, error)
+	GetLaunchCookie(ctx context.Context) (interface{}, error)
 	GetTaskId(ctx context.Context) (int32, error)
 	GetDisplayId(ctx context.Context) (int32, error)
-	SetLaunchCookie(ctx context.Context, launchCookie app.ActivityOptionsLaunchCookie) error
+	SetLaunchCookie(ctx context.Context, launchCookie interface{}) error
 	SetTaskId(ctx context.Context, taskId int32) error
 	IsValid(ctx context.Context) (bool, error)
 	NotifyVirtualDisplayCreated(ctx context.Context, displayId int32) error
@@ -289,8 +288,8 @@ func (p *MediaProjectionProxy) UnregisterCallback(
 
 func (p *MediaProjectionProxy) GetLaunchCookie(
 	ctx context.Context,
-) (app.ActivityOptionsLaunchCookie, error) {
-	var _result app.ActivityOptionsLaunchCookie
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
 
@@ -309,15 +308,6 @@ func (p *MediaProjectionProxy) GetLaunchCookie(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -381,14 +371,10 @@ func (p *MediaProjectionProxy) GetDisplayId(
 
 func (p *MediaProjectionProxy) SetLaunchCookie(
 	ctx context.Context,
-	launchCookie app.ActivityOptionsLaunchCookie,
+	launchCookie interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjection)
-	_data.WriteInt32(1)
-	if _err := launchCookie.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "setLaunchCookie")
 	if _err != nil {
@@ -632,10 +618,7 @@ func (s *MediaProjectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIMediaProjectionGetTaskId:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -667,18 +650,7 @@ func (s *MediaProjectionStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_launchCookie app.ActivityOptionsLaunchCookie
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_launchCookie.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_launchCookie interface{}
 		_err := s.Impl.SetLaunchCookie(ctx, _arg_launchCookie)
 		_reply := parcel.New()
 		if _err != nil {

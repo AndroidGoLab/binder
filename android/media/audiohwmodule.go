@@ -1,6 +1,7 @@
 package media
 
 import (
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +10,7 @@ import (
 type AudioHwModule struct {
 	Handle int32
 	Name   string
-	Ports  []interface{}
+	Ports  []common.AudioPort
 	Routes []AudioRoute
 }
 
@@ -25,6 +26,11 @@ func (s *AudioHwModule) MarshalParcel(
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.Ports)))
+		for _, _item := range s.Ports {
+			if _err := _item.MarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
 	}
 	if s.Routes == nil {
 		p.WriteInt32(-1)
@@ -65,8 +71,11 @@ func (s *AudioHwModule) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.Ports = make([]interface{}, _count0)
+		s.Ports = make([]common.AudioPort, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _err = s.Ports[_i].UnmarshalParcel(p); _err != nil {
+				return _err
+			}
 		}
 	}
 

@@ -3,6 +3,7 @@ package vibrator
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -19,7 +20,7 @@ const (
 
 type IVibrationSession interface {
 	AsBinder() binder.IBinder
-	Vibrate(ctx context.Context, vibration interface{}, reason string) error
+	Vibrate(ctx context.Context, vibration os.CombinedVibration, reason string) error
 	FinishSession(ctx context.Context) error
 	CancelSession(ctx context.Context) error
 }
@@ -51,11 +52,15 @@ var _ IVibrationSession = (*VibrationSessionProxy)(nil)
 
 func (p *VibrationSessionProxy) Vibrate(
 	ctx context.Context,
-	vibration interface{},
+	vibration os.CombinedVibration,
 	reason string,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrationSession)
+	_data.WriteInt32(1)
+	if _err := vibration.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(reason)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibrationSession, "vibrate")
@@ -142,7 +147,18 @@ func (s *VibrationSessionStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_vibration interface{}
+		var _arg_vibration os.CombinedVibration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_vibration.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

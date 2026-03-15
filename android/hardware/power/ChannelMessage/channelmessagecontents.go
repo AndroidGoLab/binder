@@ -2,6 +2,7 @@ package ChannelMessage
 
 import (
 	"fmt"
+	ChannelMessageChannelMessageContents "github.com/xaionaro-go/binder/android/hardware/power/ChannelMessage/ChannelMessageContents"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -20,7 +21,7 @@ type ChannelMessageContents struct {
 	Reserved       []int64
 	TargetDuration int64
 	Hint           interface{}
-	Mode           interface{}
+	Mode           ChannelMessageChannelMessageContents.SessionModeSetter
 	WorkDuration   interface{}
 }
 
@@ -71,16 +72,16 @@ func (u *ChannelMessageContents) SetHint(
 	u.Hint = v
 }
 
-func (u *ChannelMessageContents) GetMode() (interface{}, bool) {
+func (u *ChannelMessageContents) GetMode() (ChannelMessageChannelMessageContents.SessionModeSetter, bool) {
 	if u.Tag != ChannelMessageContentsTagMode {
-		var _zero interface{}
+		var _zero ChannelMessageChannelMessageContents.SessionModeSetter
 		return _zero, false
 	}
 	return u.Mode, true
 }
 
 func (u *ChannelMessageContents) SetMode(
-	v interface{},
+	v ChannelMessageChannelMessageContents.SessionModeSetter,
 ) {
 	u.Tag = ChannelMessageContentsTagMode
 	u.Mode = v
@@ -121,6 +122,9 @@ func (u *ChannelMessageContents) MarshalParcel(
 		p.WriteInt64(u.TargetDuration)
 	case ChannelMessageContentsTagHint:
 	case ChannelMessageContentsTagMode:
+		if _err := u.Mode.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case ChannelMessageContentsTagWorkDuration:
 	default:
 		return fmt.Errorf("unknown union tag %d for ChannelMessageContents", u.Tag)
@@ -167,6 +171,9 @@ func (u *ChannelMessageContents) UnmarshalParcel(
 		}
 	case ChannelMessageContentsTagHint:
 	case ChannelMessageContentsTagMode:
+		if _err = u.Mode.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case ChannelMessageContentsTagWorkDuration:
 	default:
 		return fmt.Errorf("unknown union tag %d for ChannelMessageContents", u.Tag)

@@ -8,7 +8,6 @@ import (
 	audiopolicy "github.com/xaionaro-go/binder/android/media/audiopolicy"
 	mediaProjection "github.com/xaionaro-go/binder/android/media/projection"
 	net "github.com/xaionaro-go/binder/android/net"
-	os "github.com/xaionaro-go/binder/android/os"
 	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -475,9 +474,9 @@ type IAudioService interface {
 	GetPreferredDevicesForCapturePreset(ctx context.Context, capturePreset int32) ([]AudioDeviceAttributes, error)
 	RegisterCapturePresetDevicesRoleDispatcher(ctx context.Context, dispatcher ICapturePresetDevicesRoleDispatcher) error
 	UnregisterCapturePresetDevicesRoleDispatcher(ctx context.Context, dispatcher ICapturePresetDevicesRoleDispatcher) error
-	AdjustStreamVolumeForUid(ctx context.Context, streamType int32, direction int32, flags int32, packageName string, uid int32, pid int32, userHandle os.UserHandle, targetSdkVersion int32) error
-	AdjustSuggestedStreamVolumeForUid(ctx context.Context, streamType int32, direction int32, flags int32, packageName string, uid int32, pid int32, userHandle os.UserHandle, targetSdkVersion int32) error
-	SetStreamVolumeForUid(ctx context.Context, streamType int32, direction int32, flags int32, packageName string, uid int32, pid int32, userHandle os.UserHandle, targetSdkVersion int32) error
+	AdjustStreamVolumeForUid(ctx context.Context, streamType int32, direction int32, flags int32, packageName string, uid int32, pid int32, userHandle interface{}, targetSdkVersion int32) error
+	AdjustSuggestedStreamVolumeForUid(ctx context.Context, streamType int32, direction int32, flags int32, packageName string, uid int32, pid int32, userHandle interface{}, targetSdkVersion int32) error
+	SetStreamVolumeForUid(ctx context.Context, streamType int32, direction int32, flags int32, packageName string, uid int32, pid int32, userHandle interface{}, targetSdkVersion int32) error
 	AdjustVolume(ctx context.Context, direction int32, flags int32) error
 	AdjustSuggestedStreamVolume(ctx context.Context, direction int32, suggestedStreamType int32, flags int32) error
 	IsMusicActive(ctx context.Context, remotely bool) (bool, error)
@@ -5889,7 +5888,7 @@ func (p *AudioServiceProxy) AdjustStreamVolumeForUid(
 	packageName string,
 	uid int32,
 	pid int32,
-	userHandle os.UserHandle,
+	userHandle interface{},
 	targetSdkVersion int32,
 ) error {
 	_data := parcel.New()
@@ -5900,10 +5899,6 @@ func (p *AudioServiceProxy) AdjustStreamVolumeForUid(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(pid)
-	_data.WriteInt32(1)
-	if _err := userHandle.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteInt32(targetSdkVersion)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "adjustStreamVolumeForUid")
@@ -5923,7 +5918,7 @@ func (p *AudioServiceProxy) AdjustSuggestedStreamVolumeForUid(
 	packageName string,
 	uid int32,
 	pid int32,
-	userHandle os.UserHandle,
+	userHandle interface{},
 	targetSdkVersion int32,
 ) error {
 	_data := parcel.New()
@@ -5934,10 +5929,6 @@ func (p *AudioServiceProxy) AdjustSuggestedStreamVolumeForUid(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(pid)
-	_data.WriteInt32(1)
-	if _err := userHandle.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteInt32(targetSdkVersion)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "adjustSuggestedStreamVolumeForUid")
@@ -5957,7 +5948,7 @@ func (p *AudioServiceProxy) SetStreamVolumeForUid(
 	packageName string,
 	uid int32,
 	pid int32,
-	userHandle os.UserHandle,
+	userHandle interface{},
 	targetSdkVersion int32,
 ) error {
 	_data := parcel.New()
@@ -5968,10 +5959,6 @@ func (p *AudioServiceProxy) SetStreamVolumeForUid(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(uid)
 	_data.WriteInt32(pid)
-	_data.WriteInt32(1)
-	if _err := userHandle.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteInt32(targetSdkVersion)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "setStreamVolumeForUid")
@@ -12230,18 +12217,7 @@ func (s *AudioServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_userHandle os.UserHandle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_userHandle interface{}
 		_arg_targetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -12277,18 +12253,7 @@ func (s *AudioServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_userHandle os.UserHandle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_userHandle interface{}
 		_arg_targetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -12324,18 +12289,7 @@ func (s *AudioServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_userHandle os.UserHandle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_userHandle interface{}
 		_arg_targetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

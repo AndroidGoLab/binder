@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/xaionaro-go/binder/binder"
+	telephony "github.com/xaionaro-go/binder/com/android/internal_/telephony"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -17,7 +18,7 @@ const (
 
 type ISatelliteDatagramCallback interface {
 	AsBinder() binder.IBinder
-	OnSatelliteDatagramReceived(ctx context.Context, datagramId int64, datagram SatelliteDatagram, pendingCount int32, callback interface{}) error
+	OnSatelliteDatagramReceived(ctx context.Context, datagramId int64, datagram SatelliteDatagram, pendingCount int32, callback telephony.IVoidConsumer) error
 }
 
 type SatelliteDatagramCallbackProxy struct {
@@ -41,7 +42,7 @@ func (p *SatelliteDatagramCallbackProxy) OnSatelliteDatagramReceived(
 	datagramId int64,
 	datagram SatelliteDatagram,
 	pendingCount int32,
-	callback interface{},
+	callback telephony.IVoidConsumer,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatelliteDatagramCallback)
@@ -51,6 +52,7 @@ func (p *SatelliteDatagramCallbackProxy) OnSatelliteDatagramReceived(
 		return _err
 	}
 	_data.WriteInt32(pendingCount)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteDatagramCallback, "onSatelliteDatagramReceived")
 	if _err != nil {
@@ -99,7 +101,9 @@ func (s *SatelliteDatagramCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback telephony.IVoidConsumer
+		_ = _arg_callback
 		_err = s.Impl.OnSatelliteDatagramReceived(ctx, _arg_datagramId, _arg_datagram, _arg_pendingCount, _arg_callback)
 		_ = _err
 		return nil, nil

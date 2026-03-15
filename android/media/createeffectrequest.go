@@ -2,6 +2,7 @@ package media
 
 import (
 	content "github.com/xaionaro-go/binder/android/content"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -14,7 +15,7 @@ type CreateEffectRequest struct {
 	Priority              int32
 	Output                int32
 	SessionId             int32
-	Device                interface{}
+	Device                common.AudioDevice
 	AttributionSource     content.AttributionSourceState
 	Probe                 bool
 	NotifyFramesProcessed bool
@@ -33,6 +34,9 @@ func (s *CreateEffectRequest) MarshalParcel(
 	p.WriteInt32(s.Priority)
 	p.WriteInt32(s.Output)
 	p.WriteInt32(s.SessionId)
+	if _err := s.Device.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	if _err := s.AttributionSource.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -73,6 +77,10 @@ func (s *CreateEffectRequest) UnmarshalParcel(
 
 	s.SessionId, _err = p.ReadInt32()
 	if _err != nil {
+		return _err
+	}
+
+	if _err = s.Device.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

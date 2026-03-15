@@ -3,6 +3,7 @@ package media
 import (
 	"context"
 	"fmt"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -19,7 +20,7 @@ const (
 type IAudioFlingerClient interface {
 	AsBinder() binder.IBinder
 	IoConfigChanged(ctx context.Context, event AudioIoConfigEvent, ioDesc AudioIoDescriptor) error
-	OnSupportedLatencyModesChanged(ctx context.Context, output int32, latencyModes []interface{}) error
+	OnSupportedLatencyModesChanged(ctx context.Context, output int32, latencyModes []common.AudioLatencyMode) error
 }
 
 type AudioFlingerClientProxy struct {
@@ -63,7 +64,7 @@ func (p *AudioFlingerClientProxy) IoConfigChanged(
 func (p *AudioFlingerClientProxy) OnSupportedLatencyModesChanged(
 	ctx context.Context,
 	output int32,
-	latencyModes []interface{},
+	latencyModes []common.AudioLatencyMode,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioFlingerClient)
@@ -72,6 +73,9 @@ func (p *AudioFlingerClientProxy) OnSupportedLatencyModesChanged(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(latencyModes)))
+		for _, _item := range latencyModes {
+			_data.WritePaddedByte(byte(_item))
+		}
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioFlingerClient, "onSupportedLatencyModesChanged")
@@ -130,7 +134,7 @@ func (s *AudioFlingerClientStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_latencyModes []interface{}
+		var _arg_latencyModes []common.AudioLatencyMode
 		_ = _arg_latencyModes
 		_err = s.Impl.OnSupportedLatencyModesChanged(ctx, _arg_output, _arg_latencyModes)
 		_ = _err

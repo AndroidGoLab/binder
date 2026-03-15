@@ -1,6 +1,7 @@
 package soundtrigger
 
 import (
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -13,7 +14,7 @@ type RecognitionEvent struct {
 	CaptureDelayMs         int32
 	CapturePreambleMs      int32
 	TriggerInData          bool
-	AudioConfig            interface{}
+	AudioConfig            common.AudioConfig
 	Data                   []byte
 	RecognitionStillActive bool
 }
@@ -30,6 +31,9 @@ func (s *RecognitionEvent) MarshalParcel(
 	p.WriteInt32(s.CaptureDelayMs)
 	p.WriteInt32(s.CapturePreambleMs)
 	p.WriteBool(s.TriggerInData)
+	if _err := s.AudioConfig.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	if s.Data == nil {
 		p.WriteInt32(-1)
 	} else {
@@ -81,6 +85,10 @@ func (s *RecognitionEvent) UnmarshalParcel(
 
 	s.TriggerInData, _err = p.ReadBool()
 	if _err != nil {
+		return _err
+	}
+
+	if _err = s.AudioConfig.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

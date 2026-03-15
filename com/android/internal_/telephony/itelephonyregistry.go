@@ -9,7 +9,6 @@ import (
 	voice "github.com/xaionaro-go/binder/android/hardware/radio/voice"
 	androidTelephony "github.com/xaionaro-go/binder/android/telephony"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
-	satellite "github.com/xaionaro-go/binder/android/telephony/satellite"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -143,7 +142,7 @@ type ITelephonyRegistry interface {
 	NotifyCarrierRoamingNtnModeChanged(ctx context.Context, subId int32, active bool) error
 	NotifyCarrierRoamingNtnEligibleStateChanged(ctx context.Context, subId int32, eligible bool) error
 	NotifyCarrierRoamingNtnAvailableServicesChanged(ctx context.Context, subId int32, availableServices []int32) error
-	NotifyCarrierRoamingNtnSignalStrengthChanged(ctx context.Context, subId int32, ntnSignalStrength satellite.NtnSignalStrength) error
+	NotifyCarrierRoamingNtnSignalStrengthChanged(ctx context.Context, subId int32, ntnSignalStrength interface{}) error
 	AddSatelliteStateChangeListener(ctx context.Context, listener ISatelliteStateChangeListener, pkg string, featureId string) error
 	RemoveSatelliteStateChangeListener(ctx context.Context, listener ISatelliteStateChangeListener, pkg string) error
 	NotifySatelliteStateChanged(ctx context.Context, isEnabled bool) error
@@ -2005,15 +2004,11 @@ func (p *TelephonyRegistryProxy) NotifyCarrierRoamingNtnAvailableServicesChanged
 func (p *TelephonyRegistryProxy) NotifyCarrierRoamingNtnSignalStrengthChanged(
 	ctx context.Context,
 	subId int32,
-	ntnSignalStrength satellite.NtnSignalStrength,
+	ntnSignalStrength interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(subId)
-	_data.WriteInt32(1)
-	if _err := ntnSignalStrength.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephonyRegistry, "notifyCarrierRoamingNtnSignalStrengthChanged")
 	if _err != nil {
@@ -3615,18 +3610,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_ntnSignalStrength satellite.NtnSignalStrength
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_ntnSignalStrength.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_ntnSignalStrength interface{}
 		_err = s.Impl.NotifyCarrierRoamingNtnSignalStrengthChanged(ctx, _arg_subId, _arg_ntnSignalStrength)
 		_reply := parcel.New()
 		if _err != nil {

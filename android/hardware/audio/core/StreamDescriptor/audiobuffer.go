@@ -2,7 +2,6 @@ package StreamDescriptor
 
 import (
 	"fmt"
-	core "github.com/xaionaro-go/binder/android/hardware/audio/core"
 	fmq "github.com/xaionaro-go/binder/android/hardware/common/fmq"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +16,7 @@ const (
 type AudioBuffer struct {
 	Tag  int32
 	Fmq  fmq.MQDescriptor
-	Mmap core.MmapBufferDescriptor
+	Mmap interface{}
 }
 
 var _ parcel.Parcelable = (*AudioBuffer)(nil)
@@ -37,16 +36,16 @@ func (u *AudioBuffer) SetFmq(
 	u.Fmq = v
 }
 
-func (u *AudioBuffer) GetMmap() (core.MmapBufferDescriptor, bool) {
+func (u *AudioBuffer) GetMmap() (interface{}, bool) {
 	if u.Tag != AudioBufferTagMmap {
-		var _zero core.MmapBufferDescriptor
+		var _zero interface{}
 		return _zero, false
 	}
 	return u.Mmap, true
 }
 
 func (u *AudioBuffer) SetMmap(
-	v core.MmapBufferDescriptor,
+	v interface{},
 ) {
 	u.Tag = AudioBufferTagMmap
 	u.Mmap = v
@@ -64,9 +63,6 @@ func (u *AudioBuffer) MarshalParcel(
 			return _err
 		}
 	case AudioBufferTagMmap:
-		if _err := u.Mmap.MarshalParcel(p); _err != nil {
-			return _err
-		}
 	default:
 		return fmt.Errorf("unknown union tag %d for AudioBuffer", u.Tag)
 	}
@@ -94,9 +90,6 @@ func (u *AudioBuffer) UnmarshalParcel(
 			return _err
 		}
 	case AudioBufferTagMmap:
-		if _err = u.Mmap.UnmarshalParcel(p); _err != nil {
-			return _err
-		}
 	default:
 		return fmt.Errorf("unknown union tag %d for AudioBuffer", u.Tag)
 	}

@@ -3,7 +3,6 @@ package core
 import (
 	"context"
 	"fmt"
-	coreIModule "github.com/xaionaro-go/binder/android/hardware/audio/core/IModule"
 	sounddose "github.com/xaionaro-go/binder/android/hardware/audio/core/sounddose"
 	audioEffect "github.com/xaionaro-go/binder/android/hardware/audio/effect"
 	common "github.com/xaionaro-go/binder/android/media/audio/common"
@@ -74,9 +73,9 @@ type IModule interface {
 	GetAudioPorts(ctx context.Context) ([]common.AudioPort, error)
 	GetAudioRoutes(ctx context.Context) ([]AudioRoute, error)
 	GetAudioRoutesForAudioPort(ctx context.Context, portId int32) ([]AudioRoute, error)
-	OpenInputStream(ctx context.Context, args coreIModule.OpenInputStreamArguments) (coreIModule.OpenInputStreamReturn, error)
-	OpenOutputStream(ctx context.Context, args coreIModule.OpenOutputStreamArguments) (coreIModule.OpenOutputStreamReturn, error)
-	GetSupportedPlaybackRateFactors(ctx context.Context) (coreIModule.SupportedPlaybackRateFactors, error)
+	OpenInputStream(ctx context.Context, args interface{}) (interface{}, error)
+	OpenOutputStream(ctx context.Context, args interface{}) (interface{}, error)
+	GetSupportedPlaybackRateFactors(ctx context.Context) (interface{}, error)
 	SetAudioPatch(ctx context.Context, requested AudioPatch) (AudioPatch, error)
 	SetAudioPortConfig(ctx context.Context, requested common.AudioPortConfig, suggested common.AudioPortConfig) (bool, error)
 	ResetAudioPatch(ctx context.Context, patchId int32) error
@@ -89,7 +88,7 @@ type IModule interface {
 	SetMicMute(ctx context.Context, mute bool) error
 	GetMicrophones(ctx context.Context) ([]common.MicrophoneInfo, error)
 	UpdateAudioMode(ctx context.Context, mode common.AudioMode) error
-	UpdateScreenRotation(ctx context.Context, rotation coreIModule.ScreenRotation) error
+	UpdateScreenRotation(ctx context.Context, rotation interface{}) error
 	UpdateScreenState(ctx context.Context, isTurnedOn bool) error
 	GetSoundDose(ctx context.Context) (sounddose.ISoundDose, error)
 	GenerateHwAvSyncId(ctx context.Context) (int32, error)
@@ -569,15 +568,11 @@ func (p *ModuleProxy) GetAudioRoutesForAudioPort(
 
 func (p *ModuleProxy) OpenInputStream(
 	ctx context.Context,
-	args coreIModule.OpenInputStreamArguments,
-) (coreIModule.OpenInputStreamReturn, error) {
-	var _result coreIModule.OpenInputStreamReturn
+	args interface{},
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIModule)
-	_data.WriteInt32(1)
-	if _err := args.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "openInputStream")
 	if _err != nil {
@@ -594,29 +589,16 @@ func (p *ModuleProxy) OpenInputStream(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
 func (p *ModuleProxy) OpenOutputStream(
 	ctx context.Context,
-	args coreIModule.OpenOutputStreamArguments,
-) (coreIModule.OpenOutputStreamReturn, error) {
-	var _result coreIModule.OpenOutputStreamReturn
+	args interface{},
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIModule)
-	_data.WriteInt32(1)
-	if _err := args.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "openOutputStream")
 	if _err != nil {
@@ -633,22 +615,13 @@ func (p *ModuleProxy) OpenOutputStream(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
 func (p *ModuleProxy) GetSupportedPlaybackRateFactors(
 	ctx context.Context,
-) (coreIModule.SupportedPlaybackRateFactors, error) {
-	var _result coreIModule.SupportedPlaybackRateFactors
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIModule)
 
@@ -667,15 +640,6 @@ func (p *ModuleProxy) GetSupportedPlaybackRateFactors(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -1039,11 +1003,10 @@ func (p *ModuleProxy) UpdateAudioMode(
 
 func (p *ModuleProxy) UpdateScreenRotation(
 	ctx context.Context,
-	rotation coreIModule.ScreenRotation,
+	rotation interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIModule)
-	_data.WriteInt32(int32(rotation))
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "updateScreenRotation")
 	if _err != nil {
@@ -1677,18 +1640,7 @@ func (s *ModuleStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_args coreIModule.OpenInputStreamArguments
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_args interface{}
 		_result, _err := s.Impl.OpenInputStream(ctx, _arg_args)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1696,27 +1648,13 @@ func (s *ModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIModuleOpenOutputStream:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_args coreIModule.OpenOutputStreamArguments
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_args interface{}
 		_result, _err := s.Impl.OpenOutputStream(ctx, _arg_args)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1724,10 +1662,7 @@ func (s *ModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIModuleGetSupportedPlaybackRateFactors:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -1740,10 +1675,7 @@ func (s *ModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIModuleSetAudioPatch:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -1953,12 +1885,8 @@ func (s *ModuleStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_rotation, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_rotation := coreIModule.ScreenRotation(_raw_rotation)
-		_err = s.Impl.UpdateScreenRotation(ctx, _arg_rotation)
+		var _arg_rotation interface{}
+		_err := s.Impl.UpdateScreenRotation(ctx, _arg_rotation)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)

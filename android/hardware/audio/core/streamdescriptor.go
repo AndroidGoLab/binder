@@ -1,6 +1,7 @@
 package core
 
 import (
+	coreStreamDescriptor "github.com/xaionaro-go/binder/android/hardware/audio/core/StreamDescriptor"
 	fmq "github.com/xaionaro-go/binder/android/hardware/common/fmq"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -12,7 +13,7 @@ type StreamDescriptor struct {
 	Reply            fmq.MQDescriptor
 	FrameSizeBytes   int32
 	BufferSizeFrames int64
-	Audio            interface{}
+	Audio            coreStreamDescriptor.AudioBuffer
 }
 
 const (
@@ -33,6 +34,9 @@ func (s *StreamDescriptor) MarshalParcel(
 	}
 	p.WriteInt32(s.FrameSizeBytes)
 	p.WriteInt64(s.BufferSizeFrames)
+	if _err := s.Audio.MarshalParcel(p); _err != nil {
+		return _err
+	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -61,6 +65,10 @@ func (s *StreamDescriptor) UnmarshalParcel(
 
 	s.BufferSizeFrames, _err = p.ReadInt64()
 	if _err != nil {
+		return _err
+	}
+
+	if _err = s.Audio.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

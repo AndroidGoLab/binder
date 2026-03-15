@@ -1,6 +1,7 @@
 package media
 
 import (
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,7 +11,7 @@ type RecordClientInfo struct {
 	Riid     int32
 	Uid      int32
 	Session  int32
-	Source   interface{}
+	Source   common.AudioSource
 	PortId   int32
 	Silenced bool
 }
@@ -24,6 +25,7 @@ func (s *RecordClientInfo) MarshalParcel(
 	p.WriteInt32(s.Riid)
 	p.WriteInt32(s.Uid)
 	p.WriteInt32(s.Session)
+	p.WriteInt32(int32(s.Source))
 	p.WriteInt32(s.PortId)
 	p.WriteBool(s.Silenced)
 
@@ -53,6 +55,12 @@ func (s *RecordClientInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
+
+	_sourceRaw, _err := p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.Source = common.AudioSource(_sourceRaw)
 
 	s.PortId, _err = p.ReadInt32()
 	if _err != nil {

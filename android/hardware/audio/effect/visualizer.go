@@ -2,6 +2,7 @@ package effect
 
 import (
 	"fmt"
+	effectAcousticEchoCanceler "github.com/xaionaro-go/binder/android/hardware/audio/effect/AcousticEchoCanceler"
 	effectVisualizer "github.com/xaionaro-go/binder/android/hardware/audio/effect/Visualizer"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ const (
 
 type Visualizer struct {
 	Tag                 int32
-	Id                  interface{}
+	Id                  effectAcousticEchoCanceler.Id
 	Vendor              VendorExtension
 	Measurement         effectVisualizer.Measurement
 	CaptureSampleBuffer []byte
@@ -33,16 +34,16 @@ type Visualizer struct {
 
 var _ parcel.Parcelable = (*Visualizer)(nil)
 
-func (u *Visualizer) GetId() (interface{}, bool) {
+func (u *Visualizer) GetId() (effectAcousticEchoCanceler.Id, bool) {
 	if u.Tag != VisualizerTagId {
-		var _zero interface{}
+		var _zero effectAcousticEchoCanceler.Id
 		return _zero, false
 	}
 	return u.Id, true
 }
 
 func (u *Visualizer) SetId(
-	v interface{},
+	v effectAcousticEchoCanceler.Id,
 ) {
 	u.Tag = VisualizerTagId
 	u.Id = v
@@ -161,6 +162,9 @@ func (u *Visualizer) MarshalParcel(
 
 	switch u.Tag {
 	case VisualizerTagId:
+		if _err := u.Id.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case VisualizerTagVendor:
 		if _err := u.Vendor.MarshalParcel(p); _err != nil {
 			return _err
@@ -209,6 +213,9 @@ func (u *Visualizer) UnmarshalParcel(
 
 	switch u.Tag {
 	case VisualizerTagId:
+		if _err = u.Id.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case VisualizerTagVendor:
 		if _err = u.Vendor.UnmarshalParcel(p); _err != nil {
 			return _err
