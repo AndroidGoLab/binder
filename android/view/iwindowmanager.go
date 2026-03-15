@@ -938,8 +938,14 @@ func (p *WindowManagerProxy) AddShellRoot(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -2138,8 +2144,14 @@ func (p *WindowManagerProxy) ScreenshotWallpaper(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -2168,8 +2180,14 @@ func (p *WindowManagerProxy) MirrorWallpaperSurface(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -2549,8 +2567,14 @@ func (p *WindowManagerProxy) GetWindowContentFrameStats(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -2812,8 +2836,14 @@ func (p *WindowManagerProxy) GetCurrentImeTouchRegion(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -3871,8 +3901,14 @@ func (p *WindowManagerProxy) VerifyDisplayHash(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -4273,8 +4309,14 @@ func (p *WindowManagerProxy) SnapshotTaskForRecents(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -4790,8 +4832,14 @@ func (p *WindowManagerProxy) GetApplicationLaunchKeyboardShortcuts(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }

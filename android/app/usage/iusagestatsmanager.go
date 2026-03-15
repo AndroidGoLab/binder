@@ -145,8 +145,14 @@ func (p *UsageStatsManagerProxy) QueryUsageStats(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -181,8 +187,14 @@ func (p *UsageStatsManagerProxy) QueryConfigurationStats(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -217,8 +229,14 @@ func (p *UsageStatsManagerProxy) QueryEventStats(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -251,8 +269,14 @@ func (p *UsageStatsManagerProxy) QueryEvents(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -285,8 +309,14 @@ func (p *UsageStatsManagerProxy) QueryEventsForPackage(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -321,8 +351,14 @@ func (p *UsageStatsManagerProxy) QueryEventsForUser(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -359,8 +395,14 @@ func (p *UsageStatsManagerProxy) QueryEventsForPackageForUser(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -394,8 +436,14 @@ func (p *UsageStatsManagerProxy) QueryEventsWithFilter(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -650,8 +698,14 @@ func (p *UsageStatsManagerProxy) GetAppStandbyBuckets(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -1273,8 +1327,14 @@ func (p *UsageStatsManagerProxy) QueryBroadcastResponseStats(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }

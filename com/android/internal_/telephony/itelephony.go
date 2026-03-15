@@ -1880,8 +1880,14 @@ func (p *TelephonyProxy) GetCellLocation(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -2685,8 +2691,14 @@ func (p *TelephonyProxy) GetVisualVoicemailSettings(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -2804,8 +2816,14 @@ func (p *TelephonyProxy) GetVisualVoicemailSmsFilterSettings(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -2834,8 +2852,14 @@ func (p *TelephonyProxy) GetActiveVisualVoicemailSmsFilterSettings(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -3337,8 +3361,14 @@ func (p *TelephonyProxy) IccOpenLogicalChannel(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -4257,8 +4287,14 @@ func (p *TelephonyProxy) GetCellNetworkScanResults(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -6016,8 +6052,14 @@ func (p *TelephonyProxy) GetPhoneAccountHandleForSubscriptionId(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -6133,8 +6175,14 @@ func (p *TelephonyProxy) GetServiceStateForSlot(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -6166,8 +6214,14 @@ func (p *TelephonyProxy) GetVoicemailRingtoneUri(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -6544,8 +6598,14 @@ func (p *TelephonyProxy) GetAllowedCarriers(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -7162,8 +7222,14 @@ func (p *TelephonyProxy) GetSignalStrength(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -11340,8 +11406,14 @@ func (p *TelephonyProxy) AddUceRegistrationOverrideShell(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -11379,8 +11451,14 @@ func (p *TelephonyProxy) RemoveUceRegistrationOverrideShell(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -11409,8 +11487,14 @@ func (p *TelephonyProxy) ClearUceRegistrationOverrideShell(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -11439,8 +11523,14 @@ func (p *TelephonyProxy) GetLatestRcsContactUceCapabilityShell(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -11628,8 +11718,14 @@ func (p *TelephonyProxy) GetPhoneCapability(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -11841,8 +11937,14 @@ func (p *TelephonyProxy) GetLastKnownCellIdentity(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -12123,8 +12225,14 @@ func (p *TelephonyProxy) GetDefaultRespondViaMessageApplication(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -14561,8 +14669,14 @@ func (p *TelephonyProxy) GetTestEuiccUiComponent(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }

@@ -152,8 +152,14 @@ func (p *EvsCameraProxy) GetCameraInfo(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -264,8 +270,14 @@ func (p *EvsCameraProxy) GetIntParameterRange(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -334,8 +346,14 @@ func (p *EvsCameraProxy) GetPhysicalCameraInfo(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }

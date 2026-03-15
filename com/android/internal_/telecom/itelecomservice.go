@@ -244,8 +244,14 @@ func (p *TelecomServiceProxy) GetDefaultOutgoingPhoneAccount(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -274,8 +280,14 @@ func (p *TelecomServiceProxy) GetUserSelectedOutgoingPhoneAccount(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -339,8 +351,14 @@ func (p *TelecomServiceProxy) GetCallCapablePhoneAccounts(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -371,8 +389,14 @@ func (p *TelecomServiceProxy) GetSelfManagedPhoneAccounts(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -403,8 +427,14 @@ func (p *TelecomServiceProxy) GetOwnSelfManagedPhoneAccounts(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -435,8 +465,14 @@ func (p *TelecomServiceProxy) GetPhoneAccountsSupportingScheme(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -465,8 +501,14 @@ func (p *TelecomServiceProxy) GetPhoneAccountsForPackage(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -500,8 +542,14 @@ func (p *TelecomServiceProxy) GetPhoneAccount(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -532,8 +580,14 @@ func (p *TelecomServiceProxy) GetRegisteredPhoneAccounts(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -589,8 +643,14 @@ func (p *TelecomServiceProxy) GetAllPhoneAccounts(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -617,8 +677,14 @@ func (p *TelecomServiceProxy) GetAllPhoneAccountHandles(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -649,8 +715,14 @@ func (p *TelecomServiceProxy) GetSimCallManager(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -681,8 +753,14 @@ func (p *TelecomServiceProxy) GetSimCallManagerForUser(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -913,8 +991,14 @@ func (p *TelecomServiceProxy) GetDefaultPhoneApp(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -1034,8 +1118,14 @@ func (p *TelecomServiceProxy) DumpCallAnalytics(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -1467,8 +1557,14 @@ func (p *TelecomServiceProxy) GetAdnUriForPhoneAccount(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -1840,8 +1936,14 @@ func (p *TelecomServiceProxy) CreateManageBlockedNumbersIntent(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }
@@ -1870,8 +1972,14 @@ func (p *TelecomServiceProxy) CreateLaunchEmergencyDialerIntent(
 		return _result, _err
 	}
 
-	if _err = _result.UnmarshalParcel(_reply); _err != nil {
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
 		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
 	}
 	return _result, nil
 }

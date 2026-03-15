@@ -417,8 +417,16 @@ func readReturnValue(
 	readExpr := info.ReadExpr
 
 	if strings.Contains(info.ReadExpr, ".UnmarshalParcel") {
-		f.P("\tif _err = _result.UnmarshalParcel(_reply); _err != nil {")
+		// Java's readTypedObject reads int32 null indicator before
+		// calling createFromParcel. Skip unmarshaling for null (0).
+		f.P("\t_nullIndicator, _err := _reply.ReadInt32()")
+		f.P("\tif _err != nil {")
 		f.P("\t\treturn _result, _err")
+		f.P("\t}")
+		f.P("\tif _nullIndicator != 0 {")
+		f.P("\t\tif _err = _result.UnmarshalParcel(_reply); _err != nil {")
+		f.P("\t\t\treturn _result, _err")
+		f.P("\t\t}")
 		f.P("\t}")
 		return
 	}
