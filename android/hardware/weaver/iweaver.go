@@ -55,7 +55,7 @@ func (p *WeaverProxy) GetConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWeaver, "getConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWeaverGetConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -100,7 +100,7 @@ func (p *WeaverProxy) Read(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWeaver, "read")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWeaverRead
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -153,7 +153,7 @@ func (p *WeaverProxy) Write(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWeaver, "write")
 	if _err != nil {
-		return _err
+		_code = TransactionIWeaverWrite
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

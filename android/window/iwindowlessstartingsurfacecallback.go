@@ -45,7 +45,7 @@ func (p *WindowlessStartingSurfaceCallbackProxy) OnSurfaceAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowlessStartingSurfaceCallback, "onSurfaceAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowlessStartingSurfaceCallbackOnSurfaceAdded
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

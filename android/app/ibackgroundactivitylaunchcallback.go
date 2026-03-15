@@ -46,7 +46,7 @@ func (p *BackgroundActivityLaunchCallbackProxy) OnBackgroundActivityLaunchAborte
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackgroundActivityLaunchCallback, "onBackgroundActivityLaunchAborted")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackgroundActivityLaunchCallbackOnBackgroundActivityLaunchAborted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

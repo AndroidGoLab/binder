@@ -97,7 +97,7 @@ func (p *BluetoothHapClientProxy) GetConnectedDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getConnectedDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHapClientGetConnectedDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -145,7 +145,7 @@ func (p *BluetoothHapClientProxy) GetDevicesMatchingConnectionStates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getDevicesMatchingConnectionStates")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHapClientGetDevicesMatchingConnectionStates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -189,7 +189,7 @@ func (p *BluetoothHapClientProxy) GetConnectionState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getConnectionState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHapClientGetConnectionState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -226,7 +226,7 @@ func (p *BluetoothHapClientProxy) SetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "setConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHapClientSetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -261,7 +261,7 @@ func (p *BluetoothHapClientProxy) GetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHapClientGetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -296,7 +296,7 @@ func (p *BluetoothHapClientProxy) GetHapGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getHapGroup")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHapClientGetHapGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -331,7 +331,7 @@ func (p *BluetoothHapClientProxy) GetActivePresetIndex(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getActivePresetIndex")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHapClientGetActivePresetIndex
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -366,7 +366,7 @@ func (p *BluetoothHapClientProxy) GetActivePresetInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getActivePresetInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHapClientGetActivePresetInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -407,7 +407,7 @@ func (p *BluetoothHapClientProxy) SelectPreset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "selectPreset")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHapClientSelectPreset
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -427,7 +427,7 @@ func (p *BluetoothHapClientProxy) SelectPresetForGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "selectPresetForGroup")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHapClientSelectPresetForGroup
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -448,7 +448,7 @@ func (p *BluetoothHapClientProxy) SwitchToNextPreset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "switchToNextPreset")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHapClientSwitchToNextPreset
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -466,7 +466,7 @@ func (p *BluetoothHapClientProxy) SwitchToNextPresetForGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "switchToNextPresetForGroup")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHapClientSwitchToNextPresetForGroup
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -487,7 +487,7 @@ func (p *BluetoothHapClientProxy) SwitchToPreviousPreset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "switchToPreviousPreset")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHapClientSwitchToPreviousPreset
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -505,7 +505,7 @@ func (p *BluetoothHapClientProxy) SwitchToPreviousPresetForGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "switchToPreviousPresetForGroup")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHapClientSwitchToPreviousPresetForGroup
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -529,7 +529,7 @@ func (p *BluetoothHapClientProxy) GetPresetInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getPresetInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHapClientGetPresetInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -569,7 +569,7 @@ func (p *BluetoothHapClientProxy) GetAllPresetInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getAllPresetInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHapClientGetAllPresetInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -613,7 +613,7 @@ func (p *BluetoothHapClientProxy) GetFeatures(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getFeatures")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHapClientGetFeatures
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -651,7 +651,7 @@ func (p *BluetoothHapClientProxy) SetPresetName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "setPresetName")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHapClientSetPresetName
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -673,7 +673,7 @@ func (p *BluetoothHapClientProxy) SetPresetNameForGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "setPresetNameForGroup")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHapClientSetPresetNameForGroup
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -691,7 +691,7 @@ func (p *BluetoothHapClientProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHapClientRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -718,7 +718,7 @@ func (p *BluetoothHapClientProxy) UnregisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "unregisterCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHapClientUnregisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

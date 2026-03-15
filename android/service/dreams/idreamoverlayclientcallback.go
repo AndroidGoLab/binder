@@ -46,7 +46,7 @@ func (p *DreamOverlayClientCallbackProxy) OnDreamOverlayClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlayClientCallback, "onDreamOverlayClient")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamOverlayClientCallbackOnDreamOverlayClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

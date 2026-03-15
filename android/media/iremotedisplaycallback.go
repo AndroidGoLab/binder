@@ -49,7 +49,7 @@ func (p *RemoteDisplayCallbackProxy) OnStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteDisplayCallback, "onStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteDisplayCallbackOnStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

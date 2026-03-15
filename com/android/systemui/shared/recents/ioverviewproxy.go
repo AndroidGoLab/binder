@@ -95,7 +95,7 @@ func (p *OverviewProxyProxy) OnActiveNavBarRegionChanges(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "onActiveNavBarRegionChanges")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyOnActiveNavBarRegionChanges
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -115,7 +115,7 @@ func (p *OverviewProxyProxy) OnInitialize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "onInitialize")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyOnInitialize
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -130,7 +130,7 @@ func (p *OverviewProxyProxy) OnOverviewToggle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "onOverviewToggle")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyOnOverviewToggle
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -147,7 +147,7 @@ func (p *OverviewProxyProxy) OnOverviewShown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "onOverviewShown")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyOnOverviewShown
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -166,7 +166,7 @@ func (p *OverviewProxyProxy) OnOverviewHidden(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "onOverviewHidden")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyOnOverviewHidden
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -185,7 +185,7 @@ func (p *OverviewProxyProxy) OnAssistantAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "onAssistantAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyOnAssistantAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -202,7 +202,7 @@ func (p *OverviewProxyProxy) OnAssistantVisibilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "onAssistantVisibilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyOnAssistantVisibilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -219,7 +219,7 @@ func (p *OverviewProxyProxy) OnAssistantOverrideInvoked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "onAssistantOverrideInvoked")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyOnAssistantOverrideInvoked
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -236,7 +236,7 @@ func (p *OverviewProxyProxy) OnSystemUiStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "onSystemUiStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyOnSystemUiStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -255,7 +255,7 @@ func (p *OverviewProxyProxy) OnRotationProposal(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "onRotationProposal")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyOnRotationProposal
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -278,7 +278,7 @@ func (p *OverviewProxyProxy) Disable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "disable")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyDisable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -297,7 +297,7 @@ func (p *OverviewProxyProxy) OnSystemBarAttributesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "onSystemBarAttributesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyOnSystemBarAttributesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -316,7 +316,7 @@ func (p *OverviewProxyProxy) OnTransitionModeUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "onTransitionModeUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyOnTransitionModeUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -333,7 +333,7 @@ func (p *OverviewProxyProxy) OnNavButtonsDarkIntensityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "onNavButtonsDarkIntensityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyOnNavButtonsDarkIntensityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -352,7 +352,7 @@ func (p *OverviewProxyProxy) OnNavigationBarLumaSamplingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "onNavigationBarLumaSamplingEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyOnNavigationBarLumaSamplingEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -369,7 +369,7 @@ func (p *OverviewProxyProxy) EnterStageSplitFromRunningApp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "enterStageSplitFromRunningApp")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyEnterStageSplitFromRunningApp
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -384,7 +384,7 @@ func (p *OverviewProxyProxy) OnTaskbarToggled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "onTaskbarToggled")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyOnTaskbarToggled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -403,7 +403,7 @@ func (p *OverviewProxyProxy) UpdateWallpaperVisibility(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "updateWallpaperVisibility")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyUpdateWallpaperVisibility
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -420,7 +420,7 @@ func (p *OverviewProxyProxy) CheckNavBarModes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "checkNavBarModes")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyCheckNavBarModes
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -437,7 +437,7 @@ func (p *OverviewProxyProxy) FinishBarAnimations(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "finishBarAnimations")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyFinishBarAnimations
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -456,7 +456,7 @@ func (p *OverviewProxyProxy) TouchAutoDim(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "touchAutoDim")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyTouchAutoDim
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -477,7 +477,7 @@ func (p *OverviewProxyProxy) TransitionTo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "transitionTo")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyTransitionTo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -494,7 +494,7 @@ func (p *OverviewProxyProxy) AppTransitionPending(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOverviewProxy, "appTransitionPending")
 	if _err != nil {
-		return _err
+		_code = TransactionIOverviewProxyAppTransitionPending
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

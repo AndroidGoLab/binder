@@ -79,7 +79,7 @@ func (p *StreamOutProxy) GetStreamCommon(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamOut, "getStreamCommon")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStreamOutGetStreamCommon
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -113,7 +113,7 @@ func (p *StreamOutProxy) UpdateMetadata(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamOut, "updateMetadata")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamOutUpdateMetadata
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -142,7 +142,7 @@ func (p *StreamOutProxy) UpdateOffloadMetadata(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamOut, "updateOffloadMetadata")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamOutUpdateOffloadMetadata
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -167,7 +167,7 @@ func (p *StreamOutProxy) GetHwVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamOut, "getHwVolume")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStreamOutGetHwVolume
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -214,7 +214,7 @@ func (p *StreamOutProxy) SetHwVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamOut, "setHwVolume")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamOutSetHwVolume
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -239,7 +239,7 @@ func (p *StreamOutProxy) GetAudioDescriptionMixLevel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamOut, "getAudioDescriptionMixLevel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStreamOutGetAudioDescriptionMixLevel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -269,7 +269,7 @@ func (p *StreamOutProxy) SetAudioDescriptionMixLevel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamOut, "setAudioDescriptionMixLevel")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamOutSetAudioDescriptionMixLevel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -294,7 +294,7 @@ func (p *StreamOutProxy) GetDualMonoMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamOut, "getDualMonoMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStreamOutGetDualMonoMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -325,7 +325,7 @@ func (p *StreamOutProxy) SetDualMonoMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamOut, "setDualMonoMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamOutSetDualMonoMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -350,7 +350,7 @@ func (p *StreamOutProxy) GetRecommendedLatencyModes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamOut, "getRecommendedLatencyModes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStreamOutGetRecommendedLatencyModes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -391,7 +391,7 @@ func (p *StreamOutProxy) SetLatencyMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamOut, "setLatencyMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamOutSetLatencyMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -416,7 +416,7 @@ func (p *StreamOutProxy) GetPlaybackRateParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamOut, "getPlaybackRateParameters")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStreamOutGetPlaybackRateParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -454,7 +454,7 @@ func (p *StreamOutProxy) SetPlaybackRateParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamOut, "setPlaybackRateParameters")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamOutSetPlaybackRateParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -482,7 +482,7 @@ func (p *StreamOutProxy) SelectPresentation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamOut, "selectPresentation")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamOutSelectPresentation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

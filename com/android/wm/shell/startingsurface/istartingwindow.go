@@ -46,7 +46,7 @@ func (p *StartingWindowProxy) SetStartingWindowListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStartingWindow, "setStartingWindowListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIStartingWindowSetStartingWindowListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

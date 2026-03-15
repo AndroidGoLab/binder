@@ -48,7 +48,7 @@ func (p *GnssAntennaInfoProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssAntennaInfo, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssAntennaInfoSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -72,7 +72,7 @@ func (p *GnssAntennaInfoProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssAntennaInfo, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssAntennaInfoClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

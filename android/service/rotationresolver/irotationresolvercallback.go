@@ -51,7 +51,7 @@ func (p *RotationResolverCallbackProxy) OnCancellable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRotationResolverCallback, "onCancellable")
 	if _err != nil {
-		return _err
+		_code = TransactionIRotationResolverCallbackOnCancellable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -68,7 +68,7 @@ func (p *RotationResolverCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRotationResolverCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIRotationResolverCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -85,7 +85,7 @@ func (p *RotationResolverCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRotationResolverCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIRotationResolverCallbackOnFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

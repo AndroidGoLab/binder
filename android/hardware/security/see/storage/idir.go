@@ -47,7 +47,7 @@ func (p *DirProxy) ReadNextFilenames(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDir, "readNextFilenames")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDirReadNextFilenames
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

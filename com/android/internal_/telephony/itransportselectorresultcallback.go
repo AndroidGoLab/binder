@@ -46,7 +46,7 @@ func (p *TransportSelectorResultCallbackProxy) OnCompleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITransportSelectorResultCallback, "onCompleted")
 	if _err != nil {
-		return _err
+		_code = TransactionITransportSelectorResultCallbackOnCompleted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

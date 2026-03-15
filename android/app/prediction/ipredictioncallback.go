@@ -50,7 +50,7 @@ func (p *PredictionCallbackProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPredictionCallback, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIPredictionCallbackOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

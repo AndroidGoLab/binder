@@ -54,7 +54,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnClick(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onClick")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionUiCallbackOnClick
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnLongClick(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onLongClick")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionUiCallbackOnLongClick
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -91,7 +91,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnContent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onContent")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionUiCallbackOnContent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -106,7 +106,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionUiCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -125,7 +125,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnTransferTouchFocusToImeWindow(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onTransferTouchFocusToImeWindow")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionUiCallbackOnTransferTouchFocusToImeWindow
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -141,7 +141,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnStartIntentSender(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onStartIntentSender")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionUiCallbackOnStartIntentSender
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

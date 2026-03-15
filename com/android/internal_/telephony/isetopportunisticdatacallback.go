@@ -46,7 +46,7 @@ func (p *SetOpportunisticDataCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISetOpportunisticDataCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionISetOpportunisticDataCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

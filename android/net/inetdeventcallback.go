@@ -79,7 +79,7 @@ func (p *NetdEventCallbackProxy) OnDnsEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetdEventCallback, "onDnsEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionINetdEventCallbackOnDnsEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -102,7 +102,7 @@ func (p *NetdEventCallbackProxy) OnNat64PrefixEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetdEventCallback, "onNat64PrefixEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionINetdEventCallbackOnNat64PrefixEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -125,7 +125,7 @@ func (p *NetdEventCallbackProxy) OnPrivateDnsValidationEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetdEventCallback, "onPrivateDnsValidationEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionINetdEventCallbackOnPrivateDnsValidationEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -148,7 +148,7 @@ func (p *NetdEventCallbackProxy) OnConnectEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetdEventCallback, "onConnectEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionINetdEventCallbackOnConnectEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

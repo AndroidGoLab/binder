@@ -62,7 +62,7 @@ func (p *VirtualSensorCallbackProxy) OnConfigurationChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualSensorCallback, "onConfigurationChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualSensorCallbackOnConfigurationChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -84,7 +84,7 @@ func (p *VirtualSensorCallbackProxy) OnDirectChannelCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualSensorCallback, "onDirectChannelCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualSensorCallbackOnDirectChannelCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -101,7 +101,7 @@ func (p *VirtualSensorCallbackProxy) OnDirectChannelDestroyed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualSensorCallback, "onDirectChannelDestroyed")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualSensorCallbackOnDirectChannelDestroyed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -127,7 +127,7 @@ func (p *VirtualSensorCallbackProxy) OnDirectChannelConfigured(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualSensorCallback, "onDirectChannelConfigured")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualSensorCallbackOnDirectChannelConfigured
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

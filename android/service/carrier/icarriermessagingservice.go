@@ -68,7 +68,7 @@ func (p *CarrierMessagingServiceProxy) FilterSms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingService, "filterSms")
 	if _err != nil {
-		return _err
+		_code = TransactionICarrierMessagingServiceFilterSms
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -93,7 +93,7 @@ func (p *CarrierMessagingServiceProxy) SendTextSms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingService, "sendTextSms")
 	if _err != nil {
-		return _err
+		_code = TransactionICarrierMessagingServiceSendTextSms
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -127,7 +127,7 @@ func (p *CarrierMessagingServiceProxy) SendDataSms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingService, "sendDataSms")
 	if _err != nil {
-		return _err
+		_code = TransactionICarrierMessagingServiceSendDataSms
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -159,7 +159,7 @@ func (p *CarrierMessagingServiceProxy) SendMultipartTextSms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingService, "sendMultipartTextSms")
 	if _err != nil {
-		return _err
+		_code = TransactionICarrierMessagingServiceSendMultipartTextSms
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -188,7 +188,7 @@ func (p *CarrierMessagingServiceProxy) SendMms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingService, "sendMms")
 	if _err != nil {
-		return _err
+		_code = TransactionICarrierMessagingServiceSendMms
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -217,7 +217,7 @@ func (p *CarrierMessagingServiceProxy) DownloadMms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingService, "downloadMms")
 	if _err != nil {
-		return _err
+		_code = TransactionICarrierMessagingServiceDownloadMms
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

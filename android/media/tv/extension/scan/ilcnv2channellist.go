@@ -50,7 +50,7 @@ func (p *LcnV2ChannelListProxy) GetLcnV2ChannelLists(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILcnV2ChannelList, "getLcnV2ChannelLists")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILcnV2ChannelListGetLcnV2ChannelLists
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *LcnV2ChannelListProxy) SetLcnV2ChannelList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILcnV2ChannelList, "setLcnV2ChannelList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILcnV2ChannelListSetLcnV2ChannelList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -124,7 +124,7 @@ func (p *LcnV2ChannelListProxy) SetListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILcnV2ChannelList, "setListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILcnV2ChannelListSetListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

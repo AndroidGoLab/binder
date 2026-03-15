@@ -48,7 +48,7 @@ func (p *RemoteProvisioningProxy) GetRegistration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteProvisioning, "getRegistration")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteProvisioningGetRegistration
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

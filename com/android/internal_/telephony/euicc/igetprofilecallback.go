@@ -52,7 +52,7 @@ func (p *GetProfileCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGetProfileCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIGetProfileCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

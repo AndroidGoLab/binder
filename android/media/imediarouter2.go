@@ -70,7 +70,7 @@ func (p *MediaRouter2Proxy) NotifyRouterRegistered(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2, "notifyRouterRegistered")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouter2NotifyRouterRegistered
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -96,7 +96,7 @@ func (p *MediaRouter2Proxy) NotifyRoutesUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2, "notifyRoutesUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouter2NotifyRoutesUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -121,7 +121,7 @@ func (p *MediaRouter2Proxy) NotifySessionCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2, "notifySessionCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouter2NotifySessionCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -141,7 +141,7 @@ func (p *MediaRouter2Proxy) NotifySessionInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2, "notifySessionInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouter2NotifySessionInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -161,7 +161,7 @@ func (p *MediaRouter2Proxy) NotifySessionReleased(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2, "notifySessionReleased")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouter2NotifySessionReleased
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -188,7 +188,7 @@ func (p *MediaRouter2Proxy) RequestCreateSessionByManager(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2, "requestCreateSessionByManager")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouter2RequestCreateSessionByManager
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

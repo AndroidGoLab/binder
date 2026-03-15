@@ -46,7 +46,7 @@ func (p *NestedProxy) ProtectedByAccessNetworkState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINested, "ProtectedByAccessNetworkState")
 	if _err != nil {
-		return _err
+		_code = TransactionINestedProtectedByAccessNetworkState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -70,7 +70,7 @@ func (p *NestedProxy) ProtectedByReadSyncSettings(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINested, "ProtectedByReadSyncSettings")
 	if _err != nil {
-		return _err
+		_code = TransactionINestedProtectedByReadSyncSettings
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

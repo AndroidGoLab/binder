@@ -48,7 +48,7 @@ func (p *NumberVerificationCallbackProxy) OnCallReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINumberVerificationCallback, "onCallReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionINumberVerificationCallbackOnCallReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *NumberVerificationCallbackProxy) OnVerificationFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINumberVerificationCallback, "onVerificationFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionINumberVerificationCallbackOnVerificationFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

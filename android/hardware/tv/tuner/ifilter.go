@@ -75,7 +75,7 @@ func (p *FilterProxy) GetQueueDesc(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "getQueueDesc")
 	if _err != nil {
-		return _err
+		_code = TransactionIFilterGetQueueDesc
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -102,7 +102,7 @@ func (p *FilterProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIFilterClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -131,7 +131,7 @@ func (p *FilterProxy) Configure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "configure")
 	if _err != nil {
-		return _err
+		_code = TransactionIFilterConfigure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -160,7 +160,7 @@ func (p *FilterProxy) ConfigureAvStreamType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "configureAvStreamType")
 	if _err != nil {
-		return _err
+		_code = TransactionIFilterConfigureAvStreamType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -186,7 +186,7 @@ func (p *FilterProxy) ConfigureIpCid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "configureIpCid")
 	if _err != nil {
-		return _err
+		_code = TransactionIFilterConfigureIpCid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -212,7 +212,7 @@ func (p *FilterProxy) ConfigureMonitorEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "configureMonitorEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIFilterConfigureMonitorEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -236,7 +236,7 @@ func (p *FilterProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "start")
 	if _err != nil {
-		return _err
+		_code = TransactionIFilterStart
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -260,7 +260,7 @@ func (p *FilterProxy) Stop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "stop")
 	if _err != nil {
-		return _err
+		_code = TransactionIFilterStop
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -284,7 +284,7 @@ func (p *FilterProxy) Flush(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "flush")
 	if _err != nil {
-		return _err
+		_code = TransactionIFilterFlush
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -310,7 +310,7 @@ func (p *FilterProxy) GetAvSharedHandle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "getAvSharedHandle")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFilterGetAvSharedHandle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -342,7 +342,7 @@ func (p *FilterProxy) GetId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "getId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFilterGetId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -371,7 +371,7 @@ func (p *FilterProxy) GetId64Bit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "getId64Bit")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFilterGetId64Bit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -406,7 +406,7 @@ func (p *FilterProxy) ReleaseAvHandle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "releaseAvHandle")
 	if _err != nil {
-		return _err
+		_code = TransactionIFilterReleaseAvHandle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -432,7 +432,7 @@ func (p *FilterProxy) SetDataSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "setDataSource")
 	if _err != nil {
-		return _err
+		_code = TransactionIFilterSetDataSource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -461,7 +461,7 @@ func (p *FilterProxy) SetDelayHint(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilter, "setDelayHint")
 	if _err != nil {
-		return _err
+		_code = TransactionIFilterSetDelayHint
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

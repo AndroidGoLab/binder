@@ -55,7 +55,7 @@ func (p *LayoutResultCallbackProxy) OnLayoutStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILayoutResultCallback, "onLayoutStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionILayoutResultCallbackOnLayoutStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -79,7 +79,7 @@ func (p *LayoutResultCallbackProxy) OnLayoutFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILayoutResultCallback, "onLayoutFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionILayoutResultCallbackOnLayoutFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -97,7 +97,7 @@ func (p *LayoutResultCallbackProxy) OnLayoutFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILayoutResultCallback, "onLayoutFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionILayoutResultCallbackOnLayoutFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -114,7 +114,7 @@ func (p *LayoutResultCallbackProxy) OnLayoutCanceled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILayoutResultCallback, "onLayoutCanceled")
 	if _err != nil {
-		return _err
+		_code = TransactionILayoutResultCallbackOnLayoutCanceled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

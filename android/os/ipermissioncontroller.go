@@ -59,7 +59,7 @@ func (p *PermissionControllerProxy) CheckPermission(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPermissionController, "checkPermission")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPermissionControllerCheckPermission
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -94,7 +94,7 @@ func (p *PermissionControllerProxy) NoteOp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPermissionController, "noteOp")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPermissionControllerNoteOp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -125,7 +125,7 @@ func (p *PermissionControllerProxy) GetPackagesForUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPermissionController, "getPackagesForUid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPermissionControllerGetPackagesForUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -166,7 +166,7 @@ func (p *PermissionControllerProxy) IsRuntimePermission(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPermissionController, "isRuntimePermission")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPermissionControllerIsRuntimePermission
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -199,7 +199,7 @@ func (p *PermissionControllerProxy) GetPackageUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPermissionController, "getPackageUid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPermissionControllerGetPackageUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

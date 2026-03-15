@@ -46,7 +46,7 @@ func (p *RegionSamplingListenerProxy) OnSampleCollected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRegionSamplingListener, "onSampleCollected")
 	if _err != nil {
-		return _err
+		_code = TransactionIRegionSamplingListenerOnSampleCollected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

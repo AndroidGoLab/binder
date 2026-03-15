@@ -84,7 +84,7 @@ func (p *SessionProxy) GenerateChallenge(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "generateChallenge")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionGenerateChallenge
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -110,7 +110,7 @@ func (p *SessionProxy) RevokeChallenge(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "revokeChallenge")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionRevokeChallenge
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -137,7 +137,7 @@ func (p *SessionProxy) GetEnrollmentConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "getEnrollmentConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionGetEnrollmentConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -199,7 +199,7 @@ func (p *SessionProxy) Enroll(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "enroll")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionEnroll
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -231,7 +231,7 @@ func (p *SessionProxy) Authenticate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "authenticate")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionAuthenticate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -261,7 +261,7 @@ func (p *SessionProxy) DetectInteraction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "detectInteraction")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionDetectInteraction
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -290,7 +290,7 @@ func (p *SessionProxy) EnumerateEnrollments(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "enumerateEnrollments")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionEnumerateEnrollments
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -323,7 +323,7 @@ func (p *SessionProxy) RemoveEnrollments(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "removeEnrollments")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionRemoveEnrollments
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -347,7 +347,7 @@ func (p *SessionProxy) GetFeatures(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "getFeatures")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionGetFeatures
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -380,7 +380,7 @@ func (p *SessionProxy) SetFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setFeature")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionSetFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -404,7 +404,7 @@ func (p *SessionProxy) GetAuthenticatorId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "getAuthenticatorId")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionGetAuthenticatorId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -428,7 +428,7 @@ func (p *SessionProxy) InvalidateAuthenticatorId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "invalidateAuthenticatorId")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionInvalidateAuthenticatorId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -457,7 +457,7 @@ func (p *SessionProxy) ResetLockout(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "resetLockout")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionResetLockout
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -481,7 +481,7 @@ func (p *SessionProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -513,7 +513,7 @@ func (p *SessionProxy) AuthenticateWithContext(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "authenticateWithContext")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionAuthenticateWithContext
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -572,7 +572,7 @@ func (p *SessionProxy) EnrollWithContext(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "enrollWithContext")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionEnrollWithContext
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -607,7 +607,7 @@ func (p *SessionProxy) DetectInteractionWithContext(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "detectInteractionWithContext")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionDetectInteractionWithContext
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -641,7 +641,7 @@ func (p *SessionProxy) OnContextChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "onContextChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionOnContextChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -671,7 +671,7 @@ func (p *SessionProxy) EnrollWithOptions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "enrollWithOptions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionEnrollWithOptions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

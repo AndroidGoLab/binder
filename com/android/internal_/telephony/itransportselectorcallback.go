@@ -52,7 +52,7 @@ func (p *TransportSelectorCallbackProxy) OnCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITransportSelectorCallback, "onCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionITransportSelectorCallbackOnCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *TransportSelectorCallbackProxy) OnWlanSelected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITransportSelectorCallback, "onWlanSelected")
 	if _err != nil {
-		return _err
+		_code = TransactionITransportSelectorCallbackOnWlanSelected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -86,7 +86,7 @@ func (p *TransportSelectorCallbackProxy) OnWwanSelectedAsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITransportSelectorCallback, "onWwanSelectedAsync")
 	if _err != nil {
-		return _err
+		_code = TransactionITransportSelectorCallbackOnWwanSelectedAsync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -103,7 +103,7 @@ func (p *TransportSelectorCallbackProxy) OnSelectionTerminated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITransportSelectorCallback, "onSelectionTerminated")
 	if _err != nil {
-		return _err
+		_code = TransactionITransportSelectorCallbackOnSelectionTerminated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

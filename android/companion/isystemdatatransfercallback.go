@@ -46,7 +46,7 @@ func (p *SystemDataTransferCallbackProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISystemDataTransferCallback, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionISystemDataTransferCallbackOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *SystemDataTransferCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISystemDataTransferCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionISystemDataTransferCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -61,7 +61,7 @@ func (p *HdmiVendorCommandListenerProxy) OnReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiVendorCommandListener, "onReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiVendorCommandListenerOnReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -80,7 +80,7 @@ func (p *HdmiVendorCommandListenerProxy) OnControlStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiVendorCommandListener, "onControlStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiVendorCommandListenerOnControlStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

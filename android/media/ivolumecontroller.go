@@ -58,7 +58,7 @@ func (p *VolumeControllerProxy) DisplaySafeVolumeWarning(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVolumeController, "displaySafeVolumeWarning")
 	if _err != nil {
-		return _err
+		_code = TransactionIVolumeControllerDisplaySafeVolumeWarning
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -77,7 +77,7 @@ func (p *VolumeControllerProxy) VolumeChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVolumeController, "volumeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIVolumeControllerVolumeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -94,7 +94,7 @@ func (p *VolumeControllerProxy) MasterMuteChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVolumeController, "masterMuteChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIVolumeControllerMasterMuteChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -111,7 +111,7 @@ func (p *VolumeControllerProxy) SetLayoutDirection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVolumeController, "setLayoutDirection")
 	if _err != nil {
-		return _err
+		_code = TransactionIVolumeControllerSetLayoutDirection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -126,7 +126,7 @@ func (p *VolumeControllerProxy) Dismiss(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVolumeController, "dismiss")
 	if _err != nil {
-		return _err
+		_code = TransactionIVolumeControllerDismiss
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -143,7 +143,7 @@ func (p *VolumeControllerProxy) SetA11yMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVolumeController, "setA11yMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIVolumeControllerSetA11yMode
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -162,7 +162,7 @@ func (p *VolumeControllerProxy) DisplayCsdWarning(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVolumeController, "displayCsdWarning")
 	if _err != nil {
-		return _err
+		_code = TransactionIVolumeControllerDisplayCsdWarning
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

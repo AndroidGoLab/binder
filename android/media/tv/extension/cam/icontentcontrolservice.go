@@ -51,7 +51,7 @@ func (p *ContentControlServiceProxy) AddCamDrmInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentControlService, "addCamDrmInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentControlServiceAddCamDrmInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -77,7 +77,7 @@ func (p *ContentControlServiceProxy) RemoveCamDrmInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentControlService, "removeCamDrmInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentControlServiceRemoveCamDrmInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -105,7 +105,7 @@ func (p *ContentControlServiceProxy) GetCamDrmInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentControlService, "getCamDrmInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentControlServiceGetCamDrmInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

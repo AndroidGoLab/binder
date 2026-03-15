@@ -52,7 +52,7 @@ func (p *RemoteLockscreenValidationCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteLockscreenValidationCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteLockscreenValidationCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *RemoteLockscreenValidationCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteLockscreenValidationCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteLockscreenValidationCallbackOnFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

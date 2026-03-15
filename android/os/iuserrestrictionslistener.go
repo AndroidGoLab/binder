@@ -56,7 +56,7 @@ func (p *UserRestrictionsListenerProxy) OnUserRestrictionsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserRestrictionsListener, "onUserRestrictionsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserRestrictionsListenerOnUserRestrictionsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

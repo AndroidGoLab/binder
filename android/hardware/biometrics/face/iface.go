@@ -47,7 +47,7 @@ func (p *FaceProxy) GetSensorProps(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFace, "getSensorProps")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFaceGetSensorProps
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -91,7 +91,7 @@ func (p *FaceProxy) CreateSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFace, "createSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFaceCreateSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

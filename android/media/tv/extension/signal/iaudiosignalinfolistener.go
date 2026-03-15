@@ -52,7 +52,7 @@ func (p *AudioSignalInfoListenerProxy) OnAudioSignalInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioSignalInfoListener, "onAudioSignalInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioSignalInfoListenerOnAudioSignalInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

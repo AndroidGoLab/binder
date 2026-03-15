@@ -55,7 +55,7 @@ func (p *FingerprintAuthenticatorsRegisteredCallbackProxy) OnAllAuthenticatorsRe
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintAuthenticatorsRegisteredCallback, "onAllAuthenticatorsRegistered")
 	if _err != nil {
-		return _err
+		_code = TransactionIFingerprintAuthenticatorsRegisteredCallbackOnAllAuthenticatorsRegistered
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

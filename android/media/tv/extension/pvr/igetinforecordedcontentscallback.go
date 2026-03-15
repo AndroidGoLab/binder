@@ -46,7 +46,7 @@ func (p *GetInfoRecordedContentsCallbackProxy) OnRecordedContentsGetInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGetInfoRecordedContentsCallback, "onRecordedContentsGetInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIGetInfoRecordedContentsCallbackOnRecordedContentsGetInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

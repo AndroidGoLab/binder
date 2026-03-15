@@ -67,7 +67,7 @@ func (p *DumpstateDeviceProxy) DumpstateBoard(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDumpstateDevice, "dumpstateBoard")
 	if _err != nil {
-		return _err
+		_code = TransactionIDumpstateDeviceDumpstateBoard
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -92,7 +92,7 @@ func (p *DumpstateDeviceProxy) GetVerboseLoggingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDumpstateDevice, "getVerboseLoggingEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDumpstateDeviceGetVerboseLoggingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -122,7 +122,7 @@ func (p *DumpstateDeviceProxy) SetVerboseLoggingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDumpstateDevice, "setVerboseLoggingEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIDumpstateDeviceSetVerboseLoggingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

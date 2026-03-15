@@ -62,7 +62,7 @@ func (p *SoundTriggerServiceProxy) AttachAsOriginator(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerService, "attachAsOriginator")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISoundTriggerServiceAttachAsOriginator
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -101,7 +101,7 @@ func (p *SoundTriggerServiceProxy) AttachAsMiddleman(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerService, "attachAsMiddleman")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISoundTriggerServiceAttachAsMiddleman
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -132,7 +132,7 @@ func (p *SoundTriggerServiceProxy) ListModuleProperties(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerService, "listModuleProperties")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISoundTriggerServiceListModuleProperties
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -170,7 +170,7 @@ func (p *SoundTriggerServiceProxy) AttachInjection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerService, "attachInjection")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundTriggerServiceAttachInjection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -196,7 +196,7 @@ func (p *SoundTriggerServiceProxy) SetInPhoneCallState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerService, "setInPhoneCallState")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundTriggerServiceSetInPhoneCallState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

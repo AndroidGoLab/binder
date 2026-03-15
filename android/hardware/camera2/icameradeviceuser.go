@@ -110,7 +110,7 @@ func (p *CameraDeviceUserProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "disconnect")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceUserDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -138,7 +138,7 @@ func (p *CameraDeviceUserProxy) SubmitRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "submitRequest")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraDeviceUserSubmitRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -171,7 +171,7 @@ func (p *CameraDeviceUserProxy) SubmitRequestList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "submitRequestList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraDeviceUserSubmitRequestList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -198,7 +198,7 @@ func (p *CameraDeviceUserProxy) CancelRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "cancelRequest")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraDeviceUserCancelRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -226,7 +226,7 @@ func (p *CameraDeviceUserProxy) BeginConfigure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "beginConfigure")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceUserBeginConfigure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -256,7 +256,7 @@ func (p *CameraDeviceUserProxy) EndConfigure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "endConfigure")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraDeviceUserEndConfigure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -296,7 +296,7 @@ func (p *CameraDeviceUserProxy) IsSessionConfigurationSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "isSessionConfigurationSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraDeviceUserIsSessionConfigurationSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -326,7 +326,7 @@ func (p *CameraDeviceUserProxy) DeleteStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "deleteStream")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceUserDeleteStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -352,7 +352,7 @@ func (p *CameraDeviceUserProxy) CreateStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "createStream")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraDeviceUserCreateStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -389,7 +389,7 @@ func (p *CameraDeviceUserProxy) CreateInputStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "createInputStream")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraDeviceUserCreateInputStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -418,7 +418,7 @@ func (p *CameraDeviceUserProxy) GetInputSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "getInputSurface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraDeviceUserGetInputSurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -445,7 +445,7 @@ func (p *CameraDeviceUserProxy) CreateDefaultRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "createDefaultRequest")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraDeviceUserCreateDefaultRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -470,7 +470,7 @@ func (p *CameraDeviceUserProxy) GetCameraInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "getCameraInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraDeviceUserGetCameraInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -494,7 +494,7 @@ func (p *CameraDeviceUserProxy) WaitUntilIdle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "waitUntilIdle")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceUserWaitUntilIdle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -519,7 +519,7 @@ func (p *CameraDeviceUserProxy) Flush(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "flush")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraDeviceUserFlush
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -549,7 +549,7 @@ func (p *CameraDeviceUserProxy) Prepare(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "prepare")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceUserPrepare
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -575,7 +575,7 @@ func (p *CameraDeviceUserProxy) TearDown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "tearDown")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceUserTearDown
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -603,7 +603,7 @@ func (p *CameraDeviceUserProxy) Prepare2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "prepare2")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceUserPrepare2
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -630,7 +630,7 @@ func (p *CameraDeviceUserProxy) UpdateOutputConfiguration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "updateOutputConfiguration")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceUserUpdateOutputConfiguration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -657,7 +657,7 @@ func (p *CameraDeviceUserProxy) FinalizeOutputConfigurations(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "finalizeOutputConfigurations")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceUserFinalizeOutputConfigurations
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -682,7 +682,7 @@ func (p *CameraDeviceUserProxy) GetCaptureResultMetadataQueue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "getCaptureResultMetadataQueue")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraDeviceUserGetCaptureResultMetadataQueue
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -717,7 +717,7 @@ func (p *CameraDeviceUserProxy) SetCameraAudioRestriction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "setCameraAudioRestriction")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceUserSetCameraAudioRestriction
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -742,7 +742,7 @@ func (p *CameraDeviceUserProxy) GetGlobalAudioRestriction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "getGlobalAudioRestriction")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraDeviceUserGetGlobalAudioRestriction
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -782,7 +782,7 @@ func (p *CameraDeviceUserProxy) SwitchToOffline(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "switchToOffline")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraDeviceUserSwitchToOffline
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -812,7 +812,7 @@ func (p *CameraDeviceUserProxy) IsPrimaryClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "isPrimaryClient")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraDeviceUserIsPrimaryClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

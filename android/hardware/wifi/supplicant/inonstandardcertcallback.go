@@ -49,7 +49,7 @@ func (p *NonStandardCertCallbackProxy) GetBlob(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINonStandardCertCallback, "getBlob")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINonStandardCertCallbackGetBlob
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -90,7 +90,7 @@ func (p *NonStandardCertCallbackProxy) ListAliases(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINonStandardCertCallback, "listAliases")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINonStandardCertCallbackListAliases
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

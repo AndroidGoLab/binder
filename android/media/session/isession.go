@@ -81,7 +81,7 @@ func (p *SessionProxy) SendEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "sendEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionSendEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -106,7 +106,7 @@ func (p *SessionProxy) GetController(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "getController")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionGetController
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -137,7 +137,7 @@ func (p *SessionProxy) SetFlags(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setFlags")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionSetFlags
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -163,7 +163,7 @@ func (p *SessionProxy) SetActive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setActive")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionSetActive
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -188,7 +188,7 @@ func (p *SessionProxy) SetMediaButtonReceiver(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setMediaButtonReceiver")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionSetMediaButtonReceiver
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -213,7 +213,7 @@ func (p *SessionProxy) SetMediaButtonBroadcastReceiver(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setMediaButtonBroadcastReceiver")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionSetMediaButtonBroadcastReceiver
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -238,7 +238,7 @@ func (p *SessionProxy) SetLaunchPendingIntent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setLaunchPendingIntent")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionSetLaunchPendingIntent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -262,7 +262,7 @@ func (p *SessionProxy) DestroySession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "destroySession")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionDestroySession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -291,7 +291,7 @@ func (p *SessionProxy) SetMetadata(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setMetadata")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionSetMetadata
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -320,7 +320,7 @@ func (p *SessionProxy) SetPlaybackState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setPlaybackState")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionSetPlaybackState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -344,7 +344,7 @@ func (p *SessionProxy) ResetQueue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "resetQueue")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionResetQueue
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -369,7 +369,7 @@ func (p *SessionProxy) GetBinderForSetQueue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "getBinderForSetQueue")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionGetBinderForSetQueue
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -399,7 +399,7 @@ func (p *SessionProxy) SetQueueTitle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setQueueTitle")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionSetQueueTitle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -424,7 +424,7 @@ func (p *SessionProxy) SetExtras(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setExtras")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionSetExtras
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -450,7 +450,7 @@ func (p *SessionProxy) SetRatingType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setRatingType")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionSetRatingType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -475,7 +475,7 @@ func (p *SessionProxy) SetPlaybackToLocal(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setPlaybackToLocal")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionSetPlaybackToLocal
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -505,7 +505,7 @@ func (p *SessionProxy) SetPlaybackToRemote(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setPlaybackToRemote")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionSetPlaybackToRemote
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -531,7 +531,7 @@ func (p *SessionProxy) SetCurrentVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setCurrentVolume")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionSetCurrentVolume
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

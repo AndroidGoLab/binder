@@ -44,7 +44,7 @@ func (p *OnPrimaryClipChangedListenerProxy) DispatchPrimaryClipChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnPrimaryClipChangedListener, "dispatchPrimaryClipChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnPrimaryClipChangedListenerDispatchPrimaryClipChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

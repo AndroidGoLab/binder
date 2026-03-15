@@ -67,7 +67,7 @@ func (p *VibratorManagerServiceProxy) GetVibratorIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "getVibratorIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVibratorManagerServiceGetVibratorIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -106,7 +106,7 @@ func (p *VibratorManagerServiceProxy) GetCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "getCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVibratorManagerServiceGetCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -137,7 +137,7 @@ func (p *VibratorManagerServiceProxy) GetVibratorInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "getVibratorInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVibratorManagerServiceGetVibratorInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -173,7 +173,7 @@ func (p *VibratorManagerServiceProxy) IsVibrating(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "isVibrating")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVibratorManagerServiceIsVibrating
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -206,7 +206,7 @@ func (p *VibratorManagerServiceProxy) RegisterVibratorStateListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "registerVibratorStateListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVibratorManagerServiceRegisterVibratorStateListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -239,7 +239,7 @@ func (p *VibratorManagerServiceProxy) UnregisterVibratorStateListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "unregisterVibratorStateListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVibratorManagerServiceUnregisterVibratorStateListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -284,7 +284,7 @@ func (p *VibratorManagerServiceProxy) SetAlwaysOnEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "setAlwaysOnEffect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVibratorManagerServiceSetAlwaysOnEffect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -332,7 +332,7 @@ func (p *VibratorManagerServiceProxy) Vibrate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "vibrate")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibratorManagerServiceVibrate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -360,7 +360,7 @@ func (p *VibratorManagerServiceProxy) CancelVibrate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "cancelVibrate")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibratorManagerServiceCancelVibrate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -398,7 +398,7 @@ func (p *VibratorManagerServiceProxy) PerformHapticFeedback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "performHapticFeedback")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibratorManagerServicePerformHapticFeedback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -431,7 +431,7 @@ func (p *VibratorManagerServiceProxy) PerformHapticFeedbackForInputDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "performHapticFeedbackForInputDevice")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibratorManagerServicePerformHapticFeedbackForInputDevice
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -470,7 +470,7 @@ func (p *VibratorManagerServiceProxy) StartVendorVibrationSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "startVendorVibrationSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVibratorManagerServiceStartVendorVibrationSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -76,7 +76,7 @@ func (p *PrintSpoolerProxy) RemoveObsoletePrintJobs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpooler, "removeObsoletePrintJobs")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintSpoolerRemoveObsoletePrintJobs
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -104,7 +104,7 @@ func (p *PrintSpoolerProxy) GetPrintJobInfos(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpooler, "getPrintJobInfos")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintSpoolerGetPrintJobInfos
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -130,7 +130,7 @@ func (p *PrintSpoolerProxy) GetPrintJobInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpooler, "getPrintJobInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintSpoolerGetPrintJobInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -150,7 +150,7 @@ func (p *PrintSpoolerProxy) CreatePrintJob(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpooler, "createPrintJob")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintSpoolerCreatePrintJob
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -178,7 +178,7 @@ func (p *PrintSpoolerProxy) SetPrintJobState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpooler, "setPrintJobState")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintSpoolerSetPrintJobState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -200,7 +200,7 @@ func (p *PrintSpoolerProxy) SetProgress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpooler, "setProgress")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintSpoolerSetProgress
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -221,7 +221,7 @@ func (p *PrintSpoolerProxy) SetStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpooler, "setStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintSpoolerSetStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -244,7 +244,7 @@ func (p *PrintSpoolerProxy) SetStatusRes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpooler, "setStatusRes")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintSpoolerSetStatusRes
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -273,7 +273,7 @@ func (p *PrintSpoolerProxy) OnCustomPrinterIconLoaded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpooler, "onCustomPrinterIconLoaded")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintSpoolerOnCustomPrinterIconLoaded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -297,7 +297,7 @@ func (p *PrintSpoolerProxy) GetCustomPrinterIcon(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpooler, "getCustomPrinterIcon")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintSpoolerGetCustomPrinterIcon
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -316,7 +316,7 @@ func (p *PrintSpoolerProxy) ClearCustomPrinterIconCache(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpooler, "clearCustomPrinterIconCache")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintSpoolerClearCustomPrinterIconCache
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -342,7 +342,7 @@ func (p *PrintSpoolerProxy) SetPrintJobTag(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpooler, "setPrintJobTag")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintSpoolerSetPrintJobTag
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -364,7 +364,7 @@ func (p *PrintSpoolerProxy) WritePrintJobData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpooler, "writePrintJobData")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintSpoolerWritePrintJobData
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -381,7 +381,7 @@ func (p *PrintSpoolerProxy) SetClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpooler, "setClient")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintSpoolerSetClient
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -403,7 +403,7 @@ func (p *PrintSpoolerProxy) SetPrintJobCancelling(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpooler, "setPrintJobCancelling")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintSpoolerSetPrintJobCancelling
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -429,7 +429,7 @@ func (p *PrintSpoolerProxy) PruneApprovedPrintServices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintSpooler, "pruneApprovedPrintServices")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintSpoolerPruneApprovedPrintServices
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

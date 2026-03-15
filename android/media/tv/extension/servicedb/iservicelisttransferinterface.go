@@ -51,7 +51,7 @@ func (p *ServiceListTransferInterfaceProxy) CreateExportSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceListTransferInterface, "createExportSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIServiceListTransferInterfaceCreateExportSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -83,7 +83,7 @@ func (p *ServiceListTransferInterfaceProxy) CreateImportSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceListTransferInterface, "createImportSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIServiceListTransferInterfaceCreateImportSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -115,7 +115,7 @@ func (p *ServiceListTransferInterfaceProxy) CreateSetChannelListSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceListTransferInterface, "createSetChannelListSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIServiceListTransferInterfaceCreateSetChannelListSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

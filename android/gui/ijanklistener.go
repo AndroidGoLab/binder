@@ -55,7 +55,7 @@ func (p *JankListenerProxy) OnJankData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIJankListener, "onJankData")
 	if _err != nil {
-		return _err
+		_code = TransactionIJankListenerOnJankData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -61,7 +61,7 @@ func (p *TunerCallbackProxy) OnTuneFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onTuneFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnTuneFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -81,7 +81,7 @@ func (p *TunerCallbackProxy) OnCurrentProgramInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onCurrentProgramInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnCurrentProgramInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -101,7 +101,7 @@ func (p *TunerCallbackProxy) OnProgramListUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onProgramListUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnProgramListUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -118,7 +118,7 @@ func (p *TunerCallbackProxy) OnAntennaStateChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onAntennaStateChange")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnAntennaStateChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -137,7 +137,7 @@ func (p *TunerCallbackProxy) OnConfigFlagUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onConfigFlagUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnConfigFlagUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -163,7 +163,7 @@ func (p *TunerCallbackProxy) OnParametersUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onParametersUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnParametersUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

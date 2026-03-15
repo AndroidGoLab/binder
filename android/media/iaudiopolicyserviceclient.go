@@ -60,7 +60,7 @@ func (p *AudioPolicyServiceClientProxy) OnAudioVolumeGroupChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyServiceClient, "onAudioVolumeGroupChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceClientOnAudioVolumeGroupChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -75,7 +75,7 @@ func (p *AudioPolicyServiceClientProxy) OnAudioPortListUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyServiceClient, "onAudioPortListUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceClientOnAudioPortListUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -90,7 +90,7 @@ func (p *AudioPolicyServiceClientProxy) OnAudioPatchListUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyServiceClient, "onAudioPatchListUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceClientOnAudioPatchListUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *AudioPolicyServiceClientProxy) OnDynamicPolicyMixStateUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyServiceClient, "onDynamicPolicyMixStateUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceClientOnDynamicPolicyMixStateUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -158,7 +158,7 @@ func (p *AudioPolicyServiceClientProxy) OnRecordingConfigurationUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyServiceClient, "onRecordingConfigurationUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceClientOnRecordingConfigurationUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -173,7 +173,7 @@ func (p *AudioPolicyServiceClientProxy) OnRoutingUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyServiceClient, "onRoutingUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceClientOnRoutingUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -188,7 +188,7 @@ func (p *AudioPolicyServiceClientProxy) OnVolumeRangeInitRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyServiceClient, "onVolumeRangeInitRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceClientOnVolumeRangeInitRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

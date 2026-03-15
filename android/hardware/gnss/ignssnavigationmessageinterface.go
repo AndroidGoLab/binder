@@ -48,7 +48,7 @@ func (p *GnssNavigationMessageInterfaceProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssNavigationMessageInterface, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssNavigationMessageInterfaceSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -72,7 +72,7 @@ func (p *GnssNavigationMessageInterfaceProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssNavigationMessageInterface, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssNavigationMessageInterfaceClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

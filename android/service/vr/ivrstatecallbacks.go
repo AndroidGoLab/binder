@@ -46,7 +46,7 @@ func (p *VrStateCallbacksProxy) OnVrStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVrStateCallbacks, "onVrStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIVrStateCallbacksOnVrStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -46,7 +46,7 @@ func (p *DreamOverlayCallbackProxy) OnExitRequested(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlayCallback, "onExitRequested")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamOverlayCallbackOnExitRequested
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *DreamOverlayCallbackProxy) OnRedirectWake(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlayCallback, "onRedirectWake")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamOverlayCallbackOnRedirectWake
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

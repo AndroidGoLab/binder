@@ -59,7 +59,7 @@ func (p *LocaleManagerProxy) SetApplicationLocales(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocaleManager, "setApplicationLocales")
 	if _err != nil {
-		return _err
+		_code = TransactionILocaleManagerSetApplicationLocales
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -88,7 +88,7 @@ func (p *LocaleManagerProxy) GetApplicationLocales(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocaleManager, "getApplicationLocales")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILocaleManagerGetApplicationLocales
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -113,7 +113,7 @@ func (p *LocaleManagerProxy) GetSystemLocales(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocaleManager, "getSystemLocales")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILocaleManagerGetSystemLocales
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -146,7 +146,7 @@ func (p *LocaleManagerProxy) SetOverrideLocaleConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocaleManager, "setOverrideLocaleConfig")
 	if _err != nil {
-		return _err
+		_code = TransactionILocaleManagerSetOverrideLocaleConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -175,7 +175,7 @@ func (p *LocaleManagerProxy) GetOverrideLocaleConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocaleManager, "getOverrideLocaleConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILocaleManagerGetOverrideLocaleConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

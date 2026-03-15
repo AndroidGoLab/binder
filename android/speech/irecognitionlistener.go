@@ -67,7 +67,7 @@ func (p *RecognitionListenerProxy) OnReadyForSpeech(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onReadyForSpeech")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionListenerOnReadyForSpeech
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -82,7 +82,7 @@ func (p *RecognitionListenerProxy) OnBeginningOfSpeech(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onBeginningOfSpeech")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionListenerOnBeginningOfSpeech
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -99,7 +99,7 @@ func (p *RecognitionListenerProxy) OnRmsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onRmsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionListenerOnRmsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -123,7 +123,7 @@ func (p *RecognitionListenerProxy) OnBufferReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onBufferReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionListenerOnBufferReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -138,7 +138,7 @@ func (p *RecognitionListenerProxy) OnEndOfSpeech(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onEndOfSpeech")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionListenerOnEndOfSpeech
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -155,7 +155,7 @@ func (p *RecognitionListenerProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionListenerOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -171,7 +171,7 @@ func (p *RecognitionListenerProxy) OnResults(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onResults")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionListenerOnResults
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -187,7 +187,7 @@ func (p *RecognitionListenerProxy) OnPartialResults(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onPartialResults")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionListenerOnPartialResults
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -203,7 +203,7 @@ func (p *RecognitionListenerProxy) OnSegmentResults(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onSegmentResults")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionListenerOnSegmentResults
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -218,7 +218,7 @@ func (p *RecognitionListenerProxy) OnEndOfSegmentedSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onEndOfSegmentedSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionListenerOnEndOfSegmentedSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -234,7 +234,7 @@ func (p *RecognitionListenerProxy) OnLanguageDetection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onLanguageDetection")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionListenerOnLanguageDetection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -252,7 +252,7 @@ func (p *RecognitionListenerProxy) OnEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionListener, "onEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionListenerOnEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -56,7 +56,7 @@ func (p *CarDisplayProxyProxy) GetDisplayIdList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarDisplayProxy, "getDisplayIdList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICarDisplayProxyGetDisplayIdList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -97,7 +97,7 @@ func (p *CarDisplayProxyProxy) GetDisplayInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarDisplayProxy, "getDisplayInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICarDisplayProxyGetDisplayInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -133,7 +133,7 @@ func (p *CarDisplayProxyProxy) GetHGraphicBufferProducer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarDisplayProxy, "getHGraphicBufferProducer")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICarDisplayProxyGetHGraphicBufferProducer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -168,7 +168,7 @@ func (p *CarDisplayProxyProxy) HideWindow(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarDisplayProxy, "hideWindow")
 	if _err != nil {
-		return _err
+		_code = TransactionICarDisplayProxyHideWindow
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -194,7 +194,7 @@ func (p *CarDisplayProxyProxy) ShowWindow(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarDisplayProxy, "showWindow")
 	if _err != nil {
-		return _err
+		_code = TransactionICarDisplayProxyShowWindow
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -221,7 +221,7 @@ func (p *CarDisplayProxyProxy) GetSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarDisplayProxy, "getSurface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICarDisplayProxyGetSurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

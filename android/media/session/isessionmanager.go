@@ -112,7 +112,7 @@ func (p *SessionManagerProxy) CreateSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "createSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionManagerCreateSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -145,7 +145,7 @@ func (p *SessionManagerProxy) GetSessions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "getSessions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionManagerGetSessions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -185,7 +185,7 @@ func (p *SessionManagerProxy) GetMediaKeyEventSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "getMediaKeyEventSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionManagerGetMediaKeyEventSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -221,7 +221,7 @@ func (p *SessionManagerProxy) GetMediaKeyEventSessionPackageName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "getMediaKeyEventSessionPackageName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionManagerGetMediaKeyEventSessionPackageName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -256,7 +256,7 @@ func (p *SessionManagerProxy) DispatchMediaKeyEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "dispatchMediaKeyEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerDispatchMediaKeyEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -289,7 +289,7 @@ func (p *SessionManagerProxy) DispatchMediaKeyEventToSessionAsSystemService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "dispatchMediaKeyEventToSessionAsSystemService")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionManagerDispatchMediaKeyEventToSessionAsSystemService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -328,7 +328,7 @@ func (p *SessionManagerProxy) DispatchVolumeKeyEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "dispatchVolumeKeyEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerDispatchVolumeKeyEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -362,7 +362,7 @@ func (p *SessionManagerProxy) DispatchVolumeKeyEventToSessionAsSystemService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "dispatchVolumeKeyEventToSessionAsSystemService")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerDispatchVolumeKeyEventToSessionAsSystemService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -396,7 +396,7 @@ func (p *SessionManagerProxy) DispatchAdjustVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "dispatchAdjustVolume")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerDispatchAdjustVolume
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -425,7 +425,7 @@ func (p *SessionManagerProxy) AddSessionsListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "addSessionsListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerAddSessionsListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -451,7 +451,7 @@ func (p *SessionManagerProxy) RemoveSessionsListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "removeSessionsListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerRemoveSessionsListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -479,7 +479,7 @@ func (p *SessionManagerProxy) AddSession2TokensListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "addSession2TokensListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerAddSession2TokensListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -505,7 +505,7 @@ func (p *SessionManagerProxy) RemoveSession2TokensListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "removeSession2TokensListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerRemoveSession2TokensListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -530,7 +530,7 @@ func (p *SessionManagerProxy) RegisterRemoteSessionCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "registerRemoteSessionCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerRegisterRemoteSessionCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -555,7 +555,7 @@ func (p *SessionManagerProxy) UnregisterRemoteSessionCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "unregisterRemoteSessionCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerUnregisterRemoteSessionCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -580,7 +580,7 @@ func (p *SessionManagerProxy) IsGlobalPriorityActive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "isGlobalPriorityActive")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionManagerIsGlobalPriorityActive
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -610,7 +610,7 @@ func (p *SessionManagerProxy) AddOnMediaKeyEventDispatchedListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "addOnMediaKeyEventDispatchedListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerAddOnMediaKeyEventDispatchedListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -636,7 +636,7 @@ func (p *SessionManagerProxy) RemoveOnMediaKeyEventDispatchedListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "removeOnMediaKeyEventDispatchedListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerRemoveOnMediaKeyEventDispatchedListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -664,7 +664,7 @@ func (p *SessionManagerProxy) AddOnMediaKeyEventSessionChangedListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "addOnMediaKeyEventSessionChangedListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerAddOnMediaKeyEventSessionChangedListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -690,7 +690,7 @@ func (p *SessionManagerProxy) RemoveOnMediaKeyEventSessionChangedListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "removeOnMediaKeyEventSessionChangedListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerRemoveOnMediaKeyEventSessionChangedListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -716,7 +716,7 @@ func (p *SessionManagerProxy) SetOnVolumeKeyLongPressListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "setOnVolumeKeyLongPressListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerSetOnVolumeKeyLongPressListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -742,7 +742,7 @@ func (p *SessionManagerProxy) SetOnMediaKeyListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "setOnMediaKeyListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerSetOnMediaKeyListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -773,7 +773,7 @@ func (p *SessionManagerProxy) IsTrusted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "isTrusted")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionManagerIsTrusted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -803,7 +803,7 @@ func (p *SessionManagerProxy) SetCustomMediaKeyDispatcher(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "setCustomMediaKeyDispatcher")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerSetCustomMediaKeyDispatcher
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -829,7 +829,7 @@ func (p *SessionManagerProxy) SetCustomMediaSessionPolicyProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "setCustomMediaSessionPolicyProvider")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerSetCustomMediaSessionPolicyProvider
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -856,7 +856,7 @@ func (p *SessionManagerProxy) HasCustomMediaKeyDispatcher(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "hasCustomMediaKeyDispatcher")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionManagerHasCustomMediaKeyDispatcher
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -887,7 +887,7 @@ func (p *SessionManagerProxy) HasCustomMediaSessionPolicyProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "hasCustomMediaSessionPolicyProvider")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionManagerHasCustomMediaSessionPolicyProvider
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -921,7 +921,7 @@ func (p *SessionManagerProxy) GetSessionPolicies(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "getSessionPolicies")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionManagerGetSessionPolicies
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -956,7 +956,7 @@ func (p *SessionManagerProxy) SetSessionPolicies(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "setSessionPolicies")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerSetSessionPolicies
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -980,7 +980,7 @@ func (p *SessionManagerProxy) ExpireTempEngagedSessions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "expireTempEngagedSessions")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionManagerExpireTempEngagedSessions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

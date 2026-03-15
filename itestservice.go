@@ -52,7 +52,7 @@ func (p *TestServiceProxy) SetIntData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestService, "setIntData")
 	if _err != nil {
-		return _err
+		_code = TransactionITestServiceSetIntData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -78,7 +78,7 @@ func (p *TestServiceProxy) SetCharData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestService, "setCharData")
 	if _err != nil {
-		return _err
+		_code = TransactionITestServiceSetCharData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -104,7 +104,7 @@ func (p *TestServiceProxy) SetBooleanData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestService, "setBooleanData")
 	if _err != nil {
-		return _err
+		_code = TransactionITestServiceSetBooleanData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *TestServiceProxy) SetService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestService, "setService")
 	if _err != nil {
-		return _err
+		_code = TransactionITestServiceSetService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

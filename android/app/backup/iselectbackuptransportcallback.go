@@ -48,7 +48,7 @@ func (p *SelectBackupTransportCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISelectBackupTransportCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionISelectBackupTransportCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *SelectBackupTransportCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISelectBackupTransportCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionISelectBackupTransportCallbackOnFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

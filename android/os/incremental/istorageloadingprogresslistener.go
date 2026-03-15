@@ -48,7 +48,7 @@ func (p *StorageLoadingProgressListenerProxy) OnStorageLoadingProgressChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageLoadingProgressListener, "onStorageLoadingProgressChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageLoadingProgressListenerOnStorageLoadingProgressChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

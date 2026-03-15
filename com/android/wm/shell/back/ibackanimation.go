@@ -55,7 +55,7 @@ func (p *BackAnimationProxy) SetBackToLauncherCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackAnimation, "setBackToLauncherCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackAnimationSetBackToLauncherCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -79,7 +79,7 @@ func (p *BackAnimationProxy) ClearBackToLauncherCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackAnimation, "clearBackToLauncherCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackAnimationClearBackToLauncherCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -108,7 +108,7 @@ func (p *BackAnimationProxy) CustomizeStatusBarAppearance(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackAnimation, "customizeStatusBarAppearance")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackAnimationCustomizeStatusBarAppearance
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

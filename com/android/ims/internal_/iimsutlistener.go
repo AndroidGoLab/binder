@@ -66,7 +66,7 @@ func (p *ImsUtListenerProxy) UtConfigurationUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "utConfigurationUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsUtListenerUtConfigurationUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -90,7 +90,7 @@ func (p *ImsUtListenerProxy) UtConfigurationUpdateFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "utConfigurationUpdateFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsUtListenerUtConfigurationUpdateFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -114,7 +114,7 @@ func (p *ImsUtListenerProxy) UtConfigurationQueried(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "utConfigurationQueried")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsUtListenerUtConfigurationQueried
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -138,7 +138,7 @@ func (p *ImsUtListenerProxy) UtConfigurationQueryFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "utConfigurationQueryFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsUtListenerUtConfigurationQueryFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -160,7 +160,7 @@ func (p *ImsUtListenerProxy) LineIdentificationSupplementaryServiceResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "lineIdentificationSupplementaryServiceResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsUtListenerLineIdentificationSupplementaryServiceResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -190,7 +190,7 @@ func (p *ImsUtListenerProxy) UtConfigurationCallBarringQueried(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "utConfigurationCallBarringQueried")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsUtListenerUtConfigurationCallBarringQueried
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -220,7 +220,7 @@ func (p *ImsUtListenerProxy) UtConfigurationCallForwardQueried(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "utConfigurationCallForwardQueried")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsUtListenerUtConfigurationCallForwardQueried
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -250,7 +250,7 @@ func (p *ImsUtListenerProxy) UtConfigurationCallWaitingQueried(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "utConfigurationCallWaitingQueried")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsUtListenerUtConfigurationCallWaitingQueried
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -270,7 +270,7 @@ func (p *ImsUtListenerProxy) OnSupplementaryServiceIndication(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUtListener, "onSupplementaryServiceIndication")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsUtListenerOnSupplementaryServiceIndication
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

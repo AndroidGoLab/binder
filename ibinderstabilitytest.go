@@ -56,7 +56,7 @@ func (p *BinderStabilityTestProxy) SendBinder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderStabilityTest, "sendBinder")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderStabilityTestSendBinder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -82,7 +82,7 @@ func (p *BinderStabilityTestProxy) SendAndCallBinder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderStabilityTest, "sendAndCallBinder")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderStabilityTestSendAndCallBinder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -107,7 +107,7 @@ func (p *BinderStabilityTestProxy) ReturnNoStabilityBinder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderStabilityTest, "returnNoStabilityBinder")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderStabilityTestReturnNoStabilityBinder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -137,7 +137,7 @@ func (p *BinderStabilityTestProxy) ReturnLocalStabilityBinder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderStabilityTest, "returnLocalStabilityBinder")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderStabilityTestReturnLocalStabilityBinder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -167,7 +167,7 @@ func (p *BinderStabilityTestProxy) ReturnVintfStabilityBinder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderStabilityTest, "returnVintfStabilityBinder")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderStabilityTestReturnVintfStabilityBinder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -197,7 +197,7 @@ func (p *BinderStabilityTestProxy) ReturnVendorStabilityBinder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderStabilityTest, "returnVendorStabilityBinder")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderStabilityTestReturnVendorStabilityBinder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

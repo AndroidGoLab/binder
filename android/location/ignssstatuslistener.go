@@ -50,7 +50,7 @@ func (p *GnssStatusListenerProxy) OnGnssStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssStatusListener, "onGnssStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssStatusListenerOnGnssStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *GnssStatusListenerProxy) OnGnssStopped(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssStatusListener, "onGnssStopped")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssStatusListenerOnGnssStopped
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -82,7 +82,7 @@ func (p *GnssStatusListenerProxy) OnFirstFix(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssStatusListener, "onFirstFix")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssStatusListenerOnFirstFix
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -102,7 +102,7 @@ func (p *GnssStatusListenerProxy) OnSvStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssStatusListener, "onSvStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssStatusListenerOnSvStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -80,7 +80,7 @@ func (p *WifiScannerImplProxy) GetScanResults(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiScannerImpl, "getScanResults")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiScannerImplGetScanResults
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -115,7 +115,7 @@ func (p *WifiScannerImplProxy) GetPnoScanResults(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiScannerImpl, "getPnoScanResults")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiScannerImplGetPnoScanResults
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -150,7 +150,7 @@ func (p *WifiScannerImplProxy) GetMaxSsidsPerScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiScannerImpl, "getMaxSsidsPerScan")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiScannerImplGetMaxSsidsPerScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -180,7 +180,7 @@ func (p *WifiScannerImplProxy) Scan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiScannerImpl, "scan")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiScannerImplScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -210,7 +210,7 @@ func (p *WifiScannerImplProxy) ScanRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiScannerImpl, "scanRequest")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiScannerImplScanRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -240,7 +240,7 @@ func (p *WifiScannerImplProxy) SubscribeScanEvents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiScannerImpl, "subscribeScanEvents")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiScannerImplSubscribeScanEvents
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -255,7 +255,7 @@ func (p *WifiScannerImplProxy) UnsubscribeScanEvents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiScannerImpl, "unsubscribeScanEvents")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiScannerImplUnsubscribeScanEvents
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -272,7 +272,7 @@ func (p *WifiScannerImplProxy) SubscribePnoScanEvents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiScannerImpl, "subscribePnoScanEvents")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiScannerImplSubscribePnoScanEvents
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -287,7 +287,7 @@ func (p *WifiScannerImplProxy) UnsubscribePnoScanEvents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiScannerImpl, "unsubscribePnoScanEvents")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiScannerImplUnsubscribePnoScanEvents
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -304,7 +304,7 @@ func (p *WifiScannerImplProxy) StartPnoScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiScannerImpl, "startPnoScan")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiScannerImplStartPnoScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -333,7 +333,7 @@ func (p *WifiScannerImplProxy) StopPnoScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiScannerImpl, "stopPnoScan")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiScannerImplStopPnoScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -361,7 +361,7 @@ func (p *WifiScannerImplProxy) AbortScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiScannerImpl, "abortScan")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiScannerImplAbortScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

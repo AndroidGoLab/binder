@@ -46,7 +46,7 @@ func (p *FingerprintClientActiveCallbackProxy) OnClientActiveChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintClientActiveCallback, "onClientActiveChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIFingerprintClientActiveCallbackOnClientActiveChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

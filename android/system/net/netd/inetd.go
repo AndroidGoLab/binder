@@ -71,7 +71,7 @@ func (p *NetdProxy) AddInterfaceToOemNetwork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetd, "addInterfaceToOemNetwork")
 	if _err != nil {
-		return _err
+		_code = TransactionINetdAddInterfaceToOemNetwork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -103,7 +103,7 @@ func (p *NetdProxy) AddRouteToOemNetwork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetd, "addRouteToOemNetwork")
 	if _err != nil {
-		return _err
+		_code = TransactionINetdAddRouteToOemNetwork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -128,7 +128,7 @@ func (p *NetdProxy) CreateOemNetwork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetd, "createOemNetwork")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINetdCreateOemNetwork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -163,7 +163,7 @@ func (p *NetdProxy) DestroyOemNetwork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetd, "destroyOemNetwork")
 	if _err != nil {
-		return _err
+		_code = TransactionINetdDestroyOemNetwork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -191,7 +191,7 @@ func (p *NetdProxy) RemoveInterfaceFromOemNetwork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetd, "removeInterfaceFromOemNetwork")
 	if _err != nil {
-		return _err
+		_code = TransactionINetdRemoveInterfaceFromOemNetwork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -223,7 +223,7 @@ func (p *NetdProxy) RemoveRouteFromOemNetwork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetd, "removeRouteFromOemNetwork")
 	if _err != nil {
-		return _err
+		_code = TransactionINetdRemoveRouteFromOemNetwork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -253,7 +253,7 @@ func (p *NetdProxy) SetForwardingBetweenInterfaces(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetd, "setForwardingBetweenInterfaces")
 	if _err != nil {
-		return _err
+		_code = TransactionINetdSetForwardingBetweenInterfaces
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -279,7 +279,7 @@ func (p *NetdProxy) SetIpForwardEnable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetd, "setIpForwardEnable")
 	if _err != nil {
-		return _err
+		_code = TransactionINetdSetIpForwardEnable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -48,7 +48,7 @@ func (p *MediaProjectionCallbackProxy) OnStop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionCallback, "onStop")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionCallbackOnStop
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *MediaProjectionCallbackProxy) OnCapturedContentResize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionCallback, "onCapturedContentResize")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionCallbackOnCapturedContentResize
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -84,7 +84,7 @@ func (p *MediaProjectionCallbackProxy) OnCapturedContentVisibilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionCallback, "onCapturedContentVisibilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionCallbackOnCapturedContentVisibilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

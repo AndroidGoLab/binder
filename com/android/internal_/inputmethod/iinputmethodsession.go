@@ -73,7 +73,7 @@ func (p *InputMethodSessionProxy) UpdateExtractedText(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "updateExtractedText")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodSessionUpdateExtractedText
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -100,7 +100,7 @@ func (p *InputMethodSessionProxy) UpdateSelection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "updateSelection")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodSessionUpdateSelection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -117,7 +117,7 @@ func (p *InputMethodSessionProxy) ViewClicked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "viewClicked")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodSessionViewClicked
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -137,7 +137,7 @@ func (p *InputMethodSessionProxy) UpdateCursor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "updateCursor")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodSessionUpdateCursor
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -163,7 +163,7 @@ func (p *InputMethodSessionProxy) DisplayCompletions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "displayCompletions")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodSessionDisplayCompletions
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -181,7 +181,7 @@ func (p *InputMethodSessionProxy) AppPrivateCommand(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "appPrivateCommand")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodSessionAppPrivateCommand
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -196,7 +196,7 @@ func (p *InputMethodSessionProxy) FinishSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "finishSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodSessionFinishSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -216,7 +216,7 @@ func (p *InputMethodSessionProxy) UpdateCursorAnchorInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "updateCursorAnchorInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodSessionUpdateCursorAnchorInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -231,7 +231,7 @@ func (p *InputMethodSessionProxy) RemoveImeSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "removeImeSurface")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodSessionRemoveImeSurface
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -246,7 +246,7 @@ func (p *InputMethodSessionProxy) FinishInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "finishInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodSessionFinishInput
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -270,7 +270,7 @@ func (p *InputMethodSessionProxy) InvalidateInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "invalidateInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodSessionInvalidateInput
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

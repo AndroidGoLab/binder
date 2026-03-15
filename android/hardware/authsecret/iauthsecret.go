@@ -53,7 +53,7 @@ func (p *AuthSecretProxy) SetPrimaryUserCredential(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthSecret, "setPrimaryUserCredential")
 	if _err != nil {
-		return _err
+		_code = TransactionIAuthSecretSetPrimaryUserCredential
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -60,7 +60,7 @@ func (p *DataLoaderManagerProxy) BindToDataLoader(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataLoaderManager, "bindToDataLoader")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDataLoaderManagerBindToDataLoader
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -91,7 +91,7 @@ func (p *DataLoaderManagerProxy) GetDataLoader(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataLoaderManager, "getDataLoader")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDataLoaderManagerGetDataLoader
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -122,7 +122,7 @@ func (p *DataLoaderManagerProxy) UnbindFromDataLoader(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataLoaderManager, "unbindFromDataLoader")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataLoaderManagerUnbindFromDataLoader
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

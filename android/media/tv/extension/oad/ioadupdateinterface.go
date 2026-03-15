@@ -62,7 +62,7 @@ func (p *OadUpdateInterfaceProxy) SetOadStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "setOadStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIOadUpdateInterfaceSetOadStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -87,7 +87,7 @@ func (p *OadUpdateInterfaceProxy) GetOadStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "getOadStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOadUpdateInterfaceGetOadStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -115,7 +115,7 @@ func (p *OadUpdateInterfaceProxy) StartScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "startScan")
 	if _err != nil {
-		return _err
+		_code = TransactionIOadUpdateInterfaceStartScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -139,7 +139,7 @@ func (p *OadUpdateInterfaceProxy) StopScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "stopScan")
 	if _err != nil {
-		return _err
+		_code = TransactionIOadUpdateInterfaceStopScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -163,7 +163,7 @@ func (p *OadUpdateInterfaceProxy) StartDetect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "startDetect")
 	if _err != nil {
-		return _err
+		_code = TransactionIOadUpdateInterfaceStartDetect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -187,7 +187,7 @@ func (p *OadUpdateInterfaceProxy) StopDetect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "stopDetect")
 	if _err != nil {
-		return _err
+		_code = TransactionIOadUpdateInterfaceStopDetect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -211,7 +211,7 @@ func (p *OadUpdateInterfaceProxy) StartDownload(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "startDownload")
 	if _err != nil {
-		return _err
+		_code = TransactionIOadUpdateInterfaceStartDownload
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -235,7 +235,7 @@ func (p *OadUpdateInterfaceProxy) StopDownload(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "stopDownload")
 	if _err != nil {
-		return _err
+		_code = TransactionIOadUpdateInterfaceStopDownload
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -260,7 +260,7 @@ func (p *OadUpdateInterfaceProxy) GetSoftwareVersion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOadUpdateInterface, "getSoftwareVersion")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOadUpdateInterfaceGetSoftwareVersion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

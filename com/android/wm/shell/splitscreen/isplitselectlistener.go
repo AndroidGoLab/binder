@@ -59,7 +59,7 @@ func (p *SplitSelectListenerProxy) OnRequestSplitSelect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitSelectListener, "onRequestSplitSelect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISplitSelectListenerOnRequestSplitSelect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

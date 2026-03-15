@@ -56,7 +56,7 @@ func (p *OperatorDetectionListenerProxy) OnDetectOperatorDetectionList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOperatorDetectionListener, "onDetectOperatorDetectionList")
 	if _err != nil {
-		return _err
+		_code = TransactionIOperatorDetectionListenerOnDetectOperatorDetectionList
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

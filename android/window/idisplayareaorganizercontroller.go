@@ -55,7 +55,7 @@ func (p *DisplayAreaOrganizerControllerProxy) RegisterOrganizer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayAreaOrganizerController, "registerOrganizer")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayAreaOrganizerControllerRegisterOrganizer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -81,7 +81,7 @@ func (p *DisplayAreaOrganizerControllerProxy) UnregisterOrganizer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayAreaOrganizerController, "unregisterOrganizer")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayAreaOrganizerControllerUnregisterOrganizer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -114,7 +114,7 @@ func (p *DisplayAreaOrganizerControllerProxy) CreateTaskDisplayArea(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayAreaOrganizerController, "createTaskDisplayArea")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayAreaOrganizerControllerCreateTaskDisplayArea
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -152,7 +152,7 @@ func (p *DisplayAreaOrganizerControllerProxy) DeleteTaskDisplayArea(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayAreaOrganizerController, "deleteTaskDisplayArea")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayAreaOrganizerControllerDeleteTaskDisplayArea
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

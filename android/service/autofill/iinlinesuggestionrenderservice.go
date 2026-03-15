@@ -67,7 +67,7 @@ func (p *InlineSuggestionRenderServiceProxy) RenderSuggestion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionRenderService, "renderSuggestion")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionRenderServiceRenderSuggestion
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -83,7 +83,7 @@ func (p *InlineSuggestionRenderServiceProxy) GetInlineSuggestionsRendererInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionRenderService, "getInlineSuggestionsRendererInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionRenderServiceGetInlineSuggestionsRendererInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -102,7 +102,7 @@ func (p *InlineSuggestionRenderServiceProxy) DestroySuggestionViews(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionRenderService, "destroySuggestionViews")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionRenderServiceDestroySuggestionViews
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -89,7 +89,7 @@ func (p *EvsCameraProxy) DoneWithFrame(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "doneWithFrame")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsCameraDoneWithFrame
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -115,7 +115,7 @@ func (p *EvsCameraProxy) ForcePrimaryClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "forcePrimaryClient")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsCameraForcePrimaryClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -140,7 +140,7 @@ func (p *EvsCameraProxy) GetCameraInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "getCameraInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsCameraGetCameraInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -176,7 +176,7 @@ func (p *EvsCameraProxy) GetExtendedInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "getExtendedInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsCameraGetExtendedInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -217,7 +217,7 @@ func (p *EvsCameraProxy) GetIntParameter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "getIntParameter")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsCameraGetIntParameter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -258,7 +258,7 @@ func (p *EvsCameraProxy) GetIntParameterRange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "getIntParameterRange")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsCameraGetIntParameterRange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -292,7 +292,7 @@ func (p *EvsCameraProxy) GetParameterList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "getParameterList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsCameraGetParameterList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -334,7 +334,7 @@ func (p *EvsCameraProxy) GetPhysicalCameraInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "getPhysicalCameraInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsCameraGetPhysicalCameraInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -379,7 +379,7 @@ func (p *EvsCameraProxy) ImportExternalBuffers(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "importExternalBuffers")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsCameraImportExternalBuffers
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -407,7 +407,7 @@ func (p *EvsCameraProxy) PauseVideoStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "pauseVideoStream")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsCameraPauseVideoStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -431,7 +431,7 @@ func (p *EvsCameraProxy) ResumeVideoStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "resumeVideoStream")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsCameraResumeVideoStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -466,7 +466,7 @@ func (p *EvsCameraProxy) SetExtendedInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "setExtendedInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsCameraSetExtendedInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -495,7 +495,7 @@ func (p *EvsCameraProxy) SetIntParameter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "setIntParameter")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsCameraSetIntParameter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -533,7 +533,7 @@ func (p *EvsCameraProxy) SetPrimaryClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "setPrimaryClient")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsCameraSetPrimaryClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -559,7 +559,7 @@ func (p *EvsCameraProxy) SetMaxFramesInFlight(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "setMaxFramesInFlight")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsCameraSetMaxFramesInFlight
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -585,7 +585,7 @@ func (p *EvsCameraProxy) StartVideoStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "startVideoStream")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsCameraStartVideoStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -609,7 +609,7 @@ func (p *EvsCameraProxy) StopVideoStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "stopVideoStream")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsCameraStopVideoStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -633,7 +633,7 @@ func (p *EvsCameraProxy) UnsetPrimaryClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsCamera, "unsetPrimaryClient")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsCameraUnsetPrimaryClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

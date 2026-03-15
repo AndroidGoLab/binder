@@ -56,7 +56,7 @@ func (p *BluetoothAvrcpControllerProxy) GetConnectedDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAvrcpController, "getConnectedDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothAvrcpControllerGetConnectedDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -104,7 +104,7 @@ func (p *BluetoothAvrcpControllerProxy) GetDevicesMatchingConnectionStates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAvrcpController, "getDevicesMatchingConnectionStates")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothAvrcpControllerGetDevicesMatchingConnectionStates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -148,7 +148,7 @@ func (p *BluetoothAvrcpControllerProxy) GetConnectionState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAvrcpController, "getConnectionState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothAvrcpControllerGetConnectionState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -183,7 +183,7 @@ func (p *BluetoothAvrcpControllerProxy) GetPlayerSettings(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAvrcpController, "getPlayerSettings")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothAvrcpControllerGetPlayerSettings
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -222,7 +222,7 @@ func (p *BluetoothAvrcpControllerProxy) SetPlayerApplicationSetting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAvrcpController, "setPlayerApplicationSetting")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothAvrcpControllerSetPlayerApplicationSetting
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -256,7 +256,7 @@ func (p *BluetoothAvrcpControllerProxy) SendGroupNavigationCmd(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAvrcpController, "sendGroupNavigationCmd")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothAvrcpControllerSendGroupNavigationCmd
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

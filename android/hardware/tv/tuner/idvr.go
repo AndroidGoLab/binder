@@ -62,7 +62,7 @@ func (p *DvrProxy) GetQueueDesc(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "getQueueDesc")
 	if _err != nil {
-		return _err
+		_code = TransactionIDvrGetQueueDesc
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -94,7 +94,7 @@ func (p *DvrProxy) Configure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "configure")
 	if _err != nil {
-		return _err
+		_code = TransactionIDvrConfigure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -120,7 +120,7 @@ func (p *DvrProxy) AttachFilter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "attachFilter")
 	if _err != nil {
-		return _err
+		_code = TransactionIDvrAttachFilter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -146,7 +146,7 @@ func (p *DvrProxy) DetachFilter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "detachFilter")
 	if _err != nil {
-		return _err
+		_code = TransactionIDvrDetachFilter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -170,7 +170,7 @@ func (p *DvrProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "start")
 	if _err != nil {
-		return _err
+		_code = TransactionIDvrStart
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -194,7 +194,7 @@ func (p *DvrProxy) Stop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "stop")
 	if _err != nil {
-		return _err
+		_code = TransactionIDvrStop
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -218,7 +218,7 @@ func (p *DvrProxy) Flush(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "flush")
 	if _err != nil {
-		return _err
+		_code = TransactionIDvrFlush
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -242,7 +242,7 @@ func (p *DvrProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIDvrClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -268,7 +268,7 @@ func (p *DvrProxy) SetStatusCheckIntervalHint(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDvr, "setStatusCheckIntervalHint")
 	if _err != nil {
-		return _err
+		_code = TransactionIDvrSetStatusCheckIntervalHint
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

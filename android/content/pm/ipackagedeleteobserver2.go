@@ -47,7 +47,7 @@ func (p *PackageDeleteObserver2Proxy) OnUserActionRequired(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageDeleteObserver2, "onUserActionRequired")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageDeleteObserver2OnUserActionRequired
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -68,7 +68,7 @@ func (p *PackageDeleteObserver2Proxy) OnPackageDeleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageDeleteObserver2, "onPackageDeleted")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageDeleteObserver2OnPackageDeleted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -104,7 +104,7 @@ func (p *BinderRpcTestProxy) SendString(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "sendString")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcTestSendString
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -122,7 +122,7 @@ func (p *BinderRpcTestProxy) DoubleString(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "doubleString")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcTestDoubleString
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -151,7 +151,7 @@ func (p *BinderRpcTestProxy) GetClientPort(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "getClientPort")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcTestGetClientPort
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -180,7 +180,7 @@ func (p *BinderRpcTestProxy) CountBinders(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "countBinders")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcTestCountBinders
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -219,7 +219,7 @@ func (p *BinderRpcTestProxy) GetNullBinder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "getNullBinder")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcTestGetNullBinder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -251,7 +251,7 @@ func (p *BinderRpcTestProxy) PingMe(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "pingMe")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcTestPingMe
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -282,7 +282,7 @@ func (p *BinderRpcTestProxy) RepeatBinder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "repeatBinder")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcTestRepeatBinder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -313,7 +313,7 @@ func (p *BinderRpcTestProxy) HoldBinder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "holdBinder")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcTestHoldBinder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -338,7 +338,7 @@ func (p *BinderRpcTestProxy) GetHeldBinder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "getHeldBinder")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcTestGetHeldBinder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -377,7 +377,7 @@ func (p *BinderRpcTestProxy) RepeatBytes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "repeatBytes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcTestRepeatBytes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -419,7 +419,7 @@ func (p *BinderRpcTestProxy) NestMe(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "nestMe")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcTestNestMe
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -444,7 +444,7 @@ func (p *BinderRpcTestProxy) AlwaysGiveMeTheSameBinder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "alwaysGiveMeTheSameBinder")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcTestAlwaysGiveMeTheSameBinder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -476,7 +476,7 @@ func (p *BinderRpcTestProxy) OpenSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "openSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcTestOpenSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -506,7 +506,7 @@ func (p *BinderRpcTestProxy) GetNumOpenSessions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "getNumOpenSessions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcTestGetNumOpenSessions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -534,7 +534,7 @@ func (p *BinderRpcTestProxy) Lock(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "lock")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcTestLock
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -560,7 +560,7 @@ func (p *BinderRpcTestProxy) UnlockInMsAsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "unlockInMsAsync")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcTestUnlockInMsAsync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -575,7 +575,7 @@ func (p *BinderRpcTestProxy) LockUnlock(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "lockUnlock")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcTestLockUnlock
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -601,7 +601,7 @@ func (p *BinderRpcTestProxy) SleepMs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "sleepMs")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcTestSleepMs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -627,7 +627,7 @@ func (p *BinderRpcTestProxy) SleepMsAsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "sleepMsAsync")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcTestSleepMsAsync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -650,7 +650,7 @@ func (p *BinderRpcTestProxy) DoCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "doCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcTestDoCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -682,7 +682,7 @@ func (p *BinderRpcTestProxy) DoCallbackAsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "doCallbackAsync")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcTestDoCallbackAsync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -699,7 +699,7 @@ func (p *BinderRpcTestProxy) Die(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "die")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcTestDie
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -723,7 +723,7 @@ func (p *BinderRpcTestProxy) ScheduleShutdown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "scheduleShutdown")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcTestScheduleShutdown
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -747,7 +747,7 @@ func (p *BinderRpcTestProxy) UseKernelBinderCallingId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "useKernelBinderCallingId")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcTestUseKernelBinderCallingId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -774,7 +774,7 @@ func (p *BinderRpcTestProxy) EchoAsFile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "echoAsFile")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcTestEchoAsFile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -812,7 +812,7 @@ func (p *BinderRpcTestProxy) ConcatFiles(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "concatFiles")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcTestConcatFiles
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -842,7 +842,7 @@ func (p *BinderRpcTestProxy) BlockingSendFdOneway(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "blockingSendFdOneway")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcTestBlockingSendFdOneway
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -858,7 +858,7 @@ func (p *BinderRpcTestProxy) BlockingRecvFd(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "blockingRecvFd")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcTestBlockingRecvFd
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -888,7 +888,7 @@ func (p *BinderRpcTestProxy) BlockingSendIntOneway(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "blockingSendIntOneway")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcTestBlockingSendIntOneway
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -904,7 +904,7 @@ func (p *BinderRpcTestProxy) BlockingRecvInt(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcTest, "blockingRecvInt")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcTestBlockingRecvInt
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

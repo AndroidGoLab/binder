@@ -51,7 +51,7 @@ func (p *ConvertCredentialCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConvertCredentialCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIConvertCredentialCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *ConvertCredentialCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConvertCredentialCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIConvertCredentialCallbackOnFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -55,7 +55,7 @@ func (p *TransitionPlayerProxy) OnTransitionReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITransitionPlayer, "onTransitionReady")
 	if _err != nil {
-		return _err
+		_code = TransactionITransitionPlayerOnTransitionReady
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -77,7 +77,7 @@ func (p *TransitionPlayerProxy) RequestStartTransition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITransitionPlayer, "requestStartTransition")
 	if _err != nil {
-		return _err
+		_code = TransactionITransitionPlayerRequestStartTransition
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

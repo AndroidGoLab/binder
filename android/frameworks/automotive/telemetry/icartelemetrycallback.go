@@ -53,7 +53,7 @@ func (p *CarTelemetryCallbackProxy) OnChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarTelemetryCallback, "onChange")
 	if _err != nil {
-		return _err
+		_code = TransactionICarTelemetryCallbackOnChange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -53,7 +53,7 @@ func (p *BluetoothChannelSoundingProxy) GetVendorSpecificData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothChannelSounding, "getVendorSpecificData")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothChannelSoundingGetVendorSpecificData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -91,7 +91,7 @@ func (p *BluetoothChannelSoundingProxy) GetSupportedSessionTypes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothChannelSounding, "getSupportedSessionTypes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothChannelSoundingGetSupportedSessionTypes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -131,7 +131,7 @@ func (p *BluetoothChannelSoundingProxy) GetMaxSupportedCsSecurityLevel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothChannelSounding, "getMaxSupportedCsSecurityLevel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothChannelSoundingGetMaxSupportedCsSecurityLevel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -168,7 +168,7 @@ func (p *BluetoothChannelSoundingProxy) OpenSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothChannelSounding, "openSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothChannelSoundingOpenSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -198,7 +198,7 @@ func (p *BluetoothChannelSoundingProxy) GetSupportedCsSecurityLevels(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothChannelSounding, "getSupportedCsSecurityLevels")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothChannelSoundingGetSupportedCsSecurityLevels
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

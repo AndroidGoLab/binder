@@ -58,7 +58,7 @@ func (p *AutoFillServiceProxy) OnConnectedStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillService, "onConnectedStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAutoFillServiceOnConnectedStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -80,7 +80,7 @@ func (p *AutoFillServiceProxy) OnFillRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillService, "onFillRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIAutoFillServiceOnFillRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -104,7 +104,7 @@ func (p *AutoFillServiceProxy) OnFillCredentialRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillService, "onFillCredentialRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIAutoFillServiceOnFillCredentialRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -126,7 +126,7 @@ func (p *AutoFillServiceProxy) OnSaveRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillService, "onSaveRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIAutoFillServiceOnSaveRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -142,7 +142,7 @@ func (p *AutoFillServiceProxy) OnSavedPasswordCountRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillService, "onSavedPasswordCountRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIAutoFillServiceOnSavedPasswordCountRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -164,7 +164,7 @@ func (p *AutoFillServiceProxy) OnConvertCredentialRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillService, "onConvertCredentialRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIAutoFillServiceOnConvertCredentialRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -184,7 +184,7 @@ func (p *AutoFillServiceProxy) OnSessionDestroyed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillService, "onSessionDestroyed")
 	if _err != nil {
-		return _err
+		_code = TransactionIAutoFillServiceOnSessionDestroyed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

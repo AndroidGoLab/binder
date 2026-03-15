@@ -48,7 +48,7 @@ func (p *StickyModifierStateListenerProxy) OnStickyModifierStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStickyModifierStateListener, "onStickyModifierStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIStickyModifierStateListenerOnStickyModifierStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

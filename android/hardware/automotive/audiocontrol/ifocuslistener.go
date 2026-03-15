@@ -55,7 +55,7 @@ func (p *FocusListenerProxy) AbandonAudioFocus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFocusListener, "abandonAudioFocus")
 	if _err != nil {
-		return _err
+		_code = TransactionIFocusListenerAbandonAudioFocus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -76,7 +76,7 @@ func (p *FocusListenerProxy) RequestAudioFocus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFocusListener, "requestAudioFocus")
 	if _err != nil {
-		return _err
+		_code = TransactionIFocusListenerRequestAudioFocus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -98,7 +98,7 @@ func (p *FocusListenerProxy) AbandonAudioFocusWithMetaData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFocusListener, "abandonAudioFocusWithMetaData")
 	if _err != nil {
-		return _err
+		_code = TransactionIFocusListenerAbandonAudioFocusWithMetaData
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -122,7 +122,7 @@ func (p *FocusListenerProxy) RequestAudioFocusWithMetaData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFocusListener, "requestAudioFocusWithMetaData")
 	if _err != nil {
-		return _err
+		_code = TransactionIFocusListenerRequestAudioFocusWithMetaData
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -48,7 +48,7 @@ func (p *FrontendCallbackProxy) OnEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFrontendCallback, "onEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIFrontendCallbackOnEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -70,7 +70,7 @@ func (p *FrontendCallbackProxy) OnScanMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFrontendCallback, "onScanMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionIFrontendCallbackOnScanMessage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

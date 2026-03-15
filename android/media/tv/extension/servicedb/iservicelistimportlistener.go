@@ -48,7 +48,7 @@ func (p *ServiceListImportListenerProxy) OnImported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceListImportListener, "onImported")
 	if _err != nil {
-		return _err
+		_code = TransactionIServiceListImportListenerOnImported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -74,7 +74,7 @@ func (p *ServiceListImportListenerProxy) OnPreloaded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceListImportListener, "onPreloaded")
 	if _err != nil {
-		return _err
+		_code = TransactionIServiceListImportListenerOnPreloaded
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

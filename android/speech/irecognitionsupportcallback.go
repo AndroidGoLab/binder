@@ -51,7 +51,7 @@ func (p *RecognitionSupportCallbackProxy) OnSupportResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionSupportCallback, "onSupportResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionSupportCallbackOnSupportResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -68,7 +68,7 @@ func (p *RecognitionSupportCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionSupportCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionSupportCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

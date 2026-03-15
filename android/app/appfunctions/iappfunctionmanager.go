@@ -56,7 +56,7 @@ func (p *AppFunctionManagerProxy) ExecuteAppFunction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppFunctionManager, "executeAppFunction")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAppFunctionManagerExecuteAppFunction
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -98,7 +98,7 @@ func (p *AppFunctionManagerProxy) SetAppFunctionEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppFunctionManager, "setAppFunctionEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppFunctionManagerSetAppFunctionEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

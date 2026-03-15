@@ -49,7 +49,7 @@ func (p *ConfigureWidgetCallbackProxy) OnConfigureWidget(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConfigureWidgetCallback, "onConfigureWidget")
 	if _err != nil {
-		return _err
+		_code = TransactionIConfigureWidgetCallbackOnConfigureWidget
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

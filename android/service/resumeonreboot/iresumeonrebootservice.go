@@ -63,7 +63,7 @@ func (p *ResumeOnRebootServiceProxy) WrapSecret(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResumeOnRebootService, "wrapSecret")
 	if _err != nil {
-		return _err
+		_code = TransactionIResumeOnRebootServiceWrapSecret
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *ResumeOnRebootServiceProxy) Unwrap(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResumeOnRebootService, "unwrap")
 	if _err != nil {
-		return _err
+		_code = TransactionIResumeOnRebootServiceUnwrap
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -53,7 +53,7 @@ func (p *BinderWorkSourceServiceProxy) GetIncomingWorkSourceUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderWorkSourceService, "getIncomingWorkSourceUid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderWorkSourceServiceGetIncomingWorkSourceUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -82,7 +82,7 @@ func (p *BinderWorkSourceServiceProxy) GetBinderCallingUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderWorkSourceService, "getBinderCallingUid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderWorkSourceServiceGetBinderCallingUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -111,7 +111,7 @@ func (p *BinderWorkSourceServiceProxy) GetThreadLocalWorkSourceUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderWorkSourceService, "getThreadLocalWorkSourceUid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderWorkSourceServiceGetThreadLocalWorkSourceUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -141,7 +141,7 @@ func (p *BinderWorkSourceServiceProxy) SetWorkSourceProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderWorkSourceService, "setWorkSourceProvider")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderWorkSourceServiceSetWorkSourceProvider
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -165,7 +165,7 @@ func (p *BinderWorkSourceServiceProxy) ClearWorkSourceProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderWorkSourceService, "clearWorkSourceProvider")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderWorkSourceServiceClearWorkSourceProvider
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

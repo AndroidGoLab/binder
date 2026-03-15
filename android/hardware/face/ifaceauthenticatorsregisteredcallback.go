@@ -55,7 +55,7 @@ func (p *FaceAuthenticatorsRegisteredCallbackProxy) OnAllAuthenticatorsRegistere
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFaceAuthenticatorsRegisteredCallback, "onAllAuthenticatorsRegistered")
 	if _err != nil {
-		return _err
+		_code = TransactionIFaceAuthenticatorsRegisteredCallbackOnAllAuthenticatorsRegistered
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

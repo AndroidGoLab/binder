@@ -48,7 +48,7 @@ func (p *BinderRpcCallbackProxy) SendCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcCallback, "sendCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcCallbackSendCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -74,7 +74,7 @@ func (p *BinderRpcCallbackProxy) SendOnewayCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcCallback, "sendOnewayCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcCallbackSendOnewayCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

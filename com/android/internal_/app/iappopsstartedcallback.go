@@ -64,7 +64,7 @@ func (p *AppOpsStartedCallbackProxy) OpStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsStartedCallback, "opStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsStartedCallbackOpStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

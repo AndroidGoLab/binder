@@ -57,7 +57,7 @@ func (p *BinderNdkUnitTestProxy) RepeatInt(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderNdkUnitTest, "repeatInt")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderNdkUnitTestRepeatInt
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -87,7 +87,7 @@ func (p *BinderNdkUnitTestProxy) TakeInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderNdkUnitTest, "takeInterface")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderNdkUnitTestTakeInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -111,7 +111,7 @@ func (p *BinderNdkUnitTestProxy) ForceFlushCommands(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderNdkUnitTest, "forceFlushCommands")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderNdkUnitTestForceFlushCommands
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -136,7 +136,7 @@ func (p *BinderNdkUnitTestProxy) GetsRequestedSid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderNdkUnitTest, "getsRequestedSid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderNdkUnitTestGetsRequestedSid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -166,7 +166,7 @@ func (p *BinderNdkUnitTestProxy) ForcePersist(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderNdkUnitTest, "forcePersist")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderNdkUnitTestForcePersist
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -190,7 +190,7 @@ func (p *BinderNdkUnitTestProxy) SetCustomActiveServicesCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderNdkUnitTest, "setCustomActiveServicesCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderNdkUnitTestSetCustomActiveServicesCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

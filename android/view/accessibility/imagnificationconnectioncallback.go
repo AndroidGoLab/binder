@@ -62,7 +62,7 @@ func (p *MagnificationConnectionCallbackProxy) OnWindowMagnifierBoundsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnectionCallback, "onWindowMagnifierBoundsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionCallbackOnWindowMagnifierBoundsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -81,7 +81,7 @@ func (p *MagnificationConnectionCallbackProxy) OnChangeMagnificationMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnectionCallback, "onChangeMagnificationMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionCallbackOnChangeMagnificationMode
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -103,7 +103,7 @@ func (p *MagnificationConnectionCallbackProxy) OnSourceBoundsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnectionCallback, "onSourceBoundsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionCallbackOnSourceBoundsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -124,7 +124,7 @@ func (p *MagnificationConnectionCallbackProxy) OnPerformScaleAction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnectionCallback, "onPerformScaleAction")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionCallbackOnPerformScaleAction
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -141,7 +141,7 @@ func (p *MagnificationConnectionCallbackProxy) OnAccessibilityActionPerformed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnectionCallback, "onAccessibilityActionPerformed")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionCallbackOnAccessibilityActionPerformed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -158,7 +158,7 @@ func (p *MagnificationConnectionCallbackProxy) OnMove(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnectionCallback, "onMove")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionCallbackOnMove
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

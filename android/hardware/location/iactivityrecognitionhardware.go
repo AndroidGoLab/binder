@@ -57,7 +57,7 @@ func (p *ActivityRecognitionHardwareProxy) GetSupportedActivities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "getSupportedActivities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIActivityRecognitionHardwareGetSupportedActivities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -98,7 +98,7 @@ func (p *ActivityRecognitionHardwareProxy) IsActivitySupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "isActivitySupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIActivityRecognitionHardwareIsActivitySupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -129,7 +129,7 @@ func (p *ActivityRecognitionHardwareProxy) RegisterSink(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "registerSink")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIActivityRecognitionHardwareRegisterSink
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -160,7 +160,7 @@ func (p *ActivityRecognitionHardwareProxy) UnregisterSink(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "unregisterSink")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIActivityRecognitionHardwareUnregisterSink
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -195,7 +195,7 @@ func (p *ActivityRecognitionHardwareProxy) EnableActivityEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "enableActivityEvent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIActivityRecognitionHardwareEnableActivityEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -228,7 +228,7 @@ func (p *ActivityRecognitionHardwareProxy) DisableActivityEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "disableActivityEvent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIActivityRecognitionHardwareDisableActivityEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -257,7 +257,7 @@ func (p *ActivityRecognitionHardwareProxy) Flush(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardware, "flush")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIActivityRecognitionHardwareFlush
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

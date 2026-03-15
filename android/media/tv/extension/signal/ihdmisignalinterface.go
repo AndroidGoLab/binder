@@ -57,7 +57,7 @@ func (p *HdmiSignalInterfaceProxy) AddHdmiSignalInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiSignalInterface, "addHdmiSignalInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiSignalInterfaceAddHdmiSignalInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -85,7 +85,7 @@ func (p *HdmiSignalInterfaceProxy) RemoveHdmiSignalInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiSignalInterface, "removeHdmiSignalInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiSignalInterfaceRemoveHdmiSignalInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -112,7 +112,7 @@ func (p *HdmiSignalInterfaceProxy) GetHdmiSignalInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiSignalInterface, "getHdmiSignalInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHdmiSignalInterfaceGetHdmiSignalInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -149,7 +149,7 @@ func (p *HdmiSignalInterfaceProxy) SetLowLatency(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiSignalInterface, "setLowLatency")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiSignalInterfaceSetLowLatency
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -177,7 +177,7 @@ func (p *HdmiSignalInterfaceProxy) SetForceVrr(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiSignalInterface, "setForceVrr")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiSignalInterfaceSetForceVrr
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

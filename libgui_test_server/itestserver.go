@@ -47,7 +47,7 @@ func (p *TestServerProxy) CreateProducer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestServer, "createProducer")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITestServerCreateProducer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -71,7 +71,7 @@ func (p *TestServerProxy) KillNow(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestServer, "killNow")
 	if _err != nil {
-		return _err
+		_code = TransactionITestServerKillNow
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

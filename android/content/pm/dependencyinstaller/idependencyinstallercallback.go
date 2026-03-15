@@ -55,7 +55,7 @@ func (p *DependencyInstallerCallbackProxy) OnAllDependenciesResolved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDependencyInstallerCallback, "onAllDependenciesResolved")
 	if _err != nil {
-		return _err
+		_code = TransactionIDependencyInstallerCallbackOnAllDependenciesResolved
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -79,7 +79,7 @@ func (p *DependencyInstallerCallbackProxy) OnFailureToResolveAllDependencies(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDependencyInstallerCallback, "onFailureToResolveAllDependencies")
 	if _err != nil {
-		return _err
+		_code = TransactionIDependencyInstallerCallbackOnFailureToResolveAllDependencies
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

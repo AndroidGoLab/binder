@@ -47,7 +47,7 @@ func (p *BinderRustNdkInteropTestOtherProxy) Echo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRustNdkInteropTestOther, "echo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRustNdkInteropTestOtherEcho
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

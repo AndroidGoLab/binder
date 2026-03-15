@@ -48,7 +48,7 @@ func (p *BinderProxyCountingServiceProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderProxyCountingService, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderProxyCountingServiceRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -74,7 +74,7 @@ func (p *BinderProxyCountingServiceProxy) UnregisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderProxyCountingService, "unregisterCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderProxyCountingServiceUnregisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

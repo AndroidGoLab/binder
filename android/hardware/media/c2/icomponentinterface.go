@@ -45,7 +45,7 @@ func (p *ComponentInterfaceProxy) GetConfigurable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponentInterface, "getConfigurable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIComponentInterfaceGetConfigurable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -60,7 +60,7 @@ func (p *HwCryptoKeyProxy) DeriveCurrentDicePolicyBoundKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHwCryptoKey, "deriveCurrentDicePolicyBoundKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHwCryptoKeyDeriveCurrentDicePolicyBoundKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -95,7 +95,7 @@ func (p *HwCryptoKeyProxy) DeriveDicePolicyBoundKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHwCryptoKey, "deriveDicePolicyBoundKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHwCryptoKeyDeriveDicePolicyBoundKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -121,7 +121,7 @@ func (p *HwCryptoKeyProxy) DeriveKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHwCryptoKey, "deriveKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHwCryptoKeyDeriveKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -146,7 +146,7 @@ func (p *HwCryptoKeyProxy) GetHwCryptoOperations(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHwCryptoKey, "getHwCryptoOperations")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHwCryptoKeyGetHwCryptoOperations
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -182,7 +182,7 @@ func (p *HwCryptoKeyProxy) ImportClearKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHwCryptoKey, "importClearKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHwCryptoKeyImportClearKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -212,7 +212,7 @@ func (p *HwCryptoKeyProxy) GetCurrentDicePolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHwCryptoKey, "getCurrentDicePolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHwCryptoKeyGetCurrentDicePolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -261,7 +261,7 @@ func (p *HwCryptoKeyProxy) KeyTokenImport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHwCryptoKey, "keyTokenImport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHwCryptoKeyKeyTokenImport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -292,7 +292,7 @@ func (p *HwCryptoKeyProxy) GetKeyslotData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHwCryptoKey, "getKeyslotData")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHwCryptoKeyGetKeyslotData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

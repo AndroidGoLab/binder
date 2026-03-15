@@ -55,7 +55,7 @@ func (p *ClientInterfaceProxy) GetPacketCounters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIClientInterface, "getPacketCounters")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIClientInterfaceGetPacketCounters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -94,7 +94,7 @@ func (p *ClientInterfaceProxy) SignalPoll(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIClientInterface, "signalPoll")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIClientInterfaceSignalPoll
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -133,7 +133,7 @@ func (p *ClientInterfaceProxy) GetMacAddress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIClientInterface, "getMacAddress")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIClientInterfaceGetMacAddress
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -172,7 +172,7 @@ func (p *ClientInterfaceProxy) GetInterfaceName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIClientInterface, "getInterfaceName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIClientInterfaceGetInterfaceName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -201,7 +201,7 @@ func (p *ClientInterfaceProxy) GetWifiScannerImpl(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIClientInterface, "getWifiScannerImpl")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIClientInterfaceGetWifiScannerImpl
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -243,7 +243,7 @@ func (p *ClientInterfaceProxy) SendMgmtFrame(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIClientInterface, "SendMgmtFrame")
 	if _err != nil {
-		return _err
+		_code = TransactionIClientInterfaceSendMgmtFrame
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

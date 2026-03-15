@@ -54,7 +54,7 @@ func (p *PinItemRequestProxy) IsValid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPinItemRequest, "isValid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPinItemRequestIsValid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *PinItemRequestProxy) Accept(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPinItemRequest, "accept")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPinItemRequestAccept
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -113,7 +113,7 @@ func (p *PinItemRequestProxy) GetShortcutInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPinItemRequest, "getShortcutInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPinItemRequestGetShortcutInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -147,7 +147,7 @@ func (p *PinItemRequestProxy) GetAppWidgetProviderInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPinItemRequest, "getAppWidgetProviderInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPinItemRequestGetAppWidgetProviderInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -181,7 +181,7 @@ func (p *PinItemRequestProxy) GetExtras(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPinItemRequest, "getExtras")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPinItemRequestGetExtras
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

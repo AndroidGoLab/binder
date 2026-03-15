@@ -47,7 +47,7 @@ func (p *SystemUpdateManagerProxy) RetrieveSystemUpdateInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISystemUpdateManager, "retrieveSystemUpdateInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISystemUpdateManagerRetrieveSystemUpdateInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -81,7 +81,7 @@ func (p *SystemUpdateManagerProxy) UpdateSystemUpdateInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISystemUpdateManager, "updateSystemUpdateInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionISystemUpdateManagerUpdateSystemUpdateInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

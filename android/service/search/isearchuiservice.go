@@ -65,7 +65,7 @@ func (p *SearchUiServiceProxy) OnCreateSearchSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchUiService, "onCreateSearchSession")
 	if _err != nil {
-		return _err
+		_code = TransactionISearchUiServiceOnCreateSearchSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *SearchUiServiceProxy) OnQuery(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchUiService, "onQuery")
 	if _err != nil {
-		return _err
+		_code = TransactionISearchUiServiceOnQuery
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -122,7 +122,7 @@ func (p *SearchUiServiceProxy) OnNotifyEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchUiService, "onNotifyEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionISearchUiServiceOnNotifyEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -144,7 +144,7 @@ func (p *SearchUiServiceProxy) OnRegisterEmptyQueryResultUpdateCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchUiService, "onRegisterEmptyQueryResultUpdateCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionISearchUiServiceOnRegisterEmptyQueryResultUpdateCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -166,7 +166,7 @@ func (p *SearchUiServiceProxy) OnUnregisterEmptyQueryResultUpdateCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchUiService, "onUnregisterEmptyQueryResultUpdateCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionISearchUiServiceOnUnregisterEmptyQueryResultUpdateCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -186,7 +186,7 @@ func (p *SearchUiServiceProxy) OnDestroy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchUiService, "onDestroy")
 	if _err != nil {
-		return _err
+		_code = TransactionISearchUiServiceOnDestroy
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

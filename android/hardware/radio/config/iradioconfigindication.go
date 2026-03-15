@@ -60,7 +60,7 @@ func (p *RadioConfigIndicationProxy) SimSlotsStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfigIndication, "simSlotsStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioConfigIndicationSimSlotsStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -84,7 +84,7 @@ func (p *RadioConfigIndicationProxy) OnSimultaneousCallingSupportChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfigIndication, "onSimultaneousCallingSupportChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioConfigIndicationOnSimultaneousCallingSupportChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

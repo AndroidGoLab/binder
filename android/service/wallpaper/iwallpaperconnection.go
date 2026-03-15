@@ -58,7 +58,7 @@ func (p *WallpaperConnectionProxy) AttachEngine(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperConnection, "attachEngine")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperConnectionAttachEngine
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *WallpaperConnectionProxy) EngineShown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperConnection, "engineShown")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperConnectionEngineShown
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -111,7 +111,7 @@ func (p *WallpaperConnectionProxy) SetWallpaper(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperConnection, "setWallpaper")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWallpaperConnectionSetWallpaper
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -146,7 +146,7 @@ func (p *WallpaperConnectionProxy) OnWallpaperColorsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperConnection, "onWallpaperColorsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperConnectionOnWallpaperColorsChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -182,7 +182,7 @@ func (p *WallpaperConnectionProxy) OnLocalWallpaperColorsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperConnection, "onLocalWallpaperColorsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperConnectionOnLocalWallpaperColorsChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

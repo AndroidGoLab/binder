@@ -52,7 +52,7 @@ func (p *GroupCallCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGroupCallCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIGroupCallCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *GroupCallCallbackProxy) OnGroupCallStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGroupCallCallback, "onGroupCallStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIGroupCallCallbackOnGroupCallStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *GroupCallCallbackProxy) OnBroadcastSignalStrengthUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGroupCallCallback, "onBroadcastSignalStrengthUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIGroupCallCallbackOnBroadcastSignalStrengthUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

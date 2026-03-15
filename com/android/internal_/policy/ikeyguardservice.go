@@ -96,7 +96,7 @@ func (p *KeyguardServiceProxy) SetOccluded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "setOccluded")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceSetOccluded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -113,7 +113,7 @@ func (p *KeyguardServiceProxy) AddStateMonitorCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "addStateMonitorCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceAddStateMonitorCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -130,7 +130,7 @@ func (p *KeyguardServiceProxy) VerifyUnlock(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "verifyUnlock")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceVerifyUnlock
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -148,7 +148,7 @@ func (p *KeyguardServiceProxy) Dismiss(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "dismiss")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceDismiss
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -163,7 +163,7 @@ func (p *KeyguardServiceProxy) OnDreamingStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "onDreamingStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceOnDreamingStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -178,7 +178,7 @@ func (p *KeyguardServiceProxy) OnDreamingStopped(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "onDreamingStopped")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceOnDreamingStopped
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -195,7 +195,7 @@ func (p *KeyguardServiceProxy) OnStartedGoingToSleep(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "onStartedGoingToSleep")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceOnStartedGoingToSleep
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -214,7 +214,7 @@ func (p *KeyguardServiceProxy) OnFinishedGoingToSleep(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "onFinishedGoingToSleep")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceOnFinishedGoingToSleep
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -233,7 +233,7 @@ func (p *KeyguardServiceProxy) OnStartedWakingUp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "onStartedWakingUp")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceOnStartedWakingUp
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -248,7 +248,7 @@ func (p *KeyguardServiceProxy) OnFinishedWakingUp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "onFinishedWakingUp")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceOnFinishedWakingUp
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -265,7 +265,7 @@ func (p *KeyguardServiceProxy) OnScreenTurningOn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "onScreenTurningOn")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceOnScreenTurningOn
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -280,7 +280,7 @@ func (p *KeyguardServiceProxy) OnScreenTurnedOn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "onScreenTurnedOn")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceOnScreenTurnedOn
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -295,7 +295,7 @@ func (p *KeyguardServiceProxy) OnScreenTurningOff(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "onScreenTurningOff")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceOnScreenTurningOff
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -310,7 +310,7 @@ func (p *KeyguardServiceProxy) OnScreenTurnedOff(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "onScreenTurnedOff")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceOnScreenTurnedOff
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -327,7 +327,7 @@ func (p *KeyguardServiceProxy) SetKeyguardEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "setKeyguardEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceSetKeyguardEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -342,7 +342,7 @@ func (p *KeyguardServiceProxy) OnSystemReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "onSystemReady")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceOnSystemReady
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -358,7 +358,7 @@ func (p *KeyguardServiceProxy) DoKeyguardTimeout(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "doKeyguardTimeout")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceDoKeyguardTimeout
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -375,7 +375,7 @@ func (p *KeyguardServiceProxy) SetSwitchingUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "setSwitchingUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceSetSwitchingUser
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -392,7 +392,7 @@ func (p *KeyguardServiceProxy) SetCurrentUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "setCurrentUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceSetCurrentUser
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -407,7 +407,7 @@ func (p *KeyguardServiceProxy) OnBootCompleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "onBootCompleted")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceOnBootCompleted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -426,7 +426,7 @@ func (p *KeyguardServiceProxy) StartKeyguardExitAnimation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "startKeyguardExitAnimation")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceStartKeyguardExitAnimation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -441,7 +441,7 @@ func (p *KeyguardServiceProxy) OnShortPowerPressedGoHome(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "onShortPowerPressedGoHome")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceOnShortPowerPressedGoHome
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -457,7 +457,7 @@ func (p *KeyguardServiceProxy) DismissKeyguardToLaunch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "dismissKeyguardToLaunch")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceDismissKeyguardToLaunch
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -474,7 +474,7 @@ func (p *KeyguardServiceProxy) OnSystemKeyPressed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "onSystemKeyPressed")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceOnSystemKeyPressed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -489,7 +489,7 @@ func (p *KeyguardServiceProxy) ShowDismissibleKeyguard(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardService, "showDismissibleKeyguard")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardServiceShowDismissibleKeyguard
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

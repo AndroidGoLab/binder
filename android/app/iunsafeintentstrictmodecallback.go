@@ -47,7 +47,7 @@ func (p *UnsafeIntentStrictModeCallbackProxy) OnUnsafeIntent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUnsafeIntentStrictModeCallback, "onUnsafeIntent")
 	if _err != nil {
-		return _err
+		_code = TransactionIUnsafeIntentStrictModeCallbackOnUnsafeIntent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

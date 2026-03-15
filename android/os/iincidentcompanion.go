@@ -73,7 +73,7 @@ func (p *IncidentCompanionProxy) AuthorizeReport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentCompanion, "authorizeReport")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentCompanionAuthorizeReport
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -90,7 +90,7 @@ func (p *IncidentCompanionProxy) CancelAuthorization(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentCompanion, "cancelAuthorization")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentCompanionCancelAuthorization
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *IncidentCompanionProxy) SendReportReadyBroadcast(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentCompanion, "sendReportReadyBroadcast")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentCompanionSendReportReadyBroadcast
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -125,7 +125,7 @@ func (p *IncidentCompanionProxy) GetPendingReports(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentCompanion, "getPendingReports")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIncidentCompanionGetPendingReports
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -165,7 +165,7 @@ func (p *IncidentCompanionProxy) ApproveReport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentCompanion, "approveReport")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentCompanionApproveReport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -191,7 +191,7 @@ func (p *IncidentCompanionProxy) DenyReport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentCompanion, "denyReport")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentCompanionDenyReport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -220,7 +220,7 @@ func (p *IncidentCompanionProxy) GetIncidentReportList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentCompanion, "getIncidentReportList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIncidentCompanionGetIncidentReportList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -265,7 +265,7 @@ func (p *IncidentCompanionProxy) GetIncidentReport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentCompanion, "getIncidentReport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIncidentCompanionGetIncidentReport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -295,7 +295,7 @@ func (p *IncidentCompanionProxy) DeleteIncidentReports(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentCompanion, "deleteIncidentReports")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentCompanionDeleteIncidentReports
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -321,7 +321,7 @@ func (p *IncidentCompanionProxy) DeleteAllIncidentReports(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentCompanion, "deleteAllIncidentReports")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentCompanionDeleteAllIncidentReports
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

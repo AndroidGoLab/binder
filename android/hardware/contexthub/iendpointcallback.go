@@ -67,7 +67,7 @@ func (p *EndpointCallbackProxy) OnEndpointStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEndpointCallback, "onEndpointStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIEndpointCallbackOnEndpointStarted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -104,7 +104,7 @@ func (p *EndpointCallbackProxy) OnEndpointStopped(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEndpointCallback, "onEndpointStopped")
 	if _err != nil {
-		return _err
+		_code = TransactionIEndpointCallbackOnEndpointStopped
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -135,7 +135,7 @@ func (p *EndpointCallbackProxy) OnMessageReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEndpointCallback, "onMessageReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIEndpointCallbackOnMessageReceived
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -166,7 +166,7 @@ func (p *EndpointCallbackProxy) OnMessageDeliveryStatusReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEndpointCallback, "onMessageDeliveryStatusReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIEndpointCallbackOnMessageDeliveryStatusReceived
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -204,7 +204,7 @@ func (p *EndpointCallbackProxy) OnEndpointSessionOpenRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEndpointCallback, "onEndpointSessionOpenRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIEndpointCallbackOnEndpointSessionOpenRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -232,7 +232,7 @@ func (p *EndpointCallbackProxy) OnCloseEndpointSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEndpointCallback, "onCloseEndpointSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIEndpointCallbackOnCloseEndpointSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -258,7 +258,7 @@ func (p *EndpointCallbackProxy) OnEndpointSessionOpenComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEndpointCallback, "onEndpointSessionOpenComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIEndpointCallbackOnEndpointSessionOpenComplete
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

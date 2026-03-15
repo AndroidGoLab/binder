@@ -52,7 +52,7 @@ func (p *OMXBufferSourceProxy) OnOmxExecuting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOMXBufferSource, "onOmxExecuting")
 	if _err != nil {
-		return _err
+		_code = TransactionIOMXBufferSourceOnOmxExecuting
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -76,7 +76,7 @@ func (p *OMXBufferSourceProxy) OnOmxIdle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOMXBufferSource, "onOmxIdle")
 	if _err != nil {
-		return _err
+		_code = TransactionIOMXBufferSourceOnOmxIdle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -100,7 +100,7 @@ func (p *OMXBufferSourceProxy) OnOmxLoaded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOMXBufferSource, "onOmxLoaded")
 	if _err != nil {
-		return _err
+		_code = TransactionIOMXBufferSourceOnOmxLoaded
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -126,7 +126,7 @@ func (p *OMXBufferSourceProxy) OnInputBufferAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOMXBufferSource, "onInputBufferAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionIOMXBufferSourceOnInputBufferAdded
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -153,7 +153,7 @@ func (p *OMXBufferSourceProxy) OnInputBufferEmptied(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOMXBufferSource, "onInputBufferEmptied")
 	if _err != nil {
-		return _err
+		_code = TransactionIOMXBufferSourceOnInputBufferEmptied
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

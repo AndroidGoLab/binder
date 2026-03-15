@@ -63,7 +63,7 @@ func (p *BluetoothHapClientCallbackProxy) OnPresetSelected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClientCallback, "onPresetSelected")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHapClientCallbackOnPresetSelected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -85,7 +85,7 @@ func (p *BluetoothHapClientCallbackProxy) OnPresetSelectionFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClientCallback, "onPresetSelectionFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHapClientCallbackOnPresetSelectionFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -104,7 +104,7 @@ func (p *BluetoothHapClientCallbackProxy) OnPresetSelectionForGroupFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClientCallback, "onPresetSelectionForGroupFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHapClientCallbackOnPresetSelectionForGroupFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -137,7 +137,7 @@ func (p *BluetoothHapClientCallbackProxy) OnPresetInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClientCallback, "onPresetInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHapClientCallbackOnPresetInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -159,7 +159,7 @@ func (p *BluetoothHapClientCallbackProxy) OnSetPresetNameFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClientCallback, "onSetPresetNameFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHapClientCallbackOnSetPresetNameFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -178,7 +178,7 @@ func (p *BluetoothHapClientCallbackProxy) OnSetPresetNameForGroupFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClientCallback, "onSetPresetNameForGroupFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHapClientCallbackOnSetPresetNameForGroupFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -76,7 +76,7 @@ func (p *BluetoothCsipSetCoordinatorProxy) GetConnectedDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "getConnectedDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothCsipSetCoordinatorGetConnectedDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -124,7 +124,7 @@ func (p *BluetoothCsipSetCoordinatorProxy) GetDevicesMatchingConnectionStates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "getDevicesMatchingConnectionStates")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothCsipSetCoordinatorGetDevicesMatchingConnectionStates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -168,7 +168,7 @@ func (p *BluetoothCsipSetCoordinatorProxy) GetConnectionState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "getConnectionState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothCsipSetCoordinatorGetConnectionState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -205,7 +205,7 @@ func (p *BluetoothCsipSetCoordinatorProxy) SetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "setConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothCsipSetCoordinatorSetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -240,7 +240,7 @@ func (p *BluetoothCsipSetCoordinatorProxy) GetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "getConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothCsipSetCoordinatorGetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -271,7 +271,7 @@ func (p *BluetoothCsipSetCoordinatorProxy) GetAllGroupIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "getAllGroupIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothCsipSetCoordinatorGetAllGroupIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -312,7 +312,7 @@ func (p *BluetoothCsipSetCoordinatorProxy) GetGroupUuidMapByDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "getGroupUuidMapByDevice")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothCsipSetCoordinatorGetGroupUuidMapByDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -358,7 +358,7 @@ func (p *BluetoothCsipSetCoordinatorProxy) GetDesiredGroupSize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "getDesiredGroupSize")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothCsipSetCoordinatorGetDesiredGroupSize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -392,7 +392,7 @@ func (p *BluetoothCsipSetCoordinatorProxy) LockGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "lockGroup")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothCsipSetCoordinatorLockGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -418,7 +418,7 @@ func (p *BluetoothCsipSetCoordinatorProxy) UnlockGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinator, "unlockGroup")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothCsipSetCoordinatorUnlockGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

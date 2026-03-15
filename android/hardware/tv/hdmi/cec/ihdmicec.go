@@ -69,7 +69,7 @@ func (p *HdmiCecProxy) AddLogicalAddress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiCec, "addLogicalAddress")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHdmiCecAddLogicalAddress
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -98,7 +98,7 @@ func (p *HdmiCecProxy) ClearLogicalAddress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiCec, "clearLogicalAddress")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiCecClearLogicalAddress
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -126,7 +126,7 @@ func (p *HdmiCecProxy) EnableAudioReturnChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiCec, "enableAudioReturnChannel")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiCecEnableAudioReturnChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -151,7 +151,7 @@ func (p *HdmiCecProxy) GetCecVersion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiCec, "getCecVersion")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHdmiCecGetCecVersion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -180,7 +180,7 @@ func (p *HdmiCecProxy) GetPhysicalAddress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiCec, "getPhysicalAddress")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHdmiCecGetPhysicalAddress
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -209,7 +209,7 @@ func (p *HdmiCecProxy) GetVendorId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiCec, "getVendorId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHdmiCecGetVendorId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -243,7 +243,7 @@ func (p *HdmiCecProxy) SendMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiCec, "sendMessage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHdmiCecSendMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -278,7 +278,7 @@ func (p *HdmiCecProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiCec, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiCecSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -304,7 +304,7 @@ func (p *HdmiCecProxy) SetLanguage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiCec, "setLanguage")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiCecSetLanguage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -330,7 +330,7 @@ func (p *HdmiCecProxy) EnableWakeupByOtp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiCec, "enableWakeupByOtp")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiCecEnableWakeupByOtp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -356,7 +356,7 @@ func (p *HdmiCecProxy) EnableCec(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiCec, "enableCec")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiCecEnableCec
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -382,7 +382,7 @@ func (p *HdmiCecProxy) EnableSystemCecControl(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiCec, "enableSystemCecControl")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiCecEnableSystemCecControl
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

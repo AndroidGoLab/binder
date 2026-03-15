@@ -46,7 +46,7 @@ func (p *BackupCallbackProxy) OperationComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupCallback, "operationComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupCallbackOperationComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

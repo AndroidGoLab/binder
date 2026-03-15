@@ -52,7 +52,7 @@ func (p *MmiSessionProxy) SetMenuListAnswer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMmiSession, "setMenuListAnswer")
 	if _err != nil {
-		return _err
+		_code = TransactionIMmiSessionSetMenuListAnswer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -80,7 +80,7 @@ func (p *MmiSessionProxy) SetEnquiryAnswer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMmiSession, "setEnquiryAnswer")
 	if _err != nil {
-		return _err
+		_code = TransactionIMmiSessionSetEnquiryAnswer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -104,7 +104,7 @@ func (p *MmiSessionProxy) CloseMmi(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMmiSession, "closeMmi")
 	if _err != nil {
-		return _err
+		_code = TransactionIMmiSessionCloseMmi
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -128,7 +128,7 @@ func (p *MmiSessionProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMmiSession, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIMmiSessionClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -46,7 +46,7 @@ func (p *InputSurfaceConnectionProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputSurfaceConnection, "disconnect")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputSurfaceConnectionDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -70,7 +70,7 @@ func (p *InputSurfaceConnectionProxy) SignalEndOfStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputSurfaceConnection, "signalEndOfStream")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputSurfaceConnectionSignalEndOfStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

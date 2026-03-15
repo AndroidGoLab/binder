@@ -90,7 +90,7 @@ func (p *VirtualDeviceManagerProxy) CreateVirtualDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "createVirtualDevice")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVirtualDeviceManagerCreateVirtualDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -120,7 +120,7 @@ func (p *VirtualDeviceManagerProxy) GetVirtualDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "getVirtualDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVirtualDeviceManagerGetVirtualDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -160,7 +160,7 @@ func (p *VirtualDeviceManagerProxy) GetVirtualDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "getVirtualDevice")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVirtualDeviceManagerGetVirtualDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -195,7 +195,7 @@ func (p *VirtualDeviceManagerProxy) RegisterVirtualDeviceListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "registerVirtualDeviceListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualDeviceManagerRegisterVirtualDeviceListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -221,7 +221,7 @@ func (p *VirtualDeviceManagerProxy) UnregisterVirtualDeviceListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "unregisterVirtualDeviceListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualDeviceManagerUnregisterVirtualDeviceListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -248,7 +248,7 @@ func (p *VirtualDeviceManagerProxy) GetDeviceIdForDisplayId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "getDeviceIdForDisplayId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVirtualDeviceManagerGetDeviceIdForDisplayId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -279,7 +279,7 @@ func (p *VirtualDeviceManagerProxy) GetDisplayNameForPersistentDeviceId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "getDisplayNameForPersistentDeviceId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVirtualDeviceManagerGetDisplayNameForPersistentDeviceId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -306,7 +306,7 @@ func (p *VirtualDeviceManagerProxy) IsValidVirtualDeviceId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "isValidVirtualDeviceId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVirtualDeviceManagerIsValidVirtualDeviceId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -339,7 +339,7 @@ func (p *VirtualDeviceManagerProxy) GetDevicePolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "getDevicePolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVirtualDeviceManagerGetDevicePolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -370,7 +370,7 @@ func (p *VirtualDeviceManagerProxy) GetAudioPlaybackSessionId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "getAudioPlaybackSessionId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVirtualDeviceManagerGetAudioPlaybackSessionId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -401,7 +401,7 @@ func (p *VirtualDeviceManagerProxy) GetAudioRecordingSessionId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "getAudioRecordingSessionId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVirtualDeviceManagerGetAudioRecordingSessionId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -433,7 +433,7 @@ func (p *VirtualDeviceManagerProxy) PlaySoundEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "playSoundEffect")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualDeviceManagerPlaySoundEffect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -460,7 +460,7 @@ func (p *VirtualDeviceManagerProxy) IsVirtualDeviceOwnedMirrorDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "isVirtualDeviceOwnedMirrorDisplay")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVirtualDeviceManagerIsVirtualDeviceOwnedMirrorDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -489,7 +489,7 @@ func (p *VirtualDeviceManagerProxy) GetAllPersistentDeviceIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceManager, "getAllPersistentDeviceIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVirtualDeviceManagerGetAllPersistentDeviceIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

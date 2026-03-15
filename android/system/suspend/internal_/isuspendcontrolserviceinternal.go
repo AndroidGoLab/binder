@@ -73,7 +73,7 @@ func (p *SuspendControlServiceInternalProxy) EnableAutosuspend(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "enableAutosuspend")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISuspendControlServiceInternalEnableAutosuspend
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -102,7 +102,7 @@ func (p *SuspendControlServiceInternalProxy) ForceSuspend(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "forceSuspend")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISuspendControlServiceInternalForceSuspend
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -131,7 +131,7 @@ func (p *SuspendControlServiceInternalProxy) GetWakeLockStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "getWakeLockStats")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISuspendControlServiceInternalGetWakeLockStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -171,7 +171,7 @@ func (p *SuspendControlServiceInternalProxy) GetWakeLockStatsFiltered(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "getWakeLockStatsFiltered")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISuspendControlServiceInternalGetWakeLockStatsFiltered
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -209,7 +209,7 @@ func (p *SuspendControlServiceInternalProxy) GetWakeupStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "getWakeupStats")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISuspendControlServiceInternalGetWakeupStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -247,7 +247,7 @@ func (p *SuspendControlServiceInternalProxy) GetSuspendStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISuspendControlServiceInternal, "getSuspendStats")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISuspendControlServiceInternalGetSuspendStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

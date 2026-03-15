@@ -54,7 +54,7 @@ func (p *ControlsSubscriberProxy) OnSubscribe(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIControlsSubscriber, "onSubscribe")
 	if _err != nil {
-		return _err
+		_code = TransactionIControlsSubscriberOnSubscribe
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -76,7 +76,7 @@ func (p *ControlsSubscriberProxy) OnNext(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIControlsSubscriber, "onNext")
 	if _err != nil {
-		return _err
+		_code = TransactionIControlsSubscriberOnNext
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -95,7 +95,7 @@ func (p *ControlsSubscriberProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIControlsSubscriber, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIControlsSubscriberOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -112,7 +112,7 @@ func (p *ControlsSubscriberProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIControlsSubscriber, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIControlsSubscriberOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

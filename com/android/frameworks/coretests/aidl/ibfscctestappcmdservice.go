@@ -48,7 +48,7 @@ func (p *BfsccTestAppCmdServiceProxy) ListenTo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBfsccTestAppCmdService, "listenTo")
 	if _err != nil {
-		return _err
+		_code = TransactionIBfsccTestAppCmdServiceListenTo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -73,7 +73,7 @@ func (p *BfsccTestAppCmdServiceProxy) WaitAndConsumeNotifications(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBfsccTestAppCmdService, "waitAndConsumeNotifications")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBfsccTestAppCmdServiceWaitAndConsumeNotifications
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -53,7 +53,7 @@ func (p *MediaExtractorServiceProxy) MakeExtractor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaExtractorService, "makeExtractor")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaExtractorServiceMakeExtractor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -88,7 +88,7 @@ func (p *MediaExtractorServiceProxy) MakeIDataSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaExtractorService, "makeIDataSource")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaExtractorServiceMakeIDataSource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -118,7 +118,7 @@ func (p *MediaExtractorServiceProxy) GetSupportedTypes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaExtractorService, "getSupportedTypes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaExtractorServiceGetSupportedTypes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

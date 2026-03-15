@@ -48,7 +48,7 @@ func (p *StreamCallbackProxy) OnTransferReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamCallback, "onTransferReady")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamCallbackOnTransferReady
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *StreamCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *StreamCallbackProxy) OnDrainReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamCallback, "onDrainReady")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamCallbackOnDrainReady
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

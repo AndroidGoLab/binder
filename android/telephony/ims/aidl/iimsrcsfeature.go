@@ -65,7 +65,7 @@ func (p *ImsRcsFeatureProxy) QueryCapabilityStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsFeature, "queryCapabilityStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsRcsFeatureQueryCapabilityStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -94,7 +94,7 @@ func (p *ImsRcsFeatureProxy) GetFeatureState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsFeature, "getFeatureState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsRcsFeatureGetFeatureState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -124,7 +124,7 @@ func (p *ImsRcsFeatureProxy) AddCapabilityCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsFeature, "addCapabilityCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsFeatureAddCapabilityCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -141,7 +141,7 @@ func (p *ImsRcsFeatureProxy) RemoveCapabilityCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsFeature, "removeCapabilityCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsFeatureRemoveCapabilityCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -163,7 +163,7 @@ func (p *ImsRcsFeatureProxy) ChangeCapabilitiesConfiguration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsFeature, "changeCapabilitiesConfiguration")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsFeatureChangeCapabilitiesConfiguration
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -184,7 +184,7 @@ func (p *ImsRcsFeatureProxy) QueryCapabilityConfiguration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsFeature, "queryCapabilityConfiguration")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsFeatureQueryCapabilityConfiguration
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -201,7 +201,7 @@ func (p *ImsRcsFeatureProxy) SetCapabilityExchangeEventListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsFeature, "setCapabilityExchangeEventListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsFeatureSetCapabilityExchangeEventListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -220,7 +220,7 @@ func (p *ImsRcsFeatureProxy) PublishCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsFeature, "publishCapabilities")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsFeaturePublishCapabilities
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -248,7 +248,7 @@ func (p *ImsRcsFeatureProxy) SubscribeForCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsFeature, "subscribeForCapabilities")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsFeatureSubscribeForCapabilities
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -279,7 +279,7 @@ func (p *ImsRcsFeatureProxy) SendOptionsCapabilityRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsFeature, "sendOptionsCapabilityRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsFeatureSendOptionsCapabilityRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

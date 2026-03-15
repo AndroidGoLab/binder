@@ -46,7 +46,7 @@ func (p *UnhandledDragCallbackProxy) NotifyUnhandledDropComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUnhandledDragCallback, "notifyUnhandledDropComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIUnhandledDragCallbackNotifyUnhandledDropComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

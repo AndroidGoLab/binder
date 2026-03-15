@@ -53,7 +53,7 @@ func (p *PooledGraphicBufferAllocatorProxy) Allocate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPooledGraphicBufferAllocator, "allocate")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPooledGraphicBufferAllocatorAllocate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -89,7 +89,7 @@ func (p *PooledGraphicBufferAllocatorProxy) Deallocate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPooledGraphicBufferAllocator, "deallocate")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPooledGraphicBufferAllocatorDeallocate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

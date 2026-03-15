@@ -50,7 +50,7 @@ func (p *RequestCallbackProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRequestCallback, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIRequestCallbackOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

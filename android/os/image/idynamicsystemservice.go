@@ -77,7 +77,7 @@ func (p *DynamicSystemServiceProxy) StartInstallation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "startInstallation")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDynamicSystemServiceStartInstallation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -112,7 +112,7 @@ func (p *DynamicSystemServiceProxy) CreatePartition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "createPartition")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDynamicSystemServiceCreatePartition
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -141,7 +141,7 @@ func (p *DynamicSystemServiceProxy) ClosePartition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "closePartition")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDynamicSystemServiceClosePartition
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -170,7 +170,7 @@ func (p *DynamicSystemServiceProxy) FinishInstallation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "finishInstallation")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDynamicSystemServiceFinishInstallation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -199,7 +199,7 @@ func (p *DynamicSystemServiceProxy) GetInstallationProgress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "getInstallationProgress")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDynamicSystemServiceGetInstallationProgress
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -224,7 +224,7 @@ func (p *DynamicSystemServiceProxy) Abort(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "abort")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDynamicSystemServiceAbort
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -253,7 +253,7 @@ func (p *DynamicSystemServiceProxy) IsInUse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "isInUse")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDynamicSystemServiceIsInUse
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -282,7 +282,7 @@ func (p *DynamicSystemServiceProxy) IsInstalled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "isInstalled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDynamicSystemServiceIsInstalled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -311,7 +311,7 @@ func (p *DynamicSystemServiceProxy) IsEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "isEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDynamicSystemServiceIsEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -340,7 +340,7 @@ func (p *DynamicSystemServiceProxy) Remove(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "remove")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDynamicSystemServiceRemove
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -373,7 +373,7 @@ func (p *DynamicSystemServiceProxy) SetEnable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "setEnable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDynamicSystemServiceSetEnable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -406,7 +406,7 @@ func (p *DynamicSystemServiceProxy) SetAshmem(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "setAshmem")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDynamicSystemServiceSetAshmem
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -437,7 +437,7 @@ func (p *DynamicSystemServiceProxy) SubmitFromAshmem(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "submitFromAshmem")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDynamicSystemServiceSubmitFromAshmem
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -467,7 +467,7 @@ func (p *DynamicSystemServiceProxy) GetAvbPublicKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "getAvbPublicKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDynamicSystemServiceGetAvbPublicKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -496,7 +496,7 @@ func (p *DynamicSystemServiceProxy) SuggestScratchSize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "suggestScratchSize")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDynamicSystemServiceSuggestScratchSize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -525,7 +525,7 @@ func (p *DynamicSystemServiceProxy) GetActiveDsuSlot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicSystemService, "getActiveDsuSlot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDynamicSystemServiceGetActiveDsuSlot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

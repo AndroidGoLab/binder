@@ -47,7 +47,7 @@ func (p *SerialManagerProxy) GetSerialPorts(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISerialManager, "getSerialPorts")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISerialManagerGetSerialPorts
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -88,7 +88,7 @@ func (p *SerialManagerProxy) OpenSerialPort(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISerialManager, "openSerialPort")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISerialManagerOpenSerialPort
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

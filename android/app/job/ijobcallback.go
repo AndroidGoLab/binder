@@ -71,7 +71,7 @@ func (p *JobCallbackProxy) AcknowledgeGetTransferredDownloadBytesMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "acknowledgeGetTransferredDownloadBytesMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionIJobCallbackAcknowledgeGetTransferredDownloadBytesMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -101,7 +101,7 @@ func (p *JobCallbackProxy) AcknowledgeGetTransferredUploadBytesMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "acknowledgeGetTransferredUploadBytesMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionIJobCallbackAcknowledgeGetTransferredUploadBytesMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -129,7 +129,7 @@ func (p *JobCallbackProxy) AcknowledgeStartMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "acknowledgeStartMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionIJobCallbackAcknowledgeStartMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -157,7 +157,7 @@ func (p *JobCallbackProxy) AcknowledgeStopMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "acknowledgeStopMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionIJobCallbackAcknowledgeStopMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -184,7 +184,7 @@ func (p *JobCallbackProxy) DequeueWork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "dequeueWork")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIJobCallbackDequeueWork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -222,7 +222,7 @@ func (p *JobCallbackProxy) CompleteWork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "completeWork")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIJobCallbackCompleteWork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -254,7 +254,7 @@ func (p *JobCallbackProxy) JobFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "jobFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIJobCallbackJobFinished
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -280,7 +280,7 @@ func (p *JobCallbackProxy) HandleAbandonedJob(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "handleAbandonedJob")
 	if _err != nil {
-		return _err
+		_code = TransactionIJobCallbackHandleAbandonedJob
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -315,7 +315,7 @@ func (p *JobCallbackProxy) UpdateEstimatedNetworkBytes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "updateEstimatedNetworkBytes")
 	if _err != nil {
-		return _err
+		_code = TransactionIJobCallbackUpdateEstimatedNetworkBytes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -350,7 +350,7 @@ func (p *JobCallbackProxy) UpdateTransferredNetworkBytes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "updateTransferredNetworkBytes")
 	if _err != nil {
-		return _err
+		_code = TransactionIJobCallbackUpdateTransferredNetworkBytes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -385,7 +385,7 @@ func (p *JobCallbackProxy) SetNotification(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIJobCallback, "setNotification")
 	if _err != nil {
-		return _err
+		_code = TransactionIJobCallbackSetNotification
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

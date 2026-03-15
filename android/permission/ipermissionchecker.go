@@ -73,7 +73,7 @@ func (p *PermissionCheckerProxy) CheckPermission(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPermissionChecker, "checkPermission")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPermissionCheckerCheckPermission
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -110,7 +110,7 @@ func (p *PermissionCheckerProxy) FinishDataDelivery(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPermissionChecker, "finishDataDelivery")
 	if _err != nil {
-		return _err
+		_code = TransactionIPermissionCheckerFinishDataDelivery
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -148,7 +148,7 @@ func (p *PermissionCheckerProxy) CheckOp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPermissionChecker, "checkOp")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPermissionCheckerCheckOp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -79,7 +79,7 @@ func (p *PreviewExtenderImplProxy) OnInit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewExtenderImpl, "onInit")
 	if _err != nil {
-		return _err
+		_code = TransactionIPreviewExtenderImplOnInit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -105,7 +105,7 @@ func (p *PreviewExtenderImplProxy) OnDeInit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewExtenderImpl, "onDeInit")
 	if _err != nil {
-		return _err
+		_code = TransactionIPreviewExtenderImplOnDeInit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *PreviewExtenderImplProxy) OnPresetSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewExtenderImpl, "onPresetSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPreviewExtenderImplOnPresetSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -164,7 +164,7 @@ func (p *PreviewExtenderImplProxy) OnEnableSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewExtenderImpl, "onEnableSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPreviewExtenderImplOnEnableSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -198,7 +198,7 @@ func (p *PreviewExtenderImplProxy) OnDisableSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewExtenderImpl, "onDisableSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPreviewExtenderImplOnDisableSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -234,7 +234,7 @@ func (p *PreviewExtenderImplProxy) Init(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewExtenderImpl, "init")
 	if _err != nil {
-		return _err
+		_code = TransactionIPreviewExtenderImplInit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -262,7 +262,7 @@ func (p *PreviewExtenderImplProxy) IsExtensionAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewExtenderImpl, "isExtensionAvailable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPreviewExtenderImplIsExtensionAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -291,7 +291,7 @@ func (p *PreviewExtenderImplProxy) GetCaptureStage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewExtenderImpl, "getCaptureStage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPreviewExtenderImplGetCaptureStage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -325,7 +325,7 @@ func (p *PreviewExtenderImplProxy) GetSessionType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewExtenderImpl, "getSessionType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPreviewExtenderImplGetSessionType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -354,7 +354,7 @@ func (p *PreviewExtenderImplProxy) GetProcessorType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewExtenderImpl, "getProcessorType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPreviewExtenderImplGetProcessorType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -383,7 +383,7 @@ func (p *PreviewExtenderImplProxy) GetPreviewImageProcessor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewExtenderImpl, "getPreviewImageProcessor")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPreviewExtenderImplGetPreviewImageProcessor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -413,7 +413,7 @@ func (p *PreviewExtenderImplProxy) GetRequestUpdateProcessor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewExtenderImpl, "getRequestUpdateProcessor")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPreviewExtenderImplGetRequestUpdateProcessor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -443,7 +443,7 @@ func (p *PreviewExtenderImplProxy) GetSupportedResolutions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewExtenderImpl, "getSupportedResolutions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPreviewExtenderImplGetSupportedResolutions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

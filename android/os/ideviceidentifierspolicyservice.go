@@ -47,7 +47,7 @@ func (p *DeviceIdentifiersPolicyServiceProxy) GetSerial(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceIdentifiersPolicyService, "getSerial")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDeviceIdentifiersPolicyServiceGetSerial
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -79,7 +79,7 @@ func (p *DeviceIdentifiersPolicyServiceProxy) GetSerialForPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceIdentifiersPolicyService, "getSerialForPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDeviceIdentifiersPolicyServiceGetSerialForPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

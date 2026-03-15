@@ -56,7 +56,7 @@ func (p *BenchmarkProxy) SendVec(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBenchmark, "sendVec")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBenchmarkSendVec
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -104,7 +104,7 @@ func (p *BenchmarkProxy) SendBinderVec(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBenchmark, "sendBinderVec")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBenchmarkSendBinderVec
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

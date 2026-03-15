@@ -53,7 +53,7 @@ func (p *ContextHubCallbackProxy) OnMessageReceipt(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubCallback, "onMessageReceipt")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubCallbackOnMessageReceipt
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

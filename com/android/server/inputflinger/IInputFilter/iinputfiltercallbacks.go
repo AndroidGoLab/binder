@@ -55,7 +55,7 @@ func (p *InputFilterCallbacksProxy) SendKeyEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputFilterCallbacks, "sendKeyEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputFilterCallbacksSendKeyEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -83,7 +83,7 @@ func (p *InputFilterCallbacksProxy) OnModifierStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputFilterCallbacks, "onModifierStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputFilterCallbacksOnModifierStateChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -110,7 +110,7 @@ func (p *InputFilterCallbacksProxy) CreateInputFilterThread(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputFilterCallbacks, "createInputFilterThread")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputFilterCallbacksCreateInputFilterThread
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

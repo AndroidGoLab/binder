@@ -49,7 +49,7 @@ func (p *TunerDvrCallbackProxy) OnRecordStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDvrCallback, "onRecordStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDvrCallbackOnRecordStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -75,7 +75,7 @@ func (p *TunerDvrCallbackProxy) OnPlaybackStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDvrCallback, "onPlaybackStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDvrCallbackOnPlaybackStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

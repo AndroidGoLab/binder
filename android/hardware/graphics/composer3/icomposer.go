@@ -51,7 +51,7 @@ func (p *ComposerProxy) CreateClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComposer, "createClient")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIComposerCreateClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -81,7 +81,7 @@ func (p *ComposerProxy) GetCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComposer, "getCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIComposerGetCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

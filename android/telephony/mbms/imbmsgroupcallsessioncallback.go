@@ -54,7 +54,7 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallSessionCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIMbmsGroupCallSessionCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -81,7 +81,7 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnAvailableSaisUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallSessionCallback, "onAvailableSaisUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIMbmsGroupCallSessionCallbackOnAvailableSaisUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -100,7 +100,7 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnServiceInterfaceAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallSessionCallback, "onServiceInterfaceAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionIMbmsGroupCallSessionCallbackOnServiceInterfaceAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -115,7 +115,7 @@ func (p *MbmsGroupCallSessionCallbackProxy) OnMiddlewareReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallSessionCallback, "onMiddlewareReady")
 	if _err != nil {
-		return _err
+		_code = TransactionIMbmsGroupCallSessionCallbackOnMiddlewareReady
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

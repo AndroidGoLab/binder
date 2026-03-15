@@ -46,7 +46,7 @@ func (p *AlarmCompleteListenerProxy) AlarmComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAlarmCompleteListener, "alarmComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIAlarmCompleteListenerAlarmComplete
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

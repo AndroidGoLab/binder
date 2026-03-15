@@ -48,7 +48,7 @@ func (p *BufferSubscriptionProxy) Request(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBufferSubscription, "request")
 	if _err != nil {
-		return _err
+		_code = TransactionIBufferSubscriptionRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *BufferSubscriptionProxy) Cancel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBufferSubscription, "cancel")
 	if _err != nil {
-		return _err
+		_code = TransactionIBufferSubscriptionCancel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

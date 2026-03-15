@@ -62,7 +62,7 @@ func (p *DownloadProgressListenerProxy) OnProgressUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDownloadProgressListener, "onProgressUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIDownloadProgressListenerOnProgressUpdated
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

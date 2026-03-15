@@ -46,7 +46,7 @@ func (p *DumpCallbackProxy) OnDump(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDumpCallback, "onDump")
 	if _err != nil {
-		return _err
+		_code = TransactionIDumpCallbackOnDump
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

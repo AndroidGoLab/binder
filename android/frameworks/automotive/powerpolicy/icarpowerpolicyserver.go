@@ -55,7 +55,7 @@ func (p *CarPowerPolicyServerProxy) GetCurrentPowerPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicyServer, "getCurrentPowerPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICarPowerPolicyServerGetCurrentPowerPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -91,7 +91,7 @@ func (p *CarPowerPolicyServerProxy) GetPowerComponentState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicyServer, "getPowerComponentState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICarPowerPolicyServerGetPowerComponentState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -126,7 +126,7 @@ func (p *CarPowerPolicyServerProxy) RegisterPowerPolicyChangeCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicyServer, "registerPowerPolicyChangeCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionICarPowerPolicyServerRegisterPowerPolicyChangeCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -152,7 +152,7 @@ func (p *CarPowerPolicyServerProxy) UnregisterPowerPolicyChangeCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicyServer, "unregisterPowerPolicyChangeCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionICarPowerPolicyServerUnregisterPowerPolicyChangeCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -178,7 +178,7 @@ func (p *CarPowerPolicyServerProxy) ApplyPowerPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicyServer, "applyPowerPolicy")
 	if _err != nil {
-		return _err
+		_code = TransactionICarPowerPolicyServerApplyPowerPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -204,7 +204,7 @@ func (p *CarPowerPolicyServerProxy) SetPowerPolicyGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicyServer, "setPowerPolicyGroup")
 	if _err != nil {
-		return _err
+		_code = TransactionICarPowerPolicyServerSetPowerPolicyGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

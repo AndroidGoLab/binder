@@ -53,7 +53,7 @@ func (p *LightsManagerProxy) GetLights(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILightsManager, "getLights")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILightsManagerGetLights
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *LightsManagerProxy) GetLightState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILightsManager, "getLightState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILightsManagerGetLightState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *LightsManagerProxy) OpenSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILightsManager, "openSession")
 	if _err != nil {
-		return _err
+		_code = TransactionILightsManagerOpenSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -156,7 +156,7 @@ func (p *LightsManagerProxy) CloseSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILightsManager, "closeSession")
 	if _err != nil {
-		return _err
+		_code = TransactionILightsManagerCloseSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -202,7 +202,7 @@ func (p *LightsManagerProxy) SetLightStates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILightsManager, "setLightStates")
 	if _err != nil {
-		return _err
+		_code = TransactionILightsManagerSetLightStates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

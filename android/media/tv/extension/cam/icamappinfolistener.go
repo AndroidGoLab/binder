@@ -52,7 +52,7 @@ func (p *CamAppInfoListenerProxy) OnCamAppInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamAppInfoListener, "onCamAppInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionICamAppInfoListenerOnCamAppInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

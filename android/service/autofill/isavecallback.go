@@ -47,7 +47,7 @@ func (p *SaveCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISaveCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionISaveCallbackOnSuccess
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -72,7 +72,7 @@ func (p *SaveCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISaveCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionISaveCallbackOnFailure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

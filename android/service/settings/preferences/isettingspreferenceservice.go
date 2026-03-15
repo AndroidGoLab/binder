@@ -55,7 +55,7 @@ func (p *SettingsPreferenceServiceProxy) GetAllPreferenceMetadata(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISettingsPreferenceService, "getAllPreferenceMetadata")
 	if _err != nil {
-		return _err
+		_code = TransactionISettingsPreferenceServiceGetAllPreferenceMetadata
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -77,7 +77,7 @@ func (p *SettingsPreferenceServiceProxy) GetPreferenceValue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISettingsPreferenceService, "getPreferenceValue")
 	if _err != nil {
-		return _err
+		_code = TransactionISettingsPreferenceServiceGetPreferenceValue
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -99,7 +99,7 @@ func (p *SettingsPreferenceServiceProxy) SetPreferenceValue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISettingsPreferenceService, "setPreferenceValue")
 	if _err != nil {
-		return _err
+		_code = TransactionISettingsPreferenceServiceSetPreferenceValue
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

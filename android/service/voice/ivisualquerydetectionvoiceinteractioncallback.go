@@ -54,7 +54,7 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnQueryDetected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVisualQueryDetectionVoiceInteractionCallback, "onQueryDetected")
 	if _err != nil {
-		return _err
+		_code = TransactionIVisualQueryDetectionVoiceInteractionCallbackOnQueryDetected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -74,7 +74,7 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnResultDetected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVisualQueryDetectionVoiceInteractionCallback, "onResultDetected")
 	if _err != nil {
-		return _err
+		_code = TransactionIVisualQueryDetectionVoiceInteractionCallbackOnResultDetected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -89,7 +89,7 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnQueryFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVisualQueryDetectionVoiceInteractionCallback, "onQueryFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIVisualQueryDetectionVoiceInteractionCallbackOnQueryFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -104,7 +104,7 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnQueryRejected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVisualQueryDetectionVoiceInteractionCallback, "onQueryRejected")
 	if _err != nil {
-		return _err
+		_code = TransactionIVisualQueryDetectionVoiceInteractionCallbackOnQueryRejected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -124,7 +124,7 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnVisualQueryDetecti
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVisualQueryDetectionVoiceInteractionCallback, "onVisualQueryDetectionServiceFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIVisualQueryDetectionVoiceInteractionCallbackOnVisualQueryDetectionServiceFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

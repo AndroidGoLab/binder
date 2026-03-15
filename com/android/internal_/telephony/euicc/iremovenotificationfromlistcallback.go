@@ -46,7 +46,7 @@ func (p *RemoveNotificationFromListCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoveNotificationFromListCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoveNotificationFromListCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

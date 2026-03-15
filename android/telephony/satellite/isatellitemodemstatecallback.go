@@ -52,7 +52,7 @@ func (p *SatelliteModemStateCallbackProxy) OnSatelliteModemStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteModemStateCallback, "onSatelliteModemStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteModemStateCallbackOnSatelliteModemStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *SatelliteModemStateCallbackProxy) OnEmergencyModeChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteModemStateCallback, "onEmergencyModeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteModemStateCallbackOnEmergencyModeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -86,7 +86,7 @@ func (p *SatelliteModemStateCallbackProxy) OnRegistrationFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteModemStateCallback, "onRegistrationFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteModemStateCallbackOnRegistrationFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -103,7 +103,7 @@ func (p *SatelliteModemStateCallbackProxy) OnTerrestrialNetworkAvailableChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteModemStateCallback, "onTerrestrialNetworkAvailableChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteModemStateCallbackOnTerrestrialNetworkAvailableChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

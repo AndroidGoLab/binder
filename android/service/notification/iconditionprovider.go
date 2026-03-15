@@ -48,7 +48,7 @@ func (p *ConditionProviderProxy) OnConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConditionProvider, "onConnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIConditionProviderOnConnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -64,7 +64,7 @@ func (p *ConditionProviderProxy) OnSubscribe(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConditionProvider, "onSubscribe")
 	if _err != nil {
-		return _err
+		_code = TransactionIConditionProviderOnSubscribe
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -80,7 +80,7 @@ func (p *ConditionProviderProxy) OnUnsubscribe(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConditionProvider, "onUnsubscribe")
 	if _err != nil {
-		return _err
+		_code = TransactionIConditionProviderOnUnsubscribe
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

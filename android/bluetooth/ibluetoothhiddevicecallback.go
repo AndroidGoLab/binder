@@ -63,7 +63,7 @@ func (p *BluetoothHidDeviceCallbackProxy) OnAppStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDeviceCallback, "onAppStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHidDeviceCallbackOnAppStatusChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -94,7 +94,7 @@ func (p *BluetoothHidDeviceCallbackProxy) OnConnectionStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDeviceCallback, "onConnectionStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHidDeviceCallbackOnConnectionStateChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -129,7 +129,7 @@ func (p *BluetoothHidDeviceCallbackProxy) OnGetReport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDeviceCallback, "onGetReport")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHidDeviceCallbackOnGetReport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -171,7 +171,7 @@ func (p *BluetoothHidDeviceCallbackProxy) OnSetReport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDeviceCallback, "onSetReport")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHidDeviceCallbackOnSetReport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -202,7 +202,7 @@ func (p *BluetoothHidDeviceCallbackProxy) OnSetProtocol(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDeviceCallback, "onSetProtocol")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHidDeviceCallbackOnSetProtocol
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -242,7 +242,7 @@ func (p *BluetoothHidDeviceCallbackProxy) OnInterruptData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDeviceCallback, "onInterruptData")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHidDeviceCallbackOnInterruptData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -271,7 +271,7 @@ func (p *BluetoothHidDeviceCallbackProxy) OnVirtualCableUnplug(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDeviceCallback, "onVirtualCableUnplug")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHidDeviceCallbackOnVirtualCableUnplug
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

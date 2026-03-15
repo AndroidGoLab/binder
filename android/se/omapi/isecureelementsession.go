@@ -55,7 +55,7 @@ func (p *SecureElementSessionProxy) GetAtr(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementSession, "getAtr")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementSessionGetAtr
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *SecureElementSessionProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementSession, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionISecureElementSessionClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -117,7 +117,7 @@ func (p *SecureElementSessionProxy) CloseChannels(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementSession, "closeChannels")
 	if _err != nil {
-		return _err
+		_code = TransactionISecureElementSessionCloseChannels
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -142,7 +142,7 @@ func (p *SecureElementSessionProxy) IsClosed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementSession, "isClosed")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementSessionIsClosed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -184,7 +184,7 @@ func (p *SecureElementSessionProxy) OpenBasicChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementSession, "openBasicChannel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementSessionOpenBasicChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -227,7 +227,7 @@ func (p *SecureElementSessionProxy) OpenLogicalChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementSession, "openLogicalChannel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementSessionOpenLogicalChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

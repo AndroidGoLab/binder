@@ -46,7 +46,7 @@ func (p *CmdCallbackProxy) OnLaunched(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICmdCallback, "onLaunched")
 	if _err != nil {
-		return _err
+		_code = TransactionICmdCallbackOnLaunched
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

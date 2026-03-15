@@ -56,7 +56,7 @@ func (p *MusicRecognitionServiceProxy) OnAudioStreamStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMusicRecognitionService, "onAudioStreamStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIMusicRecognitionServiceOnAudioStreamStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -73,7 +73,7 @@ func (p *MusicRecognitionServiceProxy) GetAttributionTag(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMusicRecognitionService, "getAttributionTag")
 	if _err != nil {
-		return _err
+		_code = TransactionIMusicRecognitionServiceGetAttributionTag
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

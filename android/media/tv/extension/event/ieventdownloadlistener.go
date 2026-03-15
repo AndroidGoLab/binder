@@ -50,7 +50,7 @@ func (p *EventDownloadListenerProxy) OnCompleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventDownloadListener, "onCompleted")
 	if _err != nil {
-		return _err
+		_code = TransactionIEventDownloadListenerOnCompleted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

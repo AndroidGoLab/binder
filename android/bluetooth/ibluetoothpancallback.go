@@ -48,7 +48,7 @@ func (p *BluetoothPanCallbackProxy) OnAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPanCallback, "onAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothPanCallbackOnAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *BluetoothPanCallbackProxy) OnUnavailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPanCallback, "onUnavailable")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothPanCallbackOnUnavailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

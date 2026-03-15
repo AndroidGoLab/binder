@@ -51,7 +51,7 @@ func (p *OutputSurfaceConfigurationProxy) GetPreviewOutputSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOutputSurfaceConfiguration, "getPreviewOutputSurface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOutputSurfaceConfigurationGetPreviewOutputSurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -85,7 +85,7 @@ func (p *OutputSurfaceConfigurationProxy) GetImageCaptureOutputSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOutputSurfaceConfiguration, "getImageCaptureOutputSurface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOutputSurfaceConfigurationGetImageCaptureOutputSurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -119,7 +119,7 @@ func (p *OutputSurfaceConfigurationProxy) GetImageAnalysisOutputSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOutputSurfaceConfiguration, "getImageAnalysisOutputSurface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOutputSurfaceConfigurationGetImageAnalysisOutputSurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -153,7 +153,7 @@ func (p *OutputSurfaceConfigurationProxy) GetPostviewOutputSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOutputSurfaceConfiguration, "getPostviewOutputSurface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOutputSurfaceConfigurationGetPostviewOutputSurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -70,7 +70,7 @@ func (p *DrmPluginListenerProxy) OnEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDrmPluginListener, "onEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIDrmPluginListenerOnEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -96,7 +96,7 @@ func (p *DrmPluginListenerProxy) OnExpirationUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDrmPluginListener, "onExpirationUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIDrmPluginListenerOnExpirationUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -133,7 +133,7 @@ func (p *DrmPluginListenerProxy) OnKeysChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDrmPluginListener, "onKeysChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIDrmPluginListenerOnKeysChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -157,7 +157,7 @@ func (p *DrmPluginListenerProxy) OnSessionLostState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDrmPluginListener, "onSessionLostState")
 	if _err != nil {
-		return _err
+		_code = TransactionIDrmPluginListenerOnSessionLostState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

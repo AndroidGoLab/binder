@@ -49,7 +49,7 @@ func (p *StatsBootstrapAtomServiceProxy) ReportBootstrapAtom(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatsBootstrapAtomService, "reportBootstrapAtom")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatsBootstrapAtomServiceReportBootstrapAtom
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

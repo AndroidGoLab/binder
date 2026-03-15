@@ -48,7 +48,7 @@ func (p *ConfigProxy) GetSurroundSoundConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConfig, "getSurroundSoundConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIConfigGetSurroundSoundConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -82,7 +82,7 @@ func (p *ConfigProxy) GetEngineConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConfig, "getEngineConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIConfigGetEngineConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

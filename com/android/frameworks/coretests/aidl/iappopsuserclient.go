@@ -56,7 +56,7 @@ func (p *AppOpsUserClientProxy) NoteSyncOpNative(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteSyncOpNative")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsUserClientNoteSyncOpNative
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -80,7 +80,7 @@ func (p *AppOpsUserClientProxy) NoteNonPermissionSyncOpNative(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteNonPermissionSyncOpNative")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsUserClientNoteNonPermissionSyncOpNative
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -104,7 +104,7 @@ func (p *AppOpsUserClientProxy) NoteSyncOpOnewayNative(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteSyncOpOnewayNative")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsUserClientNoteSyncOpOnewayNative
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -119,7 +119,7 @@ func (p *AppOpsUserClientProxy) FreezeAndNoteSyncOp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserClient, "freezeAndNoteSyncOp")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsUserClientFreezeAndNoteSyncOp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -143,7 +143,7 @@ func (p *AppOpsUserClientProxy) NoteSyncOpOtherUidNative(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteSyncOpOtherUidNative")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsUserClientNoteSyncOpOtherUidNative
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -167,7 +167,7 @@ func (p *AppOpsUserClientProxy) NoteAsyncOpNative(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteAsyncOpNative")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsUserClientNoteAsyncOpNative
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -191,7 +191,7 @@ func (p *AppOpsUserClientProxy) NoteAsyncOpNativeWithCustomMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserClient, "noteAsyncOpNativeWithCustomMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsUserClientNoteAsyncOpNativeWithCustomMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

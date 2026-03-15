@@ -48,7 +48,7 @@ func (p *TabletModeChangedListenerProxy) OnTabletModeChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITabletModeChangedListener, "onTabletModeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITabletModeChangedListenerOnTabletModeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

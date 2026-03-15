@@ -57,7 +57,7 @@ func (p *WifiProxy) GetChip(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifi, "getChip")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiGetChip
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -87,7 +87,7 @@ func (p *WifiProxy) GetChipIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifi, "getChipIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiGetChipIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -126,7 +126,7 @@ func (p *WifiProxy) IsStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifi, "isStarted")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiIsStarted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -156,7 +156,7 @@ func (p *WifiProxy) RegisterEventCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifi, "registerEventCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiRegisterEventCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -180,7 +180,7 @@ func (p *WifiProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifi, "start")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiStart
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -204,7 +204,7 @@ func (p *WifiProxy) Stop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifi, "stop")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiStop
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

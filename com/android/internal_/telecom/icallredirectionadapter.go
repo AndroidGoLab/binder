@@ -50,7 +50,7 @@ func (p *CallRedirectionAdapterProxy) CancelCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallRedirectionAdapter, "cancelCall")
 	if _err != nil {
-		return _err
+		_code = TransactionICallRedirectionAdapterCancelCall
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *CallRedirectionAdapterProxy) PlaceCallUnmodified(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallRedirectionAdapter, "placeCallUnmodified")
 	if _err != nil {
-		return _err
+		_code = TransactionICallRedirectionAdapterPlaceCallUnmodified
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *CallRedirectionAdapterProxy) RedirectCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallRedirectionAdapter, "redirectCall")
 	if _err != nil {
-		return _err
+		_code = TransactionICallRedirectionAdapterRedirectCall
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

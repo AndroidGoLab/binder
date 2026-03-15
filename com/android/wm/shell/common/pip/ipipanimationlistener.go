@@ -48,7 +48,7 @@ func (p *PipAnimationListenerProxy) OnPipAnimationStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPipAnimationListener, "onPipAnimationStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIPipAnimationListenerOnPipAnimationStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *PipAnimationListenerProxy) OnPipResourceDimensionsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPipAnimationListener, "onPipResourceDimensionsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIPipAnimationListenerOnPipResourceDimensionsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -82,7 +82,7 @@ func (p *PipAnimationListenerProxy) OnExpandPip(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPipAnimationListener, "onExpandPip")
 	if _err != nil {
-		return _err
+		_code = TransactionIPipAnimationListenerOnExpandPip
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

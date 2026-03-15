@@ -83,7 +83,7 @@ func (p *RemoteAnimationRunnerProxy) OnAnimationStart(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAnimationRunner, "onAnimationStart")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAnimationRunnerOnAnimationStart
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -98,7 +98,7 @@ func (p *RemoteAnimationRunnerProxy) OnAnimationCancelled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAnimationRunner, "onAnimationCancelled")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAnimationRunnerOnAnimationCancelled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

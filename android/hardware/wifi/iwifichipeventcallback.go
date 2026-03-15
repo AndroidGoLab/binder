@@ -58,7 +58,7 @@ func (p *WifiChipEventCallbackProxy) OnChipReconfigureFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiChipEventCallback, "onChipReconfigureFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiChipEventCallbackOnChipReconfigureFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -75,7 +75,7 @@ func (p *WifiChipEventCallbackProxy) OnChipReconfigured(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiChipEventCallback, "onChipReconfigured")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiChipEventCallbackOnChipReconfigured
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -101,7 +101,7 @@ func (p *WifiChipEventCallbackProxy) OnDebugErrorAlert(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiChipEventCallback, "onDebugErrorAlert")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiChipEventCallbackOnDebugErrorAlert
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -130,7 +130,7 @@ func (p *WifiChipEventCallbackProxy) OnDebugRingBufferDataAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiChipEventCallback, "onDebugRingBufferDataAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiChipEventCallbackOnDebugRingBufferDataAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -149,7 +149,7 @@ func (p *WifiChipEventCallbackProxy) OnIfaceAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiChipEventCallback, "onIfaceAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiChipEventCallbackOnIfaceAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -168,7 +168,7 @@ func (p *WifiChipEventCallbackProxy) OnIfaceRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiChipEventCallback, "onIfaceRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiChipEventCallbackOnIfaceRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -189,7 +189,7 @@ func (p *WifiChipEventCallbackProxy) OnRadioModeChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiChipEventCallback, "onRadioModeChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiChipEventCallbackOnRadioModeChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

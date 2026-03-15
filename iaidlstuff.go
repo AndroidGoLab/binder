@@ -46,7 +46,7 @@ func (p *AidlStuffProxy) CallLocal(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlStuff, "callLocal")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlStuffCallLocal
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -72,7 +72,7 @@ func (p *AidlStuffProxy) Call(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlStuff, "call")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlStuffCall
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

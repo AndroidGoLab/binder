@@ -44,7 +44,7 @@ func (p *AssistHandleServiceProxy) RequestAssistHandles(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAssistHandleService, "requestAssistHandles")
 	if _err != nil {
-		return _err
+		_code = TransactionIAssistHandleServiceRequestAssistHandles
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

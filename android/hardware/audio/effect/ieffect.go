@@ -62,7 +62,7 @@ func (p *EffectProxy) Open(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "open")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEffectOpen
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -95,7 +95,7 @@ func (p *EffectProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIEffectClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -120,7 +120,7 @@ func (p *EffectProxy) GetDescriptor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "getDescriptor")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEffectGetDescriptor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -155,7 +155,7 @@ func (p *EffectProxy) Command(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "command")
 	if _err != nil {
-		return _err
+		_code = TransactionIEffectCommand
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -180,7 +180,7 @@ func (p *EffectProxy) GetState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "getState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEffectGetState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -214,7 +214,7 @@ func (p *EffectProxy) SetParameter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "setParameter")
 	if _err != nil {
-		return _err
+		_code = TransactionIEffectSetParameter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -240,7 +240,7 @@ func (p *EffectProxy) GetParameter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "getParameter")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEffectGetParameter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -274,7 +274,7 @@ func (p *EffectProxy) Reopen(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "reopen")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEffectReopen
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

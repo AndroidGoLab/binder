@@ -49,7 +49,7 @@ func (p *ConsumerIrServiceProxy) HasIrEmitter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConsumerIrService, "hasIrEmitter")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIConsumerIrServiceHasIrEmitter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -90,7 +90,7 @@ func (p *ConsumerIrServiceProxy) Transmit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConsumerIrService, "transmit")
 	if _err != nil {
-		return _err
+		_code = TransactionIConsumerIrServiceTransmit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -115,7 +115,7 @@ func (p *ConsumerIrServiceProxy) GetCarrierFrequencies(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConsumerIrService, "getCarrierFrequencies")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIConsumerIrServiceGetCarrierFrequencies
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

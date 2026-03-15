@@ -46,7 +46,7 @@ func (p *GarbageCollectCallbackProxy) OnFinish(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGarbageCollectCallback, "onFinish")
 	if _err != nil {
-		return _err
+		_code = TransactionIGarbageCollectCallbackOnFinish
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

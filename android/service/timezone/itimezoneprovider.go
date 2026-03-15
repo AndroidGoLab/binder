@@ -52,7 +52,7 @@ func (p *TimeZoneProviderProxy) StartUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneProvider, "startUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionITimeZoneProviderStartUpdates
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *TimeZoneProviderProxy) StopUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneProvider, "stopUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionITimeZoneProviderStopUpdates
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

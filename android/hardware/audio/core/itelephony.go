@@ -51,7 +51,7 @@ func (p *TelephonyProxy) GetSupportedAudioModes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getSupportedAudioModes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetSupportedAudioModes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -92,7 +92,7 @@ func (p *TelephonyProxy) SwitchAudioMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "switchAudioMode")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySwitchAudioMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -122,7 +122,7 @@ func (p *TelephonyProxy) SetTelecomConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setTelecomConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetTelecomConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

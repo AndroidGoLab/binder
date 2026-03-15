@@ -68,7 +68,7 @@ func (p *GraphicBufferSourceProxy) Configure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "configure")
 	if _err != nil {
-		return _err
+		_code = TransactionIGraphicBufferSourceConfigure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -96,7 +96,7 @@ func (p *GraphicBufferSourceProxy) SetSuspend(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "setSuspend")
 	if _err != nil {
-		return _err
+		_code = TransactionIGraphicBufferSourceSetSuspend
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -122,7 +122,7 @@ func (p *GraphicBufferSourceProxy) SetRepeatPreviousFrameDelayUs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "setRepeatPreviousFrameDelayUs")
 	if _err != nil {
-		return _err
+		_code = TransactionIGraphicBufferSourceSetRepeatPreviousFrameDelayUs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -148,7 +148,7 @@ func (p *GraphicBufferSourceProxy) SetMaxFps(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "setMaxFps")
 	if _err != nil {
-		return _err
+		_code = TransactionIGraphicBufferSourceSetMaxFps
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -176,7 +176,7 @@ func (p *GraphicBufferSourceProxy) SetTimeLapseConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "setTimeLapseConfig")
 	if _err != nil {
-		return _err
+		_code = TransactionIGraphicBufferSourceSetTimeLapseConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -202,7 +202,7 @@ func (p *GraphicBufferSourceProxy) SetStartTimeUs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "setStartTimeUs")
 	if _err != nil {
-		return _err
+		_code = TransactionIGraphicBufferSourceSetStartTimeUs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -228,7 +228,7 @@ func (p *GraphicBufferSourceProxy) SetStopTimeUs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "setStopTimeUs")
 	if _err != nil {
-		return _err
+		_code = TransactionIGraphicBufferSourceSetStopTimeUs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -253,7 +253,7 @@ func (p *GraphicBufferSourceProxy) GetStopTimeOffsetUs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "getStopTimeOffsetUs")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGraphicBufferSourceGetStopTimeOffsetUs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -283,7 +283,7 @@ func (p *GraphicBufferSourceProxy) SetColorAspects(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "setColorAspects")
 	if _err != nil {
-		return _err
+		_code = TransactionIGraphicBufferSourceSetColorAspects
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -309,7 +309,7 @@ func (p *GraphicBufferSourceProxy) SetTimeOffsetUs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "setTimeOffsetUs")
 	if _err != nil {
-		return _err
+		_code = TransactionIGraphicBufferSourceSetTimeOffsetUs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -333,7 +333,7 @@ func (p *GraphicBufferSourceProxy) SignalEndOfInputStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferSource, "signalEndOfInputStream")
 	if _err != nil {
-		return _err
+		_code = TransactionIGraphicBufferSourceSignalEndOfInputStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

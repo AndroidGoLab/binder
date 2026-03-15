@@ -66,7 +66,7 @@ func (p *HostapdProxy) AddAccessPoint(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHostapd, "addAccessPoint")
 	if _err != nil {
-		return _err
+		_code = TransactionIHostapdAddAccessPoint
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -103,7 +103,7 @@ func (p *HostapdProxy) ForceClientDisconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHostapd, "forceClientDisconnect")
 	if _err != nil {
-		return _err
+		_code = TransactionIHostapdForceClientDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -129,7 +129,7 @@ func (p *HostapdProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHostapd, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIHostapdRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -155,7 +155,7 @@ func (p *HostapdProxy) RemoveAccessPoint(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHostapd, "removeAccessPoint")
 	if _err != nil {
-		return _err
+		_code = TransactionIHostapdRemoveAccessPoint
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -181,7 +181,7 @@ func (p *HostapdProxy) SetDebugParams(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHostapd, "setDebugParams")
 	if _err != nil {
-		return _err
+		_code = TransactionIHostapdSetDebugParams
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -205,7 +205,7 @@ func (p *HostapdProxy) Terminate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHostapd, "terminate")
 	if _err != nil {
-		return _err
+		_code = TransactionIHostapdTerminate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -224,7 +224,7 @@ func (p *HostapdProxy) RemoveLinkFromMultipleLinkBridgedApIface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHostapd, "removeLinkFromMultipleLinkBridgedApIface")
 	if _err != nil {
-		return _err
+		_code = TransactionIHostapdRemoveLinkFromMultipleLinkBridgedApIface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

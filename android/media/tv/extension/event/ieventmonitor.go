@@ -63,7 +63,7 @@ func (p *EventMonitorProxy) GetPresentEventInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitor, "getPresentEventInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEventMonitorGetPresentEventInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -98,7 +98,7 @@ func (p *EventMonitorProxy) AddPresentEventInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitor, "addPresentEventInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIEventMonitorAddPresentEventInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -124,7 +124,7 @@ func (p *EventMonitorProxy) RemovePresentEventInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitor, "removePresentEventInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIEventMonitorRemovePresentEventInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -151,7 +151,7 @@ func (p *EventMonitorProxy) GetFollowingEventInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitor, "getFollowingEventInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEventMonitorGetFollowingEventInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -186,7 +186,7 @@ func (p *EventMonitorProxy) AddFollowingEventInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitor, "addFollowingEventInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIEventMonitorAddFollowingEventInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -212,7 +212,7 @@ func (p *EventMonitorProxy) RemoveFollowingEventInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitor, "removeFollowingEventInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIEventMonitorRemoveFollowingEventInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -239,7 +239,7 @@ func (p *EventMonitorProxy) GetSdtGuidanceInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitor, "getSdtGuidanceInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEventMonitorGetSdtGuidanceInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -283,7 +283,7 @@ func (p *EventMonitorProxy) SetBgmTuneChannelInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventMonitor, "setBgmTuneChannelInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIEventMonitorSetBgmTuneChannelInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -49,7 +49,7 @@ func (p *MediaQualityCallbackProxy) NotifyAmbientBacklightEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityCallback, "notifyAmbientBacklightEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaQualityCallbackNotifyAmbientBacklightEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

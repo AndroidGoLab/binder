@@ -76,7 +76,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnKeyphraseDetected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onKeyphraseDetected")
 	if _err != nil {
-		return _err
+		_code = TransactionIHotwordRecognitionStatusCallbackOnKeyphraseDetected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnKeyphraseDetectedFromExternalS
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onKeyphraseDetectedFromExternalSource")
 	if _err != nil {
-		return _err
+		_code = TransactionIHotwordRecognitionStatusCallbackOnKeyphraseDetectedFromExternalSource
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -112,7 +112,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnGenericSoundTriggerDetected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onGenericSoundTriggerDetected")
 	if _err != nil {
-		return _err
+		_code = TransactionIHotwordRecognitionStatusCallbackOnGenericSoundTriggerDetected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -128,7 +128,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnRejected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onRejected")
 	if _err != nil {
-		return _err
+		_code = TransactionIHotwordRecognitionStatusCallbackOnRejected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -144,7 +144,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnHotwordDetectionServiceFailure
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onHotwordDetectionServiceFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIHotwordRecognitionStatusCallbackOnHotwordDetectionServiceFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -160,7 +160,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnVisualQueryDetectionServiceFai
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onVisualQueryDetectionServiceFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIHotwordRecognitionStatusCallbackOnVisualQueryDetectionServiceFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -176,7 +176,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnSoundTriggerFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onSoundTriggerFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIHotwordRecognitionStatusCallbackOnSoundTriggerFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -193,7 +193,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnUnknownFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onUnknownFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIHotwordRecognitionStatusCallbackOnUnknownFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -208,7 +208,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnRecognitionPaused(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onRecognitionPaused")
 	if _err != nil {
-		return _err
+		_code = TransactionIHotwordRecognitionStatusCallbackOnRecognitionPaused
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -223,7 +223,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnRecognitionResumed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onRecognitionResumed")
 	if _err != nil {
-		return _err
+		_code = TransactionIHotwordRecognitionStatusCallbackOnRecognitionResumed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -240,7 +240,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnStatusReported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onStatusReported")
 	if _err != nil {
-		return _err
+		_code = TransactionIHotwordRecognitionStatusCallbackOnStatusReported
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -255,7 +255,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnProcessRestarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onProcessRestarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIHotwordRecognitionStatusCallbackOnProcessRestarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -277,7 +277,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnOpenFile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHotwordRecognitionStatusCallback, "onOpenFile")
 	if _err != nil {
-		return _err
+		_code = TransactionIHotwordRecognitionStatusCallbackOnOpenFile
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

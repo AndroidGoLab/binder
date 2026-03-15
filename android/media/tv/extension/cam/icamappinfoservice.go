@@ -51,7 +51,7 @@ func (p *CamAppInfoServiceProxy) AddCamAppInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamAppInfoService, "addCamAppInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICamAppInfoServiceAddCamAppInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -77,7 +77,7 @@ func (p *CamAppInfoServiceProxy) RemoveCamAppInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamAppInfoService, "removeCamAppInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICamAppInfoServiceRemoveCamAppInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -105,7 +105,7 @@ func (p *CamAppInfoServiceProxy) GetCamAppInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamAppInfoService, "getCamAppInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICamAppInfoServiceGetCamAppInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

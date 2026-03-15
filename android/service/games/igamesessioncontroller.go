@@ -54,7 +54,7 @@ func (p *GameSessionControllerProxy) TakeScreenshot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGameSessionController, "takeScreenshot")
 	if _err != nil {
-		return _err
+		_code = TransactionIGameSessionControllerTakeScreenshot
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *GameSessionControllerProxy) RestartGame(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGameSessionController, "restartGame")
 	if _err != nil {
-		return _err
+		_code = TransactionIGameSessionControllerRestartGame
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

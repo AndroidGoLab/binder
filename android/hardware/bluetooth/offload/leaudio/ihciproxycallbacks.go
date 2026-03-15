@@ -53,7 +53,7 @@ func (p *HciProxyCallbacksProxy) StartStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHciProxyCallbacks, "startStream")
 	if _err != nil {
-		return _err
+		_code = TransactionIHciProxyCallbacksStartStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -79,7 +79,7 @@ func (p *HciProxyCallbacksProxy) StopStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHciProxyCallbacks, "stopStream")
 	if _err != nil {
-		return _err
+		_code = TransactionIHciProxyCallbacksStopStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -48,7 +48,7 @@ func (p *AnalogAudioInfoProxy) GetAnalogAudioInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAnalogAudioInfo, "getAnalogAudioInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAnalogAudioInfoGetAnalogAudioInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

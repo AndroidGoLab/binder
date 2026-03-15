@@ -59,7 +59,7 @@ func (p *NativePermissionControllerProxy) PopulatePackagesForUids(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINativePermissionController, "populatePackagesForUids")
 	if _err != nil {
-		return _err
+		_code = TransactionINativePermissionControllerPopulatePackagesForUids
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -88,7 +88,7 @@ func (p *NativePermissionControllerProxy) UpdatePackagesForUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINativePermissionController, "updatePackagesForUid")
 	if _err != nil {
-		return _err
+		_code = TransactionINativePermissionControllerUpdatePackagesForUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -123,7 +123,7 @@ func (p *NativePermissionControllerProxy) PopulatePermissionState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINativePermissionController, "populatePermissionState")
 	if _err != nil {
-		return _err
+		_code = TransactionINativePermissionControllerPopulatePermissionState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

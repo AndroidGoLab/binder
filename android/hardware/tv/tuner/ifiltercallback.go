@@ -57,7 +57,7 @@ func (p *FilterCallbackProxy) OnFilterEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilterCallback, "onFilterEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIFilterCallbackOnFilterEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -74,7 +74,7 @@ func (p *FilterCallbackProxy) OnFilterStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFilterCallback, "onFilterStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIFilterCallbackOnFilterStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

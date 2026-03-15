@@ -63,7 +63,7 @@ func (p *SupplicantP2pNetworkProxy) GetBssid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "getBssid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantP2pNetworkGetBssid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -102,7 +102,7 @@ func (p *SupplicantP2pNetworkProxy) GetClientList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "getClientList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantP2pNetworkGetClientList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -140,7 +140,7 @@ func (p *SupplicantP2pNetworkProxy) GetId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "getId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantP2pNetworkGetId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -169,7 +169,7 @@ func (p *SupplicantP2pNetworkProxy) GetInterfaceName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "getInterfaceName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantP2pNetworkGetInterfaceName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -198,7 +198,7 @@ func (p *SupplicantP2pNetworkProxy) GetSsid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "getSsid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantP2pNetworkGetSsid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -237,7 +237,7 @@ func (p *SupplicantP2pNetworkProxy) GetType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "getType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantP2pNetworkGetType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -267,7 +267,7 @@ func (p *SupplicantP2pNetworkProxy) IsCurrent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "isCurrent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantP2pNetworkIsCurrent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -296,7 +296,7 @@ func (p *SupplicantP2pNetworkProxy) IsGroupOwner(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "isGroupOwner")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantP2pNetworkIsGroupOwner
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -325,7 +325,7 @@ func (p *SupplicantP2pNetworkProxy) IsPersistent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "isPersistent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantP2pNetworkIsPersistent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -364,7 +364,7 @@ func (p *SupplicantP2pNetworkProxy) SetClientList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantP2pNetwork, "setClientList")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantP2pNetworkSetClientList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

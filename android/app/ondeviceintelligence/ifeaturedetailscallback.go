@@ -51,7 +51,7 @@ func (p *FeatureDetailsCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFeatureDetailsCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIFeatureDetailsCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *FeatureDetailsCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFeatureDetailsCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIFeatureDetailsCallbackOnFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

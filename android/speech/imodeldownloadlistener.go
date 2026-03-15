@@ -52,7 +52,7 @@ func (p *ModelDownloadListenerProxy) OnProgress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModelDownloadListener, "onProgress")
 	if _err != nil {
-		return _err
+		_code = TransactionIModelDownloadListenerOnProgress
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *ModelDownloadListenerProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModelDownloadListener, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIModelDownloadListenerOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -82,7 +82,7 @@ func (p *ModelDownloadListenerProxy) OnScheduled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModelDownloadListener, "onScheduled")
 	if _err != nil {
-		return _err
+		_code = TransactionIModelDownloadListenerOnScheduled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -99,7 +99,7 @@ func (p *ModelDownloadListenerProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModelDownloadListener, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIModelDownloadListenerOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

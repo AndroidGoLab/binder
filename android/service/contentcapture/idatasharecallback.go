@@ -48,7 +48,7 @@ func (p *DataShareCallbackProxy) Accept(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataShareCallback, "accept")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataShareCallbackAccept
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *DataShareCallbackProxy) Reject(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataShareCallback, "reject")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataShareCallbackReject
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -54,7 +54,7 @@ func (p *BufferSubscriberProxy) OnSubscribe(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBufferSubscriber, "onSubscribe")
 	if _err != nil {
-		return _err
+		_code = TransactionIBufferSubscriberOnSubscribe
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -74,7 +74,7 @@ func (p *BufferSubscriberProxy) OnBufferCacheUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBufferSubscriber, "onBufferCacheUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIBufferSubscriberOnBufferCacheUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -94,7 +94,7 @@ func (p *BufferSubscriberProxy) OnNext(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBufferSubscriber, "onNext")
 	if _err != nil {
-		return _err
+		_code = TransactionIBufferSubscriberOnNext
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *BufferSubscriberProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBufferSubscriber, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIBufferSubscriberOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -124,7 +124,7 @@ func (p *BufferSubscriberProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBufferSubscriber, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIBufferSubscriberOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

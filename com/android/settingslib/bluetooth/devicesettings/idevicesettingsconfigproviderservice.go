@@ -51,7 +51,7 @@ func (p *DeviceSettingsConfigProviderServiceProxy) GetDeviceSettingsConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceSettingsConfigProviderService, "getDeviceSettingsConfig")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceSettingsConfigProviderServiceGetDeviceSettingsConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

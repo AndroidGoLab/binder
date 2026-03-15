@@ -60,7 +60,7 @@ func (p *IntentSenderProxy) Send(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIntentSender, "send")
 	if _err != nil {
-		return _err
+		_code = TransactionIIntentSenderSend
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

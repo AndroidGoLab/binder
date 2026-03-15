@@ -45,7 +45,7 @@ func (p *GameManagerProxy) GetGameMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGameManager, "getGameMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGameManagerGetGameMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -58,7 +58,7 @@ func (p *BluetoothLeCallControlCallbackProxy) OnBearerRegistered(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControlCallback, "onBearerRegistered")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeCallControlCallbackOnBearerRegistered
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -76,7 +76,7 @@ func (p *BluetoothLeCallControlCallbackProxy) OnAcceptCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControlCallback, "onAcceptCall")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeCallControlCallbackOnAcceptCall
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -94,7 +94,7 @@ func (p *BluetoothLeCallControlCallbackProxy) OnTerminateCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControlCallback, "onTerminateCall")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeCallControlCallbackOnTerminateCall
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -112,7 +112,7 @@ func (p *BluetoothLeCallControlCallbackProxy) OnHoldCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControlCallback, "onHoldCall")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeCallControlCallbackOnHoldCall
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -130,7 +130,7 @@ func (p *BluetoothLeCallControlCallbackProxy) OnUnholdCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControlCallback, "onUnholdCall")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeCallControlCallbackOnUnholdCall
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -150,7 +150,7 @@ func (p *BluetoothLeCallControlCallbackProxy) OnPlaceCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControlCallback, "onPlaceCall")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeCallControlCallbackOnPlaceCall
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -173,7 +173,7 @@ func (p *BluetoothLeCallControlCallbackProxy) OnJoinCalls(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControlCallback, "onJoinCalls")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeCallControlCallbackOnJoinCalls
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -83,7 +83,7 @@ func (p *TunerProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -108,7 +108,7 @@ func (p *TunerProxy) IsClosed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "isClosed")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerIsClosed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -141,7 +141,7 @@ func (p *TunerProxy) SetConfiguration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "setConfiguration")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerSetConfiguration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -166,7 +166,7 @@ func (p *TunerProxy) GetConfiguration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "getConfiguration")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerGetConfiguration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -201,7 +201,7 @@ func (p *TunerProxy) SetMuted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "setMuted")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerSetMuted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -226,7 +226,7 @@ func (p *TunerProxy) IsMuted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "isMuted")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerIsMuted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -258,7 +258,7 @@ func (p *TunerProxy) Step(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "step")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerStep
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -286,7 +286,7 @@ func (p *TunerProxy) Seek(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "seek")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerSeek
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -315,7 +315,7 @@ func (p *TunerProxy) Tune(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "tune")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerTune
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -339,7 +339,7 @@ func (p *TunerProxy) Cancel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "cancel")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCancel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -363,7 +363,7 @@ func (p *TunerProxy) CancelAnnouncement(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "cancelAnnouncement")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCancelAnnouncement
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -390,7 +390,7 @@ func (p *TunerProxy) GetImage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "getImage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerGetImage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -424,7 +424,7 @@ func (p *TunerProxy) StartBackgroundScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "startBackgroundScan")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerStartBackgroundScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -457,7 +457,7 @@ func (p *TunerProxy) StartProgramListUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "startProgramListUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerStartProgramListUpdates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -481,7 +481,7 @@ func (p *TunerProxy) StopProgramListUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "stopProgramListUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerStopProgramListUpdates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -508,7 +508,7 @@ func (p *TunerProxy) IsConfigFlagSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "isConfigFlagSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerIsConfigFlagSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -539,7 +539,7 @@ func (p *TunerProxy) IsConfigFlagSet(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "isConfigFlagSet")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerIsConfigFlagSet
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -571,7 +571,7 @@ func (p *TunerProxy) SetConfigFlag(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "setConfigFlag")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerSetConfigFlag
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -606,7 +606,7 @@ func (p *TunerProxy) SetParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "setParameters")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerSetParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -658,7 +658,7 @@ func (p *TunerProxy) GetParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "getParameters")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerGetParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

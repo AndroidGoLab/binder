@@ -53,7 +53,7 @@ func (p *NetworkServiceCallbackProxy) OnRequestNetworkRegistrationInfoComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkServiceCallback, "onRequestNetworkRegistrationInfoComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkServiceCallbackOnRequestNetworkRegistrationInfoComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -68,7 +68,7 @@ func (p *NetworkServiceCallbackProxy) OnNetworkStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkServiceCallback, "onNetworkStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkServiceCallbackOnNetworkStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

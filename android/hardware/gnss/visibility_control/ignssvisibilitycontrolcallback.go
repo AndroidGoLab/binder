@@ -52,7 +52,7 @@ func (p *GnssVisibilityControlCallbackProxy) NfwNotifyCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssVisibilityControlCallback, "nfwNotifyCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssVisibilityControlCallbackNfwNotifyCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -77,7 +77,7 @@ func (p *GnssVisibilityControlCallbackProxy) IsInEmergencySession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssVisibilityControlCallback, "isInEmergencySession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssVisibilityControlCallbackIsInEmergencySession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

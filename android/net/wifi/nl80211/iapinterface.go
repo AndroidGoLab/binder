@@ -55,7 +55,7 @@ func (p *ApInterfaceProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApInterface, "registerCallback")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIApInterfaceRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *ApInterfaceProxy) GetInterfaceName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApInterface, "getInterfaceName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIApInterfaceGetInterfaceName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

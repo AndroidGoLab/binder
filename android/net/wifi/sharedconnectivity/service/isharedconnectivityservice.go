@@ -67,7 +67,7 @@ func (p *SharedConnectivityServiceProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionISharedConnectivityServiceRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *SharedConnectivityServiceProxy) UnregisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "unregisterCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionISharedConnectivityServiceUnregisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -122,7 +122,7 @@ func (p *SharedConnectivityServiceProxy) ConnectHotspotNetwork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "connectHotspotNetwork")
 	if _err != nil {
-		return _err
+		_code = TransactionISharedConnectivityServiceConnectHotspotNetwork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -151,7 +151,7 @@ func (p *SharedConnectivityServiceProxy) DisconnectHotspotNetwork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "disconnectHotspotNetwork")
 	if _err != nil {
-		return _err
+		_code = TransactionISharedConnectivityServiceDisconnectHotspotNetwork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -180,7 +180,7 @@ func (p *SharedConnectivityServiceProxy) ConnectKnownNetwork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "connectKnownNetwork")
 	if _err != nil {
-		return _err
+		_code = TransactionISharedConnectivityServiceConnectKnownNetwork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -209,7 +209,7 @@ func (p *SharedConnectivityServiceProxy) ForgetKnownNetwork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "forgetKnownNetwork")
 	if _err != nil {
-		return _err
+		_code = TransactionISharedConnectivityServiceForgetKnownNetwork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -234,7 +234,7 @@ func (p *SharedConnectivityServiceProxy) GetHotspotNetworks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "getHotspotNetworks")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISharedConnectivityServiceGetHotspotNetworks
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -272,7 +272,7 @@ func (p *SharedConnectivityServiceProxy) GetKnownNetworks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "getKnownNetworks")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISharedConnectivityServiceGetKnownNetworks
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -310,7 +310,7 @@ func (p *SharedConnectivityServiceProxy) GetSettingsState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "getSettingsState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISharedConnectivityServiceGetSettingsState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -344,7 +344,7 @@ func (p *SharedConnectivityServiceProxy) GetHotspotNetworkConnectionStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "getHotspotNetworkConnectionStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISharedConnectivityServiceGetHotspotNetworkConnectionStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -378,7 +378,7 @@ func (p *SharedConnectivityServiceProxy) GetKnownNetworkConnectionStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISharedConnectivityService, "getKnownNetworkConnectionStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISharedConnectivityServiceGetKnownNetworkConnectionStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

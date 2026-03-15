@@ -51,7 +51,7 @@ func (p *HdmiDeviceEventListenerProxy) OnStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiDeviceEventListener, "onStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiDeviceEventListenerOnStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

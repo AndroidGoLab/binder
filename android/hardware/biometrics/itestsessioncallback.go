@@ -48,7 +48,7 @@ func (p *TestSessionCallbackProxy) OnCleanupStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestSessionCallback, "onCleanupStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionITestSessionCallbackOnCleanupStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *TestSessionCallbackProxy) OnCleanupFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestSessionCallback, "onCleanupFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionITestSessionCallbackOnCleanupFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

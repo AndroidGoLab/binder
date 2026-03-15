@@ -49,7 +49,7 @@ func (p *ApplicationStartInfoCompleteListenerProxy) OnApplicationStartInfoComple
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationStartInfoCompleteListener, "onApplicationStartInfoComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationStartInfoCompleteListenerOnApplicationStartInfoComplete
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

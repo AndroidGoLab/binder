@@ -50,7 +50,7 @@ func (p *OccupantAwarenessClientCallbackProxy) OnSystemStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOccupantAwarenessClientCallback, "onSystemStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIOccupantAwarenessClientCallbackOnSystemStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -70,7 +70,7 @@ func (p *OccupantAwarenessClientCallbackProxy) OnDetectionEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOccupantAwarenessClientCallback, "onDetectionEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIOccupantAwarenessClientCallbackOnDetectionEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

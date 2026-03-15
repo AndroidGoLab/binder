@@ -49,7 +49,7 @@ func (p *CameraOfflineSessionProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraOfflineSession, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraOfflineSessionClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -74,7 +74,7 @@ func (p *CameraOfflineSessionProxy) GetCaptureResultMetadataQueue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraOfflineSession, "getCaptureResultMetadataQueue")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraOfflineSessionGetCaptureResultMetadataQueue
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -109,7 +109,7 @@ func (p *CameraOfflineSessionProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraOfflineSession, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraOfflineSessionSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

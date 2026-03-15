@@ -89,7 +89,7 @@ func (p *SessionProcessorImplProxy) InitSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "initSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionProcessorImplInitSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -124,7 +124,7 @@ func (p *SessionProcessorImplProxy) DeInitSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "deInitSession")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionProcessorImplDeInitSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -152,7 +152,7 @@ func (p *SessionProcessorImplProxy) OnCaptureSessionStart(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "onCaptureSessionStart")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionProcessorImplOnCaptureSessionStart
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -176,7 +176,7 @@ func (p *SessionProcessorImplProxy) OnCaptureSessionEnd(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "onCaptureSessionEnd")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionProcessorImplOnCaptureSessionEnd
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -203,7 +203,7 @@ func (p *SessionProcessorImplProxy) StartRepeating(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "startRepeating")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionProcessorImplStartRepeating
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -231,7 +231,7 @@ func (p *SessionProcessorImplProxy) StopRepeating(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "stopRepeating")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionProcessorImplStopRepeating
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -260,7 +260,7 @@ func (p *SessionProcessorImplProxy) StartCapture(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "startCapture")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionProcessorImplStartCapture
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -293,7 +293,7 @@ func (p *SessionProcessorImplProxy) SetParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "setParameters")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionProcessorImplSetParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -325,7 +325,7 @@ func (p *SessionProcessorImplProxy) StartTrigger(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "startTrigger")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionProcessorImplStartTrigger
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -354,7 +354,7 @@ func (p *SessionProcessorImplProxy) GetRealtimeCaptureLatency(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionProcessorImpl, "getRealtimeCaptureLatency")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISessionProcessorImplGetRealtimeCaptureLatency
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

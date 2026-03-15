@@ -53,7 +53,7 @@ func (p *NetworkWatchlistManagerProxy) StartWatchlistLogging(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkWatchlistManager, "startWatchlistLogging")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINetworkWatchlistManagerStartWatchlistLogging
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -82,7 +82,7 @@ func (p *NetworkWatchlistManagerProxy) StopWatchlistLogging(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkWatchlistManager, "stopWatchlistLogging")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINetworkWatchlistManagerStopWatchlistLogging
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -110,7 +110,7 @@ func (p *NetworkWatchlistManagerProxy) ReloadWatchlist(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkWatchlistManager, "reloadWatchlist")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkWatchlistManagerReloadWatchlist
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -134,7 +134,7 @@ func (p *NetworkWatchlistManagerProxy) ReportWatchlistIfNecessary(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkWatchlistManager, "reportWatchlistIfNecessary")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkWatchlistManagerReportWatchlistIfNecessary
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -159,7 +159,7 @@ func (p *NetworkWatchlistManagerProxy) GetWatchlistConfigHash(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkWatchlistManager, "getWatchlistConfigHash")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINetworkWatchlistManagerGetWatchlistConfigHash
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

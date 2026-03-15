@@ -69,7 +69,7 @@ func (p *QSServiceProxy) GetTile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "getTile")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIQSServiceGetTile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -109,7 +109,7 @@ func (p *QSServiceProxy) UpdateQsTile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "updateQsTile")
 	if _err != nil {
-		return _err
+		_code = TransactionIQSServiceUpdateQsTile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -142,7 +142,7 @@ func (p *QSServiceProxy) UpdateStatusIcon(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "updateStatusIcon")
 	if _err != nil {
-		return _err
+		_code = TransactionIQSServiceUpdateStatusIcon
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -168,7 +168,7 @@ func (p *QSServiceProxy) OnShowDialog(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "onShowDialog")
 	if _err != nil {
-		return _err
+		_code = TransactionIQSServiceOnShowDialog
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -194,7 +194,7 @@ func (p *QSServiceProxy) OnStartActivity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "onStartActivity")
 	if _err != nil {
-		return _err
+		_code = TransactionIQSServiceOnStartActivity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -225,7 +225,7 @@ func (p *QSServiceProxy) StartActivity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "startActivity")
 	if _err != nil {
-		return _err
+		_code = TransactionIQSServiceStartActivity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -250,7 +250,7 @@ func (p *QSServiceProxy) IsLocked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "isLocked")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIQSServiceIsLocked
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -279,7 +279,7 @@ func (p *QSServiceProxy) IsSecure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "isSecure")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIQSServiceIsSecure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -309,7 +309,7 @@ func (p *QSServiceProxy) StartUnlockAndRun(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "startUnlockAndRun")
 	if _err != nil {
-		return _err
+		_code = TransactionIQSServiceStartUnlockAndRun
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -335,7 +335,7 @@ func (p *QSServiceProxy) OnDialogHidden(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "onDialogHidden")
 	if _err != nil {
-		return _err
+		_code = TransactionIQSServiceOnDialogHidden
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -361,7 +361,7 @@ func (p *QSServiceProxy) OnStartSuccessful(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSService, "onStartSuccessful")
 	if _err != nil {
-		return _err
+		_code = TransactionIQSServiceOnStartSuccessful
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

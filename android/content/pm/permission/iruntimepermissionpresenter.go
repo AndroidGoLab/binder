@@ -52,7 +52,7 @@ func (p *RuntimePermissionPresenterProxy) GetAppPermissions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRuntimePermissionPresenter, "getAppPermissions")
 	if _err != nil {
-		return _err
+		_code = TransactionIRuntimePermissionPresenterGetAppPermissions
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

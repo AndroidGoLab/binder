@@ -57,7 +57,7 @@ func (p *DomainSelectionServiceControllerProxy) SelectDomain(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDomainSelectionServiceController, "selectDomain")
 	if _err != nil {
-		return _err
+		_code = TransactionIDomainSelectionServiceControllerSelectDomain
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -81,7 +81,7 @@ func (p *DomainSelectionServiceControllerProxy) UpdateServiceState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDomainSelectionServiceController, "updateServiceState")
 	if _err != nil {
-		return _err
+		_code = TransactionIDomainSelectionServiceControllerUpdateServiceState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -105,7 +105,7 @@ func (p *DomainSelectionServiceControllerProxy) UpdateBarringInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDomainSelectionServiceController, "updateBarringInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIDomainSelectionServiceControllerUpdateBarringInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

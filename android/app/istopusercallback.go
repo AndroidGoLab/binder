@@ -48,7 +48,7 @@ func (p *StopUserCallbackProxy) UserStopped(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStopUserCallback, "userStopped")
 	if _err != nil {
-		return _err
+		_code = TransactionIStopUserCallbackUserStopped
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -74,7 +74,7 @@ func (p *StopUserCallbackProxy) UserStopAborted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStopUserCallback, "userStopAborted")
 	if _err != nil {
-		return _err
+		_code = TransactionIStopUserCallbackUserStopAborted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

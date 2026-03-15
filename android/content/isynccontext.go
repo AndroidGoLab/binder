@@ -46,7 +46,7 @@ func (p *SyncContextProxy) SendHeartbeat(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISyncContext, "sendHeartbeat")
 	if _err != nil {
-		return _err
+		_code = TransactionISyncContextSendHeartbeat
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -75,7 +75,7 @@ func (p *SyncContextProxy) OnFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISyncContext, "onFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionISyncContextOnFinished
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

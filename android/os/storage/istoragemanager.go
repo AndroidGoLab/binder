@@ -166,7 +166,7 @@ func (p *StorageManagerProxy) RegisterListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "registerListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerRegisterListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -192,7 +192,7 @@ func (p *StorageManagerProxy) UnregisterListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "unregisterListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerUnregisterListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -218,7 +218,7 @@ func (p *StorageManagerProxy) Shutdown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "shutdown")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerShutdown
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -251,7 +251,7 @@ func (p *StorageManagerProxy) MountObb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "mountObb")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerMountObb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -283,7 +283,7 @@ func (p *StorageManagerProxy) UnmountObb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "unmountObb")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerUnmountObb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -310,7 +310,7 @@ func (p *StorageManagerProxy) IsObbMounted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "isObbMounted")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerIsObbMounted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -341,7 +341,7 @@ func (p *StorageManagerProxy) GetMountedObbPath(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getMountedObbPath")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerGetMountedObbPath
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -375,7 +375,7 @@ func (p *StorageManagerProxy) GetVolumeList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getVolumeList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerGetVolumeList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -416,7 +416,7 @@ func (p *StorageManagerProxy) Mkdirs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "mkdirs")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerMkdirs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -441,7 +441,7 @@ func (p *StorageManagerProxy) LastMaintenance(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "lastMaintenance")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerLastMaintenance
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -469,7 +469,7 @@ func (p *StorageManagerProxy) RunMaintenance(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "runMaintenance")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerRunMaintenance
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -494,7 +494,7 @@ func (p *StorageManagerProxy) GetDisks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getDisks")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerGetDisks
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -534,7 +534,7 @@ func (p *StorageManagerProxy) GetVolumes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getVolumes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerGetVolumes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -574,7 +574,7 @@ func (p *StorageManagerProxy) GetVolumeRecords(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getVolumeRecords")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerGetVolumeRecords
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -613,7 +613,7 @@ func (p *StorageManagerProxy) Mount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "mount")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerMount
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -639,7 +639,7 @@ func (p *StorageManagerProxy) Unmount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "unmount")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerUnmount
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -665,7 +665,7 @@ func (p *StorageManagerProxy) Format(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "format")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerFormat
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -691,7 +691,7 @@ func (p *StorageManagerProxy) PartitionPublic(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "partitionPublic")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerPartitionPublic
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -717,7 +717,7 @@ func (p *StorageManagerProxy) PartitionPrivate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "partitionPrivate")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerPartitionPrivate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -745,7 +745,7 @@ func (p *StorageManagerProxy) PartitionMixed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "partitionMixed")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerPartitionMixed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -773,7 +773,7 @@ func (p *StorageManagerProxy) SetVolumeNickname(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "setVolumeNickname")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerSetVolumeNickname
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -803,7 +803,7 @@ func (p *StorageManagerProxy) SetVolumeUserFlags(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "setVolumeUserFlags")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerSetVolumeUserFlags
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -829,7 +829,7 @@ func (p *StorageManagerProxy) ForgetVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "forgetVolume")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerForgetVolume
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -853,7 +853,7 @@ func (p *StorageManagerProxy) ForgetAllVolumes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "forgetAllVolumes")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerForgetAllVolumes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -878,7 +878,7 @@ func (p *StorageManagerProxy) GetPrimaryStorageUuid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getPrimaryStorageUuid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerGetPrimaryStorageUuid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -909,7 +909,7 @@ func (p *StorageManagerProxy) SetPrimaryStorageUuid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "setPrimaryStorageUuid")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerSetPrimaryStorageUuid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -936,7 +936,7 @@ func (p *StorageManagerProxy) Benchmark(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "benchmark")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerBenchmark
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -964,7 +964,7 @@ func (p *StorageManagerProxy) SetDebugFlags(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "setDebugFlags")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerSetDebugFlags
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -992,7 +992,7 @@ func (p *StorageManagerProxy) CreateUserStorageKeys(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "createUserStorageKeys")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerCreateUserStorageKeys
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1018,7 +1018,7 @@ func (p *StorageManagerProxy) DestroyUserStorageKeys(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "destroyUserStorageKeys")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerDestroyUserStorageKeys
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1053,7 +1053,7 @@ func (p *StorageManagerProxy) UnlockCeStorage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "unlockCeStorage")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerUnlockCeStorage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1079,7 +1079,7 @@ func (p *StorageManagerProxy) LockCeStorage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "lockCeStorage")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerLockCeStorage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1106,7 +1106,7 @@ func (p *StorageManagerProxy) IsCeStorageUnlocked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "isCeStorageUnlocked")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerIsCeStorageUnlocked
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1140,7 +1140,7 @@ func (p *StorageManagerProxy) PrepareUserStorage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "prepareUserStorage")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerPrepareUserStorage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1170,7 +1170,7 @@ func (p *StorageManagerProxy) DestroyUserStorage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "destroyUserStorage")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerDestroyUserStorage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1205,7 +1205,7 @@ func (p *StorageManagerProxy) SetCeStorageProtection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "setCeStorageProtection")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerSetCeStorageProtection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1232,7 +1232,7 @@ func (p *StorageManagerProxy) Fstrim(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "fstrim")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerFstrim
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1257,7 +1257,7 @@ func (p *StorageManagerProxy) MountProxyFileDescriptorBridge(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "mountProxyFileDescriptorBridge")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerMountProxyFileDescriptorBridge
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1288,7 +1288,7 @@ func (p *StorageManagerProxy) OpenProxyFileDescriptor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "openProxyFileDescriptor")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerOpenProxyFileDescriptor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1321,7 +1321,7 @@ func (p *StorageManagerProxy) GetCacheQuotaBytes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getCacheQuotaBytes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerGetCacheQuotaBytes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1354,7 +1354,7 @@ func (p *StorageManagerProxy) GetCacheSizeBytes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getCacheSizeBytes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerGetCacheSizeBytes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1389,7 +1389,7 @@ func (p *StorageManagerProxy) GetAllocatableBytes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getAllocatableBytes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerGetAllocatableBytes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1425,7 +1425,7 @@ func (p *StorageManagerProxy) AllocateBytes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "allocateBytes")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerAllocateBytes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1449,7 +1449,7 @@ func (p *StorageManagerProxy) RunIdleMaintenance(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "runIdleMaintenance")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerRunIdleMaintenance
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1473,7 +1473,7 @@ func (p *StorageManagerProxy) AbortIdleMaintenance(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "abortIdleMaintenance")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerAbortIdleMaintenance
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1497,7 +1497,7 @@ func (p *StorageManagerProxy) CommitChanges(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "commitChanges")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerCommitChanges
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1522,7 +1522,7 @@ func (p *StorageManagerProxy) SupportsCheckpoint(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "supportsCheckpoint")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerSupportsCheckpoint
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1552,7 +1552,7 @@ func (p *StorageManagerProxy) StartCheckpoint(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "startCheckpoint")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerStartCheckpoint
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1577,7 +1577,7 @@ func (p *StorageManagerProxy) NeedsCheckpoint(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "needsCheckpoint")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerNeedsCheckpoint
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1609,7 +1609,7 @@ func (p *StorageManagerProxy) AbortChanges(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "abortChanges")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerAbortChanges
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1635,7 +1635,7 @@ func (p *StorageManagerProxy) FixupAppDir(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "fixupAppDir")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerFixupAppDir
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1665,7 +1665,7 @@ func (p *StorageManagerProxy) DisableAppDataIsolation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "disableAppDataIsolation")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerDisableAppDataIsolation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1694,7 +1694,7 @@ func (p *StorageManagerProxy) GetManageSpaceActivityIntent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getManageSpaceActivityIntent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerGetManageSpaceActivityIntent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1726,7 +1726,7 @@ func (p *StorageManagerProxy) NotifyAppIoBlocked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "notifyAppIoBlocked")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerNotifyAppIoBlocked
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1758,7 +1758,7 @@ func (p *StorageManagerProxy) NotifyAppIoResumed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "notifyAppIoResumed")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerNotifyAppIoResumed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1787,7 +1787,7 @@ func (p *StorageManagerProxy) GetExternalStorageMountMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getExternalStorageMountMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerGetExternalStorageMountMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1824,7 +1824,7 @@ func (p *StorageManagerProxy) IsAppIoBlocked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "isAppIoBlocked")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerIsAppIoBlocked
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1854,7 +1854,7 @@ func (p *StorageManagerProxy) SetCloudMediaProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "setCloudMediaProvider")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageManagerSetCloudMediaProvider
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1879,7 +1879,7 @@ func (p *StorageManagerProxy) GetCloudMediaProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getCloudMediaProvider")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerGetCloudMediaProvider
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1908,7 +1908,7 @@ func (p *StorageManagerProxy) GetInternalStorageBlockDeviceSize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getInternalStorageBlockDeviceSize")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerGetInternalStorageBlockDeviceSize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1937,7 +1937,7 @@ func (p *StorageManagerProxy) GetInternalStorageRemainingLifetime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "getInternalStorageRemainingLifetime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageManagerGetInternalStorageRemainingLifetime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

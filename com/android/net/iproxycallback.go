@@ -46,7 +46,7 @@ func (p *ProxyCallbackProxy) GetProxyPort(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProxyCallback, "getProxyPort")
 	if _err != nil {
-		return _err
+		_code = TransactionIProxyCallbackGetProxyPort
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

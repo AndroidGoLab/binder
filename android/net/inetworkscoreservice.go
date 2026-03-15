@@ -76,7 +76,7 @@ func (p *NetworkScoreServiceProxy) UpdateScores(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "updateScores")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINetworkScoreServiceUpdateScores
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -105,7 +105,7 @@ func (p *NetworkScoreServiceProxy) ClearScores(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "clearScores")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINetworkScoreServiceClearScores
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -136,7 +136,7 @@ func (p *NetworkScoreServiceProxy) SetActiveScorer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "setActiveScorer")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINetworkScoreServiceSetActiveScorer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -164,7 +164,7 @@ func (p *NetworkScoreServiceProxy) DisableScoring(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "disableScoring")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkScoreServiceDisableScoring
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -194,7 +194,7 @@ func (p *NetworkScoreServiceProxy) RegisterNetworkScoreCache(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "registerNetworkScoreCache")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkScoreServiceRegisterNetworkScoreCache
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -222,7 +222,7 @@ func (p *NetworkScoreServiceProxy) UnregisterNetworkScoreCache(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "unregisterNetworkScoreCache")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkScoreServiceUnregisterNetworkScoreCache
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -258,7 +258,7 @@ func (p *NetworkScoreServiceProxy) RequestScores(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "requestScores")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINetworkScoreServiceRequestScores
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -289,7 +289,7 @@ func (p *NetworkScoreServiceProxy) IsCallerActiveScorer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "isCallerActiveScorer")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINetworkScoreServiceIsCallerActiveScorer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -318,7 +318,7 @@ func (p *NetworkScoreServiceProxy) GetActiveScorerPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "getActiveScorerPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINetworkScoreServiceGetActiveScorerPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -347,7 +347,7 @@ func (p *NetworkScoreServiceProxy) GetActiveScorer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "getActiveScorer")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINetworkScoreServiceGetActiveScorer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -381,7 +381,7 @@ func (p *NetworkScoreServiceProxy) GetAllValidScorers(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreService, "getAllValidScorers")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINetworkScoreServiceGetAllValidScorers
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

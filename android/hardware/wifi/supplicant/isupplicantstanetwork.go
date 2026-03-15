@@ -246,7 +246,7 @@ func (p *SupplicantStaNetworkProxy) Disable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "disable")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkDisable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -272,7 +272,7 @@ func (p *SupplicantStaNetworkProxy) Enable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "enable")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkEnable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -298,7 +298,7 @@ func (p *SupplicantStaNetworkProxy) EnableSaePkOnlyMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "enableSaePkOnlyMode")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkEnableSaePkOnlyMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -322,7 +322,7 @@ func (p *SupplicantStaNetworkProxy) EnableSuiteBEapOpenSslCiphers(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "enableSuiteBEapOpenSslCiphers")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkEnableSuiteBEapOpenSslCiphers
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -348,7 +348,7 @@ func (p *SupplicantStaNetworkProxy) EnableTlsSuiteBEapPhase1Param(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "enableTlsSuiteBEapPhase1Param")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkEnableTlsSuiteBEapPhase1Param
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -373,7 +373,7 @@ func (p *SupplicantStaNetworkProxy) GetAuthAlg(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getAuthAlg")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetAuthAlg
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -403,7 +403,7 @@ func (p *SupplicantStaNetworkProxy) GetBssid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getBssid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetBssid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -442,7 +442,7 @@ func (p *SupplicantStaNetworkProxy) GetEapAltSubjectMatch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapAltSubjectMatch")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetEapAltSubjectMatch
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -471,7 +471,7 @@ func (p *SupplicantStaNetworkProxy) GetEapAnonymousIdentity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapAnonymousIdentity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetEapAnonymousIdentity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -510,7 +510,7 @@ func (p *SupplicantStaNetworkProxy) GetEapCACert(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapCACert")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetEapCACert
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -539,7 +539,7 @@ func (p *SupplicantStaNetworkProxy) GetEapCAPath(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapCAPath")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetEapCAPath
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -568,7 +568,7 @@ func (p *SupplicantStaNetworkProxy) GetEapClientCert(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapClientCert")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetEapClientCert
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -597,7 +597,7 @@ func (p *SupplicantStaNetworkProxy) GetEapDomainSuffixMatch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapDomainSuffixMatch")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetEapDomainSuffixMatch
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -626,7 +626,7 @@ func (p *SupplicantStaNetworkProxy) GetEapEngine(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapEngine")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetEapEngine
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -655,7 +655,7 @@ func (p *SupplicantStaNetworkProxy) GetEapEngineId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapEngineId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetEapEngineId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -684,7 +684,7 @@ func (p *SupplicantStaNetworkProxy) GetEapIdentity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapIdentity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetEapIdentity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -723,7 +723,7 @@ func (p *SupplicantStaNetworkProxy) GetEapMethod(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapMethod")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetEapMethod
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -753,7 +753,7 @@ func (p *SupplicantStaNetworkProxy) GetEapPassword(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapPassword")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetEapPassword
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -792,7 +792,7 @@ func (p *SupplicantStaNetworkProxy) GetEapPhase2Method(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapPhase2Method")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetEapPhase2Method
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -822,7 +822,7 @@ func (p *SupplicantStaNetworkProxy) GetEapPrivateKeyId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapPrivateKeyId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetEapPrivateKeyId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -851,7 +851,7 @@ func (p *SupplicantStaNetworkProxy) GetEapSubjectMatch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEapSubjectMatch")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetEapSubjectMatch
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -880,7 +880,7 @@ func (p *SupplicantStaNetworkProxy) GetEdmg(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getEdmg")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetEdmg
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -909,7 +909,7 @@ func (p *SupplicantStaNetworkProxy) GetGroupCipher(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getGroupCipher")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetGroupCipher
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -939,7 +939,7 @@ func (p *SupplicantStaNetworkProxy) GetGroupMgmtCipher(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getGroupMgmtCipher")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetGroupMgmtCipher
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -969,7 +969,7 @@ func (p *SupplicantStaNetworkProxy) GetId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -998,7 +998,7 @@ func (p *SupplicantStaNetworkProxy) GetIdStr(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getIdStr")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetIdStr
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1027,7 +1027,7 @@ func (p *SupplicantStaNetworkProxy) GetInterfaceName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getInterfaceName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetInterfaceName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1056,7 +1056,7 @@ func (p *SupplicantStaNetworkProxy) GetKeyMgmt(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getKeyMgmt")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetKeyMgmt
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1086,7 +1086,7 @@ func (p *SupplicantStaNetworkProxy) GetOcsp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getOcsp")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetOcsp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1116,7 +1116,7 @@ func (p *SupplicantStaNetworkProxy) GetPairwiseCipher(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getPairwiseCipher")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetPairwiseCipher
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1146,7 +1146,7 @@ func (p *SupplicantStaNetworkProxy) GetProto(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getProto")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetProto
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1176,7 +1176,7 @@ func (p *SupplicantStaNetworkProxy) GetPsk(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getPsk")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetPsk
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1215,7 +1215,7 @@ func (p *SupplicantStaNetworkProxy) GetPskPassphrase(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getPskPassphrase")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetPskPassphrase
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1244,7 +1244,7 @@ func (p *SupplicantStaNetworkProxy) GetRequirePmf(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getRequirePmf")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetRequirePmf
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1273,7 +1273,7 @@ func (p *SupplicantStaNetworkProxy) GetSaePassword(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getSaePassword")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetSaePassword
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1302,7 +1302,7 @@ func (p *SupplicantStaNetworkProxy) GetSaePasswordId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getSaePasswordId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetSaePasswordId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1331,7 +1331,7 @@ func (p *SupplicantStaNetworkProxy) GetScanSsid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getScanSsid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetScanSsid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1360,7 +1360,7 @@ func (p *SupplicantStaNetworkProxy) GetSsid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getSsid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetSsid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1399,7 +1399,7 @@ func (p *SupplicantStaNetworkProxy) GetType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1429,7 +1429,7 @@ func (p *SupplicantStaNetworkProxy) GetWapiCertSuite(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getWapiCertSuite")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetWapiCertSuite
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1460,7 +1460,7 @@ func (p *SupplicantStaNetworkProxy) GetWepKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getWepKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetWepKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1499,7 +1499,7 @@ func (p *SupplicantStaNetworkProxy) GetWepTxKeyIdx(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getWepTxKeyIdx")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetWepTxKeyIdx
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1528,7 +1528,7 @@ func (p *SupplicantStaNetworkProxy) GetWpsNfcConfigurationToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "getWpsNfcConfigurationToken")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaNetworkGetWpsNfcConfigurationToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1568,7 +1568,7 @@ func (p *SupplicantStaNetworkProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1592,7 +1592,7 @@ func (p *SupplicantStaNetworkProxy) Select(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "select")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSelect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1634,7 +1634,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapIdentityResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "sendNetworkEapIdentityResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSendNetworkEapIdentityResponse
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1658,7 +1658,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapSimGsmAuthFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "sendNetworkEapSimGsmAuthFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSendNetworkEapSimGsmAuthFailure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1693,7 +1693,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapSimGsmAuthResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "sendNetworkEapSimGsmAuthResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSendNetworkEapSimGsmAuthResponse
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1717,7 +1717,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapSimUmtsAuthFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "sendNetworkEapSimUmtsAuthFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSendNetworkEapSimUmtsAuthFailure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1746,7 +1746,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapSimUmtsAuthResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "sendNetworkEapSimUmtsAuthResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSendNetworkEapSimUmtsAuthResponse
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1779,7 +1779,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapSimUmtsAutsResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "sendNetworkEapSimUmtsAutsResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSendNetworkEapSimUmtsAutsResponse
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1805,7 +1805,7 @@ func (p *SupplicantStaNetworkProxy) SetAuthAlg(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setAuthAlg")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetAuthAlg
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1838,7 +1838,7 @@ func (p *SupplicantStaNetworkProxy) SetBssid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setBssid")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetBssid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1867,7 +1867,7 @@ func (p *SupplicantStaNetworkProxy) SetDppKeys(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setDppKeys")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetDppKeys
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1893,7 +1893,7 @@ func (p *SupplicantStaNetworkProxy) SetEapAltSubjectMatch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapAltSubjectMatch")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEapAltSubjectMatch
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1926,7 +1926,7 @@ func (p *SupplicantStaNetworkProxy) SetEapAnonymousIdentity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapAnonymousIdentity")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEapAnonymousIdentity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1952,7 +1952,7 @@ func (p *SupplicantStaNetworkProxy) SetEapCACert(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapCACert")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEapCACert
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1978,7 +1978,7 @@ func (p *SupplicantStaNetworkProxy) SetEapCAPath(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapCAPath")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEapCAPath
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2004,7 +2004,7 @@ func (p *SupplicantStaNetworkProxy) SetEapClientCert(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapClientCert")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEapClientCert
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2030,7 +2030,7 @@ func (p *SupplicantStaNetworkProxy) SetEapDomainSuffixMatch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapDomainSuffixMatch")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEapDomainSuffixMatch
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2063,7 +2063,7 @@ func (p *SupplicantStaNetworkProxy) SetEapEncryptedImsiIdentity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapEncryptedImsiIdentity")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEapEncryptedImsiIdentity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2089,7 +2089,7 @@ func (p *SupplicantStaNetworkProxy) SetEapEngine(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapEngine")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEapEngine
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2115,7 +2115,7 @@ func (p *SupplicantStaNetworkProxy) SetEapEngineID(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapEngineID")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEapEngineID
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2141,7 +2141,7 @@ func (p *SupplicantStaNetworkProxy) SetEapErp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapErp")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEapErp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2174,7 +2174,7 @@ func (p *SupplicantStaNetworkProxy) SetEapIdentity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapIdentity")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEapIdentity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2200,7 +2200,7 @@ func (p *SupplicantStaNetworkProxy) SetEapMethod(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapMethod")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEapMethod
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2233,7 +2233,7 @@ func (p *SupplicantStaNetworkProxy) SetEapPassword(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapPassword")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEapPassword
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2259,7 +2259,7 @@ func (p *SupplicantStaNetworkProxy) SetEapPhase2Method(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapPhase2Method")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEapPhase2Method
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2285,7 +2285,7 @@ func (p *SupplicantStaNetworkProxy) SetEapPrivateKeyId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapPrivateKeyId")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEapPrivateKeyId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2311,7 +2311,7 @@ func (p *SupplicantStaNetworkProxy) SetEapSubjectMatch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEapSubjectMatch")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEapSubjectMatch
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2337,7 +2337,7 @@ func (p *SupplicantStaNetworkProxy) SetEdmg(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setEdmg")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetEdmg
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2363,7 +2363,7 @@ func (p *SupplicantStaNetworkProxy) SetGroupCipher(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setGroupCipher")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetGroupCipher
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2389,7 +2389,7 @@ func (p *SupplicantStaNetworkProxy) SetGroupMgmtCipher(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setGroupMgmtCipher")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetGroupMgmtCipher
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2415,7 +2415,7 @@ func (p *SupplicantStaNetworkProxy) SetIdStr(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setIdStr")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetIdStr
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2441,7 +2441,7 @@ func (p *SupplicantStaNetworkProxy) SetKeyMgmt(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setKeyMgmt")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetKeyMgmt
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2467,7 +2467,7 @@ func (p *SupplicantStaNetworkProxy) SetOcsp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setOcsp")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetOcsp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2493,7 +2493,7 @@ func (p *SupplicantStaNetworkProxy) SetPairwiseCipher(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setPairwiseCipher")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetPairwiseCipher
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2526,7 +2526,7 @@ func (p *SupplicantStaNetworkProxy) SetPmkCache(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setPmkCache")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetPmkCache
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2552,7 +2552,7 @@ func (p *SupplicantStaNetworkProxy) SetProactiveKeyCaching(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setProactiveKeyCaching")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetProactiveKeyCaching
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2578,7 +2578,7 @@ func (p *SupplicantStaNetworkProxy) SetProto(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setProto")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetProto
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2611,7 +2611,7 @@ func (p *SupplicantStaNetworkProxy) SetPsk(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setPsk")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetPsk
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2637,7 +2637,7 @@ func (p *SupplicantStaNetworkProxy) SetPskPassphrase(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setPskPassphrase")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetPskPassphrase
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2663,7 +2663,7 @@ func (p *SupplicantStaNetworkProxy) SetRequirePmf(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setRequirePmf")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetRequirePmf
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2689,7 +2689,7 @@ func (p *SupplicantStaNetworkProxy) SetSaeH2eMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setSaeH2eMode")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetSaeH2eMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2715,7 +2715,7 @@ func (p *SupplicantStaNetworkProxy) SetSaePassword(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setSaePassword")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetSaePassword
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2741,7 +2741,7 @@ func (p *SupplicantStaNetworkProxy) SetSaePasswordId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setSaePasswordId")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetSaePasswordId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2767,7 +2767,7 @@ func (p *SupplicantStaNetworkProxy) SetScanSsid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setScanSsid")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetScanSsid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2800,7 +2800,7 @@ func (p *SupplicantStaNetworkProxy) SetSsid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setSsid")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetSsid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2826,7 +2826,7 @@ func (p *SupplicantStaNetworkProxy) SetUpdateIdentifier(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setUpdateIdentifier")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetUpdateIdentifier
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2852,7 +2852,7 @@ func (p *SupplicantStaNetworkProxy) SetWapiCertSuite(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setWapiCertSuite")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetWapiCertSuite
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2887,7 +2887,7 @@ func (p *SupplicantStaNetworkProxy) SetWepKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setWepKey")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetWepKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2913,7 +2913,7 @@ func (p *SupplicantStaNetworkProxy) SetWepTxKeyIdx(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setWepTxKeyIdx")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetWepTxKeyIdx
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2946,7 +2946,7 @@ func (p *SupplicantStaNetworkProxy) SetRoamingConsortiumSelection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setRoamingConsortiumSelection")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetRoamingConsortiumSelection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2972,7 +2972,7 @@ func (p *SupplicantStaNetworkProxy) SetMinimumTlsVersionEapPhase1Param(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setMinimumTlsVersionEapPhase1Param")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetMinimumTlsVersionEapPhase1Param
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2998,7 +2998,7 @@ func (p *SupplicantStaNetworkProxy) SetStrictConservativePeerMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setStrictConservativePeerMode")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetStrictConservativePeerMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3022,7 +3022,7 @@ func (p *SupplicantStaNetworkProxy) DisableEht(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "disableEht")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkDisableEht
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3057,7 +3057,7 @@ func (p *SupplicantStaNetworkProxy) SetVendorData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetwork, "setVendorData")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkSetVendorData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

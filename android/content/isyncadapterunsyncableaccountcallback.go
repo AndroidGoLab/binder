@@ -46,7 +46,7 @@ func (p *SyncAdapterUnsyncableAccountCallbackProxy) OnUnsyncableAccountDone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISyncAdapterUnsyncableAccountCallback, "onUnsyncableAccountDone")
 	if _err != nil {
-		return _err
+		_code = TransactionISyncAdapterUnsyncableAccountCallbackOnUnsyncableAccountDone
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

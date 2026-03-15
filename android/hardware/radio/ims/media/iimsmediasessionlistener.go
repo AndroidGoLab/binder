@@ -65,7 +65,7 @@ func (p *ImsMediaSessionListenerProxy) OnModifySessionResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSessionListener, "onModifySessionResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionListenerOnModifySessionResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -85,7 +85,7 @@ func (p *ImsMediaSessionListenerProxy) OnFirstMediaPacketReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSessionListener, "onFirstMediaPacketReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionListenerOnFirstMediaPacketReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -111,7 +111,7 @@ func (p *ImsMediaSessionListenerProxy) OnHeaderExtensionReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSessionListener, "onHeaderExtensionReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionListenerOnHeaderExtensionReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -131,7 +131,7 @@ func (p *ImsMediaSessionListenerProxy) NotifyMediaQualityStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSessionListener, "notifyMediaQualityStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionListenerNotifyMediaQualityStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -151,7 +151,7 @@ func (p *ImsMediaSessionListenerProxy) TriggerAnbrQuery(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSessionListener, "triggerAnbrQuery")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionListenerTriggerAnbrQuery
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -170,7 +170,7 @@ func (p *ImsMediaSessionListenerProxy) OnDtmfReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSessionListener, "onDtmfReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionListenerOnDtmfReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -190,7 +190,7 @@ func (p *ImsMediaSessionListenerProxy) OnCallQualityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSessionListener, "onCallQualityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionListenerOnCallQualityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -210,7 +210,7 @@ func (p *ImsMediaSessionListenerProxy) NotifyRtpReceptionStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSessionListener, "notifyRtpReceptionStats")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionListenerNotifyRtpReceptionStats
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

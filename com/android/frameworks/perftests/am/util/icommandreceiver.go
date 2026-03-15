@@ -60,7 +60,7 @@ func (p *CommandReceiverProxy) SendCommand(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICommandReceiver, "sendCommand")
 	if _err != nil {
-		return _err
+		_code = TransactionICommandReceiverSendCommand
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

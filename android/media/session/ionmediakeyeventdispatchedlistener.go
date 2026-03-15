@@ -52,7 +52,7 @@ func (p *OnMediaKeyEventDispatchedListenerProxy) OnMediaKeyEventDispatched(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnMediaKeyEventDispatchedListener, "onMediaKeyEventDispatched")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnMediaKeyEventDispatchedListenerOnMediaKeyEventDispatched
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

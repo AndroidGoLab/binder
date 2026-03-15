@@ -49,7 +49,7 @@ func (p *ProtoLogConfigurationServiceProxy) RegisterClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProtoLogConfigurationService, "registerClient")
 	if _err != nil {
-		return _err
+		_code = TransactionIProtoLogConfigurationServiceRegisterClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

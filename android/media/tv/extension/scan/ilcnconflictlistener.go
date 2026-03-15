@@ -50,7 +50,7 @@ func (p *LcnConflictListenerProxy) OnDetectLcnConflict(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILcnConflictListener, "onDetectLcnConflict")
 	if _err != nil {
-		return _err
+		_code = TransactionILcnConflictListenerOnDetectLcnConflict
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

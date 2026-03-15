@@ -59,7 +59,7 @@ func (p *AidlNodeProxy) FreeNode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlNode, "freeNode")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlNodeFreeNode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *AidlNodeProxy) GetConsumerUsage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlNode, "getConsumerUsage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAidlNodeGetConsumerUsage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -113,7 +113,7 @@ func (p *AidlNodeProxy) GetInputBufferParams(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlNode, "getInputBufferParams")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAidlNodeGetInputBufferParams
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -148,7 +148,7 @@ func (p *AidlNodeProxy) SetConsumerUsage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlNode, "setConsumerUsage")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlNodeSetConsumerUsage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -174,7 +174,7 @@ func (p *AidlNodeProxy) SetAdjustTimestampGapUs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlNode, "setAdjustTimestampGapUs")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlNodeSetAdjustTimestampGapUs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -200,7 +200,7 @@ func (p *AidlNodeProxy) SetInputSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlNode, "setInputSurface")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlNodeSetInputSurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -237,7 +237,7 @@ func (p *AidlNodeProxy) SubmitBuffer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlNode, "submitBuffer")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlNodeSubmitBuffer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -267,7 +267,7 @@ func (p *AidlNodeProxy) OnDataSpaceChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlNode, "onDataSpaceChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlNodeOnDataSpaceChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -57,7 +57,7 @@ func (p *StrategyPreferredDevicesDispatcherProxy) DispatchPrefDevicesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStrategyPreferredDevicesDispatcher, "dispatchPrefDevicesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIStrategyPreferredDevicesDispatcherDispatchPrefDevicesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

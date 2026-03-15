@@ -46,7 +46,7 @@ func (p *BackAnimationFinishedCallbackProxy) OnAnimationFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackAnimationFinishedCallback, "onAnimationFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackAnimationFinishedCallbackOnAnimationFinished
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

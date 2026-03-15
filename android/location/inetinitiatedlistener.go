@@ -49,7 +49,7 @@ func (p *NetInitiatedListenerProxy) SendNiResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetInitiatedListener, "sendNiResponse")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINetInitiatedListenerSendNiResponse
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

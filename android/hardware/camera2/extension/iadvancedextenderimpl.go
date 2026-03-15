@@ -75,7 +75,7 @@ func (p *AdvancedExtenderImplProxy) IsExtensionAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "isExtensionAvailable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAdvancedExtenderImplIsExtensionAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -111,7 +111,7 @@ func (p *AdvancedExtenderImplProxy) Init(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "init")
 	if _err != nil {
-		return _err
+		_code = TransactionIAdvancedExtenderImplInit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -145,7 +145,7 @@ func (p *AdvancedExtenderImplProxy) GetEstimatedCaptureLatencyRange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "getEstimatedCaptureLatencyRange")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAdvancedExtenderImplGetEstimatedCaptureLatencyRange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -181,7 +181,7 @@ func (p *AdvancedExtenderImplProxy) GetSupportedPreviewOutputResolutions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "getSupportedPreviewOutputResolutions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAdvancedExtenderImplGetSupportedPreviewOutputResolutions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -221,7 +221,7 @@ func (p *AdvancedExtenderImplProxy) GetSupportedCaptureOutputResolutions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "getSupportedCaptureOutputResolutions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAdvancedExtenderImplGetSupportedCaptureOutputResolutions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -264,7 +264,7 @@ func (p *AdvancedExtenderImplProxy) GetSupportedPostviewResolutions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "getSupportedPostviewResolutions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAdvancedExtenderImplGetSupportedPostviewResolutions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -302,7 +302,7 @@ func (p *AdvancedExtenderImplProxy) GetSessionProcessor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "getSessionProcessor")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAdvancedExtenderImplGetSessionProcessor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -334,7 +334,7 @@ func (p *AdvancedExtenderImplProxy) GetAvailableCaptureRequestKeys(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "getAvailableCaptureRequestKeys")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAdvancedExtenderImplGetAvailableCaptureRequestKeys
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -361,7 +361,7 @@ func (p *AdvancedExtenderImplProxy) GetAvailableCaptureResultKeys(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "getAvailableCaptureResultKeys")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAdvancedExtenderImplGetAvailableCaptureResultKeys
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -386,7 +386,7 @@ func (p *AdvancedExtenderImplProxy) IsCaptureProcessProgressAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "isCaptureProcessProgressAvailable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAdvancedExtenderImplIsCaptureProcessProgressAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -415,7 +415,7 @@ func (p *AdvancedExtenderImplProxy) IsPostviewAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "isPostviewAvailable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAdvancedExtenderImplIsPostviewAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -446,7 +446,7 @@ func (p *AdvancedExtenderImplProxy) GetAvailableCharacteristicsKeyValues(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedExtenderImpl, "getAvailableCharacteristicsKeyValues")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAdvancedExtenderImplGetAvailableCharacteristicsKeyValues
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

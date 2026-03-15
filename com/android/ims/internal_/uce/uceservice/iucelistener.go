@@ -46,7 +46,7 @@ func (p *UceListenerProxy) SetStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUceListener, "setStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIUceListenerSetStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

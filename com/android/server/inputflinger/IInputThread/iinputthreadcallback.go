@@ -44,7 +44,7 @@ func (p *InputThreadCallbackProxy) LoopOnce(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputThreadCallback, "loopOnce")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputThreadCallbackLoopOnce
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

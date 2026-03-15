@@ -45,7 +45,7 @@ func (p *MediaHTTPServiceProxy) MakeHTTPConnection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaHTTPService, "makeHTTPConnection")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaHTTPServiceMakeHTTPConnection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

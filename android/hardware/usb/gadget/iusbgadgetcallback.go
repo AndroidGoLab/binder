@@ -56,7 +56,7 @@ func (p *UsbGadgetCallbackProxy) SetCurrentUsbFunctionsCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUsbGadgetCallback, "setCurrentUsbFunctionsCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIUsbGadgetCallbackSetCurrentUsbFunctionsCb
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -77,7 +77,7 @@ func (p *UsbGadgetCallbackProxy) GetCurrentUsbFunctionsCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUsbGadgetCallback, "getCurrentUsbFunctionsCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIUsbGadgetCallbackGetCurrentUsbFunctionsCb
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -96,7 +96,7 @@ func (p *UsbGadgetCallbackProxy) GetUsbSpeedCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUsbGadgetCallback, "getUsbSpeedCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIUsbGadgetCallbackGetUsbSpeedCb
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -115,7 +115,7 @@ func (p *UsbGadgetCallbackProxy) ResetCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUsbGadgetCallback, "resetCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIUsbGadgetCallbackResetCb
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

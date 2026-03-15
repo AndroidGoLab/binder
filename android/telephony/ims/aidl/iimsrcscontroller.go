@@ -96,7 +96,7 @@ func (p *ImsRcsControllerProxy) RegisterImsRegistrationCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "registerImsRegistrationCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerRegisterImsRegistrationCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -124,7 +124,7 @@ func (p *ImsRcsControllerProxy) UnregisterImsRegistrationCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "unregisterImsRegistrationCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerUnregisterImsRegistrationCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -152,7 +152,7 @@ func (p *ImsRcsControllerProxy) GetImsRcsRegistrationState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "getImsRcsRegistrationState")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerGetImsRcsRegistrationState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -180,7 +180,7 @@ func (p *ImsRcsControllerProxy) GetImsRcsRegistrationTransportType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "getImsRcsRegistrationTransportType")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerGetImsRcsRegistrationTransportType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -208,7 +208,7 @@ func (p *ImsRcsControllerProxy) RegisterRcsAvailabilityCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "registerRcsAvailabilityCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerRegisterRcsAvailabilityCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -236,7 +236,7 @@ func (p *ImsRcsControllerProxy) UnregisterRcsAvailabilityCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "unregisterRcsAvailabilityCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerUnregisterRcsAvailabilityCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -267,7 +267,7 @@ func (p *ImsRcsControllerProxy) IsCapable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "isCapable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsRcsControllerIsCapable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -302,7 +302,7 @@ func (p *ImsRcsControllerProxy) IsAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "isAvailable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsRcsControllerIsAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -348,7 +348,7 @@ func (p *ImsRcsControllerProxy) RequestCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "requestCapabilities")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerRequestCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -384,7 +384,7 @@ func (p *ImsRcsControllerProxy) RequestAvailability(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "requestAvailability")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerRequestAvailability
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -411,7 +411,7 @@ func (p *ImsRcsControllerProxy) GetUcePublishState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "getUcePublishState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsRcsControllerGetUcePublishState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -445,7 +445,7 @@ func (p *ImsRcsControllerProxy) IsUceSettingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "isUceSettingEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsRcsControllerIsUceSettingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -477,7 +477,7 @@ func (p *ImsRcsControllerProxy) SetUceSettingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "setUceSettingEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerSetUceSettingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -505,7 +505,7 @@ func (p *ImsRcsControllerProxy) RegisterUcePublishStateCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "registerUcePublishStateCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerRegisterUcePublishStateCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -533,7 +533,7 @@ func (p *ImsRcsControllerProxy) UnregisterUcePublishStateCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "unregisterUcePublishStateCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerUnregisterUcePublishStateCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -560,7 +560,7 @@ func (p *ImsRcsControllerProxy) IsSipDelegateSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "isSipDelegateSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsRcsControllerIsSipDelegateSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -601,7 +601,7 @@ func (p *ImsRcsControllerProxy) CreateSipDelegate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "createSipDelegate")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerCreateSipDelegate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -631,7 +631,7 @@ func (p *ImsRcsControllerProxy) DestroySipDelegate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "destroySipDelegate")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerDestroySipDelegate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -663,7 +663,7 @@ func (p *ImsRcsControllerProxy) TriggerNetworkRegistration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "triggerNetworkRegistration")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerTriggerNetworkRegistration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -690,7 +690,7 @@ func (p *ImsRcsControllerProxy) RegisterSipDialogStateCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "registerSipDialogStateCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerRegisterSipDialogStateCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -717,7 +717,7 @@ func (p *ImsRcsControllerProxy) UnregisterSipDialogStateCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "unregisterSipDialogStateCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerUnregisterSipDialogStateCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -745,7 +745,7 @@ func (p *ImsRcsControllerProxy) RegisterRcsFeatureCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "registerRcsFeatureCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerRegisterRcsFeatureCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -771,7 +771,7 @@ func (p *ImsRcsControllerProxy) UnregisterImsFeatureCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "unregisterImsFeatureCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRcsControllerUnregisterImsFeatureCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

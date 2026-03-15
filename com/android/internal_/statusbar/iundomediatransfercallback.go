@@ -44,7 +44,7 @@ func (p *UndoMediaTransferCallbackProxy) OnUndoTriggered(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUndoMediaTransferCallback, "onUndoTriggered")
 	if _err != nil {
-		return _err
+		_code = TransactionIUndoMediaTransferCallbackOnUndoTriggered
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

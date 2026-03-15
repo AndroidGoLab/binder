@@ -61,7 +61,7 @@ func (p *RollbackManagerProxy) GetAvailableRollbacks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRollbackManager, "getAvailableRollbacks")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRollbackManagerGetAvailableRollbacks
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -95,7 +95,7 @@ func (p *RollbackManagerProxy) GetRecentlyCommittedRollbacks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRollbackManager, "getRecentlyCommittedRollbacks")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRollbackManagerGetRecentlyCommittedRollbacks
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -142,7 +142,7 @@ func (p *RollbackManagerProxy) CommitRollback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRollbackManager, "commitRollback")
 	if _err != nil {
-		return _err
+		_code = TransactionIRollbackManagerCommitRollback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -185,7 +185,7 @@ func (p *RollbackManagerProxy) SnapshotAndRestoreUserData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRollbackManager, "snapshotAndRestoreUserData")
 	if _err != nil {
-		return _err
+		_code = TransactionIRollbackManagerSnapshotAndRestoreUserData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -209,7 +209,7 @@ func (p *RollbackManagerProxy) ReloadPersistedData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRollbackManager, "reloadPersistedData")
 	if _err != nil {
-		return _err
+		_code = TransactionIRollbackManagerReloadPersistedData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -235,7 +235,7 @@ func (p *RollbackManagerProxy) ExpireRollbackForPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRollbackManager, "expireRollbackForPackage")
 	if _err != nil {
-		return _err
+		_code = TransactionIRollbackManagerExpireRollbackForPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -262,7 +262,7 @@ func (p *RollbackManagerProxy) NotifyStagedSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRollbackManager, "notifyStagedSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRollbackManagerNotifyStagedSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -292,7 +292,7 @@ func (p *RollbackManagerProxy) BlockRollbackManager(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRollbackManager, "blockRollbackManager")
 	if _err != nil {
-		return _err
+		_code = TransactionIRollbackManagerBlockRollbackManager
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

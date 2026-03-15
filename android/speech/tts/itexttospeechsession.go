@@ -44,7 +44,7 @@ func (p *TextToSpeechSessionProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechSession, "disconnect")
 	if _err != nil {
-		return _err
+		_code = TransactionITextToSpeechSessionDisconnect
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

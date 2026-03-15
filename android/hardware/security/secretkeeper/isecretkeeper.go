@@ -60,7 +60,7 @@ func (p *SecretkeeperProxy) GetAuthGraphKe(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecretkeeper, "getAuthGraphKe")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecretkeeperGetAuthGraphKe
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -99,7 +99,7 @@ func (p *SecretkeeperProxy) ProcessSecretManagementRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecretkeeper, "processSecretManagementRequest")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecretkeeperProcessSecretManagementRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -148,7 +148,7 @@ func (p *SecretkeeperProxy) DeleteIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecretkeeper, "deleteIds")
 	if _err != nil {
-		return _err
+		_code = TransactionISecretkeeperDeleteIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -172,7 +172,7 @@ func (p *SecretkeeperProxy) DeleteAll(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecretkeeper, "deleteAll")
 	if _err != nil {
-		return _err
+		_code = TransactionISecretkeeperDeleteAll
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -197,7 +197,7 @@ func (p *SecretkeeperProxy) GetSecretkeeperIdentity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecretkeeper, "getSecretkeeperIdentity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecretkeeperGetSecretkeeperIdentity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

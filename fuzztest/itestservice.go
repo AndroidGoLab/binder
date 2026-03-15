@@ -47,7 +47,7 @@ func (p *TestServiceProxy) RepeatData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestService, "repeatData")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITestServiceRepeatData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

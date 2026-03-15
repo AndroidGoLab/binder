@@ -52,7 +52,7 @@ func (p *InterfaceEventCallbackProxy) OnClientInterfaceReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInterfaceEventCallback, "OnClientInterfaceReady")
 	if _err != nil {
-		return _err
+		_code = TransactionIInterfaceEventCallbackOnClientInterfaceReady
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *InterfaceEventCallbackProxy) OnApInterfaceReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInterfaceEventCallback, "OnApInterfaceReady")
 	if _err != nil {
-		return _err
+		_code = TransactionIInterfaceEventCallbackOnApInterfaceReady
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -86,7 +86,7 @@ func (p *InterfaceEventCallbackProxy) OnClientTorndownEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInterfaceEventCallback, "OnClientTorndownEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIInterfaceEventCallbackOnClientTorndownEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -103,7 +103,7 @@ func (p *InterfaceEventCallbackProxy) OnApTorndownEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInterfaceEventCallback, "OnApTorndownEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIInterfaceEventCallbackOnApTorndownEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

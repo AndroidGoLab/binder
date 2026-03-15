@@ -55,7 +55,7 @@ func (p *FillCallbackProxy) OnCancellable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFillCallback, "onCancellable")
 	if _err != nil {
-		return _err
+		_code = TransactionIFillCallbackOnCancellable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -100,7 +100,7 @@ func (p *FillCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFillCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIFillCallbackOnSuccess
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -125,7 +125,7 @@ func (p *FillCallbackProxy) IsCompleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFillCallback, "isCompleted")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFillCallbackIsCompleted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -153,7 +153,7 @@ func (p *FillCallbackProxy) Cancel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFillCallback, "cancel")
 	if _err != nil {
-		return _err
+		_code = TransactionIFillCallbackCancel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

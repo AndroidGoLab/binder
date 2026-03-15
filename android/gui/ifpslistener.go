@@ -46,7 +46,7 @@ func (p *FpsListenerProxy) OnFpsReported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFpsListener, "onFpsReported")
 	if _err != nil {
-		return _err
+		_code = TransactionIFpsListenerOnFpsReported
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -53,7 +53,7 @@ func (p *AudioFlingerClientProxy) IoConfigChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioFlingerClient, "ioConfigChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioFlingerClientIoConfigChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -76,7 +76,7 @@ func (p *AudioFlingerClientProxy) OnSupportedLatencyModesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioFlingerClient, "onSupportedLatencyModesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioFlingerClientOnSupportedLatencyModesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

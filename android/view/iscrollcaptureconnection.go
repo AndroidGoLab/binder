@@ -55,7 +55,7 @@ func (p *ScrollCaptureConnectionProxy) StartCapture(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScrollCaptureConnection, "startCapture")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIScrollCaptureConnectionStartCapture
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -85,7 +85,7 @@ func (p *ScrollCaptureConnectionProxy) RequestImage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScrollCaptureConnection, "requestImage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIScrollCaptureConnectionRequestImage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -110,7 +110,7 @@ func (p *ScrollCaptureConnectionProxy) EndCapture(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScrollCaptureConnection, "endCapture")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIScrollCaptureConnectionEndCapture
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -134,7 +134,7 @@ func (p *ScrollCaptureConnectionProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScrollCaptureConnection, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIScrollCaptureConnectionClose
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

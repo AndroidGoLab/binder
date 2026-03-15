@@ -56,7 +56,7 @@ func (p *DesktopTaskListenerProxy) OnTasksVisibilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDesktopTaskListener, "onTasksVisibilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDesktopTaskListenerOnTasksVisibilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -75,7 +75,7 @@ func (p *DesktopTaskListenerProxy) OnStashedChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDesktopTaskListener, "onStashedChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDesktopTaskListenerOnStashedChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *DesktopTaskListenerProxy) OnTaskbarCornerRoundingUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDesktopTaskListener, "onTaskbarCornerRoundingUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIDesktopTaskListenerOnTaskbarCornerRoundingUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *DesktopTaskListenerProxy) OnEnterDesktopModeTransitionStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDesktopTaskListener, "onEnterDesktopModeTransitionStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIDesktopTaskListenerOnEnterDesktopModeTransitionStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -126,7 +126,7 @@ func (p *DesktopTaskListenerProxy) OnExitDesktopModeTransitionStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDesktopTaskListener, "onExitDesktopModeTransitionStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIDesktopTaskListenerOnExitDesktopModeTransitionStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

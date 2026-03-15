@@ -50,7 +50,7 @@ func (p *SmartspaceCallbackProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceCallback, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionISmartspaceCallbackOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

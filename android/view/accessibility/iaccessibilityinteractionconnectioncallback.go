@@ -61,7 +61,7 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SetFindAccessibilityNo
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnectionCallback, "setFindAccessibilityNodeInfoResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityInteractionConnectionCallbackSetFindAccessibilityNodeInfoResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -89,7 +89,7 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SetFindAccessibilityNo
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnectionCallback, "setFindAccessibilityNodeInfosResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityInteractionConnectionCallbackSetFindAccessibilityNodeInfosResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -117,7 +117,7 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SetPrefetchAccessibili
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnectionCallback, "setPrefetchAccessibilityNodeInfoResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityInteractionConnectionCallbackSetPrefetchAccessibilityNodeInfoResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -136,7 +136,7 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SetPerformAccessibilit
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnectionCallback, "setPerformAccessibilityActionResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityInteractionConnectionCallbackSetPerformAccessibilityActionResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -155,7 +155,7 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SendTakeScreenshotOfWi
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnectionCallback, "sendTakeScreenshotOfWindowError")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityInteractionConnectionCallbackSendTakeScreenshotOfWindowError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -174,7 +174,7 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SendAttachOverlayResul
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnectionCallback, "sendAttachOverlayResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityInteractionConnectionCallbackSendAttachOverlayResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -52,7 +52,7 @@ func (p *KeyguardCallbackProxy) OnRemoteContentReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardCallback, "onRemoteContentReady")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardCallbackOnRemoteContentReady
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *KeyguardCallbackProxy) OnDismiss(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardCallback, "onDismiss")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardCallbackOnDismiss
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -45,7 +45,7 @@ func (p *SecurityStateManagerProxy) GetGlobalSecurityState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecurityStateManager, "getGlobalSecurityState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecurityStateManagerGetGlobalSecurityState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

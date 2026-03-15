@@ -60,7 +60,7 @@ func (p *BluetoothMetadataListenerProxy) OnMetadataChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothMetadataListener, "onMetadataChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothMetadataListenerOnMetadataChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

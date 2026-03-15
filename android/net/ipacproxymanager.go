@@ -50,7 +50,7 @@ func (p *PacProxyManagerProxy) AddListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPacProxyManager, "addListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIPacProxyManagerAddListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -76,7 +76,7 @@ func (p *PacProxyManagerProxy) RemoveListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPacProxyManager, "removeListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIPacProxyManagerRemoveListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -101,7 +101,7 @@ func (p *PacProxyManagerProxy) SetCurrentProxyScriptUrl(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPacProxyManager, "setCurrentProxyScriptUrl")
 	if _err != nil {
-		return _err
+		_code = TransactionIPacProxyManagerSetCurrentProxyScriptUrl
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

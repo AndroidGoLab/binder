@@ -48,7 +48,7 @@ func (p *VirtualDeviceListenerProxy) OnVirtualDeviceCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceListener, "onVirtualDeviceCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualDeviceListenerOnVirtualDeviceCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *VirtualDeviceListenerProxy) OnVirtualDeviceClosed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceListener, "onVirtualDeviceClosed")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualDeviceListenerOnVirtualDeviceClosed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

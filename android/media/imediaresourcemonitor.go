@@ -48,7 +48,7 @@ func (p *MediaResourceMonitorProxy) NotifyResourceGranted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaResourceMonitor, "notifyResourceGranted")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaResourceMonitorNotifyResourceGranted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

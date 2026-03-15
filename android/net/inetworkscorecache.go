@@ -57,7 +57,7 @@ func (p *NetworkScoreCacheProxy) UpdateScores(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreCache, "updateScores")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkScoreCacheUpdateScores
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -72,7 +72,7 @@ func (p *NetworkScoreCacheProxy) ClearScores(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkScoreCache, "clearScores")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkScoreCacheClearScores
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

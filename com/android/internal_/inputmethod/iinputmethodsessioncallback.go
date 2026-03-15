@@ -46,7 +46,7 @@ func (p *InputMethodSessionCallbackProxy) SessionCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSessionCallback, "sessionCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodSessionCallbackSessionCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

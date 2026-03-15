@@ -85,7 +85,7 @@ func (p *GnssCallbackProxy) GnssSetCapabilitiesCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssCallback, "gnssSetCapabilitiesCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssCallbackGnssSetCapabilitiesCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -110,7 +110,7 @@ func (p *GnssCallbackProxy) GnssStatusCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssCallback, "gnssStatusCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssCallbackGnssStatusCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -140,7 +140,7 @@ func (p *GnssCallbackProxy) GnssSvStatusCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssCallback, "gnssSvStatusCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssCallbackGnssSvStatusCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -169,7 +169,7 @@ func (p *GnssCallbackProxy) GnssLocationCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssCallback, "gnssLocationCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssCallbackGnssLocationCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -197,7 +197,7 @@ func (p *GnssCallbackProxy) GnssNmeaCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssCallback, "gnssNmeaCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssCallbackGnssNmeaCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -221,7 +221,7 @@ func (p *GnssCallbackProxy) GnssAcquireWakelockCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssCallback, "gnssAcquireWakelockCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssCallbackGnssAcquireWakelockCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -245,7 +245,7 @@ func (p *GnssCallbackProxy) GnssReleaseWakelockCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssCallback, "gnssReleaseWakelockCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssCallbackGnssReleaseWakelockCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -270,7 +270,7 @@ func (p *GnssCallbackProxy) GnssSetSystemInfoCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssCallback, "gnssSetSystemInfoCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssCallbackGnssSetSystemInfoCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -294,7 +294,7 @@ func (p *GnssCallbackProxy) GnssRequestTimeCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssCallback, "gnssRequestTimeCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssCallbackGnssRequestTimeCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -322,7 +322,7 @@ func (p *GnssCallbackProxy) GnssRequestLocationCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssCallback, "gnssRequestLocationCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssCallbackGnssRequestLocationCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -357,7 +357,7 @@ func (p *GnssCallbackProxy) GnssSetSignalTypeCapabilitiesCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssCallback, "gnssSetSignalTypeCapabilitiesCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssCallbackGnssSetSignalTypeCapabilitiesCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

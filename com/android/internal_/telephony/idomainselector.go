@@ -52,7 +52,7 @@ func (p *DomainSelectorProxy) ReselectDomain(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDomainSelector, "reselectDomain")
 	if _err != nil {
-		return _err
+		_code = TransactionIDomainSelectorReselectDomain
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *DomainSelectorProxy) FinishSelection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDomainSelector, "finishSelection")
 	if _err != nil {
-		return _err
+		_code = TransactionIDomainSelectorFinishSelection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

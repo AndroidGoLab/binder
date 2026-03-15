@@ -48,7 +48,7 @@ func (p *ImsStateCallbackProxy) OnUnavailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsStateCallback, "onUnavailable")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsStateCallbackOnUnavailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *ImsStateCallbackProxy) OnAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsStateCallback, "onAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsStateCallbackOnAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

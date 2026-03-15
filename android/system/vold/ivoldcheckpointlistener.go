@@ -44,7 +44,7 @@ func (p *VoldCheckpointListenerProxy) OnCheckpointingComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoldCheckpointListener, "onCheckpointingComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoldCheckpointListenerOnCheckpointingComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

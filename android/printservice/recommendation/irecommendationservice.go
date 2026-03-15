@@ -46,7 +46,7 @@ func (p *RecommendationServiceProxy) RegisterCallbacks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecommendationService, "registerCallbacks")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecommendationServiceRegisterCallbacks
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

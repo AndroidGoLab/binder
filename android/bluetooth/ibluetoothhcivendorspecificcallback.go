@@ -52,7 +52,7 @@ func (p *BluetoothHciVendorSpecificCallbackProxy) OnCommandStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHciVendorSpecificCallback, "onCommandStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHciVendorSpecificCallbackOnCommandStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *BluetoothHciVendorSpecificCallbackProxy) OnCommandComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHciVendorSpecificCallback, "onCommandComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHciVendorSpecificCallbackOnCommandComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -104,7 +104,7 @@ func (p *BluetoothHciVendorSpecificCallbackProxy) OnEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHciVendorSpecificCallback, "onEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHciVendorSpecificCallbackOnEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

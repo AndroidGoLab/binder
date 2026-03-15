@@ -78,7 +78,7 @@ func (p *PersistentDataBlockServiceProxy) Write(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "write")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPersistentDataBlockServiceWrite
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -107,7 +107,7 @@ func (p *PersistentDataBlockServiceProxy) Read(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "read")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPersistentDataBlockServiceRead
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -145,7 +145,7 @@ func (p *PersistentDataBlockServiceProxy) Wipe(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "wipe")
 	if _err != nil {
-		return _err
+		_code = TransactionIPersistentDataBlockServiceWipe
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -170,7 +170,7 @@ func (p *PersistentDataBlockServiceProxy) GetDataBlockSize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "getDataBlockSize")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPersistentDataBlockServiceGetDataBlockSize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -199,7 +199,7 @@ func (p *PersistentDataBlockServiceProxy) GetMaximumDataBlockSize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "getMaximumDataBlockSize")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPersistentDataBlockServiceGetMaximumDataBlockSize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -229,7 +229,7 @@ func (p *PersistentDataBlockServiceProxy) SetOemUnlockEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "setOemUnlockEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIPersistentDataBlockServiceSetOemUnlockEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -254,7 +254,7 @@ func (p *PersistentDataBlockServiceProxy) GetOemUnlockEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "getOemUnlockEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPersistentDataBlockServiceGetOemUnlockEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -283,7 +283,7 @@ func (p *PersistentDataBlockServiceProxy) GetFlashLockState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "getFlashLockState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPersistentDataBlockServiceGetFlashLockState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -312,7 +312,7 @@ func (p *PersistentDataBlockServiceProxy) HasFrpCredentialHandle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "hasFrpCredentialHandle")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPersistentDataBlockServiceHasFrpCredentialHandle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -341,7 +341,7 @@ func (p *PersistentDataBlockServiceProxy) GetPersistentDataPackageName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "getPersistentDataPackageName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPersistentDataBlockServiceGetPersistentDataPackageName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -370,7 +370,7 @@ func (p *PersistentDataBlockServiceProxy) IsFactoryResetProtectionActive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "isFactoryResetProtectionActive")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPersistentDataBlockServiceIsFactoryResetProtectionActive
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -408,7 +408,7 @@ func (p *PersistentDataBlockServiceProxy) DeactivateFactoryResetProtection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "deactivateFactoryResetProtection")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPersistentDataBlockServiceDeactivateFactoryResetProtection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -446,7 +446,7 @@ func (p *PersistentDataBlockServiceProxy) SetFactoryResetProtectionSecret(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPersistentDataBlockService, "setFactoryResetProtectionSecret")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPersistentDataBlockServiceSetFactoryResetProtectionSecret
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

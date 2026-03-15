@@ -47,7 +47,7 @@ func (p *MediaScannerListenerProxy) ScanCompleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaScannerListener, "scanCompleted")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaScannerListenerScanCompleted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

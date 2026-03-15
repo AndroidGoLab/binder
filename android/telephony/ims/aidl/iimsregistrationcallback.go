@@ -61,7 +61,7 @@ func (p *ImsRegistrationCallbackProxy) OnRegistered(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onRegistered")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationCallbackOnRegistered
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -81,7 +81,7 @@ func (p *ImsRegistrationCallbackProxy) OnRegistering(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onRegistering")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationCallbackOnRegistering
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -105,7 +105,7 @@ func (p *ImsRegistrationCallbackProxy) OnDeregistered(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onDeregistered")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationCallbackOnDeregistered
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -134,7 +134,7 @@ func (p *ImsRegistrationCallbackProxy) OnDeregisteredWithDetails(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onDeregisteredWithDetails")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationCallbackOnDeregisteredWithDetails
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -156,7 +156,7 @@ func (p *ImsRegistrationCallbackProxy) OnTechnologyChangeFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onTechnologyChangeFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationCallbackOnTechnologyChangeFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -182,7 +182,7 @@ func (p *ImsRegistrationCallbackProxy) OnSubscriberAssociatedUriChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationCallback, "onSubscriberAssociatedUriChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationCallbackOnSubscriberAssociatedUriChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

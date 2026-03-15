@@ -46,7 +46,7 @@ func (p *WificondEventCallbackProxy) OnRegDomainChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificondEventCallback, "OnRegDomainChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIWificondEventCallbackOnRegDomainChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -52,7 +52,7 @@ func (p *ContentProtectionServiceProxy) OnLoginDetected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentProtectionService, "onLoginDetected")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentProtectionServiceOnLoginDetected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *ContentProtectionServiceProxy) OnUpdateAllowlistRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentProtectionService, "onUpdateAllowlistRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentProtectionServiceOnUpdateAllowlistRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

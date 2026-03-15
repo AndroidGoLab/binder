@@ -48,7 +48,7 @@ func (p *WalletContextualLocationsServiceProxy) AddWalletCardsUpdatedListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWalletContextualLocationsService, "addWalletCardsUpdatedListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIWalletContextualLocationsServiceAddWalletCardsUpdatedListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -81,7 +81,7 @@ func (p *WalletContextualLocationsServiceProxy) OnWalletContextualLocationsState
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWalletContextualLocationsService, "onWalletContextualLocationsStateUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIWalletContextualLocationsServiceOnWalletContextualLocationsStateUpdated
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

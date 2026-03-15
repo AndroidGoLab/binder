@@ -48,7 +48,7 @@ func (p *SatelliteProvisionStateCallbackProxy) OnSatelliteProvisionStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteProvisionStateCallback, "onSatelliteProvisionStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteProvisionStateCallbackOnSatelliteProvisionStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -74,7 +74,7 @@ func (p *SatelliteProvisionStateCallbackProxy) OnSatelliteSubscriptionProvisionS
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteProvisionStateCallback, "onSatelliteSubscriptionProvisionStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteProvisionStateCallbackOnSatelliteSubscriptionProvisionStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -59,7 +59,7 @@ func (p *ContextHubTransactionCallbackProxy) OnQueryResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubTransactionCallback, "onQueryResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubTransactionCallbackOnQueryResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -76,7 +76,7 @@ func (p *ContextHubTransactionCallbackProxy) OnTransactionComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubTransactionCallback, "onTransactionComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubTransactionCallbackOnTransactionComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

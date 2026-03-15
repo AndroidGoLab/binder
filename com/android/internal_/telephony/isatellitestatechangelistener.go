@@ -46,7 +46,7 @@ func (p *SatelliteStateChangeListenerProxy) OnSatelliteEnabledStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteStateChangeListener, "onSatelliteEnabledStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteStateChangeListenerOnSatelliteEnabledStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

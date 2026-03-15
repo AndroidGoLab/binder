@@ -57,7 +57,7 @@ func (p *AugmentedAutofillServiceProxy) OnConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillService, "onConnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIAugmentedAutofillServiceOnConnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -72,7 +72,7 @@ func (p *AugmentedAutofillServiceProxy) OnDisconnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillService, "onDisconnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIAugmentedAutofillServiceOnDisconnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -117,7 +117,7 @@ func (p *AugmentedAutofillServiceProxy) OnFillRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillService, "onFillRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIAugmentedAutofillServiceOnFillRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -132,7 +132,7 @@ func (p *AugmentedAutofillServiceProxy) OnDestroyAllFillWindowsRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillService, "onDestroyAllFillWindowsRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIAugmentedAutofillServiceOnDestroyAllFillWindowsRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

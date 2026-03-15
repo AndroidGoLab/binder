@@ -58,7 +58,7 @@ func (p *EphemeralResolverProxy) GetEphemeralResolveInfoList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEphemeralResolver, "getEphemeralResolveInfoList")
 	if _err != nil {
-		return _err
+		_code = TransactionIEphemeralResolverGetEphemeralResolveInfoList
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *EphemeralResolverProxy) GetEphemeralIntentFilterList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEphemeralResolver, "getEphemeralIntentFilterList")
 	if _err != nil {
-		return _err
+		_code = TransactionIEphemeralResolverGetEphemeralIntentFilterList
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

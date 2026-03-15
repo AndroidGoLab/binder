@@ -44,7 +44,7 @@ func (p *ScreenCaptureObserverProxy) OnScreenCaptured(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScreenCaptureObserver, "onScreenCaptured")
 	if _err != nil {
-		return _err
+		_code = TransactionIScreenCaptureObserverOnScreenCaptured
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

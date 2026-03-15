@@ -61,7 +61,7 @@ func (p *BluetoothHciCallbacksProxy) AclDataReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHciCallbacks, "aclDataReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHciCallbacksAclDataReceived
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -94,7 +94,7 @@ func (p *BluetoothHciCallbacksProxy) HciEventReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHciCallbacks, "hciEventReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHciCallbacksHciEventReceived
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -120,7 +120,7 @@ func (p *BluetoothHciCallbacksProxy) InitializationComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHciCallbacks, "initializationComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHciCallbacksInitializationComplete
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -153,7 +153,7 @@ func (p *BluetoothHciCallbacksProxy) IsoDataReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHciCallbacks, "isoDataReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHciCallbacksIsoDataReceived
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -186,7 +186,7 @@ func (p *BluetoothHciCallbacksProxy) ScoDataReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHciCallbacks, "scoDataReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHciCallbacksScoDataReceived
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -71,7 +71,7 @@ func (p *BiometricAuthenticatorProxy) CreateTestSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricAuthenticator, "createTestSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBiometricAuthenticatorCreateTestSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -103,7 +103,7 @@ func (p *BiometricAuthenticatorProxy) GetSensorProperties(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricAuthenticator, "getSensorProperties")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBiometricAuthenticatorGetSensorProperties
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -139,7 +139,7 @@ func (p *BiometricAuthenticatorProxy) DumpSensorServiceStateProto(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricAuthenticator, "dumpSensorServiceStateProto")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBiometricAuthenticatorDumpSensorServiceStateProto
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -198,7 +198,7 @@ func (p *BiometricAuthenticatorProxy) PrepareForAuthentication(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricAuthenticator, "prepareForAuthentication")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricAuthenticatorPrepareForAuthentication
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -224,7 +224,7 @@ func (p *BiometricAuthenticatorProxy) StartPreparedClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricAuthenticator, "startPreparedClient")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricAuthenticatorStartPreparedClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -254,7 +254,7 @@ func (p *BiometricAuthenticatorProxy) CancelAuthenticationFromService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricAuthenticator, "cancelAuthenticationFromService")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricAuthenticatorCancelAuthenticationFromService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -281,7 +281,7 @@ func (p *BiometricAuthenticatorProxy) IsHardwareDetected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricAuthenticator, "isHardwareDetected")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBiometricAuthenticatorIsHardwareDetected
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -313,7 +313,7 @@ func (p *BiometricAuthenticatorProxy) HasEnrolledTemplates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricAuthenticator, "hasEnrolledTemplates")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBiometricAuthenticatorHasEnrolledTemplates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -344,7 +344,7 @@ func (p *BiometricAuthenticatorProxy) GetLockoutModeForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricAuthenticator, "getLockoutModeForUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBiometricAuthenticatorGetLockoutModeForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -376,7 +376,7 @@ func (p *BiometricAuthenticatorProxy) InvalidateAuthenticatorId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricAuthenticator, "invalidateAuthenticatorId")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricAuthenticatorInvalidateAuthenticatorId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -403,7 +403,7 @@ func (p *BiometricAuthenticatorProxy) GetAuthenticatorId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricAuthenticator, "getAuthenticatorId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBiometricAuthenticatorGetAuthenticatorId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -445,7 +445,7 @@ func (p *BiometricAuthenticatorProxy) ResetLockout(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricAuthenticator, "resetLockout")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricAuthenticatorResetLockout
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

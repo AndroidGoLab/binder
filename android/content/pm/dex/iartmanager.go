@@ -56,7 +56,7 @@ func (p *ArtManagerProxy) SnapshotRuntimeProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIArtManager, "snapshotRuntimeProfile")
 	if _err != nil {
-		return _err
+		_code = TransactionIArtManagerSnapshotRuntimeProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -85,7 +85,7 @@ func (p *ArtManagerProxy) IsRuntimeProfilingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIArtManager, "isRuntimeProfilingEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIArtManagerIsRuntimeProfilingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

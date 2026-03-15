@@ -54,7 +54,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnNetworkEapIdentityRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onNetworkEapIdentityRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkCallbackOnNetworkEapIdentityRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -74,7 +74,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnNetworkEapSimGsmAuthRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onNetworkEapSimGsmAuthRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkCallbackOnNetworkEapSimGsmAuthRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -94,7 +94,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnNetworkEapSimUmtsAuthRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onNetworkEapSimUmtsAuthRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkCallbackOnNetworkEapSimUmtsAuthRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -111,7 +111,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnTransitionDisable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onTransitionDisable")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkCallbackOnTransitionDisable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -155,7 +155,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnServerCertificateAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onServerCertificateAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkCallbackOnServerCertificateAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -170,7 +170,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnPermanentIdReqDenied(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaNetworkCallback, "onPermanentIdReqDenied")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaNetworkCallbackOnPermanentIdReqDenied
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

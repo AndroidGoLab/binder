@@ -52,7 +52,7 @@ func (p *SharedSecretProxy) GetSharedSecretParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISharedSecret, "getSharedSecretParameters")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISharedSecretGetSharedSecretParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -97,7 +97,7 @@ func (p *SharedSecretProxy) ComputeSharedSecret(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISharedSecret, "computeSharedSecret")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISharedSecretComputeSharedSecret
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

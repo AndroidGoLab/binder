@@ -126,7 +126,7 @@ func (p *MediaRouterServiceProxy) RegisterClientAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "registerClientAsUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceRegisterClientAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -152,7 +152,7 @@ func (p *MediaRouterServiceProxy) UnregisterClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "unregisterClient")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceUnregisterClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -180,7 +180,7 @@ func (p *MediaRouterServiceProxy) RegisterClientGroupId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "registerClientGroupId")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceRegisterClientGroupId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -207,7 +207,7 @@ func (p *MediaRouterServiceProxy) GetState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "getState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaRouterServiceGetState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -243,7 +243,7 @@ func (p *MediaRouterServiceProxy) IsPlaybackActive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "isPlaybackActive")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaRouterServiceIsPlaybackActive
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -275,7 +275,7 @@ func (p *MediaRouterServiceProxy) SetBluetoothA2dpOn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "setBluetoothA2dpOn")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceSetBluetoothA2dpOn
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -305,7 +305,7 @@ func (p *MediaRouterServiceProxy) SetDiscoveryRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "setDiscoveryRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceSetDiscoveryRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -335,7 +335,7 @@ func (p *MediaRouterServiceProxy) SetSelectedRoute(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "setSelectedRoute")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceSetSelectedRoute
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -365,7 +365,7 @@ func (p *MediaRouterServiceProxy) RequestSetVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "requestSetVolume")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceRequestSetVolume
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -395,7 +395,7 @@ func (p *MediaRouterServiceProxy) RequestUpdateVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "requestUpdateVolume")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceRequestUpdateVolume
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -424,7 +424,7 @@ func (p *MediaRouterServiceProxy) GetSystemRoutes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "getSystemRoutes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaRouterServiceGetSystemRoutes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -462,7 +462,7 @@ func (p *MediaRouterServiceProxy) GetSystemSessionInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "getSystemSessionInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaRouterServiceGetSystemSessionInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -498,7 +498,7 @@ func (p *MediaRouterServiceProxy) ShowMediaOutputSwitcherWithRouter2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "showMediaOutputSwitcherWithRouter2")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaRouterServiceShowMediaOutputSwitcherWithRouter2
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -530,7 +530,7 @@ func (p *MediaRouterServiceProxy) RegisterRouter2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "registerRouter2")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceRegisterRouter2
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -556,7 +556,7 @@ func (p *MediaRouterServiceProxy) UnregisterRouter2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "unregisterRouter2")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceUnregisterRouter2
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -584,7 +584,7 @@ func (p *MediaRouterServiceProxy) UpdateScanningStateWithRouter2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "updateScanningStateWithRouter2")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceUpdateScanningStateWithRouter2
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -615,7 +615,7 @@ func (p *MediaRouterServiceProxy) SetDiscoveryRequestWithRouter2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "setDiscoveryRequestWithRouter2")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceSetDiscoveryRequestWithRouter2
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -649,7 +649,7 @@ func (p *MediaRouterServiceProxy) SetRouteListingPreference(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "setRouteListingPreference")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceSetRouteListingPreference
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -682,7 +682,7 @@ func (p *MediaRouterServiceProxy) SetRouteVolumeWithRouter2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "setRouteVolumeWithRouter2")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceSetRouteVolumeWithRouter2
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -723,7 +723,7 @@ func (p *MediaRouterServiceProxy) RequestCreateSessionWithRouter2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "requestCreateSessionWithRouter2")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceRequestCreateSessionWithRouter2
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -756,7 +756,7 @@ func (p *MediaRouterServiceProxy) SelectRouteWithRouter2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "selectRouteWithRouter2")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceSelectRouteWithRouter2
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -789,7 +789,7 @@ func (p *MediaRouterServiceProxy) DeselectRouteWithRouter2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "deselectRouteWithRouter2")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceDeselectRouteWithRouter2
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -822,7 +822,7 @@ func (p *MediaRouterServiceProxy) TransferToRouteWithRouter2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "transferToRouteWithRouter2")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceTransferToRouteWithRouter2
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -852,7 +852,7 @@ func (p *MediaRouterServiceProxy) SetSessionVolumeWithRouter2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "setSessionVolumeWithRouter2")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceSetSessionVolumeWithRouter2
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -880,7 +880,7 @@ func (p *MediaRouterServiceProxy) ReleaseSessionWithRouter2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "releaseSessionWithRouter2")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceReleaseSessionWithRouter2
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -907,7 +907,7 @@ func (p *MediaRouterServiceProxy) GetRemoteSessions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "getRemoteSessions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaRouterServiceGetRemoteSessions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -949,7 +949,7 @@ func (p *MediaRouterServiceProxy) GetSystemSessionInfoForPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "getSystemSessionInfoForPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaRouterServiceGetSystemSessionInfoForPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -986,7 +986,7 @@ func (p *MediaRouterServiceProxy) RegisterManager(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "registerManager")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceRegisterManager
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1017,7 +1017,7 @@ func (p *MediaRouterServiceProxy) RegisterProxyRouter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "registerProxyRouter")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceRegisterProxyRouter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1043,7 +1043,7 @@ func (p *MediaRouterServiceProxy) UnregisterManager(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "unregisterManager")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceUnregisterManager
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1078,7 +1078,7 @@ func (p *MediaRouterServiceProxy) SetRouteVolumeWithManager(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "setRouteVolumeWithManager")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceSetRouteVolumeWithManager
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1106,7 +1106,7 @@ func (p *MediaRouterServiceProxy) UpdateScanningState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "updateScanningState")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceUpdateScanningState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1147,7 +1147,7 @@ func (p *MediaRouterServiceProxy) RequestCreateSessionWithManager(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "requestCreateSessionWithManager")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceRequestCreateSessionWithManager
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1182,7 +1182,7 @@ func (p *MediaRouterServiceProxy) SelectRouteWithManager(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "selectRouteWithManager")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceSelectRouteWithManager
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1217,7 +1217,7 @@ func (p *MediaRouterServiceProxy) DeselectRouteWithManager(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "deselectRouteWithManager")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceDeselectRouteWithManager
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1255,7 +1255,7 @@ func (p *MediaRouterServiceProxy) TransferToRouteWithManager(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "transferToRouteWithManager")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceTransferToRouteWithManager
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1287,7 +1287,7 @@ func (p *MediaRouterServiceProxy) SetSessionVolumeWithManager(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "setSessionVolumeWithManager")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceSetSessionVolumeWithManager
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1317,7 +1317,7 @@ func (p *MediaRouterServiceProxy) ReleaseSessionWithManager(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "releaseSessionWithManager")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterServiceReleaseSessionWithManager
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1344,7 +1344,7 @@ func (p *MediaRouterServiceProxy) ShowMediaOutputSwitcherWithProxyRouter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterService, "showMediaOutputSwitcherWithProxyRouter")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaRouterServiceShowMediaOutputSwitcherWithProxyRouter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

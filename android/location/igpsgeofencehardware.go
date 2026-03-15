@@ -53,7 +53,7 @@ func (p *GpsGeofenceHardwareProxy) IsHardwareGeofenceSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGpsGeofenceHardware, "isHardwareGeofenceSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGpsGeofenceHardwareIsHardwareGeofenceSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -98,7 +98,7 @@ func (p *GpsGeofenceHardwareProxy) AddCircularHardwareGeofence(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGpsGeofenceHardware, "addCircularHardwareGeofence")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGpsGeofenceHardwareAddCircularHardwareGeofence
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -129,7 +129,7 @@ func (p *GpsGeofenceHardwareProxy) RemoveHardwareGeofence(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGpsGeofenceHardware, "removeHardwareGeofence")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGpsGeofenceHardwareRemoveHardwareGeofence
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -160,7 +160,7 @@ func (p *GpsGeofenceHardwareProxy) PauseHardwareGeofence(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGpsGeofenceHardware, "pauseHardwareGeofence")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGpsGeofenceHardwarePauseHardwareGeofence
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -193,7 +193,7 @@ func (p *GpsGeofenceHardwareProxy) ResumeHardwareGeofence(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGpsGeofenceHardware, "resumeHardwareGeofence")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGpsGeofenceHardwareResumeHardwareGeofence
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

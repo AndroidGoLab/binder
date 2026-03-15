@@ -52,7 +52,7 @@ func (p *CameraProviderCallbackProxy) CameraDeviceStatusChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraProviderCallback, "cameraDeviceStatusChange")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraProviderCallbackCameraDeviceStatusChange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -80,7 +80,7 @@ func (p *CameraProviderCallbackProxy) TorchModeStatusChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraProviderCallback, "torchModeStatusChange")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraProviderCallbackTorchModeStatusChange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -109,7 +109,7 @@ func (p *CameraProviderCallbackProxy) PhysicalCameraDeviceStatusChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraProviderCallback, "physicalCameraDeviceStatusChange")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraProviderCallbackPhysicalCameraDeviceStatusChange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

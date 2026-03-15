@@ -61,7 +61,7 @@ func (p *TaskFragmentOrganizerControllerProxy) RegisterOrganizer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizerController, "registerOrganizer")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskFragmentOrganizerControllerRegisterOrganizer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -87,7 +87,7 @@ func (p *TaskFragmentOrganizerControllerProxy) UnregisterOrganizer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizerController, "unregisterOrganizer")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskFragmentOrganizerControllerUnregisterOrganizer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -114,7 +114,7 @@ func (p *TaskFragmentOrganizerControllerProxy) RegisterRemoteAnimations(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizerController, "registerRemoteAnimations")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskFragmentOrganizerControllerRegisterRemoteAnimations
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -140,7 +140,7 @@ func (p *TaskFragmentOrganizerControllerProxy) UnregisterRemoteAnimations(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizerController, "unregisterRemoteAnimations")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskFragmentOrganizerControllerUnregisterRemoteAnimations
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -167,7 +167,7 @@ func (p *TaskFragmentOrganizerControllerProxy) SetSavedState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizerController, "setSavedState")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskFragmentOrganizerControllerSetSavedState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -202,7 +202,7 @@ func (p *TaskFragmentOrganizerControllerProxy) OnTransactionHandled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizerController, "onTransactionHandled")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskFragmentOrganizerControllerOnTransactionHandled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -240,7 +240,7 @@ func (p *TaskFragmentOrganizerControllerProxy) ApplyTransaction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizerController, "applyTransaction")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskFragmentOrganizerControllerApplyTransaction
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

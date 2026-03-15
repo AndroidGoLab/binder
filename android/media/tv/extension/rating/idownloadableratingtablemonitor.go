@@ -46,7 +46,7 @@ func (p *DownloadableRatingTableMonitorProxy) GetTable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDownloadableRatingTableMonitor, "getTable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDownloadableRatingTableMonitorGetTable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

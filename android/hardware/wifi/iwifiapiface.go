@@ -57,7 +57,7 @@ func (p *WifiApIfaceProxy) GetName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiApIface, "getName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiApIfaceGetName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -86,7 +86,7 @@ func (p *WifiApIfaceProxy) GetBridgedInstances(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiApIface, "getBridgedInstances")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiApIfaceGetBridgedInstances
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -125,7 +125,7 @@ func (p *WifiApIfaceProxy) GetFactoryMacAddress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiApIface, "getFactoryMacAddress")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiApIfaceGetFactoryMacAddress
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -172,7 +172,7 @@ func (p *WifiApIfaceProxy) SetCountryCode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiApIface, "setCountryCode")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiApIfaceSetCountryCode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -196,7 +196,7 @@ func (p *WifiApIfaceProxy) ResetToFactoryMacAddress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiApIface, "resetToFactoryMacAddress")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiApIfaceResetToFactoryMacAddress
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -229,7 +229,7 @@ func (p *WifiApIfaceProxy) SetMacAddress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiApIface, "setMacAddress")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiApIfaceSetMacAddress
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -254,7 +254,7 @@ func (p *WifiApIfaceProxy) UsesMlo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiApIface, "usesMlo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiApIfaceUsesMlo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -53,7 +53,7 @@ func (p *CallStreamingServiceProxy) SetStreamingCallAdapter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallStreamingService, "setStreamingCallAdapter")
 	if _err != nil {
-		return _err
+		_code = TransactionICallStreamingServiceSetStreamingCallAdapter
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -73,7 +73,7 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallStreamingService, "onCallStreamingStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionICallStreamingServiceOnCallStreamingStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStopped(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallStreamingService, "onCallStreamingStopped")
 	if _err != nil {
-		return _err
+		_code = TransactionICallStreamingServiceOnCallStreamingStopped
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -105,7 +105,7 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallStreamingService, "onCallStreamingStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionICallStreamingServiceOnCallStreamingStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

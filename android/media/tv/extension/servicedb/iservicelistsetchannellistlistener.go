@@ -46,7 +46,7 @@ func (p *ServiceListSetChannelListListenerProxy) OnCompleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceListSetChannelListListener, "onCompleted")
 	if _err != nil {
-		return _err
+		_code = TransactionIServiceListSetChannelListListenerOnCompleted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

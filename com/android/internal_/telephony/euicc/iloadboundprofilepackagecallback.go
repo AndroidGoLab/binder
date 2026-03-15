@@ -55,7 +55,7 @@ func (p *LoadBoundProfilePackageCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILoadBoundProfilePackageCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionILoadBoundProfilePackageCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

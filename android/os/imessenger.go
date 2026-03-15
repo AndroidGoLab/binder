@@ -49,7 +49,7 @@ func (p *MessengerProxy) Send(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMessenger, "send")
 	if _err != nil {
-		return _err
+		_code = TransactionIMessengerSend
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

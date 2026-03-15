@@ -51,7 +51,7 @@ func (p *MmiInterfaceProxy) OpenSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMmiInterface, "openSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMmiInterfaceOpenSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *MmiInterfaceProxy) AppInfoEnterMenu(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMmiInterface, "appInfoEnterMenu")
 	if _err != nil {
-		return _err
+		_code = TransactionIMmiInterfaceAppInfoEnterMenu
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

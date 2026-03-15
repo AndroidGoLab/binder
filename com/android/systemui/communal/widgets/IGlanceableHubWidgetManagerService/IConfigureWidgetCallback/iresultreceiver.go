@@ -46,7 +46,7 @@ func (p *ResultReceiverProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResultReceiver, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIResultReceiverOnResult
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

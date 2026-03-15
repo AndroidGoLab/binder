@@ -48,7 +48,7 @@ func (p *InputThreadProxy) Finish(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputThread, "finish")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputThreadFinish
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -72,7 +72,7 @@ func (p *InputThreadProxy) Wake(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputThread, "wake")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputThreadWake
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -98,7 +98,7 @@ func (p *InputThreadProxy) SleepUntil(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputThread, "sleepUntil")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputThreadSleepUntil
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

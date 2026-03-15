@@ -85,7 +85,7 @@ func (p *DreamManagerProxy) Dream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "dream")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamManagerDream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -109,7 +109,7 @@ func (p *DreamManagerProxy) Awaken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "awaken")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamManagerAwaken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -144,7 +144,7 @@ func (p *DreamManagerProxy) SetDreamComponents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "setDreamComponents")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamManagerSetDreamComponents
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -169,7 +169,7 @@ func (p *DreamManagerProxy) GetDreamComponents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "getDreamComponents")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDreamManagerGetDreamComponents
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -209,7 +209,7 @@ func (p *DreamManagerProxy) GetDefaultDreamComponentForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "getDefaultDreamComponentForUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDreamManagerGetDefaultDreamComponentForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -249,7 +249,7 @@ func (p *DreamManagerProxy) TestDream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "testDream")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamManagerTestDream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -274,7 +274,7 @@ func (p *DreamManagerProxy) IsDreaming(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "isDreaming")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDreamManagerIsDreaming
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -303,7 +303,7 @@ func (p *DreamManagerProxy) IsDreamingOrInPreview(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "isDreamingOrInPreview")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDreamManagerIsDreamingOrInPreview
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -334,7 +334,7 @@ func (p *DreamManagerProxy) CanStartDreaming(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "canStartDreaming")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDreamManagerCanStartDreaming
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -366,7 +366,7 @@ func (p *DreamManagerProxy) FinishSelf(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "finishSelf")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamManagerFinishSelf
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -402,7 +402,7 @@ func (p *DreamManagerProxy) StartDozing(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "startDozing")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamManagerStartDozing
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -428,7 +428,7 @@ func (p *DreamManagerProxy) StopDozing(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "stopDozing")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamManagerStopDozing
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -454,7 +454,7 @@ func (p *DreamManagerProxy) ForceAmbientDisplayEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "forceAmbientDisplayEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamManagerForceAmbientDisplayEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -481,7 +481,7 @@ func (p *DreamManagerProxy) GetDreamComponentsForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "getDreamComponentsForUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDreamManagerGetDreamComponentsForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -531,7 +531,7 @@ func (p *DreamManagerProxy) SetDreamComponentsForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "setDreamComponentsForUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamManagerSetDreamComponentsForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -560,7 +560,7 @@ func (p *DreamManagerProxy) SetSystemDreamComponent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "setSystemDreamComponent")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamManagerSetSystemDreamComponent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -589,7 +589,7 @@ func (p *DreamManagerProxy) RegisterDreamOverlayService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "registerDreamOverlayService")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamManagerRegisterDreamOverlayService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -618,7 +618,7 @@ func (p *DreamManagerProxy) StartDreamActivity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "startDreamActivity")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamManagerStartDreamActivity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -644,7 +644,7 @@ func (p *DreamManagerProxy) SetDreamIsObscured(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "setDreamIsObscured")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamManagerSetDreamIsObscured
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -671,7 +671,7 @@ func (p *DreamManagerProxy) StartDozingOneway(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "startDozingOneway")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamManagerStartDozingOneway
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -690,7 +690,7 @@ func (p *DreamManagerProxy) FinishSelfOneway(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamManager, "finishSelfOneway")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamManagerFinishSelfOneway
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

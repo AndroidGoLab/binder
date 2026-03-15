@@ -61,7 +61,7 @@ func (p *BluetoothLeAudioCallbackProxy) OnCodecConfigChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeAudioCallback, "onCodecConfigChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeAudioCallbackOnCodecConfigChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -83,7 +83,7 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupNodeAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeAudioCallback, "onGroupNodeAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeAudioCallbackOnGroupNodeAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -105,7 +105,7 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupNodeRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeAudioCallback, "onGroupNodeRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeAudioCallbackOnGroupNodeRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -124,7 +124,7 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeAudioCallback, "onGroupStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeAudioCallbackOnGroupStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -143,7 +143,7 @@ func (p *BluetoothLeAudioCallbackProxy) OnGroupStreamStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeAudioCallback, "onGroupStreamStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeAudioCallbackOnGroupStreamStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -160,7 +160,7 @@ func (p *BluetoothLeAudioCallbackProxy) OnBroadcastToUnicastFallbackGroupChanged
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeAudioCallback, "onBroadcastToUnicastFallbackGroupChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeAudioCallbackOnBroadcastToUnicastFallbackGroupChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

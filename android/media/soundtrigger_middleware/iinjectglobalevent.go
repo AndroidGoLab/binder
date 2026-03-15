@@ -48,7 +48,7 @@ func (p *InjectGlobalEventProxy) TriggerRestart(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInjectGlobalEvent, "triggerRestart")
 	if _err != nil {
-		return _err
+		_code = TransactionIInjectGlobalEventTriggerRestart
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *InjectGlobalEventProxy) SetResourceContention(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInjectGlobalEvent, "setResourceContention")
 	if _err != nil {
-		return _err
+		_code = TransactionIInjectGlobalEventSetResourceContention
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -82,7 +82,7 @@ func (p *InjectGlobalEventProxy) TriggerOnResourcesAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInjectGlobalEvent, "triggerOnResourcesAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionIInjectGlobalEventTriggerOnResourcesAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -57,7 +57,7 @@ func (p *DeviceStateManagerProxy) GetDeviceStateInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManager, "getDeviceStateInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDeviceStateManagerGetDeviceStateInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *DeviceStateManagerProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManager, "registerCallback")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDeviceStateManagerRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -132,7 +132,7 @@ func (p *DeviceStateManagerProxy) RequestState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManager, "requestState")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceStateManagerRequestState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -156,7 +156,7 @@ func (p *DeviceStateManagerProxy) CancelStateRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManager, "cancelStateRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceStateManagerCancelStateRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -186,7 +186,7 @@ func (p *DeviceStateManagerProxy) RequestBaseStateOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManager, "requestBaseStateOverride")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceStateManagerRequestBaseStateOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -210,7 +210,7 @@ func (p *DeviceStateManagerProxy) CancelBaseStateOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManager, "cancelBaseStateOverride")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceStateManagerCancelBaseStateOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -236,7 +236,7 @@ func (p *DeviceStateManagerProxy) OnStateRequestOverlayDismissed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManager, "onStateRequestOverlayDismissed")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceStateManagerOnStateRequestOverlayDismissed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

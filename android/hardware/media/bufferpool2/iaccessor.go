@@ -47,7 +47,7 @@ func (p *AccessorProxy) Connect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessor, "connect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccessorConnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

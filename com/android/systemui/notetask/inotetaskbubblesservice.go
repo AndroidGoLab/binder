@@ -50,7 +50,7 @@ func (p *NoteTaskBubblesServiceProxy) AreBubblesAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINoteTaskBubblesService, "areBubblesAvailable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINoteTaskBubblesServiceAreBubblesAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -98,7 +98,7 @@ func (p *NoteTaskBubblesServiceProxy) ShowOrHideAppBubble(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINoteTaskBubblesService, "showOrHideAppBubble")
 	if _err != nil {
-		return _err
+		_code = TransactionINoteTaskBubblesServiceShowOrHideAppBubble
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

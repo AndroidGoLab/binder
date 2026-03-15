@@ -57,7 +57,7 @@ func (p *StreamCommonProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamCommon, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamCommonClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -81,7 +81,7 @@ func (p *StreamCommonProxy) PrepareToClose(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamCommon, "prepareToClose")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamCommonPrepareToClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -107,7 +107,7 @@ func (p *StreamCommonProxy) UpdateHwAvSyncId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamCommon, "updateHwAvSyncId")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamCommonUpdateHwAvSyncId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -141,7 +141,7 @@ func (p *StreamCommonProxy) GetVendorParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamCommon, "getVendorParameters")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStreamCommonGetVendorParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -191,7 +191,7 @@ func (p *StreamCommonProxy) SetVendorParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamCommon, "setVendorParameters")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamCommonSetVendorParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -217,7 +217,7 @@ func (p *StreamCommonProxy) AddEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamCommon, "addEffect")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamCommonAddEffect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -243,7 +243,7 @@ func (p *StreamCommonProxy) RemoveEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamCommon, "removeEffect")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamCommonRemoveEffect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

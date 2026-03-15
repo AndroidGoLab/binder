@@ -53,7 +53,7 @@ func (p *GeocodeProviderProxy) ForwardGeocode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGeocodeProvider, "forwardGeocode")
 	if _err != nil {
-		return _err
+		_code = TransactionIGeocodeProviderForwardGeocode
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -75,7 +75,7 @@ func (p *GeocodeProviderProxy) ReverseGeocode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGeocodeProvider, "reverseGeocode")
 	if _err != nil {
-		return _err
+		_code = TransactionIGeocodeProviderReverseGeocode
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

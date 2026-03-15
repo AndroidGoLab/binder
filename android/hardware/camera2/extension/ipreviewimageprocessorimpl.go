@@ -53,7 +53,7 @@ func (p *PreviewImageProcessorImplProxy) OnOutputSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewImageProcessorImpl, "onOutputSurface")
 	if _err != nil {
-		return _err
+		_code = TransactionIPreviewImageProcessorImplOnOutputSurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -82,7 +82,7 @@ func (p *PreviewImageProcessorImplProxy) OnResolutionUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewImageProcessorImpl, "onResolutionUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIPreviewImageProcessorImplOnResolutionUpdate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -108,7 +108,7 @@ func (p *PreviewImageProcessorImplProxy) OnImageFormatUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewImageProcessorImpl, "onImageFormatUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIPreviewImageProcessorImplOnImageFormatUpdate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -142,7 +142,7 @@ func (p *PreviewImageProcessorImplProxy) Process(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreviewImageProcessorImpl, "process")
 	if _err != nil {
-		return _err
+		_code = TransactionIPreviewImageProcessorImplProcess
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

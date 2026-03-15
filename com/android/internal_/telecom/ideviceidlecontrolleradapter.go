@@ -52,7 +52,7 @@ func (p *DeviceIdleControllerAdapterProxy) ExemptAppTemporarilyForEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceIdleControllerAdapter, "exemptAppTemporarilyForEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceIdleControllerAdapterExemptAppTemporarilyForEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

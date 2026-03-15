@@ -56,7 +56,7 @@ func (p *ProcessInfoServiceProxy) GetProcessStatesFromPids(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProcessInfoService, "getProcessStatesFromPids")
 	if _err != nil {
-		return _err
+		_code = TransactionIProcessInfoServiceGetProcessStatesFromPids
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -104,7 +104,7 @@ func (p *ProcessInfoServiceProxy) GetProcessStatesAndOomScoresFromPids(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProcessInfoService, "getProcessStatesAndOomScoresFromPids")
 	if _err != nil {
-		return _err
+		_code = TransactionIProcessInfoServiceGetProcessStatesAndOomScoresFromPids
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

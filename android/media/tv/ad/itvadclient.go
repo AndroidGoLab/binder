@@ -73,7 +73,7 @@ func (p *TvAdClientProxy) OnSessionCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvAdClient, "onSessionCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionITvAdClientOnSessionCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -90,7 +90,7 @@ func (p *TvAdClientProxy) OnSessionReleased(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvAdClient, "onSessionReleased")
 	if _err != nil {
-		return _err
+		_code = TransactionITvAdClientOnSessionReleased
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -115,7 +115,7 @@ func (p *TvAdClientProxy) OnLayoutSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvAdClient, "onLayoutSurface")
 	if _err != nil {
-		return _err
+		_code = TransactionITvAdClientOnLayoutSurface
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -132,7 +132,7 @@ func (p *TvAdClientProxy) OnRequestCurrentVideoBounds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvAdClient, "onRequestCurrentVideoBounds")
 	if _err != nil {
-		return _err
+		_code = TransactionITvAdClientOnRequestCurrentVideoBounds
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -149,7 +149,7 @@ func (p *TvAdClientProxy) OnRequestCurrentChannelUri(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvAdClient, "onRequestCurrentChannelUri")
 	if _err != nil {
-		return _err
+		_code = TransactionITvAdClientOnRequestCurrentChannelUri
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -166,7 +166,7 @@ func (p *TvAdClientProxy) OnRequestTrackInfoList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvAdClient, "onRequestTrackInfoList")
 	if _err != nil {
-		return _err
+		_code = TransactionITvAdClientOnRequestTrackInfoList
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -183,7 +183,7 @@ func (p *TvAdClientProxy) OnRequestCurrentTvInputId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvAdClient, "onRequestCurrentTvInputId")
 	if _err != nil {
-		return _err
+		_code = TransactionITvAdClientOnRequestCurrentTvInputId
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -215,7 +215,7 @@ func (p *TvAdClientProxy) OnRequestSigning(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvAdClient, "onRequestSigning")
 	if _err != nil {
-		return _err
+		_code = TransactionITvAdClientOnRequestSigning
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -239,7 +239,7 @@ func (p *TvAdClientProxy) OnTvAdSessionData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvAdClient, "onTvAdSessionData")
 	if _err != nil {
-		return _err
+		_code = TransactionITvAdClientOnTvAdSessionData
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

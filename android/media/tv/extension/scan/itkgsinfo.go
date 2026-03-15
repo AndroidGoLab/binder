@@ -49,7 +49,7 @@ func (p *TkgsInfoProxy) SetPrefServiceList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITkgsInfo, "setPrefServiceList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITkgsInfoSetPrefServiceList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -80,7 +80,7 @@ func (p *TkgsInfoProxy) SetTkgsInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITkgsInfo, "setTkgsInfoListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITkgsInfoSetTkgsInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

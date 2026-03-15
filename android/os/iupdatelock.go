@@ -50,7 +50,7 @@ func (p *UpdateLockProxy) AcquireUpdateLock(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUpdateLock, "acquireUpdateLock")
 	if _err != nil {
-		return _err
+		_code = TransactionIUpdateLockAcquireUpdateLock
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -76,7 +76,7 @@ func (p *UpdateLockProxy) ReleaseUpdateLock(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUpdateLock, "releaseUpdateLock")
 	if _err != nil {
-		return _err
+		_code = TransactionIUpdateLockReleaseUpdateLock
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -63,7 +63,7 @@ func (p *RecognitionStatusCallbackProxy) OnKeyphraseDetected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionStatusCallback, "onKeyphraseDetected")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionStatusCallbackOnKeyphraseDetected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -83,7 +83,7 @@ func (p *RecognitionStatusCallbackProxy) OnGenericSoundTriggerDetected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionStatusCallback, "onGenericSoundTriggerDetected")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionStatusCallbackOnGenericSoundTriggerDetected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -98,7 +98,7 @@ func (p *RecognitionStatusCallbackProxy) OnRecognitionPaused(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionStatusCallback, "onRecognitionPaused")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionStatusCallbackOnRecognitionPaused
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -113,7 +113,7 @@ func (p *RecognitionStatusCallbackProxy) OnRecognitionResumed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionStatusCallback, "onRecognitionResumed")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionStatusCallbackOnRecognitionResumed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -128,7 +128,7 @@ func (p *RecognitionStatusCallbackProxy) OnPreempted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionStatusCallback, "onPreempted")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionStatusCallbackOnPreempted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -143,7 +143,7 @@ func (p *RecognitionStatusCallbackProxy) OnModuleDied(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionStatusCallback, "onModuleDied")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionStatusCallbackOnModuleDied
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -160,7 +160,7 @@ func (p *RecognitionStatusCallbackProxy) OnResumeFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionStatusCallback, "onResumeFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionStatusCallbackOnResumeFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -177,7 +177,7 @@ func (p *RecognitionStatusCallbackProxy) OnPauseFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionStatusCallback, "onPauseFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionStatusCallbackOnPauseFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

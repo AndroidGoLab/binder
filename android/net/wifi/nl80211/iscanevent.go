@@ -48,7 +48,7 @@ func (p *ScanEventProxy) OnScanResultReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScanEvent, "OnScanResultReady")
 	if _err != nil {
-		return _err
+		_code = TransactionIScanEventOnScanResultReady
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *ScanEventProxy) OnScanFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScanEvent, "OnScanFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIScanEventOnScanFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -80,7 +80,7 @@ func (p *ScanEventProxy) OnScanRequestFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScanEvent, "OnScanRequestFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIScanEventOnScanRequestFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -51,7 +51,7 @@ func (p *PrepareGetCredentialCallbackProxy) OnResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrepareGetCredentialCallback, "onResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrepareGetCredentialCallbackOnResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -70,7 +70,7 @@ func (p *PrepareGetCredentialCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrepareGetCredentialCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrepareGetCredentialCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

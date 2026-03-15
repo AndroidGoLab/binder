@@ -46,7 +46,7 @@ func (p *ResetMemoryCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResetMemoryCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIResetMemoryCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

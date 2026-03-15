@@ -49,7 +49,7 @@ func (p *FooProviderProxy) CreateFoo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFooProvider, "createFoo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFooProviderCreateFoo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -79,7 +79,7 @@ func (p *FooProviderProxy) IsFooGarbageCollected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFooProvider, "isFooGarbageCollected")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFooProviderIsFooGarbageCollected
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -107,7 +107,7 @@ func (p *FooProviderProxy) KillProcess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFooProvider, "killProcess")
 	if _err != nil {
-		return _err
+		_code = TransactionIFooProviderKillProcess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

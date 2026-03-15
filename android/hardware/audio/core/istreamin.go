@@ -72,7 +72,7 @@ func (p *StreamInProxy) GetStreamCommon(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "getStreamCommon")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStreamInGetStreamCommon
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -102,7 +102,7 @@ func (p *StreamInProxy) GetActiveMicrophones(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "getActiveMicrophones")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStreamInGetActiveMicrophones
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -140,7 +140,7 @@ func (p *StreamInProxy) GetMicrophoneDirection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "getMicrophoneDirection")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStreamInGetMicrophoneDirection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -171,7 +171,7 @@ func (p *StreamInProxy) SetMicrophoneDirection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "setMicrophoneDirection")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamInSetMicrophoneDirection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -196,7 +196,7 @@ func (p *StreamInProxy) GetMicrophoneFieldDimension(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "getMicrophoneFieldDimension")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStreamInGetMicrophoneFieldDimension
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -226,7 +226,7 @@ func (p *StreamInProxy) SetMicrophoneFieldDimension(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "setMicrophoneFieldDimension")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamInSetMicrophoneFieldDimension
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -255,7 +255,7 @@ func (p *StreamInProxy) UpdateMetadata(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "updateMetadata")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamInUpdateMetadata
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -280,7 +280,7 @@ func (p *StreamInProxy) GetHwGain(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "getHwGain")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStreamInGetHwGain
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -327,7 +327,7 @@ func (p *StreamInProxy) SetHwGain(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamIn, "setHwGain")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamInSetHwGain
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

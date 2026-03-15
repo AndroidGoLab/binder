@@ -53,7 +53,7 @@ func (p *BluetoothProxy) SetScoConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetooth, "setScoConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSetScoConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -92,7 +92,7 @@ func (p *BluetoothProxy) SetHfpConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetooth, "setHfpConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSetHfpConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

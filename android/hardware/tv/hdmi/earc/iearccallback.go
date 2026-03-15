@@ -50,7 +50,7 @@ func (p *EArcCallbackProxy) OnStateChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEArcCallback, "onStateChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIEArcCallbackOnStateChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -76,7 +76,7 @@ func (p *EArcCallbackProxy) OnCapabilitiesReported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEArcCallback, "onCapabilitiesReported")
 	if _err != nil {
-		return _err
+		_code = TransactionIEArcCallbackOnCapabilitiesReported
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -46,7 +46,7 @@ func (p *VirtualDeviceSoundEffectListenerProxy) OnPlaySoundEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceSoundEffectListener, "onPlaySoundEffect")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualDeviceSoundEffectListenerOnPlaySoundEffect
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

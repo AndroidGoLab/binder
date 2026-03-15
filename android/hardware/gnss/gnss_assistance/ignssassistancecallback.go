@@ -44,7 +44,7 @@ func (p *GnssAssistanceCallbackProxy) InjectRequestCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssAssistanceCallback, "injectRequestCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssAssistanceCallbackInjectRequestCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

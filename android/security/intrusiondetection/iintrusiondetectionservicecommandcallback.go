@@ -47,7 +47,7 @@ func (p *IntrusionDetectionServiceCommandCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionServiceCommandCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIIntrusionDetectionServiceCommandCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -64,7 +64,7 @@ func (p *IntrusionDetectionServiceCommandCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionServiceCommandCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIIntrusionDetectionServiceCommandCallbackOnFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -46,7 +46,7 @@ func (p *SelectedNbIotSatelliteSubscriptionCallbackProxy) OnSelectedNbIotSatelli
 
 	_code, _err := p.remote.ResolveCode(DescriptorISelectedNbIotSatelliteSubscriptionCallback, "onSelectedNbIotSatelliteSubscriptionChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISelectedNbIotSatelliteSubscriptionCallbackOnSelectedNbIotSatelliteSubscriptionChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

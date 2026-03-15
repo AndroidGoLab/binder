@@ -75,7 +75,7 @@ func (p *ImsConfigProxy) AddImsConfigCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "addImsConfigCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigAddImsConfigCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -101,7 +101,7 @@ func (p *ImsConfigProxy) RemoveImsConfigCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "removeImsConfigCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigRemoveImsConfigCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -128,7 +128,7 @@ func (p *ImsConfigProxy) GetConfigInt(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "getConfigInt")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsConfigGetConfigInt
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -159,7 +159,7 @@ func (p *ImsConfigProxy) GetConfigString(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "getConfigString")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsConfigGetConfigString
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -192,7 +192,7 @@ func (p *ImsConfigProxy) SetConfigInt(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "setConfigInt")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsConfigSetConfigInt
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -225,7 +225,7 @@ func (p *ImsConfigProxy) SetConfigString(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "setConfigString")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsConfigSetConfigString
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -254,7 +254,7 @@ func (p *ImsConfigProxy) UpdateImsCarrierConfigs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "updateImsCarrierConfigs")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigUpdateImsCarrierConfigs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -289,7 +289,7 @@ func (p *ImsConfigProxy) NotifyRcsAutoConfigurationReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "notifyRcsAutoConfigurationReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigNotifyRcsAutoConfigurationReceived
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -313,7 +313,7 @@ func (p *ImsConfigProxy) NotifyRcsAutoConfigurationRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "notifyRcsAutoConfigurationRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigNotifyRcsAutoConfigurationRemoved
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -339,7 +339,7 @@ func (p *ImsConfigProxy) AddRcsConfigCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "addRcsConfigCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigAddRcsConfigCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -365,7 +365,7 @@ func (p *ImsConfigProxy) RemoveRcsConfigCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "removeRcsConfigCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigRemoveRcsConfigCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -389,7 +389,7 @@ func (p *ImsConfigProxy) TriggerRcsReconfiguration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "triggerRcsReconfiguration")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigTriggerRcsReconfiguration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -418,7 +418,7 @@ func (p *ImsConfigProxy) SetRcsClientConfiguration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "setRcsClientConfiguration")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigSetRcsClientConfiguration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -446,7 +446,7 @@ func (p *ImsConfigProxy) NotifyIntImsConfigChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "notifyIntImsConfigChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigNotifyIntImsConfigChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -474,7 +474,7 @@ func (p *ImsConfigProxy) NotifyStringImsConfigChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "notifyStringImsConfigChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigNotifyStringImsConfigChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

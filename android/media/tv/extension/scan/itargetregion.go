@@ -50,7 +50,7 @@ func (p *TargetRegionProxy) GetTargetRegions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITargetRegion, "getTargetRegions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITargetRegionGetTargetRegions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *TargetRegionProxy) SetTargetRegion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITargetRegion, "setTargetRegion")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITargetRegionSetTargetRegion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -124,7 +124,7 @@ func (p *TargetRegionProxy) SetListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITargetRegion, "setListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITargetRegionSetListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

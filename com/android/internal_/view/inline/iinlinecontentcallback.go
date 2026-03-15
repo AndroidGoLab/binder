@@ -58,7 +58,7 @@ func (p *InlineContentCallbackProxy) OnContent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineContentCallback, "onContent")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineContentCallbackOnContent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -73,7 +73,7 @@ func (p *InlineContentCallbackProxy) OnClick(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineContentCallback, "onClick")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineContentCallbackOnClick
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *InlineContentCallbackProxy) OnLongClick(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineContentCallback, "onLongClick")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineContentCallbackOnLongClick
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

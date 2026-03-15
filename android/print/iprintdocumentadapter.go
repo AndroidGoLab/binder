@@ -55,7 +55,7 @@ func (p *PrintDocumentAdapterProxy) SetObserver(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintDocumentAdapter, "setObserver")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintDocumentAdapterSetObserver
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -70,7 +70,7 @@ func (p *PrintDocumentAdapterProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintDocumentAdapter, "start")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintDocumentAdapterStart
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -104,7 +104,7 @@ func (p *PrintDocumentAdapterProxy) Layout(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintDocumentAdapter, "layout")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintDocumentAdapterLayout
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -136,7 +136,7 @@ func (p *PrintDocumentAdapterProxy) Write(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintDocumentAdapter, "write")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintDocumentAdapterWrite
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -151,7 +151,7 @@ func (p *PrintDocumentAdapterProxy) Finish(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintDocumentAdapter, "finish")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintDocumentAdapterFinish
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -55,7 +55,7 @@ func (p *OnTransportsChangedListenerProxy) OnTransportsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnTransportsChangedListener, "onTransportsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnTransportsChangedListenerOnTransportsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -56,7 +56,7 @@ func (p *IrisServiceProxy) RegisterAuthenticators(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIrisService, "registerAuthenticators")
 	if _err != nil {
-		return _err
+		_code = TransactionIIrisServiceRegisterAuthenticators
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

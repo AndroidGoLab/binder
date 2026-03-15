@@ -45,7 +45,7 @@ func (p *BackupManagerMonitorProxy) OnEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupManagerMonitor, "onEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupManagerMonitorOnEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

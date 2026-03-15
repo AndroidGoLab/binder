@@ -45,7 +45,7 @@ func (p *WindowInfosListenerProxy) OnWindowInfosChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowInfosListener, "onWindowInfosChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowInfosListenerOnWindowInfosChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

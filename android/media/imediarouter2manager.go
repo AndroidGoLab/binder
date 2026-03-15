@@ -65,7 +65,7 @@ func (p *MediaRouter2ManagerProxy) NotifySessionCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2Manager, "notifySessionCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouter2ManagerNotifySessionCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -85,7 +85,7 @@ func (p *MediaRouter2ManagerProxy) NotifySessionUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2Manager, "notifySessionUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouter2ManagerNotifySessionUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -105,7 +105,7 @@ func (p *MediaRouter2ManagerProxy) NotifySessionReleased(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2Manager, "notifySessionReleased")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouter2ManagerNotifySessionReleased
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -127,7 +127,7 @@ func (p *MediaRouter2ManagerProxy) NotifyDiscoveryPreferenceChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2Manager, "notifyDiscoveryPreferenceChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouter2ManagerNotifyDiscoveryPreferenceChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -152,7 +152,7 @@ func (p *MediaRouter2ManagerProxy) NotifyRouteListingPreferenceChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2Manager, "notifyRouteListingPreferenceChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouter2ManagerNotifyRouteListingPreferenceChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -178,7 +178,7 @@ func (p *MediaRouter2ManagerProxy) NotifyRoutesUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2Manager, "notifyRoutesUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouter2ManagerNotifyRoutesUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -197,7 +197,7 @@ func (p *MediaRouter2ManagerProxy) NotifyRequestFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2Manager, "notifyRequestFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouter2ManagerNotifyRequestFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -212,7 +212,7 @@ func (p *MediaRouter2ManagerProxy) InvalidateInstance(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouter2Manager, "invalidateInstance")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouter2ManagerInvalidateInstance
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

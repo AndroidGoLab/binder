@@ -45,7 +45,7 @@ func (p *OnVolumeKeyLongPressListenerProxy) OnVolumeKeyLongPress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnVolumeKeyLongPressListener, "onVolumeKeyLongPress")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnVolumeKeyLongPressListenerOnVolumeKeyLongPress
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -52,7 +52,7 @@ func (p *CamPinCapabilityListenerProxy) OnCamPinCapabilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamPinCapabilityListener, "onCamPinCapabilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionICamPinCapabilityListenerOnCamPinCapabilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -66,7 +66,7 @@ func (p *DataLoaderProxy) Create(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataLoader, "create")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataLoaderCreate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -83,7 +83,7 @@ func (p *DataLoaderProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataLoader, "start")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataLoaderStart
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -100,7 +100,7 @@ func (p *DataLoaderProxy) Stop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataLoader, "stop")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataLoaderStop
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -117,7 +117,7 @@ func (p *DataLoaderProxy) Destroy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataLoader, "destroy")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataLoaderDestroy
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -154,7 +154,7 @@ func (p *DataLoaderProxy) PrepareImage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataLoader, "prepareImage")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataLoaderPrepareImage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

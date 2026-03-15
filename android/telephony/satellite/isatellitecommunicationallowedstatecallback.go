@@ -48,7 +48,7 @@ func (p *SatelliteCommunicationAllowedStateCallbackProxy) OnSatelliteCommunicati
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteCommunicationAllowedStateCallback, "onSatelliteCommunicationAllowedStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteCommunicationAllowedStateCallbackOnSatelliteCommunicationAllowedStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -68,7 +68,7 @@ func (p *SatelliteCommunicationAllowedStateCallbackProxy) OnSatelliteAccessConfi
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteCommunicationAllowedStateCallback, "onSatelliteAccessConfigurationChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteCommunicationAllowedStateCallbackOnSatelliteAccessConfigurationChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

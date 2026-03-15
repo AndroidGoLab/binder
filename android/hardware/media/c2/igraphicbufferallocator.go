@@ -55,7 +55,7 @@ func (p *GraphicBufferAllocatorProxy) Allocate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferAllocator, "allocate")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGraphicBufferAllocatorAllocate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -91,7 +91,7 @@ func (p *GraphicBufferAllocatorProxy) Deallocate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferAllocator, "deallocate")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGraphicBufferAllocatorDeallocate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -120,7 +120,7 @@ func (p *GraphicBufferAllocatorProxy) GetWaitableFd(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGraphicBufferAllocator, "getWaitableFd")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGraphicBufferAllocatorGetWaitableFd
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

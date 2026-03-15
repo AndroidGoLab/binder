@@ -52,7 +52,7 @@ func (p *TranslationServiceProxy) OnConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationService, "onConnected")
 	if _err != nil {
-		return _err
+		_code = TransactionITranslationServiceOnConnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *TranslationServiceProxy) OnDisconnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationService, "onDisconnected")
 	if _err != nil {
-		return _err
+		_code = TransactionITranslationServiceOnDisconnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -86,7 +86,7 @@ func (p *TranslationServiceProxy) OnCreateTranslationSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationService, "onCreateTranslationSession")
 	if _err != nil {
-		return _err
+		_code = TransactionITranslationServiceOnCreateTranslationSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -106,7 +106,7 @@ func (p *TranslationServiceProxy) OnTranslationCapabilitiesRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationService, "onTranslationCapabilitiesRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionITranslationServiceOnTranslationCapabilitiesRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

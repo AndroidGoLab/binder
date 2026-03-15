@@ -44,7 +44,7 @@ func (p *PrintDocumentAdapterObserverProxy) OnDestroy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintDocumentAdapterObserver, "onDestroy")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintDocumentAdapterObserverOnDestroy
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

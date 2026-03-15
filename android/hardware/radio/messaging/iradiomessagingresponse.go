@@ -92,7 +92,7 @@ func (p *RadioMessagingResponseProxy) AcknowledgeIncomingGsmSmsWithPduResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "acknowledgeIncomingGsmSmsWithPduResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseAcknowledgeIncomingGsmSmsWithPduResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -112,7 +112,7 @@ func (p *RadioMessagingResponseProxy) AcknowledgeLastIncomingCdmaSmsResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "acknowledgeLastIncomingCdmaSmsResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseAcknowledgeLastIncomingCdmaSmsResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -132,7 +132,7 @@ func (p *RadioMessagingResponseProxy) AcknowledgeLastIncomingGsmSmsResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "acknowledgeLastIncomingGsmSmsResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseAcknowledgeLastIncomingGsmSmsResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -149,7 +149,7 @@ func (p *RadioMessagingResponseProxy) AcknowledgeRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "acknowledgeRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseAcknowledgeRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -169,7 +169,7 @@ func (p *RadioMessagingResponseProxy) DeleteSmsOnRuimResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "deleteSmsOnRuimResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseDeleteSmsOnRuimResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -189,7 +189,7 @@ func (p *RadioMessagingResponseProxy) DeleteSmsOnSimResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "deleteSmsOnSimResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseDeleteSmsOnSimResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -220,7 +220,7 @@ func (p *RadioMessagingResponseProxy) GetCdmaBroadcastConfigResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "getCdmaBroadcastConfigResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseGetCdmaBroadcastConfigResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -251,7 +251,7 @@ func (p *RadioMessagingResponseProxy) GetGsmBroadcastConfigResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "getGsmBroadcastConfigResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseGetGsmBroadcastConfigResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -273,7 +273,7 @@ func (p *RadioMessagingResponseProxy) GetSmscAddressResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "getSmscAddressResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseGetSmscAddressResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -293,7 +293,7 @@ func (p *RadioMessagingResponseProxy) ReportSmsMemoryStatusResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "reportSmsMemoryStatusResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseReportSmsMemoryStatusResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -318,7 +318,7 @@ func (p *RadioMessagingResponseProxy) SendCdmaSmsExpectMoreResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "sendCdmaSmsExpectMoreResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseSendCdmaSmsExpectMoreResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -343,7 +343,7 @@ func (p *RadioMessagingResponseProxy) SendCdmaSmsResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "sendCdmaSmsResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseSendCdmaSmsResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -368,7 +368,7 @@ func (p *RadioMessagingResponseProxy) SendImsSmsResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "sendImsSmsResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseSendImsSmsResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -393,7 +393,7 @@ func (p *RadioMessagingResponseProxy) SendSmsExpectMoreResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "sendSmsExpectMoreResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseSendSmsExpectMoreResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -418,7 +418,7 @@ func (p *RadioMessagingResponseProxy) SendSmsResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "sendSmsResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseSendSmsResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -438,7 +438,7 @@ func (p *RadioMessagingResponseProxy) SetCdmaBroadcastActivationResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "setCdmaBroadcastActivationResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseSetCdmaBroadcastActivationResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -458,7 +458,7 @@ func (p *RadioMessagingResponseProxy) SetCdmaBroadcastConfigResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "setCdmaBroadcastConfigResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseSetCdmaBroadcastConfigResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -478,7 +478,7 @@ func (p *RadioMessagingResponseProxy) SetGsmBroadcastActivationResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "setGsmBroadcastActivationResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseSetGsmBroadcastActivationResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -498,7 +498,7 @@ func (p *RadioMessagingResponseProxy) SetGsmBroadcastConfigResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "setGsmBroadcastConfigResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseSetGsmBroadcastConfigResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -518,7 +518,7 @@ func (p *RadioMessagingResponseProxy) SetSmscAddressResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "setSmscAddressResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseSetSmscAddressResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -540,7 +540,7 @@ func (p *RadioMessagingResponseProxy) WriteSmsToRuimResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "writeSmsToRuimResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseWriteSmsToRuimResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -562,7 +562,7 @@ func (p *RadioMessagingResponseProxy) WriteSmsToSimResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingResponse, "writeSmsToSimResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingResponseWriteSmsToSimResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

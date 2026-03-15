@@ -50,7 +50,7 @@ func (p *LcnConflictProxy) GetLcnConflictGroups(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILcnConflict, "getLcnConflictGroups")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILcnConflictGetLcnConflictGroups
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -99,7 +99,7 @@ func (p *LcnConflictProxy) ResolveLcnConflict(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILcnConflict, "resolveLcnConflict")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILcnConflictResolveLcnConflict
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *LcnConflictProxy) SetListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILcnConflict, "setListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILcnConflictSetListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

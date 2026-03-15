@@ -52,7 +52,7 @@ func (p *GetRulesAuthTableCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGetRulesAuthTableCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIGetRulesAuthTableCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

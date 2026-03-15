@@ -46,7 +46,7 @@ func (p *WakeLockCallbackProxy) OnStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWakeLockCallback, "onStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIWakeLockCallbackOnStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

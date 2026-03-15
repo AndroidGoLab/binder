@@ -59,7 +59,7 @@ func (p *KeystoreOperationProxy) UpdateAad(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreOperation, "updateAad")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeystoreOperationUpdateAad
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *KeystoreOperationProxy) Update(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreOperation, "update")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeystoreOperationUpdate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -150,7 +150,7 @@ func (p *KeystoreOperationProxy) Finish(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreOperation, "finish")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeystoreOperationFinish
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -188,7 +188,7 @@ func (p *KeystoreOperationProxy) Abort(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreOperation, "abort")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeystoreOperationAbort
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

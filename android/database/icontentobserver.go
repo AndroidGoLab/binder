@@ -51,7 +51,7 @@ func (p *ContentObserverProxy) OnChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentObserver, "onChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentObserverOnChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *ContentObserverProxy) OnChangeEtc(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentObserver, "onChangeEtc")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentObserverOnChangeEtc
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

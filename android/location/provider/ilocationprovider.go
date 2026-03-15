@@ -52,7 +52,7 @@ func (p *LocationProviderProxy) SetLocationProviderManager(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationProvider, "setLocationProviderManager")
 	if _err != nil {
-		return _err
+		_code = TransactionILocationProviderSetLocationProviderManager
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -72,7 +72,7 @@ func (p *LocationProviderProxy) SetRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationProvider, "setRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionILocationProviderSetRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -87,7 +87,7 @@ func (p *LocationProviderProxy) Flush(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationProvider, "flush")
 	if _err != nil {
-		return _err
+		_code = TransactionILocationProviderFlush
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -105,7 +105,7 @@ func (p *LocationProviderProxy) SendExtraCommand(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationProvider, "sendExtraCommand")
 	if _err != nil {
-		return _err
+		_code = TransactionILocationProviderSendExtraCommand
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -60,7 +60,7 @@ func (p *AppOpsUserServiceProxy) CallApiThatNotesSyncOpNativelyAndCheckLog(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserService, "callApiThatNotesSyncOpNativelyAndCheckLog")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsUserServiceCallApiThatNotesSyncOpNativelyAndCheckLog
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -86,7 +86,7 @@ func (p *AppOpsUserServiceProxy) CallApiThatNotesNonPermissionSyncOpNativelyAndC
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserService, "callApiThatNotesNonPermissionSyncOpNativelyAndCheckLog")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsUserServiceCallApiThatNotesNonPermissionSyncOpNativelyAndCheckLog
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -112,7 +112,7 @@ func (p *AppOpsUserServiceProxy) CallOnewayApiThatNotesSyncOpNativelyAndCheckLog
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserService, "callOnewayApiThatNotesSyncOpNativelyAndCheckLog")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsUserServiceCallOnewayApiThatNotesSyncOpNativelyAndCheckLog
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -138,7 +138,7 @@ func (p *AppOpsUserServiceProxy) CallApiThatNotesSyncOpOtherUidNativelyAndCheckL
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserService, "callApiThatNotesSyncOpOtherUidNativelyAndCheckLog")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsUserServiceCallApiThatNotesSyncOpOtherUidNativelyAndCheckLog
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -164,7 +164,7 @@ func (p *AppOpsUserServiceProxy) CallApiThatNotesAsyncOpNativelyAndCheckCustomMe
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserService, "callApiThatNotesAsyncOpNativelyAndCheckCustomMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsUserServiceCallApiThatNotesAsyncOpNativelyAndCheckCustomMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -190,7 +190,7 @@ func (p *AppOpsUserServiceProxy) CallApiThatNotesAsyncOpNativelyAndCheckLog(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserService, "callApiThatNotesAsyncOpNativelyAndCheckLog")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsUserServiceCallApiThatNotesAsyncOpNativelyAndCheckLog
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -216,7 +216,7 @@ func (p *AppOpsUserServiceProxy) CallFreezeAndNoteSyncOp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserService, "callFreezeAndNoteSyncOp")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsUserServiceCallFreezeAndNoteSyncOp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -240,7 +240,7 @@ func (p *AppOpsUserServiceProxy) AssertEmptyAsyncNoted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsUserService, "assertEmptyAsyncNoted")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsUserServiceAssertEmptyAsyncNoted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

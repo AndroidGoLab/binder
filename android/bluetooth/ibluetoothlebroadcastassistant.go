@@ -81,7 +81,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetConnectionState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastAssistant, "getConnectionState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothLeBroadcastAssistantGetConnectionState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -120,7 +120,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetDevicesMatchingConnectionStates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastAssistant, "getDevicesMatchingConnectionStates")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothLeBroadcastAssistantGetDevicesMatchingConnectionStates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -159,7 +159,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetConnectedDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastAssistant, "getConnectedDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothLeBroadcastAssistantGetConnectedDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -205,7 +205,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) SetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastAssistant, "setConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothLeBroadcastAssistantSetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -240,7 +240,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastAssistant, "getConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothLeBroadcastAssistantGetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -271,7 +271,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastAssistant, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeBroadcastAssistantRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -298,7 +298,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) UnregisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastAssistant, "unregisterCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeBroadcastAssistantUnregisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -329,7 +329,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) StartSearchingForSources(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastAssistant, "startSearchingForSources")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeBroadcastAssistantStartSearchingForSources
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -354,7 +354,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) StopSearchingForSources(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastAssistant, "stopSearchingForSources")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeBroadcastAssistantStopSearchingForSources
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -380,7 +380,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) IsSearchInProgress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastAssistant, "isSearchInProgress")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothLeBroadcastAssistantIsSearchInProgress
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -421,7 +421,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) AddSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastAssistant, "addSource")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeBroadcastAssistantAddSource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -458,7 +458,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) ModifySource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastAssistant, "modifySource")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeBroadcastAssistantModifySource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -490,7 +490,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) RemoveSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastAssistant, "removeSource")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeBroadcastAssistantRemoveSource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -521,7 +521,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetAllSources(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastAssistant, "getAllSources")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothLeBroadcastAssistantGetAllSources
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -565,7 +565,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetMaximumSourceCapacity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastAssistant, "getMaximumSourceCapacity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothLeBroadcastAssistantGetMaximumSourceCapacity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -602,7 +602,7 @@ func (p *BluetoothLeBroadcastAssistantProxy) GetSourceMetadata(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeBroadcastAssistant, "getSourceMetadata")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothLeBroadcastAssistantGetSourceMetadata
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

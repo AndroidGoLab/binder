@@ -126,7 +126,7 @@ func (p *MediaQualityManagerProxy) CreatePictureProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "createPictureProfile")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerCreatePictureProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -171,7 +171,7 @@ func (p *MediaQualityManagerProxy) UpdatePictureProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "updatePictureProfile")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaQualityManagerUpdatePictureProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -202,7 +202,7 @@ func (p *MediaQualityManagerProxy) RemovePictureProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "removePictureProfile")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaQualityManagerRemovePictureProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -234,7 +234,7 @@ func (p *MediaQualityManagerProxy) SetDefaultPictureProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "setDefaultPictureProfile")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerSetDefaultPictureProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -274,7 +274,7 @@ func (p *MediaQualityManagerProxy) GetPictureProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "getPictureProfile")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerGetPictureProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -317,7 +317,7 @@ func (p *MediaQualityManagerProxy) GetPictureProfilesByPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "getPictureProfilesByPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerGetPictureProfilesByPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -362,7 +362,7 @@ func (p *MediaQualityManagerProxy) GetAvailablePictureProfiles(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "getAvailablePictureProfiles")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerGetAvailablePictureProfiles
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -405,7 +405,7 @@ func (p *MediaQualityManagerProxy) GetPictureProfilePackageNames(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "getPictureProfilePackageNames")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerGetPictureProfilePackageNames
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -449,7 +449,7 @@ func (p *MediaQualityManagerProxy) GetPictureProfileAllowList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "getPictureProfileAllowList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerGetPictureProfileAllowList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -501,7 +501,7 @@ func (p *MediaQualityManagerProxy) SetPictureProfileAllowList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "setPictureProfileAllowList")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaQualityManagerSetPictureProfileAllowList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -540,7 +540,7 @@ func (p *MediaQualityManagerProxy) GetPictureProfileHandle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "getPictureProfileHandle")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerGetPictureProfileHandle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -588,7 +588,7 @@ func (p *MediaQualityManagerProxy) CreateSoundProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "createSoundProfile")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerCreateSoundProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -633,7 +633,7 @@ func (p *MediaQualityManagerProxy) UpdateSoundProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "updateSoundProfile")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaQualityManagerUpdateSoundProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -664,7 +664,7 @@ func (p *MediaQualityManagerProxy) RemoveSoundProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "removeSoundProfile")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaQualityManagerRemoveSoundProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -696,7 +696,7 @@ func (p *MediaQualityManagerProxy) SetDefaultSoundProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "setDefaultSoundProfile")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerSetDefaultSoundProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -736,7 +736,7 @@ func (p *MediaQualityManagerProxy) GetSoundProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "getSoundProfile")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerGetSoundProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -779,7 +779,7 @@ func (p *MediaQualityManagerProxy) GetSoundProfilesByPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "getSoundProfilesByPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerGetSoundProfilesByPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -824,7 +824,7 @@ func (p *MediaQualityManagerProxy) GetAvailableSoundProfiles(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "getAvailableSoundProfiles")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerGetAvailableSoundProfiles
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -867,7 +867,7 @@ func (p *MediaQualityManagerProxy) GetSoundProfilePackageNames(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "getSoundProfilePackageNames")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerGetSoundProfilePackageNames
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -911,7 +911,7 @@ func (p *MediaQualityManagerProxy) GetSoundProfileAllowList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "getSoundProfileAllowList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerGetSoundProfileAllowList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -963,7 +963,7 @@ func (p *MediaQualityManagerProxy) SetSoundProfileAllowList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "setSoundProfileAllowList")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaQualityManagerSetSoundProfileAllowList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1002,7 +1002,7 @@ func (p *MediaQualityManagerProxy) GetSoundProfileHandle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "getSoundProfileHandle")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerGetSoundProfileHandle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1041,7 +1041,7 @@ func (p *MediaQualityManagerProxy) RegisterPictureProfileCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "registerPictureProfileCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaQualityManagerRegisterPictureProfileCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1067,7 +1067,7 @@ func (p *MediaQualityManagerProxy) RegisterSoundProfileCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "registerSoundProfileCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaQualityManagerRegisterSoundProfileCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1093,7 +1093,7 @@ func (p *MediaQualityManagerProxy) RegisterAmbientBacklightCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "registerAmbientBacklightCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaQualityManagerRegisterAmbientBacklightCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1132,7 +1132,7 @@ func (p *MediaQualityManagerProxy) GetParamCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "getParamCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerGetParamCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1175,7 +1175,7 @@ func (p *MediaQualityManagerProxy) IsSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "isSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerIsSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1210,7 +1210,7 @@ func (p *MediaQualityManagerProxy) SetAutoPictureQualityEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "setAutoPictureQualityEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaQualityManagerSetAutoPictureQualityEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1240,7 +1240,7 @@ func (p *MediaQualityManagerProxy) IsAutoPictureQualityEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "isAutoPictureQualityEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerIsAutoPictureQualityEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1275,7 +1275,7 @@ func (p *MediaQualityManagerProxy) SetSuperResolutionEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "setSuperResolutionEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaQualityManagerSetSuperResolutionEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1305,7 +1305,7 @@ func (p *MediaQualityManagerProxy) IsSuperResolutionEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "isSuperResolutionEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerIsSuperResolutionEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1340,7 +1340,7 @@ func (p *MediaQualityManagerProxy) SetAutoSoundQualityEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "setAutoSoundQualityEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaQualityManagerSetAutoSoundQualityEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1370,7 +1370,7 @@ func (p *MediaQualityManagerProxy) IsAutoSoundQualityEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "isAutoSoundQualityEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerIsAutoSoundQualityEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1408,7 +1408,7 @@ func (p *MediaQualityManagerProxy) SetAmbientBacklightSettings(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "setAmbientBacklightSettings")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaQualityManagerSetAmbientBacklightSettings
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1439,7 +1439,7 @@ func (p *MediaQualityManagerProxy) SetAmbientBacklightEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "setAmbientBacklightEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaQualityManagerSetAmbientBacklightEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1469,7 +1469,7 @@ func (p *MediaQualityManagerProxy) IsAmbientBacklightEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaQualityManager, "isAmbientBacklightEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaQualityManagerIsAmbientBacklightEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

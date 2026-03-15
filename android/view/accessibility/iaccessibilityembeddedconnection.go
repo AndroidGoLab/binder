@@ -53,7 +53,7 @@ func (p *AccessibilityEmbeddedConnectionProxy) AssociateEmbeddedHierarchy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityEmbeddedConnection, "associateEmbeddedHierarchy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccessibilityEmbeddedConnectionAssociateEmbeddedHierarchy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -82,7 +82,7 @@ func (p *AccessibilityEmbeddedConnectionProxy) DisassociateEmbeddedHierarchy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityEmbeddedConnection, "disassociateEmbeddedHierarchy")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityEmbeddedConnectionDisassociateEmbeddedHierarchy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -115,7 +115,7 @@ func (p *AccessibilityEmbeddedConnectionProxy) SetWindowMatrix(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityEmbeddedConnection, "setWindowMatrix")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityEmbeddedConnectionSetWindowMatrix
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

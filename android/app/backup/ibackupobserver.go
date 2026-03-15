@@ -55,7 +55,7 @@ func (p *BackupObserverProxy) OnUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupObserver, "onUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupObserverOnUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -74,7 +74,7 @@ func (p *BackupObserverProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupObserver, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupObserverOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -91,7 +91,7 @@ func (p *BackupObserverProxy) BackupFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupObserver, "backupFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupObserverBackupFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

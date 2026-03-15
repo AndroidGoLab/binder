@@ -56,7 +56,7 @@ func (p *DistanceMeasurementProxy) GetSupportedDistanceMeasurementMethods(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurement, "getSupportedDistanceMeasurementMethods")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDistanceMeasurementGetSupportedDistanceMeasurementMethods
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -94,7 +94,7 @@ func (p *DistanceMeasurementProxy) StartDistanceMeasurement(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurement, "startDistanceMeasurement")
 	if _err != nil {
-		return _err
+		_code = TransactionIDistanceMeasurementStartDistanceMeasurement
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -128,7 +128,7 @@ func (p *DistanceMeasurementProxy) StopDistanceMeasurement(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurement, "stopDistanceMeasurement")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDistanceMeasurementStopDistanceMeasurement
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -163,7 +163,7 @@ func (p *DistanceMeasurementProxy) GetChannelSoundingMaxSupportedSecurityLevel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurement, "getChannelSoundingMaxSupportedSecurityLevel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDistanceMeasurementGetChannelSoundingMaxSupportedSecurityLevel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -193,7 +193,7 @@ func (p *DistanceMeasurementProxy) GetLocalChannelSoundingMaxSupportedSecurityLe
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurement, "getLocalChannelSoundingMaxSupportedSecurityLevel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDistanceMeasurementGetLocalChannelSoundingMaxSupportedSecurityLevel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -223,7 +223,7 @@ func (p *DistanceMeasurementProxy) GetChannelSoundingSupportedSecurityLevels(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurement, "getChannelSoundingSupportedSecurityLevels")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDistanceMeasurementGetChannelSoundingSupportedSecurityLevels
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -56,7 +56,7 @@ func (p *SearchManagerProxy) GetSearchableInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchManager, "getSearchableInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISearchManagerGetSearchableInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -90,7 +90,7 @@ func (p *SearchManagerProxy) GetSearchablesInGlobalSearch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchManager, "getSearchablesInGlobalSearch")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISearchManagerGetSearchablesInGlobalSearch
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -128,7 +128,7 @@ func (p *SearchManagerProxy) GetGlobalSearchActivities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchManager, "getGlobalSearchActivities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISearchManagerGetGlobalSearchActivities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -163,7 +163,7 @@ func (p *SearchManagerProxy) GetGlobalSearchActivity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchManager, "getGlobalSearchActivity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISearchManagerGetGlobalSearchActivity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -188,7 +188,7 @@ func (p *SearchManagerProxy) GetWebSearchActivity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchManager, "getWebSearchActivity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISearchManagerGetWebSearchActivity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -215,7 +215,7 @@ func (p *SearchManagerProxy) LaunchAssist(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchManager, "launchAssist")
 	if _err != nil {
-		return _err
+		_code = TransactionISearchManagerLaunchAssist
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

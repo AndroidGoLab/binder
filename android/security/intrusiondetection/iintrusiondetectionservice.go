@@ -52,7 +52,7 @@ func (p *IntrusionDetectionServiceProxy) AddStateCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionService, "addStateCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIIntrusionDetectionServiceAddStateCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -78,7 +78,7 @@ func (p *IntrusionDetectionServiceProxy) RemoveStateCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionService, "removeStateCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIIntrusionDetectionServiceRemoveStateCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -104,7 +104,7 @@ func (p *IntrusionDetectionServiceProxy) Enable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionService, "enable")
 	if _err != nil {
-		return _err
+		_code = TransactionIIntrusionDetectionServiceEnable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *IntrusionDetectionServiceProxy) Disable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionService, "disable")
 	if _err != nil {
-		return _err
+		_code = TransactionIIntrusionDetectionServiceDisable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

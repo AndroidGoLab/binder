@@ -68,7 +68,7 @@ func (p *SecureElementProxy) CloseChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElement, "closeChannel")
 	if _err != nil {
-		return _err
+		_code = TransactionISecureElementCloseChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *SecureElementProxy) GetAtr(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElement, "getAtr")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementGetAtr
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -133,7 +133,7 @@ func (p *SecureElementProxy) Init(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElement, "init")
 	if _err != nil {
-		return _err
+		_code = TransactionISecureElementInit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -158,7 +158,7 @@ func (p *SecureElementProxy) IsCardPresent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElement, "isCardPresent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementIsCardPresent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -198,7 +198,7 @@ func (p *SecureElementProxy) OpenBasicChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElement, "openBasicChannel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementOpenBasicChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -248,7 +248,7 @@ func (p *SecureElementProxy) OpenLogicalChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElement, "openLogicalChannel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementOpenLogicalChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -281,7 +281,7 @@ func (p *SecureElementProxy) Reset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElement, "reset")
 	if _err != nil {
-		return _err
+		_code = TransactionISecureElementReset
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -315,7 +315,7 @@ func (p *SecureElementProxy) Transmit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElement, "transmit")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementTransmit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

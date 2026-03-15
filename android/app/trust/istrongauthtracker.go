@@ -50,7 +50,7 @@ func (p *StrongAuthTrackerProxy) OnStrongAuthRequiredChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStrongAuthTracker, "onStrongAuthRequiredChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIStrongAuthTrackerOnStrongAuthRequiredChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *StrongAuthTrackerProxy) OnIsNonStrongBiometricAllowedChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStrongAuthTracker, "onIsNonStrongBiometricAllowedChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIStrongAuthTrackerOnIsNonStrongBiometricAllowedChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

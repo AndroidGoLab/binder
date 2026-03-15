@@ -55,7 +55,7 @@ func (p *ActiveSessionsListenerProxy) OnActiveSessionsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActiveSessionsListener, "onActiveSessionsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIActiveSessionsListenerOnActiveSessionsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

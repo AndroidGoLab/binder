@@ -48,7 +48,7 @@ func (p *AssistDataReceiverProxy) OnHandleAssistData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAssistDataReceiver, "onHandleAssistData")
 	if _err != nil {
-		return _err
+		_code = TransactionIAssistDataReceiverOnHandleAssistData
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -68,7 +68,7 @@ func (p *AssistDataReceiverProxy) OnHandleAssistScreenshot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAssistDataReceiver, "onHandleAssistScreenshot")
 	if _err != nil {
-		return _err
+		_code = TransactionIAssistDataReceiverOnHandleAssistScreenshot
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

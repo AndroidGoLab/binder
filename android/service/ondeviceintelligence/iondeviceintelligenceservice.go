@@ -72,7 +72,7 @@ func (p *OnDeviceIntelligenceServiceProxy) GetVersion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "getVersion")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceServiceGetVersion
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -93,7 +93,7 @@ func (p *OnDeviceIntelligenceServiceProxy) GetFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "getFeature")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceServiceGetFeature
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -112,7 +112,7 @@ func (p *OnDeviceIntelligenceServiceProxy) ListFeatures(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "listFeatures")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceServiceListFeatures
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -136,7 +136,7 @@ func (p *OnDeviceIntelligenceServiceProxy) GetFeatureDetails(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "getFeatureDetails")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceServiceGetFeatureDetails
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -158,7 +158,7 @@ func (p *OnDeviceIntelligenceServiceProxy) GetReadOnlyFileDescriptor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "getReadOnlyFileDescriptor")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceServiceGetReadOnlyFileDescriptor
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -183,7 +183,7 @@ func (p *OnDeviceIntelligenceServiceProxy) GetReadOnlyFeatureFileDescriptorMap(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "getReadOnlyFeatureFileDescriptorMap")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceServiceGetReadOnlyFeatureFileDescriptorMap
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -212,7 +212,7 @@ func (p *OnDeviceIntelligenceServiceProxy) RequestFeatureDownload(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "requestFeatureDownload")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceServiceRequestFeatureDownload
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -229,7 +229,7 @@ func (p *OnDeviceIntelligenceServiceProxy) RegisterRemoteServices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "registerRemoteServices")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceServiceRegisterRemoteServices
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -244,7 +244,7 @@ func (p *OnDeviceIntelligenceServiceProxy) NotifyInferenceServiceConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "notifyInferenceServiceConnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceServiceNotifyInferenceServiceConnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -259,7 +259,7 @@ func (p *OnDeviceIntelligenceServiceProxy) NotifyInferenceServiceDisconnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "notifyInferenceServiceDisconnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceServiceNotifyInferenceServiceDisconnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -274,7 +274,7 @@ func (p *OnDeviceIntelligenceServiceProxy) Ready(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceService, "ready")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceServiceReady
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

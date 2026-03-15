@@ -49,7 +49,7 @@ func (p *PackageMoveObserverProxy) OnCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageMoveObserver, "onCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageMoveObserverOnCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -70,7 +70,7 @@ func (p *PackageMoveObserverProxy) OnStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageMoveObserver, "onStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageMoveObserverOnStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

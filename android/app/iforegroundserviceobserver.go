@@ -52,7 +52,7 @@ func (p *ForegroundServiceObserverProxy) OnForegroundStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIForegroundServiceObserver, "onForegroundStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIForegroundServiceObserverOnForegroundStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

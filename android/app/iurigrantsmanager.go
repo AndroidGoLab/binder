@@ -63,7 +63,7 @@ func (p *UriGrantsManagerProxy) TakePersistableUriPermission(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUriGrantsManager, "takePersistableUriPermission")
 	if _err != nil {
-		return _err
+		_code = TransactionIUriGrantsManagerTakePersistableUriPermission
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -94,7 +94,7 @@ func (p *UriGrantsManagerProxy) ReleasePersistableUriPermission(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUriGrantsManager, "releasePersistableUriPermission")
 	if _err != nil {
-		return _err
+		_code = TransactionIUriGrantsManagerReleasePersistableUriPermission
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -131,7 +131,7 @@ func (p *UriGrantsManagerProxy) GrantUriPermissionFromOwner(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUriGrantsManager, "grantUriPermissionFromOwner")
 	if _err != nil {
-		return _err
+		_code = TransactionIUriGrantsManagerGrantUriPermissionFromOwner
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -160,7 +160,7 @@ func (p *UriGrantsManagerProxy) GetGrantedUriPermissions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUriGrantsManager, "getGrantedUriPermissions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUriGrantsManagerGetGrantedUriPermissions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -188,7 +188,7 @@ func (p *UriGrantsManagerProxy) ClearGrantedUriPermissions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUriGrantsManager, "clearGrantedUriPermissions")
 	if _err != nil {
-		return _err
+		_code = TransactionIUriGrantsManagerClearGrantedUriPermissions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -219,7 +219,7 @@ func (p *UriGrantsManagerProxy) GetUriPermissions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUriGrantsManager, "getUriPermissions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUriGrantsManagerGetUriPermissions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -253,7 +253,7 @@ func (p *UriGrantsManagerProxy) CheckGrantUriPermission_ignoreNonSystem(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUriGrantsManager, "checkGrantUriPermission_ignoreNonSystem")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUriGrantsManagerCheckGrantUriPermission_ignoreNonSystem
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

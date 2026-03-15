@@ -49,7 +49,7 @@ func (p *SecureElementServiceProxy) GetReaders(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementService, "getReaders")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementServiceGetReaders
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -90,7 +90,7 @@ func (p *SecureElementServiceProxy) GetReader(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementService, "getReader")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementServiceGetReader
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -142,7 +142,7 @@ func (p *SecureElementServiceProxy) IsNfcEventAllowed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementService, "isNfcEventAllowed")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementServiceIsNfcEventAllowed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

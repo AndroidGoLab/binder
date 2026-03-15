@@ -72,7 +72,7 @@ func (p *RingtonePlayerProxy) Play(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "play")
 	if _err != nil {
-		return _err
+		_code = TransactionIRingtonePlayerPlay
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -107,7 +107,7 @@ func (p *RingtonePlayerProxy) PlayWithVolumeShaping(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "playWithVolumeShaping")
 	if _err != nil {
-		return _err
+		_code = TransactionIRingtonePlayerPlayWithVolumeShaping
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -124,7 +124,7 @@ func (p *RingtonePlayerProxy) Stop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "stop")
 	if _err != nil {
-		return _err
+		_code = TransactionIRingtonePlayerStop
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -142,7 +142,7 @@ func (p *RingtonePlayerProxy) IsPlaying(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "isPlaying")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRingtonePlayerIsPlaying
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -178,7 +178,7 @@ func (p *RingtonePlayerProxy) SetPlaybackProperties(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "setPlaybackProperties")
 	if _err != nil {
-		return _err
+		_code = TransactionIRingtonePlayerSetPlaybackProperties
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -204,7 +204,7 @@ func (p *RingtonePlayerProxy) PlayAsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "playAsync")
 	if _err != nil {
-		return _err
+		_code = TransactionIRingtonePlayerPlayAsync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -219,7 +219,7 @@ func (p *RingtonePlayerProxy) StopAsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "stopAsync")
 	if _err != nil {
-		return _err
+		_code = TransactionIRingtonePlayerStopAsync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -236,7 +236,7 @@ func (p *RingtonePlayerProxy) GetTitle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "getTitle")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRingtonePlayerGetTitle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -266,7 +266,7 @@ func (p *RingtonePlayerProxy) OpenRingtone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "openRingtone")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRingtonePlayerOpenRingtone
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

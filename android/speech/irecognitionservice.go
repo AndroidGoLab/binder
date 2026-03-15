@@ -56,7 +56,7 @@ func (p *RecognitionServiceProxy) StartListening(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionService, "startListening")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionServiceStartListening
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -73,7 +73,7 @@ func (p *RecognitionServiceProxy) StopListening(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionService, "stopListening")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionServiceStopListening
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *RecognitionServiceProxy) Cancel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionService, "cancel")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionServiceCancel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -111,7 +111,7 @@ func (p *RecognitionServiceProxy) CheckRecognitionSupport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionService, "checkRecognitionSupport")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionServiceCheckRecognitionSupport
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -130,7 +130,7 @@ func (p *RecognitionServiceProxy) TriggerModelDownload(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionService, "triggerModelDownload")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionServiceTriggerModelDownload
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

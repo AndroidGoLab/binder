@@ -61,7 +61,7 @@ func (p *SoundTriggerCallbackProxy) OnRecognition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerCallback, "onRecognition")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundTriggerCallbackOnRecognition
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -85,7 +85,7 @@ func (p *SoundTriggerCallbackProxy) OnPhraseRecognition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerCallback, "onPhraseRecognition")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundTriggerCallbackOnPhraseRecognition
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -100,7 +100,7 @@ func (p *SoundTriggerCallbackProxy) OnResourcesAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerCallback, "onResourcesAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundTriggerCallbackOnResourcesAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -117,7 +117,7 @@ func (p *SoundTriggerCallbackProxy) OnModelUnloaded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerCallback, "onModelUnloaded")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundTriggerCallbackOnModelUnloaded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -132,7 +132,7 @@ func (p *SoundTriggerCallbackProxy) OnModuleDied(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerCallback, "onModuleDied")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundTriggerCallbackOnModuleDied
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

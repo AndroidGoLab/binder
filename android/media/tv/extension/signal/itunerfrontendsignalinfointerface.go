@@ -50,7 +50,7 @@ func (p *TunerFrontendSignalInfoInterfaceProxy) GetFrontendSignalInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontendSignalInfoInterface, "getFrontendSignalInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerFrontendSignalInfoInterfaceGetFrontendSignalInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -85,7 +85,7 @@ func (p *TunerFrontendSignalInfoInterfaceProxy) SetFrontendSignalInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontendSignalInfoInterface, "setFrontendSignalInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFrontendSignalInfoInterfaceSetFrontendSignalInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

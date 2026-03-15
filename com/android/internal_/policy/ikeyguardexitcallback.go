@@ -46,7 +46,7 @@ func (p *KeyguardExitCallbackProxy) OnKeyguardExitResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardExitCallback, "onKeyguardExitResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardExitCallbackOnKeyguardExitResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

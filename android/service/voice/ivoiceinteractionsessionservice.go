@@ -49,7 +49,7 @@ func (p *VoiceInteractionSessionServiceProxy) NewSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSessionService, "newSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractionSessionServiceNewSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

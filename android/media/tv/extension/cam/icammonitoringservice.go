@@ -57,7 +57,7 @@ func (p *CamMonitoringServiceProxy) AddCamInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamMonitoringService, "addCamInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICamMonitoringServiceAddCamInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -83,7 +83,7 @@ func (p *CamMonitoringServiceProxy) RemoveCamInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamMonitoringService, "removeCamInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICamMonitoringServiceRemoveCamInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -110,7 +110,7 @@ func (p *CamMonitoringServiceProxy) GetCamInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamMonitoringService, "getCamInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICamMonitoringServiceGetCamInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -146,7 +146,7 @@ func (p *CamMonitoringServiceProxy) GetSlotInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamMonitoringService, "getSlotInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICamMonitoringServiceGetSlotInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -180,7 +180,7 @@ func (p *CamMonitoringServiceProxy) GetSlotIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamMonitoringService, "getSlotIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICamMonitoringServiceGetSlotIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -219,7 +219,7 @@ func (p *CamMonitoringServiceProxy) IsCamSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamMonitoringService, "isCamSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICamMonitoringServiceIsCamSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

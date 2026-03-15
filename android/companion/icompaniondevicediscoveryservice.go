@@ -61,7 +61,7 @@ func (p *CompanionDeviceDiscoveryServiceProxy) StartDiscovery(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceDiscoveryService, "startDiscovery")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceDiscoveryServiceStartDiscovery
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -76,7 +76,7 @@ func (p *CompanionDeviceDiscoveryServiceProxy) OnAssociationCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceDiscoveryService, "onAssociationCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceDiscoveryServiceOnAssociationCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -46,7 +46,7 @@ func (p *TvInputHardwareCallbackProxy) OnReleased(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputHardwareCallback, "onReleased")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputHardwareCallbackOnReleased
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -72,7 +72,7 @@ func (p *TvInputHardwareCallbackProxy) OnStreamConfigChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputHardwareCallback, "onStreamConfigChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputHardwareCallbackOnStreamConfigChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

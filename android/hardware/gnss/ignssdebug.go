@@ -45,7 +45,7 @@ func (p *GnssDebugProxy) GetDebugData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssDebug, "getDebugData")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssDebugGetDebugData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

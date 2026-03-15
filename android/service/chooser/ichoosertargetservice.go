@@ -57,7 +57,7 @@ func (p *ChooserTargetServiceProxy) GetChooserTargets(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIChooserTargetService, "getChooserTargets")
 	if _err != nil {
-		return _err
+		_code = TransactionIChooserTargetServiceGetChooserTargets
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -72,7 +72,7 @@ func (p *EvsEnumeratorProxy) CloseCamera(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "closeCamera")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsEnumeratorCloseCamera
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -98,7 +98,7 @@ func (p *EvsEnumeratorProxy) CloseDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "closeDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsEnumeratorCloseDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -124,7 +124,7 @@ func (p *EvsEnumeratorProxy) CloseUltrasonicsArray(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "closeUltrasonicsArray")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsEnumeratorCloseUltrasonicsArray
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -149,7 +149,7 @@ func (p *EvsEnumeratorProxy) GetCameraList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "getCameraList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsEnumeratorGetCameraList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -187,7 +187,7 @@ func (p *EvsEnumeratorProxy) GetDisplayIdList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "getDisplayIdList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsEnumeratorGetDisplayIdList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -226,7 +226,7 @@ func (p *EvsEnumeratorProxy) GetDisplayState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "getDisplayState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsEnumeratorGetDisplayState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -261,7 +261,7 @@ func (p *EvsEnumeratorProxy) GetStreamList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "getStreamList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsEnumeratorGetStreamList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -299,7 +299,7 @@ func (p *EvsEnumeratorProxy) GetUltrasonicsArrayList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "getUltrasonicsArrayList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsEnumeratorGetUltrasonicsArrayList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -337,7 +337,7 @@ func (p *EvsEnumeratorProxy) IsHardware(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "isHardware")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsEnumeratorIsHardware
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -373,7 +373,7 @@ func (p *EvsEnumeratorProxy) OpenCamera(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "openCamera")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsEnumeratorOpenCamera
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -405,7 +405,7 @@ func (p *EvsEnumeratorProxy) OpenDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "openDisplay")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsEnumeratorOpenDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -437,7 +437,7 @@ func (p *EvsEnumeratorProxy) OpenUltrasonicsArray(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "openUltrasonicsArray")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsEnumeratorOpenUltrasonicsArray
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -468,7 +468,7 @@ func (p *EvsEnumeratorProxy) RegisterStatusCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "registerStatusCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsEnumeratorRegisterStatusCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -495,7 +495,7 @@ func (p *EvsEnumeratorProxy) GetDisplayStateById(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsEnumerator, "getDisplayStateById")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsEnumeratorGetDisplayStateById
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

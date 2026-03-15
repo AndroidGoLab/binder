@@ -63,7 +63,7 @@ func (p *InputSensorEventListenerProxy) OnInputSensorChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputSensorEventListener, "onInputSensorChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputSensorEventListenerOnInputSensorChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -84,7 +84,7 @@ func (p *InputSensorEventListenerProxy) OnInputSensorAccuracyChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputSensorEventListener, "onInputSensorAccuracyChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputSensorEventListenerOnInputSensorAccuracyChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

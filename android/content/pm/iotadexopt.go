@@ -54,7 +54,7 @@ func (p *OtaDexoptProxy) Prepare(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOtaDexopt, "prepare")
 	if _err != nil {
-		return _err
+		_code = TransactionIOtaDexoptPrepare
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -78,7 +78,7 @@ func (p *OtaDexoptProxy) Cleanup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOtaDexopt, "cleanup")
 	if _err != nil {
-		return _err
+		_code = TransactionIOtaDexoptCleanup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -103,7 +103,7 @@ func (p *OtaDexoptProxy) IsDone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOtaDexopt, "isDone")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOtaDexoptIsDone
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -132,7 +132,7 @@ func (p *OtaDexoptProxy) GetProgress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOtaDexopt, "getProgress")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOtaDexoptGetProgress
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -160,7 +160,7 @@ func (p *OtaDexoptProxy) DexoptNextPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOtaDexopt, "dexoptNextPackage")
 	if _err != nil {
-		return _err
+		_code = TransactionIOtaDexoptDexoptNextPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -185,7 +185,7 @@ func (p *OtaDexoptProxy) NextDexoptCommand(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOtaDexopt, "nextDexoptCommand")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOtaDexoptNextDexoptCommand
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

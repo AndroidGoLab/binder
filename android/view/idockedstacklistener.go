@@ -54,7 +54,7 @@ func (p *DockedStackListenerProxy) OnDividerVisibilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDockedStackListener, "onDividerVisibilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDockedStackListenerOnDividerVisibilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *DockedStackListenerProxy) OnDockedStackExistsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDockedStackListener, "onDockedStackExistsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDockedStackListenerOnDockedStackExistsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *DockedStackListenerProxy) OnDockedStackMinimizedChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDockedStackListener, "onDockedStackMinimizedChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDockedStackListenerOnDockedStackMinimizedChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -111,7 +111,7 @@ func (p *DockedStackListenerProxy) OnAdjustedForImeChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDockedStackListener, "onAdjustedForImeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDockedStackListenerOnAdjustedForImeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -128,7 +128,7 @@ func (p *DockedStackListenerProxy) OnDockSideChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDockedStackListener, "onDockSideChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDockedStackListenerOnDockSideChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

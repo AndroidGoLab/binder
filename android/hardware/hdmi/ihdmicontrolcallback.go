@@ -46,7 +46,7 @@ func (p *HdmiControlCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiControlCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiControlCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -65,7 +65,7 @@ func (p *TunerDemuxProxy) SetFrontendDataSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "setFrontendDataSource")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDemuxSetFrontendDataSource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -91,7 +91,7 @@ func (p *TunerDemuxProxy) SetFrontendDataSourceById(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "setFrontendDataSourceById")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDemuxSetFrontendDataSourceById
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -125,7 +125,7 @@ func (p *TunerDemuxProxy) OpenFilter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "openFilter")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerDemuxOpenFilter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -155,7 +155,7 @@ func (p *TunerDemuxProxy) OpenTimeFilter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "openTimeFilter")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerDemuxOpenTimeFilter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -187,7 +187,7 @@ func (p *TunerDemuxProxy) GetAvSyncHwId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "getAvSyncHwId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerDemuxGetAvSyncHwId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -218,7 +218,7 @@ func (p *TunerDemuxProxy) GetAvSyncTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "getAvSyncTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerDemuxGetAvSyncTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -253,7 +253,7 @@ func (p *TunerDemuxProxy) OpenDvr(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "openDvr")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerDemuxOpenDvr
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -284,7 +284,7 @@ func (p *TunerDemuxProxy) ConnectCiCam(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "connectCiCam")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDemuxConnectCiCam
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -308,7 +308,7 @@ func (p *TunerDemuxProxy) DisconnectCiCam(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "disconnectCiCam")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDemuxDisconnectCiCam
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -332,7 +332,7 @@ func (p *TunerDemuxProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDemux, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDemuxClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

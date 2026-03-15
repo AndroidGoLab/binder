@@ -48,7 +48,7 @@ func (p *HciProxyProxy) RegisterCallbacks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHciProxy, "registerCallbacks")
 	if _err != nil {
-		return _err
+		_code = TransactionIHciProxyRegisterCallbacks
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -85,7 +85,7 @@ func (p *HciProxyProxy) SendPacket(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHciProxy, "sendPacket")
 	if _err != nil {
-		return _err
+		_code = TransactionIHciProxySendPacket
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

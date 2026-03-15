@@ -54,7 +54,7 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISipDelegateMessageCallback, "onMessageReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionISipDelegateMessageCallbackOnMessageReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageSent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISipDelegateMessageCallback, "onMessageSent")
 	if _err != nil {
-		return _err
+		_code = TransactionISipDelegateMessageCallbackOnMessageSent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -90,7 +90,7 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageSendFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISipDelegateMessageCallback, "onMessageSendFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionISipDelegateMessageCallbackOnMessageSendFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -52,7 +52,7 @@ func (p *ProgramRatingInfoListenerProxy) OnProgramInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProgramRatingInfoListener, "onProgramInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIProgramRatingInfoListenerOnProgramInfoChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

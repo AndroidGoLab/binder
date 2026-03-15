@@ -192,7 +192,7 @@ func (p *ApplicationThreadProxy) ScheduleReceiver(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleReceiver")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleReceiver
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -218,7 +218,7 @@ func (p *ApplicationThreadProxy) ScheduleReceiverList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleReceiverList")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleReceiverList
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -239,7 +239,7 @@ func (p *ApplicationThreadProxy) ScheduleCreateService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleCreateService")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleCreateService
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -256,7 +256,7 @@ func (p *ApplicationThreadProxy) ScheduleStopService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleStopService")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleStopService
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -343,7 +343,7 @@ func (p *ApplicationThreadProxy) BindApplication(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "bindApplication")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadBindApplication
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -369,7 +369,7 @@ func (p *ApplicationThreadProxy) RunIsolatedEntryPoint(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "runIsolatedEntryPoint")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadRunIsolatedEntryPoint
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -384,7 +384,7 @@ func (p *ApplicationThreadProxy) ScheduleExit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleExit")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleExit
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -402,7 +402,7 @@ func (p *ApplicationThreadProxy) ScheduleServiceArgs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleServiceArgs")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleServiceArgs
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -417,7 +417,7 @@ func (p *ApplicationThreadProxy) UpdateTimeZone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "updateTimeZone")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadUpdateTimeZone
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -432,7 +432,7 @@ func (p *ApplicationThreadProxy) ProcessInBackground(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "processInBackground")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadProcessInBackground
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -456,7 +456,7 @@ func (p *ApplicationThreadProxy) ScheduleBindService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleBindService")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleBindService
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -474,7 +474,7 @@ func (p *ApplicationThreadProxy) ScheduleUnbindService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleUnbindService")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleUnbindService
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -502,7 +502,7 @@ func (p *ApplicationThreadProxy) DumpService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpService")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadDumpService
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -538,7 +538,7 @@ func (p *ApplicationThreadProxy) ScheduleRegisteredReceiver(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleRegisteredReceiver")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleRegisteredReceiver
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -553,7 +553,7 @@ func (p *ApplicationThreadProxy) ScheduleLowMemory(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleLowMemory")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleLowMemory
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -577,7 +577,7 @@ func (p *ApplicationThreadProxy) ProfilerControl(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "profilerControl")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadProfilerControl
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -594,7 +594,7 @@ func (p *ApplicationThreadProxy) SetSchedulingGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "setSchedulingGroup")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadSetSchedulingGroup
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -616,7 +616,7 @@ func (p *ApplicationThreadProxy) ScheduleCreateBackupAgent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleCreateBackupAgent")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleCreateBackupAgent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -634,7 +634,7 @@ func (p *ApplicationThreadProxy) ScheduleDestroyBackupAgent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleDestroyBackupAgent")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleDestroyBackupAgent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -656,7 +656,7 @@ func (p *ApplicationThreadProxy) ScheduleOnNewSceneTransitionInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleOnNewSceneTransitionInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleOnNewSceneTransitionInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -671,7 +671,7 @@ func (p *ApplicationThreadProxy) ScheduleSuicide(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleSuicide")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleSuicide
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -697,7 +697,7 @@ func (p *ApplicationThreadProxy) DispatchPackageBroadcast(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dispatchPackageBroadcast")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadDispatchPackageBroadcast
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -717,7 +717,7 @@ func (p *ApplicationThreadProxy) ScheduleCrash(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleCrash")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleCrash
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -745,7 +745,7 @@ func (p *ApplicationThreadProxy) DumpHeap(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpHeap")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadDumpHeap
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -775,7 +775,7 @@ func (p *ApplicationThreadProxy) DumpActivity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpActivity")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadDumpActivity
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -793,7 +793,7 @@ func (p *ApplicationThreadProxy) DumpResources(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpResources")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadDumpResources
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -808,7 +808,7 @@ func (p *ApplicationThreadProxy) ClearDnsCache(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "clearDnsCache")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadClearDnsCache
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -823,7 +823,7 @@ func (p *ApplicationThreadProxy) UpdateHttpProxy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "updateHttpProxy")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadUpdateHttpProxy
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -839,7 +839,7 @@ func (p *ApplicationThreadProxy) SetCoreSettings(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "setCoreSettings")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadSetCoreSettings
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -857,7 +857,7 @@ func (p *ApplicationThreadProxy) UpdatePackageCompatibilityInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "updatePackageCompatibilityInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadUpdatePackageCompatibilityInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -874,7 +874,7 @@ func (p *ApplicationThreadProxy) ScheduleTrimMemory(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleTrimMemory")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleTrimMemory
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -913,7 +913,7 @@ func (p *ApplicationThreadProxy) DumpMemInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpMemInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadDumpMemInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -948,7 +948,7 @@ func (p *ApplicationThreadProxy) DumpMemInfoProto(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpMemInfoProto")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadDumpMemInfoProto
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -974,7 +974,7 @@ func (p *ApplicationThreadProxy) DumpGfxInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpGfxInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadDumpGfxInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1000,7 +1000,7 @@ func (p *ApplicationThreadProxy) DumpCacheInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpCacheInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadDumpCacheInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1028,7 +1028,7 @@ func (p *ApplicationThreadProxy) DumpProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpProvider")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadDumpProvider
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1054,7 +1054,7 @@ func (p *ApplicationThreadProxy) DumpDbInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "dumpDbInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadDumpDbInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1071,7 +1071,7 @@ func (p *ApplicationThreadProxy) UnstableProviderDied(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "unstableProviderDied")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadUnstableProviderDied
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1096,7 +1096,7 @@ func (p *ApplicationThreadProxy) RequestAssistContextExtras(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "requestAssistContextExtras")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadRequestAssistContextExtras
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1115,7 +1115,7 @@ func (p *ApplicationThreadProxy) ScheduleTranslucentConversionComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleTranslucentConversionComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleTranslucentConversionComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1132,7 +1132,7 @@ func (p *ApplicationThreadProxy) SetProcessState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "setProcessState")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadSetProcessState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1148,7 +1148,7 @@ func (p *ApplicationThreadProxy) ScheduleInstallProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleInstallProvider")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleInstallProvider
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1165,7 +1165,7 @@ func (p *ApplicationThreadProxy) UpdateTimePrefs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "updateTimePrefs")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadUpdateTimePrefs
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1182,7 +1182,7 @@ func (p *ApplicationThreadProxy) ScheduleEnterAnimationComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleEnterAnimationComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleEnterAnimationComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1206,7 +1206,7 @@ func (p *ApplicationThreadProxy) NotifyCleartextNetwork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "notifyCleartextNetwork")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadNotifyCleartextNetwork
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1221,7 +1221,7 @@ func (p *ApplicationThreadProxy) StartBinderTracking(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "startBinderTracking")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadStartBinderTracking
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1238,7 +1238,7 @@ func (p *ApplicationThreadProxy) StopBinderTrackingAndDump(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "stopBinderTrackingAndDump")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadStopBinderTrackingAndDump
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1256,7 +1256,7 @@ func (p *ApplicationThreadProxy) ScheduleLocalVoiceInteractionStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleLocalVoiceInteractionStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleLocalVoiceInteractionStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1271,7 +1271,7 @@ func (p *ApplicationThreadProxy) HandleTrustStorageUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "handleTrustStorageUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadHandleTrustStorageUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1288,7 +1288,7 @@ func (p *ApplicationThreadProxy) AttachAgent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "attachAgent")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadAttachAgent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1305,7 +1305,7 @@ func (p *ApplicationThreadProxy) AttachStartupAgents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "attachStartupAgents")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadAttachStartupAgents
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1321,7 +1321,7 @@ func (p *ApplicationThreadProxy) ScheduleApplicationInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleApplicationInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleApplicationInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1338,7 +1338,7 @@ func (p *ApplicationThreadProxy) SetNetworkBlockSeq(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "setNetworkBlockSeq")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadSetNetworkBlockSeq
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1358,7 +1358,7 @@ func (p *ApplicationThreadProxy) ScheduleTransaction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleTransaction")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleTransaction
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1375,7 +1375,7 @@ func (p *ApplicationThreadProxy) ScheduleTaskFragmentTransaction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleTaskFragmentTransaction")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleTaskFragmentTransaction
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1395,7 +1395,7 @@ func (p *ApplicationThreadProxy) RequestDirectActions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "requestDirectActions")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadRequestDirectActions
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1417,7 +1417,7 @@ func (p *ApplicationThreadProxy) PerformDirectAction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "performDirectAction")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadPerformDirectAction
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1443,7 +1443,7 @@ func (p *ApplicationThreadProxy) NotifyContentProviderPublishStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "notifyContentProviderPublishStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadNotifyContentProviderPublishStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1465,7 +1465,7 @@ func (p *ApplicationThreadProxy) InstrumentWithoutRestart(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "instrumentWithoutRestart")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadInstrumentWithoutRestart
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1493,7 +1493,7 @@ func (p *ApplicationThreadProxy) UpdateUiTranslationState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "updateUiTranslationState")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadUpdateUiTranslationState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1512,7 +1512,7 @@ func (p *ApplicationThreadProxy) ScheduleTimeoutService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleTimeoutService")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleTimeoutService
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1533,7 +1533,7 @@ func (p *ApplicationThreadProxy) ScheduleTimeoutServiceForType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleTimeoutServiceForType")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadScheduleTimeoutServiceForType
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1549,7 +1549,7 @@ func (p *ApplicationThreadProxy) SchedulePing(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "schedulePing")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadSchedulePing
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1571,7 +1571,7 @@ func (p *ApplicationThreadProxy) GetExecutableMethodFileOffsets(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "getExecutableMethodFileOffsets")
 	if _err != nil {
-		return _err
+		_code = TransactionIApplicationThreadGetExecutableMethodFileOffsets
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -63,7 +63,7 @@ func (p *IncidentManagerProxy) ReportIncident(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentManager, "reportIncident")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentManagerReportIncident
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -82,7 +82,7 @@ func (p *IncidentManagerProxy) ReportIncidentToStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentManager, "reportIncidentToStream")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentManagerReportIncidentToStream
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -100,7 +100,7 @@ func (p *IncidentManagerProxy) ReportIncidentToDumpstate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentManager, "reportIncidentToDumpstate")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentManagerReportIncidentToDumpstate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -121,7 +121,7 @@ func (p *IncidentManagerProxy) RegisterSection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentManager, "registerSection")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentManagerRegisterSection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -138,7 +138,7 @@ func (p *IncidentManagerProxy) UnregisterSection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentManager, "unregisterSection")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentManagerUnregisterSection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -153,7 +153,7 @@ func (p *IncidentManagerProxy) SystemRunning(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentManager, "systemRunning")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentManagerSystemRunning
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -173,7 +173,7 @@ func (p *IncidentManagerProxy) GetIncidentReportList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentManager, "getIncidentReportList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIncidentManagerGetIncidentReportList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -218,7 +218,7 @@ func (p *IncidentManagerProxy) GetIncidentReport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentManager, "getIncidentReport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIncidentManagerGetIncidentReport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -248,7 +248,7 @@ func (p *IncidentManagerProxy) DeleteIncidentReports(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentManager, "deleteIncidentReports")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentManagerDeleteIncidentReports
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -274,7 +274,7 @@ func (p *IncidentManagerProxy) DeleteAllIncidentReports(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentManager, "deleteAllIncidentReports")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentManagerDeleteAllIncidentReports
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

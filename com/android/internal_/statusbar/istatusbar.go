@@ -216,7 +216,7 @@ func (p *StatusBarProxy) SetIcon(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "setIcon")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarSetIcon
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -233,7 +233,7 @@ func (p *StatusBarProxy) RemoveIcon(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "removeIcon")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarRemoveIcon
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -254,7 +254,7 @@ func (p *StatusBarProxy) Disable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "disable")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarDisable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -269,7 +269,7 @@ func (p *StatusBarProxy) AnimateExpandNotificationsPanel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "animateExpandNotificationsPanel")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarAnimateExpandNotificationsPanel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -286,7 +286,7 @@ func (p *StatusBarProxy) AnimateExpandSettingsPanel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "animateExpandSettingsPanel")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarAnimateExpandSettingsPanel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -301,7 +301,7 @@ func (p *StatusBarProxy) AnimateCollapsePanels(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "animateCollapsePanels")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarAnimateCollapsePanels
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -316,7 +316,7 @@ func (p *StatusBarProxy) ToggleNotificationsPanel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "toggleNotificationsPanel")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarToggleNotificationsPanel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -333,7 +333,7 @@ func (p *StatusBarProxy) ShowWirelessChargingAnimation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "showWirelessChargingAnimation")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarShowWirelessChargingAnimation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -356,7 +356,7 @@ func (p *StatusBarProxy) SetImeWindowStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "setImeWindowStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarSetImeWindowStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -377,7 +377,7 @@ func (p *StatusBarProxy) SetWindowState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "setWindowState")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarSetWindowState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -394,7 +394,7 @@ func (p *StatusBarProxy) ShowRecentApps(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "showRecentApps")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarShowRecentApps
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -413,7 +413,7 @@ func (p *StatusBarProxy) HideRecentApps(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "hideRecentApps")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarHideRecentApps
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -428,7 +428,7 @@ func (p *StatusBarProxy) ToggleRecentApps(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "toggleRecentApps")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarToggleRecentApps
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -443,7 +443,7 @@ func (p *StatusBarProxy) ToggleTaskbar(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "toggleTaskbar")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarToggleTaskbar
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -458,7 +458,7 @@ func (p *StatusBarProxy) ToggleSplitScreen(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "toggleSplitScreen")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarToggleSplitScreen
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -473,7 +473,7 @@ func (p *StatusBarProxy) PreloadRecentApps(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "preloadRecentApps")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarPreloadRecentApps
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -488,7 +488,7 @@ func (p *StatusBarProxy) CancelPreloadRecentApps(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "cancelPreloadRecentApps")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarCancelPreloadRecentApps
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -505,7 +505,7 @@ func (p *StatusBarProxy) ShowScreenPinningRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "showScreenPinningRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarShowScreenPinningRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -520,7 +520,7 @@ func (p *StatusBarProxy) ConfirmImmersivePrompt(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "confirmImmersivePrompt")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarConfirmImmersivePrompt
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -539,7 +539,7 @@ func (p *StatusBarProxy) ImmersiveModeChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "immersiveModeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarImmersiveModeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -554,7 +554,7 @@ func (p *StatusBarProxy) DismissKeyboardShortcutsMenu(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "dismissKeyboardShortcutsMenu")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarDismissKeyboardShortcutsMenu
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -571,7 +571,7 @@ func (p *StatusBarProxy) ToggleKeyboardShortcutsMenu(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "toggleKeyboardShortcutsMenu")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarToggleKeyboardShortcutsMenu
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -588,7 +588,7 @@ func (p *StatusBarProxy) AppTransitionPending(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "appTransitionPending")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarAppTransitionPending
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -605,7 +605,7 @@ func (p *StatusBarProxy) AppTransitionCancelled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "appTransitionCancelled")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarAppTransitionCancelled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -626,7 +626,7 @@ func (p *StatusBarProxy) AppTransitionStarting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "appTransitionStarting")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarAppTransitionStarting
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -643,7 +643,7 @@ func (p *StatusBarProxy) AppTransitionFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "appTransitionFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarAppTransitionFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -658,7 +658,7 @@ func (p *StatusBarProxy) ShowAssistDisclosure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "showAssistDisclosure")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarShowAssistDisclosure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -678,7 +678,7 @@ func (p *StatusBarProxy) StartAssist(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "startAssist")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarStartAssist
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -695,7 +695,7 @@ func (p *StatusBarProxy) OnCameraLaunchGestureDetected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "onCameraLaunchGestureDetected")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarOnCameraLaunchGestureDetected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -710,7 +710,7 @@ func (p *StatusBarProxy) OnEmergencyActionLaunchGestureDetected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "onEmergencyActionLaunchGestureDetected")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarOnEmergencyActionLaunchGestureDetected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -725,7 +725,7 @@ func (p *StatusBarProxy) ShowPictureInPictureMenu(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "showPictureInPictureMenu")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarShowPictureInPictureMenu
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -740,7 +740,7 @@ func (p *StatusBarProxy) ShowGlobalActionsMenu(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "showGlobalActionsMenu")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarShowGlobalActionsMenu
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -759,7 +759,7 @@ func (p *StatusBarProxy) OnProposedRotationChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "onProposedRotationChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarOnProposedRotationChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -776,7 +776,7 @@ func (p *StatusBarProxy) SetTopAppHidesStatusBar(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "setTopAppHidesStatusBar")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarSetTopAppHidesStatusBar
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -796,7 +796,7 @@ func (p *StatusBarProxy) AddQsTile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "addQsTile")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarAddQsTile
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -818,7 +818,7 @@ func (p *StatusBarProxy) AddQsTileToFrontOrEnd(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "addQsTileToFrontOrEnd")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarAddQsTileToFrontOrEnd
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -838,7 +838,7 @@ func (p *StatusBarProxy) RemQsTile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "remQsTile")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarRemQsTile
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -862,7 +862,7 @@ func (p *StatusBarProxy) SetQsTiles(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "setQsTiles")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarSetQsTiles
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -882,7 +882,7 @@ func (p *StatusBarProxy) ClickQsTile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "clickQsTile")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarClickQsTile
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -902,7 +902,7 @@ func (p *StatusBarProxy) HandleSystemKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "handleSystemKey")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarHandleSystemKey
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -919,7 +919,7 @@ func (p *StatusBarProxy) ShowPinningEnterExitToast(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "showPinningEnterExitToast")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarShowPinningEnterExitToast
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -934,7 +934,7 @@ func (p *StatusBarProxy) ShowPinningEscapeToast(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "showPinningEscapeToast")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarShowPinningEscapeToast
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -953,7 +953,7 @@ func (p *StatusBarProxy) ShowShutdownUi(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "showShutdownUi")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarShowShutdownUi
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -995,7 +995,7 @@ func (p *StatusBarProxy) ShowAuthenticationDialog(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "showAuthenticationDialog")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarShowAuthenticationDialog
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1012,7 +1012,7 @@ func (p *StatusBarProxy) OnBiometricAuthenticated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "onBiometricAuthenticated")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarOnBiometricAuthenticated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1031,7 +1031,7 @@ func (p *StatusBarProxy) OnBiometricHelp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "onBiometricHelp")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarOnBiometricHelp
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1052,7 +1052,7 @@ func (p *StatusBarProxy) OnBiometricError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "onBiometricError")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarOnBiometricError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1069,7 +1069,7 @@ func (p *StatusBarProxy) HideAuthenticationDialog(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "hideAuthenticationDialog")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarHideAuthenticationDialog
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1086,7 +1086,7 @@ func (p *StatusBarProxy) SetBiometicContextListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "setBiometicContextListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarSetBiometicContextListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1103,7 +1103,7 @@ func (p *StatusBarProxy) SetUdfpsRefreshRateCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "setUdfpsRefreshRateCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarSetUdfpsRefreshRateCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1120,7 +1120,7 @@ func (p *StatusBarProxy) OnDisplayReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "onDisplayReady")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarOnDisplayReady
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1169,7 +1169,7 @@ func (p *StatusBarProxy) OnSystemBarAttributesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "onSystemBarAttributesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarOnSystemBarAttributesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1190,7 +1190,7 @@ func (p *StatusBarProxy) ShowTransient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "showTransient")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarShowTransient
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1209,7 +1209,7 @@ func (p *StatusBarProxy) AbortTransient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "abortTransient")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarAbortTransient
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1224,7 +1224,7 @@ func (p *StatusBarProxy) ShowInattentiveSleepWarning(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "showInattentiveSleepWarning")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarShowInattentiveSleepWarning
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1241,7 +1241,7 @@ func (p *StatusBarProxy) DismissInattentiveSleepWarning(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "dismissInattentiveSleepWarning")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarDismissInattentiveSleepWarning
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1271,7 +1271,7 @@ func (p *StatusBarProxy) ShowToast(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "showToast")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarShowToast
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1290,7 +1290,7 @@ func (p *StatusBarProxy) HideToast(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "hideToast")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarHideToast
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1305,7 +1305,7 @@ func (p *StatusBarProxy) StartTracing(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "startTracing")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarStartTracing
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1320,7 +1320,7 @@ func (p *StatusBarProxy) StopTracing(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "stopTracing")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarStopTracing
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1337,7 +1337,7 @@ func (p *StatusBarProxy) SuppressAmbientDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "suppressAmbientDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarSuppressAmbientDisplay
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1354,7 +1354,7 @@ func (p *StatusBarProxy) RequestMagnificationConnection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "requestMagnificationConnection")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarRequestMagnificationConnection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1380,7 +1380,7 @@ func (p *StatusBarProxy) PassThroughShellCommand(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "passThroughShellCommand")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarPassThroughShellCommand
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1399,7 +1399,7 @@ func (p *StatusBarProxy) SetNavigationBarLumaSamplingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "setNavigationBarLumaSamplingEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarSetNavigationBarLumaSamplingEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1414,7 +1414,7 @@ func (p *StatusBarProxy) RunGcForTest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "runGcForTest")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarRunGcForTest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1434,7 +1434,7 @@ func (p *StatusBarProxy) RequestTileServiceListeningState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "requestTileServiceListeningState")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarRequestTileServiceListeningState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1465,7 +1465,7 @@ func (p *StatusBarProxy) RequestAddTile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "requestAddTile")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarRequestAddTile
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1482,7 +1482,7 @@ func (p *StatusBarProxy) CancelRequestAddTile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "cancelRequestAddTile")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarCancelRequestAddTile
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1506,7 +1506,7 @@ func (p *StatusBarProxy) UpdateMediaTapToTransferSenderDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "updateMediaTapToTransferSenderDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarUpdateMediaTapToTransferSenderDisplay
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1534,7 +1534,7 @@ func (p *StatusBarProxy) UpdateMediaTapToTransferReceiverDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "updateMediaTapToTransferReceiverDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarUpdateMediaTapToTransferReceiverDisplay
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1551,7 +1551,7 @@ func (p *StatusBarProxy) RegisterNearbyMediaDevicesProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "registerNearbyMediaDevicesProvider")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarRegisterNearbyMediaDevicesProvider
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1568,7 +1568,7 @@ func (p *StatusBarProxy) UnregisterNearbyMediaDevicesProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "unregisterNearbyMediaDevicesProvider")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarUnregisterNearbyMediaDevicesProvider
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1594,7 +1594,7 @@ func (p *StatusBarProxy) DumpProto(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "dumpProto")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarDumpProto
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1611,7 +1611,7 @@ func (p *StatusBarProxy) ShowRearDisplayDialog(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "showRearDisplayDialog")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarShowRearDisplayDialog
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1628,7 +1628,7 @@ func (p *StatusBarProxy) MoveFocusedTaskToFullscreen(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "moveFocusedTaskToFullscreen")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarMoveFocusedTaskToFullscreen
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1647,7 +1647,7 @@ func (p *StatusBarProxy) MoveFocusedTaskToStageSplit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "moveFocusedTaskToStageSplit")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarMoveFocusedTaskToStageSplit
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1664,7 +1664,7 @@ func (p *StatusBarProxy) SetSplitscreenFocus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "setSplitscreenFocus")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarSetSplitscreenFocus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1686,7 +1686,7 @@ func (p *StatusBarProxy) ShowMediaOutputSwitcher(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "showMediaOutputSwitcher")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarShowMediaOutputSwitcher
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1703,7 +1703,7 @@ func (p *StatusBarProxy) MoveFocusedTaskToDesktop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBar, "moveFocusedTaskToDesktop")
 	if _err != nil {
-		return _err
+		_code = TransactionIStatusBarMoveFocusedTaskToDesktop
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

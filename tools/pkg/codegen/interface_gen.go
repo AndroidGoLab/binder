@@ -60,7 +60,7 @@ func GenerateInterface(
 
 	// Proxy methods.
 	for i, m := range decl.Methods {
-		writeProxyMethod(f, proxyName, descriptorConst, m, i, decl.Oneway, opts, typeRef)
+		writeProxyMethod(f, interfaceName, proxyName, descriptorConst, m, i, decl.Oneway, opts, typeRef)
 	}
 
 	// Stub type (server-side transaction dispatcher).
@@ -521,6 +521,7 @@ func writeProxyStruct(
 // writeProxyMethod writes a single proxy method implementation.
 func writeProxyMethod(
 	f *GoFile,
+	interfaceName string,
 	proxyName string,
 	descriptorConst string,
 	m *parser.MethodDecl,
@@ -590,18 +591,15 @@ func writeProxyMethod(
 
 	// Transact call and reply handling.
 	// Use ResolveCode so the proxy asks the transport for the correct
-	// transaction code instead of relying on a compile-time constant.
+	// transaction code. Fall back to the compiled constant for stable
+	// AIDL interfaces not in the version table (e.g. HAL interfaces
+	// whose codes aren't extracted from framework JARs).
+	txnConst := "Transaction" + interfaceName + AIDLToGoName(m.MethodName)
 	f.P("")
 	f.P("\t_code, _err := p.remote.ResolveCode(%s, %q)", descriptorConst, m.MethodName)
-	if hasReturn {
-		f.P("\tif _err != nil {")
-		f.P("\t\treturn _result, _err")
-		f.P("\t}")
-	} else {
-		f.P("\tif _err != nil {")
-		f.P("\t\treturn _err")
-		f.P("\t}")
-	}
+	f.P("\tif _err != nil {")
+	f.P("\t\t_code = %s", txnConst)
+	f.P("\t}")
 	f.P("")
 	if isOneway {
 		// Oneway methods do not receive a reply from the kernel.

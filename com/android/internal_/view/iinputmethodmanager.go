@@ -126,7 +126,7 @@ func (p *InputMethodManagerProxy) AddClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "addClient")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerAddClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -153,7 +153,7 @@ func (p *InputMethodManagerProxy) GetCurrentInputMethodInfoAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "getCurrentInputMethodInfoAsUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerGetCurrentInputMethodInfoAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -191,7 +191,7 @@ func (p *InputMethodManagerProxy) GetInputMethodList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "getInputMethodList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerGetInputMethodList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -227,7 +227,7 @@ func (p *InputMethodManagerProxy) GetEnabledInputMethodList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "getEnabledInputMethodList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerGetEnabledInputMethodList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -265,7 +265,7 @@ func (p *InputMethodManagerProxy) GetInputMethodListLegacy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "getInputMethodListLegacy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerGetInputMethodListLegacy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -305,7 +305,7 @@ func (p *InputMethodManagerProxy) GetEnabledInputMethodListLegacy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "getEnabledInputMethodListLegacy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerGetEnabledInputMethodListLegacy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -349,7 +349,7 @@ func (p *InputMethodManagerProxy) GetEnabledInputMethodSubtypeList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "getEnabledInputMethodSubtypeList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerGetEnabledInputMethodSubtypeList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -389,7 +389,7 @@ func (p *InputMethodManagerProxy) GetLastInputMethodSubtype(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "getLastInputMethodSubtype")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerGetLastInputMethodSubtype
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -448,7 +448,7 @@ func (p *InputMethodManagerProxy) ShowSoftInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "showSoftInput")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerShowSoftInput
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -500,7 +500,7 @@ func (p *InputMethodManagerProxy) HideSoftInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "hideSoftInput")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerHideSoftInput
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -528,7 +528,7 @@ func (p *InputMethodManagerProxy) HideSoftInputFromServerForTest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "hideSoftInputFromServerForTest")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerHideSoftInputFromServerForTest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -598,7 +598,7 @@ func (p *InputMethodManagerProxy) StartInputOrWindowGainedFocus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "startInputOrWindowGainedFocus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerStartInputOrWindowGainedFocus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -680,7 +680,7 @@ func (p *InputMethodManagerProxy) StartInputOrWindowGainedFocusAsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "startInputOrWindowGainedFocusAsync")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerStartInputOrWindowGainedFocusAsync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -708,7 +708,7 @@ func (p *InputMethodManagerProxy) ShowInputMethodPickerFromClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "showInputMethodPickerFromClient")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerShowInputMethodPickerFromClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -736,7 +736,7 @@ func (p *InputMethodManagerProxy) ShowInputMethodPickerFromSystem(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "showInputMethodPickerFromSystem")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerShowInputMethodPickerFromSystem
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -761,7 +761,7 @@ func (p *InputMethodManagerProxy) IsInputMethodPickerShownForTest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "isInputMethodPickerShownForTest")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerIsInputMethodPickerShownForTest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -791,7 +791,7 @@ func (p *InputMethodManagerProxy) OnImeSwitchButtonClickFromSystem(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "onImeSwitchButtonClickFromSystem")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerOnImeSwitchButtonClickFromSystem
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -809,7 +809,7 @@ func (p *InputMethodManagerProxy) GetCurrentInputMethodSubtype(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "getCurrentInputMethodSubtype")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerGetCurrentInputMethodSubtype
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -857,7 +857,7 @@ func (p *InputMethodManagerProxy) SetAdditionalInputMethodSubtypes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "setAdditionalInputMethodSubtypes")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerSetAdditionalInputMethodSubtypes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -894,7 +894,7 @@ func (p *InputMethodManagerProxy) SetExplicitlyEnabledInputMethodSubtypes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "setExplicitlyEnabledInputMethodSubtypes")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerSetExplicitlyEnabledInputMethodSubtypes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -921,7 +921,7 @@ func (p *InputMethodManagerProxy) GetInputMethodWindowVisibleHeight(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "getInputMethodWindowVisibleHeight")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerGetInputMethodWindowVisibleHeight
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -953,7 +953,7 @@ func (p *InputMethodManagerProxy) ReportPerceptibleAsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "reportPerceptibleAsync")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerReportPerceptibleAsync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -970,7 +970,7 @@ func (p *InputMethodManagerProxy) RemoveImeSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "removeImeSurface")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerRemoveImeSurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -996,7 +996,7 @@ func (p *InputMethodManagerProxy) RemoveImeSurfaceFromWindowAsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "removeImeSurfaceFromWindowAsync")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerRemoveImeSurfaceFromWindowAsync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1024,7 +1024,7 @@ func (p *InputMethodManagerProxy) StartProtoDump(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "startProtoDump")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerStartProtoDump
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1049,7 +1049,7 @@ func (p *InputMethodManagerProxy) IsImeTraceEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "isImeTraceEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerIsImeTraceEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1077,7 +1077,7 @@ func (p *InputMethodManagerProxy) StartImeTrace(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "startImeTrace")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerStartImeTrace
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1101,7 +1101,7 @@ func (p *InputMethodManagerProxy) StopImeTrace(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "stopImeTrace")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerStopImeTrace
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1127,7 +1127,7 @@ func (p *InputMethodManagerProxy) StartStylusHandwriting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "startStylusHandwriting")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerStartStylusHandwriting
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1166,7 +1166,7 @@ func (p *InputMethodManagerProxy) StartConnectionlessStylusHandwriting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "startConnectionlessStylusHandwriting")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerStartConnectionlessStylusHandwriting
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1189,7 +1189,7 @@ func (p *InputMethodManagerProxy) PrepareStylusHandwritingDelegation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "prepareStylusHandwritingDelegation")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerPrepareStylusHandwritingDelegation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1224,7 +1224,7 @@ func (p *InputMethodManagerProxy) AcceptStylusHandwritingDelegation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "acceptStylusHandwritingDelegation")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerAcceptStylusHandwritingDelegation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1264,7 +1264,7 @@ func (p *InputMethodManagerProxy) AcceptStylusHandwritingDelegationAsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "acceptStylusHandwritingDelegationAsync")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerAcceptStylusHandwritingDelegationAsync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1284,7 +1284,7 @@ func (p *InputMethodManagerProxy) IsStylusHandwritingAvailableAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "isStylusHandwritingAvailableAsUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerIsStylusHandwritingAvailableAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1314,7 +1314,7 @@ func (p *InputMethodManagerProxy) AddVirtualStylusIdForTestSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "addVirtualStylusIdForTestSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerAddVirtualStylusIdForTestSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1342,7 +1342,7 @@ func (p *InputMethodManagerProxy) SetStylusWindowIdleTimeoutForTest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "setStylusWindowIdleTimeoutForTest")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodManagerSetStylusWindowIdleTimeoutForTest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1367,7 +1367,7 @@ func (p *InputMethodManagerProxy) GetImeTrackerService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodManager, "getImeTrackerService")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputMethodManagerGetImeTrackerService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

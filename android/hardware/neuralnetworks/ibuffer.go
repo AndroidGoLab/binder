@@ -60,7 +60,7 @@ func (p *BufferProxy) CopyFrom(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBuffer, "copyFrom")
 	if _err != nil {
-		return _err
+		_code = TransactionIBufferCopyFrom
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -89,7 +89,7 @@ func (p *BufferProxy) CopyTo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBuffer, "copyTo")
 	if _err != nil {
-		return _err
+		_code = TransactionIBufferCopyTo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

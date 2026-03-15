@@ -85,7 +85,7 @@ func (p *InputMethodProxy) InitializeInternal(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "initializeInternal")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodInitializeInternal
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -107,7 +107,7 @@ func (p *InputMethodProxy) OnCreateInlineSuggestionsRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "onCreateInlineSuggestionsRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodOnCreateInlineSuggestionsRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -127,7 +127,7 @@ func (p *InputMethodProxy) BindInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "bindInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodBindInput
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -142,7 +142,7 @@ func (p *InputMethodProxy) UnbindInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "unbindInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodUnbindInput
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -158,7 +158,7 @@ func (p *InputMethodProxy) StartInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "startInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodStartInput
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -175,7 +175,7 @@ func (p *InputMethodProxy) OnNavButtonFlagsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "onNavButtonFlagsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodOnNavButtonFlagsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -193,7 +193,7 @@ func (p *InputMethodProxy) CreateSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "createSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodCreateSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -212,7 +212,7 @@ func (p *InputMethodProxy) SetSessionEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "setSessionEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodSetSessionEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -237,7 +237,7 @@ func (p *InputMethodProxy) ShowSoftInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "showSoftInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodShowSoftInput
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -262,7 +262,7 @@ func (p *InputMethodProxy) HideSoftInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "hideSoftInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodHideSoftInput
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -279,7 +279,7 @@ func (p *InputMethodProxy) UpdateEditorToolType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "updateEditorToolType")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodUpdateEditorToolType
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -299,7 +299,7 @@ func (p *InputMethodProxy) ChangeInputMethodSubtype(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "changeInputMethodSubtype")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodChangeInputMethodSubtype
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -325,7 +325,7 @@ func (p *InputMethodProxy) CanStartStylusHandwriting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "canStartStylusHandwriting")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodCanStartStylusHandwriting
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -354,7 +354,7 @@ func (p *InputMethodProxy) StartStylusHandwriting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "startStylusHandwriting")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodStartStylusHandwriting
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -369,7 +369,7 @@ func (p *InputMethodProxy) CommitHandwritingDelegationTextIfAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "commitHandwritingDelegationTextIfAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodCommitHandwritingDelegationTextIfAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -384,7 +384,7 @@ func (p *InputMethodProxy) DiscardHandwritingDelegationText(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "discardHandwritingDelegationText")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodDiscardHandwritingDelegationText
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -399,7 +399,7 @@ func (p *InputMethodProxy) InitInkWindow(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "initInkWindow")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodInitInkWindow
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -414,7 +414,7 @@ func (p *InputMethodProxy) FinishStylusHandwriting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "finishStylusHandwriting")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodFinishStylusHandwriting
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -429,7 +429,7 @@ func (p *InputMethodProxy) RemoveStylusHandwritingWindow(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "removeStylusHandwritingWindow")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodRemoveStylusHandwritingWindow
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -446,7 +446,7 @@ func (p *InputMethodProxy) SetStylusWindowIdleTimeoutForTest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "setStylusWindowIdleTimeoutForTest")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodSetStylusWindowIdleTimeoutForTest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

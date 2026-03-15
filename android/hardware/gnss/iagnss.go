@@ -56,7 +56,7 @@ func (p *AGnssProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAGnss, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIAGnssSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -80,7 +80,7 @@ func (p *AGnssProxy) DataConnClosed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAGnss, "dataConnClosed")
 	if _err != nil {
-		return _err
+		_code = TransactionIAGnssDataConnClosed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -104,7 +104,7 @@ func (p *AGnssProxy) DataConnFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAGnss, "dataConnFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIAGnssDataConnFailed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -134,7 +134,7 @@ func (p *AGnssProxy) SetServer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAGnss, "setServer")
 	if _err != nil {
-		return _err
+		_code = TransactionIAGnssSetServer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -164,7 +164,7 @@ func (p *AGnssProxy) DataConnOpen(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAGnss, "dataConnOpen")
 	if _err != nil {
-		return _err
+		_code = TransactionIAGnssDataConnOpen
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

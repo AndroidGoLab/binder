@@ -44,7 +44,7 @@ func (p *SoundTriggerHwGlobalCallbackProxy) OnResourcesAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerHwGlobalCallback, "onResourcesAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundTriggerHwGlobalCallbackOnResourcesAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

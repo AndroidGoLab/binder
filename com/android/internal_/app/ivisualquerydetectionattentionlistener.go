@@ -47,7 +47,7 @@ func (p *VisualQueryDetectionAttentionListenerProxy) OnAttentionGained(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVisualQueryDetectionAttentionListener, "onAttentionGained")
 	if _err != nil {
-		return _err
+		_code = TransactionIVisualQueryDetectionAttentionListenerOnAttentionGained
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -64,7 +64,7 @@ func (p *VisualQueryDetectionAttentionListenerProxy) OnAttentionLost(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVisualQueryDetectionAttentionListener, "onAttentionLost")
 	if _err != nil {
-		return _err
+		_code = TransactionIVisualQueryDetectionAttentionListenerOnAttentionLost
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

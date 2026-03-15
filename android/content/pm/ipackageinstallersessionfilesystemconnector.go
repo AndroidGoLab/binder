@@ -52,7 +52,7 @@ func (p *PackageInstallerSessionFileSystemConnectorProxy) WriteData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSessionFileSystemConnector, "writeData")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerSessionFileSystemConnectorWriteData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

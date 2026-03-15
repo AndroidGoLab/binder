@@ -49,7 +49,7 @@ func (p *BiometricServiceLockoutResetCallbackProxy) OnLockoutReset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricServiceLockoutResetCallback, "onLockoutReset")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricServiceLockoutResetCallbackOnLockoutReset
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

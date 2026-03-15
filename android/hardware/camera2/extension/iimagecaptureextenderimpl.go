@@ -85,7 +85,7 @@ func (p *ImageCaptureExtenderImplProxy) OnInit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "onInit")
 	if _err != nil {
-		return _err
+		_code = TransactionIImageCaptureExtenderImplOnInit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -111,7 +111,7 @@ func (p *ImageCaptureExtenderImplProxy) OnDeInit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "onDeInit")
 	if _err != nil {
-		return _err
+		_code = TransactionIImageCaptureExtenderImplOnDeInit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -136,7 +136,7 @@ func (p *ImageCaptureExtenderImplProxy) OnPresetSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "onPresetSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImageCaptureExtenderImplOnPresetSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -170,7 +170,7 @@ func (p *ImageCaptureExtenderImplProxy) OnEnableSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "onEnableSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImageCaptureExtenderImplOnEnableSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -204,7 +204,7 @@ func (p *ImageCaptureExtenderImplProxy) OnDisableSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "onDisableSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImageCaptureExtenderImplOnDisableSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -238,7 +238,7 @@ func (p *ImageCaptureExtenderImplProxy) GetSessionType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "getSessionType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImageCaptureExtenderImplGetSessionType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -270,7 +270,7 @@ func (p *ImageCaptureExtenderImplProxy) IsExtensionAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "isExtensionAvailable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImageCaptureExtenderImplIsExtensionAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -301,7 +301,7 @@ func (p *ImageCaptureExtenderImplProxy) Init(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "init")
 	if _err != nil {
-		return _err
+		_code = TransactionIImageCaptureExtenderImplInit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -326,7 +326,7 @@ func (p *ImageCaptureExtenderImplProxy) GetCaptureProcessor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "getCaptureProcessor")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImageCaptureExtenderImplGetCaptureProcessor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -356,7 +356,7 @@ func (p *ImageCaptureExtenderImplProxy) GetCaptureStages(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "getCaptureStages")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImageCaptureExtenderImplGetCaptureStages
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -394,7 +394,7 @@ func (p *ImageCaptureExtenderImplProxy) GetMaxCaptureStage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "getMaxCaptureStage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImageCaptureExtenderImplGetMaxCaptureStage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -423,7 +423,7 @@ func (p *ImageCaptureExtenderImplProxy) GetSupportedResolutions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "getSupportedResolutions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImageCaptureExtenderImplGetSupportedResolutions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -466,7 +466,7 @@ func (p *ImageCaptureExtenderImplProxy) GetSupportedPostviewResolutions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "getSupportedPostviewResolutions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImageCaptureExtenderImplGetSupportedPostviewResolutions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -509,7 +509,7 @@ func (p *ImageCaptureExtenderImplProxy) GetEstimatedCaptureLatencyRange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "getEstimatedCaptureLatencyRange")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImageCaptureExtenderImplGetEstimatedCaptureLatencyRange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -543,7 +543,7 @@ func (p *ImageCaptureExtenderImplProxy) GetAvailableCaptureRequestKeys(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "getAvailableCaptureRequestKeys")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImageCaptureExtenderImplGetAvailableCaptureRequestKeys
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -568,7 +568,7 @@ func (p *ImageCaptureExtenderImplProxy) GetAvailableCaptureResultKeys(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "getAvailableCaptureResultKeys")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImageCaptureExtenderImplGetAvailableCaptureResultKeys
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -593,7 +593,7 @@ func (p *ImageCaptureExtenderImplProxy) IsCaptureProcessProgressAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "isCaptureProcessProgressAvailable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImageCaptureExtenderImplIsCaptureProcessProgressAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -622,7 +622,7 @@ func (p *ImageCaptureExtenderImplProxy) GetRealtimeCaptureLatency(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "getRealtimeCaptureLatency")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImageCaptureExtenderImplGetRealtimeCaptureLatency
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -656,7 +656,7 @@ func (p *ImageCaptureExtenderImplProxy) IsPostviewAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageCaptureExtenderImpl, "isPostviewAvailable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImageCaptureExtenderImplIsPostviewAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

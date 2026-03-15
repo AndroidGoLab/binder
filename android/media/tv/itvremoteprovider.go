@@ -48,7 +48,7 @@ func (p *TvRemoteProviderProxy) SetRemoteServiceInputSink(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvRemoteProvider, "setRemoteServiceInputSink")
 	if _err != nil {
-		return _err
+		_code = TransactionITvRemoteProviderSetRemoteServiceInputSink
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *TvRemoteProviderProxy) OnInputBridgeConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvRemoteProvider, "onInputBridgeConnected")
 	if _err != nil {
-		return _err
+		_code = TransactionITvRemoteProviderOnInputBridgeConnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

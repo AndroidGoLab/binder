@@ -56,7 +56,7 @@ func (p *RemoteStorageServiceProxy) GetReadOnlyFileDescriptor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteStorageService, "getReadOnlyFileDescriptor")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteStorageServiceGetReadOnlyFileDescriptor
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -81,7 +81,7 @@ func (p *RemoteStorageServiceProxy) GetReadOnlyFeatureFileDescriptorMap(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteStorageService, "getReadOnlyFeatureFileDescriptorMap")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteStorageServiceGetReadOnlyFeatureFileDescriptorMap
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

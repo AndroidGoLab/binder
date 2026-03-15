@@ -61,7 +61,7 @@ func (p *MbmsStreamingServiceProxy) Initialize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingService, "initialize")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMbmsStreamingServiceInitialize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -101,7 +101,7 @@ func (p *MbmsStreamingServiceProxy) RequestUpdateStreamingServices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingService, "requestUpdateStreamingServices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMbmsStreamingServiceRequestUpdateStreamingServices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -136,7 +136,7 @@ func (p *MbmsStreamingServiceProxy) StartStreaming(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingService, "startStreaming")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMbmsStreamingServiceStartStreaming
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -169,7 +169,7 @@ func (p *MbmsStreamingServiceProxy) GetPlaybackUri(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingService, "getPlaybackUri")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMbmsStreamingServiceGetPlaybackUri
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -206,7 +206,7 @@ func (p *MbmsStreamingServiceProxy) StopStreaming(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingService, "stopStreaming")
 	if _err != nil {
-		return _err
+		_code = TransactionIMbmsStreamingServiceStopStreaming
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -232,7 +232,7 @@ func (p *MbmsStreamingServiceProxy) Dispose(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingService, "dispose")
 	if _err != nil {
-		return _err
+		_code = TransactionIMbmsStreamingServiceDispose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -58,7 +58,7 @@ func (p *TvInteractiveAppServiceProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppService, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInteractiveAppServiceRegisterCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -75,7 +75,7 @@ func (p *TvInteractiveAppServiceProxy) UnregisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppService, "unregisterCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInteractiveAppServiceUnregisterCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -101,7 +101,7 @@ func (p *TvInteractiveAppServiceProxy) CreateSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppService, "createSession")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInteractiveAppServiceCreateSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -121,7 +121,7 @@ func (p *TvInteractiveAppServiceProxy) RegisterAppLinkInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppService, "registerAppLinkInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInteractiveAppServiceRegisterAppLinkInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -141,7 +141,7 @@ func (p *TvInteractiveAppServiceProxy) UnregisterAppLinkInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppService, "unregisterAppLinkInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInteractiveAppServiceUnregisterAppLinkInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -161,7 +161,7 @@ func (p *TvInteractiveAppServiceProxy) SendAppLinkCommand(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppService, "sendAppLinkCommand")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInteractiveAppServiceSendAppLinkCommand
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

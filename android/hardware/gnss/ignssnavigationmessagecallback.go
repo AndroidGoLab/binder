@@ -50,7 +50,7 @@ func (p *GnssNavigationMessageCallbackProxy) GnssNavigationMessageCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssNavigationMessageCallback, "gnssNavigationMessageCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssNavigationMessageCallbackGnssNavigationMessageCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

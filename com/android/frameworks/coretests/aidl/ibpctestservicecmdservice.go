@@ -52,7 +52,7 @@ func (p *BpcTestServiceCmdServiceProxy) ForceGc(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestServiceCmdService, "forceGc")
 	if _err != nil {
-		return _err
+		_code = TransactionIBpcTestServiceCmdServiceForceGc
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -79,7 +79,7 @@ func (p *BpcTestServiceCmdServiceProxy) GetBinderProxyCount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestServiceCmdService, "getBinderProxyCount")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBpcTestServiceCmdServiceGetBinderProxyCount
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -113,7 +113,7 @@ func (p *BpcTestServiceCmdServiceProxy) SetBinderProxyWatermarks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestServiceCmdService, "setBinderProxyWatermarks")
 	if _err != nil {
-		return _err
+		_code = TransactionIBpcTestServiceCmdServiceSetBinderProxyWatermarks
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -139,7 +139,7 @@ func (p *BpcTestServiceCmdServiceProxy) EnableBinderProxyLimit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestServiceCmdService, "enableBinderProxyLimit")
 	if _err != nil {
-		return _err
+		_code = TransactionIBpcTestServiceCmdServiceEnableBinderProxyLimit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -165,7 +165,7 @@ func (p *BpcTestServiceCmdServiceProxy) SetBinderProxyCountCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBpcTestServiceCmdService, "setBinderProxyCountCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBpcTestServiceCmdServiceSetBinderProxyCountCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

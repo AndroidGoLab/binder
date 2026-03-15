@@ -55,7 +55,7 @@ func (p *CallDiagnosticServiceAdapterProxy) DisplayDiagnosticMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticServiceAdapter, "displayDiagnosticMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionICallDiagnosticServiceAdapterDisplayDiagnosticMessage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -74,7 +74,7 @@ func (p *CallDiagnosticServiceAdapterProxy) ClearDiagnosticMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticServiceAdapter, "clearDiagnosticMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionICallDiagnosticServiceAdapterClearDiagnosticMessage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -95,7 +95,7 @@ func (p *CallDiagnosticServiceAdapterProxy) SendDeviceToDeviceMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticServiceAdapter, "sendDeviceToDeviceMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionICallDiagnosticServiceAdapterSendDeviceToDeviceMessage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -113,7 +113,7 @@ func (p *CallDiagnosticServiceAdapterProxy) OverrideDisconnectMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallDiagnosticServiceAdapter, "overrideDisconnectMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionICallDiagnosticServiceAdapterOverrideDisconnectMessage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

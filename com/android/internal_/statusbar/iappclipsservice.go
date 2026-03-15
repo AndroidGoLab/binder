@@ -49,7 +49,7 @@ func (p *AppClipsServiceProxy) CanLaunchCaptureContentActivityForNote(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppClipsService, "canLaunchCaptureContentActivityForNote")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAppClipsServiceCanLaunchCaptureContentActivityForNote
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -80,7 +80,7 @@ func (p *AppClipsServiceProxy) CanLaunchCaptureContentActivityForNoteInternal(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppClipsService, "canLaunchCaptureContentActivityForNoteInternal")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAppClipsServiceCanLaunchCaptureContentActivityForNoteInternal
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

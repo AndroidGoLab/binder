@@ -74,7 +74,7 @@ func (p *PowerProxy) SetMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPower, "setMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerSetMode
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *PowerProxy) IsModeSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPower, "isModeSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerIsModeSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -124,7 +124,7 @@ func (p *PowerProxy) SetBoost(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPower, "setBoost")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerSetBoost
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -142,7 +142,7 @@ func (p *PowerProxy) IsBoostSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPower, "isBoostSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerIsBoostSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -186,7 +186,7 @@ func (p *PowerProxy) CreateHintSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPower, "createHintSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerCreateHintSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -216,7 +216,7 @@ func (p *PowerProxy) GetHintSessionPreferredRate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPower, "getHintSessionPreferredRate")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerGetHintSessionPreferredRate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -263,7 +263,7 @@ func (p *PowerProxy) CreateHintSessionWithConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPower, "createHintSessionWithConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerCreateHintSessionWithConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -300,7 +300,7 @@ func (p *PowerProxy) GetSessionChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPower, "getSessionChannel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerGetSessionChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -337,7 +337,7 @@ func (p *PowerProxy) CloseSessionChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPower, "closeSessionChannel")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerCloseSessionChannel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -353,7 +353,7 @@ func (p *PowerProxy) GetSupportInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPower, "getSupportInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerGetSupportInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -392,7 +392,7 @@ func (p *PowerProxy) GetCpuHeadroom(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPower, "getCpuHeadroom")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerGetCpuHeadroom
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -431,7 +431,7 @@ func (p *PowerProxy) GetGpuHeadroom(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPower, "getGpuHeadroom")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerGetGpuHeadroom
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -475,7 +475,7 @@ func (p *PowerProxy) SendCompositionData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPower, "sendCompositionData")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerSendCompositionData
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -495,7 +495,7 @@ func (p *PowerProxy) SendCompositionUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPower, "sendCompositionUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerSendCompositionUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

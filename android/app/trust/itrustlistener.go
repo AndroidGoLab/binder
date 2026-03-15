@@ -54,7 +54,7 @@ func (p *TrustListenerProxy) OnEnabledTrustAgentsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustListener, "onEnabledTrustAgentsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustListenerOnEnabledTrustAgentsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -86,7 +86,7 @@ func (p *TrustListenerProxy) OnTrustChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustListener, "onTrustChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustListenerOnTrustChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -105,7 +105,7 @@ func (p *TrustListenerProxy) OnTrustManagedChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustListener, "onTrustManagedChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustListenerOnTrustManagedChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -121,7 +121,7 @@ func (p *TrustListenerProxy) OnTrustError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustListener, "onTrustError")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustListenerOnTrustError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -140,7 +140,7 @@ func (p *TrustListenerProxy) OnIsActiveUnlockRunningChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustListener, "onIsActiveUnlockRunningChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustListenerOnIsActiveUnlockRunningChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

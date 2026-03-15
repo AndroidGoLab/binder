@@ -53,7 +53,7 @@ func (p *DeviceStateManagerCallbackProxy) OnDeviceStateInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManagerCallback, "onDeviceStateInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceStateManagerCallbackOnDeviceStateInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -70,7 +70,7 @@ func (p *DeviceStateManagerCallbackProxy) OnRequestActive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManagerCallback, "onRequestActive")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceStateManagerCallbackOnRequestActive
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -87,7 +87,7 @@ func (p *DeviceStateManagerCallbackProxy) OnRequestCanceled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateManagerCallback, "onRequestCanceled")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceStateManagerCallbackOnRequestCanceled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

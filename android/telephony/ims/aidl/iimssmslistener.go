@@ -60,7 +60,7 @@ func (p *ImsSmsListenerProxy) OnSendSmsResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsSmsListener, "onSendSmsResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsSmsListenerOnSendSmsResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *ImsSmsListenerProxy) OnSmsStatusReportReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsSmsListener, "onSmsStatusReportReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsSmsListenerOnSmsStatusReportReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -116,7 +116,7 @@ func (p *ImsSmsListenerProxy) OnSmsReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsSmsListener, "onSmsReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsSmsListenerOnSmsReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -137,7 +137,7 @@ func (p *ImsSmsListenerProxy) OnMemoryAvailableResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsSmsListener, "onMemoryAvailableResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsSmsListenerOnMemoryAvailableResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -48,7 +48,7 @@ func (p *VbiRatingListenerProxy) OnVbiRatingChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVbiRatingListener, "onVbiRatingChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIVbiRatingListenerOnVbiRatingChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

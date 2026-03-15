@@ -52,7 +52,7 @@ func (p *TextToSpeechSessionCallbackProxy) OnConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechSessionCallback, "onConnected")
 	if _err != nil {
-		return _err
+		_code = TransactionITextToSpeechSessionCallbackOnConnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *TextToSpeechSessionCallbackProxy) OnDisconnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechSessionCallback, "onDisconnected")
 	if _err != nil {
-		return _err
+		_code = TransactionITextToSpeechSessionCallbackOnDisconnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -84,7 +84,7 @@ func (p *TextToSpeechSessionCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechSessionCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionITextToSpeechSessionCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -71,7 +71,7 @@ func (p *PreparedModelProxy) ExecuteSynchronously(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreparedModel, "executeSynchronously")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPreparedModelExecuteSynchronously
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -127,7 +127,7 @@ func (p *PreparedModelProxy) ExecuteFenced(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreparedModel, "executeFenced")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPreparedModelExecuteFenced
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -161,7 +161,7 @@ func (p *PreparedModelProxy) ConfigureExecutionBurst(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreparedModel, "configureExecutionBurst")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPreparedModelConfigureExecutionBurst
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -201,7 +201,7 @@ func (p *PreparedModelProxy) CreateReusableExecution(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreparedModel, "createReusableExecution")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPreparedModelCreateReusableExecution
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -243,7 +243,7 @@ func (p *PreparedModelProxy) ExecuteSynchronouslyWithConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreparedModel, "executeSynchronouslyWithConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPreparedModelExecuteSynchronouslyWithConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -300,7 +300,7 @@ func (p *PreparedModelProxy) ExecuteFencedWithConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreparedModel, "executeFencedWithConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPreparedModelExecuteFencedWithConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

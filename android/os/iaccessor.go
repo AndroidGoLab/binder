@@ -55,7 +55,7 @@ func (p *AccessorProxy) AddConnection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessor, "addConnection")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccessorAddConnection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *AccessorProxy) GetInstanceName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessor, "getInstanceName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccessorGetInstanceName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

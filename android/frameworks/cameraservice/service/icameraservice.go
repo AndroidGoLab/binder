@@ -58,7 +58,7 @@ func (p *CameraServiceProxy) AddListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "addListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceAddListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -99,7 +99,7 @@ func (p *CameraServiceProxy) ConnectDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "connectDevice")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceConnectDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -126,7 +126,7 @@ func (p *CameraServiceProxy) GetCameraCharacteristics(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "getCameraCharacteristics")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceGetCameraCharacteristics
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -151,7 +151,7 @@ func (p *CameraServiceProxy) GetCameraVendorTagSections(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "getCameraVendorTagSections")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceGetCameraVendorTagSections
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -190,7 +190,7 @@ func (p *CameraServiceProxy) RemoveListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "removeListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceRemoveListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -220,7 +220,7 @@ func (p *CameraServiceProxy) ConnectDeviceV2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "connectDeviceV2")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceConnectDeviceV2
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -107,7 +107,7 @@ func (p *BackupTransportProxy) Name(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "name")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportName
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -127,7 +127,7 @@ func (p *BackupTransportProxy) ConfigurationIntent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "configurationIntent")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportConfigurationIntent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -147,7 +147,7 @@ func (p *BackupTransportProxy) CurrentDestinationString(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "currentDestinationString")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportCurrentDestinationString
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -167,7 +167,7 @@ func (p *BackupTransportProxy) DataManagementIntent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "dataManagementIntent")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportDataManagementIntent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -187,7 +187,7 @@ func (p *BackupTransportProxy) DataManagementIntentLabel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "dataManagementIntentLabel")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportDataManagementIntentLabel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -207,7 +207,7 @@ func (p *BackupTransportProxy) TransportDirName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "transportDirName")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportTransportDirName
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -227,7 +227,7 @@ func (p *BackupTransportProxy) RequestBackupTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "requestBackupTime")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportRequestBackupTime
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -244,7 +244,7 @@ func (p *BackupTransportProxy) InitializeDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "initializeDevice")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportInitializeDevice
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -270,7 +270,7 @@ func (p *BackupTransportProxy) PerformBackup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "performBackup")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportPerformBackup
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -292,7 +292,7 @@ func (p *BackupTransportProxy) ClearBackupData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "clearBackupData")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportClearBackupData
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -309,7 +309,7 @@ func (p *BackupTransportProxy) FinishBackup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "finishBackup")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportFinishBackup
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -329,7 +329,7 @@ func (p *BackupTransportProxy) GetAvailableRestoreSets(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "getAvailableRestoreSets")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportGetAvailableRestoreSets
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -349,7 +349,7 @@ func (p *BackupTransportProxy) GetCurrentRestoreSet(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "getCurrentRestoreSet")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportGetCurrentRestoreSet
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -379,7 +379,7 @@ func (p *BackupTransportProxy) StartRestore(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "startRestore")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportStartRestore
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -399,7 +399,7 @@ func (p *BackupTransportProxy) NextRestorePackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "nextRestorePackage")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportNextRestorePackage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -418,7 +418,7 @@ func (p *BackupTransportProxy) GetRestoreData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "getRestoreData")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportGetRestoreData
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -435,7 +435,7 @@ func (p *BackupTransportProxy) FinishRestore(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "finishRestore")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportFinishRestore
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -455,7 +455,7 @@ func (p *BackupTransportProxy) RequestFullBackupTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "requestFullBackupTime")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportRequestFullBackupTime
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -481,7 +481,7 @@ func (p *BackupTransportProxy) PerformFullBackup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "performFullBackup")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportPerformFullBackup
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -500,7 +500,7 @@ func (p *BackupTransportProxy) CheckFullBackupSize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "checkFullBackupSize")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportCheckFullBackupSize
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -519,7 +519,7 @@ func (p *BackupTransportProxy) SendBackupData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "sendBackupData")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportSendBackupData
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -536,7 +536,7 @@ func (p *BackupTransportProxy) CancelFullBackup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "cancelFullBackup")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportCancelFullBackup
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -563,7 +563,7 @@ func (p *BackupTransportProxy) IsAppEligibleForBackup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "isAppEligibleForBackup")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportIsAppEligibleForBackup
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -587,7 +587,7 @@ func (p *BackupTransportProxy) GetBackupQuota(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "getBackupQuota")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportGetBackupQuota
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -606,7 +606,7 @@ func (p *BackupTransportProxy) GetNextFullRestoreDataChunk(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "getNextFullRestoreDataChunk")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportGetNextFullRestoreDataChunk
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -623,7 +623,7 @@ func (p *BackupTransportProxy) AbortFullRestore(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "abortFullRestore")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportAbortFullRestore
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -643,7 +643,7 @@ func (p *BackupTransportProxy) GetTransportFlags(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "getTransportFlags")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportGetTransportFlags
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -663,7 +663,7 @@ func (p *BackupTransportProxy) GetBackupManagerMonitor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "getBackupManagerMonitor")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportGetBackupManagerMonitor
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -694,7 +694,7 @@ func (p *BackupTransportProxy) GetPackagesThatShouldNotUseRestrictedMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupTransport, "getPackagesThatShouldNotUseRestrictedMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackupTransportGetPackagesThatShouldNotUseRestrictedMode
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

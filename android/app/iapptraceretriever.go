@@ -51,7 +51,7 @@ func (p *AppTraceRetrieverProxy) GetTraceFileDescriptor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppTraceRetriever, "getTraceFileDescriptor")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAppTraceRetrieverGetTraceFileDescriptor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

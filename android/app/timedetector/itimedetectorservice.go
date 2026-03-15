@@ -66,7 +66,7 @@ func (p *TimeDetectorServiceProxy) GetCapabilitiesAndConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeDetectorService, "getCapabilitiesAndConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITimeDetectorServiceGetCapabilitiesAndConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -101,7 +101,7 @@ func (p *TimeDetectorServiceProxy) AddListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeDetectorService, "addListener")
 	if _err != nil {
-		return _err
+		_code = TransactionITimeDetectorServiceAddListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -127,7 +127,7 @@ func (p *TimeDetectorServiceProxy) RemoveListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeDetectorService, "removeListener")
 	if _err != nil {
-		return _err
+		_code = TransactionITimeDetectorServiceRemoveListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -157,7 +157,7 @@ func (p *TimeDetectorServiceProxy) UpdateConfiguration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeDetectorService, "updateConfiguration")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITimeDetectorServiceUpdateConfiguration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -186,7 +186,7 @@ func (p *TimeDetectorServiceProxy) GetTimeState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeDetectorService, "getTimeState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITimeDetectorServiceGetTimeState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -225,7 +225,7 @@ func (p *TimeDetectorServiceProxy) ConfirmTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeDetectorService, "confirmTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITimeDetectorServiceConfirmTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -259,7 +259,7 @@ func (p *TimeDetectorServiceProxy) SetManualTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeDetectorService, "setManualTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITimeDetectorServiceSetManualTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -292,7 +292,7 @@ func (p *TimeDetectorServiceProxy) SuggestExternalTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeDetectorService, "suggestExternalTime")
 	if _err != nil {
-		return _err
+		_code = TransactionITimeDetectorServiceSuggestExternalTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -322,7 +322,7 @@ func (p *TimeDetectorServiceProxy) SuggestManualTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeDetectorService, "suggestManualTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITimeDetectorServiceSuggestManualTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -355,7 +355,7 @@ func (p *TimeDetectorServiceProxy) SuggestTelephonyTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeDetectorService, "suggestTelephonyTime")
 	if _err != nil {
-		return _err
+		_code = TransactionITimeDetectorServiceSuggestTelephonyTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -380,7 +380,7 @@ func (p *TimeDetectorServiceProxy) LatestNetworkTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeDetectorService, "latestNetworkTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITimeDetectorServiceLatestNetworkTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

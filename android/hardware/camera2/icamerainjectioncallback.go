@@ -53,7 +53,7 @@ func (p *CameraInjectionCallbackProxy) OnInjectionError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraInjectionCallback, "onInjectionError")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraInjectionCallbackOnInjectionError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

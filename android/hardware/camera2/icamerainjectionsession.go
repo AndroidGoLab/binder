@@ -44,7 +44,7 @@ func (p *CameraInjectionSessionProxy) StopInjection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraInjectionSession, "stopInjection")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraInjectionSessionStopInjection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

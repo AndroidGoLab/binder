@@ -86,7 +86,7 @@ func (p *AccountAuthenticatorProxy) AddAccount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "addAccount")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorAddAccount
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *AccountAuthenticatorProxy) ConfirmCredentials(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "confirmCredentials")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorConfirmCredentials
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -134,7 +134,7 @@ func (p *AccountAuthenticatorProxy) GetAuthToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "getAuthToken")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorGetAuthToken
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -153,7 +153,7 @@ func (p *AccountAuthenticatorProxy) GetAuthTokenLabel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "getAuthTokenLabel")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorGetAuthTokenLabel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -178,7 +178,7 @@ func (p *AccountAuthenticatorProxy) UpdateCredentials(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "updateCredentials")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorUpdateCredentials
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -197,7 +197,7 @@ func (p *AccountAuthenticatorProxy) EditProperties(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "editProperties")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorEditProperties
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -228,7 +228,7 @@ func (p *AccountAuthenticatorProxy) HasFeatures(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "hasFeatures")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorHasFeatures
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -250,7 +250,7 @@ func (p *AccountAuthenticatorProxy) GetAccountRemovalAllowed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "getAccountRemovalAllowed")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorGetAccountRemovalAllowed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -272,7 +272,7 @@ func (p *AccountAuthenticatorProxy) GetAccountCredentialsForCloning(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "getAccountCredentialsForCloning")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorGetAccountCredentialsForCloning
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -295,7 +295,7 @@ func (p *AccountAuthenticatorProxy) AddAccountFromCredentials(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "addAccountFromCredentials")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorAddAccountFromCredentials
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -326,7 +326,7 @@ func (p *AccountAuthenticatorProxy) StartAddAccountSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "startAddAccountSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorStartAddAccountSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -351,7 +351,7 @@ func (p *AccountAuthenticatorProxy) StartUpdateCredentialsSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "startUpdateCredentialsSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorStartUpdateCredentialsSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -371,7 +371,7 @@ func (p *AccountAuthenticatorProxy) FinishSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "finishSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorFinishSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -395,7 +395,7 @@ func (p *AccountAuthenticatorProxy) IsCredentialsUpdateSuggested(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticator, "isCredentialsUpdateSuggested")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorIsCredentialsUpdateSuggested
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

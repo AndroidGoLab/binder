@@ -54,7 +54,7 @@ func (p *TvAdServiceProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvAdService, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITvAdServiceRegisterCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *TvAdServiceProxy) UnregisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvAdService, "unregisterCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITvAdServiceUnregisterCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -97,7 +97,7 @@ func (p *TvAdServiceProxy) CreateSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvAdService, "createSession")
 	if _err != nil {
-		return _err
+		_code = TransactionITvAdServiceCreateSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -117,7 +117,7 @@ func (p *TvAdServiceProxy) SendAppLinkCommand(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvAdService, "sendAppLinkCommand")
 	if _err != nil {
-		return _err
+		_code = TransactionITvAdServiceSendAppLinkCommand
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

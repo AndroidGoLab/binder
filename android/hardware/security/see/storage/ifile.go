@@ -57,7 +57,7 @@ func (p *FileProxy) Read(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFile, "read")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFileRead
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -107,7 +107,7 @@ func (p *FileProxy) Write(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFile, "write")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFileWrite
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -136,7 +136,7 @@ func (p *FileProxy) GetSize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFile, "getSize")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFileGetSize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -166,7 +166,7 @@ func (p *FileProxy) SetSize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFile, "setSize")
 	if _err != nil {
-		return _err
+		_code = TransactionIFileSetSize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -194,7 +194,7 @@ func (p *FileProxy) Rename(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFile, "rename")
 	if _err != nil {
-		return _err
+		_code = TransactionIFileRename
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

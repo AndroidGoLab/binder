@@ -56,7 +56,7 @@ func (p *SipDialogStateCallbackProxy) OnActiveSipDialogsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISipDialogStateCallback, "onActiveSipDialogsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISipDialogStateCallbackOnActiveSipDialogsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

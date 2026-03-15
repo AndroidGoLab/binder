@@ -51,7 +51,7 @@ func (p *DeviceSettingsProviderServiceProxy) GetServiceStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceSettingsProviderService, "getServiceStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDeviceSettingsProviderServiceGetServiceStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -91,7 +91,7 @@ func (p *DeviceSettingsProviderServiceProxy) RegisterDeviceSettingsListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceSettingsProviderService, "registerDeviceSettingsListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceSettingsProviderServiceRegisterDeviceSettingsListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -113,7 +113,7 @@ func (p *DeviceSettingsProviderServiceProxy) UnregisterDeviceSettingsListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceSettingsProviderService, "unregisterDeviceSettingsListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceSettingsProviderServiceUnregisterDeviceSettingsListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -138,7 +138,7 @@ func (p *DeviceSettingsProviderServiceProxy) UpdateDeviceSettings(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceSettingsProviderService, "updateDeviceSettings")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceSettingsProviderServiceUpdateDeviceSettings
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

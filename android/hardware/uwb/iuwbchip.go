@@ -57,7 +57,7 @@ func (p *UwbChipProxy) GetName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUwbChip, "getName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUwbChipGetName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -87,7 +87,7 @@ func (p *UwbChipProxy) Open(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUwbChip, "open")
 	if _err != nil {
-		return _err
+		_code = TransactionIUwbChipOpen
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -111,7 +111,7 @@ func (p *UwbChipProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUwbChip, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIUwbChipClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -135,7 +135,7 @@ func (p *UwbChipProxy) CoreInit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUwbChip, "coreInit")
 	if _err != nil {
-		return _err
+		_code = TransactionIUwbChipCoreInit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -161,7 +161,7 @@ func (p *UwbChipProxy) SessionInit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUwbChip, "sessionInit")
 	if _err != nil {
-		return _err
+		_code = TransactionIUwbChipSessionInit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -186,7 +186,7 @@ func (p *UwbChipProxy) GetSupportedAndroidUciVersion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUwbChip, "getSupportedAndroidUciVersion")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUwbChipGetSupportedAndroidUciVersion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -224,7 +224,7 @@ func (p *UwbChipProxy) SendUciMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUwbChip, "sendUciMessage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUwbChipSendUciMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

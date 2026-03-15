@@ -59,7 +59,7 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInlineSuggestionsUnsupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionsRequestCallback, "onInlineSuggestionsUnsupported")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionsRequestCallbackOnInlineSuggestionsUnsupported
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -81,7 +81,7 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInlineSuggestionsRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionsRequestCallback, "onInlineSuggestionsRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionsRequestCallbackOnInlineSuggestionsRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -97,7 +97,7 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInputMethodStartInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionsRequestCallback, "onInputMethodStartInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionsRequestCallbackOnInputMethodStartInput
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -114,7 +114,7 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInputMethodShowInputRequested(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionsRequestCallback, "onInputMethodShowInputRequested")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionsRequestCallbackOnInputMethodShowInputRequested
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -129,7 +129,7 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInputMethodStartInputView(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionsRequestCallback, "onInputMethodStartInputView")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionsRequestCallbackOnInputMethodStartInputView
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -144,7 +144,7 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInputMethodFinishInputView(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionsRequestCallback, "onInputMethodFinishInputView")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionsRequestCallbackOnInputMethodFinishInputView
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -159,7 +159,7 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInputMethodFinishInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionsRequestCallback, "onInputMethodFinishInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionsRequestCallbackOnInputMethodFinishInput
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -174,7 +174,7 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInlineSuggestionsSessionInvali
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionsRequestCallback, "onInlineSuggestionsSessionInvalidated")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionsRequestCallbackOnInlineSuggestionsSessionInvalidated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

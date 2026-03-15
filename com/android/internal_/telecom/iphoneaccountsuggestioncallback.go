@@ -58,7 +58,7 @@ func (p *PhoneAccountSuggestionCallbackProxy) SuggestPhoneAccounts(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneAccountSuggestionCallback, "suggestPhoneAccounts")
 	if _err != nil {
-		return _err
+		_code = TransactionIPhoneAccountSuggestionCallbackSuggestPhoneAccounts
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

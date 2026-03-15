@@ -49,7 +49,7 @@ func (p *CarPowerPolicyChangeCallbackProxy) OnPolicyChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicyChangeCallback, "onPolicyChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionICarPowerPolicyChangeCallbackOnPolicyChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

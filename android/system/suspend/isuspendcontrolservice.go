@@ -49,7 +49,7 @@ func (p *SuspendControlServiceProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISuspendControlService, "registerCallback")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISuspendControlServiceRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -82,7 +82,7 @@ func (p *SuspendControlServiceProxy) RegisterWakelockCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISuspendControlService, "registerWakelockCallback")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISuspendControlServiceRegisterWakelockCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

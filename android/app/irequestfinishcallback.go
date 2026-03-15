@@ -44,7 +44,7 @@ func (p *RequestFinishCallbackProxy) RequestFinish(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRequestFinishCallback, "requestFinish")
 	if _err != nil {
-		return _err
+		_code = TransactionIRequestFinishCallbackRequestFinish
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

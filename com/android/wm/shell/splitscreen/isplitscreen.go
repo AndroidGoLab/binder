@@ -78,7 +78,7 @@ func (p *SplitScreenProxy) RegisterSplitScreenListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitScreen, "registerSplitScreenListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISplitScreenRegisterSplitScreenListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -95,7 +95,7 @@ func (p *SplitScreenProxy) UnregisterSplitScreenListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitScreen, "unregisterSplitScreenListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISplitScreenUnregisterSplitScreenListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -112,7 +112,7 @@ func (p *SplitScreenProxy) RegisterSplitSelectListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitScreen, "registerSplitSelectListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISplitScreenRegisterSplitSelectListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -129,7 +129,7 @@ func (p *SplitScreenProxy) UnregisterSplitSelectListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitScreen, "unregisterSplitSelectListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISplitScreenUnregisterSplitSelectListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -146,7 +146,7 @@ func (p *SplitScreenProxy) ExitSplitScreen(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitScreen, "exitSplitScreen")
 	if _err != nil {
-		return _err
+		_code = TransactionISplitScreenExitSplitScreen
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -163,7 +163,7 @@ func (p *SplitScreenProxy) ExitSplitScreenOnHide(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitScreen, "exitSplitScreenOnHide")
 	if _err != nil {
-		return _err
+		_code = TransactionISplitScreenExitSplitScreenOnHide
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -187,7 +187,7 @@ func (p *SplitScreenProxy) StartTask(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitScreen, "startTask")
 	if _err != nil {
-		return _err
+		_code = TransactionISplitScreenStartTask
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -223,7 +223,7 @@ func (p *SplitScreenProxy) StartShortcut(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitScreen, "startShortcut")
 	if _err != nil {
-		return _err
+		_code = TransactionISplitScreenStartShortcut
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -262,7 +262,7 @@ func (p *SplitScreenProxy) StartIntent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitScreen, "startIntent")
 	if _err != nil {
-		return _err
+		_code = TransactionISplitScreenStartIntent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -305,7 +305,7 @@ func (p *SplitScreenProxy) StartTasks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitScreen, "startTasks")
 	if _err != nil {
-		return _err
+		_code = TransactionISplitScreenStartTasks
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -353,7 +353,7 @@ func (p *SplitScreenProxy) StartIntentAndTask(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitScreen, "startIntentAndTask")
 	if _err != nil {
-		return _err
+		_code = TransactionISplitScreenStartIntentAndTask
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -399,7 +399,7 @@ func (p *SplitScreenProxy) StartShortcutAndTask(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitScreen, "startShortcutAndTask")
 	if _err != nil {
-		return _err
+		_code = TransactionISplitScreenStartShortcutAndTask
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -462,7 +462,7 @@ func (p *SplitScreenProxy) StartIntents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitScreen, "startIntents")
 	if _err != nil {
-		return _err
+		_code = TransactionISplitScreenStartIntents
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -477,7 +477,7 @@ func (p *SplitScreenProxy) SwitchSplitPosition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitScreen, "switchSplitPosition")
 	if _err != nil {
-		return _err
+		_code = TransactionISplitScreenSwitchSplitPosition
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

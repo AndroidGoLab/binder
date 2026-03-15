@@ -29,8 +29,13 @@ var apiLevelMajorVersion = map[int]string{
 var submoduleNames = []string{
 	"frameworks-base",
 	"frameworks-native",
+	"frameworks-hardware-interfaces",
+	"frameworks-av",
 	"hardware-interfaces",
 	"system-hardware-interfaces",
+	"system-netd",
+	"system-connectivity-wificond",
+	"packages-modules-bluetooth",
 }
 
 func main() {

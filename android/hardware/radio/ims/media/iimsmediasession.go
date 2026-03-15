@@ -62,7 +62,7 @@ func (p *ImsMediaSessionProxy) SetListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSession, "setListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionSetListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -82,7 +82,7 @@ func (p *ImsMediaSessionProxy) ModifySession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSession, "modifySession")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionModifySession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -101,7 +101,7 @@ func (p *ImsMediaSessionProxy) SendDtmf(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSession, "sendDtmf")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionSendDtmf
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -118,7 +118,7 @@ func (p *ImsMediaSessionProxy) StartDtmf(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSession, "startDtmf")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionStartDtmf
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -133,7 +133,7 @@ func (p *ImsMediaSessionProxy) StopDtmf(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSession, "stopDtmf")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionStopDtmf
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -159,7 +159,7 @@ func (p *ImsMediaSessionProxy) SendHeaderExtension(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSession, "sendHeaderExtension")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionSendHeaderExtension
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -179,7 +179,7 @@ func (p *ImsMediaSessionProxy) SetMediaQualityThreshold(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSession, "setMediaQualityThreshold")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionSetMediaQualityThreshold
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -196,7 +196,7 @@ func (p *ImsMediaSessionProxy) RequestRtpReceptionStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSession, "requestRtpReceptionStats")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionRequestRtpReceptionStats
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -213,7 +213,7 @@ func (p *ImsMediaSessionProxy) AdjustDelay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMediaSession, "adjustDelay")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSessionAdjustDelay
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

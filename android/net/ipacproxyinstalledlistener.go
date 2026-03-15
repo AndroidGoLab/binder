@@ -46,7 +46,7 @@ func (p *PacProxyInstalledListenerProxy) OnPacProxyInstalled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPacProxyInstalledListener, "onPacProxyInstalled")
 	if _err != nil {
-		return _err
+		_code = TransactionIPacProxyInstalledListenerOnPacProxyInstalled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -48,7 +48,7 @@ func (p *PinnedTaskListenerProxy) OnMovementBoundsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPinnedTaskListener, "onMovementBoundsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIPinnedTaskListenerOnMovementBoundsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *PinnedTaskListenerProxy) OnImeVisibilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPinnedTaskListener, "onImeVisibilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIPinnedTaskListenerOnImeVisibilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

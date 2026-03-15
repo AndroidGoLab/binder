@@ -66,7 +66,7 @@ func (p *FeatureFlagsProxy) SyncFlags(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFeatureFlags, "syncFlags")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFeatureFlagsSyncFlags
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -105,7 +105,7 @@ func (p *FeatureFlagsProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFeatureFlags, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIFeatureFlagsRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -131,7 +131,7 @@ func (p *FeatureFlagsProxy) UnregisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFeatureFlags, "unregisterCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIFeatureFlagsUnregisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -167,7 +167,7 @@ func (p *FeatureFlagsProxy) QueryFlags(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFeatureFlags, "queryFlags")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFeatureFlagsQueryFlags
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -209,7 +209,7 @@ func (p *FeatureFlagsProxy) OverrideFlag(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFeatureFlags, "overrideFlag")
 	if _err != nil {
-		return _err
+		_code = TransactionIFeatureFlagsOverrideFlag
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -238,7 +238,7 @@ func (p *FeatureFlagsProxy) ResetFlag(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFeatureFlags, "resetFlag")
 	if _err != nil {
-		return _err
+		_code = TransactionIFeatureFlagsResetFlag
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

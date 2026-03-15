@@ -68,7 +68,7 @@ func (p *OffloadProxy) InitOffload(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOffload, "initOffload")
 	if _err != nil {
-		return _err
+		_code = TransactionIOffloadInitOffload
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -92,7 +92,7 @@ func (p *OffloadProxy) StopOffload(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOffload, "stopOffload")
 	if _err != nil {
-		return _err
+		_code = TransactionIOffloadStopOffload
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -125,7 +125,7 @@ func (p *OffloadProxy) SetLocalPrefixes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOffload, "setLocalPrefixes")
 	if _err != nil {
-		return _err
+		_code = TransactionIOffloadSetLocalPrefixes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -152,7 +152,7 @@ func (p *OffloadProxy) GetForwardedStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOffload, "getForwardedStats")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOffloadGetForwardedStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -191,7 +191,7 @@ func (p *OffloadProxy) SetDataWarningAndLimit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOffload, "setDataWarningAndLimit")
 	if _err != nil {
-		return _err
+		_code = TransactionIOffloadSetDataWarningAndLimit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -230,7 +230,7 @@ func (p *OffloadProxy) SetUpstreamParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOffload, "setUpstreamParameters")
 	if _err != nil {
-		return _err
+		_code = TransactionIOffloadSetUpstreamParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -258,7 +258,7 @@ func (p *OffloadProxy) AddDownstream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOffload, "addDownstream")
 	if _err != nil {
-		return _err
+		_code = TransactionIOffloadAddDownstream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -286,7 +286,7 @@ func (p *OffloadProxy) RemoveDownstream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOffload, "removeDownstream")
 	if _err != nil {
-		return _err
+		_code = TransactionIOffloadRemoveDownstream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

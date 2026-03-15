@@ -63,7 +63,7 @@ func (p *PresenceServiceProxy) GetVersion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPresenceService, "getVersion")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPresenceServiceGetVersion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -102,7 +102,7 @@ func (p *PresenceServiceProxy) AddListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPresenceService, "addListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPresenceServiceAddListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -142,7 +142,7 @@ func (p *PresenceServiceProxy) RemoveListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPresenceService, "removeListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPresenceServiceRemoveListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -176,7 +176,7 @@ func (p *PresenceServiceProxy) ReenableService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPresenceService, "reenableService")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPresenceServiceReenableService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -215,7 +215,7 @@ func (p *PresenceServiceProxy) PublishMyCap(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPresenceService, "publishMyCap")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPresenceServicePublishMyCap
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -251,7 +251,7 @@ func (p *PresenceServiceProxy) GetContactCap(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPresenceService, "getContactCap")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPresenceServiceGetContactCap
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -294,7 +294,7 @@ func (p *PresenceServiceProxy) GetContactListCap(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPresenceService, "getContactListCap")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPresenceServiceGetContactListCap
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -335,7 +335,7 @@ func (p *PresenceServiceProxy) SetNewFeatureTag(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPresenceService, "setNewFeatureTag")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPresenceServiceSetNewFeatureTag
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

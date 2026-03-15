@@ -58,7 +58,7 @@ func (p *GatekeeperProxy) DeleteAllUsers(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGatekeeper, "deleteAllUsers")
 	if _err != nil {
-		return _err
+		_code = TransactionIGatekeeperDeleteAllUsers
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *GatekeeperProxy) DeleteUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGatekeeper, "deleteUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIGatekeeperDeleteUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -138,7 +138,7 @@ func (p *GatekeeperProxy) Enroll(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGatekeeper, "enroll")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGatekeeperEnroll
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -194,7 +194,7 @@ func (p *GatekeeperProxy) Verify(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGatekeeper, "verify")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGatekeeperVerify
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

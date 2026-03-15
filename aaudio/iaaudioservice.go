@@ -66,7 +66,7 @@ func (p *AAudioServiceProxy) RegisterClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAAudioService, "registerClient")
 	if _err != nil {
-		return _err
+		_code = TransactionIAAudioServiceRegisterClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -97,7 +97,7 @@ func (p *AAudioServiceProxy) OpenStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAAudioService, "openStream")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAAudioServiceOpenStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -131,7 +131,7 @@ func (p *AAudioServiceProxy) CloseStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAAudioService, "closeStream")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAAudioServiceCloseStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -163,7 +163,7 @@ func (p *AAudioServiceProxy) GetStreamDescription(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAAudioService, "getStreamDescription")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAAudioServiceGetStreamDescription
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -197,7 +197,7 @@ func (p *AAudioServiceProxy) StartStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAAudioService, "startStream")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAAudioServiceStartStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -228,7 +228,7 @@ func (p *AAudioServiceProxy) PauseStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAAudioService, "pauseStream")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAAudioServicePauseStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -259,7 +259,7 @@ func (p *AAudioServiceProxy) StopStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAAudioService, "stopStream")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAAudioServiceStopStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -290,7 +290,7 @@ func (p *AAudioServiceProxy) FlushStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAAudioService, "flushStream")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAAudioServiceFlushStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -325,7 +325,7 @@ func (p *AAudioServiceProxy) RegisterAudioThread(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAAudioService, "registerAudioThread")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAAudioServiceRegisterAudioThread
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -358,7 +358,7 @@ func (p *AAudioServiceProxy) UnregisterAudioThread(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAAudioService, "unregisterAudioThread")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAAudioServiceUnregisterAudioThread
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -390,7 +390,7 @@ func (p *AAudioServiceProxy) ExitStandby(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAAudioService, "exitStandby")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAAudioServiceExitStandby
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

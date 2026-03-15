@@ -55,7 +55,7 @@ func (p *LnbCallbackProxy) OnDiseqcMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILnbCallback, "onDiseqcMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionILnbCallbackOnDiseqcMessage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -72,7 +72,7 @@ func (p *LnbCallbackProxy) OnEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILnbCallback, "onEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionILnbCallbackOnEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

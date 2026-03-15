@@ -50,7 +50,7 @@ func (p *SysuiUnlockAnimationControllerProxy) SetLauncherUnlockController(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISysuiUnlockAnimationController, "setLauncherUnlockController")
 	if _err != nil {
-		return _err
+		_code = TransactionISysuiUnlockAnimationControllerSetLauncherUnlockController
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -70,7 +70,7 @@ func (p *SysuiUnlockAnimationControllerProxy) OnLauncherSmartspaceStateUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISysuiUnlockAnimationController, "onLauncherSmartspaceStateUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionISysuiUnlockAnimationControllerOnLauncherSmartspaceStateUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

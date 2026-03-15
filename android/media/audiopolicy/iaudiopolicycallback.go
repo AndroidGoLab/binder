@@ -59,7 +59,7 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusGrant(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyAudioFocusGrant")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyCallbackNotifyAudioFocusGrant
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -77,7 +77,7 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusLoss(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyAudioFocusLoss")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyCallbackNotifyAudioFocusLoss
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -95,7 +95,7 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyAudioFocusRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyCallbackNotifyAudioFocusRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -111,7 +111,7 @@ func (p *AudioPolicyCallbackProxy) NotifyAudioFocusAbandon(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyAudioFocusAbandon")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyCallbackNotifyAudioFocusAbandon
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -130,7 +130,7 @@ func (p *AudioPolicyCallbackProxy) NotifyMixStateUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyMixStateUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyCallbackNotifyMixStateUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -147,7 +147,7 @@ func (p *AudioPolicyCallbackProxy) NotifyVolumeAdjust(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyVolumeAdjust")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyCallbackNotifyVolumeAdjust
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -162,7 +162,7 @@ func (p *AudioPolicyCallbackProxy) NotifyUnregistration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyCallback, "notifyUnregistration")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyCallbackNotifyUnregistration
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -53,7 +53,7 @@ func (p *KeyboardBacklightListenerProxy) OnBrightnessChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyboardBacklightListener, "onBrightnessChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyboardBacklightListenerOnBrightnessChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

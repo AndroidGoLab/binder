@@ -53,7 +53,7 @@ func (p *ContentProtectionAllowlistCallbackProxy) SetAllowlist(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentProtectionAllowlistCallback, "setAllowlist")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentProtectionAllowlistCallbackSetAllowlist
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

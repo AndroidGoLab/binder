@@ -59,7 +59,7 @@ func (p *PowerStatsServiceProxy) GetSupportedPowerMonitors(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerStatsService, "getSupportedPowerMonitors")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerStatsServiceGetSupportedPowerMonitors
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *PowerStatsServiceProxy) GetPowerMonitorReadings(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerStatsService, "getPowerMonitorReadings")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerStatsServiceGetPowerMonitorReadings
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

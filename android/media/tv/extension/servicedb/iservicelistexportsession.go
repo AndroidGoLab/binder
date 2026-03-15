@@ -55,7 +55,7 @@ func (p *ServiceListExportSessionProxy) ExportServiceList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceListExportSession, "exportServiceList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIServiceListExportSessionExportServiceList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *ServiceListExportSessionProxy) Release(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceListExportSession, "release")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIServiceListExportSessionRelease
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

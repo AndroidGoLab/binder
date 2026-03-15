@@ -50,7 +50,7 @@ func (p *DisplayManagerCallbackProxy) OnDisplayEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManagerCallback, "onDisplayEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerCallbackOnDisplayEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -70,7 +70,7 @@ func (p *DisplayManagerCallbackProxy) OnTopologyChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManagerCallback, "onTopologyChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerCallbackOnTopologyChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -74,7 +74,7 @@ func (p *StorageStatsManagerProxy) IsQuotaSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "isQuotaSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageStatsManagerIsQuotaSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -107,7 +107,7 @@ func (p *StorageStatsManagerProxy) IsReservedSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "isReservedSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageStatsManagerIsReservedSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -140,7 +140,7 @@ func (p *StorageStatsManagerProxy) GetTotalBytes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "getTotalBytes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageStatsManagerGetTotalBytes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -173,7 +173,7 @@ func (p *StorageStatsManagerProxy) GetFreeBytes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "getFreeBytes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageStatsManagerGetFreeBytes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -206,7 +206,7 @@ func (p *StorageStatsManagerProxy) GetCacheBytes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "getCacheBytes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageStatsManagerGetCacheBytes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -241,7 +241,7 @@ func (p *StorageStatsManagerProxy) GetCacheQuotaBytes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "getCacheQuotaBytes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageStatsManagerGetCacheQuotaBytes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -277,7 +277,7 @@ func (p *StorageStatsManagerProxy) QueryStatsForPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "queryStatsForPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageStatsManagerQueryStatsForPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -317,7 +317,7 @@ func (p *StorageStatsManagerProxy) QueryStatsForUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "queryStatsForUid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageStatsManagerQueryStatsForUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -356,7 +356,7 @@ func (p *StorageStatsManagerProxy) QueryStatsForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "queryStatsForUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageStatsManagerQueryStatsForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -395,7 +395,7 @@ func (p *StorageStatsManagerProxy) QueryExternalStatsForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "queryExternalStatsForUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageStatsManagerQueryExternalStatsForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -436,7 +436,7 @@ func (p *StorageStatsManagerProxy) QueryCratesForPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "queryCratesForPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageStatsManagerQueryCratesForPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -476,7 +476,7 @@ func (p *StorageStatsManagerProxy) QueryCratesForUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "queryCratesForUid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageStatsManagerQueryCratesForUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -515,7 +515,7 @@ func (p *StorageStatsManagerProxy) QueryCratesForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageStatsManager, "queryCratesForUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageStatsManagerQueryCratesForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -46,7 +46,7 @@ func (p *UserInitializationCompleteCallbackProxy) OnUserInitializationComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserInitializationCompleteCallback, "onUserInitializationComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserInitializationCompleteCallbackOnUserInitializationComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

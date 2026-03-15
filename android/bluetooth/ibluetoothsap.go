@@ -62,7 +62,7 @@ func (p *BluetoothSapProxy) GetState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSap, "getState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSapGetState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -92,7 +92,7 @@ func (p *BluetoothSapProxy) GetClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSap, "getClient")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSapGetClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -132,7 +132,7 @@ func (p *BluetoothSapProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSap, "disconnect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSapDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -167,7 +167,7 @@ func (p *BluetoothSapProxy) IsConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSap, "isConnected")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSapIsConnected
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -197,7 +197,7 @@ func (p *BluetoothSapProxy) GetConnectedDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSap, "getConnectedDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSapGetConnectedDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -245,7 +245,7 @@ func (p *BluetoothSapProxy) GetDevicesMatchingConnectionStates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSap, "getDevicesMatchingConnectionStates")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSapGetDevicesMatchingConnectionStates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -289,7 +289,7 @@ func (p *BluetoothSapProxy) GetConnectionState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSap, "getConnectionState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSapGetConnectionState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -326,7 +326,7 @@ func (p *BluetoothSapProxy) SetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSap, "setConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSapSetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -361,7 +361,7 @@ func (p *BluetoothSapProxy) GetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSap, "getConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSapGetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

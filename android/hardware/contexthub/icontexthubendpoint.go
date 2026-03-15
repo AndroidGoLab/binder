@@ -57,7 +57,7 @@ func (p *ContextHubEndpointProxy) GetAssignedHubEndpointInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpoint, "getAssignedHubEndpointInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubEndpointGetAssignedHubEndpointInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -98,7 +98,7 @@ func (p *ContextHubEndpointProxy) OpenSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpoint, "openSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubEndpointOpenSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *ContextHubEndpointProxy) CloseSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpoint, "closeSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubEndpointCloseSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -156,7 +156,7 @@ func (p *ContextHubEndpointProxy) OpenSessionRequestComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpoint, "openSessionRequestComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubEndpointOpenSessionRequestComplete
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -180,7 +180,7 @@ func (p *ContextHubEndpointProxy) Unregister(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpoint, "unregister")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubEndpointUnregister
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -212,7 +212,7 @@ func (p *ContextHubEndpointProxy) SendMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpoint, "sendMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubEndpointSendMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -242,7 +242,7 @@ func (p *ContextHubEndpointProxy) SendMessageDeliveryStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpoint, "sendMessageDeliveryStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubEndpointSendMessageDeliveryStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

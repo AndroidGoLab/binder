@@ -66,7 +66,7 @@ func (p *ContentCaptureServiceProxy) OnConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureService, "onConnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureServiceOnConnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -81,7 +81,7 @@ func (p *ContentCaptureServiceProxy) OnDisconnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureService, "onDisconnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureServiceOnDisconnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *ContentCaptureServiceProxy) OnSessionStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureService, "onSessionStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureServiceOnSessionStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -126,7 +126,7 @@ func (p *ContentCaptureServiceProxy) OnSessionFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureService, "onSessionFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureServiceOnSessionFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -148,7 +148,7 @@ func (p *ContentCaptureServiceProxy) OnActivitySnapshot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureService, "onActivitySnapshot")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureServiceOnActivitySnapshot
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -168,7 +168,7 @@ func (p *ContentCaptureServiceProxy) OnDataRemovalRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureService, "onDataRemovalRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureServiceOnDataRemovalRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -190,7 +190,7 @@ func (p *ContentCaptureServiceProxy) OnDataShared(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureService, "onDataShared")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureServiceOnDataShared
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -210,7 +210,7 @@ func (p *ContentCaptureServiceProxy) OnActivityEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureService, "onActivityEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureServiceOnActivityEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

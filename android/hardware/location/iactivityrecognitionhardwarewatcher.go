@@ -46,7 +46,7 @@ func (p *ActivityRecognitionHardwareWatcherProxy) OnInstanceChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardwareWatcher, "onInstanceChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIActivityRecognitionHardwareWatcherOnInstanceChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

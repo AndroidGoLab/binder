@@ -87,7 +87,7 @@ func (p *WallpaperEngineProxy) SetDesiredSize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "setDesiredSize")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEngineSetDesiredSize
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -107,7 +107,7 @@ func (p *WallpaperEngineProxy) SetDisplayPadding(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "setDisplayPadding")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEngineSetDisplayPadding
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -124,7 +124,7 @@ func (p *WallpaperEngineProxy) SetVisibility(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "setVisibility")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEngineSetVisibility
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -139,7 +139,7 @@ func (p *WallpaperEngineProxy) OnScreenTurningOn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "onScreenTurningOn")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEngineOnScreenTurningOn
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -154,7 +154,7 @@ func (p *WallpaperEngineProxy) OnScreenTurnedOn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "onScreenTurnedOn")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEngineOnScreenTurnedOn
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -173,7 +173,7 @@ func (p *WallpaperEngineProxy) SetInAmbientMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "setInAmbientMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEngineSetInAmbientMode
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -193,7 +193,7 @@ func (p *WallpaperEngineProxy) DispatchPointer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "dispatchPointer")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEngineDispatchPointer
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -221,7 +221,7 @@ func (p *WallpaperEngineProxy) DispatchWallpaperCommand(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "dispatchWallpaperCommand")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEngineDispatchWallpaperCommand
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -236,7 +236,7 @@ func (p *WallpaperEngineProxy) RequestWallpaperColors(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "requestWallpaperColors")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEngineRequestWallpaperColors
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -251,7 +251,7 @@ func (p *WallpaperEngineProxy) Destroy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "destroy")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEngineDestroy
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -268,7 +268,7 @@ func (p *WallpaperEngineProxy) SetZoomOut(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "setZoomOut")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEngineSetZoomOut
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -288,7 +288,7 @@ func (p *WallpaperEngineProxy) ResizePreview(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "resizePreview")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEngineResizePreview
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -314,7 +314,7 @@ func (p *WallpaperEngineProxy) RemoveLocalColorsAreas(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "removeLocalColorsAreas")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEngineRemoveLocalColorsAreas
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -340,7 +340,7 @@ func (p *WallpaperEngineProxy) AddLocalColorsAreas(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "addLocalColorsAreas")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEngineAddLocalColorsAreas
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -356,7 +356,7 @@ func (p *WallpaperEngineProxy) MirrorSurfaceControl(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "mirrorSurfaceControl")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWallpaperEngineMirrorSurfaceControl
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -391,7 +391,7 @@ func (p *WallpaperEngineProxy) ApplyDimming(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "applyDimming")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEngineApplyDimming
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -408,7 +408,7 @@ func (p *WallpaperEngineProxy) SetWallpaperFlags(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "setWallpaperFlags")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEngineSetWallpaperFlags
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -426,7 +426,7 @@ func (p *WallpaperEngineProxy) OnApplyWallpaper(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEngine, "onApplyWallpaper")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWallpaperEngineOnApplyWallpaper
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

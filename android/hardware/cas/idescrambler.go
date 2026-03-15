@@ -78,7 +78,7 @@ func (p *DescramblerProxy) Descramble(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "descramble")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDescramblerDescramble
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -106,7 +106,7 @@ func (p *DescramblerProxy) Release(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "release")
 	if _err != nil {
-		return _err
+		_code = TransactionIDescramblerRelease
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -133,7 +133,7 @@ func (p *DescramblerProxy) RequiresSecureDecoderComponent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "requiresSecureDecoderComponent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDescramblerRequiresSecureDecoderComponent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -170,7 +170,7 @@ func (p *DescramblerProxy) SetMediaCasSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "setMediaCasSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIDescramblerSetMediaCasSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

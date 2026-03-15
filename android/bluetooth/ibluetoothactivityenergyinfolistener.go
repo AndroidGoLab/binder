@@ -49,7 +49,7 @@ func (p *BluetoothActivityEnergyInfoListenerProxy) OnBluetoothActivityEnergyInfo
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothActivityEnergyInfoListener, "onBluetoothActivityEnergyInfoAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothActivityEnergyInfoListenerOnBluetoothActivityEnergyInfoAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

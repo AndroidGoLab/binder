@@ -49,7 +49,7 @@ func (p *RegionChannelListProxy) SetRegionChannelList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRegionChannelList, "setRegionChannelList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRegionChannelListSetRegionChannelList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -80,7 +80,7 @@ func (p *RegionChannelListProxy) SetListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRegionChannelList, "setListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRegionChannelListSetListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

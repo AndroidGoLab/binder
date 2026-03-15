@@ -55,7 +55,7 @@ func (p *ProgressListenerProxy) OnStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProgressListener, "onStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIProgressListenerOnStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -79,7 +79,7 @@ func (p *ProgressListenerProxy) OnProgress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProgressListener, "onProgress")
 	if _err != nil {
-		return _err
+		_code = TransactionIProgressListenerOnProgress
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -101,7 +101,7 @@ func (p *ProgressListenerProxy) OnFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProgressListener, "onFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIProgressListenerOnFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

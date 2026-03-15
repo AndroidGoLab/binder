@@ -54,7 +54,7 @@ func (p *SoundTriggerMiddlewareServiceProxy) ListModulesAsOriginator(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerMiddlewareService, "listModulesAsOriginator")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISoundTriggerMiddlewareServiceListModulesAsOriginator
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -94,7 +94,7 @@ func (p *SoundTriggerMiddlewareServiceProxy) ListModulesAsMiddleman(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerMiddlewareService, "listModulesAsMiddleman")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISoundTriggerMiddlewareServiceListModulesAsMiddleman
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -137,7 +137,7 @@ func (p *SoundTriggerMiddlewareServiceProxy) AttachAsOriginator(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerMiddlewareService, "attachAsOriginator")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISoundTriggerMiddlewareServiceAttachAsOriginator
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -175,7 +175,7 @@ func (p *SoundTriggerMiddlewareServiceProxy) AttachAsMiddleman(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerMiddlewareService, "attachAsMiddleman")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISoundTriggerMiddlewareServiceAttachAsMiddleman
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -206,7 +206,7 @@ func (p *SoundTriggerMiddlewareServiceProxy) AttachFakeHalInjection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerMiddlewareService, "attachFakeHalInjection")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundTriggerMiddlewareServiceAttachFakeHalInjection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

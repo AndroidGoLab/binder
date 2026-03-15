@@ -61,7 +61,7 @@ func (p *DependencyInstallerServiceProxy) OnDependenciesRequired(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDependencyInstallerService, "onDependenciesRequired")
 	if _err != nil {
-		return _err
+		_code = TransactionIDependencyInstallerServiceOnDependenciesRequired
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

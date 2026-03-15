@@ -59,7 +59,7 @@ func (p *ThermalHeadroomListenerProxy) OnHeadroomChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIThermalHeadroomListener, "onHeadroomChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIThermalHeadroomListenerOnHeadroomChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

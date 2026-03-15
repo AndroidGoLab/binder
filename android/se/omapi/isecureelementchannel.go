@@ -54,7 +54,7 @@ func (p *SecureElementChannelProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementChannel, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionISecureElementChannelClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -79,7 +79,7 @@ func (p *SecureElementChannelProxy) IsClosed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementChannel, "isClosed")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementChannelIsClosed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -108,7 +108,7 @@ func (p *SecureElementChannelProxy) IsBasicChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementChannel, "isBasicChannel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementChannelIsBasicChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -137,7 +137,7 @@ func (p *SecureElementChannelProxy) GetSelectResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementChannel, "getSelectResponse")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementChannelGetSelectResponse
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -185,7 +185,7 @@ func (p *SecureElementChannelProxy) Transmit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementChannel, "transmit")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementChannelTransmit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -224,7 +224,7 @@ func (p *SecureElementChannelProxy) SelectNext(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementChannel, "selectNext")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementChannelSelectNext
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

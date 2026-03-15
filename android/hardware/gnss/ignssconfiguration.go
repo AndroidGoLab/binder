@@ -68,7 +68,7 @@ func (p *GnssConfigurationProxy) SetSuplVersion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssConfiguration, "setSuplVersion")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssConfigurationSetSuplVersion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -94,7 +94,7 @@ func (p *GnssConfigurationProxy) SetSuplMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssConfiguration, "setSuplMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssConfigurationSetSuplMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -120,7 +120,7 @@ func (p *GnssConfigurationProxy) SetLppProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssConfiguration, "setLppProfile")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssConfigurationSetLppProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -146,7 +146,7 @@ func (p *GnssConfigurationProxy) SetGlonassPositioningProtocol(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssConfiguration, "setGlonassPositioningProtocol")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssConfigurationSetGlonassPositioningProtocol
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -172,7 +172,7 @@ func (p *GnssConfigurationProxy) SetEmergencySuplPdn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssConfiguration, "setEmergencySuplPdn")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssConfigurationSetEmergencySuplPdn
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -198,7 +198,7 @@ func (p *GnssConfigurationProxy) SetEsExtensionSec(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssConfiguration, "setEsExtensionSec")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssConfigurationSetEsExtensionSec
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -233,7 +233,7 @@ func (p *GnssConfigurationProxy) SetBlocklist(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssConfiguration, "setBlocklist")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssConfigurationSetBlocklist
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

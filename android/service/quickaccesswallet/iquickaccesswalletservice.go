@@ -63,7 +63,7 @@ func (p *QuickAccessWalletServiceProxy) OnWalletCardsRequested(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "onWalletCardsRequested")
 	if _err != nil {
-		return _err
+		_code = TransactionIQuickAccessWalletServiceOnWalletCardsRequested
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -83,7 +83,7 @@ func (p *QuickAccessWalletServiceProxy) OnWalletCardSelected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "onWalletCardSelected")
 	if _err != nil {
-		return _err
+		_code = TransactionIQuickAccessWalletServiceOnWalletCardSelected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -98,7 +98,7 @@ func (p *QuickAccessWalletServiceProxy) OnWalletDismissed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "onWalletDismissed")
 	if _err != nil {
-		return _err
+		_code = TransactionIQuickAccessWalletServiceOnWalletDismissed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -120,7 +120,7 @@ func (p *QuickAccessWalletServiceProxy) RegisterWalletServiceEventListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "registerWalletServiceEventListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIQuickAccessWalletServiceRegisterWalletServiceEventListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -140,7 +140,7 @@ func (p *QuickAccessWalletServiceProxy) UnregisterWalletServiceEventListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "unregisterWalletServiceEventListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIQuickAccessWalletServiceUnregisterWalletServiceEventListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -157,7 +157,7 @@ func (p *QuickAccessWalletServiceProxy) OnTargetActivityIntentRequested(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "onTargetActivityIntentRequested")
 	if _err != nil {
-		return _err
+		_code = TransactionIQuickAccessWalletServiceOnTargetActivityIntentRequested
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -174,7 +174,7 @@ func (p *QuickAccessWalletServiceProxy) OnGestureTargetActivityIntentRequested(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQuickAccessWalletService, "onGestureTargetActivityIntentRequested")
 	if _err != nil {
-		return _err
+		_code = TransactionIQuickAccessWalletServiceOnGestureTargetActivityIntentRequested
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -55,7 +55,7 @@ func (p *AuthenticateServerCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthenticateServerCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIAuthenticateServerCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

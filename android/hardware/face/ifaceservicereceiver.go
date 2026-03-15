@@ -73,7 +73,7 @@ func (p *FaceServiceReceiverProxy) OnEnrollResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFaceServiceReceiver, "onEnrollResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIFaceServiceReceiverOnEnrollResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *FaceServiceReceiverProxy) OnAcquired(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFaceServiceReceiver, "onAcquired")
 	if _err != nil {
-		return _err
+		_code = TransactionIFaceServiceReceiverOnAcquired
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -116,7 +116,7 @@ func (p *FaceServiceReceiverProxy) OnAuthenticationSucceeded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFaceServiceReceiver, "onAuthenticationSucceeded")
 	if _err != nil {
-		return _err
+		_code = TransactionIFaceServiceReceiverOnAuthenticationSucceeded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -137,7 +137,7 @@ func (p *FaceServiceReceiverProxy) OnFaceDetected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFaceServiceReceiver, "onFaceDetected")
 	if _err != nil {
-		return _err
+		_code = TransactionIFaceServiceReceiverOnFaceDetected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -152,7 +152,7 @@ func (p *FaceServiceReceiverProxy) OnAuthenticationFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFaceServiceReceiver, "onAuthenticationFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIFaceServiceReceiverOnAuthenticationFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -171,7 +171,7 @@ func (p *FaceServiceReceiverProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFaceServiceReceiver, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIFaceServiceReceiverOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -193,7 +193,7 @@ func (p *FaceServiceReceiverProxy) OnRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFaceServiceReceiver, "onRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionIFaceServiceReceiverOnRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -212,7 +212,7 @@ func (p *FaceServiceReceiverProxy) OnFeatureSet(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFaceServiceReceiver, "onFeatureSet")
 	if _err != nil {
-		return _err
+		_code = TransactionIFaceServiceReceiverOnFeatureSet
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -247,7 +247,7 @@ func (p *FaceServiceReceiverProxy) OnFeatureGet(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFaceServiceReceiver, "onFeatureGet")
 	if _err != nil {
-		return _err
+		_code = TransactionIFaceServiceReceiverOnFeatureGet
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -268,7 +268,7 @@ func (p *FaceServiceReceiverProxy) OnChallengeGenerated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFaceServiceReceiver, "onChallengeGenerated")
 	if _err != nil {
-		return _err
+		_code = TransactionIFaceServiceReceiverOnChallengeGenerated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -288,7 +288,7 @@ func (p *FaceServiceReceiverProxy) OnAuthenticationFrame(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFaceServiceReceiver, "onAuthenticationFrame")
 	if _err != nil {
-		return _err
+		_code = TransactionIFaceServiceReceiverOnAuthenticationFrame
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -308,7 +308,7 @@ func (p *FaceServiceReceiverProxy) OnEnrollmentFrame(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFaceServiceReceiver, "onEnrollmentFrame")
 	if _err != nil {
-		return _err
+		_code = TransactionIFaceServiceReceiverOnEnrollmentFrame
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -58,7 +58,7 @@ func (p *AppWidgetHostProxy) UpdateAppWidgetDeferred(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetHost, "updateAppWidgetDeferred")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppWidgetHostUpdateAppWidgetDeferred
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -80,7 +80,7 @@ func (p *AppWidgetHostProxy) UpdateAppWidget(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetHost, "updateAppWidget")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppWidgetHostUpdateAppWidget
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -102,7 +102,7 @@ func (p *AppWidgetHostProxy) ProviderChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetHost, "providerChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppWidgetHostProviderChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -117,7 +117,7 @@ func (p *AppWidgetHostProxy) ProvidersChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetHost, "providersChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppWidgetHostProvidersChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -136,7 +136,7 @@ func (p *AppWidgetHostProxy) ViewDataChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetHost, "viewDataChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppWidgetHostViewDataChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -153,7 +153,7 @@ func (p *AppWidgetHostProxy) AppWidgetRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppWidgetHost, "appWidgetRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppWidgetHostAppWidgetRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

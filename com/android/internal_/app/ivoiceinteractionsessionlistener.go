@@ -50,7 +50,7 @@ func (p *VoiceInteractionSessionListenerProxy) OnVoiceSessionShown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSessionListener, "onVoiceSessionShown")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractionSessionListenerOnVoiceSessionShown
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *VoiceInteractionSessionListenerProxy) OnVoiceSessionHidden(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSessionListener, "onVoiceSessionHidden")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractionSessionListenerOnVoiceSessionHidden
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -82,7 +82,7 @@ func (p *VoiceInteractionSessionListenerProxy) OnVoiceSessionWindowVisibilityCha
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSessionListener, "onVoiceSessionWindowVisibilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractionSessionListenerOnVoiceSessionWindowVisibilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -98,7 +98,7 @@ func (p *VoiceInteractionSessionListenerProxy) OnSetUiHints(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSessionListener, "onSetUiHints")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractionSessionListenerOnSetUiHints
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

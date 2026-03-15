@@ -44,7 +44,7 @@ func (p *VoidConsumerProxy) Accept(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoidConsumer, "accept")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoidConsumerAccept
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

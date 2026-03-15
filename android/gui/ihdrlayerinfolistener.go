@@ -54,7 +54,7 @@ func (p *HdrLayerInfoListenerProxy) OnHdrLayerInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdrLayerInfoListener, "onHdrLayerInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdrLayerInfoListenerOnHdrLayerInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

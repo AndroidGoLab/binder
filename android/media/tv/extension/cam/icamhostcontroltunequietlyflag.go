@@ -51,7 +51,7 @@ func (p *CamHostControlTuneQuietlyFlagProxy) AddHcTuneQuietlyFlagListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamHostControlTuneQuietlyFlag, "addHcTuneQuietlyFlagListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICamHostControlTuneQuietlyFlagAddHcTuneQuietlyFlagListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -77,7 +77,7 @@ func (p *CamHostControlTuneQuietlyFlagProxy) RemoveHcTuneQuietlyFlagListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamHostControlTuneQuietlyFlag, "removeHcTuneQuietlyFlagListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICamHostControlTuneQuietlyFlagRemoveHcTuneQuietlyFlagListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -104,7 +104,7 @@ func (p *CamHostControlTuneQuietlyFlagProxy) GetHcTuneQuietlyFlag(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamHostControlTuneQuietlyFlag, "getHcTuneQuietlyFlag")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICamHostControlTuneQuietlyFlagGetHcTuneQuietlyFlag
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -48,7 +48,7 @@ func (p *DecorViewGestureListenerProxy) OnInterceptionChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDecorViewGestureListener, "onInterceptionChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDecorViewGestureListenerOnInterceptionChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -61,7 +61,7 @@ func (p *MidiDeviceServerProxy) OpenInputPort(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiDeviceServer, "openInputPort")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMidiDeviceServerOpenInputPort
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -90,7 +90,7 @@ func (p *MidiDeviceServerProxy) OpenOutputPort(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiDeviceServer, "openOutputPort")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMidiDeviceServerOpenOutputPort
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -116,7 +116,7 @@ func (p *MidiDeviceServerProxy) ClosePort(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiDeviceServer, "closePort")
 	if _err != nil {
-		return _err
+		_code = TransactionIMidiDeviceServerClosePort
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -140,7 +140,7 @@ func (p *MidiDeviceServerProxy) CloseDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiDeviceServer, "closeDevice")
 	if _err != nil {
-		return _err
+		_code = TransactionIMidiDeviceServerCloseDevice
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -161,7 +161,7 @@ func (p *MidiDeviceServerProxy) ConnectPorts(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiDeviceServer, "connectPorts")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMidiDeviceServerConnectPorts
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -190,7 +190,7 @@ func (p *MidiDeviceServerProxy) GetDeviceInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiDeviceServer, "getDeviceInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMidiDeviceServerGetDeviceInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -215,7 +215,7 @@ func (p *MidiDeviceServerProxy) SetDeviceInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiDeviceServer, "setDeviceInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIMidiDeviceServerSetDeviceInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -60,7 +60,7 @@ func (p *RemotelyProvisionedComponentProxy) GetHardwareInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemotelyProvisionedComponent, "getHardwareInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRemotelyProvisionedComponentGetHardwareInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -97,7 +97,7 @@ func (p *RemotelyProvisionedComponentProxy) GenerateEcdsaP256KeyPair(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemotelyProvisionedComponent, "generateEcdsaP256KeyPair")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRemotelyProvisionedComponentGenerateEcdsaP256KeyPair
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -172,7 +172,7 @@ func (p *RemotelyProvisionedComponentProxy) GenerateCertificateRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemotelyProvisionedComponent, "generateCertificateRequest")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRemotelyProvisionedComponentGenerateCertificateRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -237,7 +237,7 @@ func (p *RemotelyProvisionedComponentProxy) GenerateCertificateRequestV2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemotelyProvisionedComponent, "generateCertificateRequestV2")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRemotelyProvisionedComponentGenerateCertificateRequestV2
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

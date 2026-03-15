@@ -58,7 +58,7 @@ func (p *TextToSpeechCallbackProxy) OnStart(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onStart")
 	if _err != nil {
-		return _err
+		_code = TransactionITextToSpeechCallbackOnStart
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -75,7 +75,7 @@ func (p *TextToSpeechCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionITextToSpeechCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -94,7 +94,7 @@ func (p *TextToSpeechCallbackProxy) OnStop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onStop")
 	if _err != nil {
-		return _err
+		_code = TransactionITextToSpeechCallbackOnStop
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -113,7 +113,7 @@ func (p *TextToSpeechCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionITextToSpeechCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -136,7 +136,7 @@ func (p *TextToSpeechCallbackProxy) OnBeginSynthesis(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onBeginSynthesis")
 	if _err != nil {
-		return _err
+		_code = TransactionITextToSpeechCallbackOnBeginSynthesis
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -162,7 +162,7 @@ func (p *TextToSpeechCallbackProxy) OnAudioAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onAudioAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionITextToSpeechCallbackOnAudioAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -185,7 +185,7 @@ func (p *TextToSpeechCallbackProxy) OnRangeStart(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechCallback, "onRangeStart")
 	if _err != nil {
-		return _err
+		_code = TransactionITextToSpeechCallbackOnRangeStart
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

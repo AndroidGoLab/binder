@@ -52,7 +52,7 @@ func (p *AttentionServiceProxy) CheckAttention(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAttentionService, "checkAttention")
 	if _err != nil {
-		return _err
+		_code = TransactionIAttentionServiceCheckAttention
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *AttentionServiceProxy) CancelAttentionCheck(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAttentionService, "cancelAttentionCheck")
 	if _err != nil {
-		return _err
+		_code = TransactionIAttentionServiceCancelAttentionCheck
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -86,7 +86,7 @@ func (p *AttentionServiceProxy) OnStartProximityUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAttentionService, "onStartProximityUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionIAttentionServiceOnStartProximityUpdates
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -101,7 +101,7 @@ func (p *AttentionServiceProxy) OnStopProximityUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAttentionService, "onStopProximityUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionIAttentionServiceOnStopProximityUpdates
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -51,7 +51,7 @@ func (p *BluetoothCsipSetCoordinatorCallbackProxy) OnCsisSetMemberAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCsipSetCoordinatorCallback, "onCsisSetMemberAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothCsipSetCoordinatorCallbackOnCsisSetMemberAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

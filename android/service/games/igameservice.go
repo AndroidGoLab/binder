@@ -50,7 +50,7 @@ func (p *GameServiceProxy) Connected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGameService, "connected")
 	if _err != nil {
-		return _err
+		_code = TransactionIGameServiceConnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *GameServiceProxy) Disconnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGameService, "disconnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIGameServiceDisconnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -85,7 +85,7 @@ func (p *GameServiceProxy) GameStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGameService, "gameStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIGameServiceGameStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

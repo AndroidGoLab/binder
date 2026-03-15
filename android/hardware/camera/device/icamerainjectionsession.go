@@ -56,7 +56,7 @@ func (p *CameraInjectionSessionProxy) ConfigureInjectionStreams(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraInjectionSession, "configureInjectionStreams")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraInjectionSessionConfigureInjectionStreams
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -81,7 +81,7 @@ func (p *CameraInjectionSessionProxy) GetCameraDeviceSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraInjectionSession, "getCameraDeviceSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraInjectionSessionGetCameraDeviceSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

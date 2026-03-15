@@ -78,7 +78,7 @@ func (p *ImsServiceControllerProxy) SetListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "setListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceControllerSetListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -107,7 +107,7 @@ func (p *ImsServiceControllerProxy) CreateMmTelFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "createMmTelFeature")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceControllerCreateMmTelFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -139,7 +139,7 @@ func (p *ImsServiceControllerProxy) CreateEmergencyOnlyMmTelFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "createEmergencyOnlyMmTelFeature")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceControllerCreateEmergencyOnlyMmTelFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -173,7 +173,7 @@ func (p *ImsServiceControllerProxy) CreateRcsFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "createRcsFeature")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceControllerCreateRcsFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -203,7 +203,7 @@ func (p *ImsServiceControllerProxy) QuerySupportedImsFeatures(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "querySupportedImsFeatures")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceControllerQuerySupportedImsFeatures
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -237,7 +237,7 @@ func (p *ImsServiceControllerProxy) GetImsServiceCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "getImsServiceCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceControllerGetImsServiceCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -271,7 +271,7 @@ func (p *ImsServiceControllerProxy) AddFeatureStatusCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "addFeatureStatusCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceControllerAddFeatureStatusCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -301,7 +301,7 @@ func (p *ImsServiceControllerProxy) RemoveFeatureStatusCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "removeFeatureStatusCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceControllerRemoveFeatureStatusCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -325,7 +325,7 @@ func (p *ImsServiceControllerProxy) NotifyImsServiceReadyForFeatureCreation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "notifyImsServiceReadyForFeatureCreation")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceControllerNotifyImsServiceReadyForFeatureCreation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -355,7 +355,7 @@ func (p *ImsServiceControllerProxy) RemoveImsFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "removeImsFeature")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceControllerRemoveImsFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -384,7 +384,7 @@ func (p *ImsServiceControllerProxy) GetConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "getConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceControllerGetConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -418,7 +418,7 @@ func (p *ImsServiceControllerProxy) GetRegistration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "getRegistration")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceControllerGetRegistration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -450,7 +450,7 @@ func (p *ImsServiceControllerProxy) GetSipTransport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "getSipTransport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceControllerGetSipTransport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -483,7 +483,7 @@ func (p *ImsServiceControllerProxy) EnableIms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "enableIms")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceControllerEnableIms
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -502,7 +502,7 @@ func (p *ImsServiceControllerProxy) DisableIms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "disableIms")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceControllerDisableIms
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -521,7 +521,7 @@ func (p *ImsServiceControllerProxy) ResetIms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "resetIms")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceControllerResetIms
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

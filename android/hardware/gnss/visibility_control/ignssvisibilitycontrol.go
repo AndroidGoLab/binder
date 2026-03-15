@@ -55,7 +55,7 @@ func (p *GnssVisibilityControlProxy) EnableNfwLocationAccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssVisibilityControl, "enableNfwLocationAccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssVisibilityControlEnableNfwLocationAccess
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -81,7 +81,7 @@ func (p *GnssVisibilityControlProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssVisibilityControl, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssVisibilityControlSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

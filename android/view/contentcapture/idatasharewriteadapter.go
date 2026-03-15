@@ -52,7 +52,7 @@ func (p *DataShareWriteAdapterProxy) Write(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataShareWriteAdapter, "write")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataShareWriteAdapterWrite
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *DataShareWriteAdapterProxy) Error(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataShareWriteAdapter, "error")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataShareWriteAdapterError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -84,7 +84,7 @@ func (p *DataShareWriteAdapterProxy) Rejected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataShareWriteAdapter, "rejected")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataShareWriteAdapterRejected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -99,7 +99,7 @@ func (p *DataShareWriteAdapterProxy) Finish(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataShareWriteAdapter, "finish")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataShareWriteAdapterFinish
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -61,7 +61,7 @@ func (p *GnssBatchingProxy) Init(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssBatching, "init")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssBatchingInit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -86,7 +86,7 @@ func (p *GnssBatchingProxy) GetBatchSize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssBatching, "getBatchSize")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssBatchingGetBatchSize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -119,7 +119,7 @@ func (p *GnssBatchingProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssBatching, "start")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssBatchingStart
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -143,7 +143,7 @@ func (p *GnssBatchingProxy) Flush(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssBatching, "flush")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssBatchingFlush
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -167,7 +167,7 @@ func (p *GnssBatchingProxy) Stop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssBatching, "stop")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssBatchingStop
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -191,7 +191,7 @@ func (p *GnssBatchingProxy) Cleanup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssBatching, "cleanup")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssBatchingCleanup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

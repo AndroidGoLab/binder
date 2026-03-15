@@ -60,7 +60,7 @@ func (p *ComponentListenerProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponentListener, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIComponentListenerOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -86,7 +86,7 @@ func (p *ComponentListenerProxy) OnFramesRendered(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponentListener, "onFramesRendered")
 	if _err != nil {
-		return _err
+		_code = TransactionIComponentListenerOnFramesRendered
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -112,7 +112,7 @@ func (p *ComponentListenerProxy) OnInputBuffersReleased(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponentListener, "onInputBuffersReleased")
 	if _err != nil {
-		return _err
+		_code = TransactionIComponentListenerOnInputBuffersReleased
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -138,7 +138,7 @@ func (p *ComponentListenerProxy) OnTripped(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponentListener, "onTripped")
 	if _err != nil {
-		return _err
+		_code = TransactionIComponentListenerOnTripped
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -158,7 +158,7 @@ func (p *ComponentListenerProxy) OnWorkDone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponentListener, "onWorkDone")
 	if _err != nil {
-		return _err
+		_code = TransactionIComponentListenerOnWorkDone
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

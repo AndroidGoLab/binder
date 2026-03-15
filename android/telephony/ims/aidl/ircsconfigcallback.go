@@ -61,7 +61,7 @@ func (p *RcsConfigCallbackProxy) OnConfigurationChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRcsConfigCallback, "onConfigurationChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRcsConfigCallbackOnConfigurationChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -80,7 +80,7 @@ func (p *RcsConfigCallbackProxy) OnAutoConfigurationErrorReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRcsConfigCallback, "onAutoConfigurationErrorReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIRcsConfigCallbackOnAutoConfigurationErrorReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -95,7 +95,7 @@ func (p *RcsConfigCallbackProxy) OnConfigurationReset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRcsConfigCallback, "onConfigurationReset")
 	if _err != nil {
-		return _err
+		_code = TransactionIRcsConfigCallbackOnConfigurationReset
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -110,7 +110,7 @@ func (p *RcsConfigCallbackProxy) OnRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRcsConfigCallback, "onRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionIRcsConfigCallbackOnRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -134,7 +134,7 @@ func (p *RcsConfigCallbackProxy) OnPreProvisioningReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRcsConfigCallback, "onPreProvisioningReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIRcsConfigCallbackOnPreProvisioningReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -55,7 +55,7 @@ func (p *FieldClassificationCallbackProxy) OnCancellable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFieldClassificationCallback, "onCancellable")
 	if _err != nil {
-		return _err
+		_code = TransactionIFieldClassificationCallbackOnCancellable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *FieldClassificationCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFieldClassificationCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIFieldClassificationCallbackOnSuccess
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -108,7 +108,7 @@ func (p *FieldClassificationCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFieldClassificationCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIFieldClassificationCallbackOnFailure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -133,7 +133,7 @@ func (p *FieldClassificationCallbackProxy) IsCompleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFieldClassificationCallback, "isCompleted")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFieldClassificationCallbackIsCompleted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -161,7 +161,7 @@ func (p *FieldClassificationCallbackProxy) Cancel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFieldClassificationCallback, "cancel")
 	if _err != nil {
-		return _err
+		_code = TransactionIFieldClassificationCallbackCancel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

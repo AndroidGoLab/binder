@@ -50,7 +50,7 @@ func (p *ImsMediaProxy) SetListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMedia, "setListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaSetListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -77,7 +77,7 @@ func (p *ImsMediaProxy) OpenSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMedia, "openSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaOpenSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -94,7 +94,7 @@ func (p *ImsMediaProxy) CloseSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMedia, "closeSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMediaCloseSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

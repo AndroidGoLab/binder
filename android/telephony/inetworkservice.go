@@ -54,7 +54,7 @@ func (p *NetworkServiceProxy) CreateNetworkServiceProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkService, "createNetworkServiceProvider")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkServiceCreateNetworkServiceProvider
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *NetworkServiceProxy) RemoveNetworkServiceProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkService, "removeNetworkServiceProvider")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkServiceRemoveNetworkServiceProvider
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *NetworkServiceProxy) RequestNetworkRegistrationInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkService, "requestNetworkRegistrationInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkServiceRequestNetworkRegistrationInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -111,7 +111,7 @@ func (p *NetworkServiceProxy) RegisterForNetworkRegistrationInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkService, "registerForNetworkRegistrationInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkServiceRegisterForNetworkRegistrationInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -130,7 +130,7 @@ func (p *NetworkServiceProxy) UnregisterForNetworkRegistrationInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkService, "unregisterForNetworkRegistrationInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkServiceUnregisterForNetworkRegistrationInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

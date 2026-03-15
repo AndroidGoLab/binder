@@ -84,7 +84,7 @@ func (p *KeyMintDeviceProxy) GetHardwareInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "getHardwareInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeyMintDeviceGetHardwareInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -126,7 +126,7 @@ func (p *KeyMintDeviceProxy) AddRngEntropy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "addRngEntropy")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyMintDeviceAddRngEntropy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -170,7 +170,7 @@ func (p *KeyMintDeviceProxy) GenerateKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "generateKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeyMintDeviceGenerateKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -234,7 +234,7 @@ func (p *KeyMintDeviceProxy) ImportKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "importKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeyMintDeviceImportKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -310,7 +310,7 @@ func (p *KeyMintDeviceProxy) ImportWrappedKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "importWrappedKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeyMintDeviceImportWrappedKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -364,7 +364,7 @@ func (p *KeyMintDeviceProxy) UpgradeKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "upgradeKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeyMintDeviceUpgradeKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -411,7 +411,7 @@ func (p *KeyMintDeviceProxy) DeleteKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "deleteKey")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyMintDeviceDeleteKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -435,7 +435,7 @@ func (p *KeyMintDeviceProxy) DeleteAllKeys(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "deleteAllKeys")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyMintDeviceDeleteAllKeys
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -459,7 +459,7 @@ func (p *KeyMintDeviceProxy) DestroyAttestationIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "destroyAttestationIds")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyMintDeviceDestroyAttestationIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -514,7 +514,7 @@ func (p *KeyMintDeviceProxy) Begin(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "begin")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeyMintDeviceBegin
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -557,7 +557,7 @@ func (p *KeyMintDeviceProxy) DeviceLocked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "deviceLocked")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyMintDeviceDeviceLocked
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -581,7 +581,7 @@ func (p *KeyMintDeviceProxy) EarlyBootEnded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "earlyBootEnded")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyMintDeviceEarlyBootEnded
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -615,7 +615,7 @@ func (p *KeyMintDeviceProxy) ConvertStorageKeyToEphemeral(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "convertStorageKeyToEphemeral")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeyMintDeviceConvertStorageKeyToEphemeral
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -681,7 +681,7 @@ func (p *KeyMintDeviceProxy) GetKeyCharacteristics(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "getKeyCharacteristics")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeyMintDeviceGetKeyCharacteristics
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -719,7 +719,7 @@ func (p *KeyMintDeviceProxy) GetRootOfTrustChallenge(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "getRootOfTrustChallenge")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeyMintDeviceGetRootOfTrustChallenge
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -767,7 +767,7 @@ func (p *KeyMintDeviceProxy) GetRootOfTrust(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "getRootOfTrust")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeyMintDeviceGetRootOfTrust
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -814,7 +814,7 @@ func (p *KeyMintDeviceProxy) SendRootOfTrust(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "sendRootOfTrust")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyMintDeviceSendRootOfTrust
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -849,7 +849,7 @@ func (p *KeyMintDeviceProxy) SetAdditionalAttestationInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyMintDevice, "setAdditionalAttestationInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyMintDeviceSetAdditionalAttestationInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

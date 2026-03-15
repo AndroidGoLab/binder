@@ -44,7 +44,7 @@ func (p *ControlProxy) Continue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIControl, "Continue")
 	if _err != nil {
-		return _err
+		_code = TransactionIControlContinue
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

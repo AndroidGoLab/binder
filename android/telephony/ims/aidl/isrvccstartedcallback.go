@@ -56,7 +56,7 @@ func (p *SrvccStartedCallbackProxy) OnSrvccCallNotified(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISrvccStartedCallback, "onSrvccCallNotified")
 	if _err != nil {
-		return _err
+		_code = TransactionISrvccStartedCallbackOnSrvccCallNotified
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

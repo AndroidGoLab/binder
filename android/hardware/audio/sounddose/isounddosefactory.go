@@ -48,7 +48,7 @@ func (p *SoundDoseFactoryProxy) GetSoundDose(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundDoseFactory, "getSoundDose")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISoundDoseFactoryGetSoundDose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

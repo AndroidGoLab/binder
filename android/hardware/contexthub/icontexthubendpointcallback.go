@@ -59,7 +59,7 @@ func (p *ContextHubEndpointCallbackProxy) OnSessionOpenRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpointCallback, "onSessionOpenRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubEndpointCallbackOnSessionOpenRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *ContextHubEndpointCallbackProxy) OnSessionClosed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpointCallback, "onSessionClosed")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubEndpointCallbackOnSessionClosed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -95,7 +95,7 @@ func (p *ContextHubEndpointCallbackProxy) OnSessionOpenComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpointCallback, "onSessionOpenComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubEndpointCallbackOnSessionOpenComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -117,7 +117,7 @@ func (p *ContextHubEndpointCallbackProxy) OnMessageReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubEndpointCallback, "onMessageReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubEndpointCallbackOnMessageReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -50,7 +50,7 @@ func (p *ResourcesManagerProxy) DumpResources(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourcesManager, "dumpResources")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIResourcesManagerDumpResources
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

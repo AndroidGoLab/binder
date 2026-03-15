@@ -53,7 +53,7 @@ func (p *InputFilterProxy) IsEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputFilter, "isEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputFilterIsEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -86,7 +86,7 @@ func (p *InputFilterProxy) NotifyKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputFilter, "notifyKey")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputFilterNotifyKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -121,7 +121,7 @@ func (p *InputFilterProxy) NotifyInputDevicesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputFilter, "notifyInputDevicesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputFilterNotifyInputDevicesChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -150,7 +150,7 @@ func (p *InputFilterProxy) NotifyConfigurationChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputFilter, "notifyConfigurationChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputFilterNotifyConfigurationChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -175,7 +175,7 @@ func (p *InputFilterProxy) DumpFilter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputFilter, "dumpFilter")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputFilterDumpFilter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -64,7 +64,7 @@ func (p *ImsConfigProxy) GetProvisionedValue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "getProvisionedValue")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsConfigGetProvisionedValue
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -95,7 +95,7 @@ func (p *ImsConfigProxy) GetProvisionedStringValue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "getProvisionedStringValue")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsConfigGetProvisionedStringValue
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -128,7 +128,7 @@ func (p *ImsConfigProxy) SetProvisionedValue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "setProvisionedValue")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsConfigSetProvisionedValue
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -161,7 +161,7 @@ func (p *ImsConfigProxy) SetProvisionedStringValue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "setProvisionedStringValue")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsConfigSetProvisionedStringValue
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -195,7 +195,7 @@ func (p *ImsConfigProxy) GetFeatureValue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "getFeatureValue")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigGetFeatureValue
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -218,7 +218,7 @@ func (p *ImsConfigProxy) SetFeatureValue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "setFeatureValue")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigSetFeatureValue
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -234,7 +234,7 @@ func (p *ImsConfigProxy) GetVolteProvisioned(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "getVolteProvisioned")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsConfigGetVolteProvisioned
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -264,7 +264,7 @@ func (p *ImsConfigProxy) GetVideoQuality(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "getVideoQuality")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigGetVideoQuality
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -283,7 +283,7 @@ func (p *ImsConfigProxy) SetVideoQuality(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfig, "setVideoQuality")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigSetVideoQuality
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

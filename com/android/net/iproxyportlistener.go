@@ -46,7 +46,7 @@ func (p *ProxyPortListenerProxy) SetProxyPort(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProxyPortListener, "setProxyPort")
 	if _err != nil {
-		return _err
+		_code = TransactionIProxyPortListenerSetProxyPort
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

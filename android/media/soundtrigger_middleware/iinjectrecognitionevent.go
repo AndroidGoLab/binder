@@ -61,7 +61,7 @@ func (p *InjectRecognitionEventProxy) TriggerRecognitionEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInjectRecognitionEvent, "triggerRecognitionEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIInjectRecognitionEventTriggerRecognitionEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -76,7 +76,7 @@ func (p *InjectRecognitionEventProxy) TriggerAbortRecognition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInjectRecognitionEvent, "triggerAbortRecognition")
 	if _err != nil {
-		return _err
+		_code = TransactionIInjectRecognitionEventTriggerAbortRecognition
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -49,7 +49,7 @@ func (p *InputSinkProxy) Queue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputSink, "queue")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputSinkQueue
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

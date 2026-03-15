@@ -50,7 +50,7 @@ func (p *Session2TokensListenerProxy) OnSession2TokensChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession2TokensListener, "onSession2TokensChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISession2TokensListenerOnSession2TokensChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

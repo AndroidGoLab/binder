@@ -52,7 +52,7 @@ func (p *CallForwardingInfoCallbackProxy) OnCallForwardingInfoAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallForwardingInfoCallback, "onCallForwardingInfoAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionICallForwardingInfoCallbackOnCallForwardingInfoAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *CallForwardingInfoCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallForwardingInfoCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionICallForwardingInfoCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -47,7 +47,7 @@ func (p *LoudnessCodecUpdatesDispatcherProxy) DispatchLoudnessCodecParameterChan
 
 	_code, _err := p.remote.ResolveCode(DescriptorILoudnessCodecUpdatesDispatcher, "dispatchLoudnessCodecParameterChange")
 	if _err != nil {
-		return _err
+		_code = TransactionILoudnessCodecUpdatesDispatcherDispatchLoudnessCodecParameterChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

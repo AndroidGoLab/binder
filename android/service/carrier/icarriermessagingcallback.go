@@ -54,7 +54,7 @@ func (p *CarrierMessagingCallbackProxy) OnFilterComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingCallback, "onFilterComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionICarrierMessagingCallbackOnFilterComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -73,7 +73,7 @@ func (p *CarrierMessagingCallbackProxy) OnSendSmsComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingCallback, "onSendSmsComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionICarrierMessagingCallbackOnSendSmsComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -99,7 +99,7 @@ func (p *CarrierMessagingCallbackProxy) OnSendMultipartSmsComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingCallback, "onSendMultipartSmsComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionICarrierMessagingCallbackOnSendMultipartSmsComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -125,7 +125,7 @@ func (p *CarrierMessagingCallbackProxy) OnSendMmsComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingCallback, "onSendMmsComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionICarrierMessagingCallbackOnSendMmsComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -142,7 +142,7 @@ func (p *CarrierMessagingCallbackProxy) OnDownloadMmsComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierMessagingCallback, "onDownloadMmsComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionICarrierMessagingCallbackOnDownloadMmsComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

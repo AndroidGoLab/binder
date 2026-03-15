@@ -48,7 +48,7 @@ func (p *PreparedModelCallbackProxy) Notify(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreparedModelCallback, "notify")
 	if _err != nil {
-		return _err
+		_code = TransactionIPreparedModelCallbackNotify
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

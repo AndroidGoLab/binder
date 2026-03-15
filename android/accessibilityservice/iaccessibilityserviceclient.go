@@ -93,7 +93,7 @@ func (p *AccessibilityServiceClientProxy) Init(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "init")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientInit
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -111,7 +111,7 @@ func (p *AccessibilityServiceClientProxy) OnAccessibilityEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "onAccessibilityEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientOnAccessibilityEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -126,7 +126,7 @@ func (p *AccessibilityServiceClientProxy) OnInterrupt(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "onInterrupt")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientOnInterrupt
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -146,7 +146,7 @@ func (p *AccessibilityServiceClientProxy) OnGesture(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "onGesture")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientOnGesture
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -161,7 +161,7 @@ func (p *AccessibilityServiceClientProxy) ClearAccessibilityCache(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "clearAccessibilityCache")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientClearAccessibilityCache
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -179,7 +179,7 @@ func (p *AccessibilityServiceClientProxy) OnKeyEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "onKeyEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientOnKeyEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -206,7 +206,7 @@ func (p *AccessibilityServiceClientProxy) OnMagnificationChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "onMagnificationChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientOnMagnificationChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -226,7 +226,7 @@ func (p *AccessibilityServiceClientProxy) OnMotionEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "onMotionEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientOnMotionEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -245,7 +245,7 @@ func (p *AccessibilityServiceClientProxy) OnTouchStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "onTouchStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientOnTouchStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -262,7 +262,7 @@ func (p *AccessibilityServiceClientProxy) OnSoftKeyboardShowModeChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "onSoftKeyboardShowModeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientOnSoftKeyboardShowModeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -281,7 +281,7 @@ func (p *AccessibilityServiceClientProxy) OnPerformGestureResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "onPerformGestureResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientOnPerformGestureResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -298,7 +298,7 @@ func (p *AccessibilityServiceClientProxy) OnFingerprintCapturingGesturesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "onFingerprintCapturingGesturesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientOnFingerprintCapturingGesturesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -315,7 +315,7 @@ func (p *AccessibilityServiceClientProxy) OnFingerprintGesture(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "onFingerprintGesture")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientOnFingerprintGesture
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -332,7 +332,7 @@ func (p *AccessibilityServiceClientProxy) OnAccessibilityButtonClicked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "onAccessibilityButtonClicked")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientOnAccessibilityButtonClicked
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -349,7 +349,7 @@ func (p *AccessibilityServiceClientProxy) OnAccessibilityButtonAvailabilityChang
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "onAccessibilityButtonAvailabilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientOnAccessibilityButtonAvailabilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -364,7 +364,7 @@ func (p *AccessibilityServiceClientProxy) OnSystemActionsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "onSystemActionsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientOnSystemActionsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -380,7 +380,7 @@ func (p *AccessibilityServiceClientProxy) CreateImeSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "createImeSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientCreateImeSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -398,7 +398,7 @@ func (p *AccessibilityServiceClientProxy) SetImeSessionEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "setImeSessionEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientSetImeSessionEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -413,7 +413,7 @@ func (p *AccessibilityServiceClientProxy) BindInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "bindInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientBindInput
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -428,7 +428,7 @@ func (p *AccessibilityServiceClientProxy) UnbindInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "unbindInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientUnbindInput
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -451,7 +451,7 @@ func (p *AccessibilityServiceClientProxy) StartInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "startInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityServiceClientStartInput
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

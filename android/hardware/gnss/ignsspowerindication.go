@@ -48,7 +48,7 @@ func (p *GnssPowerIndicationProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssPowerIndication, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssPowerIndicationSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -72,7 +72,7 @@ func (p *GnssPowerIndicationProxy) RequestGnssPowerStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssPowerIndication, "requestGnssPowerStats")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssPowerIndicationRequestGnssPowerStats
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

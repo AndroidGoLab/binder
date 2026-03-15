@@ -60,7 +60,7 @@ func (p *ShortcutChangeCallbackProxy) OnShortcutsAddedOrUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIShortcutChangeCallback, "onShortcutsAddedOrUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIShortcutChangeCallbackOnShortcutsAddedOrUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -89,7 +89,7 @@ func (p *ShortcutChangeCallbackProxy) OnShortcutsRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIShortcutChangeCallback, "onShortcutsRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionIShortcutChangeCallbackOnShortcutsRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

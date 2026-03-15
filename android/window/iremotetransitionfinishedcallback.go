@@ -50,7 +50,7 @@ func (p *RemoteTransitionFinishedCallbackProxy) OnTransitionFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteTransitionFinishedCallback, "onTransitionFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteTransitionFinishedCallbackOnTransitionFinished
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

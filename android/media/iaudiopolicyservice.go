@@ -256,7 +256,7 @@ func (p *AudioPolicyServiceProxy) OnNewAudioModulesAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "onNewAudioModulesAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceOnNewAudioModulesAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -275,7 +275,7 @@ func (p *AudioPolicyServiceProxy) SetDeviceConnectionState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setDeviceConnectionState")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetDeviceConnectionState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -301,7 +301,7 @@ func (p *AudioPolicyServiceProxy) GetDeviceConnectionState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getDeviceConnectionState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetDeviceConnectionState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -334,7 +334,7 @@ func (p *AudioPolicyServiceProxy) HandleDeviceConfigChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "handleDeviceConfigChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceHandleDeviceConfigChange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -361,7 +361,7 @@ func (p *AudioPolicyServiceProxy) SetPhoneState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setPhoneState")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetPhoneState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -389,7 +389,7 @@ func (p *AudioPolicyServiceProxy) SetForceUse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setForceUse")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetForceUse
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -416,7 +416,7 @@ func (p *AudioPolicyServiceProxy) GetForceUse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getForceUse")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetForceUse
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -448,7 +448,7 @@ func (p *AudioPolicyServiceProxy) GetOutput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getOutput")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetOutput
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -497,7 +497,7 @@ func (p *AudioPolicyServiceProxy) GetOutputForAttr(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getOutputForAttr")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetOutputForAttr
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -532,7 +532,7 @@ func (p *AudioPolicyServiceProxy) StartOutput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "startOutput")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceStartOutput
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -558,7 +558,7 @@ func (p *AudioPolicyServiceProxy) StopOutput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "stopOutput")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceStopOutput
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -584,7 +584,7 @@ func (p *AudioPolicyServiceProxy) ReleaseOutput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "releaseOutput")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceReleaseOutput
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -626,7 +626,7 @@ func (p *AudioPolicyServiceProxy) GetInputForAttr(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getInputForAttr")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetInputForAttr
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -661,7 +661,7 @@ func (p *AudioPolicyServiceProxy) StartInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "startInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceStartInput
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -687,7 +687,7 @@ func (p *AudioPolicyServiceProxy) StopInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "stopInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceStopInput
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -713,7 +713,7 @@ func (p *AudioPolicyServiceProxy) ReleaseInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "releaseInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceReleaseInput
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -742,7 +742,7 @@ func (p *AudioPolicyServiceProxy) SetDeviceAbsoluteVolumeEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setDeviceAbsoluteVolumeEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetDeviceAbsoluteVolumeEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -772,7 +772,7 @@ func (p *AudioPolicyServiceProxy) InitStreamVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "initStreamVolume")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceInitStreamVolume
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -803,7 +803,7 @@ func (p *AudioPolicyServiceProxy) SetStreamVolumeIndex(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setStreamVolumeIndex")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetStreamVolumeIndex
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -831,7 +831,7 @@ func (p *AudioPolicyServiceProxy) GetStreamVolumeIndex(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getStreamVolumeIndex")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetStreamVolumeIndex
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -869,7 +869,7 @@ func (p *AudioPolicyServiceProxy) SetVolumeIndexForAttributes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setVolumeIndexForAttributes")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetVolumeIndexForAttributes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -900,7 +900,7 @@ func (p *AudioPolicyServiceProxy) GetVolumeIndexForAttributes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getVolumeIndexForAttributes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetVolumeIndexForAttributes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -934,7 +934,7 @@ func (p *AudioPolicyServiceProxy) GetMaxVolumeIndexForAttributes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getMaxVolumeIndexForAttributes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetMaxVolumeIndexForAttributes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -968,7 +968,7 @@ func (p *AudioPolicyServiceProxy) GetMinVolumeIndexForAttributes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getMinVolumeIndexForAttributes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetMinVolumeIndexForAttributes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -999,7 +999,7 @@ func (p *AudioPolicyServiceProxy) GetStrategyForStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getStrategyForStream")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetStrategyForStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1035,7 +1035,7 @@ func (p *AudioPolicyServiceProxy) GetDevicesForAttributes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getDevicesForAttributes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetDevicesForAttributes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1075,7 +1075,7 @@ func (p *AudioPolicyServiceProxy) GetOutputForEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getOutputForEffect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetOutputForEffect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1116,7 +1116,7 @@ func (p *AudioPolicyServiceProxy) RegisterEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "registerEffect")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceRegisterEffect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1142,7 +1142,7 @@ func (p *AudioPolicyServiceProxy) UnregisterEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "unregisterEffect")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceUnregisterEffect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1170,7 +1170,7 @@ func (p *AudioPolicyServiceProxy) SetEffectEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setEffectEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetEffectEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1205,7 +1205,7 @@ func (p *AudioPolicyServiceProxy) MoveEffectsToIo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "moveEffectsToIo")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceMoveEffectsToIo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1234,7 +1234,7 @@ func (p *AudioPolicyServiceProxy) IsStreamActive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "isStreamActive")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceIsStreamActive
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1267,7 +1267,7 @@ func (p *AudioPolicyServiceProxy) IsStreamActiveRemotely(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "isStreamActiveRemotely")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceIsStreamActiveRemotely
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1297,7 +1297,7 @@ func (p *AudioPolicyServiceProxy) IsSourceActive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "isSourceActive")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceIsSourceActive
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1329,7 +1329,7 @@ func (p *AudioPolicyServiceProxy) QueryDefaultPreProcessing(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "queryDefaultPreProcessing")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceQueryDefaultPreProcessing
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1374,7 +1374,7 @@ func (p *AudioPolicyServiceProxy) AddSourceDefaultEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "addSourceDefaultEffect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceAddSourceDefaultEffect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1410,7 +1410,7 @@ func (p *AudioPolicyServiceProxy) AddStreamDefaultEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "addStreamDefaultEffect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceAddStreamDefaultEffect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1440,7 +1440,7 @@ func (p *AudioPolicyServiceProxy) RemoveSourceDefaultEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "removeSourceDefaultEffect")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceRemoveSourceDefaultEffect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1466,7 +1466,7 @@ func (p *AudioPolicyServiceProxy) RemoveStreamDefaultEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "removeStreamDefaultEffect")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceRemoveStreamDefaultEffect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1496,7 +1496,7 @@ func (p *AudioPolicyServiceProxy) SetSupportedSystemUsages(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setSupportedSystemUsages")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetSupportedSystemUsages
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1524,7 +1524,7 @@ func (p *AudioPolicyServiceProxy) SetAllowedCapturePolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setAllowedCapturePolicy")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetAllowedCapturePolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1550,7 +1550,7 @@ func (p *AudioPolicyServiceProxy) GetOffloadSupport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getOffloadSupport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetOffloadSupport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1586,7 +1586,7 @@ func (p *AudioPolicyServiceProxy) IsDirectOutputSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "isDirectOutputSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceIsDirectOutputSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1621,7 +1621,7 @@ func (p *AudioPolicyServiceProxy) ListAudioPorts(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "listAudioPorts")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceListAudioPorts
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1664,7 +1664,7 @@ func (p *AudioPolicyServiceProxy) ListDeclaredDevicePorts(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "listDeclaredDevicePorts")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceListDeclaredDevicePorts
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1704,7 +1704,7 @@ func (p *AudioPolicyServiceProxy) GetAudioPort(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getAudioPort")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetAudioPort
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1745,7 +1745,7 @@ func (p *AudioPolicyServiceProxy) CreateAudioPatch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "createAudioPatch")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceCreateAudioPatch
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1775,7 +1775,7 @@ func (p *AudioPolicyServiceProxy) ReleaseAudioPatch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "releaseAudioPatch")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceReleaseAudioPatch
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1802,7 +1802,7 @@ func (p *AudioPolicyServiceProxy) ListAudioPatches(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "listAudioPatches")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceListAudioPatches
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1847,7 +1847,7 @@ func (p *AudioPolicyServiceProxy) SetAudioPortConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setAudioPortConfig")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetAudioPortConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1873,7 +1873,7 @@ func (p *AudioPolicyServiceProxy) RegisterClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "registerClient")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceRegisterClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1899,7 +1899,7 @@ func (p *AudioPolicyServiceProxy) SetAudioPortCallbacksEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setAudioPortCallbacksEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetAudioPortCallbacksEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1925,7 +1925,7 @@ func (p *AudioPolicyServiceProxy) SetAudioVolumeGroupCallbacksEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setAudioVolumeGroupCallbacksEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetAudioVolumeGroupCallbacksEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1950,7 +1950,7 @@ func (p *AudioPolicyServiceProxy) AcquireSoundTriggerSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "acquireSoundTriggerSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceAcquireSoundTriggerSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1985,7 +1985,7 @@ func (p *AudioPolicyServiceProxy) ReleaseSoundTriggerSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "releaseSoundTriggerSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceReleaseSoundTriggerSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2010,7 +2010,7 @@ func (p *AudioPolicyServiceProxy) GetPhoneState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getPhoneState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetPhoneState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2047,7 +2047,7 @@ func (p *AudioPolicyServiceProxy) RegisterPolicyMixes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "registerPolicyMixes")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceRegisterPolicyMixes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2072,7 +2072,7 @@ func (p *AudioPolicyServiceProxy) GetRegisteredPolicyMixes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getRegisteredPolicyMixes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetRegisteredPolicyMixes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2120,7 +2120,7 @@ func (p *AudioPolicyServiceProxy) UpdatePolicyMixes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "updatePolicyMixes")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceUpdatePolicyMixes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2152,7 +2152,7 @@ func (p *AudioPolicyServiceProxy) SetUidDeviceAffinities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setUidDeviceAffinities")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetUidDeviceAffinities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2178,7 +2178,7 @@ func (p *AudioPolicyServiceProxy) RemoveUidDeviceAffinities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "removeUidDeviceAffinities")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceRemoveUidDeviceAffinities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2210,7 +2210,7 @@ func (p *AudioPolicyServiceProxy) SetUserIdDeviceAffinities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setUserIdDeviceAffinities")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetUserIdDeviceAffinities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2236,7 +2236,7 @@ func (p *AudioPolicyServiceProxy) RemoveUserIdDeviceAffinities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "removeUserIdDeviceAffinities")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceRemoveUserIdDeviceAffinities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2271,7 +2271,7 @@ func (p *AudioPolicyServiceProxy) StartAudioSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "startAudioSource")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceStartAudioSource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2301,7 +2301,7 @@ func (p *AudioPolicyServiceProxy) StopAudioSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "stopAudioSource")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceStopAudioSource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2327,7 +2327,7 @@ func (p *AudioPolicyServiceProxy) SetMasterMono(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setMasterMono")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetMasterMono
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2352,7 +2352,7 @@ func (p *AudioPolicyServiceProxy) GetMasterMono(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getMasterMono")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetMasterMono
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2386,7 +2386,7 @@ func (p *AudioPolicyServiceProxy) GetStreamVolumeDB(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getStreamVolumeDB")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetStreamVolumeDB
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2417,7 +2417,7 @@ func (p *AudioPolicyServiceProxy) GetSurroundFormats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getSurroundFormats")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceGetSurroundFormats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2463,7 +2463,7 @@ func (p *AudioPolicyServiceProxy) GetReportedSurroundFormats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getReportedSurroundFormats")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceGetReportedSurroundFormats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2496,7 +2496,7 @@ func (p *AudioPolicyServiceProxy) GetHwOffloadFormatsSupportedForBluetoothMedia(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getHwOffloadFormatsSupportedForBluetoothMedia")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetHwOffloadFormatsSupportedForBluetoothMedia
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2533,7 +2533,7 @@ func (p *AudioPolicyServiceProxy) SetSurroundFormatEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setSurroundFormatEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetSurroundFormatEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2566,7 +2566,7 @@ func (p *AudioPolicyServiceProxy) SetAssistantServicesUids(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setAssistantServicesUids")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetAssistantServicesUids
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2599,7 +2599,7 @@ func (p *AudioPolicyServiceProxy) SetActiveAssistantServicesUids(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setActiveAssistantServicesUids")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetActiveAssistantServicesUids
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2632,7 +2632,7 @@ func (p *AudioPolicyServiceProxy) SetA11yServicesUids(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setA11yServicesUids")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetA11yServicesUids
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2658,7 +2658,7 @@ func (p *AudioPolicyServiceProxy) SetCurrentImeUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setCurrentImeUid")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetCurrentImeUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2683,7 +2683,7 @@ func (p *AudioPolicyServiceProxy) IsHapticPlaybackSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "isHapticPlaybackSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceIsHapticPlaybackSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2712,7 +2712,7 @@ func (p *AudioPolicyServiceProxy) IsUltrasoundSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "isUltrasoundSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceIsUltrasoundSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2743,7 +2743,7 @@ func (p *AudioPolicyServiceProxy) IsHotwordStreamSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "isHotwordStreamSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceIsHotwordStreamSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2772,7 +2772,7 @@ func (p *AudioPolicyServiceProxy) ListAudioProductStrategies(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "listAudioProductStrategies")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceListAudioProductStrategies
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2817,7 +2817,7 @@ func (p *AudioPolicyServiceProxy) GetProductStrategyFromAudioAttributes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getProductStrategyFromAudioAttributes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetProductStrategyFromAudioAttributes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2846,7 +2846,7 @@ func (p *AudioPolicyServiceProxy) ListAudioVolumeGroups(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "listAudioVolumeGroups")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceListAudioVolumeGroups
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2891,7 +2891,7 @@ func (p *AudioPolicyServiceProxy) GetVolumeGroupFromAudioAttributes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getVolumeGroupFromAudioAttributes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetVolumeGroupFromAudioAttributes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2921,7 +2921,7 @@ func (p *AudioPolicyServiceProxy) SetRttEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setRttEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetRttEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2946,7 +2946,7 @@ func (p *AudioPolicyServiceProxy) IsCallScreenModeSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "isCallScreenModeSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceIsCallScreenModeSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2984,7 +2984,7 @@ func (p *AudioPolicyServiceProxy) SetDevicesRoleForStrategy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setDevicesRoleForStrategy")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetDevicesRoleForStrategy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3018,7 +3018,7 @@ func (p *AudioPolicyServiceProxy) RemoveDevicesRoleForStrategy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "removeDevicesRoleForStrategy")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceRemoveDevicesRoleForStrategy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3046,7 +3046,7 @@ func (p *AudioPolicyServiceProxy) ClearDevicesRoleForStrategy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "clearDevicesRoleForStrategy")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceClearDevicesRoleForStrategy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3075,7 +3075,7 @@ func (p *AudioPolicyServiceProxy) GetDevicesForRoleAndStrategy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getDevicesForRoleAndStrategy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetDevicesForRoleAndStrategy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3118,7 +3118,7 @@ func (p *AudioPolicyServiceProxy) SetDevicesRoleForCapturePreset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setDevicesRoleForCapturePreset")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetDevicesRoleForCapturePreset
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3151,7 +3151,7 @@ func (p *AudioPolicyServiceProxy) AddDevicesRoleForCapturePreset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "addDevicesRoleForCapturePreset")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceAddDevicesRoleForCapturePreset
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3184,7 +3184,7 @@ func (p *AudioPolicyServiceProxy) RemoveDevicesRoleForCapturePreset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "removeDevicesRoleForCapturePreset")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceRemoveDevicesRoleForCapturePreset
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3211,7 +3211,7 @@ func (p *AudioPolicyServiceProxy) ClearDevicesRoleForCapturePreset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "clearDevicesRoleForCapturePreset")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceClearDevicesRoleForCapturePreset
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3239,7 +3239,7 @@ func (p *AudioPolicyServiceProxy) GetDevicesForRoleAndCapturePreset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getDevicesForRoleAndCapturePreset")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetDevicesForRoleAndCapturePreset
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3276,7 +3276,7 @@ func (p *AudioPolicyServiceProxy) RegisterSoundTriggerCaptureStateListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "registerSoundTriggerCaptureStateListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceRegisterSoundTriggerCaptureStateListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3307,7 +3307,7 @@ func (p *AudioPolicyServiceProxy) GetSpatializer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getSpatializer")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetSpatializer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3356,7 +3356,7 @@ func (p *AudioPolicyServiceProxy) CanBeSpatialized(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "canBeSpatialized")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceCanBeSpatialized
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3391,7 +3391,7 @@ func (p *AudioPolicyServiceProxy) GetDirectPlaybackSupport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getDirectPlaybackSupport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetDirectPlaybackSupport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3426,7 +3426,7 @@ func (p *AudioPolicyServiceProxy) GetDirectProfilesForAttributes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getDirectProfilesForAttributes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetDirectProfilesForAttributes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3463,7 +3463,7 @@ func (p *AudioPolicyServiceProxy) GetSupportedMixerAttributes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getSupportedMixerAttributes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetSupportedMixerAttributes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3514,7 +3514,7 @@ func (p *AudioPolicyServiceProxy) SetPreferredMixerAttributes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "setPreferredMixerAttributes")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceSetPreferredMixerAttributes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3546,7 +3546,7 @@ func (p *AudioPolicyServiceProxy) GetPreferredMixerAttributes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getPreferredMixerAttributes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetPreferredMixerAttributes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3588,7 +3588,7 @@ func (p *AudioPolicyServiceProxy) ClearPreferredMixerAttributes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "clearPreferredMixerAttributes")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceClearPreferredMixerAttributes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3613,7 +3613,7 @@ func (p *AudioPolicyServiceProxy) GetPermissionController(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getPermissionController")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetPermissionController
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3644,7 +3644,7 @@ func (p *AudioPolicyServiceProxy) GetMmapPolicyInfos(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getMmapPolicyInfos")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioPolicyServiceGetMmapPolicyInfos
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3680,7 +3680,7 @@ func (p *AudioPolicyServiceProxy) GetMmapPolicyForDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioPolicyService, "getMmapPolicyForDevice")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioPolicyServiceGetMmapPolicyForDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

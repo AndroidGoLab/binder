@@ -47,7 +47,7 @@ func (p *BinderVendorDoubleLoadTestProxy) RepeatString(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderVendorDoubleLoadTest, "RepeatString")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderVendorDoubleLoadTestRepeatString
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

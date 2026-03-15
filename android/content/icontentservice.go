@@ -125,7 +125,7 @@ func (p *ContentServiceProxy) UnregisterContentObserver(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "unregisterContentObserver")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceUnregisterContentObserver
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -157,7 +157,7 @@ func (p *ContentServiceProxy) RegisterContentObserver(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "registerContentObserver")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceRegisterContentObserver
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -197,7 +197,7 @@ func (p *ContentServiceProxy) NotifyChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "notifyChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceNotifyChange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -227,7 +227,7 @@ func (p *ContentServiceProxy) RequestSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "requestSync")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceRequestSync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -258,7 +258,7 @@ func (p *ContentServiceProxy) Sync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "sync")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceSync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -290,7 +290,7 @@ func (p *ContentServiceProxy) SyncAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "syncAsUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceSyncAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -322,7 +322,7 @@ func (p *ContentServiceProxy) CancelSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "cancelSync")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceCancelSync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -356,7 +356,7 @@ func (p *ContentServiceProxy) CancelSyncAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "cancelSyncAsUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceCancelSyncAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -385,7 +385,7 @@ func (p *ContentServiceProxy) CancelRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "cancelRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceCancelRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -413,7 +413,7 @@ func (p *ContentServiceProxy) GetSyncAutomatically(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "getSyncAutomatically")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceGetSyncAutomatically
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -447,7 +447,7 @@ func (p *ContentServiceProxy) GetSyncAutomaticallyAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "getSyncAutomaticallyAsUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceGetSyncAutomaticallyAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -480,7 +480,7 @@ func (p *ContentServiceProxy) SetSyncAutomatically(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "setSyncAutomatically")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceSetSyncAutomatically
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -511,7 +511,7 @@ func (p *ContentServiceProxy) SetSyncAutomaticallyAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "setSyncAutomaticallyAsUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceSetSyncAutomaticallyAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -544,7 +544,7 @@ func (p *ContentServiceProxy) GetPeriodicSyncs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "getPeriodicSyncs")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceGetPeriodicSyncs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -587,7 +587,7 @@ func (p *ContentServiceProxy) AddPeriodicSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "addPeriodicSync")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceAddPeriodicSync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -615,7 +615,7 @@ func (p *ContentServiceProxy) RemovePeriodicSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "removePeriodicSync")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceRemovePeriodicSync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -643,7 +643,7 @@ func (p *ContentServiceProxy) GetIsSyncable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "getIsSyncable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceGetIsSyncable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -677,7 +677,7 @@ func (p *ContentServiceProxy) GetIsSyncableAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "getIsSyncableAsUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceGetIsSyncableAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -710,7 +710,7 @@ func (p *ContentServiceProxy) SetIsSyncable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "setIsSyncable")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceSetIsSyncable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -741,7 +741,7 @@ func (p *ContentServiceProxy) SetIsSyncableAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "setIsSyncableAsUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceSetIsSyncableAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -767,7 +767,7 @@ func (p *ContentServiceProxy) SetMasterSyncAutomatically(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "setMasterSyncAutomatically")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceSetMasterSyncAutomatically
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -795,7 +795,7 @@ func (p *ContentServiceProxy) SetMasterSyncAutomaticallyAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "setMasterSyncAutomaticallyAsUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceSetMasterSyncAutomaticallyAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -820,7 +820,7 @@ func (p *ContentServiceProxy) GetMasterSyncAutomatically(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "getMasterSyncAutomatically")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceGetMasterSyncAutomatically
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -851,7 +851,7 @@ func (p *ContentServiceProxy) GetMasterSyncAutomaticallyAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "getMasterSyncAutomaticallyAsUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceGetMasterSyncAutomaticallyAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -880,7 +880,7 @@ func (p *ContentServiceProxy) GetCurrentSyncs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "getCurrentSyncs")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceGetCurrentSyncs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -920,7 +920,7 @@ func (p *ContentServiceProxy) GetCurrentSyncsAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "getCurrentSyncsAsUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceGetCurrentSyncsAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -958,7 +958,7 @@ func (p *ContentServiceProxy) GetSyncAdapterTypes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "getSyncAdapterTypes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceGetSyncAdapterTypes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -998,7 +998,7 @@ func (p *ContentServiceProxy) GetSyncAdapterTypesAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "getSyncAdapterTypesAsUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceGetSyncAdapterTypesAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1040,7 +1040,7 @@ func (p *ContentServiceProxy) GetSyncAdapterPackagesForAuthorityAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "getSyncAdapterPackagesForAuthorityAsUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceGetSyncAdapterPackagesForAuthorityAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1085,7 +1085,7 @@ func (p *ContentServiceProxy) GetSyncAdapterPackageAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "getSyncAdapterPackageAsUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceGetSyncAdapterPackageAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1122,7 +1122,7 @@ func (p *ContentServiceProxy) IsSyncActive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "isSyncActive")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceIsSyncActive
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1159,7 +1159,7 @@ func (p *ContentServiceProxy) GetSyncStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "getSyncStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceGetSyncStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1203,7 +1203,7 @@ func (p *ContentServiceProxy) GetSyncStatusAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "getSyncStatusAsUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceGetSyncStatusAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1245,7 +1245,7 @@ func (p *ContentServiceProxy) IsSyncPending(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "isSyncPending")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceIsSyncPending
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1284,7 +1284,7 @@ func (p *ContentServiceProxy) IsSyncPendingAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "isSyncPendingAsUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceIsSyncPendingAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1316,7 +1316,7 @@ func (p *ContentServiceProxy) AddStatusChangeListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "addStatusChangeListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceAddStatusChangeListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1342,7 +1342,7 @@ func (p *ContentServiceProxy) RemoveStatusChangeListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "removeStatusChangeListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceRemoveStatusChangeListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1372,7 +1372,7 @@ func (p *ContentServiceProxy) PutCache(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "putCache")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServicePutCache
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1402,7 +1402,7 @@ func (p *ContentServiceProxy) GetCache(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "getCache")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContentServiceGetCache
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1426,7 +1426,7 @@ func (p *ContentServiceProxy) ResetTodayStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "resetTodayStats")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceResetTodayStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1456,7 +1456,7 @@ func (p *ContentServiceProxy) OnDbCorruption(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentService, "onDbCorruption")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentServiceOnDbCorruption
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

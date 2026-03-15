@@ -68,7 +68,7 @@ func (p *BluetoothLmpEventProxy) RegisterForLmpEvents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLmpEvent, "registerForLmpEvents")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLmpEventRegisterForLmpEvents
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -103,7 +103,7 @@ func (p *BluetoothLmpEventProxy) UnregisterLmpEvents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLmpEvent, "unregisterLmpEvents")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLmpEventUnregisterLmpEvents
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

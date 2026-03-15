@@ -55,7 +55,7 @@ func (p *NearbyMediaDevicesUpdateCallbackProxy) OnDevicesUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINearbyMediaDevicesUpdateCallback, "onDevicesUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionINearbyMediaDevicesUpdateCallbackOnDevicesUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -52,7 +52,7 @@ func (p *RegistrationProxy) GetKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRegistration, "getKey")
 	if _err != nil {
-		return _err
+		_code = TransactionIRegistrationGetKey
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *RegistrationProxy) CancelGetKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRegistration, "cancelGetKey")
 	if _err != nil {
-		return _err
+		_code = TransactionIRegistrationCancelGetKey
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -104,7 +104,7 @@ func (p *RegistrationProxy) StoreUpgradedKeyAsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRegistration, "storeUpgradedKeyAsync")
 	if _err != nil {
-		return _err
+		_code = TransactionIRegistrationStoreUpgradedKeyAsync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

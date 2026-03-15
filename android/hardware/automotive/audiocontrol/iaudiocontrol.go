@@ -78,7 +78,7 @@ func (p *AudioControlProxy) OnAudioFocusChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "onAudioFocusChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioControlOnAudioFocusChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -104,7 +104,7 @@ func (p *AudioControlProxy) OnDevicesToDuckChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "onDevicesToDuckChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioControlOnDevicesToDuckChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -130,7 +130,7 @@ func (p *AudioControlProxy) OnDevicesToMuteChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "onDevicesToMuteChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioControlOnDevicesToMuteChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -147,7 +147,7 @@ func (p *AudioControlProxy) RegisterFocusListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "registerFocusListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioControlRegisterFocusListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -164,7 +164,7 @@ func (p *AudioControlProxy) SetBalanceTowardRight(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "setBalanceTowardRight")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioControlSetBalanceTowardRight
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -181,7 +181,7 @@ func (p *AudioControlProxy) SetFadeTowardFront(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "setFadeTowardFront")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioControlSetFadeTowardFront
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -205,7 +205,7 @@ func (p *AudioControlProxy) OnAudioFocusChangeWithMetaData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "onAudioFocusChangeWithMetaData")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioControlOnAudioFocusChangeWithMetaData
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -240,7 +240,7 @@ func (p *AudioControlProxy) SetAudioDeviceGainsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "setAudioDeviceGainsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioControlSetAudioDeviceGainsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -257,7 +257,7 @@ func (p *AudioControlProxy) RegisterGainCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "registerGainCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioControlRegisterGainCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -274,7 +274,7 @@ func (p *AudioControlProxy) SetModuleChangeCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "setModuleChangeCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioControlSetModuleChangeCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -298,7 +298,7 @@ func (p *AudioControlProxy) ClearModuleChangeCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "clearModuleChangeCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioControlClearModuleChangeCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -323,7 +323,7 @@ func (p *AudioControlProxy) GetAudioDeviceConfiguration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "getAudioDeviceConfiguration")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioControlGetAudioDeviceConfiguration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -357,7 +357,7 @@ func (p *AudioControlProxy) GetOutputMirroringDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "getOutputMirroringDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioControlGetOutputMirroringDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -395,7 +395,7 @@ func (p *AudioControlProxy) GetCarAudioZones(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioControl, "getCarAudioZones")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioControlGetCarAudioZones
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

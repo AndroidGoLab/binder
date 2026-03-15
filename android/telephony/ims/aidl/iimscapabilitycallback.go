@@ -54,7 +54,7 @@ func (p *ImsCapabilityCallbackProxy) OnQueryCapabilityConfiguration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsCapabilityCallback, "onQueryCapabilityConfiguration")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsCapabilityCallbackOnQueryCapabilityConfiguration
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -75,7 +75,7 @@ func (p *ImsCapabilityCallbackProxy) OnChangeCapabilityConfigurationError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsCapabilityCallback, "onChangeCapabilityConfigurationError")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsCapabilityCallbackOnChangeCapabilityConfigurationError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *ImsCapabilityCallbackProxy) OnCapabilitiesStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsCapabilityCallback, "onCapabilitiesStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsCapabilityCallbackOnCapabilitiesStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

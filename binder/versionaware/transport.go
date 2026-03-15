@@ -109,8 +109,26 @@ func resolveTable(
 	// framework JAR files. This is definitive — no version guessing.
 	table := extractTransactionCodesFromDevice()
 	if table != nil {
+		// DEX extraction only covers framework JARs. HAL and other
+		// stable AIDL interfaces aren't in the JARs, so merge their
+		// compiled tables for interfaces not found in the DEX table.
+		merged := 0
+		for _, rev := range Revisions[targetAPI] {
+			compiled, ok := Tables[rev]
+			if !ok {
+				continue
+			}
+			for descriptor, methods := range compiled {
+				if table[descriptor] != nil {
+					continue // DEX table takes precedence
+				}
+				table[descriptor] = methods
+				merged++
+			}
+			break // only need one revision's HAL entries
+		}
 		version := fmt.Sprintf("%d.device", targetAPI)
-		logger.Debugf(ctx, "versionaware: extracted transaction codes from device framework JARs (%d interfaces)", len(table))
+		logger.Debugf(ctx, "versionaware: extracted transaction codes from device framework JARs (%d interfaces, %d merged from compiled tables)", len(table), merged)
 		return table, version, nil
 	}
 

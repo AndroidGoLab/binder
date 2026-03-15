@@ -48,7 +48,7 @@ func (p *NativeSpatializerCallbackProxy) OnLevelChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINativeSpatializerCallback, "onLevelChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINativeSpatializerCallbackOnLevelChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *NativeSpatializerCallbackProxy) OnOutputChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINativeSpatializerCallback, "onOutputChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINativeSpatializerCallbackOnOutputChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

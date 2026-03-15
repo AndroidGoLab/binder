@@ -54,7 +54,7 @@ func (p *SurfaceControlViewHostProxy) OnConfigurationChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceControlViewHost, "onConfigurationChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceControlViewHostOnConfigurationChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *SurfaceControlViewHostProxy) OnDispatchDetachedFromWindow(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceControlViewHost, "onDispatchDetachedFromWindow")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceControlViewHostOnDispatchDetachedFromWindow
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -94,7 +94,7 @@ func (p *SurfaceControlViewHostProxy) OnInsetsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceControlViewHost, "onInsetsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceControlViewHostOnInsetsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -110,7 +110,7 @@ func (p *SurfaceControlViewHostProxy) GetSurfaceSyncGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceControlViewHost, "getSurfaceSyncGroup")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceControlViewHostGetSurfaceSyncGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -140,7 +140,7 @@ func (p *SurfaceControlViewHostProxy) AttachParentInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceControlViewHost, "attachParentInterface")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceControlViewHostAttachParentInterface
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

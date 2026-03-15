@@ -168,7 +168,7 @@ func (p *SubProxy) GetAllSubInfoList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getAllSubInfoList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetAllSubInfoList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -211,7 +211,7 @@ func (p *SubProxy) GetActiveSubscriptionInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getActiveSubscriptionInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetActiveSubscriptionInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -250,7 +250,7 @@ func (p *SubProxy) GetActiveSubscriptionInfoForIccId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getActiveSubscriptionInfoForIccId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetActiveSubscriptionInfoForIccId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -289,7 +289,7 @@ func (p *SubProxy) GetActiveSubscriptionInfoForSimSlotIndex(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getActiveSubscriptionInfoForSimSlotIndex")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetActiveSubscriptionInfoForSimSlotIndex
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -328,7 +328,7 @@ func (p *SubProxy) GetActiveSubscriptionInfoList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getActiveSubscriptionInfoList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetActiveSubscriptionInfoList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -371,7 +371,7 @@ func (p *SubProxy) GetActiveSubInfoCount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getActiveSubInfoCount")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetActiveSubInfoCount
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -400,7 +400,7 @@ func (p *SubProxy) GetActiveSubInfoCountMax(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getActiveSubInfoCountMax")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetActiveSubInfoCountMax
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -432,7 +432,7 @@ func (p *SubProxy) GetAvailableSubscriptionInfoList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getAvailableSubscriptionInfoList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetAvailableSubscriptionInfoList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -472,7 +472,7 @@ func (p *SubProxy) GetAccessibleSubscriptionInfoList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getAccessibleSubscriptionInfoList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetAccessibleSubscriptionInfoList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -511,7 +511,7 @@ func (p *SubProxy) RequestEmbeddedSubscriptionInfoListRefresh(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "requestEmbeddedSubscriptionInfoListRefresh")
 	if _err != nil {
-		return _err
+		_code = TransactionISubRequestEmbeddedSubscriptionInfoListRefresh
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -535,7 +535,7 @@ func (p *SubProxy) AddSubInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "addSubInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubAddSubInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -568,7 +568,7 @@ func (p *SubProxy) RemoveSubInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "removeSubInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubRemoveSubInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -601,7 +601,7 @@ func (p *SubProxy) SetIconTint(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setIconTint")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubSetIconTint
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -636,7 +636,7 @@ func (p *SubProxy) SetDisplayNameUsingSrc(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setDisplayNameUsingSrc")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubSetDisplayNameUsingSrc
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -669,7 +669,7 @@ func (p *SubProxy) SetDisplayNumber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setDisplayNumber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubSetDisplayNumber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -702,7 +702,7 @@ func (p *SubProxy) SetDataRoaming(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setDataRoaming")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubSetDataRoaming
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -737,7 +737,7 @@ func (p *SubProxy) SetOpportunistic(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setOpportunistic")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubSetOpportunistic
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -777,7 +777,7 @@ func (p *SubProxy) CreateSubscriptionGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "createSubscriptionGroup")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubCreateSubscriptionGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -807,7 +807,7 @@ func (p *SubProxy) SetPreferredDataSubscriptionId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setPreferredDataSubscriptionId")
 	if _err != nil {
-		return _err
+		_code = TransactionISubSetPreferredDataSubscriptionId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -832,7 +832,7 @@ func (p *SubProxy) GetPreferredDataSubscriptionId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getPreferredDataSubscriptionId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetPreferredDataSubscriptionId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -864,7 +864,7 @@ func (p *SubProxy) GetOpportunisticSubscriptions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getOpportunisticSubscriptions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetOpportunisticSubscriptions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -913,7 +913,7 @@ func (p *SubProxy) RemoveSubscriptionsFromGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "removeSubscriptionsFromGroup")
 	if _err != nil {
-		return _err
+		_code = TransactionISubRemoveSubscriptionsFromGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -949,7 +949,7 @@ func (p *SubProxy) AddSubscriptionsIntoGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "addSubscriptionsIntoGroup")
 	if _err != nil {
-		return _err
+		_code = TransactionISubAddSubscriptionsIntoGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -978,7 +978,7 @@ func (p *SubProxy) GetSubscriptionsInGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getSubscriptionsInGroup")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetSubscriptionsInGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1018,7 +1018,7 @@ func (p *SubProxy) GetSlotIndex(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getSlotIndex")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetSlotIndex
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1049,7 +1049,7 @@ func (p *SubProxy) GetSubId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getSubId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetSubId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1078,7 +1078,7 @@ func (p *SubProxy) GetDefaultSubId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getDefaultSubId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetDefaultSubId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1109,7 +1109,7 @@ func (p *SubProxy) GetDefaultSubIdAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getDefaultSubIdAsUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetDefaultSubIdAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1140,7 +1140,7 @@ func (p *SubProxy) GetPhoneId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getPhoneId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetPhoneId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1169,7 +1169,7 @@ func (p *SubProxy) GetDefaultDataSubId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getDefaultDataSubId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetDefaultDataSubId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1199,7 +1199,7 @@ func (p *SubProxy) SetDefaultDataSubId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setDefaultDataSubId")
 	if _err != nil {
-		return _err
+		_code = TransactionISubSetDefaultDataSubId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1224,7 +1224,7 @@ func (p *SubProxy) GetDefaultVoiceSubId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getDefaultVoiceSubId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetDefaultVoiceSubId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1255,7 +1255,7 @@ func (p *SubProxy) GetDefaultVoiceSubIdAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getDefaultVoiceSubIdAsUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetDefaultVoiceSubIdAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1285,7 +1285,7 @@ func (p *SubProxy) SetDefaultVoiceSubId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setDefaultVoiceSubId")
 	if _err != nil {
-		return _err
+		_code = TransactionISubSetDefaultVoiceSubId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1310,7 +1310,7 @@ func (p *SubProxy) GetDefaultSmsSubId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getDefaultSmsSubId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetDefaultSmsSubId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1341,7 +1341,7 @@ func (p *SubProxy) GetDefaultSmsSubIdAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getDefaultSmsSubIdAsUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetDefaultSmsSubIdAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1371,7 +1371,7 @@ func (p *SubProxy) SetDefaultSmsSubId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setDefaultSmsSubId")
 	if _err != nil {
-		return _err
+		_code = TransactionISubSetDefaultSmsSubId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1398,7 +1398,7 @@ func (p *SubProxy) GetActiveSubIdList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getActiveSubIdList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetActiveSubIdList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1442,7 +1442,7 @@ func (p *SubProxy) SetSubscriptionProperty(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setSubscriptionProperty")
 	if _err != nil {
-		return _err
+		_code = TransactionISubSetSubscriptionProperty
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1474,7 +1474,7 @@ func (p *SubProxy) GetSubscriptionProperty(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getSubscriptionProperty")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetSubscriptionProperty
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1505,7 +1505,7 @@ func (p *SubProxy) IsSubscriptionEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "isSubscriptionEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubIsSubscriptionEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1536,7 +1536,7 @@ func (p *SubProxy) GetEnabledSubscriptionId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getEnabledSubscriptionId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetEnabledSubscriptionId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1570,7 +1570,7 @@ func (p *SubProxy) IsActiveSubId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "isActiveSubId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubIsActiveSubId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1599,7 +1599,7 @@ func (p *SubProxy) GetActiveDataSubscriptionId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getActiveDataSubscriptionId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetActiveDataSubscriptionId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1628,7 +1628,7 @@ func (p *SubProxy) CanDisablePhysicalSubscription(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "canDisablePhysicalSubscription")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubCanDisablePhysicalSubscription
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1660,7 +1660,7 @@ func (p *SubProxy) SetUiccApplicationsEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setUiccApplicationsEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionISubSetUiccApplicationsEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1689,7 +1689,7 @@ func (p *SubProxy) SetDeviceToDeviceStatusSharing(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setDeviceToDeviceStatusSharing")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubSetDeviceToDeviceStatusSharing
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1722,7 +1722,7 @@ func (p *SubProxy) SetDeviceToDeviceStatusSharingContacts(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setDeviceToDeviceStatusSharingContacts")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubSetDeviceToDeviceStatusSharingContacts
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1758,7 +1758,7 @@ func (p *SubProxy) GetPhoneNumber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getPhoneNumber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetPhoneNumber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1792,7 +1792,7 @@ func (p *SubProxy) GetPhoneNumberFromFirstAvailableSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getPhoneNumberFromFirstAvailableSource")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetPhoneNumberFromFirstAvailableSource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1829,7 +1829,7 @@ func (p *SubProxy) SetPhoneNumber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setPhoneNumber")
 	if _err != nil {
-		return _err
+		_code = TransactionISubSetPhoneNumber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1860,7 +1860,7 @@ func (p *SubProxy) SetUsageSetting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setUsageSetting")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubSetUsageSetting
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1892,7 +1892,7 @@ func (p *SubProxy) SetGroupOwner(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setGroupOwner")
 	if _err != nil {
-		return _err
+		_code = TransactionISubSetGroupOwner
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1924,7 +1924,7 @@ func (p *SubProxy) SetSubscriptionUserHandle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setSubscriptionUserHandle")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubSetSubscriptionUserHandle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1955,7 +1955,7 @@ func (p *SubProxy) GetSubscriptionUserHandle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getSubscriptionUserHandle")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetSubscriptionUserHandle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1991,7 +1991,7 @@ func (p *SubProxy) IsSubscriptionAssociatedWithCallingUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "isSubscriptionAssociatedWithCallingUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubIsSubscriptionAssociatedWithCallingUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2027,7 +2027,7 @@ func (p *SubProxy) IsSubscriptionAssociatedWithUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "isSubscriptionAssociatedWithUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubIsSubscriptionAssociatedWithUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2061,7 +2061,7 @@ func (p *SubProxy) GetSubscriptionInfoListAssociatedWithUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "getSubscriptionInfoListAssociatedWithUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISubGetSubscriptionInfoListAssociatedWithUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2107,7 +2107,7 @@ func (p *SubProxy) RestoreAllSimSpecificSettingsFromBackup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "restoreAllSimSpecificSettingsFromBackup")
 	if _err != nil {
-		return _err
+		_code = TransactionISubRestoreAllSimSpecificSettingsFromBackup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2135,7 +2135,7 @@ func (p *SubProxy) SetTransferStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISub, "setTransferStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionISubSetTransferStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

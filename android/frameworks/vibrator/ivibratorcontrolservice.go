@@ -54,7 +54,7 @@ func (p *VibratorControlServiceProxy) RegisterVibratorController(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorControlService, "registerVibratorController")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibratorControlServiceRegisterVibratorController
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *VibratorControlServiceProxy) UnregisterVibratorController(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorControlService, "unregisterVibratorController")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibratorControlServiceUnregisterVibratorController
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -99,7 +99,7 @@ func (p *VibratorControlServiceProxy) SetVibrationParams(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorControlService, "setVibrationParams")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibratorControlServiceSetVibrationParams
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -118,7 +118,7 @@ func (p *VibratorControlServiceProxy) ClearVibrationParams(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorControlService, "clearVibrationParams")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibratorControlServiceClearVibrationParams
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -146,7 +146,7 @@ func (p *VibratorControlServiceProxy) OnRequestVibrationParamsComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorControlService, "onRequestVibrationParamsComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibratorControlServiceOnRequestVibrationParamsComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

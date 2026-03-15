@@ -54,7 +54,7 @@ func (p *GetDeviceSettingsConfigCallbackProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGetDeviceSettingsConfigCallback, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIGetDeviceSettingsConfigCallbackOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

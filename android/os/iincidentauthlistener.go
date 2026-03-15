@@ -46,7 +46,7 @@ func (p *IncidentAuthListenerProxy) OnReportApproved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentAuthListener, "onReportApproved")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentAuthListenerOnReportApproved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -61,7 +61,7 @@ func (p *IncidentAuthListenerProxy) OnReportDenied(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentAuthListener, "onReportDenied")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentAuthListenerOnReportDenied
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

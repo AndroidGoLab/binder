@@ -49,7 +49,7 @@ func (p *CallNotificationEventCallbackProxy) OnCallNotificationPosted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallNotificationEventCallback, "onCallNotificationPosted")
 	if _err != nil {
-		return _err
+		_code = TransactionICallNotificationEventCallbackOnCallNotificationPosted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *CallNotificationEventCallbackProxy) OnCallNotificationRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallNotificationEventCallback, "onCallNotificationRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionICallNotificationEventCallbackOnCallNotificationRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

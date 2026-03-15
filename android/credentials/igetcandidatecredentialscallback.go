@@ -51,7 +51,7 @@ func (p *GetCandidateCredentialsCallbackProxy) OnResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGetCandidateCredentialsCallback, "onResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIGetCandidateCredentialsCallbackOnResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -70,7 +70,7 @@ func (p *GetCandidateCredentialsCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGetCandidateCredentialsCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIGetCandidateCredentialsCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -50,7 +50,7 @@ func (p *SearchCallbackProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchCallback, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionISearchCallbackOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

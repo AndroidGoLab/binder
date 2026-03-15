@@ -48,7 +48,7 @@ func (p *ExternalVibratorServiceProxy) OnExternalVibrationStart(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIExternalVibratorService, "onExternalVibrationStart")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIExternalVibratorServiceOnExternalVibrationStart
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -82,7 +82,7 @@ func (p *ExternalVibratorServiceProxy) OnExternalVibrationStop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIExternalVibratorService, "onExternalVibrationStop")
 	if _err != nil {
-		return _err
+		_code = TransactionIExternalVibratorServiceOnExternalVibrationStop
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

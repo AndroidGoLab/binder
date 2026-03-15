@@ -46,7 +46,7 @@ func (p *TaskFpsCallbackProxy) OnFpsReported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskFpsCallback, "onFpsReported")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskFpsCallbackOnFpsReported
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -52,7 +52,7 @@ func (p *FieldClassificationServiceProxy) OnConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFieldClassificationService, "onConnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIFieldClassificationServiceOnConnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *FieldClassificationServiceProxy) OnDisconnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFieldClassificationService, "onDisconnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIFieldClassificationServiceOnDisconnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -89,7 +89,7 @@ func (p *FieldClassificationServiceProxy) OnFieldClassificationRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFieldClassificationService, "onFieldClassificationRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIFieldClassificationServiceOnFieldClassificationRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

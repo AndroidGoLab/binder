@@ -60,7 +60,7 @@ func (p *AGnssRilProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAGnssRil, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIAGnssRilSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -89,7 +89,7 @@ func (p *AGnssRilProxy) SetRefLocation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAGnssRil, "setRefLocation")
 	if _err != nil {
-		return _err
+		_code = TransactionIAGnssRilSetRefLocation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -117,7 +117,7 @@ func (p *AGnssRilProxy) SetSetId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAGnssRil, "setSetId")
 	if _err != nil {
-		return _err
+		_code = TransactionIAGnssRilSetSetId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -146,7 +146,7 @@ func (p *AGnssRilProxy) UpdateNetworkState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAGnssRil, "updateNetworkState")
 	if _err != nil {
-		return _err
+		_code = TransactionIAGnssRilUpdateNetworkState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -181,7 +181,7 @@ func (p *AGnssRilProxy) InjectNiSuplMessageData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAGnssRil, "injectNiSuplMessageData")
 	if _err != nil {
-		return _err
+		_code = TransactionIAGnssRilInjectNiSuplMessageData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

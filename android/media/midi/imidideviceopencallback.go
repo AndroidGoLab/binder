@@ -48,7 +48,7 @@ func (p *MidiDeviceOpenCallbackProxy) OnDeviceOpened(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiDeviceOpenCallback, "onDeviceOpened")
 	if _err != nil {
-		return _err
+		_code = TransactionIMidiDeviceOpenCallbackOnDeviceOpened
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

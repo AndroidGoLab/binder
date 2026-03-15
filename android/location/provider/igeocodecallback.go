@@ -48,7 +48,7 @@ func (p *GeocodeCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGeocodeCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIGeocodeCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *GeocodeCallbackProxy) OnResults(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGeocodeCallback, "onResults")
 	if _err != nil {
-		return _err
+		_code = TransactionIGeocodeCallbackOnResults
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

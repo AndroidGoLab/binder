@@ -64,7 +64,7 @@ func (p *OnDeviceIntelligenceManagerProxy) GetVersion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "getVersion")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceManagerGetVersion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -92,7 +92,7 @@ func (p *OnDeviceIntelligenceManagerProxy) GetFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "getFeature")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceManagerGetFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -118,7 +118,7 @@ func (p *OnDeviceIntelligenceManagerProxy) ListFeatures(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "listFeatures")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceManagerListFeatures
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -149,7 +149,7 @@ func (p *OnDeviceIntelligenceManagerProxy) GetFeatureDetails(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "getFeatureDetails")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceManagerGetFeatureDetails
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -185,7 +185,7 @@ func (p *OnDeviceIntelligenceManagerProxy) RequestFeatureDownload(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "requestFeatureDownload")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceManagerRequestFeatureDownload
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -222,7 +222,7 @@ func (p *OnDeviceIntelligenceManagerProxy) RequestTokenInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "requestTokenInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceManagerRequestTokenInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -266,7 +266,7 @@ func (p *OnDeviceIntelligenceManagerProxy) ProcessRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "processRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceManagerProcessRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -310,7 +310,7 @@ func (p *OnDeviceIntelligenceManagerProxy) ProcessRequestStreaming(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "processRequestStreaming")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceIntelligenceManagerProcessRequestStreaming
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -335,7 +335,7 @@ func (p *OnDeviceIntelligenceManagerProxy) GetRemoteServicePackageName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "getRemoteServicePackageName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOnDeviceIntelligenceManagerGetRemoteServicePackageName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -366,7 +366,7 @@ func (p *OnDeviceIntelligenceManagerProxy) GetLatestInferenceInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceIntelligenceManager, "getLatestInferenceInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOnDeviceIntelligenceManagerGetLatestInferenceInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

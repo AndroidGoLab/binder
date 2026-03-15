@@ -48,7 +48,7 @@ func (p *TextToSpeechManagerProxy) CreateSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextToSpeechManager, "createSession")
 	if _err != nil {
-		return _err
+		_code = TransactionITextToSpeechManagerCreateSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

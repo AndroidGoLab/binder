@@ -59,7 +59,7 @@ func (p *OnBackInvokedCallbackProxy) OnBackStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "onBackStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnBackInvokedCallbackOnBackStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -79,7 +79,7 @@ func (p *OnBackInvokedCallbackProxy) OnBackProgressed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "onBackProgressed")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnBackInvokedCallbackOnBackProgressed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -94,7 +94,7 @@ func (p *OnBackInvokedCallbackProxy) OnBackCancelled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "onBackCancelled")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnBackInvokedCallbackOnBackCancelled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *OnBackInvokedCallbackProxy) OnBackInvoked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "onBackInvoked")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnBackInvokedCallbackOnBackInvoked
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -126,7 +126,7 @@ func (p *OnBackInvokedCallbackProxy) SetTriggerBack(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "setTriggerBack")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnBackInvokedCallbackSetTriggerBack
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -143,7 +143,7 @@ func (p *OnBackInvokedCallbackProxy) SetHandoffHandler(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnBackInvokedCallback, "setHandoffHandler")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnBackInvokedCallbackSetHandoffHandler
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

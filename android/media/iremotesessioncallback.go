@@ -49,7 +49,7 @@ func (p *RemoteSessionCallbackProxy) OnVolumeChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteSessionCallback, "onVolumeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteSessionCallbackOnVolumeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *RemoteSessionCallbackProxy) OnSessionChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteSessionCallback, "onSessionChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteSessionCallbackOnSessionChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

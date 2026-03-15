@@ -72,7 +72,7 @@ func (p *SensorManagerProxy) CreateAshmemDirectChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorManager, "createAshmemDirectChannel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISensorManagerCreateAshmemDirectChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -104,7 +104,7 @@ func (p *SensorManagerProxy) CreateEventQueue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorManager, "createEventQueue")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISensorManagerCreateEventQueue
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -138,7 +138,7 @@ func (p *SensorManagerProxy) CreateGrallocDirectChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorManager, "createGrallocDirectChannel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISensorManagerCreateGrallocDirectChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -170,7 +170,7 @@ func (p *SensorManagerProxy) GetDefaultSensor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorManager, "getDefaultSensor")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISensorManagerGetDefaultSensor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -204,7 +204,7 @@ func (p *SensorManagerProxy) GetSensorList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorManager, "getSensorList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISensorManagerGetSensorList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

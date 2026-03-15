@@ -49,7 +49,7 @@ func (p *CountryDetectorProxy) DetectCountry(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICountryDetector, "detectCountry")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICountryDetectorDetectCountry
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *CountryDetectorProxy) AddCountryListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICountryDetector, "addCountryListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICountryDetectorAddCountryListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -110,7 +110,7 @@ func (p *CountryDetectorProxy) RemoveCountryListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICountryDetector, "removeCountryListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICountryDetectorRemoveCountryListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

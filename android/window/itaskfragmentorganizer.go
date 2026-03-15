@@ -49,7 +49,7 @@ func (p *TaskFragmentOrganizerProxy) OnTransactionReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizer, "onTransactionReady")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskFragmentOrganizerOnTransactionReady
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

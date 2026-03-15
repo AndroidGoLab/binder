@@ -46,7 +46,7 @@ func (p *WindowSessionCallbackProxy) OnAnimatorScaleChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowSessionCallback, "onAnimatorScaleChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowSessionCallbackOnAnimatorScaleChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

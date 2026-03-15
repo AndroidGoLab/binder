@@ -145,7 +145,7 @@ func (p *ConnectionServiceAdapterProxy) HandleCreateConnectionComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "handleCreateConnectionComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterHandleCreateConnectionComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -177,7 +177,7 @@ func (p *ConnectionServiceAdapterProxy) HandleCreateConferenceComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "handleCreateConferenceComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterHandleCreateConferenceComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -199,7 +199,7 @@ func (p *ConnectionServiceAdapterProxy) SetActive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setActive")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetActive
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -221,7 +221,7 @@ func (p *ConnectionServiceAdapterProxy) SetRinging(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setRinging")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetRinging
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -243,7 +243,7 @@ func (p *ConnectionServiceAdapterProxy) SetDialing(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setDialing")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetDialing
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -265,7 +265,7 @@ func (p *ConnectionServiceAdapterProxy) SetPulling(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setPulling")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetPulling
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -292,7 +292,7 @@ func (p *ConnectionServiceAdapterProxy) SetDisconnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setDisconnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetDisconnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -314,7 +314,7 @@ func (p *ConnectionServiceAdapterProxy) SetOnHold(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setOnHold")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetOnHold
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -338,7 +338,7 @@ func (p *ConnectionServiceAdapterProxy) SetRingbackRequested(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setRingbackRequested")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetRingbackRequested
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -362,7 +362,7 @@ func (p *ConnectionServiceAdapterProxy) SetConnectionCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setConnectionCapabilities")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetConnectionCapabilities
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -386,7 +386,7 @@ func (p *ConnectionServiceAdapterProxy) SetConnectionProperties(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setConnectionProperties")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetConnectionProperties
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -410,7 +410,7 @@ func (p *ConnectionServiceAdapterProxy) SetIsConferenced(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setIsConferenced")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetIsConferenced
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -432,7 +432,7 @@ func (p *ConnectionServiceAdapterProxy) SetConferenceMergeFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setConferenceMergeFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetConferenceMergeFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -459,7 +459,7 @@ func (p *ConnectionServiceAdapterProxy) AddConferenceCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "addConferenceCall")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterAddConferenceCall
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -481,7 +481,7 @@ func (p *ConnectionServiceAdapterProxy) RemoveCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "removeCall")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterRemoveCall
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -505,7 +505,7 @@ func (p *ConnectionServiceAdapterProxy) OnPostDialWait(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "onPostDialWait")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterOnPostDialWait
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -529,7 +529,7 @@ func (p *ConnectionServiceAdapterProxy) OnPostDialChar(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "onPostDialChar")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterOnPostDialChar
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -553,7 +553,7 @@ func (p *ConnectionServiceAdapterProxy) QueryRemoteConnectionServices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "queryRemoteConnectionServices")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterQueryRemoteConnectionServices
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -577,7 +577,7 @@ func (p *ConnectionServiceAdapterProxy) SetVideoProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setVideoProvider")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetVideoProvider
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -601,7 +601,7 @@ func (p *ConnectionServiceAdapterProxy) SetVideoState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setVideoState")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetVideoState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -625,7 +625,7 @@ func (p *ConnectionServiceAdapterProxy) SetIsVoipAudioMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setIsVoipAudioMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetIsVoipAudioMode
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -652,7 +652,7 @@ func (p *ConnectionServiceAdapterProxy) SetStatusHints(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setStatusHints")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetStatusHints
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -681,7 +681,7 @@ func (p *ConnectionServiceAdapterProxy) SetAddress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setAddress")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetAddress
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -707,7 +707,7 @@ func (p *ConnectionServiceAdapterProxy) SetCallerDisplayName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setCallerDisplayName")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetCallerDisplayName
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -738,7 +738,7 @@ func (p *ConnectionServiceAdapterProxy) SetConferenceableConnections(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setConferenceableConnections")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetConferenceableConnections
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -765,7 +765,7 @@ func (p *ConnectionServiceAdapterProxy) AddExistingConnection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "addExistingConnection")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterAddExistingConnection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -792,7 +792,7 @@ func (p *ConnectionServiceAdapterProxy) PutExtras(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "putExtras")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterPutExtras
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -823,7 +823,7 @@ func (p *ConnectionServiceAdapterProxy) RemoveExtras(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "removeExtras")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterRemoveExtras
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -849,7 +849,7 @@ func (p *ConnectionServiceAdapterProxy) SetAudioRoute(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setAudioRoute")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetAudioRoute
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -881,7 +881,7 @@ func (p *ConnectionServiceAdapterProxy) RequestCallEndpointChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "requestCallEndpointChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterRequestCallEndpointChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -910,7 +910,7 @@ func (p *ConnectionServiceAdapterProxy) OnConnectionEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "onConnectionEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterOnConnectionEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -932,7 +932,7 @@ func (p *ConnectionServiceAdapterProxy) OnRttInitiationSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "onRttInitiationSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterOnRttInitiationSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -956,7 +956,7 @@ func (p *ConnectionServiceAdapterProxy) OnRttInitiationFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "onRttInitiationFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterOnRttInitiationFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -978,7 +978,7 @@ func (p *ConnectionServiceAdapterProxy) OnRttSessionRemotelyTerminated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "onRttSessionRemotelyTerminated")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterOnRttSessionRemotelyTerminated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1000,7 +1000,7 @@ func (p *ConnectionServiceAdapterProxy) OnRemoteRttRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "onRemoteRttRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterOnRemoteRttRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1027,7 +1027,7 @@ func (p *ConnectionServiceAdapterProxy) OnPhoneAccountChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "onPhoneAccountChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterOnPhoneAccountChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1047,7 +1047,7 @@ func (p *ConnectionServiceAdapterProxy) OnConnectionServiceFocusReleased(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "onConnectionServiceFocusReleased")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterOnConnectionServiceFocusReleased
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1069,7 +1069,7 @@ func (p *ConnectionServiceAdapterProxy) ResetConnectionTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "resetConnectionTime")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterResetConnectionTime
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1093,7 +1093,7 @@ func (p *ConnectionServiceAdapterProxy) SetConferenceState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setConferenceState")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetConferenceState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1117,7 +1117,7 @@ func (p *ConnectionServiceAdapterProxy) SetCallDirection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "setCallDirection")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterSetCallDirection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1148,7 +1148,7 @@ func (p *ConnectionServiceAdapterProxy) QueryLocation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnectionServiceAdapter, "queryLocation")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionServiceAdapterQueryLocation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -70,7 +70,7 @@ func (p *FrontendProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIFrontendSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -99,7 +99,7 @@ func (p *FrontendProxy) Tune(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "tune")
 	if _err != nil {
-		return _err
+		_code = TransactionIFrontendTune
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -123,7 +123,7 @@ func (p *FrontendProxy) StopTune(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "stopTune")
 	if _err != nil {
-		return _err
+		_code = TransactionIFrontendStopTune
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -147,7 +147,7 @@ func (p *FrontendProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIFrontendClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -178,7 +178,7 @@ func (p *FrontendProxy) Scan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "scan")
 	if _err != nil {
-		return _err
+		_code = TransactionIFrontendScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -202,7 +202,7 @@ func (p *FrontendProxy) StopScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "stopScan")
 	if _err != nil {
-		return _err
+		_code = TransactionIFrontendStopScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -236,7 +236,7 @@ func (p *FrontendProxy) GetStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "getStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFrontendGetStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -275,7 +275,7 @@ func (p *FrontendProxy) SetLnb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "setLnb")
 	if _err != nil {
-		return _err
+		_code = TransactionIFrontendSetLnb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -302,7 +302,7 @@ func (p *FrontendProxy) LinkCiCam(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "linkCiCam")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFrontendLinkCiCam
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -332,7 +332,7 @@ func (p *FrontendProxy) UnlinkCiCam(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "unlinkCiCam")
 	if _err != nil {
-		return _err
+		_code = TransactionIFrontendUnlinkCiCam
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -357,7 +357,7 @@ func (p *FrontendProxy) GetHardwareInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "getHardwareInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFrontendGetHardwareInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -387,7 +387,7 @@ func (p *FrontendProxy) RemoveOutputPid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "removeOutputPid")
 	if _err != nil {
-		return _err
+		_code = TransactionIFrontendRemoveOutputPid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -421,7 +421,7 @@ func (p *FrontendProxy) GetFrontendStatusReadiness(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFrontend, "getFrontendStatusReadiness")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFrontendGetFrontendStatusReadiness
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -63,7 +63,7 @@ func (p *WwanSelectorCallbackProxy) OnRequestEmergencyNetworkScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWwanSelectorCallback, "onRequestEmergencyNetworkScan")
 	if _err != nil {
-		return _err
+		_code = TransactionIWwanSelectorCallbackOnRequestEmergencyNetworkScan
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -82,7 +82,7 @@ func (p *WwanSelectorCallbackProxy) OnDomainSelected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWwanSelectorCallback, "onDomainSelected")
 	if _err != nil {
-		return _err
+		_code = TransactionIWwanSelectorCallbackOnDomainSelected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -97,7 +97,7 @@ func (p *WwanSelectorCallbackProxy) OnCancel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWwanSelectorCallback, "onCancel")
 	if _err != nil {
-		return _err
+		_code = TransactionIWwanSelectorCallbackOnCancel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

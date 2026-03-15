@@ -44,7 +44,7 @@ func (p *ImsStreamMediaSessionProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsStreamMediaSession, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsStreamMediaSessionClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

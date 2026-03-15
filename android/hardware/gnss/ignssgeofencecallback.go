@@ -79,7 +79,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceTransitionCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssGeofenceCallback, "gnssGeofenceTransitionCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssGeofenceCallbackGnssGeofenceTransitionCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -110,7 +110,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceStatusCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssGeofenceCallback, "gnssGeofenceStatusCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssGeofenceCallbackGnssGeofenceStatusCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -138,7 +138,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceAddCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssGeofenceCallback, "gnssGeofenceAddCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssGeofenceCallbackGnssGeofenceAddCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -166,7 +166,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceRemoveCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssGeofenceCallback, "gnssGeofenceRemoveCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssGeofenceCallbackGnssGeofenceRemoveCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -194,7 +194,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofencePauseCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssGeofenceCallback, "gnssGeofencePauseCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssGeofenceCallbackGnssGeofencePauseCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -222,7 +222,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceResumeCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssGeofenceCallback, "gnssGeofenceResumeCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssGeofenceCallbackGnssGeofenceResumeCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

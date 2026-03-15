@@ -55,7 +55,7 @@ func (p *EffectProxy) Enable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "enable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEffectEnable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *EffectProxy) Disable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "disable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEffectDisable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -127,7 +127,7 @@ func (p *EffectProxy) Command(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "command")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEffectCommand
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -168,7 +168,7 @@ func (p *EffectProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "disconnect")
 	if _err != nil {
-		return _err
+		_code = TransactionIEffectDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -193,7 +193,7 @@ func (p *EffectProxy) GetCblk(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "getCblk")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEffectGetCblk
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -228,7 +228,7 @@ func (p *EffectProxy) GetConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "getConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEffectGetConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

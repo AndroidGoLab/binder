@@ -67,7 +67,7 @@ func (p *KeystoreServiceProxy) GetSecurityLevel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "getSecurityLevel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeystoreServiceGetSecurityLevel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -102,7 +102,7 @@ func (p *KeystoreServiceProxy) GetKeyEntry(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "getKeyEntry")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeystoreServiceGetKeyEntry
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -158,7 +158,7 @@ func (p *KeystoreServiceProxy) UpdateSubcomponent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "updateSubcomponent")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeystoreServiceUpdateSubcomponent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -187,7 +187,7 @@ func (p *KeystoreServiceProxy) ListEntries(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "listEntries")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeystoreServiceListEntries
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -229,7 +229,7 @@ func (p *KeystoreServiceProxy) DeleteKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "deleteKey")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeystoreServiceDeleteKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -263,7 +263,7 @@ func (p *KeystoreServiceProxy) Grant(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "grant")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeystoreServiceGrant
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -303,7 +303,7 @@ func (p *KeystoreServiceProxy) Ungrant(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "ungrant")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeystoreServiceUngrant
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -332,7 +332,7 @@ func (p *KeystoreServiceProxy) GetNumberOfEntries(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "getNumberOfEntries")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeystoreServiceGetNumberOfEntries
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -367,7 +367,7 @@ func (p *KeystoreServiceProxy) ListEntriesBatched(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "listEntriesBatched")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeystoreServiceListEntriesBatched
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -407,7 +407,7 @@ func (p *KeystoreServiceProxy) GetSupplementaryAttestationInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreService, "getSupplementaryAttestationInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeystoreServiceGetSupplementaryAttestationInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

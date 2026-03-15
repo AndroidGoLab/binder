@@ -46,7 +46,7 @@ func (p *PackageLoadingProgressCallbackProxy) OnPackageLoadingProgressChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageLoadingProgressCallback, "onPackageLoadingProgressChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageLoadingProgressCallbackOnPackageLoadingProgressChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

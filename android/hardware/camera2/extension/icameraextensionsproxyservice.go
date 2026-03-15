@@ -61,7 +61,7 @@ func (p *CameraExtensionsProxyServiceProxy) RegisterClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraExtensionsProxyService, "registerClient")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraExtensionsProxyServiceRegisterClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -91,7 +91,7 @@ func (p *CameraExtensionsProxyServiceProxy) UnregisterClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraExtensionsProxyService, "unregisterClient")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraExtensionsProxyServiceUnregisterClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -116,7 +116,7 @@ func (p *CameraExtensionsProxyServiceProxy) AdvancedExtensionsSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraExtensionsProxyService, "advancedExtensionsSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraExtensionsProxyServiceAdvancedExtensionsSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -146,7 +146,7 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraExtensionsProxyService, "initializeSession")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraExtensionsProxyServiceInitializeSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -170,7 +170,7 @@ func (p *CameraExtensionsProxyServiceProxy) ReleaseSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraExtensionsProxyService, "releaseSession")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraExtensionsProxyServiceReleaseSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -197,7 +197,7 @@ func (p *CameraExtensionsProxyServiceProxy) InitializePreviewExtension(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraExtensionsProxyService, "initializePreviewExtension")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraExtensionsProxyServiceInitializePreviewExtension
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -229,7 +229,7 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeImageExtension(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraExtensionsProxyService, "initializeImageExtension")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraExtensionsProxyServiceInitializeImageExtension
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -261,7 +261,7 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeAdvancedExtension(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraExtensionsProxyService, "initializeAdvancedExtension")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraExtensionsProxyServiceInitializeAdvancedExtension
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

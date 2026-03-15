@@ -46,7 +46,7 @@ func (p *VoiceInteractionSessionShowCallbackProxy) OnFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSessionShowCallback, "onFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractionSessionShowCallbackOnFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -61,7 +61,7 @@ func (p *VoiceInteractionSessionShowCallbackProxy) OnShown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSessionShowCallback, "onShown")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractionSessionShowCallbackOnShown
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -95,7 +95,7 @@ func (p *RadioNetworkIndicationProxy) BarringInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "barringInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationBarringInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -114,7 +114,7 @@ func (p *RadioNetworkIndicationProxy) CdmaPrlChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "cdmaPrlChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationCdmaPrlChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -142,7 +142,7 @@ func (p *RadioNetworkIndicationProxy) CellInfoList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "cellInfoList")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationCellInfoList
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -164,7 +164,7 @@ func (p *RadioNetworkIndicationProxy) CurrentLinkCapacityEstimate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "currentLinkCapacityEstimate")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationCurrentLinkCapacityEstimate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -192,7 +192,7 @@ func (p *RadioNetworkIndicationProxy) CurrentPhysicalChannelConfigs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "currentPhysicalChannelConfigs")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationCurrentPhysicalChannelConfigs
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -214,7 +214,7 @@ func (p *RadioNetworkIndicationProxy) CurrentSignalStrength(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "currentSignalStrength")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationCurrentSignalStrength
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -231,7 +231,7 @@ func (p *RadioNetworkIndicationProxy) ImsNetworkStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "imsNetworkStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationImsNetworkStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -253,7 +253,7 @@ func (p *RadioNetworkIndicationProxy) NetworkScanResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "networkScanResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationNetworkScanResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -270,7 +270,7 @@ func (p *RadioNetworkIndicationProxy) NetworkStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "networkStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationNetworkStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -293,7 +293,7 @@ func (p *RadioNetworkIndicationProxy) NitzTimeReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "nitzTimeReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationNitzTimeReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -323,7 +323,7 @@ func (p *RadioNetworkIndicationProxy) RegistrationFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "registrationFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationRegistrationFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -342,7 +342,7 @@ func (p *RadioNetworkIndicationProxy) RestrictedStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "restrictedStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationRestrictedStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -364,7 +364,7 @@ func (p *RadioNetworkIndicationProxy) SuppSvcNotify(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "suppSvcNotify")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationSuppSvcNotify
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -383,7 +383,7 @@ func (p *RadioNetworkIndicationProxy) VoiceRadioTechChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "voiceRadioTechChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationVoiceRadioTechChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -405,7 +405,7 @@ func (p *RadioNetworkIndicationProxy) EmergencyNetworkScanResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "emergencyNetworkScanResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationEmergencyNetworkScanResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -427,7 +427,7 @@ func (p *RadioNetworkIndicationProxy) CellularIdentifierDisclosed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "cellularIdentifierDisclosed")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationCellularIdentifierDisclosed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -449,7 +449,7 @@ func (p *RadioNetworkIndicationProxy) SecurityAlgorithmsUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkIndication, "securityAlgorithmsUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkIndicationSecurityAlgorithmsUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -55,7 +55,7 @@ func (p *VmCapabilitiesServiceProxy) GrantAccessToVendorTeeServices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVmCapabilitiesService, "grantAccessToVendorTeeServices")
 	if _err != nil {
-		return _err
+		_code = TransactionIVmCapabilitiesServiceGrantAccessToVendorTeeServices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

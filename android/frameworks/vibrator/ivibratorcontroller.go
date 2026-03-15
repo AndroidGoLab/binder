@@ -50,7 +50,7 @@ func (p *VibratorControllerProxy) RequestVibrationParams(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorController, "requestVibrationParams")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibratorControllerRequestVibrationParams
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

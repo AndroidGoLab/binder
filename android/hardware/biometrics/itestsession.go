@@ -62,7 +62,7 @@ func (p *TestSessionProxy) SetTestHalEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "setTestHalEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITestSessionSetTestHalEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -88,7 +88,7 @@ func (p *TestSessionProxy) StartEnroll(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "startEnroll")
 	if _err != nil {
-		return _err
+		_code = TransactionITestSessionStartEnroll
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -114,7 +114,7 @@ func (p *TestSessionProxy) FinishEnroll(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "finishEnroll")
 	if _err != nil {
-		return _err
+		_code = TransactionITestSessionFinishEnroll
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -140,7 +140,7 @@ func (p *TestSessionProxy) AcceptAuthentication(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "acceptAuthentication")
 	if _err != nil {
-		return _err
+		_code = TransactionITestSessionAcceptAuthentication
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -166,7 +166,7 @@ func (p *TestSessionProxy) RejectAuthentication(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "rejectAuthentication")
 	if _err != nil {
-		return _err
+		_code = TransactionITestSessionRejectAuthentication
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -194,7 +194,7 @@ func (p *TestSessionProxy) NotifyAcquired(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "notifyAcquired")
 	if _err != nil {
-		return _err
+		_code = TransactionITestSessionNotifyAcquired
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -222,7 +222,7 @@ func (p *TestSessionProxy) NotifyError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "notifyError")
 	if _err != nil {
-		return _err
+		_code = TransactionITestSessionNotifyError
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -248,7 +248,7 @@ func (p *TestSessionProxy) CleanupInternalState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "cleanupInternalState")
 	if _err != nil {
-		return _err
+		_code = TransactionITestSessionCleanupInternalState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -273,7 +273,7 @@ func (p *TestSessionProxy) GetSensorId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestSession, "getSensorId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITestSessionGetSensorId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

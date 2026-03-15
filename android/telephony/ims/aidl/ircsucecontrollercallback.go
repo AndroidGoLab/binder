@@ -60,7 +60,7 @@ func (p *RcsUceControllerCallbackProxy) OnCapabilitiesReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRcsUceControllerCallback, "onCapabilitiesReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIRcsUceControllerCallbackOnCapabilitiesReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -80,7 +80,7 @@ func (p *RcsUceControllerCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRcsUceControllerCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIRcsUceControllerCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -104,7 +104,7 @@ func (p *RcsUceControllerCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRcsUceControllerCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIRcsUceControllerCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -60,7 +60,7 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnQualifiedNetworkTypesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQualifiedNetworksServiceCallback, "onQualifiedNetworkTypesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIQualifiedNetworksServiceCallbackOnQualifiedNetworkTypesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -79,7 +79,7 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnNetworkValidationRequested(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQualifiedNetworksServiceCallback, "onNetworkValidationRequested")
 	if _err != nil {
-		return _err
+		_code = TransactionIQualifiedNetworksServiceCallbackOnNetworkValidationRequested
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -98,7 +98,7 @@ func (p *QualifiedNetworksServiceCallbackProxy) OnReconnectQualifiedNetworkType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQualifiedNetworksServiceCallback, "onReconnectQualifiedNetworkType")
 	if _err != nil {
-		return _err
+		_code = TransactionIQualifiedNetworksServiceCallbackOnReconnectQualifiedNetworkType
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

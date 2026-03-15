@@ -55,7 +55,7 @@ func (p *GnssAntennaInfoListenerProxy) OnGnssAntennaInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssAntennaInfoListener, "onGnssAntennaInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssAntennaInfoListenerOnGnssAntennaInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

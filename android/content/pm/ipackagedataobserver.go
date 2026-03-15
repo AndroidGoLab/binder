@@ -48,7 +48,7 @@ func (p *PackageDataObserverProxy) OnRemoveCompleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageDataObserver, "onRemoveCompleted")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageDataObserverOnRemoveCompleted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

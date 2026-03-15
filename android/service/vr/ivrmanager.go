@@ -67,7 +67,7 @@ func (p *VrManagerProxy) RegisterListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "registerListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIVrManagerRegisterListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *VrManagerProxy) UnregisterListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "unregisterListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIVrManagerUnregisterListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -119,7 +119,7 @@ func (p *VrManagerProxy) RegisterPersistentVrStateListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "registerPersistentVrStateListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIVrManagerRegisterPersistentVrStateListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -145,7 +145,7 @@ func (p *VrManagerProxy) UnregisterPersistentVrStateListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "unregisterPersistentVrStateListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIVrManagerUnregisterPersistentVrStateListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -170,7 +170,7 @@ func (p *VrManagerProxy) GetVrModeState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "getVrModeState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVrManagerGetVrModeState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -199,7 +199,7 @@ func (p *VrManagerProxy) GetPersistentVrModeEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "getPersistentVrModeEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVrManagerGetPersistentVrModeEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -229,7 +229,7 @@ func (p *VrManagerProxy) SetPersistentVrModeEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "setPersistentVrModeEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIVrManagerSetPersistentVrModeEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -258,7 +258,7 @@ func (p *VrManagerProxy) SetVr2dDisplayProperties(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "setVr2dDisplayProperties")
 	if _err != nil {
-		return _err
+		_code = TransactionIVrManagerSetVr2dDisplayProperties
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -283,7 +283,7 @@ func (p *VrManagerProxy) GetVr2dDisplayId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "getVr2dDisplayId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVrManagerGetVr2dDisplayId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -313,7 +313,7 @@ func (p *VrManagerProxy) SetAndBindCompositor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "setAndBindCompositor")
 	if _err != nil {
-		return _err
+		_code = TransactionIVrManagerSetAndBindCompositor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -339,7 +339,7 @@ func (p *VrManagerProxy) SetStandbyEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVrManager, "setStandbyEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIVrManagerSetStandbyEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

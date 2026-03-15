@@ -51,7 +51,7 @@ func (p *CrossUserContentServiceProxy) UpdateContent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICrossUserContentService, "updateContent")
 	if _err != nil {
-		return _err
+		_code = TransactionICrossUserContentServiceUpdateContent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -78,7 +78,7 @@ func (p *CrossUserContentServiceProxy) NotifyForUriAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICrossUserContentService, "notifyForUriAsUser")
 	if _err != nil {
-		return _err
+		_code = TransactionICrossUserContentServiceNotifyForUriAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -61,7 +61,7 @@ func (p *ResourceObserverProxy) OnStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceObserver, "onStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceObserverOnStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

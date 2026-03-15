@@ -70,7 +70,7 @@ func (p *BootControlProxy) GetActiveBootSlot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBootControl, "getActiveBootSlot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBootControlGetActiveBootSlot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -99,7 +99,7 @@ func (p *BootControlProxy) GetCurrentSlot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBootControl, "getCurrentSlot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBootControlGetCurrentSlot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -128,7 +128,7 @@ func (p *BootControlProxy) GetNumberSlots(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBootControl, "getNumberSlots")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBootControlGetNumberSlots
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -157,7 +157,7 @@ func (p *BootControlProxy) GetSnapshotMergeStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBootControl, "getSnapshotMergeStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBootControlGetSnapshotMergeStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -189,7 +189,7 @@ func (p *BootControlProxy) GetSuffix(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBootControl, "getSuffix")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBootControlGetSuffix
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -220,7 +220,7 @@ func (p *BootControlProxy) IsSlotBootable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBootControl, "isSlotBootable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBootControlIsSlotBootable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -251,7 +251,7 @@ func (p *BootControlProxy) IsSlotMarkedSuccessful(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBootControl, "isSlotMarkedSuccessful")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBootControlIsSlotMarkedSuccessful
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -279,7 +279,7 @@ func (p *BootControlProxy) MarkBootSuccessful(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBootControl, "markBootSuccessful")
 	if _err != nil {
-		return _err
+		_code = TransactionIBootControlMarkBootSuccessful
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -305,7 +305,7 @@ func (p *BootControlProxy) SetActiveBootSlot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBootControl, "setActiveBootSlot")
 	if _err != nil {
-		return _err
+		_code = TransactionIBootControlSetActiveBootSlot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -331,7 +331,7 @@ func (p *BootControlProxy) SetSlotAsUnbootable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBootControl, "setSlotAsUnbootable")
 	if _err != nil {
-		return _err
+		_code = TransactionIBootControlSetSlotAsUnbootable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -357,7 +357,7 @@ func (p *BootControlProxy) SetSnapshotMergeStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBootControl, "setSnapshotMergeStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIBootControlSetSnapshotMergeStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

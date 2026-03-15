@@ -62,7 +62,7 @@ func (p *ImsVideoCallCallbackProxy) ReceiveSessionModifyRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallCallback, "receiveSessionModifyRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallCallbackReceiveSessionModifyRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -89,7 +89,7 @@ func (p *ImsVideoCallCallbackProxy) ReceiveSessionModifyResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallCallback, "receiveSessionModifyResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallCallbackReceiveSessionModifyResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -106,7 +106,7 @@ func (p *ImsVideoCallCallbackProxy) HandleCallSessionEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallCallback, "handleCallSessionEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallCallbackHandleCallSessionEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -125,7 +125,7 @@ func (p *ImsVideoCallCallbackProxy) ChangePeerDimensions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallCallback, "changePeerDimensions")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallCallbackChangePeerDimensions
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -142,7 +142,7 @@ func (p *ImsVideoCallCallbackProxy) ChangeCallDataUsage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallCallback, "changeCallDataUsage")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallCallbackChangeCallDataUsage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -162,7 +162,7 @@ func (p *ImsVideoCallCallbackProxy) ChangeCameraCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallCallback, "changeCameraCapabilities")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallCallbackChangeCameraCapabilities
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -179,7 +179,7 @@ func (p *ImsVideoCallCallbackProxy) ChangeVideoQuality(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallCallback, "changeVideoQuality")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallCallbackChangeVideoQuality
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

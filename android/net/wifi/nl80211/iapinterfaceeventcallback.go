@@ -60,7 +60,7 @@ func (p *ApInterfaceEventCallbackProxy) OnConnectedClientsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApInterfaceEventCallback, "onConnectedClientsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIApInterfaceEventCallbackOnConnectedClientsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -79,7 +79,7 @@ func (p *ApInterfaceEventCallbackProxy) OnSoftApChannelSwitched(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApInterfaceEventCallback, "onSoftApChannelSwitched")
 	if _err != nil {
-		return _err
+		_code = TransactionIApInterfaceEventCallbackOnSoftApChannelSwitched
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

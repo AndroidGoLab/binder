@@ -77,7 +77,7 @@ func (p *SupplicantProxy) AddP2pInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "addP2pInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantAddP2pInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -109,7 +109,7 @@ func (p *SupplicantProxy) AddStaInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "addStaInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantAddStaInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -139,7 +139,7 @@ func (p *SupplicantProxy) GetDebugLevel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "getDebugLevel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantGetDebugLevel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -171,7 +171,7 @@ func (p *SupplicantProxy) GetP2pInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "getP2pInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantGetP2pInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -203,7 +203,7 @@ func (p *SupplicantProxy) GetStaInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "getStaInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantGetStaInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -233,7 +233,7 @@ func (p *SupplicantProxy) IsDebugShowKeysEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "isDebugShowKeysEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantIsDebugShowKeysEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -262,7 +262,7 @@ func (p *SupplicantProxy) IsDebugShowTimestampEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "isDebugShowTimestampEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantIsDebugShowTimestampEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -291,7 +291,7 @@ func (p *SupplicantProxy) ListInterfaces(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "listInterfaces")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantListInterfaces
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -330,7 +330,7 @@ func (p *SupplicantProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -359,7 +359,7 @@ func (p *SupplicantProxy) RemoveInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "removeInterface")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantRemoveInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -385,7 +385,7 @@ func (p *SupplicantProxy) SetConcurrencyPriority(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "setConcurrencyPriority")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantSetConcurrencyPriority
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -415,7 +415,7 @@ func (p *SupplicantProxy) SetDebugParams(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "setDebugParams")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantSetDebugParams
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -439,7 +439,7 @@ func (p *SupplicantProxy) Terminate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "terminate")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantTerminate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -456,7 +456,7 @@ func (p *SupplicantProxy) RegisterNonStandardCertCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicant, "registerNonStandardCertCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantRegisterNonStandardCertCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -71,7 +71,7 @@ func (p *FingerprintServiceReceiverProxy) OnEnrollResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onEnrollResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIFingerprintServiceReceiverOnEnrollResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -90,7 +90,7 @@ func (p *FingerprintServiceReceiverProxy) OnAcquired(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onAcquired")
 	if _err != nil {
-		return _err
+		_code = TransactionIFingerprintServiceReceiverOnAcquired
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -114,7 +114,7 @@ func (p *FingerprintServiceReceiverProxy) OnAuthenticationSucceeded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onAuthenticationSucceeded")
 	if _err != nil {
-		return _err
+		_code = TransactionIFingerprintServiceReceiverOnAuthenticationSucceeded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -135,7 +135,7 @@ func (p *FingerprintServiceReceiverProxy) OnFingerprintDetected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onFingerprintDetected")
 	if _err != nil {
-		return _err
+		_code = TransactionIFingerprintServiceReceiverOnFingerprintDetected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -150,7 +150,7 @@ func (p *FingerprintServiceReceiverProxy) OnAuthenticationFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onAuthenticationFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIFingerprintServiceReceiverOnAuthenticationFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -169,7 +169,7 @@ func (p *FingerprintServiceReceiverProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIFingerprintServiceReceiverOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -191,7 +191,7 @@ func (p *FingerprintServiceReceiverProxy) OnRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionIFingerprintServiceReceiverOnRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -212,7 +212,7 @@ func (p *FingerprintServiceReceiverProxy) OnChallengeGenerated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onChallengeGenerated")
 	if _err != nil {
-		return _err
+		_code = TransactionIFingerprintServiceReceiverOnChallengeGenerated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -229,7 +229,7 @@ func (p *FingerprintServiceReceiverProxy) OnUdfpsPointerDown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onUdfpsPointerDown")
 	if _err != nil {
-		return _err
+		_code = TransactionIFingerprintServiceReceiverOnUdfpsPointerDown
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -246,7 +246,7 @@ func (p *FingerprintServiceReceiverProxy) OnUdfpsPointerUp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onUdfpsPointerUp")
 	if _err != nil {
-		return _err
+		_code = TransactionIFingerprintServiceReceiverOnUdfpsPointerUp
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -261,7 +261,7 @@ func (p *FingerprintServiceReceiverProxy) OnUdfpsOverlayShown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFingerprintServiceReceiver, "onUdfpsOverlayShown")
 	if _err != nil {
-		return _err
+		_code = TransactionIFingerprintServiceReceiverOnUdfpsOverlayShown
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

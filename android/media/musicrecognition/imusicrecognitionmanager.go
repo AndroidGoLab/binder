@@ -51,7 +51,7 @@ func (p *MusicRecognitionManagerProxy) BeginRecognition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMusicRecognitionManager, "beginRecognition")
 	if _err != nil {
-		return _err
+		_code = TransactionIMusicRecognitionManagerBeginRecognition
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

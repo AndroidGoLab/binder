@@ -81,7 +81,7 @@ func (p *HealthProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIHealthRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -107,7 +107,7 @@ func (p *HealthProxy) UnregisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "unregisterCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIHealthUnregisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -131,7 +131,7 @@ func (p *HealthProxy) Update(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "update")
 	if _err != nil {
-		return _err
+		_code = TransactionIHealthUpdate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -156,7 +156,7 @@ func (p *HealthProxy) GetChargeCounterUah(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getChargeCounterUah")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHealthGetChargeCounterUah
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -185,7 +185,7 @@ func (p *HealthProxy) GetCurrentNowMicroamps(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getCurrentNowMicroamps")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHealthGetCurrentNowMicroamps
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -214,7 +214,7 @@ func (p *HealthProxy) GetCurrentAverageMicroamps(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getCurrentAverageMicroamps")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHealthGetCurrentAverageMicroamps
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -243,7 +243,7 @@ func (p *HealthProxy) GetCapacity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getCapacity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHealthGetCapacity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -272,7 +272,7 @@ func (p *HealthProxy) GetEnergyCounterNwh(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getEnergyCounterNwh")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHealthGetEnergyCounterNwh
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -301,7 +301,7 @@ func (p *HealthProxy) GetChargeStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getChargeStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHealthGetChargeStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -331,7 +331,7 @@ func (p *HealthProxy) GetStorageInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getStorageInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHealthGetStorageInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -369,7 +369,7 @@ func (p *HealthProxy) GetDiskStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getDiskStats")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHealthGetDiskStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -407,7 +407,7 @@ func (p *HealthProxy) GetHealthInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getHealthInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHealthGetHealthInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -442,7 +442,7 @@ func (p *HealthProxy) SetChargingPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "setChargingPolicy")
 	if _err != nil {
-		return _err
+		_code = TransactionIHealthSetChargingPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -467,7 +467,7 @@ func (p *HealthProxy) GetChargingPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getChargingPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHealthGetChargingPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -497,7 +497,7 @@ func (p *HealthProxy) GetBatteryHealthData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getBatteryHealthData")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHealthGetBatteryHealthData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -531,7 +531,7 @@ func (p *HealthProxy) GetHingeInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealth, "getHingeInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHealthGetHingeInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

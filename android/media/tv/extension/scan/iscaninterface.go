@@ -56,7 +56,7 @@ func (p *ScanInterfaceProxy) CreateSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScanInterface, "createSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIScanInterfaceCreateSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -97,7 +97,7 @@ func (p *ScanInterfaceProxy) GetParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScanInterface, "getParameters")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIScanInterfaceGetParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -68,7 +68,7 @@ func (p *RadioModemIndicationProxy) HardwareConfigChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioModemIndication, "hardwareConfigChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioModemIndicationHardwareConfigChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -87,7 +87,7 @@ func (p *RadioModemIndicationProxy) ModemReset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioModemIndication, "modemReset")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioModemIndicationModemReset
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *RadioModemIndicationProxy) RadioCapabilityIndication(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioModemIndication, "radioCapabilityIndication")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioModemIndicationRadioCapabilityIndication
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -128,7 +128,7 @@ func (p *RadioModemIndicationProxy) RadioStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioModemIndication, "radioStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioModemIndicationRadioStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -145,7 +145,7 @@ func (p *RadioModemIndicationProxy) RilConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioModemIndication, "rilConnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioModemIndicationRilConnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -167,7 +167,7 @@ func (p *RadioModemIndicationProxy) OnImeiMappingChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioModemIndication, "onImeiMappingChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioModemIndicationOnImeiMappingChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

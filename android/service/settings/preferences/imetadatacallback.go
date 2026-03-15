@@ -51,7 +51,7 @@ func (p *MetadataCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMetadataCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIMetadataCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -66,7 +66,7 @@ func (p *MetadataCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMetadataCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIMetadataCallbackOnFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

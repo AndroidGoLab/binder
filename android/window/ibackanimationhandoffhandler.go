@@ -61,7 +61,7 @@ func (p *BackAnimationHandoffHandlerProxy) HandOffAnimation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackAnimationHandoffHandler, "handOffAnimation")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackAnimationHandoffHandlerHandOffAnimation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

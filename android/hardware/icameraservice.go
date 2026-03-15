@@ -132,7 +132,7 @@ func (p *CameraServiceProxy) GetNumberOfCameras(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "getNumberOfCameras")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceGetNumberOfCameras
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -168,7 +168,7 @@ func (p *CameraServiceProxy) GetCameraInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "getCameraInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceGetCameraInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -206,7 +206,7 @@ func (p *CameraServiceProxy) Connect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "connect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceConnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -250,7 +250,7 @@ func (p *CameraServiceProxy) ConnectDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "connectDevice")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceConnectDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -277,7 +277,7 @@ func (p *CameraServiceProxy) AddListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "addListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceAddListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -312,7 +312,7 @@ func (p *CameraServiceProxy) GetConcurrentCameraIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "getConcurrentCameraIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceGetConcurrentCameraIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -358,7 +358,7 @@ func (p *CameraServiceProxy) IsConcurrentSessionConfigurationSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "isConcurrentSessionConfigurationSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceIsConcurrentSessionConfigurationSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -389,7 +389,7 @@ func (p *CameraServiceProxy) InjectSessionParams(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "injectSessionParams")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceInjectSessionParams
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -415,7 +415,7 @@ func (p *CameraServiceProxy) RemoveListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "removeListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceRemoveListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -449,7 +449,7 @@ func (p *CameraServiceProxy) GetCameraCharacteristics(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "getCameraCharacteristics")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceGetCameraCharacteristics
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -474,7 +474,7 @@ func (p *CameraServiceProxy) GetCameraVendorTagDescriptor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "getCameraVendorTagDescriptor")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceGetCameraVendorTagDescriptor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -499,7 +499,7 @@ func (p *CameraServiceProxy) GetCameraVendorTagCache(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "getCameraVendorTagCache")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceGetCameraVendorTagCache
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -526,7 +526,7 @@ func (p *CameraServiceProxy) GetLegacyParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "getLegacyParameters")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceGetLegacyParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -559,7 +559,7 @@ func (p *CameraServiceProxy) SupportsCameraApi(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "supportsCameraApi")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceSupportsCameraApi
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -590,7 +590,7 @@ func (p *CameraServiceProxy) IsHiddenPhysicalCamera(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "isHiddenPhysicalCamera")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceIsHiddenPhysicalCamera
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -626,7 +626,7 @@ func (p *CameraServiceProxy) InjectCamera(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "injectCamera")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceInjectCamera
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -664,7 +664,7 @@ func (p *CameraServiceProxy) SetTorchMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "setTorchMode")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceSetTorchMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -697,7 +697,7 @@ func (p *CameraServiceProxy) TurnOnTorchWithStrengthLevel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "turnOnTorchWithStrengthLevel")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceTurnOnTorchWithStrengthLevel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -727,7 +727,7 @@ func (p *CameraServiceProxy) GetTorchStrengthLevel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "getTorchStrengthLevel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceGetTorchStrengthLevel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -766,7 +766,7 @@ func (p *CameraServiceProxy) NotifySystemEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "notifySystemEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceNotifySystemEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -781,7 +781,7 @@ func (p *CameraServiceProxy) NotifyDisplayConfigurationChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "notifyDisplayConfigurationChange")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceNotifyDisplayConfigurationChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -798,7 +798,7 @@ func (p *CameraServiceProxy) NotifyDeviceStateChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "notifyDeviceStateChange")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceNotifyDeviceStateChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -819,7 +819,7 @@ func (p *CameraServiceProxy) ReportExtensionSessionStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "reportExtensionSessionStats")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceReportExtensionSessionStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -855,7 +855,7 @@ func (p *CameraServiceProxy) CreateDefaultRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "createDefaultRequest")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceCreateDefaultRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -888,7 +888,7 @@ func (p *CameraServiceProxy) IsSessionConfigurationWithParametersSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "isSessionConfigurationWithParametersSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceIsSessionConfigurationWithParametersSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -927,7 +927,7 @@ func (p *CameraServiceProxy) GetSessionCharacteristics(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "getSessionCharacteristics")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceGetSessionCharacteristics
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

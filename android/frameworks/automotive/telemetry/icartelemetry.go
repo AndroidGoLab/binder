@@ -59,7 +59,7 @@ func (p *CarTelemetryProxy) Write(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarTelemetry, "write")
 	if _err != nil {
-		return _err
+		_code = TransactionICarTelemetryWrite
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -90,7 +90,7 @@ func (p *CarTelemetryProxy) AddCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarTelemetry, "addCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionICarTelemetryAddCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -116,7 +116,7 @@ func (p *CarTelemetryProxy) RemoveCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarTelemetry, "removeCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionICarTelemetryRemoveCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

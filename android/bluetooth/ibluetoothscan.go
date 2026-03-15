@@ -69,7 +69,7 @@ func (p *BluetoothScanProxy) RegisterScanner(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "registerScanner")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothScanRegisterScanner
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -96,7 +96,7 @@ func (p *BluetoothScanProxy) UnregisterScanner(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "unregisterScanner")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothScanUnregisterScanner
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *BluetoothScanProxy) StartScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "startScan")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothScanStartScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -163,7 +163,7 @@ func (p *BluetoothScanProxy) StartScanForIntent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "startScanForIntent")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothScanStartScanForIntent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -190,7 +190,7 @@ func (p *BluetoothScanProxy) StopScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "stopScan")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothScanStopScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -216,7 +216,7 @@ func (p *BluetoothScanProxy) StopScanForIntent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "stopScanForIntent")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothScanStopScanForIntent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -243,7 +243,7 @@ func (p *BluetoothScanProxy) FlushPendingBatchResults(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "flushPendingBatchResults")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothScanFlushPendingBatchResults
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -274,7 +274,7 @@ func (p *BluetoothScanProxy) RegisterSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "registerSync")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothScanRegisterSync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -300,7 +300,7 @@ func (p *BluetoothScanProxy) UnregisterSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "unregisterSync")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothScanUnregisterSync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -334,7 +334,7 @@ func (p *BluetoothScanProxy) TransferSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "transferSync")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothScanTransferSync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -369,7 +369,7 @@ func (p *BluetoothScanProxy) TransferSetInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "transferSetInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothScanTransferSetInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -395,7 +395,7 @@ func (p *BluetoothScanProxy) NumHwTrackFiltersAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "numHwTrackFiltersAvailable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothScanNumHwTrackFiltersAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

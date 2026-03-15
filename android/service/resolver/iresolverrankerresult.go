@@ -55,7 +55,7 @@ func (p *ResolverRankerResultProxy) SendResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResolverRankerResult, "sendResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIResolverRankerResultSendResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

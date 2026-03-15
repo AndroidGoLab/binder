@@ -58,7 +58,7 @@ func (p *CallScreeningAdapterProxy) OnScreeningResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallScreeningAdapter, "onScreeningResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionICallScreeningAdapterOnScreeningResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

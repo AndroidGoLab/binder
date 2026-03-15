@@ -49,7 +49,7 @@ func (p *ProcessResultImplProxy) OnCaptureCompleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProcessResultImpl, "onCaptureCompleted")
 	if _err != nil {
-		return _err
+		_code = TransactionIProcessResultImplOnCaptureCompleted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -75,7 +75,7 @@ func (p *ProcessResultImplProxy) OnCaptureProcessProgressed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProcessResultImpl, "onCaptureProcessProgressed")
 	if _err != nil {
-		return _err
+		_code = TransactionIProcessResultImplOnCaptureProcessProgressed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

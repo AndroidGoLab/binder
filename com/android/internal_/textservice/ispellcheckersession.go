@@ -66,7 +66,7 @@ func (p *SpellCheckerSessionProxy) OnGetSuggestionsMultiple(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpellCheckerSession, "onGetSuggestionsMultiple")
 	if _err != nil {
-		return _err
+		_code = TransactionISpellCheckerSessionOnGetSuggestionsMultiple
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -94,7 +94,7 @@ func (p *SpellCheckerSessionProxy) OnGetSentenceSuggestionsMultiple(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpellCheckerSession, "onGetSentenceSuggestionsMultiple")
 	if _err != nil {
-		return _err
+		_code = TransactionISpellCheckerSessionOnGetSentenceSuggestionsMultiple
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *SpellCheckerSessionProxy) OnCancel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpellCheckerSession, "onCancel")
 	if _err != nil {
-		return _err
+		_code = TransactionISpellCheckerSessionOnCancel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -124,7 +124,7 @@ func (p *SpellCheckerSessionProxy) OnClose(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpellCheckerSession, "onClose")
 	if _err != nil {
-		return _err
+		_code = TransactionISpellCheckerSessionOnClose
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

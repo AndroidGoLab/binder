@@ -52,7 +52,7 @@ func (p *BluetoothMcpServiceManagerProxy) SetDeviceAuthorized(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothMcpServiceManager, "setDeviceAuthorized")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothMcpServiceManagerSetDeviceAuthorized
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

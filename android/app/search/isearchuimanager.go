@@ -66,7 +66,7 @@ func (p *SearchUiManagerProxy) CreateSearchSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchUiManager, "createSearchSession")
 	if _err != nil {
-		return _err
+		_code = TransactionISearchUiManagerCreateSearchSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -102,7 +102,7 @@ func (p *SearchUiManagerProxy) Query(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchUiManager, "query")
 	if _err != nil {
-		return _err
+		_code = TransactionISearchUiManagerQuery
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -141,7 +141,7 @@ func (p *SearchUiManagerProxy) NotifyEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchUiManager, "notifyEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionISearchUiManagerNotifyEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -172,7 +172,7 @@ func (p *SearchUiManagerProxy) RegisterEmptyQueryResultUpdateCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchUiManager, "registerEmptyQueryResultUpdateCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionISearchUiManagerRegisterEmptyQueryResultUpdateCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -203,7 +203,7 @@ func (p *SearchUiManagerProxy) UnregisterEmptyQueryResultUpdateCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchUiManager, "unregisterEmptyQueryResultUpdateCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionISearchUiManagerUnregisterEmptyQueryResultUpdateCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -232,7 +232,7 @@ func (p *SearchUiManagerProxy) DestroySearchSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchUiManager, "destroySearchSession")
 	if _err != nil {
-		return _err
+		_code = TransactionISearchUiManagerDestroySearchSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

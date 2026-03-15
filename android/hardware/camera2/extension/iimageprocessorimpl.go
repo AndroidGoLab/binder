@@ -56,7 +56,7 @@ func (p *ImageProcessorImplProxy) OnNextImageAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImageProcessorImpl, "onNextImageAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionIImageProcessorImplOnNextImageAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

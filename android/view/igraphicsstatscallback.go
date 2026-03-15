@@ -44,7 +44,7 @@ func (p *GraphicsStatsCallbackProxy) OnRotateGraphicsStatsBuffer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGraphicsStatsCallback, "onRotateGraphicsStatsBuffer")
 	if _err != nil {
-		return _err
+		_code = TransactionIGraphicsStatsCallbackOnRotateGraphicsStatsBuffer
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

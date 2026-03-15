@@ -52,7 +52,7 @@ func (p *AppTaskProxy) FinishAndRemoveTask(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppTask, "finishAndRemoveTask")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppTaskFinishAndRemoveTask
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -77,7 +77,7 @@ func (p *AppTaskProxy) GetTaskInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppTask, "getTaskInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAppTaskGetTaskInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -114,7 +114,7 @@ func (p *AppTaskProxy) MoveToFront(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppTask, "moveToFront")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppTaskMoveToFront
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -148,7 +148,7 @@ func (p *AppTaskProxy) StartActivity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppTask, "startActivity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAppTaskStartActivity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -178,7 +178,7 @@ func (p *AppTaskProxy) SetExcludeFromRecents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppTask, "setExcludeFromRecents")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppTaskSetExcludeFromRecents
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

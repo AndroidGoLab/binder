@@ -56,7 +56,7 @@ func (p *DynamicInstrumentationManagerProxy) GetExecutableMethodFileOffsets(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDynamicInstrumentationManager, "getExecutableMethodFileOffsets")
 	if _err != nil {
-		return _err
+		_code = TransactionIDynamicInstrumentationManagerGetExecutableMethodFileOffsets
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

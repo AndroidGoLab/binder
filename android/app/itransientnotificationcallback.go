@@ -46,7 +46,7 @@ func (p *TransientNotificationCallbackProxy) OnToastShown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITransientNotificationCallback, "onToastShown")
 	if _err != nil {
-		return _err
+		_code = TransactionITransientNotificationCallbackOnToastShown
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -61,7 +61,7 @@ func (p *TransientNotificationCallbackProxy) OnToastHidden(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITransientNotificationCallback, "onToastHidden")
 	if _err != nil {
-		return _err
+		_code = TransactionITransientNotificationCallbackOnToastHidden
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

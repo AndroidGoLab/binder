@@ -53,7 +53,7 @@ func (p *AdvancedProtectionServiceProxy) IsAdvancedProtectionEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedProtectionService, "isAdvancedProtectionEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAdvancedProtectionServiceIsAdvancedProtectionEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -83,7 +83,7 @@ func (p *AdvancedProtectionServiceProxy) RegisterAdvancedProtectionCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedProtectionService, "registerAdvancedProtectionCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIAdvancedProtectionServiceRegisterAdvancedProtectionCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -109,7 +109,7 @@ func (p *AdvancedProtectionServiceProxy) UnregisterAdvancedProtectionCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedProtectionService, "unregisterAdvancedProtectionCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIAdvancedProtectionServiceUnregisterAdvancedProtectionCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -135,7 +135,7 @@ func (p *AdvancedProtectionServiceProxy) SetAdvancedProtectionEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedProtectionService, "setAdvancedProtectionEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIAdvancedProtectionServiceSetAdvancedProtectionEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -160,7 +160,7 @@ func (p *AdvancedProtectionServiceProxy) GetAdvancedProtectionFeatures(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvancedProtectionService, "getAdvancedProtectionFeatures")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAdvancedProtectionServiceGetAdvancedProtectionFeatures
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

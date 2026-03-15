@@ -44,7 +44,7 @@ func (p *TimeDetectorListenerProxy) OnChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeDetectorListener, "onChange")
 	if _err != nil {
-		return _err
+		_code = TransactionITimeDetectorListenerOnChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

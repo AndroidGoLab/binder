@@ -50,7 +50,7 @@ func (p *PlayerCallbackProxy) OnSessionChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlayerCallback, "onSessionChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIPlayerCallbackOnSessionChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

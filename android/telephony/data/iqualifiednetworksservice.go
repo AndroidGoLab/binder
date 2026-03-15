@@ -54,7 +54,7 @@ func (p *QualifiedNetworksServiceProxy) CreateNetworkAvailabilityProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQualifiedNetworksService, "createNetworkAvailabilityProvider")
 	if _err != nil {
-		return _err
+		_code = TransactionIQualifiedNetworksServiceCreateNetworkAvailabilityProvider
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *QualifiedNetworksServiceProxy) RemoveNetworkAvailabilityProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQualifiedNetworksService, "removeNetworkAvailabilityProvider")
 	if _err != nil {
-		return _err
+		_code = TransactionIQualifiedNetworksServiceRemoveNetworkAvailabilityProvider
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -99,7 +99,7 @@ func (p *QualifiedNetworksServiceProxy) ReportThrottleStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQualifiedNetworksService, "reportThrottleStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIQualifiedNetworksServiceReportThrottleStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -118,7 +118,7 @@ func (p *QualifiedNetworksServiceProxy) ReportEmergencyDataNetworkPreferredTrans
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQualifiedNetworksService, "reportEmergencyDataNetworkPreferredTransportChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIQualifiedNetworksServiceReportEmergencyDataNetworkPreferredTransportChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

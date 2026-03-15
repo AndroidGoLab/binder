@@ -48,7 +48,7 @@ func (p *DvrCallbackProxy) OnPlaybackStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDvrCallback, "onPlaybackStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIDvrCallbackOnPlaybackStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *DvrCallbackProxy) OnRecordStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDvrCallback, "onRecordStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIDvrCallbackOnRecordStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

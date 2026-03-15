@@ -61,7 +61,7 @@ func (p *RestoreObserverProxy) RestoreSetsAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRestoreObserver, "restoreSetsAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionIRestoreObserverRestoreSetsAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *RestoreObserverProxy) RestoreStarting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRestoreObserver, "restoreStarting")
 	if _err != nil {
-		return _err
+		_code = TransactionIRestoreObserverRestoreStarting
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -97,7 +97,7 @@ func (p *RestoreObserverProxy) OnUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRestoreObserver, "onUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIRestoreObserverOnUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -114,7 +114,7 @@ func (p *RestoreObserverProxy) RestoreFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRestoreObserver, "restoreFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIRestoreObserverRestoreFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

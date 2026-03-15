@@ -62,7 +62,7 @@ func (p *GameSessionServiceProxy) Create(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGameSessionService, "create")
 	if _err != nil {
-		return _err
+		_code = TransactionIGameSessionServiceCreate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -56,7 +56,7 @@ func (p *GlanceableHubWidgetsListenerProxy) OnWidgetsUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGlanceableHubWidgetsListener, "onWidgetsUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIGlanceableHubWidgetsListenerOnWidgetsUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

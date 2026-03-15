@@ -55,7 +55,7 @@ func (p *RemoteTaskCallbackProxy) OnRemoteTaskRequested(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteTaskCallback, "onRemoteTaskRequested")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteTaskCallbackOnRemoteTaskRequested
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

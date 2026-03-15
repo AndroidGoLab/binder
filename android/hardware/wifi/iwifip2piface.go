@@ -45,7 +45,7 @@ func (p *WifiP2pIfaceProxy) GetName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiP2pIface, "getName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiP2pIfaceGetName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

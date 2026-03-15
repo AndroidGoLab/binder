@@ -49,7 +49,7 @@ func (p *CarPowerPolicySystemNotificationProxy) NotifyCarServiceReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicySystemNotification, "notifyCarServiceReady")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICarPowerPolicySystemNotificationNotifyCarServiceReady
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -86,7 +86,7 @@ func (p *CarPowerPolicySystemNotificationProxy) NotifyPowerPolicyChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicySystemNotification, "notifyPowerPolicyChange")
 	if _err != nil {
-		return _err
+		_code = TransactionICarPowerPolicySystemNotificationNotifyPowerPolicyChange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *CarPowerPolicySystemNotificationProxy) NotifyPowerPolicyDefinition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarPowerPolicySystemNotification, "notifyPowerPolicyDefinition")
 	if _err != nil {
-		return _err
+		_code = TransactionICarPowerPolicySystemNotificationNotifyPowerPolicyDefinition
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

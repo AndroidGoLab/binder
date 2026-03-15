@@ -46,7 +46,7 @@ func (p *InputFlingerRustProxy) CreateInputFilter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputFlingerRust, "createInputFilter")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputFlingerRustCreateInputFilter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

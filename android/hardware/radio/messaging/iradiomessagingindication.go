@@ -64,7 +64,7 @@ func (p *RadioMessagingIndicationProxy) CdmaNewSms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "cdmaNewSms")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingIndicationCdmaNewSms
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -81,7 +81,7 @@ func (p *RadioMessagingIndicationProxy) CdmaRuimSmsStorageFull(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "cdmaRuimSmsStorageFull")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingIndicationCdmaRuimSmsStorageFull
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -107,7 +107,7 @@ func (p *RadioMessagingIndicationProxy) NewBroadcastSms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "newBroadcastSms")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingIndicationNewBroadcastSms
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -133,7 +133,7 @@ func (p *RadioMessagingIndicationProxy) NewSms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "newSms")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingIndicationNewSms
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -152,7 +152,7 @@ func (p *RadioMessagingIndicationProxy) NewSmsOnSim(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "newSmsOnSim")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingIndicationNewSmsOnSim
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -178,7 +178,7 @@ func (p *RadioMessagingIndicationProxy) NewSmsStatusReport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "newSmsStatusReport")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingIndicationNewSmsStatusReport
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -195,7 +195,7 @@ func (p *RadioMessagingIndicationProxy) SimSmsStorageFull(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioMessagingIndication, "simSmsStorageFull")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioMessagingIndicationSimSmsStorageFull
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

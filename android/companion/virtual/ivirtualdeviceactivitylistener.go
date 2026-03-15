@@ -63,7 +63,7 @@ func (p *VirtualDeviceActivityListenerProxy) OnTopActivityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceActivityListener, "onTopActivityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualDeviceActivityListenerOnTopActivityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -80,7 +80,7 @@ func (p *VirtualDeviceActivityListenerProxy) OnDisplayEmpty(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceActivityListener, "onDisplayEmpty")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualDeviceActivityListenerOnDisplayEmpty
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -112,7 +112,7 @@ func (p *VirtualDeviceActivityListenerProxy) OnActivityLaunchBlocked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceActivityListener, "onActivityLaunchBlocked")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualDeviceActivityListenerOnActivityLaunchBlocked
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -139,7 +139,7 @@ func (p *VirtualDeviceActivityListenerProxy) OnSecureWindowShown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceActivityListener, "onSecureWindowShown")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualDeviceActivityListenerOnSecureWindowShown
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -156,7 +156,7 @@ func (p *VirtualDeviceActivityListenerProxy) OnSecureWindowHidden(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceActivityListener, "onSecureWindowHidden")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualDeviceActivityListenerOnSecureWindowHidden
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

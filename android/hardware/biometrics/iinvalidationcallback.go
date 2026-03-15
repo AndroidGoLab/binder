@@ -44,7 +44,7 @@ func (p *InvalidationCallbackProxy) OnCompleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInvalidationCallback, "onCompleted")
 	if _err != nil {
-		return _err
+		_code = TransactionIInvalidationCallbackOnCompleted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

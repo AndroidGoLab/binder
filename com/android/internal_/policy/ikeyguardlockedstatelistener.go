@@ -46,7 +46,7 @@ func (p *KeyguardLockedStateListenerProxy) OnKeyguardLockedStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardLockedStateListener, "onKeyguardLockedStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardLockedStateListenerOnKeyguardLockedStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

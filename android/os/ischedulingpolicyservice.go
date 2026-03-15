@@ -55,7 +55,7 @@ func (p *SchedulingPolicyServiceProxy) RequestPriority(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISchedulingPolicyService, "requestPriority")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISchedulingPolicyServiceRequestPriority
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -88,7 +88,7 @@ func (p *SchedulingPolicyServiceProxy) RequestCpusetBoost(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISchedulingPolicyService, "requestCpusetBoost")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISchedulingPolicyServiceRequestCpusetBoost
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

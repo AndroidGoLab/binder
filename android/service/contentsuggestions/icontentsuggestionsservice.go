@@ -65,7 +65,7 @@ func (p *ContentSuggestionsServiceProxy) ProvideContextImage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsService, "provideContextImage")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentSuggestionsServiceProvideContextImage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -87,7 +87,7 @@ func (p *ContentSuggestionsServiceProxy) SuggestContentSelections(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsService, "suggestContentSelections")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentSuggestionsServiceSuggestContentSelections
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *ContentSuggestionsServiceProxy) ClassifyContentSelections(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsService, "classifyContentSelections")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentSuggestionsServiceClassifyContentSelections
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -131,7 +131,7 @@ func (p *ContentSuggestionsServiceProxy) NotifyInteraction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsService, "notifyInteraction")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentSuggestionsServiceNotifyInteraction
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

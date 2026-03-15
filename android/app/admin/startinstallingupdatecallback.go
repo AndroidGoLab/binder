@@ -48,7 +48,7 @@ func (p *StartInstallingUpdateCallbackProxy) OnStartInstallingUpdateError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorStartInstallingUpdateCallback, "onStartInstallingUpdateError")
 	if _err != nil {
-		return _err
+		_code = TransactionStartInstallingUpdateCallbackOnStartInstallingUpdateError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

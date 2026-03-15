@@ -66,7 +66,7 @@ func (p *SmartspaceManagerProxy) CreateSmartspaceSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceManager, "createSmartspaceSession")
 	if _err != nil {
-		return _err
+		_code = TransactionISmartspaceManagerCreateSmartspaceSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -91,7 +91,7 @@ func (p *SmartspaceManagerProxy) NotifySmartspaceEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceManager, "notifySmartspaceEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionISmartspaceManagerNotifySmartspaceEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -111,7 +111,7 @@ func (p *SmartspaceManagerProxy) RequestSmartspaceUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceManager, "requestSmartspaceUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionISmartspaceManagerRequestSmartspaceUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -133,7 +133,7 @@ func (p *SmartspaceManagerProxy) RegisterSmartspaceUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceManager, "registerSmartspaceUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionISmartspaceManagerRegisterSmartspaceUpdates
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -155,7 +155,7 @@ func (p *SmartspaceManagerProxy) UnregisterSmartspaceUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceManager, "unregisterSmartspaceUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionISmartspaceManagerUnregisterSmartspaceUpdates
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -175,7 +175,7 @@ func (p *SmartspaceManagerProxy) DestroySmartspaceSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceManager, "destroySmartspaceSession")
 	if _err != nil {
-		return _err
+		_code = TransactionISmartspaceManagerDestroySmartspaceSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

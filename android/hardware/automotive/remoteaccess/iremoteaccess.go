@@ -69,7 +69,7 @@ func (p *RemoteAccessProxy) GetVehicleId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccess, "getVehicleId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRemoteAccessGetVehicleId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -98,7 +98,7 @@ func (p *RemoteAccessProxy) GetWakeupServiceName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccess, "getWakeupServiceName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRemoteAccessGetWakeupServiceName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -127,7 +127,7 @@ func (p *RemoteAccessProxy) GetProcessorId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccess, "getProcessorId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRemoteAccessGetProcessorId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -157,7 +157,7 @@ func (p *RemoteAccessProxy) SetRemoteTaskCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccess, "setRemoteTaskCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAccessSetRemoteTaskCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -181,7 +181,7 @@ func (p *RemoteAccessProxy) ClearRemoteTaskCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccess, "clearRemoteTaskCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAccessClearRemoteTaskCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -210,7 +210,7 @@ func (p *RemoteAccessProxy) NotifyApStateChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccess, "notifyApStateChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAccessNotifyApStateChange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -235,7 +235,7 @@ func (p *RemoteAccessProxy) IsTaskScheduleSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccess, "isTaskScheduleSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRemoteAccessIsTaskScheduleSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -264,7 +264,7 @@ func (p *RemoteAccessProxy) GetSupportedTaskTypesForScheduling(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccess, "getSupportedTaskTypesForScheduling")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRemoteAccessGetSupportedTaskTypesForScheduling
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -308,7 +308,7 @@ func (p *RemoteAccessProxy) ScheduleTask(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccess, "scheduleTask")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAccessScheduleTask
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -336,7 +336,7 @@ func (p *RemoteAccessProxy) UnscheduleTask(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccess, "unscheduleTask")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAccessUnscheduleTask
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -362,7 +362,7 @@ func (p *RemoteAccessProxy) UnscheduleAllTasks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccess, "unscheduleAllTasks")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAccessUnscheduleAllTasks
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -391,7 +391,7 @@ func (p *RemoteAccessProxy) IsTaskScheduled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccess, "isTaskScheduled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRemoteAccessIsTaskScheduled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -422,7 +422,7 @@ func (p *RemoteAccessProxy) GetAllPendingScheduledTasks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccess, "getAllPendingScheduledTasks")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRemoteAccessGetAllPendingScheduledTasks
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

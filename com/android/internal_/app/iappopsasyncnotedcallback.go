@@ -45,7 +45,7 @@ func (p *AppOpsAsyncNotedCallbackProxy) OpNoted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsAsyncNotedCallback, "opNoted")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsAsyncNotedCallbackOpNoted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

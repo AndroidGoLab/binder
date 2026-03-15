@@ -54,7 +54,7 @@ func (p *FactoryProxy) QueryEffects(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFactory, "queryEffects")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFactoryQueryEffects
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *FactoryProxy) QueryProcessing(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFactory, "queryProcessing")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFactoryQueryProcessing
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -132,7 +132,7 @@ func (p *FactoryProxy) CreateEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFactory, "createEffect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFactoryCreateEffect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -163,7 +163,7 @@ func (p *FactoryProxy) DestroyEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFactory, "destroyEffect")
 	if _err != nil {
-		return _err
+		_code = TransactionIFactoryDestroyEffect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

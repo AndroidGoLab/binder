@@ -120,7 +120,7 @@ func (p *SmsProxy) GetAllMessagesFromIccEfForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "getAllMessagesFromIccEfForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsGetAllMessagesFromIccEfForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -175,7 +175,7 @@ func (p *SmsProxy) UpdateMessageOnIccEfForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "updateMessageOnIccEfForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsUpdateMessageOnIccEfForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -228,7 +228,7 @@ func (p *SmsProxy) CopyMessageToIccEfForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "copyMessageToIccEfForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsCopyMessageToIccEfForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -287,7 +287,7 @@ func (p *SmsProxy) SendDataForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "sendDataForSubscriber")
 	if _err != nil {
-		return _err
+		_code = TransactionISmsSendDataForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -337,7 +337,7 @@ func (p *SmsProxy) SendTextForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "sendTextForSubscriber")
 	if _err != nil {
-		return _err
+		_code = TransactionISmsSendTextForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -391,7 +391,7 @@ func (p *SmsProxy) SendTextForSubscriberWithOptions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "sendTextForSubscriberWithOptions")
 	if _err != nil {
-		return _err
+		_code = TransactionISmsSendTextForSubscriberWithOptions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -433,7 +433,7 @@ func (p *SmsProxy) InjectSmsPduForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "injectSmsPduForSubscriber")
 	if _err != nil {
-		return _err
+		_code = TransactionISmsInjectSmsPduForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -502,7 +502,7 @@ func (p *SmsProxy) SendMultipartTextForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "sendMultipartTextForSubscriber")
 	if _err != nil {
-		return _err
+		_code = TransactionISmsSendMultipartTextForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -575,7 +575,7 @@ func (p *SmsProxy) SendMultipartTextForSubscriberWithOptions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "sendMultipartTextForSubscriberWithOptions")
 	if _err != nil {
-		return _err
+		_code = TransactionISmsSendMultipartTextForSubscriberWithOptions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -606,7 +606,7 @@ func (p *SmsProxy) EnableCellBroadcastForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "enableCellBroadcastForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsEnableCellBroadcastForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -641,7 +641,7 @@ func (p *SmsProxy) DisableCellBroadcastForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "disableCellBroadcastForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsDisableCellBroadcastForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -678,7 +678,7 @@ func (p *SmsProxy) EnableCellBroadcastRangeForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "enableCellBroadcastRangeForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsEnableCellBroadcastRangeForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -715,7 +715,7 @@ func (p *SmsProxy) DisableCellBroadcastRangeForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "disableCellBroadcastRangeForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsDisableCellBroadcastRangeForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -746,7 +746,7 @@ func (p *SmsProxy) GetPremiumSmsPermission(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "getPremiumSmsPermission")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsGetPremiumSmsPermission
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -779,7 +779,7 @@ func (p *SmsProxy) GetPremiumSmsPermissionForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "getPremiumSmsPermissionForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsGetPremiumSmsPermissionForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -811,7 +811,7 @@ func (p *SmsProxy) SetPremiumSmsPermission(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "setPremiumSmsPermission")
 	if _err != nil {
-		return _err
+		_code = TransactionISmsSetPremiumSmsPermission
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -841,7 +841,7 @@ func (p *SmsProxy) SetPremiumSmsPermissionForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "setPremiumSmsPermissionForSubscriber")
 	if _err != nil {
-		return _err
+		_code = TransactionISmsSetPremiumSmsPermissionForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -868,7 +868,7 @@ func (p *SmsProxy) IsImsSmsSupportedForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "isImsSmsSupportedForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsIsImsSmsSupportedForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -899,7 +899,7 @@ func (p *SmsProxy) IsSmsSimPickActivityNeeded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "isSmsSimPickActivityNeeded")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsIsSmsSimPickActivityNeeded
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -928,7 +928,7 @@ func (p *SmsProxy) GetPreferredSmsSubscription(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "getPreferredSmsSubscription")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsGetPreferredSmsSubscription
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -959,7 +959,7 @@ func (p *SmsProxy) GetImsSmsFormatForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "getImsSmsFormatForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsGetImsSmsFormatForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -988,7 +988,7 @@ func (p *SmsProxy) IsSMSPromptEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "isSMSPromptEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsIsSMSPromptEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1039,7 +1039,7 @@ func (p *SmsProxy) SendStoredText(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "sendStoredText")
 	if _err != nil {
-		return _err
+		_code = TransactionISmsSendStoredText
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1098,7 +1098,7 @@ func (p *SmsProxy) SendStoredMultipartText(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "sendStoredMultipartText")
 	if _err != nil {
-		return _err
+		_code = TransactionISmsSendStoredMultipartText
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1125,7 +1125,7 @@ func (p *SmsProxy) GetCarrierConfigValuesForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "getCarrierConfigValuesForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsGetCarrierConfigValuesForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1168,7 +1168,7 @@ func (p *SmsProxy) CreateAppSpecificSmsToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "createAppSpecificSmsToken")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsCreateAppSpecificSmsToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1208,7 +1208,7 @@ func (p *SmsProxy) CreateAppSpecificSmsTokenWithPackageInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "createAppSpecificSmsTokenWithPackageInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsCreateAppSpecificSmsTokenWithPackageInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1240,7 +1240,7 @@ func (p *SmsProxy) SetStorageMonitorMemoryStatusOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "setStorageMonitorMemoryStatusOverride")
 	if _err != nil {
-		return _err
+		_code = TransactionISmsSetStorageMonitorMemoryStatusOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1266,7 +1266,7 @@ func (p *SmsProxy) ClearStorageMonitorMemoryStatusOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "clearStorageMonitorMemoryStatusOverride")
 	if _err != nil {
-		return _err
+		_code = TransactionISmsClearStorageMonitorMemoryStatusOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1301,7 +1301,7 @@ func (p *SmsProxy) CheckSmsShortCodeDestination(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "checkSmsShortCodeDestination")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsCheckSmsShortCodeDestination
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1334,7 +1334,7 @@ func (p *SmsProxy) GetSmscAddressFromIccEfForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "getSmscAddressFromIccEfForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsGetSmscAddressFromIccEfForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1369,7 +1369,7 @@ func (p *SmsProxy) SetSmscAddressOnIccEfForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "setSmscAddressOnIccEfForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsSetSmscAddressOnIccEfForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1400,7 +1400,7 @@ func (p *SmsProxy) GetSmsCapacityOnIccForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "getSmsCapacityOnIccForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsGetSmsCapacityOnIccForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1431,7 +1431,7 @@ func (p *SmsProxy) ResetAllCellBroadcastRanges(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "resetAllCellBroadcastRanges")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsResetAllCellBroadcastRanges
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1462,7 +1462,7 @@ func (p *SmsProxy) GetWapMessageSize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISms, "getWapMessageSize")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISmsGetWapMessageSize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -72,7 +72,7 @@ func (p *ContentSuggestionsManagerProxy) ProvideContextImage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsManager, "provideContextImage")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentSuggestionsManagerProvideContextImage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -99,7 +99,7 @@ func (p *ContentSuggestionsManagerProxy) ProvideContextBitmap(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsManager, "provideContextBitmap")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentSuggestionsManagerProvideContextBitmap
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -123,7 +123,7 @@ func (p *ContentSuggestionsManagerProxy) SuggestContentSelections(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsManager, "suggestContentSelections")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentSuggestionsManagerSuggestContentSelections
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -147,7 +147,7 @@ func (p *ContentSuggestionsManagerProxy) ClassifyContentSelections(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsManager, "classifyContentSelections")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentSuggestionsManagerClassifyContentSelections
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -171,7 +171,7 @@ func (p *ContentSuggestionsManagerProxy) NotifyInteraction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsManager, "notifyInteraction")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentSuggestionsManagerNotifyInteraction
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -190,7 +190,7 @@ func (p *ContentSuggestionsManagerProxy) IsEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsManager, "isEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentSuggestionsManagerIsEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -207,7 +207,7 @@ func (p *ContentSuggestionsManagerProxy) ResetTemporaryService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsManager, "resetTemporaryService")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentSuggestionsManagerResetTemporaryService
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -228,7 +228,7 @@ func (p *ContentSuggestionsManagerProxy) SetTemporaryService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsManager, "setTemporaryService")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentSuggestionsManagerSetTemporaryService
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -247,7 +247,7 @@ func (p *ContentSuggestionsManagerProxy) SetDefaultServiceEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentSuggestionsManager, "setDefaultServiceEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentSuggestionsManagerSetDefaultServiceEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

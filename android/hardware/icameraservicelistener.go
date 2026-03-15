@@ -76,7 +76,7 @@ func (p *CameraServiceListenerProxy) OnStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceListenerOnStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -99,7 +99,7 @@ func (p *CameraServiceListenerProxy) OnPhysicalCameraStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onPhysicalCameraStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceListenerOnPhysicalCameraStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -120,7 +120,7 @@ func (p *CameraServiceListenerProxy) OnTorchStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onTorchStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceListenerOnTorchStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -141,7 +141,7 @@ func (p *CameraServiceListenerProxy) OnTorchStrengthLevelChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onTorchStrengthLevelChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceListenerOnTorchStrengthLevelChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -156,7 +156,7 @@ func (p *CameraServiceListenerProxy) OnCameraAccessPrioritiesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onCameraAccessPrioritiesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceListenerOnCameraAccessPrioritiesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -177,7 +177,7 @@ func (p *CameraServiceListenerProxy) OnCameraOpened(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onCameraOpened")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceListenerOnCameraOpened
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -200,7 +200,7 @@ func (p *CameraServiceListenerProxy) OnCameraOpenedInSharedMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onCameraOpenedInSharedMode")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceListenerOnCameraOpenedInSharedMode
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -219,7 +219,7 @@ func (p *CameraServiceListenerProxy) OnCameraClosed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onCameraClosed")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceListenerOnCameraClosed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

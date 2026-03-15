@@ -48,7 +48,7 @@ func (p *S2LevelCallbackProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIS2LevelCallback, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIS2LevelCallbackOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *S2LevelCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIS2LevelCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIS2LevelCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

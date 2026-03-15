@@ -57,7 +57,7 @@ func (p *AmbientContextObserverProxy) OnEvents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAmbientContextObserver, "onEvents")
 	if _err != nil {
-		return _err
+		_code = TransactionIAmbientContextObserverOnEvents
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -74,7 +74,7 @@ func (p *AmbientContextObserverProxy) OnRegistrationComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAmbientContextObserver, "onRegistrationComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIAmbientContextObserverOnRegistrationComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

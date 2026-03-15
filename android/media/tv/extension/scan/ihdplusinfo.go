@@ -49,7 +49,7 @@ func (p *HDPlusInfoProxy) SetHDPlusInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHDPlusInfo, "setHDPlusInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHDPlusInfoSetHDPlusInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

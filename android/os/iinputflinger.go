@@ -52,7 +52,7 @@ func (p *InputFlingerProxy) CreateInputChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputFlinger, "createInputChannel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputFlingerCreateInputChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -87,7 +87,7 @@ func (p *InputFlingerProxy) RemoveInputChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputFlinger, "removeInputChannel")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputFlingerRemoveInputChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -116,7 +116,7 @@ func (p *InputFlingerProxy) SetFocusedWindow(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputFlinger, "setFocusedWindow")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputFlingerSetFocusedWindow
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

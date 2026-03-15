@@ -59,7 +59,7 @@ func (p *OnDeviceSandboxedInferenceServiceProxy) RegisterRemoteStorageService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceSandboxedInferenceService, "registerRemoteStorageService")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceSandboxedInferenceServiceRegisterRemoteStorageService
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -93,7 +93,7 @@ func (p *OnDeviceSandboxedInferenceServiceProxy) RequestTokenInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceSandboxedInferenceService, "requestTokenInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceSandboxedInferenceServiceRequestTokenInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -134,7 +134,7 @@ func (p *OnDeviceSandboxedInferenceServiceProxy) ProcessRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceSandboxedInferenceService, "processRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceSandboxedInferenceServiceProcessRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -175,7 +175,7 @@ func (p *OnDeviceSandboxedInferenceServiceProxy) ProcessRequestStreaming(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceSandboxedInferenceService, "processRequestStreaming")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceSandboxedInferenceServiceProcessRequestStreaming
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -197,7 +197,7 @@ func (p *OnDeviceSandboxedInferenceServiceProxy) UpdateProcessingState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDeviceSandboxedInferenceService, "updateProcessingState")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDeviceSandboxedInferenceServiceUpdateProcessingState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

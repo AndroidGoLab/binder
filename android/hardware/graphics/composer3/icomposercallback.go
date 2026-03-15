@@ -66,7 +66,7 @@ func (p *ComposerCallbackProxy) OnHotplug(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onHotplug")
 	if _err != nil {
-		return _err
+		_code = TransactionIComposerCallbackOnHotplug
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -92,7 +92,7 @@ func (p *ComposerCallbackProxy) OnRefresh(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onRefresh")
 	if _err != nil {
-		return _err
+		_code = TransactionIComposerCallbackOnRefresh
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *ComposerCallbackProxy) OnSeamlessPossible(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onSeamlessPossible")
 	if _err != nil {
-		return _err
+		_code = TransactionIComposerCallbackOnSeamlessPossible
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -130,7 +130,7 @@ func (p *ComposerCallbackProxy) OnVsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onVsync")
 	if _err != nil {
-		return _err
+		_code = TransactionIComposerCallbackOnVsync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -152,7 +152,7 @@ func (p *ComposerCallbackProxy) OnVsyncPeriodTimingChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onVsyncPeriodTimingChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIComposerCallbackOnVsyncPeriodTimingChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -169,7 +169,7 @@ func (p *ComposerCallbackProxy) OnVsyncIdle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onVsyncIdle")
 	if _err != nil {
-		return _err
+		_code = TransactionIComposerCallbackOnVsyncIdle
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -189,7 +189,7 @@ func (p *ComposerCallbackProxy) OnRefreshRateChangedDebug(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onRefreshRateChangedDebug")
 	if _err != nil {
-		return _err
+		_code = TransactionIComposerCallbackOnRefreshRateChangedDebug
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -208,7 +208,7 @@ func (p *ComposerCallbackProxy) OnHotplugEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onHotplugEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIComposerCallbackOnHotplugEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -239,7 +239,7 @@ func (p *ComposerCallbackProxy) OnHdcpLevelsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComposerCallback, "onHdcpLevelsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIComposerCallbackOnHdcpLevelsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -54,7 +54,7 @@ func (p *UserSwitchObserverProxy) OnBeforeUserSwitching(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserSwitchObserver, "onBeforeUserSwitching")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserSwitchObserverOnBeforeUserSwitching
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -81,7 +81,7 @@ func (p *UserSwitchObserverProxy) OnUserSwitching(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserSwitchObserver, "onUserSwitching")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserSwitchObserverOnUserSwitching
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -98,7 +98,7 @@ func (p *UserSwitchObserverProxy) OnUserSwitchComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserSwitchObserver, "onUserSwitchComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserSwitchObserverOnUserSwitchComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -115,7 +115,7 @@ func (p *UserSwitchObserverProxy) OnForegroundProfileSwitch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserSwitchObserver, "onForegroundProfileSwitch")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserSwitchObserverOnForegroundProfileSwitch
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -132,7 +132,7 @@ func (p *UserSwitchObserverProxy) OnLockedBootComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserSwitchObserver, "onLockedBootComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserSwitchObserverOnLockedBootComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -73,7 +73,7 @@ func (p *TunerFrontendProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFrontendSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -102,7 +102,7 @@ func (p *TunerFrontendProxy) Tune(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "tune")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFrontendTune
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -126,7 +126,7 @@ func (p *TunerFrontendProxy) StopTune(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "stopTune")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFrontendStopTune
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -157,7 +157,7 @@ func (p *TunerFrontendProxy) Scan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "scan")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFrontendScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -181,7 +181,7 @@ func (p *TunerFrontendProxy) StopScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "stopScan")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFrontendStopScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -207,7 +207,7 @@ func (p *TunerFrontendProxy) SetLnb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "setLnb")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFrontendSetLnb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -234,7 +234,7 @@ func (p *TunerFrontendProxy) LinkCiCamToFrontend(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "linkCiCamToFrontend")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerFrontendLinkCiCamToFrontend
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -264,7 +264,7 @@ func (p *TunerFrontendProxy) UnlinkCiCamToFrontend(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "unlinkCiCamToFrontend")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFrontendUnlinkCiCamToFrontend
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -288,7 +288,7 @@ func (p *TunerFrontendProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFrontendClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -322,7 +322,7 @@ func (p *TunerFrontendProxy) GetStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "getStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerFrontendGetStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -360,7 +360,7 @@ func (p *TunerFrontendProxy) GetFrontendId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "getFrontendId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerFrontendGetFrontendId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -389,7 +389,7 @@ func (p *TunerFrontendProxy) GetHardwareInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "getHardwareInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerFrontendGetHardwareInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -419,7 +419,7 @@ func (p *TunerFrontendProxy) RemoveOutputPid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "removeOutputPid")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFrontendRemoveOutputPid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -453,7 +453,7 @@ func (p *TunerFrontendProxy) GetFrontendStatusReadiness(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontend, "getFrontendStatusReadiness")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerFrontendGetFrontendStatusReadiness
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

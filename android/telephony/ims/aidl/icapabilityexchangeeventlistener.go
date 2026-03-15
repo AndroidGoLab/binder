@@ -54,7 +54,7 @@ func (p *CapabilityExchangeEventListenerProxy) OnRequestPublishCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICapabilityExchangeEventListener, "onRequestPublishCapabilities")
 	if _err != nil {
-		return _err
+		_code = TransactionICapabilityExchangeEventListenerOnRequestPublishCapabilities
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *CapabilityExchangeEventListenerProxy) OnUnpublish(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICapabilityExchangeEventListener, "onUnpublish")
 	if _err != nil {
-		return _err
+		_code = TransactionICapabilityExchangeEventListenerOnUnpublish
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -89,7 +89,7 @@ func (p *CapabilityExchangeEventListenerProxy) OnPublishUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICapabilityExchangeEventListener, "onPublishUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionICapabilityExchangeEventListenerOnPublishUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -120,7 +120,7 @@ func (p *CapabilityExchangeEventListenerProxy) OnRemoteCapabilityRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICapabilityExchangeEventListener, "onRemoteCapabilityRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionICapabilityExchangeEventListenerOnRemoteCapabilityRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

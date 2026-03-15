@@ -74,7 +74,7 @@ func (p *AttestationVerificationManagerServiceProxy) VerifyAttestation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAttestationVerificationManagerService, "verifyAttestation")
 	if _err != nil {
-		return _err
+		_code = TransactionIAttestationVerificationManagerServiceVerifyAttestation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -100,7 +100,7 @@ func (p *AttestationVerificationManagerServiceProxy) VerifyToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAttestationVerificationManagerService, "verifyToken")
 	if _err != nil {
-		return _err
+		_code = TransactionIAttestationVerificationManagerServiceVerifyToken
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

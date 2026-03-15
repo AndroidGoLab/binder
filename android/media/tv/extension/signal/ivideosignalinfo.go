@@ -53,7 +53,7 @@ func (p *VideoSignalInfoProxy) AddVideoSignalInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVideoSignalInfo, "addVideoSignalInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIVideoSignalInfoAddVideoSignalInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -79,7 +79,7 @@ func (p *VideoSignalInfoProxy) RemoveVideoSignalInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVideoSignalInfo, "removeVideoSignalInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIVideoSignalInfoRemoveVideoSignalInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -106,7 +106,7 @@ func (p *VideoSignalInfoProxy) GetVideoSignalInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVideoSignalInfo, "getVideoSignalInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVideoSignalInfoGetVideoSignalInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

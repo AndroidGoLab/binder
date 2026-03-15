@@ -44,7 +44,7 @@ func (p *RecommendationsChangeListenerProxy) OnRecommendationsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecommendationsChangeListener, "onRecommendationsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecommendationsChangeListenerOnRecommendationsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

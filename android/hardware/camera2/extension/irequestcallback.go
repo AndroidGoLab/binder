@@ -62,7 +62,7 @@ func (p *RequestCallbackProxy) OnCaptureStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRequestCallback, "onCaptureStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIRequestCallbackOnCaptureStarted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *RequestCallbackProxy) OnCaptureProgressed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRequestCallback, "onCaptureProgressed")
 	if _err != nil {
-		return _err
+		_code = TransactionIRequestCallbackOnCaptureProgressed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -124,7 +124,7 @@ func (p *RequestCallbackProxy) OnCaptureCompleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRequestCallback, "onCaptureCompleted")
 	if _err != nil {
-		return _err
+		_code = TransactionIRequestCallbackOnCaptureCompleted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -155,7 +155,7 @@ func (p *RequestCallbackProxy) OnCaptureFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRequestCallback, "onCaptureFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIRequestCallbackOnCaptureFailed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -185,7 +185,7 @@ func (p *RequestCallbackProxy) OnCaptureBufferLost(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRequestCallback, "onCaptureBufferLost")
 	if _err != nil {
-		return _err
+		_code = TransactionIRequestCallbackOnCaptureBufferLost
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -213,7 +213,7 @@ func (p *RequestCallbackProxy) OnCaptureSequenceCompleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRequestCallback, "onCaptureSequenceCompleted")
 	if _err != nil {
-		return _err
+		_code = TransactionIRequestCallbackOnCaptureSequenceCompleted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -239,7 +239,7 @@ func (p *RequestCallbackProxy) OnCaptureSequenceAborted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRequestCallback, "onCaptureSequenceAborted")
 	if _err != nil {
-		return _err
+		_code = TransactionIRequestCallbackOnCaptureSequenceAborted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

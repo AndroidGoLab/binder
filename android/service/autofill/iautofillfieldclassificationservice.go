@@ -92,7 +92,7 @@ func (p *AutofillFieldClassificationServiceProxy) CalculateScores(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutofillFieldClassificationService, "calculateScores")
 	if _err != nil {
-		return _err
+		_code = TransactionIAutofillFieldClassificationServiceCalculateScores
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

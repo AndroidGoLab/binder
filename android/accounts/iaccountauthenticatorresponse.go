@@ -49,7 +49,7 @@ func (p *AccountAuthenticatorResponseProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticatorResponse, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorResponseOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -64,7 +64,7 @@ func (p *AccountAuthenticatorResponseProxy) OnRequestContinued(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticatorResponse, "onRequestContinued")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorResponseOnRequestContinued
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -83,7 +83,7 @@ func (p *AccountAuthenticatorResponseProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountAuthenticatorResponse, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountAuthenticatorResponseOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

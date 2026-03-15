@@ -45,7 +45,7 @@ func (p *TranslationCallbackProxy) OnTranslationResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationCallback, "onTranslationResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionITranslationCallbackOnTranslationResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

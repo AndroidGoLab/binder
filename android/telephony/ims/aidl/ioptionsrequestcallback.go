@@ -54,7 +54,7 @@ func (p *OptionsRequestCallbackProxy) RespondToCapabilityRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOptionsRequestCallback, "respondToCapabilityRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIOptionsRequestCallbackRespondToCapabilityRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -73,7 +73,7 @@ func (p *OptionsRequestCallbackProxy) RespondToCapabilityRequestWithError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOptionsRequestCallback, "respondToCapabilityRequestWithError")
 	if _err != nil {
-		return _err
+		_code = TransactionIOptionsRequestCallbackRespondToCapabilityRequestWithError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

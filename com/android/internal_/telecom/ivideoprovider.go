@@ -70,7 +70,7 @@ func (p *VideoProviderProxy) AddVideoCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "addVideoCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIVideoProviderAddVideoCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -87,7 +87,7 @@ func (p *VideoProviderProxy) RemoveVideoCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "removeVideoCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIVideoProviderRemoveVideoCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -108,7 +108,7 @@ func (p *VideoProviderProxy) SetCamera(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "setCamera")
 	if _err != nil {
-		return _err
+		_code = TransactionIVideoProviderSetCamera
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -124,7 +124,7 @@ func (p *VideoProviderProxy) SetPreviewSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "setPreviewSurface")
 	if _err != nil {
-		return _err
+		_code = TransactionIVideoProviderSetPreviewSurface
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -140,7 +140,7 @@ func (p *VideoProviderProxy) SetDisplaySurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "setDisplaySurface")
 	if _err != nil {
-		return _err
+		_code = TransactionIVideoProviderSetDisplaySurface
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -157,7 +157,7 @@ func (p *VideoProviderProxy) SetDeviceOrientation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "setDeviceOrientation")
 	if _err != nil {
-		return _err
+		_code = TransactionIVideoProviderSetDeviceOrientation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -174,7 +174,7 @@ func (p *VideoProviderProxy) SetZoom(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "setZoom")
 	if _err != nil {
-		return _err
+		_code = TransactionIVideoProviderSetZoom
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -199,7 +199,7 @@ func (p *VideoProviderProxy) SendSessionModifyRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "sendSessionModifyRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIVideoProviderSendSessionModifyRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -219,7 +219,7 @@ func (p *VideoProviderProxy) SendSessionModifyResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "sendSessionModifyResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIVideoProviderSendSessionModifyResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -234,7 +234,7 @@ func (p *VideoProviderProxy) RequestCameraCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "requestCameraCapabilities")
 	if _err != nil {
-		return _err
+		_code = TransactionIVideoProviderRequestCameraCapabilities
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -249,7 +249,7 @@ func (p *VideoProviderProxy) RequestCallDataUsage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "requestCallDataUsage")
 	if _err != nil {
-		return _err
+		_code = TransactionIVideoProviderRequestCallDataUsage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -269,7 +269,7 @@ func (p *VideoProviderProxy) SetPauseImage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVideoProvider, "setPauseImage")
 	if _err != nil {
-		return _err
+		_code = TransactionIVideoProviderSetPauseImage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

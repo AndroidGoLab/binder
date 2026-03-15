@@ -57,7 +57,7 @@ func (p *RestrictionsManagerProxy) GetApplicationRestrictions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRestrictionsManager, "getApplicationRestrictions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRestrictionsManagerGetApplicationRestrictions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -86,7 +86,7 @@ func (p *RestrictionsManagerProxy) GetApplicationRestrictionsPerAdminForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRestrictionsManager, "getApplicationRestrictionsPerAdminForUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRestrictionsManagerGetApplicationRestrictionsPerAdminForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -121,7 +121,7 @@ func (p *RestrictionsManagerProxy) HasRestrictionsProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRestrictionsManager, "hasRestrictionsProvider")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRestrictionsManagerHasRestrictionsProvider
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -156,7 +156,7 @@ func (p *RestrictionsManagerProxy) RequestPermission(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRestrictionsManager, "requestPermission")
 	if _err != nil {
-		return _err
+		_code = TransactionIRestrictionsManagerRequestPermission
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -183,7 +183,7 @@ func (p *RestrictionsManagerProxy) NotifyPermissionResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRestrictionsManager, "notifyPermissionResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRestrictionsManagerNotifyPermissionResponse
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -208,7 +208,7 @@ func (p *RestrictionsManagerProxy) CreateLocalApprovalIntent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRestrictionsManager, "createLocalApprovalIntent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRestrictionsManagerCreateLocalApprovalIntent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

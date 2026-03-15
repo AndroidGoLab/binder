@@ -53,7 +53,7 @@ func (p *SatelliteDisallowedReasonsCallbackProxy) OnSatelliteDisallowedReasonsCh
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteDisallowedReasonsCallback, "onSatelliteDisallowedReasonsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteDisallowedReasonsCallbackOnSatelliteDisallowedReasonsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -46,7 +46,7 @@ func (p *ClearCredentialStateCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIClearCredentialStateCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIClearCredentialStateCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *ClearCredentialStateCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIClearCredentialStateCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIClearCredentialStateCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

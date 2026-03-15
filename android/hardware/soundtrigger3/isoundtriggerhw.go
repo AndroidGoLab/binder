@@ -68,7 +68,7 @@ func (p *SoundTriggerHwProxy) GetProperties(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerHw, "getProperties")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISoundTriggerHwGetProperties
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -103,7 +103,7 @@ func (p *SoundTriggerHwProxy) RegisterGlobalCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerHw, "registerGlobalCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundTriggerHwRegisterGlobalCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -135,7 +135,7 @@ func (p *SoundTriggerHwProxy) LoadSoundModel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerHw, "loadSoundModel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISoundTriggerHwLoadSoundModel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -171,7 +171,7 @@ func (p *SoundTriggerHwProxy) LoadPhraseSoundModel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerHw, "loadPhraseSoundModel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISoundTriggerHwLoadPhraseSoundModel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -201,7 +201,7 @@ func (p *SoundTriggerHwProxy) UnloadSoundModel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerHw, "unloadSoundModel")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundTriggerHwUnloadSoundModel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -236,7 +236,7 @@ func (p *SoundTriggerHwProxy) StartRecognition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerHw, "startRecognition")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundTriggerHwStartRecognition
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -262,7 +262,7 @@ func (p *SoundTriggerHwProxy) StopRecognition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerHw, "stopRecognition")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundTriggerHwStopRecognition
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -288,7 +288,7 @@ func (p *SoundTriggerHwProxy) ForceRecognitionEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerHw, "forceRecognitionEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundTriggerHwForceRecognitionEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -317,7 +317,7 @@ func (p *SoundTriggerHwProxy) QueryParameter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerHw, "queryParameter")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISoundTriggerHwQueryParameter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -355,7 +355,7 @@ func (p *SoundTriggerHwProxy) GetParameter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerHw, "getParameter")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISoundTriggerHwGetParameter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -389,7 +389,7 @@ func (p *SoundTriggerHwProxy) SetParameter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerHw, "setParameter")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundTriggerHwSetParameter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

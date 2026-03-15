@@ -48,7 +48,7 @@ func (p *OptionsResponseCallbackProxy) OnCommandError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOptionsResponseCallback, "onCommandError")
 	if _err != nil {
-		return _err
+		_code = TransactionIOptionsResponseCallbackOnCommandError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -76,7 +76,7 @@ func (p *OptionsResponseCallbackProxy) OnNetworkResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOptionsResponseCallback, "onNetworkResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIOptionsResponseCallbackOnNetworkResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

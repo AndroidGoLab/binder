@@ -46,7 +46,7 @@ func (p *ImsEcbmListenerProxy) EnteredECBM(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsEcbmListener, "enteredECBM")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsEcbmListenerEnteredECBM
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -61,7 +61,7 @@ func (p *ImsEcbmListenerProxy) ExitedECBM(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsEcbmListener, "exitedECBM")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsEcbmListenerExitedECBM
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

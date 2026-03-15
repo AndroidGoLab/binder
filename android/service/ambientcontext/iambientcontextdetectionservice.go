@@ -67,7 +67,7 @@ func (p *AmbientContextDetectionServiceProxy) StartDetection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAmbientContextDetectionService, "startDetection")
 	if _err != nil {
-		return _err
+		_code = TransactionIAmbientContextDetectionServiceStartDetection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -84,7 +84,7 @@ func (p *AmbientContextDetectionServiceProxy) StopDetection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAmbientContextDetectionService, "stopDetection")
 	if _err != nil {
-		return _err
+		_code = TransactionIAmbientContextDetectionServiceStopDetection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -115,7 +115,7 @@ func (p *AmbientContextDetectionServiceProxy) QueryServiceStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAmbientContextDetectionService, "queryServiceStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIAmbientContextDetectionServiceQueryServiceStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

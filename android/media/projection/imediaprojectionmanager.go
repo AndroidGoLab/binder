@@ -89,7 +89,7 @@ func (p *MediaProjectionManagerProxy) HasProjectionPermission(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "hasProjectionPermission")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaProjectionManagerHasProjectionPermission
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -128,7 +128,7 @@ func (p *MediaProjectionManagerProxy) CreateProjection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "createProjection")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaProjectionManagerCreateProjection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -162,7 +162,7 @@ func (p *MediaProjectionManagerProxy) GetProjection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "getProjection")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaProjectionManagerGetProjection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -194,7 +194,7 @@ func (p *MediaProjectionManagerProxy) IsCurrentProjection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "isCurrentProjection")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaProjectionManagerIsCurrentProjection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -224,7 +224,7 @@ func (p *MediaProjectionManagerProxy) RequestConsentForInvalidProjection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "requestConsentForInvalidProjection")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionManagerRequestConsentForInvalidProjection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -249,7 +249,7 @@ func (p *MediaProjectionManagerProxy) GetActiveProjectionInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "getActiveProjectionInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaProjectionManagerGetActiveProjectionInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -284,7 +284,7 @@ func (p *MediaProjectionManagerProxy) StopActiveProjection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "stopActiveProjection")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionManagerStopActiveProjection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -310,7 +310,7 @@ func (p *MediaProjectionManagerProxy) NotifyActiveProjectionCapturedContentVisib
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "notifyActiveProjectionCapturedContentVisibilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionManagerNotifyActiveProjectionCapturedContentVisibilityChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -337,7 +337,7 @@ func (p *MediaProjectionManagerProxy) AddCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "addCallback")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaProjectionManagerAddCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -372,7 +372,7 @@ func (p *MediaProjectionManagerProxy) RemoveCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "removeCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionManagerRemoveCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -400,7 +400,7 @@ func (p *MediaProjectionManagerProxy) SetContentRecordingSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "setContentRecordingSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaProjectionManagerSetContentRecordingSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -436,7 +436,7 @@ func (p *MediaProjectionManagerProxy) SetUserReviewGrantedConsentResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "setUserReviewGrantedConsentResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionManagerSetUserReviewGrantedConsentResult
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -464,7 +464,7 @@ func (p *MediaProjectionManagerProxy) NotifyPermissionRequestInitiated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "notifyPermissionRequestInitiated")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionManagerNotifyPermissionRequestInitiated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -481,7 +481,7 @@ func (p *MediaProjectionManagerProxy) NotifyPermissionRequestDisplayed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "notifyPermissionRequestDisplayed")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionManagerNotifyPermissionRequestDisplayed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -498,7 +498,7 @@ func (p *MediaProjectionManagerProxy) NotifyPermissionRequestCancelled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "notifyPermissionRequestCancelled")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionManagerNotifyPermissionRequestCancelled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -515,7 +515,7 @@ func (p *MediaProjectionManagerProxy) NotifyAppSelectorDisplayed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "notifyAppSelectorDisplayed")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionManagerNotifyAppSelectorDisplayed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -536,7 +536,7 @@ func (p *MediaProjectionManagerProxy) NotifyWindowingModeChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "notifyWindowingModeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionManagerNotifyWindowingModeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -560,7 +560,7 @@ func (p *MediaProjectionManagerProxy) NotifyCaptureBoundsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "notifyCaptureBoundsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionManagerNotifyCaptureBoundsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

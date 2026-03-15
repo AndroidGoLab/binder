@@ -48,7 +48,7 @@ func (p *GameSessionProxy) OnDestroyed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGameSession, "onDestroyed")
 	if _err != nil {
-		return _err
+		_code = TransactionIGameSessionOnDestroyed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *GameSessionProxy) OnTransientSystemBarVisibilityFromRevealGestureChange
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGameSession, "onTransientSystemBarVisibilityFromRevealGestureChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIGameSessionOnTransientSystemBarVisibilityFromRevealGestureChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -82,7 +82,7 @@ func (p *GameSessionProxy) OnTaskFocusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGameSession, "onTaskFocusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIGameSessionOnTaskFocusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

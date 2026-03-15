@@ -45,7 +45,7 @@ func (p *ContentCaptureOptionsCallbackProxy) SetContentCaptureOptions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureOptionsCallback, "setContentCaptureOptions")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureOptionsCallbackSetContentCaptureOptions
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

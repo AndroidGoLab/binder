@@ -52,7 +52,7 @@ func (p *EffectClientProxy) ControlStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffectClient, "controlStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIEffectClientControlStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *EffectClientProxy) EnableStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffectClient, "enableStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIEffectClientEnableStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -104,7 +104,7 @@ func (p *EffectClientProxy) CommandExecuted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffectClient, "commandExecuted")
 	if _err != nil {
-		return _err
+		_code = TransactionIEffectClientCommandExecuted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -121,7 +121,7 @@ func (p *EffectClientProxy) FramesProcessed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffectClient, "framesProcessed")
 	if _err != nil {
-		return _err
+		_code = TransactionIEffectClientFramesProcessed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

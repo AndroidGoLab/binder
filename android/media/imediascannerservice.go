@@ -52,7 +52,7 @@ func (p *MediaScannerServiceProxy) RequestScanFile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaScannerService, "requestScanFile")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaScannerServiceRequestScanFile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -80,7 +80,7 @@ func (p *MediaScannerServiceProxy) ScanFile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaScannerService, "scanFile")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaScannerServiceScanFile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

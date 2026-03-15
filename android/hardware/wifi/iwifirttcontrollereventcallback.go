@@ -57,7 +57,7 @@ func (p *WifiRttControllerEventCallbackProxy) OnResults(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiRttControllerEventCallback, "onResults")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiRttControllerEventCallbackOnResults
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -57,7 +57,7 @@ func (p *InterceptorProxy) CreateSocket(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInterceptor, "createSocket")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInterceptorCreateSocket
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -95,7 +95,7 @@ func (p *InterceptorProxy) CloseSocket(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInterceptor, "closeSocket")
 	if _err != nil {
-		return _err
+		_code = TransactionIInterceptorCloseSocket
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -126,7 +126,7 @@ func (p *InterceptorProxy) SubscribeGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInterceptor, "subscribeGroup")
 	if _err != nil {
-		return _err
+		_code = TransactionIInterceptorSubscribeGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -157,7 +157,7 @@ func (p *InterceptorProxy) UnsubscribeGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInterceptor, "unsubscribeGroup")
 	if _err != nil {
-		return _err
+		_code = TransactionIInterceptorUnsubscribeGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

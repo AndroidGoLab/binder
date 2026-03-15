@@ -70,7 +70,7 @@ func (p *ComponentStoreProxy) CopyBuffer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponentStore, "copyBuffer")
 	if _err != nil {
-		return _err
+		_code = TransactionIComponentStoreCopyBuffer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -101,7 +101,7 @@ func (p *ComponentStoreProxy) CreateComponent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponentStore, "createComponent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIComponentStoreCreateComponent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -133,7 +133,7 @@ func (p *ComponentStoreProxy) CreateInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponentStore, "createInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIComponentStoreCreateInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -163,7 +163,7 @@ func (p *ComponentStoreProxy) GetConfigurable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponentStore, "getConfigurable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIComponentStoreGetConfigurable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -193,7 +193,7 @@ func (p *ComponentStoreProxy) GetPoolClientManager(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponentStore, "getPoolClientManager")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIComponentStoreGetPoolClientManager
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -232,7 +232,7 @@ func (p *ComponentStoreProxy) GetStructDescriptors(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponentStore, "getStructDescriptors")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIComponentStoreGetStructDescriptors
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -270,7 +270,7 @@ func (p *ComponentStoreProxy) ListComponents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponentStore, "listComponents")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIComponentStoreListComponents
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -308,7 +308,7 @@ func (p *ComponentStoreProxy) CreateInputSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponentStore, "createInputSurface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIComponentStoreCreateInputSurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

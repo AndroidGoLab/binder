@@ -57,7 +57,7 @@ func (p *CellInfoCallbackProxy) OnCellInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICellInfoCallback, "onCellInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionICellInfoCallbackOnCellInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *CellInfoCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICellInfoCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionICellInfoCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

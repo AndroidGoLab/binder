@@ -46,7 +46,7 @@ func (p *MusicRecognitionAttributionTagCallbackProxy) OnAttributionTag(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMusicRecognitionAttributionTagCallback, "onAttributionTag")
 	if _err != nil {
-		return _err
+		_code = TransactionIMusicRecognitionAttributionTagCallbackOnAttributionTag
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

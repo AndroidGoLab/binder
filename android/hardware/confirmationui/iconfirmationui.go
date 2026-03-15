@@ -66,7 +66,7 @@ func (p *ConfirmationUIProxy) Abort(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConfirmationUI, "abort")
 	if _err != nil {
-		return _err
+		_code = TransactionIConfirmationUIAbort
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -95,7 +95,7 @@ func (p *ConfirmationUIProxy) DeliverSecureInputEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConfirmationUI, "deliverSecureInputEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIConfirmationUIDeliverSecureInputEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -150,7 +150,7 @@ func (p *ConfirmationUIProxy) PromptUserConfirmation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConfirmationUI, "promptUserConfirmation")
 	if _err != nil {
-		return _err
+		_code = TransactionIConfirmationUIPromptUserConfirmation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

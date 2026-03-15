@@ -54,7 +54,7 @@ func (p *BroadcastTimeProxy) GetUtcTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastTime, "getUtcTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBroadcastTimeGetUtcTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -83,7 +83,7 @@ func (p *BroadcastTimeProxy) GetLocalTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastTime, "getLocalTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBroadcastTimeGetLocalTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -112,7 +112,7 @@ func (p *BroadcastTimeProxy) GetTimeZoneInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastTime, "getTimeZoneInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBroadcastTimeGetTimeZoneInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -148,7 +148,7 @@ func (p *BroadcastTimeProxy) GetUtcTimePerStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastTime, "getUtcTimePerStream")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBroadcastTimeGetUtcTimePerStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -179,7 +179,7 @@ func (p *BroadcastTimeProxy) GetLocalTimePerStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBroadcastTime, "getLocalTimePerStream")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBroadcastTimeGetLocalTimePerStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

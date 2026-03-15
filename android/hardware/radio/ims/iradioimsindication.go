@@ -58,7 +58,7 @@ func (p *RadioImsIndicationProxy) OnConnectionSetupFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioImsIndication, "onConnectionSetupFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioImsIndicationOnConnectionSetupFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -81,7 +81,7 @@ func (p *RadioImsIndicationProxy) NotifyAnbr(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioImsIndication, "notifyAnbr")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioImsIndicationNotifyAnbr
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -100,7 +100,7 @@ func (p *RadioImsIndicationProxy) TriggerImsDeregistration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioImsIndication, "triggerImsDeregistration")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioImsIndicationTriggerImsDeregistration
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

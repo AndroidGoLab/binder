@@ -85,7 +85,7 @@ func (p *AuthServiceProxy) CreateTestSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "createTestSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAuthServiceCreateTestSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -117,7 +117,7 @@ func (p *AuthServiceProxy) GetSensorProperties(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "getSensorProperties")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAuthServiceGetSensorProperties
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -155,7 +155,7 @@ func (p *AuthServiceProxy) GetUiPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "getUiPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAuthServiceGetUiPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -198,7 +198,7 @@ func (p *AuthServiceProxy) Authenticate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "authenticate")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAuthServiceAuthenticate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -232,7 +232,7 @@ func (p *AuthServiceProxy) CancelAuthentication(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "cancelAuthentication")
 	if _err != nil {
-		return _err
+		_code = TransactionIAuthServiceCancelAuthentication
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -262,7 +262,7 @@ func (p *AuthServiceProxy) CanAuthenticate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "canAuthenticate")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAuthServiceCanAuthenticate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -295,7 +295,7 @@ func (p *AuthServiceProxy) GetLastAuthenticationTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "getLastAuthenticationTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAuthServiceGetLastAuthenticationTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -327,7 +327,7 @@ func (p *AuthServiceProxy) HasEnrolledBiometrics(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "hasEnrolledBiometrics")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAuthServiceHasEnrolledBiometrics
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -357,7 +357,7 @@ func (p *AuthServiceProxy) RegisterEnabledOnKeyguardCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "registerEnabledOnKeyguardCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIAuthServiceRegisterEnabledOnKeyguardCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -383,7 +383,7 @@ func (p *AuthServiceProxy) RegisterAuthenticationStateListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "registerAuthenticationStateListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIAuthServiceRegisterAuthenticationStateListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -409,7 +409,7 @@ func (p *AuthServiceProxy) UnregisterAuthenticationStateListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "unregisterAuthenticationStateListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIAuthServiceUnregisterAuthenticationStateListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -439,7 +439,7 @@ func (p *AuthServiceProxy) InvalidateAuthenticatorIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "invalidateAuthenticatorIds")
 	if _err != nil {
-		return _err
+		_code = TransactionIAuthServiceInvalidateAuthenticatorIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -466,7 +466,7 @@ func (p *AuthServiceProxy) GetAuthenticatorIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "getAuthenticatorIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAuthServiceGetAuthenticatorIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -520,7 +520,7 @@ func (p *AuthServiceProxy) ResetLockoutTimeBound(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "resetLockoutTimeBound")
 	if _err != nil {
-		return _err
+		_code = TransactionIAuthServiceResetLockoutTimeBound
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -555,7 +555,7 @@ func (p *AuthServiceProxy) ResetLockout(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "resetLockout")
 	if _err != nil {
-		return _err
+		_code = TransactionIAuthServiceResetLockout
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -585,7 +585,7 @@ func (p *AuthServiceProxy) GetButtonLabel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "getButtonLabel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAuthServiceGetButtonLabel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -615,7 +615,7 @@ func (p *AuthServiceProxy) GetPromptMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "getPromptMessage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAuthServiceGetPromptMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -645,7 +645,7 @@ func (p *AuthServiceProxy) GetSettingName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthService, "getSettingName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAuthServiceGetSettingName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

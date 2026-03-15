@@ -62,7 +62,7 @@ func (p *PowerHintSessionProxy) UpdateTargetWorkDuration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "updateTargetWorkDuration")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerHintSessionUpdateTargetWorkDuration
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *PowerHintSessionProxy) ReportActualWorkDuration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "reportActualWorkDuration")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerHintSessionReportActualWorkDuration
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -103,7 +103,7 @@ func (p *PowerHintSessionProxy) Pause(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "pause")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerHintSessionPause
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -118,7 +118,7 @@ func (p *PowerHintSessionProxy) Resume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "resume")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerHintSessionResume
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -133,7 +133,7 @@ func (p *PowerHintSessionProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerHintSessionClose
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -150,7 +150,7 @@ func (p *PowerHintSessionProxy) SendHint(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "sendHint")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerHintSessionSendHint
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -174,7 +174,7 @@ func (p *PowerHintSessionProxy) SetThreads(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "setThreads")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerHintSessionSetThreads
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -202,7 +202,7 @@ func (p *PowerHintSessionProxy) SetMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "setMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerHintSessionSetMode
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -218,7 +218,7 @@ func (p *PowerHintSessionProxy) GetSessionConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerHintSession, "getSessionConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerHintSessionGetSessionConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -46,7 +46,7 @@ func (p *RemoteMagnificationAnimationCallbackProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteMagnificationAnimationCallback, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteMagnificationAnimationCallbackOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

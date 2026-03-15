@@ -45,7 +45,7 @@ func (p *StatusBarNotificationHolderProxy) Get(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStatusBarNotificationHolder, "get")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStatusBarNotificationHolderGet
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

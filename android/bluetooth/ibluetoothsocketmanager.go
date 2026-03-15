@@ -69,7 +69,7 @@ func (p *BluetoothSocketManagerProxy) ConnectSocket(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketManager, "connectSocket")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSocketManagerConnectSocket
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -120,7 +120,7 @@ func (p *BluetoothSocketManagerProxy) ConnectSocketWithOffload(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketManager, "connectSocketWithOffload")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSocketManagerConnectSocketWithOffload
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -158,7 +158,7 @@ func (p *BluetoothSocketManagerProxy) CreateSocketChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketManager, "createSocketChannel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSocketManagerCreateSocketChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -206,7 +206,7 @@ func (p *BluetoothSocketManagerProxy) CreateSocketChannelWithOffload(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketManager, "createSocketChannelWithOffload")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSocketManagerCreateSocketChannelWithOffload
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -239,7 +239,7 @@ func (p *BluetoothSocketManagerProxy) RequestMaximumTxDataLength(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketManager, "requestMaximumTxDataLength")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothSocketManagerRequestMaximumTxDataLength
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -266,7 +266,7 @@ func (p *BluetoothSocketManagerProxy) GetL2capLocalChannelId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketManager, "getL2capLocalChannelId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSocketManagerGetL2capLocalChannelId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -297,7 +297,7 @@ func (p *BluetoothSocketManagerProxy) GetL2capRemoteChannelId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketManager, "getL2capRemoteChannelId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSocketManagerGetL2capRemoteChannelId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

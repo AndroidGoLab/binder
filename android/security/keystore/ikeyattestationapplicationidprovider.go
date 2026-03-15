@@ -51,7 +51,7 @@ func (p *KeyAttestationApplicationIdProviderProxy) GetKeyAttestationApplicationI
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyAttestationApplicationIdProvider, "getKeyAttestationApplicationId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeyAttestationApplicationIdProviderGetKeyAttestationApplicationId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

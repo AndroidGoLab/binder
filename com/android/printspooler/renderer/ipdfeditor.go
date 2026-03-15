@@ -56,7 +56,7 @@ func (p *PdfEditorProxy) OpenDocument(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPdfEditor, "openDocument")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPdfEditorOpenDocument
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -95,7 +95,7 @@ func (p *PdfEditorProxy) RemovePages(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPdfEditor, "removePages")
 	if _err != nil {
-		return _err
+		_code = TransactionIPdfEditorRemovePages
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -124,7 +124,7 @@ func (p *PdfEditorProxy) ApplyPrintAttributes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPdfEditor, "applyPrintAttributes")
 	if _err != nil {
-		return _err
+		_code = TransactionIPdfEditorApplyPrintAttributes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -150,7 +150,7 @@ func (p *PdfEditorProxy) Write(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPdfEditor, "write")
 	if _err != nil {
-		return _err
+		_code = TransactionIPdfEditorWrite
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -174,7 +174,7 @@ func (p *PdfEditorProxy) CloseDocument(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPdfEditor, "closeDocument")
 	if _err != nil {
-		return _err
+		_code = TransactionIPdfEditorCloseDocument
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

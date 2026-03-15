@@ -60,7 +60,7 @@ func (p *AttachEmbeddedWindowProxy) AttachEmbedded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAttachEmbeddedWindow, "attachEmbedded")
 	if _err != nil {
-		return _err
+		_code = TransactionIAttachEmbeddedWindowAttachEmbedded
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -89,7 +89,7 @@ func (p *AttachEmbeddedWindowProxy) Relayout(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAttachEmbeddedWindow, "relayout")
 	if _err != nil {
-		return _err
+		_code = TransactionIAttachEmbeddedWindowRelayout
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -125,7 +125,7 @@ func (p *AttachEmbeddedWindowProxy) AttachEmbeddedSurfaceControl(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAttachEmbeddedWindow, "attachEmbeddedSurfaceControl")
 	if _err != nil {
-		return _err
+		_code = TransactionIAttachEmbeddedWindowAttachEmbeddedSurfaceControl
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -140,7 +140,7 @@ func (p *AttachEmbeddedWindowProxy) TearDownEmbeddedSurfaceControl(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAttachEmbeddedWindow, "tearDownEmbeddedSurfaceControl")
 	if _err != nil {
-		return _err
+		_code = TransactionIAttachEmbeddedWindowTearDownEmbeddedSurfaceControl
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

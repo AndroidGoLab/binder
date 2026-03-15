@@ -46,7 +46,7 @@ func (p *SpellCheckerServiceCallbackProxy) OnSessionCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpellCheckerServiceCallback, "onSessionCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionISpellCheckerServiceCallbackOnSessionCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -65,7 +65,7 @@ func (p *MediaTranscodingServiceProxy) RegisterClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaTranscodingService, "registerClient")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaTranscodingServiceRegisterClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -95,7 +95,7 @@ func (p *MediaTranscodingServiceProxy) GetNumOfClients(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaTranscodingService, "getNumOfClients")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaTranscodingServiceGetNumOfClients
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

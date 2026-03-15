@@ -48,7 +48,7 @@ func (p *ServiceListProxy) GetServiceListIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceList, "getServiceListIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIServiceListGetServiceListIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -98,7 +98,7 @@ func (p *ServiceListProxy) GetServiceListInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceList, "getServiceListInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIServiceListGetServiceListInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

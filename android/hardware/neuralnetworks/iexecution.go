@@ -49,7 +49,7 @@ func (p *ExecutionProxy) ExecuteSynchronously(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIExecution, "executeSynchronously")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIExecutionExecuteSynchronously
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -96,7 +96,7 @@ func (p *ExecutionProxy) ExecuteFenced(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIExecution, "executeFenced")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIExecutionExecuteFenced
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

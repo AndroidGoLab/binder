@@ -48,7 +48,7 @@ func (p *SupplicantCallbackProxy) OnInterfaceCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantCallback, "onInterfaceCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantCallbackOnInterfaceCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *SupplicantCallbackProxy) OnInterfaceRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantCallback, "onInterfaceRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantCallbackOnInterfaceRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

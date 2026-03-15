@@ -50,7 +50,7 @@ func (p *ImsConfigCallbackProxy) OnIntConfigChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfigCallback, "onIntConfigChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigCallbackOnIntConfigChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *ImsConfigCallbackProxy) OnStringConfigChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsConfigCallback, "onStringConfigChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsConfigCallbackOnStringConfigChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

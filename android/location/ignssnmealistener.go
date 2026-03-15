@@ -48,7 +48,7 @@ func (p *GnssNmeaListenerProxy) OnNmeaReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssNmeaListener, "onNmeaReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssNmeaListenerOnNmeaReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

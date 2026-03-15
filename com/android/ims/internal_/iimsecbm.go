@@ -48,7 +48,7 @@ func (p *ImsEcbmProxy) SetListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsEcbm, "setListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsEcbmSetListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -72,7 +72,7 @@ func (p *ImsEcbmProxy) ExitEmergencyCallbackMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsEcbm, "exitEmergencyCallbackMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsEcbmExitEmergencyCallbackMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

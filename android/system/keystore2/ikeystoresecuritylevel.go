@@ -78,7 +78,7 @@ func (p *KeystoreSecurityLevelProxy) CreateOperation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "createOperation")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeystoreSecurityLevelCreateOperation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -147,7 +147,7 @@ func (p *KeystoreSecurityLevelProxy) GenerateKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "generateKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeystoreSecurityLevelGenerateKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -216,7 +216,7 @@ func (p *KeystoreSecurityLevelProxy) ImportKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "importKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeystoreSecurityLevelImportKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -291,7 +291,7 @@ func (p *KeystoreSecurityLevelProxy) ImportWrappedKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "importWrappedKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeystoreSecurityLevelImportWrappedKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -330,7 +330,7 @@ func (p *KeystoreSecurityLevelProxy) ConvertStorageKeyToEphemeral(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "convertStorageKeyToEphemeral")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeystoreSecurityLevelConvertStorageKeyToEphemeral
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -368,7 +368,7 @@ func (p *KeystoreSecurityLevelProxy) DeleteKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeystoreSecurityLevel, "deleteKey")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeystoreSecurityLevelDeleteKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

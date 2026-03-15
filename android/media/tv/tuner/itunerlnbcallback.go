@@ -49,7 +49,7 @@ func (p *TunerLnbCallbackProxy) OnEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerLnbCallback, "onEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerLnbCallbackOnEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -82,7 +82,7 @@ func (p *TunerLnbCallbackProxy) OnDiseqcMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerLnbCallback, "onDiseqcMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerLnbCallbackOnDiseqcMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

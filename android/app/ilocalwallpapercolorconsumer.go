@@ -55,7 +55,7 @@ func (p *LocalWallpaperColorConsumerProxy) OnColorsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocalWallpaperColorConsumer, "onColorsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionILocalWallpaperColorConsumerOnColorsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

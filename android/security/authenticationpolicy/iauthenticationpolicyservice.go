@@ -52,7 +52,7 @@ func (p *AuthenticationPolicyServiceProxy) EnableSecureLockDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthenticationPolicyService, "enableSecureLockDevice")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAuthenticationPolicyServiceEnableSecureLockDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -86,7 +86,7 @@ func (p *AuthenticationPolicyServiceProxy) DisableSecureLockDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuthenticationPolicyService, "disableSecureLockDevice")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAuthenticationPolicyServiceDisableSecureLockDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

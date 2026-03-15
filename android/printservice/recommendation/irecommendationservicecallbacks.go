@@ -55,7 +55,7 @@ func (p *RecommendationServiceCallbacksProxy) OnRecommendationsUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecommendationServiceCallbacks, "onRecommendationsUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecommendationServiceCallbacksOnRecommendationsUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

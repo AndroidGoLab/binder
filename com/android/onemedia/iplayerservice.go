@@ -57,7 +57,7 @@ func (p *PlayerServiceProxy) GetSessionToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlayerService, "getSessionToken")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPlayerServiceGetSessionToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -92,7 +92,7 @@ func (p *PlayerServiceProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlayerService, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIPlayerServiceRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -118,7 +118,7 @@ func (p *PlayerServiceProxy) UnregisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlayerService, "unregisterCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIPlayerServiceUnregisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -151,7 +151,7 @@ func (p *PlayerServiceProxy) SendRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlayerService, "sendRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIPlayerServiceSendRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -180,7 +180,7 @@ func (p *PlayerServiceProxy) SetIcon(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlayerService, "setIcon")
 	if _err != nil {
-		return _err
+		_code = TransactionIPlayerServiceSetIcon
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

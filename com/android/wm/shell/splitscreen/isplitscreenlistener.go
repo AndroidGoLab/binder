@@ -50,7 +50,7 @@ func (p *SplitScreenListenerProxy) OnStagePositionChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitScreenListener, "onStagePositionChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISplitScreenListenerOnStagePositionChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *SplitScreenListenerProxy) OnTaskStageChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISplitScreenListener, "onTaskStageChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISplitScreenListenerOnTaskStageChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -46,7 +46,7 @@ func (p *TextServicesSessionListenerProxy) OnServiceConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextServicesSessionListener, "onServiceConnected")
 	if _err != nil {
-		return _err
+		_code = TransactionITextServicesSessionListenerOnServiceConnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

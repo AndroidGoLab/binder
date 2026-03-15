@@ -48,7 +48,7 @@ func (p *DeviceStateServiceProxy) RegisterListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateService, "registerListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceStateServiceRegisterListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -74,7 +74,7 @@ func (p *DeviceStateServiceProxy) UnregisterListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateService, "unregisterListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceStateServiceUnregisterListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

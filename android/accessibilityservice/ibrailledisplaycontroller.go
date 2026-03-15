@@ -61,7 +61,7 @@ func (p *BrailleDisplayControllerProxy) OnConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBrailleDisplayController, "onConnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIBrailleDisplayControllerOnConnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *BrailleDisplayControllerProxy) OnConnectionFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBrailleDisplayController, "onConnectionFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIBrailleDisplayControllerOnConnectionFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -102,7 +102,7 @@ func (p *BrailleDisplayControllerProxy) OnInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBrailleDisplayController, "onInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIBrailleDisplayControllerOnInput
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -117,7 +117,7 @@ func (p *BrailleDisplayControllerProxy) OnDisconnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBrailleDisplayController, "onDisconnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIBrailleDisplayControllerOnDisconnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

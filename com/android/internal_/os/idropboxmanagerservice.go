@@ -65,7 +65,7 @@ func (p *DropBoxManagerServiceProxy) AddData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDropBoxManagerService, "addData")
 	if _err != nil {
-		return _err
+		_code = TransactionIDropBoxManagerServiceAddData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -95,7 +95,7 @@ func (p *DropBoxManagerServiceProxy) AddFile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDropBoxManagerService, "addFile")
 	if _err != nil {
-		return _err
+		_code = TransactionIDropBoxManagerServiceAddFile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -122,7 +122,7 @@ func (p *DropBoxManagerServiceProxy) IsTagEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDropBoxManagerService, "isTagEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDropBoxManagerServiceIsTagEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -157,7 +157,7 @@ func (p *DropBoxManagerServiceProxy) GetNextEntry(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDropBoxManagerService, "getNextEntry")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDropBoxManagerServiceGetNextEntry
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -190,7 +190,7 @@ func (p *DropBoxManagerServiceProxy) GetNextEntryWithAttribution(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDropBoxManagerService, "getNextEntryWithAttribution")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDropBoxManagerServiceGetNextEntryWithAttribution
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

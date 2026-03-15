@@ -58,7 +58,7 @@ func (p *msConfigListenerProxy) OnGetFeatureResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorImsConfigListener, "onGetFeatureResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionImsConfigListenerOnGetFeatureResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -81,7 +81,7 @@ func (p *msConfigListenerProxy) OnSetFeatureResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorImsConfigListener, "onSetFeatureResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionImsConfigListenerOnSetFeatureResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -100,7 +100,7 @@ func (p *msConfigListenerProxy) OnGetVideoQuality(
 
 	_code, _err := p.remote.ResolveCode(DescriptorImsConfigListener, "onGetVideoQuality")
 	if _err != nil {
-		return _err
+		_code = TransactionImsConfigListenerOnGetVideoQuality
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -117,7 +117,7 @@ func (p *msConfigListenerProxy) OnSetVideoQuality(
 
 	_code, _err := p.remote.ResolveCode(DescriptorImsConfigListener, "onSetVideoQuality")
 	if _err != nil {
-		return _err
+		_code = TransactionImsConfigListenerOnSetVideoQuality
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

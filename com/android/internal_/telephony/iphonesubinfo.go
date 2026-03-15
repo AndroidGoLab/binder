@@ -125,7 +125,7 @@ func (p *PhoneSubInfoProxy) GetDeviceId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getDeviceId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetDeviceId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -157,7 +157,7 @@ func (p *PhoneSubInfoProxy) GetDeviceIdWithFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getDeviceIdWithFeature")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetDeviceIdWithFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -191,7 +191,7 @@ func (p *PhoneSubInfoProxy) GetNaiForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getNaiForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetNaiForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -225,7 +225,7 @@ func (p *PhoneSubInfoProxy) GetDeviceIdForPhone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getDeviceIdForPhone")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetDeviceIdForPhone
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -259,7 +259,7 @@ func (p *PhoneSubInfoProxy) GetImeiForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getImeiForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetImeiForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -291,7 +291,7 @@ func (p *PhoneSubInfoProxy) GetDeviceSvn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getDeviceSvn")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetDeviceSvn
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -325,7 +325,7 @@ func (p *PhoneSubInfoProxy) GetDeviceSvnUsingSubId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getDeviceSvnUsingSubId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetDeviceSvnUsingSubId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -356,7 +356,7 @@ func (p *PhoneSubInfoProxy) GetSubscriberId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getSubscriberId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetSubscriberId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -389,7 +389,7 @@ func (p *PhoneSubInfoProxy) GetSubscriberIdWithFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getSubscriberIdWithFeature")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetSubscriberIdWithFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -423,7 +423,7 @@ func (p *PhoneSubInfoProxy) GetSubscriberIdForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getSubscriberIdForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetSubscriberIdForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -457,7 +457,7 @@ func (p *PhoneSubInfoProxy) GetGroupIdLevel1ForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getGroupIdLevel1ForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetGroupIdLevel1ForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -491,7 +491,7 @@ func (p *PhoneSubInfoProxy) GetGroupIdLevel2ForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getGroupIdLevel2ForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetGroupIdLevel2ForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -522,7 +522,7 @@ func (p *PhoneSubInfoProxy) GetIccSerialNumber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getIccSerialNumber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetIccSerialNumber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -554,7 +554,7 @@ func (p *PhoneSubInfoProxy) GetIccSerialNumberWithFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getIccSerialNumberWithFeature")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetIccSerialNumberWithFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -588,7 +588,7 @@ func (p *PhoneSubInfoProxy) GetIccSerialNumberForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getIccSerialNumberForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetIccSerialNumberForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -620,7 +620,7 @@ func (p *PhoneSubInfoProxy) GetLine1Number(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getLine1Number")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetLine1Number
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -654,7 +654,7 @@ func (p *PhoneSubInfoProxy) GetLine1NumberForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getLine1NumberForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetLine1NumberForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -686,7 +686,7 @@ func (p *PhoneSubInfoProxy) GetLine1AlphaTag(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getLine1AlphaTag")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetLine1AlphaTag
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -720,7 +720,7 @@ func (p *PhoneSubInfoProxy) GetLine1AlphaTagForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getLine1AlphaTagForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetLine1AlphaTagForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -752,7 +752,7 @@ func (p *PhoneSubInfoProxy) GetMsisdn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getMsisdn")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetMsisdn
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -786,7 +786,7 @@ func (p *PhoneSubInfoProxy) GetMsisdnForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getMsisdnForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetMsisdnForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -818,7 +818,7 @@ func (p *PhoneSubInfoProxy) GetVoiceMailNumber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getVoiceMailNumber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetVoiceMailNumber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -852,7 +852,7 @@ func (p *PhoneSubInfoProxy) GetVoiceMailNumberForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getVoiceMailNumberForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetVoiceMailNumberForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -887,7 +887,7 @@ func (p *PhoneSubInfoProxy) GetCarrierInfoForImsiEncryption(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getCarrierInfoForImsiEncryption")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetCarrierInfoForImsiEncryption
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -929,7 +929,7 @@ func (p *PhoneSubInfoProxy) SetCarrierInfoForImsiEncryption(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "setCarrierInfoForImsiEncryption")
 	if _err != nil {
-		return _err
+		_code = TransactionIPhoneSubInfoSetCarrierInfoForImsiEncryption
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -957,7 +957,7 @@ func (p *PhoneSubInfoProxy) ResetCarrierKeysForImsiEncryption(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "resetCarrierKeysForImsiEncryption")
 	if _err != nil {
-		return _err
+		_code = TransactionIPhoneSubInfoResetCarrierKeysForImsiEncryption
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -985,7 +985,7 @@ func (p *PhoneSubInfoProxy) GetVoiceMailAlphaTag(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getVoiceMailAlphaTag")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetVoiceMailAlphaTag
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1019,7 +1019,7 @@ func (p *PhoneSubInfoProxy) GetVoiceMailAlphaTagForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getVoiceMailAlphaTagForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetVoiceMailAlphaTagForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1050,7 +1050,7 @@ func (p *PhoneSubInfoProxy) GetIsimImpi(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getIsimImpi")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetIsimImpi
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1084,7 +1084,7 @@ func (p *PhoneSubInfoProxy) GetImsPrivateUserIdentity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getImsPrivateUserIdentity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetImsPrivateUserIdentity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1115,7 +1115,7 @@ func (p *PhoneSubInfoProxy) GetIsimDomain(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getIsimDomain")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetIsimDomain
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1146,7 +1146,7 @@ func (p *PhoneSubInfoProxy) GetIsimImpu(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getIsimImpu")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetIsimImpu
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1189,7 +1189,7 @@ func (p *PhoneSubInfoProxy) GetImsPublicUserIdentities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getImsPublicUserIdentities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetImsPublicUserIdentities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1229,7 +1229,7 @@ func (p *PhoneSubInfoProxy) GetIsimIst(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getIsimIst")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetIsimIst
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1260,7 +1260,7 @@ func (p *PhoneSubInfoProxy) GetIsimPcscf(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getIsimPcscf")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetIsimPcscf
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1303,7 +1303,7 @@ func (p *PhoneSubInfoProxy) GetImsPcscfAddresses(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getImsPcscfAddresses")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetImsPcscfAddresses
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1353,7 +1353,7 @@ func (p *PhoneSubInfoProxy) GetIccSimChallengeResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getIccSimChallengeResponse")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetIccSimChallengeResponse
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1386,7 +1386,7 @@ func (p *PhoneSubInfoProxy) GetSmscIdentity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getSmscIdentity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetSmscIdentity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1424,7 +1424,7 @@ func (p *PhoneSubInfoProxy) GetSimServiceTable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneSubInfo, "getSimServiceTable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPhoneSubInfoGetSimServiceTable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

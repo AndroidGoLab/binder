@@ -52,7 +52,7 @@ func (p *CamPinStatusListenerProxy) OnCamPinValidationReply(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamPinStatusListener, "onCamPinValidationReply")
 	if _err != nil {
-		return _err
+		_code = TransactionICamPinStatusListenerOnCamPinValidationReply
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

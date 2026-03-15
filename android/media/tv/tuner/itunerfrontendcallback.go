@@ -49,7 +49,7 @@ func (p *TunerFrontendCallbackProxy) OnEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontendCallback, "onEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFrontendCallbackOnEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -80,7 +80,7 @@ func (p *TunerFrontendCallbackProxy) OnScanMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontendCallback, "onScanMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFrontendCallbackOnScanMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

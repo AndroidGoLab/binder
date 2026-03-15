@@ -49,7 +49,7 @@ func (p *SatelliteCapabilitiesCallbackProxy) OnSatelliteCapabilitiesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteCapabilitiesCallback, "onSatelliteCapabilitiesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteCapabilitiesCallbackOnSatelliteCapabilitiesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -67,7 +67,7 @@ func (p *BluetoothA2dpSinkProxy) Connect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothA2dpSink, "connect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothA2dpSinkConnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -102,7 +102,7 @@ func (p *BluetoothA2dpSinkProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothA2dpSink, "disconnect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothA2dpSinkDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -132,7 +132,7 @@ func (p *BluetoothA2dpSinkProxy) GetConnectedDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothA2dpSink, "getConnectedDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothA2dpSinkGetConnectedDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -180,7 +180,7 @@ func (p *BluetoothA2dpSinkProxy) GetDevicesMatchingConnectionStates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothA2dpSink, "getDevicesMatchingConnectionStates")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothA2dpSinkGetDevicesMatchingConnectionStates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -224,7 +224,7 @@ func (p *BluetoothA2dpSinkProxy) GetConnectionState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothA2dpSink, "getConnectionState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothA2dpSinkGetConnectionState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -259,7 +259,7 @@ func (p *BluetoothA2dpSinkProxy) GetAudioConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothA2dpSink, "getAudioConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothA2dpSinkGetAudioConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -301,7 +301,7 @@ func (p *BluetoothA2dpSinkProxy) SetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothA2dpSink, "setConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothA2dpSinkSetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -336,7 +336,7 @@ func (p *BluetoothA2dpSinkProxy) GetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothA2dpSink, "getConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothA2dpSinkGetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -371,7 +371,7 @@ func (p *BluetoothA2dpSinkProxy) IsA2dpPlaying(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothA2dpSink, "isA2dpPlaying")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothA2dpSinkIsA2dpPlaying
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

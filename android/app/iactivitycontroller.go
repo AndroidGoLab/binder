@@ -58,7 +58,7 @@ func (p *ActivityControllerProxy) ActivityStarting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityController, "activityStarting")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIActivityControllerActivityStarting
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -89,7 +89,7 @@ func (p *ActivityControllerProxy) ActivityResuming(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityController, "activityResuming")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIActivityControllerActivityResuming
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *ActivityControllerProxy) AppCrashed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityController, "appCrashed")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIActivityControllerAppCrashed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -165,7 +165,7 @@ func (p *ActivityControllerProxy) AppEarlyNotResponding(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityController, "appEarlyNotResponding")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIActivityControllerAppEarlyNotResponding
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -200,7 +200,7 @@ func (p *ActivityControllerProxy) AppNotResponding(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityController, "appNotResponding")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIActivityControllerAppNotResponding
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -231,7 +231,7 @@ func (p *ActivityControllerProxy) SystemNotResponding(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityController, "systemNotResponding")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIActivityControllerSystemNotResponding
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

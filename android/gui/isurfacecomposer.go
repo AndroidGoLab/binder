@@ -193,7 +193,7 @@ func (p *SurfaceComposerProxy) BootFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "bootFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerBootFinished
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -224,7 +224,7 @@ func (p *SurfaceComposerProxy) CreateDisplayEventConnection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "createDisplayEventConnection")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerCreateDisplayEventConnection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -254,7 +254,7 @@ func (p *SurfaceComposerProxy) CreateConnection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "createConnection")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerCreateConnection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -292,7 +292,7 @@ func (p *SurfaceComposerProxy) CreateVirtualDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "createVirtualDisplay")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerCreateVirtualDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -323,7 +323,7 @@ func (p *SurfaceComposerProxy) DestroyVirtualDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "destroyVirtualDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerDestroyVirtualDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -348,7 +348,7 @@ func (p *SurfaceComposerProxy) GetPhysicalDisplayIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getPhysicalDisplayIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetPhysicalDisplayIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -389,7 +389,7 @@ func (p *SurfaceComposerProxy) GetPhysicalDisplayToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getPhysicalDisplayToken")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetPhysicalDisplayToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -419,7 +419,7 @@ func (p *SurfaceComposerProxy) GetSupportedFrameTimestamps(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getSupportedFrameTimestamps")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetSupportedFrameTimestamps
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -462,7 +462,7 @@ func (p *SurfaceComposerProxy) SetPowerMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "setPowerMode")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerSetPowerMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -489,7 +489,7 @@ func (p *SurfaceComposerProxy) GetDisplayStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getDisplayStats")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetDisplayStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -525,7 +525,7 @@ func (p *SurfaceComposerProxy) GetDisplayState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getDisplayState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetDisplayState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -561,7 +561,7 @@ func (p *SurfaceComposerProxy) GetStaticDisplayInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getStaticDisplayInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetStaticDisplayInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -597,7 +597,7 @@ func (p *SurfaceComposerProxy) GetDynamicDisplayInfoFromId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getDynamicDisplayInfoFromId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetDynamicDisplayInfoFromId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -633,7 +633,7 @@ func (p *SurfaceComposerProxy) GetDynamicDisplayInfoFromToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getDynamicDisplayInfoFromToken")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetDynamicDisplayInfoFromToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -669,7 +669,7 @@ func (p *SurfaceComposerProxy) GetDisplayNativePrimaries(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getDisplayNativePrimaries")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetDisplayNativePrimaries
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -706,7 +706,7 @@ func (p *SurfaceComposerProxy) SetActiveColorMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "setActiveColorMode")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerSetActiveColorMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -734,7 +734,7 @@ func (p *SurfaceComposerProxy) SetBootDisplayMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "setBootDisplayMode")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerSetBootDisplayMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -760,7 +760,7 @@ func (p *SurfaceComposerProxy) ClearBootDisplayMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "clearBootDisplayMode")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerClearBootDisplayMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -785,7 +785,7 @@ func (p *SurfaceComposerProxy) GetBootDisplayModeSupport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getBootDisplayModeSupport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetBootDisplayModeSupport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -814,7 +814,7 @@ func (p *SurfaceComposerProxy) GetHdrConversionCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getHdrConversionCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetHdrConversionCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -857,7 +857,7 @@ func (p *SurfaceComposerProxy) SetHdrConversionStrategy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "setHdrConversionStrategy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerSetHdrConversionStrategy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -886,7 +886,7 @@ func (p *SurfaceComposerProxy) GetHdrOutputConversionSupport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getHdrOutputConversionSupport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetHdrOutputConversionSupport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -918,7 +918,7 @@ func (p *SurfaceComposerProxy) SetAutoLowLatencyMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "setAutoLowLatencyMode")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerSetAutoLowLatencyMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -946,7 +946,7 @@ func (p *SurfaceComposerProxy) SetGameContentType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "setGameContentType")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerSetGameContentType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -973,7 +973,7 @@ func (p *SurfaceComposerProxy) GetMaxLayerPictureProfiles(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getMaxLayerPictureProfiles")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetMaxLayerPictureProfiles
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1008,7 +1008,7 @@ func (p *SurfaceComposerProxy) CaptureDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "captureDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerCaptureDisplay
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1032,7 +1032,7 @@ func (p *SurfaceComposerProxy) CaptureDisplayById(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "captureDisplayById")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerCaptureDisplayById
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1053,7 +1053,7 @@ func (p *SurfaceComposerProxy) CaptureLayersSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "captureLayersSync")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerCaptureLayersSync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1084,7 +1084,7 @@ func (p *SurfaceComposerProxy) CaptureLayers(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "captureLayers")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerCaptureLayers
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1099,7 +1099,7 @@ func (p *SurfaceComposerProxy) ClearAnimationFrameStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "clearAnimationFrameStats")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerClearAnimationFrameStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1124,7 +1124,7 @@ func (p *SurfaceComposerProxy) GetAnimationFrameStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getAnimationFrameStats")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetAnimationFrameStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1168,7 +1168,7 @@ func (p *SurfaceComposerProxy) OverrideHdrTypes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "overrideHdrTypes")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerOverrideHdrTypes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1195,7 +1195,7 @@ func (p *SurfaceComposerProxy) OnPullAtom(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "onPullAtom")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerOnPullAtom
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1229,7 +1229,7 @@ func (p *SurfaceComposerProxy) GetCompositionPreference(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getCompositionPreference")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetCompositionPreference
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1265,7 +1265,7 @@ func (p *SurfaceComposerProxy) GetDisplayedContentSamplingAttributes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getDisplayedContentSamplingAttributes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetDisplayedContentSamplingAttributes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1306,7 +1306,7 @@ func (p *SurfaceComposerProxy) SetDisplayContentSamplingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "setDisplayContentSamplingEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerSetDisplayContentSamplingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1337,7 +1337,7 @@ func (p *SurfaceComposerProxy) GetDisplayedContentSample(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getDisplayedContentSample")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetDisplayedContentSample
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1371,7 +1371,7 @@ func (p *SurfaceComposerProxy) GetProtectedContentSupport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getProtectedContentSupport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetProtectedContentSupport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1402,7 +1402,7 @@ func (p *SurfaceComposerProxy) IsWideColorDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "isWideColorDisplay")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerIsWideColorDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1439,7 +1439,7 @@ func (p *SurfaceComposerProxy) AddRegionSamplingListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "addRegionSamplingListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerAddRegionSamplingListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1465,7 +1465,7 @@ func (p *SurfaceComposerProxy) RemoveRegionSamplingListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "removeRegionSamplingListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerRemoveRegionSamplingListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1493,7 +1493,7 @@ func (p *SurfaceComposerProxy) AddFpsListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "addFpsListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerAddFpsListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1519,7 +1519,7 @@ func (p *SurfaceComposerProxy) RemoveFpsListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "removeFpsListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerRemoveFpsListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1545,7 +1545,7 @@ func (p *SurfaceComposerProxy) AddTunnelModeEnabledListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "addTunnelModeEnabledListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerAddTunnelModeEnabledListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1571,7 +1571,7 @@ func (p *SurfaceComposerProxy) RemoveTunnelModeEnabledListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "removeTunnelModeEnabledListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerRemoveTunnelModeEnabledListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1602,7 +1602,7 @@ func (p *SurfaceComposerProxy) SetDesiredDisplayModeSpecs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "setDesiredDisplayModeSpecs")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerSetDesiredDisplayModeSpecs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1629,7 +1629,7 @@ func (p *SurfaceComposerProxy) GetDesiredDisplayModeSpecs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getDesiredDisplayModeSpecs")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetDesiredDisplayModeSpecs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1665,7 +1665,7 @@ func (p *SurfaceComposerProxy) GetDisplayBrightnessSupport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getDisplayBrightnessSupport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetDisplayBrightnessSupport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1700,7 +1700,7 @@ func (p *SurfaceComposerProxy) SetDisplayBrightness(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "setDisplayBrightness")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerSetDisplayBrightness
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1728,7 +1728,7 @@ func (p *SurfaceComposerProxy) AddHdrLayerInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "addHdrLayerInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerAddHdrLayerInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1756,7 +1756,7 @@ func (p *SurfaceComposerProxy) RemoveHdrLayerInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "removeHdrLayerInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerRemoveHdrLayerInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1782,7 +1782,7 @@ func (p *SurfaceComposerProxy) NotifyPowerBoost(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "notifyPowerBoost")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerNotifyPowerBoost
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1813,7 +1813,7 @@ func (p *SurfaceComposerProxy) SetGlobalShadowSettings(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "setGlobalShadowSettings")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerSetGlobalShadowSettings
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1831,7 +1831,7 @@ func (p *SurfaceComposerProxy) GetDisplayDecorationSupport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getDisplayDecorationSupport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetDisplayDecorationSupport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1868,7 +1868,7 @@ func (p *SurfaceComposerProxy) SetGameModeFrameRateOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "setGameModeFrameRateOverride")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerSetGameModeFrameRateOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1896,7 +1896,7 @@ func (p *SurfaceComposerProxy) SetGameDefaultFrameRateOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "setGameDefaultFrameRateOverride")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerSetGameDefaultFrameRateOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1938,7 +1938,7 @@ func (p *SurfaceComposerProxy) UpdateSmallAreaDetection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "updateSmallAreaDetection")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerUpdateSmallAreaDetection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1957,7 +1957,7 @@ func (p *SurfaceComposerProxy) SetSmallAreaDetectionThreshold(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "setSmallAreaDetectionThreshold")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerSetSmallAreaDetectionThreshold
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1974,7 +1974,7 @@ func (p *SurfaceComposerProxy) EnableRefreshRateOverlay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "enableRefreshRateOverlay")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerEnableRefreshRateOverlay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2000,7 +2000,7 @@ func (p *SurfaceComposerProxy) SetDebugFlash(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "setDebugFlash")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerSetDebugFlash
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2024,7 +2024,7 @@ func (p *SurfaceComposerProxy) ScheduleComposite(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "scheduleComposite")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerScheduleComposite
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2048,7 +2048,7 @@ func (p *SurfaceComposerProxy) ScheduleCommit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "scheduleCommit")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerScheduleCommit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2074,7 +2074,7 @@ func (p *SurfaceComposerProxy) ForceClientComposition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "forceClientComposition")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerForceClientComposition
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2099,7 +2099,7 @@ func (p *SurfaceComposerProxy) GetGpuContextPriority(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getGpuContextPriority")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetGpuContextPriority
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2128,7 +2128,7 @@ func (p *SurfaceComposerProxy) GetMaxAcquiredBufferCount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getMaxAcquiredBufferCount")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetMaxAcquiredBufferCount
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2159,7 +2159,7 @@ func (p *SurfaceComposerProxy) AddWindowInfosListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "addWindowInfosListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerAddWindowInfosListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2194,7 +2194,7 @@ func (p *SurfaceComposerProxy) RemoveWindowInfosListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "removeWindowInfosListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerRemoveWindowInfosListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2219,7 +2219,7 @@ func (p *SurfaceComposerProxy) GetOverlaySupport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getOverlaySupport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetOverlaySupport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2255,7 +2255,7 @@ func (p *SurfaceComposerProxy) GetStalledTransactionInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getStalledTransactionInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetStalledTransactionInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2289,7 +2289,7 @@ func (p *SurfaceComposerProxy) GetSchedulingPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "getSchedulingPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceComposerGetSchedulingPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2322,7 +2322,7 @@ func (p *SurfaceComposerProxy) NotifyShutdown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "notifyShutdown")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerNotifyShutdown
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -2341,7 +2341,7 @@ func (p *SurfaceComposerProxy) AddJankListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "addJankListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerAddJankListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2367,7 +2367,7 @@ func (p *SurfaceComposerProxy) FlushJankData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "flushJankData")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerFlushJankData
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -2388,7 +2388,7 @@ func (p *SurfaceComposerProxy) RemoveJankListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "removeJankListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerRemoveJankListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -2405,7 +2405,7 @@ func (p *SurfaceComposerProxy) SetActivePictureListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceComposer, "setActivePictureListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISurfaceComposerSetActivePictureListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

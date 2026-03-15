@@ -48,7 +48,7 @@ func (p *KeyguardClientProxy) OnCreateKeyguardSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardClient, "onCreateKeyguardSurface")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardClientOnCreateKeyguardSurface
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

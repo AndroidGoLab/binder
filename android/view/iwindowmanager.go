@@ -364,7 +364,7 @@ func (p *WindowManagerProxy) StartViewServer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "startViewServer")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerStartViewServer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -393,7 +393,7 @@ func (p *WindowManagerProxy) StopViewServer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "stopViewServer")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerStopViewServer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -422,7 +422,7 @@ func (p *WindowManagerProxy) IsViewServerRunning(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "isViewServerRunning")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerIsViewServerRunning
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -453,7 +453,7 @@ func (p *WindowManagerProxy) OpenSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "openSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerOpenSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -485,7 +485,7 @@ func (p *WindowManagerProxy) GetInitialDisplaySize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getInitialDisplaySize")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerGetInitialDisplaySize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -515,7 +515,7 @@ func (p *WindowManagerProxy) GetBaseDisplaySize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getBaseDisplaySize")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerGetBaseDisplaySize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -548,7 +548,7 @@ func (p *WindowManagerProxy) SetForcedDisplaySize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setForcedDisplaySize")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetForcedDisplaySize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -574,7 +574,7 @@ func (p *WindowManagerProxy) ClearForcedDisplaySize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "clearForcedDisplaySize")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerClearForcedDisplaySize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -601,7 +601,7 @@ func (p *WindowManagerProxy) GetInitialDisplayDensity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getInitialDisplayDensity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetInitialDisplayDensity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -632,7 +632,7 @@ func (p *WindowManagerProxy) GetBaseDisplayDensity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getBaseDisplayDensity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetBaseDisplayDensity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -663,7 +663,7 @@ func (p *WindowManagerProxy) GetDisplayIdByUniqueId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getDisplayIdByUniqueId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetDisplayIdByUniqueId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -697,7 +697,7 @@ func (p *WindowManagerProxy) SetForcedDisplayDensityForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setForcedDisplayDensityForUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetForcedDisplayDensityForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -725,7 +725,7 @@ func (p *WindowManagerProxy) ClearForcedDisplayDensityForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "clearForcedDisplayDensityForUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerClearForcedDisplayDensityForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -753,7 +753,7 @@ func (p *WindowManagerProxy) SetForcedDisplayScalingMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setForcedDisplayScalingMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetForcedDisplayScalingMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -779,7 +779,7 @@ func (p *WindowManagerProxy) SetEventDispatching(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setEventDispatching")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetEventDispatching
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -806,7 +806,7 @@ func (p *WindowManagerProxy) IsWindowToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "isWindowToken")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerIsWindowToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -841,7 +841,7 @@ func (p *WindowManagerProxy) AddWindowToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "addWindowToken")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerAddWindowToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -869,7 +869,7 @@ func (p *WindowManagerProxy) RemoveWindowToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "removeWindowToken")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerRemoveWindowToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -895,7 +895,7 @@ func (p *WindowManagerProxy) SetDisplayChangeWindowController(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setDisplayChangeWindowController")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetDisplayChangeWindowController
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -926,7 +926,7 @@ func (p *WindowManagerProxy) AddShellRoot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "addShellRoot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerAddShellRoot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -965,7 +965,7 @@ func (p *WindowManagerProxy) SetShellRootAccessibilityWindow(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setShellRootAccessibilityWindow")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetShellRootAccessibilityWindow
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -996,7 +996,7 @@ func (p *WindowManagerProxy) OverridePendingAppTransitionMultiThumbFuture(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "overridePendingAppTransitionMultiThumbFuture")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerOverridePendingAppTransitionMultiThumbFuture
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1027,7 +1027,7 @@ func (p *WindowManagerProxy) OverridePendingAppTransitionRemote(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "overridePendingAppTransitionRemote")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerOverridePendingAppTransitionRemote
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1051,7 +1051,7 @@ func (p *WindowManagerProxy) EndProlongedAnimations(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "endProlongedAnimations")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerEndProlongedAnimations
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1079,7 +1079,7 @@ func (p *WindowManagerProxy) StartFreezingScreen(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "startFreezingScreen")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerStartFreezingScreen
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1103,7 +1103,7 @@ func (p *WindowManagerProxy) StopFreezingScreen(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "stopFreezingScreen")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerStopFreezingScreen
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1133,7 +1133,7 @@ func (p *WindowManagerProxy) DisableKeyguard(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "disableKeyguard")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerDisableKeyguard
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1161,7 +1161,7 @@ func (p *WindowManagerProxy) ReenableKeyguard(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "reenableKeyguard")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerReenableKeyguard
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1187,7 +1187,7 @@ func (p *WindowManagerProxy) ExitKeyguardSecurely(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "exitKeyguardSecurely")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerExitKeyguardSecurely
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1212,7 +1212,7 @@ func (p *WindowManagerProxy) IsKeyguardLocked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "isKeyguardLocked")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerIsKeyguardLocked
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1243,7 +1243,7 @@ func (p *WindowManagerProxy) IsKeyguardSecure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "isKeyguardSecure")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerIsKeyguardSecure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1273,7 +1273,7 @@ func (p *WindowManagerProxy) DismissKeyguard(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "dismissKeyguard")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerDismissKeyguard
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1298,7 +1298,7 @@ func (p *WindowManagerProxy) AddKeyguardLockedStateListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "addKeyguardLockedStateListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerAddKeyguardLockedStateListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1323,7 +1323,7 @@ func (p *WindowManagerProxy) RemoveKeyguardLockedStateListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "removeKeyguardLockedStateListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerRemoveKeyguardLockedStateListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1349,7 +1349,7 @@ func (p *WindowManagerProxy) SetSwitchingUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setSwitchingUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetSwitchingUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1375,7 +1375,7 @@ func (p *WindowManagerProxy) CloseSystemDialogs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "closeSystemDialogs")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerCloseSystemDialogs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1402,7 +1402,7 @@ func (p *WindowManagerProxy) GetAnimationScale(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getAnimationScale")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetAnimationScale
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1431,7 +1431,7 @@ func (p *WindowManagerProxy) GetAnimationScales(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getAnimationScales")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetAnimationScales
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1473,7 +1473,7 @@ func (p *WindowManagerProxy) SetAnimationScale(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setAnimationScale")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetAnimationScale
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1506,7 +1506,7 @@ func (p *WindowManagerProxy) SetAnimationScales(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setAnimationScales")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetAnimationScales
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1531,7 +1531,7 @@ func (p *WindowManagerProxy) GetCurrentAnimatorScale(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getCurrentAnimatorScale")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetCurrentAnimatorScale
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1563,7 +1563,7 @@ func (p *WindowManagerProxy) SetInTouchMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setInTouchMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetInTouchMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1589,7 +1589,7 @@ func (p *WindowManagerProxy) SetInTouchModeOnAllDisplays(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setInTouchModeOnAllDisplays")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetInTouchModeOnAllDisplays
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1616,7 +1616,7 @@ func (p *WindowManagerProxy) IsInTouchMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "isInTouchMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerIsInTouchMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1646,7 +1646,7 @@ func (p *WindowManagerProxy) ShowStrictModeViolation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "showStrictModeViolation")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerShowStrictModeViolation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1672,7 +1672,7 @@ func (p *WindowManagerProxy) SetStrictModeVisualIndicatorPreference(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setStrictModeVisualIndicatorPreference")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetStrictModeVisualIndicatorPreference
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1696,7 +1696,7 @@ func (p *WindowManagerProxy) RefreshScreenCaptureDisabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "refreshScreenCaptureDisabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerRefreshScreenCaptureDisabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1721,7 +1721,7 @@ func (p *WindowManagerProxy) GetDefaultDisplayRotation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getDefaultDisplayRotation")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetDefaultDisplayRotation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1752,7 +1752,7 @@ func (p *WindowManagerProxy) GetDisplayUserRotation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getDisplayUserRotation")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetDisplayUserRotation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1785,7 +1785,7 @@ func (p *WindowManagerProxy) WatchRotation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "watchRotation")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerWatchRotation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1815,7 +1815,7 @@ func (p *WindowManagerProxy) RemoveRotationWatcher(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "removeRotationWatcher")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerRemoveRotationWatcher
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1844,7 +1844,7 @@ func (p *WindowManagerProxy) RegisterProposedRotationListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "registerProposedRotationListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerRegisterProposedRotationListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1875,7 +1875,7 @@ func (p *WindowManagerProxy) GetPreferredOptionsPanelGravity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getPreferredOptionsPanelGravity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetPreferredOptionsPanelGravity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1907,7 +1907,7 @@ func (p *WindowManagerProxy) FreezeRotation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "freezeRotation")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerFreezeRotation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1933,7 +1933,7 @@ func (p *WindowManagerProxy) ThawRotation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "thawRotation")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerThawRotation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1958,7 +1958,7 @@ func (p *WindowManagerProxy) IsRotationFrozen(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "isRotationFrozen")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerIsRotationFrozen
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1992,7 +1992,7 @@ func (p *WindowManagerProxy) FreezeDisplayRotation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "freezeDisplayRotation")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerFreezeDisplayRotation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2020,7 +2020,7 @@ func (p *WindowManagerProxy) ThawDisplayRotation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "thawDisplayRotation")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerThawDisplayRotation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2047,7 +2047,7 @@ func (p *WindowManagerProxy) IsDisplayRotationFrozen(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "isDisplayRotationFrozen")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerIsDisplayRotationFrozen
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2079,7 +2079,7 @@ func (p *WindowManagerProxy) SetFixedToUserRotation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setFixedToUserRotation")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetFixedToUserRotation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2107,7 +2107,7 @@ func (p *WindowManagerProxy) SetIgnoreOrientationRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setIgnoreOrientationRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetIgnoreOrientationRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2132,7 +2132,7 @@ func (p *WindowManagerProxy) ScreenshotWallpaper(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "screenshotWallpaper")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerScreenshotWallpaper
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2168,7 +2168,7 @@ func (p *WindowManagerProxy) MirrorWallpaperSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "mirrorWallpaperSurface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerMirrorWallpaperSurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2206,7 +2206,7 @@ func (p *WindowManagerProxy) RegisterWallpaperVisibilityListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "registerWallpaperVisibilityListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerRegisterWallpaperVisibilityListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2238,7 +2238,7 @@ func (p *WindowManagerProxy) UnregisterWallpaperVisibilityListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "unregisterWallpaperVisibilityListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerUnregisterWallpaperVisibilityListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2266,7 +2266,7 @@ func (p *WindowManagerProxy) RegisterSystemGestureExclusionListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "registerSystemGestureExclusionListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerRegisterSystemGestureExclusionListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2294,7 +2294,7 @@ func (p *WindowManagerProxy) UnregisterSystemGestureExclusionListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "unregisterSystemGestureExclusionListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerUnregisterSystemGestureExclusionListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2320,7 +2320,7 @@ func (p *WindowManagerProxy) RequestAssistScreenshot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "requestAssistScreenshot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerRequestAssistScreenshot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2350,7 +2350,7 @@ func (p *WindowManagerProxy) HideTransientBars(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "hideTransientBars")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerHideTransientBars
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -2367,7 +2367,7 @@ func (p *WindowManagerProxy) SetRecentsVisibility(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setRecentsVisibility")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetRecentsVisibility
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -2395,7 +2395,7 @@ func (p *WindowManagerProxy) UpdateStaticPrivacyIndicatorBounds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "updateStaticPrivacyIndicatorBounds")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerUpdateStaticPrivacyIndicatorBounds
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -2412,7 +2412,7 @@ func (p *WindowManagerProxy) SetNavBarVirtualKeyHapticFeedbackEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setNavBarVirtualKeyHapticFeedbackEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetNavBarVirtualKeyHapticFeedbackEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2439,7 +2439,7 @@ func (p *WindowManagerProxy) HasNavigationBar(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "hasNavigationBar")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerHasNavigationBar
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2468,7 +2468,7 @@ func (p *WindowManagerProxy) LockNow(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "lockNow")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerLockNow
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2493,7 +2493,7 @@ func (p *WindowManagerProxy) IsSafeModeEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "isSafeModeEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerIsSafeModeEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2524,7 +2524,7 @@ func (p *WindowManagerProxy) ClearWindowContentFrameStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "clearWindowContentFrameStats")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerClearWindowContentFrameStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2555,7 +2555,7 @@ func (p *WindowManagerProxy) GetWindowContentFrameStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getWindowContentFrameStats")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetWindowContentFrameStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2589,7 +2589,7 @@ func (p *WindowManagerProxy) GetDockedStackSide(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getDockedStackSide")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetDockedStackSide
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2621,7 +2621,7 @@ func (p *WindowManagerProxy) RegisterPinnedTaskListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "registerPinnedTaskListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerRegisterPinnedTaskListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2648,7 +2648,7 @@ func (p *WindowManagerProxy) RequestAppKeyboardShortcuts(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "requestAppKeyboardShortcuts")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerRequestAppKeyboardShortcuts
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2675,7 +2675,7 @@ func (p *WindowManagerProxy) RequestImeKeyboardShortcuts(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "requestImeKeyboardShortcuts")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerRequestImeKeyboardShortcuts
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2702,7 +2702,7 @@ func (p *WindowManagerProxy) GetStableInsets(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getStableInsets")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerGetStableInsets
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2732,7 +2732,7 @@ func (p *WindowManagerProxy) RegisterShortcutKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "registerShortcutKey")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerRegisterShortcutKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2763,7 +2763,7 @@ func (p *WindowManagerProxy) CreateInputConsumer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "createInputConsumer")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerCreateInputConsumer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2795,7 +2795,7 @@ func (p *WindowManagerProxy) DestroyInputConsumer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "destroyInputConsumer")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerDestroyInputConsumer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2824,7 +2824,7 @@ func (p *WindowManagerProxy) GetCurrentImeTouchRegion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getCurrentImeTouchRegion")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetCurrentImeTouchRegion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2859,7 +2859,7 @@ func (p *WindowManagerProxy) RegisterDisplayFoldListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "registerDisplayFoldListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerRegisterDisplayFoldListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2885,7 +2885,7 @@ func (p *WindowManagerProxy) UnregisterDisplayFoldListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "unregisterDisplayFoldListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerUnregisterDisplayFoldListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2912,7 +2912,7 @@ func (p *WindowManagerProxy) RegisterDisplayWindowListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "registerDisplayWindowListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerRegisterDisplayWindowListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2952,7 +2952,7 @@ func (p *WindowManagerProxy) UnregisterDisplayWindowListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "unregisterDisplayWindowListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerUnregisterDisplayWindowListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2976,7 +2976,7 @@ func (p *WindowManagerProxy) StartWindowTrace(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "startWindowTrace")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerStartWindowTrace
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3000,7 +3000,7 @@ func (p *WindowManagerProxy) StopWindowTrace(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "stopWindowTrace")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerStopWindowTrace
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3024,7 +3024,7 @@ func (p *WindowManagerProxy) SaveWindowTraceToFile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "saveWindowTraceToFile")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSaveWindowTraceToFile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3049,7 +3049,7 @@ func (p *WindowManagerProxy) IsWindowTraceEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "isWindowTraceEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerIsWindowTraceEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3077,7 +3077,7 @@ func (p *WindowManagerProxy) StartTransitionTrace(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "startTransitionTrace")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerStartTransitionTrace
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3101,7 +3101,7 @@ func (p *WindowManagerProxy) StopTransitionTrace(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "stopTransitionTrace")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerStopTransitionTrace
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3126,7 +3126,7 @@ func (p *WindowManagerProxy) IsTransitionTraceEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "isTransitionTraceEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerIsTransitionTraceEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3157,7 +3157,7 @@ func (p *WindowManagerProxy) GetWindowingMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getWindowingMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetWindowingMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3189,7 +3189,7 @@ func (p *WindowManagerProxy) SetWindowingMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setWindowingMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetWindowingMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3216,7 +3216,7 @@ func (p *WindowManagerProxy) GetRemoveContentMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getRemoveContentMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetRemoveContentMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3248,7 +3248,7 @@ func (p *WindowManagerProxy) SetRemoveContentMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setRemoveContentMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetRemoveContentMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3275,7 +3275,7 @@ func (p *WindowManagerProxy) ShouldShowWithInsecureKeyguard(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "shouldShowWithInsecureKeyguard")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerShouldShowWithInsecureKeyguard
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3307,7 +3307,7 @@ func (p *WindowManagerProxy) SetShouldShowWithInsecureKeyguard(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setShouldShowWithInsecureKeyguard")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetShouldShowWithInsecureKeyguard
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3334,7 +3334,7 @@ func (p *WindowManagerProxy) ShouldShowSystemDecors(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "shouldShowSystemDecors")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerShouldShowSystemDecors
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3366,7 +3366,7 @@ func (p *WindowManagerProxy) SetShouldShowSystemDecors(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setShouldShowSystemDecors")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetShouldShowSystemDecors
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3393,7 +3393,7 @@ func (p *WindowManagerProxy) GetDisplayImePolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getDisplayImePolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetDisplayImePolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3425,7 +3425,7 @@ func (p *WindowManagerProxy) SetDisplayImePolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setDisplayImePolicy")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetDisplayImePolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3451,7 +3451,7 @@ func (p *WindowManagerProxy) SyncInputTransactions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "syncInputTransactions")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSyncInputTransactions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3476,7 +3476,7 @@ func (p *WindowManagerProxy) IsLayerTracing(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "isLayerTracing")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerIsLayerTracing
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3506,7 +3506,7 @@ func (p *WindowManagerProxy) SetLayerTracing(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setLayerTracing")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetLayerTracing
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3534,7 +3534,7 @@ func (p *WindowManagerProxy) MirrorDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "mirrorDisplay")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerMirrorDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3569,7 +3569,7 @@ func (p *WindowManagerProxy) SetDisplayWindowInsetsController(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setDisplayWindowInsetsController")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetDisplayWindowInsetsController
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3607,7 +3607,7 @@ func (p *WindowManagerProxy) UpdateDisplayWindowRequestedVisibleTypes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "updateDisplayWindowRequestedVisibleTypes")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerUpdateDisplayWindowRequestedVisibleTypes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3637,7 +3637,7 @@ func (p *WindowManagerProxy) GetWindowInsets(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getWindowInsets")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetWindowInsets
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3671,7 +3671,7 @@ func (p *WindowManagerProxy) GetPossibleDisplayInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getPossibleDisplayInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetPossibleDisplayInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3708,7 +3708,7 @@ func (p *WindowManagerProxy) ShowGlobalActions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "showGlobalActions")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerShowGlobalActions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3734,7 +3734,7 @@ func (p *WindowManagerProxy) SetLayerTracingFlags(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setLayerTracingFlags")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetLayerTracingFlags
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3760,7 +3760,7 @@ func (p *WindowManagerProxy) SetActiveTransactionTracing(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setActiveTransactionTracing")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetActiveTransactionTracing
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3792,7 +3792,7 @@ func (p *WindowManagerProxy) RequestScrollCapture(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "requestScrollCapture")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerRequestScrollCapture
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3820,7 +3820,7 @@ func (p *WindowManagerProxy) HoldLock(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "holdLock")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerHoldLock
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3845,7 +3845,7 @@ func (p *WindowManagerProxy) GetSupportedDisplayHashAlgorithms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getSupportedDisplayHashAlgorithms")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetSupportedDisplayHashAlgorithms
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3889,7 +3889,7 @@ func (p *WindowManagerProxy) VerifyDisplayHash(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "verifyDisplayHash")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerVerifyDisplayHash
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3924,7 +3924,7 @@ func (p *WindowManagerProxy) SetDisplayHashThrottlingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setDisplayHashThrottlingEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetDisplayHashThrottlingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3957,7 +3957,7 @@ func (p *WindowManagerProxy) AttachWindowContextToDisplayArea(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "attachWindowContextToDisplayArea")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerAttachWindowContextToDisplayArea
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3987,7 +3987,7 @@ func (p *WindowManagerProxy) AttachWindowContextToWindowToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "attachWindowContextToWindowToken")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerAttachWindowContextToWindowToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4017,7 +4017,7 @@ func (p *WindowManagerProxy) AttachWindowContextToDisplayContent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "attachWindowContextToDisplayContent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerAttachWindowContextToDisplayContent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4043,7 +4043,7 @@ func (p *WindowManagerProxy) DetachWindowContext(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "detachWindowContext")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerDetachWindowContext
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4073,7 +4073,7 @@ func (p *WindowManagerProxy) ReparentWindowContextToDisplayArea(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "reparentWindowContextToDisplayArea")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerReparentWindowContextToDisplayArea
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4104,7 +4104,7 @@ func (p *WindowManagerProxy) RegisterCrossWindowBlurEnabledListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "registerCrossWindowBlurEnabledListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerRegisterCrossWindowBlurEnabledListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4134,7 +4134,7 @@ func (p *WindowManagerProxy) UnregisterCrossWindowBlurEnabledListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "unregisterCrossWindowBlurEnabledListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerUnregisterCrossWindowBlurEnabledListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4159,7 +4159,7 @@ func (p *WindowManagerProxy) IsTaskSnapshotSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "isTaskSnapshotSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerIsTaskSnapshotSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4188,7 +4188,7 @@ func (p *WindowManagerProxy) GetImeDisplayId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getImeDisplayId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetImeDisplayId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4218,7 +4218,7 @@ func (p *WindowManagerProxy) SetTaskSnapshotEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setTaskSnapshotEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetTaskSnapshotEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4245,7 +4245,7 @@ func (p *WindowManagerProxy) RegisterTaskFpsCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "registerTaskFpsCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerRegisterTaskFpsCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4270,7 +4270,7 @@ func (p *WindowManagerProxy) UnregisterTaskFpsCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "unregisterTaskFpsCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerUnregisterTaskFpsCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4297,7 +4297,7 @@ func (p *WindowManagerProxy) SnapshotTaskForRecents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "snapshotTaskForRecents")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerSnapshotTaskForRecents
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4332,7 +4332,7 @@ func (p *WindowManagerProxy) SetRecentsAppBehindSystemBars(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setRecentsAppBehindSystemBars")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetRecentsAppBehindSystemBars
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4357,7 +4357,7 @@ func (p *WindowManagerProxy) GetLetterboxBackgroundColorInArgb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getLetterboxBackgroundColorInArgb")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetLetterboxBackgroundColorInArgb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4386,7 +4386,7 @@ func (p *WindowManagerProxy) IsLetterboxBackgroundMultiColored(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "isLetterboxBackgroundMultiColored")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerIsLetterboxBackgroundMultiColored
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4418,7 +4418,7 @@ func (p *WindowManagerProxy) CaptureDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "captureDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerCaptureDisplay
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -4436,7 +4436,7 @@ func (p *WindowManagerProxy) IsGlobalKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "isGlobalKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerIsGlobalKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4471,7 +4471,7 @@ func (p *WindowManagerProxy) AddToSurfaceSyncGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "addToSurfaceSyncGroup")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerAddToSurfaceSyncGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4501,7 +4501,7 @@ func (p *WindowManagerProxy) MarkSurfaceSyncGroupReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "markSurfaceSyncGroupReady")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerMarkSurfaceSyncGroupReady
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -4519,7 +4519,7 @@ func (p *WindowManagerProxy) NotifyScreenshotListeners(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "notifyScreenshotListeners")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerNotifyScreenshotListeners
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4561,7 +4561,7 @@ func (p *WindowManagerProxy) ReplaceContentOnDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "replaceContentOnDisplay")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerReplaceContentOnDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4593,7 +4593,7 @@ func (p *WindowManagerProxy) RegisterDecorViewGestureListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "registerDecorViewGestureListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerRegisterDecorViewGestureListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4621,7 +4621,7 @@ func (p *WindowManagerProxy) UnregisterDecorViewGestureListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "unregisterDecorViewGestureListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerUnregisterDecorViewGestureListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4655,7 +4655,7 @@ func (p *WindowManagerProxy) RegisterTrustedPresentationListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "registerTrustedPresentationListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerRegisterTrustedPresentationListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4682,7 +4682,7 @@ func (p *WindowManagerProxy) UnregisterTrustedPresentationListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "unregisterTrustedPresentationListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerUnregisterTrustedPresentationListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4708,7 +4708,7 @@ func (p *WindowManagerProxy) RegisterScreenRecordingCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "registerScreenRecordingCallback")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerRegisterScreenRecordingCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4737,7 +4737,7 @@ func (p *WindowManagerProxy) UnregisterScreenRecordingCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "unregisterScreenRecordingCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerUnregisterScreenRecordingCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4762,7 +4762,7 @@ func (p *WindowManagerProxy) SetGlobalDragListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "setGlobalDragListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowManagerSetGlobalDragListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4789,7 +4789,7 @@ func (p *WindowManagerProxy) TransferTouchGesture(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "transferTouchGesture")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerTransferTouchGesture
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4820,7 +4820,7 @@ func (p *WindowManagerProxy) GetApplicationLaunchKeyboardShortcuts(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "getApplicationLaunchKeyboardShortcuts")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowManagerGetApplicationLaunchKeyboardShortcuts
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -53,7 +53,7 @@ func (p *OemLockProxy) GetName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOemLock, "getName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOemLockGetName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -82,7 +82,7 @@ func (p *OemLockProxy) IsOemUnlockAllowedByCarrier(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOemLock, "isOemUnlockAllowedByCarrier")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOemLockIsOemUnlockAllowedByCarrier
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -111,7 +111,7 @@ func (p *OemLockProxy) IsOemUnlockAllowedByDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOemLock, "isOemUnlockAllowedByDevice")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOemLockIsOemUnlockAllowedByDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -151,7 +151,7 @@ func (p *OemLockProxy) SetOemUnlockAllowedByCarrier(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOemLock, "setOemUnlockAllowedByCarrier")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOemLockSetOemUnlockAllowedByCarrier
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -182,7 +182,7 @@ func (p *OemLockProxy) SetOemUnlockAllowedByDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOemLock, "setOemUnlockAllowedByDevice")
 	if _err != nil {
-		return _err
+		_code = TransactionIOemLockSetOemUnlockAllowedByDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

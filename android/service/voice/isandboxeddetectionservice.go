@@ -73,7 +73,7 @@ func (p *SandboxedDetectionServiceProxy) DetectFromDspSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "detectFromDspSource")
 	if _err != nil {
-		return _err
+		_code = TransactionISandboxedDetectionServiceDetectFromDspSource
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -96,7 +96,7 @@ func (p *SandboxedDetectionServiceProxy) DetectFromMicrophoneSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "detectFromMicrophoneSource")
 	if _err != nil {
-		return _err
+		_code = TransactionISandboxedDetectionServiceDetectFromMicrophoneSource
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -113,7 +113,7 @@ func (p *SandboxedDetectionServiceProxy) DetectWithVisualSignals(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "detectWithVisualSignals")
 	if _err != nil {
-		return _err
+		_code = TransactionISandboxedDetectionServiceDetectWithVisualSignals
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -131,7 +131,7 @@ func (p *SandboxedDetectionServiceProxy) UpdateState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "updateState")
 	if _err != nil {
-		return _err
+		_code = TransactionISandboxedDetectionServiceUpdateState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -148,7 +148,7 @@ func (p *SandboxedDetectionServiceProxy) UpdateAudioFlinger(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "updateAudioFlinger")
 	if _err != nil {
-		return _err
+		_code = TransactionISandboxedDetectionServiceUpdateAudioFlinger
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -165,7 +165,7 @@ func (p *SandboxedDetectionServiceProxy) UpdateContentCaptureManager(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "updateContentCaptureManager")
 	if _err != nil {
-		return _err
+		_code = TransactionISandboxedDetectionServiceUpdateContentCaptureManager
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -181,7 +181,7 @@ func (p *SandboxedDetectionServiceProxy) UpdateRecognitionServiceManager(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "updateRecognitionServiceManager")
 	if _err != nil {
-		return _err
+		_code = TransactionISandboxedDetectionServiceUpdateRecognitionServiceManager
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -197,7 +197,7 @@ func (p *SandboxedDetectionServiceProxy) Ping(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "ping")
 	if _err != nil {
-		return _err
+		_code = TransactionISandboxedDetectionServicePing
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -212,7 +212,7 @@ func (p *SandboxedDetectionServiceProxy) StopDetection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "stopDetection")
 	if _err != nil {
-		return _err
+		_code = TransactionISandboxedDetectionServiceStopDetection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -229,7 +229,7 @@ func (p *SandboxedDetectionServiceProxy) RegisterRemoteStorageService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISandboxedDetectionService, "registerRemoteStorageService")
 	if _err != nil {
-		return _err
+		_code = TransactionISandboxedDetectionServiceRegisterRemoteStorageService
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

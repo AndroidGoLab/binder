@@ -48,7 +48,7 @@ func (p *PopulationDensityProviderProxy) GetDefaultCoarseningLevel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPopulationDensityProvider, "getDefaultCoarseningLevel")
 	if _err != nil {
-		return _err
+		_code = TransactionIPopulationDensityProviderGetDefaultCoarseningLevel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *PopulationDensityProviderProxy) GetCoarsenedS2Cells(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPopulationDensityProvider, "getCoarsenedS2Cells")
 	if _err != nil {
-		return _err
+		_code = TransactionIPopulationDensityProviderGetCoarsenedS2Cells
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

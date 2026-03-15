@@ -58,7 +58,7 @@ func (p *RecentTasksProxy) RegisterRecentTasksListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasks, "registerRecentTasksListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecentTasksRegisterRecentTasksListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -75,7 +75,7 @@ func (p *RecentTasksProxy) UnregisterRecentTasksListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasks, "unregisterRecentTasksListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecentTasksUnregisterRecentTasksListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -97,7 +97,7 @@ func (p *RecentTasksProxy) GetRecentTasks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasks, "getRecentTasks")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRecentTasksGetRecentTasks
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -137,7 +137,7 @@ func (p *RecentTasksProxy) GetRunningTasks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasks, "getRunningTasks")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRecentTasksGetRunningTasks
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -193,7 +193,7 @@ func (p *RecentTasksProxy) StartRecentsTransition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasks, "startRecentsTransition")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecentTasksStartRecentsTransition
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

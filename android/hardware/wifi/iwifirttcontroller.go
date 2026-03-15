@@ -64,7 +64,7 @@ func (p *WifiRttControllerProxy) DisableResponder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiRttController, "disableResponder")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiRttControllerDisableResponder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -102,7 +102,7 @@ func (p *WifiRttControllerProxy) EnableResponder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiRttController, "enableResponder")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiRttControllerEnableResponder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -127,7 +127,7 @@ func (p *WifiRttControllerProxy) GetBoundIface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiRttController, "getBoundIface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiRttControllerGetBoundIface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -157,7 +157,7 @@ func (p *WifiRttControllerProxy) GetCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiRttController, "getCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiRttControllerGetCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -191,7 +191,7 @@ func (p *WifiRttControllerProxy) GetResponderInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiRttController, "getResponderInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWifiRttControllerGetResponderInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -237,7 +237,7 @@ func (p *WifiRttControllerProxy) RangeCancel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiRttController, "rangeCancel")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiRttControllerRangeCancel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -274,7 +274,7 @@ func (p *WifiRttControllerProxy) RangeRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiRttController, "rangeRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiRttControllerRangeRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -300,7 +300,7 @@ func (p *WifiRttControllerProxy) RegisterEventCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiRttController, "registerEventCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiRttControllerRegisterEventCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -331,7 +331,7 @@ func (p *WifiRttControllerProxy) SetLci(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiRttController, "setLci")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiRttControllerSetLci
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -362,7 +362,7 @@ func (p *WifiRttControllerProxy) SetLcr(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiRttController, "setLcr")
 	if _err != nil {
-		return _err
+		_code = TransactionIWifiRttControllerSetLcr
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

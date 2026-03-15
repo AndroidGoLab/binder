@@ -57,7 +57,7 @@ func (p *AutofillWindowPresenterProxy) Show(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutofillWindowPresenter, "show")
 	if _err != nil {
-		return _err
+		_code = TransactionIAutofillWindowPresenterShow
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -77,7 +77,7 @@ func (p *AutofillWindowPresenterProxy) Hide(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutofillWindowPresenter, "hide")
 	if _err != nil {
-		return _err
+		_code = TransactionIAutofillWindowPresenterHide
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -56,7 +56,7 @@ func (p *ProcessStatsProxy) GetCurrentStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProcessStats, "getCurrentStats")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIProcessStatsGetCurrentStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -110,7 +110,7 @@ func (p *ProcessStatsProxy) GetStatsOverTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProcessStats, "getStatsOverTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIProcessStatsGetStatsOverTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -139,7 +139,7 @@ func (p *ProcessStatsProxy) GetCurrentMemoryState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProcessStats, "getCurrentMemoryState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIProcessStatsGetCurrentMemoryState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -175,7 +175,7 @@ func (p *ProcessStatsProxy) GetCommittedStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProcessStats, "getCommittedStats")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIProcessStatsGetCommittedStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -225,7 +225,7 @@ func (p *ProcessStatsProxy) GetCommittedStatsMerged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProcessStats, "getCommittedStatsMerged")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIProcessStatsGetCommittedStatsMerged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -270,7 +270,7 @@ func (p *ProcessStatsProxy) GetMinAssociationDumpDuration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProcessStats, "getMinAssociationDumpDuration")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIProcessStatsGetMinAssociationDumpDuration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

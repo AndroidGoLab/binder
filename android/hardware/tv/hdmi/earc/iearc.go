@@ -54,7 +54,7 @@ func (p *EArcProxy) SetEArcEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEArc, "setEArcEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIEArcSetEArcEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -79,7 +79,7 @@ func (p *EArcProxy) IsEArcEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEArc, "isEArcEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEArcIsEArcEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -109,7 +109,7 @@ func (p *EArcProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEArc, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIEArcSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -136,7 +136,7 @@ func (p *EArcProxy) GetState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEArc, "getState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEArcGetState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -168,7 +168,7 @@ func (p *EArcProxy) GetLastReportedAudioCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEArc, "getLastReportedAudioCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEArcGetLastReportedAudioCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -60,7 +60,7 @@ func (p *CryptoPluginProxy) Decrypt(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICryptoPlugin, "decrypt")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICryptoPluginDecrypt
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -89,7 +89,7 @@ func (p *CryptoPluginProxy) GetLogMessages(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICryptoPlugin, "getLogMessages")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICryptoPluginGetLogMessages
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *CryptoPluginProxy) NotifyResolution(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICryptoPlugin, "notifyResolution")
 	if _err != nil {
-		return _err
+		_code = TransactionICryptoPluginNotifyResolution
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -157,7 +157,7 @@ func (p *CryptoPluginProxy) RequiresSecureDecoderComponent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICryptoPlugin, "requiresSecureDecoderComponent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICryptoPluginRequiresSecureDecoderComponent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -194,7 +194,7 @@ func (p *CryptoPluginProxy) SetMediaDrmSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICryptoPlugin, "setMediaDrmSession")
 	if _err != nil {
-		return _err
+		_code = TransactionICryptoPluginSetMediaDrmSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -223,7 +223,7 @@ func (p *CryptoPluginProxy) SetSharedBufferBase(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICryptoPlugin, "setSharedBufferBase")
 	if _err != nil {
-		return _err
+		_code = TransactionICryptoPluginSetSharedBufferBase
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

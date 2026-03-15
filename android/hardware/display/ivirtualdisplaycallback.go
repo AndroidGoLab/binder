@@ -48,7 +48,7 @@ func (p *VirtualDisplayCallbackProxy) OnPaused(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDisplayCallback, "onPaused")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualDisplayCallbackOnPaused
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *VirtualDisplayCallbackProxy) OnResumed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDisplayCallback, "onResumed")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualDisplayCallbackOnResumed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *VirtualDisplayCallbackProxy) OnStopped(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDisplayCallback, "onStopped")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualDisplayCallbackOnStopped
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -48,7 +48,7 @@ func (p *TracingServiceProxyProxy) NotifyTraceSessionEnded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITracingServiceProxy, "notifyTraceSessionEnded")
 	if _err != nil {
-		return _err
+		_code = TransactionITracingServiceProxyNotifyTraceSessionEnded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -68,7 +68,7 @@ func (p *TracingServiceProxyProxy) ReportTrace(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITracingServiceProxy, "reportTrace")
 	if _err != nil {
-		return _err
+		_code = TransactionITracingServiceProxyReportTrace
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

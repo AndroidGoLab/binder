@@ -49,7 +49,7 @@ func (p *FontManagerProxy) GetFontConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFontManager, "getFontConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFontManagerGetFontConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -96,7 +96,7 @@ func (p *FontManagerProxy) UpdateFontFamily(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFontManager, "updateFontFamily")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFontManagerUpdateFontFamily
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

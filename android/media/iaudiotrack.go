@@ -79,7 +79,7 @@ func (p *AudioTrackProxy) GetCblk(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "getCblk")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioTrackGetCblk
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -113,7 +113,7 @@ func (p *AudioTrackProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "start")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioTrackStart
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -141,7 +141,7 @@ func (p *AudioTrackProxy) Stop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "stop")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioTrackStop
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -165,7 +165,7 @@ func (p *AudioTrackProxy) Flush(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "flush")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioTrackFlush
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -189,7 +189,7 @@ func (p *AudioTrackProxy) Pause(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "pause")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioTrackPause
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -216,7 +216,7 @@ func (p *AudioTrackProxy) AttachAuxEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "attachAuxEffect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioTrackAttachAuxEffect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -247,7 +247,7 @@ func (p *AudioTrackProxy) SetParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "setParameters")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioTrackSetParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -280,7 +280,7 @@ func (p *AudioTrackProxy) SelectPresentation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "selectPresentation")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioTrackSelectPresentation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -310,7 +310,7 @@ func (p *AudioTrackProxy) GetTimestamp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "getTimestamp")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioTrackGetTimestamp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -341,7 +341,7 @@ func (p *AudioTrackProxy) Signal(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "signal")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioTrackSignal
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -376,7 +376,7 @@ func (p *AudioTrackProxy) ApplyVolumeShaper(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "applyVolumeShaper")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioTrackApplyVolumeShaper
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -407,7 +407,7 @@ func (p *AudioTrackProxy) GetVolumeShaperState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "getVolumeShaperState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioTrackGetVolumeShaperState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -441,7 +441,7 @@ func (p *AudioTrackProxy) GetDualMonoMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "getDualMonoMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioTrackGetDualMonoMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -466,7 +466,7 @@ func (p *AudioTrackProxy) SetDualMonoMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "setDualMonoMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioTrackSetDualMonoMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -491,7 +491,7 @@ func (p *AudioTrackProxy) GetAudioDescriptionMixLevel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "getAudioDescriptionMixLevel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioTrackGetAudioDescriptionMixLevel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -521,7 +521,7 @@ func (p *AudioTrackProxy) SetAudioDescriptionMixLevel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "setAudioDescriptionMixLevel")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioTrackSetAudioDescriptionMixLevel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -546,7 +546,7 @@ func (p *AudioTrackProxy) GetPlaybackRateParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "getPlaybackRateParameters")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioTrackGetPlaybackRateParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -571,7 +571,7 @@ func (p *AudioTrackProxy) SetPlaybackRateParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioTrack, "setPlaybackRateParameters")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioTrackSetPlaybackRateParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

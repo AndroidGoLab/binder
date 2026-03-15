@@ -61,7 +61,7 @@ func (p *CacheQuotaServiceProxy) ComputeCacheQuotaHints(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICacheQuotaService, "computeCacheQuotaHints")
 	if _err != nil {
-		return _err
+		_code = TransactionICacheQuotaServiceComputeCacheQuotaHints
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

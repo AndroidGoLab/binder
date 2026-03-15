@@ -52,7 +52,7 @@ func (p *BluetoothAudioProviderFactoryProxy) GetProviderCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioProviderFactory, "getProviderCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothAudioProviderFactoryGetProviderCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -92,7 +92,7 @@ func (p *BluetoothAudioProviderFactoryProxy) OpenProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioProviderFactory, "openProvider")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothAudioProviderFactoryOpenProvider
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -124,7 +124,7 @@ func (p *BluetoothAudioProviderFactoryProxy) GetProviderInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioProviderFactory, "getProviderInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothAudioProviderFactoryGetProviderInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

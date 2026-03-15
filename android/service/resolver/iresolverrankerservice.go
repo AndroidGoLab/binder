@@ -59,7 +59,7 @@ func (p *ResolverRankerServiceProxy) Predict(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResolverRankerService, "predict")
 	if _err != nil {
-		return _err
+		_code = TransactionIResolverRankerServicePredict
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -87,7 +87,7 @@ func (p *ResolverRankerServiceProxy) Train(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResolverRankerService, "train")
 	if _err != nil {
-		return _err
+		_code = TransactionIResolverRankerServiceTrain
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

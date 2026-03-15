@@ -56,7 +56,7 @@ func (p *FullBackupRestoreObserverProxy) OnStartBackup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onStartBackup")
 	if _err != nil {
-		return _err
+		_code = TransactionIFullBackupRestoreObserverOnStartBackup
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -73,7 +73,7 @@ func (p *FullBackupRestoreObserverProxy) OnBackupPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onBackupPackage")
 	if _err != nil {
-		return _err
+		_code = TransactionIFullBackupRestoreObserverOnBackupPackage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *FullBackupRestoreObserverProxy) OnEndBackup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onEndBackup")
 	if _err != nil {
-		return _err
+		_code = TransactionIFullBackupRestoreObserverOnEndBackup
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -103,7 +103,7 @@ func (p *FullBackupRestoreObserverProxy) OnStartRestore(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onStartRestore")
 	if _err != nil {
-		return _err
+		_code = TransactionIFullBackupRestoreObserverOnStartRestore
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -120,7 +120,7 @@ func (p *FullBackupRestoreObserverProxy) OnRestorePackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onRestorePackage")
 	if _err != nil {
-		return _err
+		_code = TransactionIFullBackupRestoreObserverOnRestorePackage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -135,7 +135,7 @@ func (p *FullBackupRestoreObserverProxy) OnEndRestore(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onEndRestore")
 	if _err != nil {
-		return _err
+		_code = TransactionIFullBackupRestoreObserverOnEndRestore
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -150,7 +150,7 @@ func (p *FullBackupRestoreObserverProxy) OnTimeout(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFullBackupRestoreObserver, "onTimeout")
 	if _err != nil {
-		return _err
+		_code = TransactionIFullBackupRestoreObserverOnTimeout
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

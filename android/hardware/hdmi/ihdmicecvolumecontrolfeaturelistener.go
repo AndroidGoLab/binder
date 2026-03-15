@@ -46,7 +46,7 @@ func (p *HdmiCecVolumeControlFeatureListenerProxy) OnHdmiCecVolumeControlFeature
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiCecVolumeControlFeatureListener, "onHdmiCecVolumeControlFeature")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiCecVolumeControlFeatureListenerOnHdmiCecVolumeControlFeature
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

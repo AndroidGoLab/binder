@@ -75,7 +75,7 @@ func (p *BubblesProxy) RegisterBubbleListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "registerBubbleListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIBubblesRegisterBubbleListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *BubblesProxy) UnregisterBubbleListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "unregisterBubbleListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIBubblesUnregisterBubbleListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -111,7 +111,7 @@ func (p *BubblesProxy) ShowBubble(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "showBubble")
 	if _err != nil {
-		return _err
+		_code = TransactionIBubblesShowBubble
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -130,7 +130,7 @@ func (p *BubblesProxy) DragBubbleToDismiss(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "dragBubbleToDismiss")
 	if _err != nil {
-		return _err
+		_code = TransactionIBubblesDragBubbleToDismiss
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -145,7 +145,7 @@ func (p *BubblesProxy) RemoveAllBubbles(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "removeAllBubbles")
 	if _err != nil {
-		return _err
+		_code = TransactionIBubblesRemoveAllBubbles
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -160,7 +160,7 @@ func (p *BubblesProxy) CollapseBubbles(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "collapseBubbles")
 	if _err != nil {
-		return _err
+		_code = TransactionIBubblesCollapseBubbles
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -177,7 +177,7 @@ func (p *BubblesProxy) StartBubbleDrag(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "startBubbleDrag")
 	if _err != nil {
-		return _err
+		_code = TransactionIBubblesStartBubbleDrag
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -196,7 +196,7 @@ func (p *BubblesProxy) ShowUserEducation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "showUserEducation")
 	if _err != nil {
-		return _err
+		_code = TransactionIBubblesShowUserEducation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -218,7 +218,7 @@ func (p *BubblesProxy) SetBubbleBarLocation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "setBubbleBarLocation")
 	if _err != nil {
-		return _err
+		_code = TransactionIBubblesSetBubbleBarLocation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -235,7 +235,7 @@ func (p *BubblesProxy) UpdateBubbleBarTopOnScreen(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "updateBubbleBarTopOnScreen")
 	if _err != nil {
-		return _err
+		_code = TransactionIBubblesUpdateBubbleBarTopOnScreen
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -257,7 +257,7 @@ func (p *BubblesProxy) StopBubbleDrag(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "stopBubbleDrag")
 	if _err != nil {
-		return _err
+		_code = TransactionIBubblesStopBubbleDrag
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -277,7 +277,7 @@ func (p *BubblesProxy) ShowShortcutBubble(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "showShortcutBubble")
 	if _err != nil {
-		return _err
+		_code = TransactionIBubblesShowShortcutBubble
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -297,7 +297,7 @@ func (p *BubblesProxy) ShowAppBubble(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "showAppBubble")
 	if _err != nil {
-		return _err
+		_code = TransactionIBubblesShowAppBubble
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -312,7 +312,7 @@ func (p *BubblesProxy) ShowExpandedView(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBubbles, "showExpandedView")
 	if _err != nil {
-		return _err
+		_code = TransactionIBubblesShowExpandedView
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

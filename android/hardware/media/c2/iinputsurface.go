@@ -49,7 +49,7 @@ func (p *InputSurfaceProxy) GetSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputSurface, "getSurface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputSurfaceGetSurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -74,7 +74,7 @@ func (p *InputSurfaceProxy) GetConfigurable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputSurface, "getConfigurable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputSurfaceGetConfigurable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -106,7 +106,7 @@ func (p *InputSurfaceProxy) Connect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputSurface, "connect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputSurfaceConnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

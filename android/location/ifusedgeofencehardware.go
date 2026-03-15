@@ -55,7 +55,7 @@ func (p *FusedGeofenceHardwareProxy) IsSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFusedGeofenceHardware, "isSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFusedGeofenceHardwareIsSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -89,7 +89,7 @@ func (p *FusedGeofenceHardwareProxy) AddGeofences(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFusedGeofenceHardware, "addGeofences")
 	if _err != nil {
-		return _err
+		_code = TransactionIFusedGeofenceHardwareAddGeofences
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -122,7 +122,7 @@ func (p *FusedGeofenceHardwareProxy) RemoveGeofences(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFusedGeofenceHardware, "removeGeofences")
 	if _err != nil {
-		return _err
+		_code = TransactionIFusedGeofenceHardwareRemoveGeofences
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -148,7 +148,7 @@ func (p *FusedGeofenceHardwareProxy) PauseMonitoringGeofence(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFusedGeofenceHardware, "pauseMonitoringGeofence")
 	if _err != nil {
-		return _err
+		_code = TransactionIFusedGeofenceHardwarePauseMonitoringGeofence
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -176,7 +176,7 @@ func (p *FusedGeofenceHardwareProxy) ResumeMonitoringGeofence(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFusedGeofenceHardware, "resumeMonitoringGeofence")
 	if _err != nil {
-		return _err
+		_code = TransactionIFusedGeofenceHardwareResumeMonitoringGeofence
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -212,7 +212,7 @@ func (p *FusedGeofenceHardwareProxy) ModifyGeofenceOptions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFusedGeofenceHardware, "modifyGeofenceOptions")
 	if _err != nil {
-		return _err
+		_code = TransactionIFusedGeofenceHardwareModifyGeofenceOptions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

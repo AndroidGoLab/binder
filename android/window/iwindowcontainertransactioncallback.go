@@ -47,7 +47,7 @@ func (p *WindowContainerTransactionCallbackProxy) OnTransactionReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowContainerTransactionCallback, "onTransactionReady")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowContainerTransactionCallbackOnTransactionReady
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

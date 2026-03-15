@@ -46,7 +46,7 @@ func (p *GetEidCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGetEidCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIGetEidCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

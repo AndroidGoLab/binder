@@ -44,7 +44,7 @@ func (p *CheckCredentialProgressCallbackProxy) OnCredentialVerified(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICheckCredentialProgressCallback, "onCredentialVerified")
 	if _err != nil {
-		return _err
+		_code = TransactionICheckCredentialProgressCallbackOnCredentialVerified
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

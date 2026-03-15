@@ -58,7 +58,7 @@ func (p *PackageManagerProxyProxy) GetNamesForUids(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerProxy, "getNamesForUids")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageManagerProxyGetNamesForUids
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -103,7 +103,7 @@ func (p *PackageManagerProxyProxy) GetPackageUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerProxy, "getPackageUid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageManagerProxyGetPackageUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -134,7 +134,7 @@ func (p *PackageManagerProxyProxy) GetVersionCodeForPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerProxy, "getVersionCodeForPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageManagerProxyGetVersionCodeForPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

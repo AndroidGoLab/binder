@@ -46,7 +46,7 @@ func (p *SomeServiceProxy) ReadDisk(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISomeService, "readDisk")
 	if _err != nil {
-		return _err
+		_code = TransactionISomeServiceReadDisk
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

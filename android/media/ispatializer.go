@@ -86,7 +86,7 @@ func (p *SpatializerProxy) Release(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "release")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerRelease
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -111,7 +111,7 @@ func (p *SpatializerProxy) GetSupportedLevels(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "getSupportedLevels")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISpatializerGetSupportedLevels
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -146,7 +146,7 @@ func (p *SpatializerProxy) SetLevel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setLevel")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerSetLevel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -171,7 +171,7 @@ func (p *SpatializerProxy) GetLevel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "getLevel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISpatializerGetLevel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -196,7 +196,7 @@ func (p *SpatializerProxy) IsHeadTrackingSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "isHeadTrackingSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISpatializerIsHeadTrackingSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -225,7 +225,7 @@ func (p *SpatializerProxy) GetSupportedHeadTrackingModes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "getSupportedHeadTrackingModes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISpatializerGetSupportedHeadTrackingModes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -260,7 +260,7 @@ func (p *SpatializerProxy) SetDesiredHeadTrackingMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setDesiredHeadTrackingMode")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerSetDesiredHeadTrackingMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -285,7 +285,7 @@ func (p *SpatializerProxy) GetActualHeadTrackingMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "getActualHeadTrackingMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISpatializerGetActualHeadTrackingMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -309,7 +309,7 @@ func (p *SpatializerProxy) RecenterHeadTracker(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "recenterHeadTracker")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerRecenterHeadTracker
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -342,7 +342,7 @@ func (p *SpatializerProxy) SetGlobalTransform(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setGlobalTransform")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerSetGlobalTransform
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -368,7 +368,7 @@ func (p *SpatializerProxy) SetHeadSensor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setHeadSensor")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerSetHeadSensor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -394,7 +394,7 @@ func (p *SpatializerProxy) SetScreenSensor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setScreenSensor")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerSetScreenSensor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -420,7 +420,7 @@ func (p *SpatializerProxy) SetDisplayOrientation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setDisplayOrientation")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerSetDisplayOrientation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -446,7 +446,7 @@ func (p *SpatializerProxy) SetHingeAngle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setHingeAngle")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerSetHingeAngle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -472,7 +472,7 @@ func (p *SpatializerProxy) SetFoldState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setFoldState")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerSetFoldState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -497,7 +497,7 @@ func (p *SpatializerProxy) GetSupportedModes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "getSupportedModes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISpatializerGetSupportedModes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -533,7 +533,7 @@ func (p *SpatializerProxy) RegisterHeadTrackingCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "registerHeadTrackingCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerRegisterHeadTrackingCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -568,7 +568,7 @@ func (p *SpatializerProxy) SetParameter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "setParameter")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerSetParameter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -603,7 +603,7 @@ func (p *SpatializerProxy) GetParameter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "getParameter")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerGetParameter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -641,7 +641,7 @@ func (p *SpatializerProxy) GetOutput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "getOutput")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISpatializerGetOutput
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -670,7 +670,7 @@ func (p *SpatializerProxy) GetSpatializedChannelMasks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializer, "getSpatializedChannelMasks")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISpatializerGetSpatializedChannelMasks
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

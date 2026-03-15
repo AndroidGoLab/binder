@@ -59,7 +59,7 @@ func (p *BluetoothVolumeControlCallbackProxy) OnVolumeOffsetChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControlCallback, "onVolumeOffsetChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlCallbackOnVolumeOffsetChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -83,7 +83,7 @@ func (p *BluetoothVolumeControlCallbackProxy) OnVolumeOffsetAudioLocationChanged
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControlCallback, "onVolumeOffsetAudioLocationChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlCallbackOnVolumeOffsetAudioLocationChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -107,7 +107,7 @@ func (p *BluetoothVolumeControlCallbackProxy) OnVolumeOffsetAudioDescriptionChan
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControlCallback, "onVolumeOffsetAudioDescriptionChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlCallbackOnVolumeOffsetAudioDescriptionChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -129,7 +129,7 @@ func (p *BluetoothVolumeControlCallbackProxy) OnDeviceVolumeChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControlCallback, "onDeviceVolumeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlCallbackOnDeviceVolumeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

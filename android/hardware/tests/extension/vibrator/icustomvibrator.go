@@ -53,7 +53,7 @@ func (p *CustomVibratorProxy) GetVendorCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICustomVibrator, "getVendorCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICustomVibratorGetVendorCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -83,7 +83,7 @@ func (p *CustomVibratorProxy) SetDirectionality(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICustomVibrator, "setDirectionality")
 	if _err != nil {
-		return _err
+		_code = TransactionICustomVibratorSetDirectionality
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -111,7 +111,7 @@ func (p *CustomVibratorProxy) Perform(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICustomVibrator, "perform")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICustomVibratorPerform
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

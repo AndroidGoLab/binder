@@ -48,7 +48,7 @@ func (p *GetDefaultSmdpAddressCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGetDefaultSmdpAddressCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIGetDefaultSmdpAddressCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

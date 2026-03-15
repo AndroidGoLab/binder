@@ -55,7 +55,7 @@ func (p *NfcClientCallbackProxy) SendData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINfcClientCallback, "sendData")
 	if _err != nil {
-		return _err
+		_code = TransactionINfcClientCallbackSendData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -83,7 +83,7 @@ func (p *NfcClientCallbackProxy) SendEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINfcClientCallback, "sendEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionINfcClientCallbackSendEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

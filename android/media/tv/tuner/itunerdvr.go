@@ -63,7 +63,7 @@ func (p *TunerDvrProxy) GetQueueDesc(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "getQueueDesc")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerDvrGetQueueDesc
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -101,7 +101,7 @@ func (p *TunerDvrProxy) Configure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "configure")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDvrConfigure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -127,7 +127,7 @@ func (p *TunerDvrProxy) AttachFilter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "attachFilter")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDvrAttachFilter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -153,7 +153,7 @@ func (p *TunerDvrProxy) DetachFilter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "detachFilter")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDvrDetachFilter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -177,7 +177,7 @@ func (p *TunerDvrProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "start")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDvrStart
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -201,7 +201,7 @@ func (p *TunerDvrProxy) Stop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "stop")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDvrStop
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -225,7 +225,7 @@ func (p *TunerDvrProxy) Flush(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "flush")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDvrFlush
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -249,7 +249,7 @@ func (p *TunerDvrProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDvrClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -275,7 +275,7 @@ func (p *TunerDvrProxy) SetStatusCheckIntervalHint(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDvr, "setStatusCheckIntervalHint")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDvrSetStatusCheckIntervalHint
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

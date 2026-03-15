@@ -45,7 +45,7 @@ func (p *ServiceSingletonTestProxy) Inc(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceSingletonTest, "inc")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIServiceSingletonTestInc
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

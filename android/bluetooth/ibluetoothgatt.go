@@ -123,7 +123,7 @@ func (p *BluetoothGattProxy) GetDevicesMatchingConnectionStates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "getDevicesMatchingConnectionStates")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothGattGetDevicesMatchingConnectionStates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -166,7 +166,7 @@ func (p *BluetoothGattProxy) RegisterClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "registerClient")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattRegisterClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -193,7 +193,7 @@ func (p *BluetoothGattProxy) UnregisterClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "unregisterClient")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattUnregisterClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -232,7 +232,7 @@ func (p *BluetoothGattProxy) ClientConnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "clientConnect")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattClientConnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -261,7 +261,7 @@ func (p *BluetoothGattProxy) ClientDisconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "clientDisconnect")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattClientDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -296,7 +296,7 @@ func (p *BluetoothGattProxy) ClientSetPreferredPhy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "clientSetPreferredPhy")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattClientSetPreferredPhy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -325,7 +325,7 @@ func (p *BluetoothGattProxy) ClientReadPhy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "clientReadPhy")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattClientReadPhy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -354,7 +354,7 @@ func (p *BluetoothGattProxy) RefreshDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "refreshDevice")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattRefreshDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -383,7 +383,7 @@ func (p *BluetoothGattProxy) DiscoverServices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "discoverServices")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattDiscoverServices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -413,7 +413,7 @@ func (p *BluetoothGattProxy) DiscoverServiceByUuid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "discoverServiceByUuid")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattDiscoverServiceByUuid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -446,7 +446,7 @@ func (p *BluetoothGattProxy) ReadCharacteristic(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "readCharacteristic")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattReadCharacteristic
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -482,7 +482,7 @@ func (p *BluetoothGattProxy) ReadUsingCharacteristicUuid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "readUsingCharacteristicUuid")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattReadUsingCharacteristicUuid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -527,7 +527,7 @@ func (p *BluetoothGattProxy) WriteCharacteristic(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "writeCharacteristic")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothGattWriteCharacteristic
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -564,7 +564,7 @@ func (p *BluetoothGattProxy) ReadDescriptor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "readDescriptor")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattReadDescriptor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -607,7 +607,7 @@ func (p *BluetoothGattProxy) WriteDescriptor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "writeDescriptor")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothGattWriteDescriptor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -644,7 +644,7 @@ func (p *BluetoothGattProxy) RegisterForNotification(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "registerForNotification")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattRegisterForNotification
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -673,7 +673,7 @@ func (p *BluetoothGattProxy) BeginReliableWrite(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "beginReliableWrite")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattBeginReliableWrite
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -704,7 +704,7 @@ func (p *BluetoothGattProxy) EndReliableWrite(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "endReliableWrite")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattEndReliableWrite
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -733,7 +733,7 @@ func (p *BluetoothGattProxy) ReadRemoteRssi(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "readRemoteRssi")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattReadRemoteRssi
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -764,7 +764,7 @@ func (p *BluetoothGattProxy) ConfigureMTU(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "configureMTU")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattConfigureMTU
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -795,7 +795,7 @@ func (p *BluetoothGattProxy) ConnectionParameterUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "connectionParameterUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattConnectionParameterUpdate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -836,7 +836,7 @@ func (p *BluetoothGattProxy) LeConnectionUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "leConnectionUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattLeConnectionUpdate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -866,7 +866,7 @@ func (p *BluetoothGattProxy) RegisterServer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "registerServer")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattRegisterServer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -893,7 +893,7 @@ func (p *BluetoothGattProxy) UnregisterServer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "unregisterServer")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattUnregisterServer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -928,7 +928,7 @@ func (p *BluetoothGattProxy) ServerConnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "serverConnect")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattServerConnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -957,7 +957,7 @@ func (p *BluetoothGattProxy) ServerDisconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "serverDisconnect")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattServerDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -992,7 +992,7 @@ func (p *BluetoothGattProxy) ServerSetPreferredPhy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "serverSetPreferredPhy")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattServerSetPreferredPhy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1021,7 +1021,7 @@ func (p *BluetoothGattProxy) ServerReadPhy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "serverReadPhy")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattServerReadPhy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1053,7 +1053,7 @@ func (p *BluetoothGattProxy) AddService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "addService")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattAddService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1082,7 +1082,7 @@ func (p *BluetoothGattProxy) RemoveService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "removeService")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattRemoveService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1109,7 +1109,7 @@ func (p *BluetoothGattProxy) ClearServices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "clearServices")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattClearServices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1153,7 +1153,7 @@ func (p *BluetoothGattProxy) SendResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "sendResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattSendResponse
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1196,7 +1196,7 @@ func (p *BluetoothGattProxy) SendNotification(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "sendNotification")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothGattSendNotification
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1225,7 +1225,7 @@ func (p *BluetoothGattProxy) DisconnectAll(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "disconnectAll")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothGattDisconnectAll
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1260,7 +1260,7 @@ func (p *BluetoothGattProxy) SubrateModeRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothGatt, "subrateModeRequest")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothGattSubrateModeRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

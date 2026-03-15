@@ -48,7 +48,7 @@ func (p *HomeControlsRemoteProxyProxy) RegisterListenerForCurrentUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHomeControlsRemoteProxy, "registerListenerForCurrentUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIHomeControlsRemoteProxyRegisterListenerForCurrentUser
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *HomeControlsRemoteProxyProxy) UnregisterListenerForCurrentUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHomeControlsRemoteProxy, "unregisterListenerForCurrentUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIHomeControlsRemoteProxyUnregisterListenerForCurrentUser
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

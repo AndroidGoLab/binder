@@ -55,7 +55,7 @@ func (p *AuditLogEventsCallbackProxy) OnNewAuditLogEvents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAuditLogEventsCallback, "onNewAuditLogEvents")
 	if _err != nil {
-		return _err
+		_code = TransactionIAuditLogEventsCallbackOnNewAuditLogEvents
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

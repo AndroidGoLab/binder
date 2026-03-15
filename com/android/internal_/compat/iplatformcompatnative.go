@@ -56,7 +56,7 @@ func (p *PlatformCompatNativeProxy) ReportChangeByPackageName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompatNative, "reportChangeByPackageName")
 	if _err != nil {
-		return _err
+		_code = TransactionIPlatformCompatNativeReportChangeByPackageName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *PlatformCompatNativeProxy) ReportChangeByUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompatNative, "reportChangeByUid")
 	if _err != nil {
-		return _err
+		_code = TransactionIPlatformCompatNativeReportChangeByUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -115,7 +115,7 @@ func (p *PlatformCompatNativeProxy) IsChangeEnabledByPackageName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompatNative, "isChangeEnabledByPackageName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPlatformCompatNativeIsChangeEnabledByPackageName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -148,7 +148,7 @@ func (p *PlatformCompatNativeProxy) IsChangeEnabledByUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlatformCompatNative, "isChangeEnabledByUid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPlatformCompatNativeIsChangeEnabledByUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

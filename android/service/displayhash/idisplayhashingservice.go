@@ -75,7 +75,7 @@ func (p *DisplayHashingServiceProxy) GenerateDisplayHash(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayHashingService, "generateDisplayHash")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayHashingServiceGenerateDisplayHash
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *DisplayHashingServiceProxy) VerifyDisplayHash(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayHashingService, "verifyDisplayHash")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayHashingServiceVerifyDisplayHash
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -129,7 +129,7 @@ func (p *DisplayHashingServiceProxy) GetDisplayHashAlgorithms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayHashingService, "getDisplayHashAlgorithms")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayHashingServiceGetDisplayHashAlgorithms
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -149,7 +149,7 @@ func (p *DisplayHashingServiceProxy) GetIntervalBetweenRequestsMillis(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayHashingService, "getIntervalBetweenRequestsMillis")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayHashingServiceGetIntervalBetweenRequestsMillis
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

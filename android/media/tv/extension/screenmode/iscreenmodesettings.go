@@ -52,7 +52,7 @@ func (p *ScreenModeSettingsProxy) SetScreenModeSettings(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScreenModeSettings, "setScreenModeSettings")
 	if _err != nil {
-		return _err
+		_code = TransactionIScreenModeSettingsSetScreenModeSettings
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -79,7 +79,7 @@ func (p *ScreenModeSettingsProxy) GetOverScanIndex(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScreenModeSettings, "getOverScanIndex")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIScreenModeSettingsGetOverScanIndex
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -110,7 +110,7 @@ func (p *ScreenModeSettingsProxy) GetSupportApplyOverScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScreenModeSettings, "getSupportApplyOverScan")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIScreenModeSettingsGetSupportApplyOverScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

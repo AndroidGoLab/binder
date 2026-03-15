@@ -62,7 +62,7 @@ func (p *EventDownloadSessionProxy) IsBarkerOrSequentialDownloadByServiceType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventDownloadSession, "isBarkerOrSequentialDownloadByServiceType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEventDownloadSessionIsBarkerOrSequentialDownloadByServiceType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -96,7 +96,7 @@ func (p *EventDownloadSessionProxy) IsBarkerOrSequentialDownloadByServiceRecord(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventDownloadSession, "isBarkerOrSequentialDownloadByServiceRecord")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEventDownloadSessionIsBarkerOrSequentialDownloadByServiceRecord
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -129,7 +129,7 @@ func (p *EventDownloadSessionProxy) StartTuningMultiplex(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventDownloadSession, "startTuningMultiplex")
 	if _err != nil {
-		return _err
+		_code = TransactionIEventDownloadSessionStartTuningMultiplex
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -164,7 +164,7 @@ func (p *EventDownloadSessionProxy) SetActiveWindowChannelInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventDownloadSession, "setActiveWindowChannelInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIEventDownloadSessionSetActiveWindowChannelInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -188,7 +188,7 @@ func (p *EventDownloadSessionProxy) Cancel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventDownloadSession, "cancel")
 	if _err != nil {
-		return _err
+		_code = TransactionIEventDownloadSessionCancel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -212,7 +212,7 @@ func (p *EventDownloadSessionProxy) Release(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventDownloadSession, "release")
 	if _err != nil {
-		return _err
+		_code = TransactionIEventDownloadSessionRelease
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

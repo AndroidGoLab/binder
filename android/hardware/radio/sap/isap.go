@@ -73,7 +73,7 @@ func (p *SapProxy) ApduReq(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISap, "apduReq")
 	if _err != nil {
-		return _err
+		_code = TransactionISapApduReq
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *SapProxy) ConnectReq(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISap, "connectReq")
 	if _err != nil {
-		return _err
+		_code = TransactionISapConnectReq
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *SapProxy) DisconnectReq(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISap, "disconnectReq")
 	if _err != nil {
-		return _err
+		_code = TransactionISapDisconnectReq
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -128,7 +128,7 @@ func (p *SapProxy) PowerReq(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISap, "powerReq")
 	if _err != nil {
-		return _err
+		_code = TransactionISapPowerReq
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -145,7 +145,7 @@ func (p *SapProxy) ResetSimReq(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISap, "resetSimReq")
 	if _err != nil {
-		return _err
+		_code = TransactionISapResetSimReq
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -162,7 +162,7 @@ func (p *SapProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISap, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionISapSetCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -181,7 +181,7 @@ func (p *SapProxy) SetTransferProtocolReq(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISap, "setTransferProtocolReq")
 	if _err != nil {
-		return _err
+		_code = TransactionISapSetTransferProtocolReq
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -198,7 +198,7 @@ func (p *SapProxy) TransferAtrReq(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISap, "transferAtrReq")
 	if _err != nil {
-		return _err
+		_code = TransactionISapTransferAtrReq
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -215,7 +215,7 @@ func (p *SapProxy) TransferCardReaderStatusReq(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISap, "transferCardReaderStatusReq")
 	if _err != nil {
-		return _err
+		_code = TransactionISapTransferCardReaderStatusReq
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

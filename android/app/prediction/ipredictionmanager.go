@@ -74,7 +74,7 @@ func (p *PredictionManagerProxy) CreatePredictionSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPredictionManager, "createPredictionSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIPredictionManagerCreatePredictionSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -108,7 +108,7 @@ func (p *PredictionManagerProxy) NotifyAppTargetEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPredictionManager, "notifyAppTargetEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIPredictionManagerNotifyAppTargetEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -144,7 +144,7 @@ func (p *PredictionManagerProxy) NotifyLaunchLocationShown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPredictionManager, "notifyLaunchLocationShown")
 	if _err != nil {
-		return _err
+		_code = TransactionIPredictionManagerNotifyLaunchLocationShown
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -180,7 +180,7 @@ func (p *PredictionManagerProxy) SortAppTargets(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPredictionManager, "sortAppTargets")
 	if _err != nil {
-		return _err
+		_code = TransactionIPredictionManagerSortAppTargets
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -211,7 +211,7 @@ func (p *PredictionManagerProxy) RegisterPredictionUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPredictionManager, "registerPredictionUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionIPredictionManagerRegisterPredictionUpdates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -242,7 +242,7 @@ func (p *PredictionManagerProxy) UnregisterPredictionUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPredictionManager, "unregisterPredictionUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionIPredictionManagerUnregisterPredictionUpdates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -271,7 +271,7 @@ func (p *PredictionManagerProxy) RequestPredictionUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPredictionManager, "requestPredictionUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIPredictionManagerRequestPredictionUpdate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -300,7 +300,7 @@ func (p *PredictionManagerProxy) OnDestroyPredictionSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPredictionManager, "onDestroyPredictionSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIPredictionManagerOnDestroyPredictionSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -331,7 +331,7 @@ func (p *PredictionManagerProxy) RequestServiceFeatures(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPredictionManager, "requestServiceFeatures")
 	if _err != nil {
-		return _err
+		_code = TransactionIPredictionManagerRequestServiceFeatures
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

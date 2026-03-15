@@ -64,7 +64,7 @@ func (p *LauncherUnlockAnimationControllerProxy) PrepareForUnlock(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILauncherUnlockAnimationController, "prepareForUnlock")
 	if _err != nil {
-		return _err
+		_code = TransactionILauncherUnlockAnimationControllerPrepareForUnlock
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -92,7 +92,7 @@ func (p *LauncherUnlockAnimationControllerProxy) SetUnlockAmount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILauncherUnlockAnimationController, "setUnlockAmount")
 	if _err != nil {
-		return _err
+		_code = TransactionILauncherUnlockAnimationControllerSetUnlockAmount
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -113,7 +113,7 @@ func (p *LauncherUnlockAnimationControllerProxy) PlayUnlockAnimation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILauncherUnlockAnimationController, "playUnlockAnimation")
 	if _err != nil {
-		return _err
+		_code = TransactionILauncherUnlockAnimationControllerPlayUnlockAnimation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -130,7 +130,7 @@ func (p *LauncherUnlockAnimationControllerProxy) SetSmartspaceSelectedPage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILauncherUnlockAnimationController, "setSmartspaceSelectedPage")
 	if _err != nil {
-		return _err
+		_code = TransactionILauncherUnlockAnimationControllerSetSmartspaceSelectedPage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -147,7 +147,7 @@ func (p *LauncherUnlockAnimationControllerProxy) SetSmartspaceVisibility(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILauncherUnlockAnimationController, "setSmartspaceVisibility")
 	if _err != nil {
-		return _err
+		_code = TransactionILauncherUnlockAnimationControllerSetSmartspaceVisibility
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -171,7 +171,7 @@ func (p *LauncherUnlockAnimationControllerProxy) DispatchSmartspaceStateToSysui(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILauncherUnlockAnimationController, "dispatchSmartspaceStateToSysui")
 	if _err != nil {
-		return _err
+		_code = TransactionILauncherUnlockAnimationControllerDispatchSmartspaceStateToSysui
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

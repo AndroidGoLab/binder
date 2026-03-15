@@ -50,7 +50,7 @@ func (p *BiometricStateListenerProxy) OnStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricStateListener, "onStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricStateListenerOnStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *BiometricStateListenerProxy) OnBiometricAction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricStateListener, "onBiometricAction")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricStateListenerOnBiometricAction
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *BiometricStateListenerProxy) OnEnrollmentsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricStateListener, "onEnrollmentsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricStateListenerOnEnrollmentsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

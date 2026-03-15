@@ -48,7 +48,7 @@ func (p *ContextualSearchManagerProxy) StartContextualSearch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextualSearchManager, "startContextualSearch")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextualSearchManagerStartContextualSearch
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *ContextualSearchManagerProxy) GetContextualSearchState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextualSearchManager, "getContextualSearchState")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextualSearchManagerGetContextualSearchState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -44,7 +44,7 @@ func (p *TestServiceConnectorServiceProxy) CrashProcess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITestServiceConnectorService, "crashProcess")
 	if _err != nil {
-		return _err
+		_code = TransactionITestServiceConnectorServiceCrashProcess
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

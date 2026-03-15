@@ -51,7 +51,7 @@ func (p *SurfaceSyncGroupProxy) OnAddedToSyncGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceSyncGroup, "onAddedToSyncGroup")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceSyncGroupOnAddedToSyncGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *SurfaceSyncGroupProxy) AddToSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceSyncGroup, "addToSync")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISurfaceSyncGroupAddToSync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -54,7 +54,7 @@ func (p *VrListenerProxy) FocusedActivityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVrListener, "focusedActivityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIVrListenerFocusedActivityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -46,7 +46,7 @@ func (p *OnDoneCallbackProxy) OnDone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnDoneCallback, "onDone")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnDoneCallbackOnDone
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

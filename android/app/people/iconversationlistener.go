@@ -49,7 +49,7 @@ func (p *ConversationListenerProxy) OnConversationUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConversationListener, "onConversationUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIConversationListenerOnConversationUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

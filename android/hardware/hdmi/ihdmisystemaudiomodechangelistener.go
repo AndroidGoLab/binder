@@ -46,7 +46,7 @@ func (p *HdmiSystemAudioModeChangeListenerProxy) OnStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiSystemAudioModeChangeListener, "onStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiSystemAudioModeChangeListenerOnStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

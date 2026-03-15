@@ -45,7 +45,7 @@ func (p *DisplayChangeWindowCallbackProxy) ContinueDisplayChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayChangeWindowCallback, "continueDisplayChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayChangeWindowCallbackContinueDisplayChange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

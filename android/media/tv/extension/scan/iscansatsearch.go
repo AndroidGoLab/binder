@@ -47,7 +47,7 @@ func (p *ScanSatSearchProxy) SetCustomizedLnb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScanSatSearch, "setCustomizedLnb")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIScanSatSearchSetCustomizedLnb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

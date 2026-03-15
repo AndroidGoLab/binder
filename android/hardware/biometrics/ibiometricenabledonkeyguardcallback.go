@@ -48,7 +48,7 @@ func (p *BiometricEnabledOnKeyguardCallbackProxy) OnChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricEnabledOnKeyguardCallback, "onChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricEnabledOnKeyguardCallbackOnChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

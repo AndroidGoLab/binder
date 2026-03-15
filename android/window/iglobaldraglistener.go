@@ -47,7 +47,7 @@ func (p *GlobalDragListenerProxy) OnCrossWindowDrop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGlobalDragListener, "onCrossWindowDrop")
 	if _err != nil {
-		return _err
+		_code = TransactionIGlobalDragListenerOnCrossWindowDrop
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *GlobalDragListenerProxy) OnUnhandledDrop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGlobalDragListener, "onUnhandledDrop")
 	if _err != nil {
-		return _err
+		_code = TransactionIGlobalDragListenerOnUnhandledDrop
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

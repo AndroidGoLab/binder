@@ -56,7 +56,7 @@ func (p *AudioDeviceVolumeDispatcherProxy) DispatchDeviceVolumeChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioDeviceVolumeDispatcher, "dispatchDeviceVolumeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioDeviceVolumeDispatcherDispatchDeviceVolumeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -85,7 +85,7 @@ func (p *AudioDeviceVolumeDispatcherProxy) DispatchDeviceVolumeAdjusted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioDeviceVolumeDispatcher, "dispatchDeviceVolumeAdjusted")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioDeviceVolumeDispatcherDispatchDeviceVolumeAdjusted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -55,7 +55,7 @@ func (p *CredentialProviderServiceProxy) OnBeginGetCredential(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICredentialProviderService, "onBeginGetCredential")
 	if _err != nil {
-		return _err
+		_code = TransactionICredentialProviderServiceOnBeginGetCredential
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -77,7 +77,7 @@ func (p *CredentialProviderServiceProxy) OnBeginCreateCredential(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICredentialProviderService, "onBeginCreateCredential")
 	if _err != nil {
-		return _err
+		_code = TransactionICredentialProviderServiceOnBeginCreateCredential
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -99,7 +99,7 @@ func (p *CredentialProviderServiceProxy) OnClearCredentialState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICredentialProviderService, "onClearCredentialState")
 	if _err != nil {
-		return _err
+		_code = TransactionICredentialProviderServiceOnClearCredentialState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

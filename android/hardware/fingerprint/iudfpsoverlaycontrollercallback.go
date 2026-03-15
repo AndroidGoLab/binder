@@ -44,7 +44,7 @@ func (p *UdfpsOverlayControllerCallbackProxy) OnUserCanceled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsOverlayControllerCallback, "onUserCanceled")
 	if _err != nil {
-		return _err
+		_code = TransactionIUdfpsOverlayControllerCallbackOnUserCanceled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

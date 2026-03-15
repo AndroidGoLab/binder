@@ -49,7 +49,7 @@ func (p *RadioServiceProxy) ListModules(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioService, "listModules")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRadioServiceListModules
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -98,7 +98,7 @@ func (p *RadioServiceProxy) OpenTuner(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioService, "openTuner")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRadioServiceOpenTuner
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -139,7 +139,7 @@ func (p *RadioServiceProxy) AddAnnouncementListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioService, "addAnnouncementListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRadioServiceAddAnnouncementListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

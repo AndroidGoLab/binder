@@ -47,7 +47,7 @@ func (p *ExternalVibrationControllerProxy) Mute(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIExternalVibrationController, "mute")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIExternalVibrationControllerMute
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -76,7 +76,7 @@ func (p *ExternalVibrationControllerProxy) Unmute(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIExternalVibrationController, "unmute")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIExternalVibrationControllerUnmute
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

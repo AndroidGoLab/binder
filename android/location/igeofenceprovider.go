@@ -45,7 +45,7 @@ func (p *GeofenceProviderProxy) SetGeofenceHardware(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGeofenceProvider, "setGeofenceHardware")
 	if _err != nil {
-		return _err
+		_code = TransactionIGeofenceProviderSetGeofenceHardware
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

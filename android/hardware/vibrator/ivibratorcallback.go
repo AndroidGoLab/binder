@@ -44,7 +44,7 @@ func (p *VibratorCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibratorCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

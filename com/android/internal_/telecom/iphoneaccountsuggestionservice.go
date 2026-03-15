@@ -48,7 +48,7 @@ func (p *PhoneAccountSuggestionServiceProxy) OnAccountSuggestionRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneAccountSuggestionService, "onAccountSuggestionRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIPhoneAccountSuggestionServiceOnAccountSuggestionRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

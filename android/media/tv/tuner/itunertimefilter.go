@@ -54,7 +54,7 @@ func (p *TunerTimeFilterProxy) SetTimeStamp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerTimeFilter, "setTimeStamp")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerTimeFilterSetTimeStamp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -78,7 +78,7 @@ func (p *TunerTimeFilterProxy) ClearTimeStamp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerTimeFilter, "clearTimeStamp")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerTimeFilterClearTimeStamp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -103,7 +103,7 @@ func (p *TunerTimeFilterProxy) GetSourceTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerTimeFilter, "getSourceTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerTimeFilterGetSourceTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -132,7 +132,7 @@ func (p *TunerTimeFilterProxy) GetTimeStamp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerTimeFilter, "getTimeStamp")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerTimeFilterGetTimeStamp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -160,7 +160,7 @@ func (p *TunerTimeFilterProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerTimeFilter, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerTimeFilterClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

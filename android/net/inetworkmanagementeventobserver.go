@@ -69,7 +69,7 @@ func (p *NetworkManagementEventObserverProxy) InterfaceStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkManagementEventObserver, "interfaceStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkManagementEventObserverInterfaceStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *NetworkManagementEventObserverProxy) InterfaceLinkStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkManagementEventObserver, "interfaceLinkStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkManagementEventObserverInterfaceLinkStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -105,7 +105,7 @@ func (p *NetworkManagementEventObserverProxy) InterfaceAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkManagementEventObserver, "interfaceAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkManagementEventObserverInterfaceAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -122,7 +122,7 @@ func (p *NetworkManagementEventObserverProxy) InterfaceRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkManagementEventObserver, "interfaceRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkManagementEventObserverInterfaceRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -144,7 +144,7 @@ func (p *NetworkManagementEventObserverProxy) AddressUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkManagementEventObserver, "addressUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkManagementEventObserverAddressUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -166,7 +166,7 @@ func (p *NetworkManagementEventObserverProxy) AddressRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkManagementEventObserver, "addressRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkManagementEventObserverAddressRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -185,7 +185,7 @@ func (p *NetworkManagementEventObserverProxy) LimitReached(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkManagementEventObserver, "limitReached")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkManagementEventObserverLimitReached
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -208,7 +208,7 @@ func (p *NetworkManagementEventObserverProxy) InterfaceClassDataActivityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkManagementEventObserver, "interfaceClassDataActivityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkManagementEventObserverInterfaceClassDataActivityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -236,7 +236,7 @@ func (p *NetworkManagementEventObserverProxy) InterfaceDnsServerInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkManagementEventObserver, "interfaceDnsServerInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkManagementEventObserverInterfaceDnsServerInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -252,7 +252,7 @@ func (p *NetworkManagementEventObserverProxy) RouteUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkManagementEventObserver, "routeUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkManagementEventObserverRouteUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -268,7 +268,7 @@ func (p *NetworkManagementEventObserverProxy) RouteRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkManagementEventObserver, "routeRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkManagementEventObserverRouteRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

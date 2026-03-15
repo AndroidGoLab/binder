@@ -49,7 +49,7 @@ func (p *TunerFilterCallbackProxy) OnFilterStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilterCallback, "onFilterStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFilterCallbackOnFilterStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *TunerFilterCallbackProxy) OnFilterEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilterCallback, "onFilterEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFilterCallbackOnFilterEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

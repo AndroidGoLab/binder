@@ -46,7 +46,7 @@ func (p *BrailleDisplayConnectionProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBrailleDisplayConnection, "disconnect")
 	if _err != nil {
-		return _err
+		_code = TransactionIBrailleDisplayConnectionDisconnect
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -70,7 +70,7 @@ func (p *BrailleDisplayConnectionProxy) Write(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBrailleDisplayConnection, "write")
 	if _err != nil {
-		return _err
+		_code = TransactionIBrailleDisplayConnectionWrite
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

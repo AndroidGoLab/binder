@@ -92,7 +92,7 @@ func (p *BluetoothHeadsetProxy) GetConnectedDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "getConnectedDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetGetConnectedDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -140,7 +140,7 @@ func (p *BluetoothHeadsetProxy) GetDevicesMatchingConnectionStates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "getDevicesMatchingConnectionStates")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetGetDevicesMatchingConnectionStates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -184,7 +184,7 @@ func (p *BluetoothHeadsetProxy) GetConnectionState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "getConnectionState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetGetConnectionState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -219,7 +219,7 @@ func (p *BluetoothHeadsetProxy) StartVoiceRecognition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "startVoiceRecognition")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetStartVoiceRecognition
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -254,7 +254,7 @@ func (p *BluetoothHeadsetProxy) StopVoiceRecognition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "stopVoiceRecognition")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetStopVoiceRecognition
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -289,7 +289,7 @@ func (p *BluetoothHeadsetProxy) IsAudioConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "isAudioConnected")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetIsAudioConnected
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -328,7 +328,7 @@ func (p *BluetoothHeadsetProxy) SendVendorSpecificResultCode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "sendVendorSpecificResultCode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetSendVendorSpecificResultCode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -363,7 +363,7 @@ func (p *BluetoothHeadsetProxy) Connect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "connect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetConnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -398,7 +398,7 @@ func (p *BluetoothHeadsetProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "disconnect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -435,7 +435,7 @@ func (p *BluetoothHeadsetProxy) SetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "setConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetSetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -470,7 +470,7 @@ func (p *BluetoothHeadsetProxy) GetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "getConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetGetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -505,7 +505,7 @@ func (p *BluetoothHeadsetProxy) GetAudioState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "getAudioState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetGetAudioState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -535,7 +535,7 @@ func (p *BluetoothHeadsetProxy) ConnectAudio(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "connectAudio")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetConnectAudio
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -565,7 +565,7 @@ func (p *BluetoothHeadsetProxy) DisconnectAudio(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "disconnectAudio")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetDisconnectAudio
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -596,7 +596,7 @@ func (p *BluetoothHeadsetProxy) SetAudioRouteAllowed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "setAudioRouteAllowed")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHeadsetSetAudioRouteAllowed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -622,7 +622,7 @@ func (p *BluetoothHeadsetProxy) GetAudioRouteAllowed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "getAudioRouteAllowed")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetGetAudioRouteAllowed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -653,7 +653,7 @@ func (p *BluetoothHeadsetProxy) SetForceScoAudio(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "setForceScoAudio")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHeadsetSetForceScoAudio
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -679,7 +679,7 @@ func (p *BluetoothHeadsetProxy) StartScoUsingVirtualVoiceCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "startScoUsingVirtualVoiceCall")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetStartScoUsingVirtualVoiceCall
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -709,7 +709,7 @@ func (p *BluetoothHeadsetProxy) StopScoUsingVirtualVoiceCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "stopScoUsingVirtualVoiceCall")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetStopScoUsingVirtualVoiceCall
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -744,7 +744,7 @@ func (p *BluetoothHeadsetProxy) SetActiveDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "setActiveDevice")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetSetActiveDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -774,7 +774,7 @@ func (p *BluetoothHeadsetProxy) GetActiveDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "getActiveDevice")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetGetActiveDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -809,7 +809,7 @@ func (p *BluetoothHeadsetProxy) IsInbandRingingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "isInbandRingingEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetIsInbandRingingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -844,7 +844,7 @@ func (p *BluetoothHeadsetProxy) IsNoiseReductionSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "isNoiseReductionSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetIsNoiseReductionSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -879,7 +879,7 @@ func (p *BluetoothHeadsetProxy) IsVoiceRecognitionSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHeadset, "isVoiceRecognitionSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHeadsetIsVoiceRecognitionSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

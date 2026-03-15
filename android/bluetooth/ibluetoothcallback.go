@@ -52,7 +52,7 @@ func (p *BluetoothCallbackProxy) OnBluetoothStateChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCallback, "onBluetoothStateChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothCallbackOnBluetoothStateChange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -78,7 +78,7 @@ func (p *BluetoothCallbackProxy) OnAdapterNameChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCallback, "onAdapterNameChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothCallbackOnAdapterNameChange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -104,7 +104,7 @@ func (p *BluetoothCallbackProxy) OnAdapterAddressChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothCallback, "onAdapterAddressChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothCallbackOnAdapterAddressChange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

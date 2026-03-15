@@ -44,7 +44,7 @@ func (p *FooProxy) Method(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFoo, "Method")
 	if _err != nil {
-		return _err
+		_code = TransactionIFooMethod
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -55,7 +55,7 @@ func (p *HalSoundDoseCallbackProxy) OnMomentaryExposureWarning(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHalSoundDoseCallback, "onMomentaryExposureWarning")
 	if _err != nil {
-		return _err
+		_code = TransactionIHalSoundDoseCallbackOnMomentaryExposureWarning
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -80,7 +80,7 @@ func (p *HalSoundDoseCallbackProxy) OnNewMelValues(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHalSoundDoseCallback, "onNewMelValues")
 	if _err != nil {
-		return _err
+		_code = TransactionIHalSoundDoseCallbackOnNewMelValues
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

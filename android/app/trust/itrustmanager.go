@@ -84,7 +84,7 @@ func (p *TrustManagerProxy) ReportUnlockAttempt(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "reportUnlockAttempt")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustManagerReportUnlockAttempt
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -112,7 +112,7 @@ func (p *TrustManagerProxy) ReportUserRequestedUnlock(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "reportUserRequestedUnlock")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustManagerReportUserRequestedUnlock
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -138,7 +138,7 @@ func (p *TrustManagerProxy) ReportUserMayRequestUnlock(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "reportUserMayRequestUnlock")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustManagerReportUserMayRequestUnlock
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -166,7 +166,7 @@ func (p *TrustManagerProxy) ReportUnlockLockout(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "reportUnlockLockout")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustManagerReportUnlockLockout
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -192,7 +192,7 @@ func (p *TrustManagerProxy) ReportEnabledTrustAgentsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "reportEnabledTrustAgentsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustManagerReportEnabledTrustAgentsChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -218,7 +218,7 @@ func (p *TrustManagerProxy) RegisterTrustListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "registerTrustListener")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustManagerRegisterTrustListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -244,7 +244,7 @@ func (p *TrustManagerProxy) UnregisterTrustListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "unregisterTrustListener")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustManagerUnregisterTrustListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -268,7 +268,7 @@ func (p *TrustManagerProxy) ReportKeyguardShowingChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "reportKeyguardShowingChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustManagerReportKeyguardShowingChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -296,7 +296,7 @@ func (p *TrustManagerProxy) SetDeviceLockedForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "setDeviceLockedForUser")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustManagerSetDeviceLockedForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -325,7 +325,7 @@ func (p *TrustManagerProxy) IsDeviceLocked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "isDeviceLocked")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITrustManagerIsDeviceLocked
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -358,7 +358,7 @@ func (p *TrustManagerProxy) IsDeviceSecure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "isDeviceSecure")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITrustManagerIsDeviceSecure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -389,7 +389,7 @@ func (p *TrustManagerProxy) IsTrustUsuallyManaged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "isTrustUsuallyManaged")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITrustManagerIsTrustUsuallyManaged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -424,7 +424,7 @@ func (p *TrustManagerProxy) UnlockedByBiometricForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "unlockedByBiometricForUser")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustManagerUnlockedByBiometricForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -455,7 +455,7 @@ func (p *TrustManagerProxy) ClearAllBiometricRecognized(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "clearAllBiometricRecognized")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustManagerClearAllBiometricRecognized
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -482,7 +482,7 @@ func (p *TrustManagerProxy) IsActiveUnlockRunning(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "isActiveUnlockRunning")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITrustManagerIsActiveUnlockRunning
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -511,7 +511,7 @@ func (p *TrustManagerProxy) IsInSignificantPlace(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "isInSignificantPlace")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITrustManagerIsInSignificantPlace
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -543,7 +543,7 @@ func (p *TrustManagerProxy) RegisterDeviceLockedStateListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "registerDeviceLockedStateListener")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustManagerRegisterDeviceLockedStateListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -569,7 +569,7 @@ func (p *TrustManagerProxy) UnregisterDeviceLockedStateListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITrustManager, "unregisterDeviceLockedStateListener")
 	if _err != nil {
-		return _err
+		_code = TransactionITrustManagerUnregisterDeviceLockedStateListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -58,7 +58,7 @@ func (p *OnsProxy) SetEnable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOns, "setEnable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOnsSetEnable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -89,7 +89,7 @@ func (p *OnsProxy) IsEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOns, "isEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOnsIsEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -125,7 +125,7 @@ func (p *OnsProxy) SetPreferredDataSubscriptionId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOns, "setPreferredDataSubscriptionId")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnsSetPreferredDataSubscriptionId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -153,7 +153,7 @@ func (p *OnsProxy) GetPreferredDataSubscriptionId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOns, "getPreferredDataSubscriptionId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOnsGetPreferredDataSubscriptionId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -196,7 +196,7 @@ func (p *OnsProxy) UpdateAvailableNetworks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOns, "updateAvailableNetworks")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnsUpdateAvailableNetworks
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

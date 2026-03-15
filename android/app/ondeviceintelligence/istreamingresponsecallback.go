@@ -51,7 +51,7 @@ func (p *StreamingResponseCallbackProxy) OnNewContent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamingResponseCallback, "onNewContent")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamingResponseCallbackOnNewContent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *StreamingResponseCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamingResponseCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamingResponseCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -87,7 +87,7 @@ func (p *StreamingResponseCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamingResponseCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamingResponseCallbackOnFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -104,7 +104,7 @@ func (p *StreamingResponseCallbackProxy) OnDataAugmentRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamingResponseCallback, "onDataAugmentRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamingResponseCallbackOnDataAugmentRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

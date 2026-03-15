@@ -58,7 +58,7 @@ func (p *RecentTasksListenerProxy) OnRecentTasksChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasksListener, "onRecentTasksChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecentTasksListenerOnRecentTasksChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *RecentTasksListenerProxy) OnRunningTaskAppeared(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasksListener, "onRunningTaskAppeared")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecentTasksListenerOnRunningTaskAppeared
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -98,7 +98,7 @@ func (p *RecentTasksListenerProxy) OnRunningTaskVanished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasksListener, "onRunningTaskVanished")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecentTasksListenerOnRunningTaskVanished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -118,7 +118,7 @@ func (p *RecentTasksListenerProxy) OnRunningTaskChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasksListener, "onRunningTaskChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecentTasksListenerOnRunningTaskChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -138,7 +138,7 @@ func (p *RecentTasksListenerProxy) OnTaskMovedToFront(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasksListener, "onTaskMovedToFront")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecentTasksListenerOnTaskMovedToFront
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -158,7 +158,7 @@ func (p *RecentTasksListenerProxy) OnTaskInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasksListener, "onTaskInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecentTasksListenerOnTaskInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -184,7 +184,7 @@ func (p *RecentTasksListenerProxy) OnVisibleTasksChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentTasksListener, "onVisibleTasksChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecentTasksListenerOnVisibleTasksChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

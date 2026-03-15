@@ -61,7 +61,7 @@ func (p *TextServicesManagerProxy) GetCurrentSpellChecker(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextServicesManager, "getCurrentSpellChecker")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITextServicesManagerGetCurrentSpellChecker
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -99,7 +99,7 @@ func (p *TextServicesManagerProxy) GetCurrentSpellCheckerSubtype(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextServicesManager, "getCurrentSpellCheckerSubtype")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITextServicesManagerGetCurrentSpellCheckerSubtype
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -149,7 +149,7 @@ func (p *TextServicesManagerProxy) GetSpellCheckerService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextServicesManager, "getSpellCheckerService")
 	if _err != nil {
-		return _err
+		_code = TransactionITextServicesManagerGetSpellCheckerService
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -168,7 +168,7 @@ func (p *TextServicesManagerProxy) FinishSpellCheckerService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextServicesManager, "finishSpellCheckerService")
 	if _err != nil {
-		return _err
+		_code = TransactionITextServicesManagerFinishSpellCheckerService
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -186,7 +186,7 @@ func (p *TextServicesManagerProxy) IsSpellCheckerEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextServicesManager, "isSpellCheckerEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITextServicesManagerIsSpellCheckerEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -217,7 +217,7 @@ func (p *TextServicesManagerProxy) GetEnabledSpellCheckers(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextServicesManager, "getEnabledSpellCheckers")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITextServicesManagerGetEnabledSpellCheckers
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

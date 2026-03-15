@@ -46,7 +46,7 @@ func (p *LongConsumerProxy) Accept(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILongConsumer, "accept")
 	if _err != nil {
-		return _err
+		_code = TransactionILongConsumerAccept
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

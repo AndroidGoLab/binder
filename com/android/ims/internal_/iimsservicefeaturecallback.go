@@ -58,7 +58,7 @@ func (p *ImsServiceFeatureCallbackProxy) ImsFeatureCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceFeatureCallback, "imsFeatureCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceFeatureCallbackImsFeatureCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -75,7 +75,7 @@ func (p *ImsServiceFeatureCallbackProxy) ImsFeatureRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceFeatureCallback, "imsFeatureRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceFeatureCallbackImsFeatureRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -94,7 +94,7 @@ func (p *ImsServiceFeatureCallbackProxy) ImsStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceFeatureCallback, "imsStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceFeatureCallbackImsStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -111,7 +111,7 @@ func (p *ImsServiceFeatureCallbackProxy) UpdateCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceFeatureCallback, "updateCapabilities")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceFeatureCallbackUpdateCapabilities
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

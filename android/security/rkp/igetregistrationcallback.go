@@ -50,7 +50,7 @@ func (p *GetRegistrationCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGetRegistrationCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIGetRegistrationCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *GetRegistrationCallbackProxy) OnCancel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGetRegistrationCallback, "onCancel")
 	if _err != nil {
-		return _err
+		_code = TransactionIGetRegistrationCallbackOnCancel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -82,7 +82,7 @@ func (p *GetRegistrationCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGetRegistrationCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIGetRegistrationCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -59,7 +59,7 @@ func (p *ResourceObserverServiceProxy) RegisterObserver(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceObserverService, "registerObserver")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceObserverServiceRegisterObserver
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -85,7 +85,7 @@ func (p *ResourceObserverServiceProxy) UnregisterObserver(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceObserverService, "unregisterObserver")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceObserverServiceUnregisterObserver
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

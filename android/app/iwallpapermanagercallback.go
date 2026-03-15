@@ -46,7 +46,7 @@ func (p *WallpaperManagerCallbackProxy) OnWallpaperChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManagerCallback, "onWallpaperChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperManagerCallbackOnWallpaperChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -70,7 +70,7 @@ func (p *WallpaperManagerCallbackProxy) OnWallpaperColorsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManagerCallback, "onWallpaperColorsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperManagerCallbackOnWallpaperColorsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

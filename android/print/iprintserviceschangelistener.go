@@ -44,7 +44,7 @@ func (p *PrintServicesChangeListenerProxy) OnPrintServicesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintServicesChangeListener, "onPrintServicesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrintServicesChangeListenerOnPrintServicesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

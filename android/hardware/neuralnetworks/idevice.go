@@ -110,7 +110,7 @@ func (p *DeviceProxy) Allocate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDevice, "allocate")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDeviceAllocate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -144,7 +144,7 @@ func (p *DeviceProxy) GetCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDevice, "getCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDeviceGetCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -178,7 +178,7 @@ func (p *DeviceProxy) GetNumberOfCacheFilesNeeded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDevice, "getNumberOfCacheFilesNeeded")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDeviceGetNumberOfCacheFilesNeeded
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -212,7 +212,7 @@ func (p *DeviceProxy) GetSupportedExtensions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDevice, "getSupportedExtensions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDeviceGetSupportedExtensions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -255,7 +255,7 @@ func (p *DeviceProxy) GetSupportedOperations(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDevice, "getSupportedOperations")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDeviceGetSupportedOperations
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -294,7 +294,7 @@ func (p *DeviceProxy) GetType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDevice, "getType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDeviceGetType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -324,7 +324,7 @@ func (p *DeviceProxy) GetVersionString(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDevice, "getVersionString")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDeviceGetVersionString
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -392,7 +392,7 @@ func (p *DeviceProxy) PrepareModel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDevice, "prepareModel")
 	if _err != nil {
-		return _err
+		_code = TransactionIDevicePrepareModel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -447,7 +447,7 @@ func (p *DeviceProxy) PrepareModelFromCache(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDevice, "prepareModelFromCache")
 	if _err != nil {
-		return _err
+		_code = TransactionIDevicePrepareModelFromCache
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -483,7 +483,7 @@ func (p *DeviceProxy) PrepareModelWithConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDevice, "prepareModelWithConfig")
 	if _err != nil {
-		return _err
+		_code = TransactionIDevicePrepareModelWithConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

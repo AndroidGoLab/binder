@@ -45,7 +45,7 @@ func (p *InternalServiceRetrieverProxy) GetDeviceIdleController(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInternalServiceRetriever, "getDeviceIdleController")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInternalServiceRetrieverGetDeviceIdleController
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

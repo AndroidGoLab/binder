@@ -50,7 +50,7 @@ func (p *DirectReportChannelProxy) Configure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDirectReportChannel, "configure")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDirectReportChannelConfigure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

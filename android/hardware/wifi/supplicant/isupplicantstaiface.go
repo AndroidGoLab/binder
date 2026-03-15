@@ -195,7 +195,7 @@ func (p *SupplicantStaIfaceProxy) AddDppPeerUri(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "addDppPeerUri")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceAddDppPeerUri
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -230,7 +230,7 @@ func (p *SupplicantStaIfaceProxy) AddExtRadioWork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "addExtRadioWork")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceAddExtRadioWork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -259,7 +259,7 @@ func (p *SupplicantStaIfaceProxy) AddNetwork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "addNetwork")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceAddNetwork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -290,7 +290,7 @@ func (p *SupplicantStaIfaceProxy) AddRxFilter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "addRxFilter")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceAddRxFilter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -314,7 +314,7 @@ func (p *SupplicantStaIfaceProxy) CancelWps(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "cancelWps")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCancelWps
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -338,7 +338,7 @@ func (p *SupplicantStaIfaceProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "disconnect")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -364,7 +364,7 @@ func (p *SupplicantStaIfaceProxy) EnableAutoReconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "enableAutoReconnect")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceEnableAutoReconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -406,7 +406,7 @@ func (p *SupplicantStaIfaceProxy) FilsHlpAddRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "filsHlpAddRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceFilsHlpAddRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -430,7 +430,7 @@ func (p *SupplicantStaIfaceProxy) FilsHlpFlushRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "filsHlpFlushRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceFilsHlpFlushRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -468,7 +468,7 @@ func (p *SupplicantStaIfaceProxy) GenerateDppBootstrapInfoForResponder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "generateDppBootstrapInfoForResponder")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceGenerateDppBootstrapInfoForResponder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -512,7 +512,7 @@ func (p *SupplicantStaIfaceProxy) GenerateSelfDppConfiguration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "generateSelfDppConfiguration")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceGenerateSelfDppConfiguration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -537,7 +537,7 @@ func (p *SupplicantStaIfaceProxy) GetConnectionCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getConnectionCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceGetConnectionCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -571,7 +571,7 @@ func (p *SupplicantStaIfaceProxy) GetConnectionMloLinksInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getConnectionMloLinksInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceGetConnectionMloLinksInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -605,7 +605,7 @@ func (p *SupplicantStaIfaceProxy) GetKeyMgmtCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getKeyMgmtCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceGetKeyMgmtCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -635,7 +635,7 @@ func (p *SupplicantStaIfaceProxy) GetMacAddress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getMacAddress")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceGetMacAddress
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -674,7 +674,7 @@ func (p *SupplicantStaIfaceProxy) GetName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceGetName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -705,7 +705,7 @@ func (p *SupplicantStaIfaceProxy) GetNetwork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getNetwork")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceGetNetwork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -735,7 +735,7 @@ func (p *SupplicantStaIfaceProxy) GetType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceGetType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -765,7 +765,7 @@ func (p *SupplicantStaIfaceProxy) GetWpaDriverCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getWpaDriverCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceGetWpaDriverCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -821,7 +821,7 @@ func (p *SupplicantStaIfaceProxy) InitiateAnqpQuery(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "initiateAnqpQuery")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceInitiateAnqpQuery
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -856,7 +856,7 @@ func (p *SupplicantStaIfaceProxy) InitiateHs20IconQuery(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "initiateHs20IconQuery")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceInitiateHs20IconQuery
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -889,7 +889,7 @@ func (p *SupplicantStaIfaceProxy) InitiateTdlsDiscover(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "initiateTdlsDiscover")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceInitiateTdlsDiscover
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -922,7 +922,7 @@ func (p *SupplicantStaIfaceProxy) InitiateTdlsSetup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "initiateTdlsSetup")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceInitiateTdlsSetup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -955,7 +955,7 @@ func (p *SupplicantStaIfaceProxy) InitiateTdlsTeardown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "initiateTdlsTeardown")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceInitiateTdlsTeardown
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -988,7 +988,7 @@ func (p *SupplicantStaIfaceProxy) InitiateVenueUrlAnqpQuery(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "initiateVenueUrlAnqpQuery")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceInitiateVenueUrlAnqpQuery
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1013,7 +1013,7 @@ func (p *SupplicantStaIfaceProxy) ListNetworks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "listNetworks")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceListNetworks
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1051,7 +1051,7 @@ func (p *SupplicantStaIfaceProxy) Reassociate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "reassociate")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceReassociate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1075,7 +1075,7 @@ func (p *SupplicantStaIfaceProxy) Reconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "reconnect")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceReconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1101,7 +1101,7 @@ func (p *SupplicantStaIfaceProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1127,7 +1127,7 @@ func (p *SupplicantStaIfaceProxy) SetQosPolicyFeatureEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setQosPolicyFeatureEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSetQosPolicyFeatureEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1166,7 +1166,7 @@ func (p *SupplicantStaIfaceProxy) SendQosPolicyResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "sendQosPolicyResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSendQosPolicyResponse
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1190,7 +1190,7 @@ func (p *SupplicantStaIfaceProxy) RemoveAllQosPolicies(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "removeAllQosPolicies")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceRemoveAllQosPolicies
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1216,7 +1216,7 @@ func (p *SupplicantStaIfaceProxy) RemoveDppUri(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "removeDppUri")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceRemoveDppUri
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1242,7 +1242,7 @@ func (p *SupplicantStaIfaceProxy) RemoveExtRadioWork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "removeExtRadioWork")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceRemoveExtRadioWork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1268,7 +1268,7 @@ func (p *SupplicantStaIfaceProxy) RemoveNetwork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "removeNetwork")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceRemoveNetwork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1294,7 +1294,7 @@ func (p *SupplicantStaIfaceProxy) RemoveRxFilter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "removeRxFilter")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceRemoveRxFilter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1320,7 +1320,7 @@ func (p *SupplicantStaIfaceProxy) SetBtCoexistenceMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setBtCoexistenceMode")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSetBtCoexistenceMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1346,7 +1346,7 @@ func (p *SupplicantStaIfaceProxy) SetBtCoexistenceScanModeEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setBtCoexistenceScanModeEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSetBtCoexistenceScanModeEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1379,7 +1379,7 @@ func (p *SupplicantStaIfaceProxy) SetCountryCode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setCountryCode")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSetCountryCode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1405,7 +1405,7 @@ func (p *SupplicantStaIfaceProxy) SetExternalSim(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setExternalSim")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSetExternalSim
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1431,7 +1431,7 @@ func (p *SupplicantStaIfaceProxy) SetMboCellularDataStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setMboCellularDataStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSetMboCellularDataStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1457,7 +1457,7 @@ func (p *SupplicantStaIfaceProxy) SetPowerSave(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setPowerSave")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSetPowerSave
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1483,7 +1483,7 @@ func (p *SupplicantStaIfaceProxy) SetSuspendModeEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setSuspendModeEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSetSuspendModeEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1509,7 +1509,7 @@ func (p *SupplicantStaIfaceProxy) SetWpsConfigMethods(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setWpsConfigMethods")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSetWpsConfigMethods
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1535,7 +1535,7 @@ func (p *SupplicantStaIfaceProxy) SetWpsDeviceName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setWpsDeviceName")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSetWpsDeviceName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1568,7 +1568,7 @@ func (p *SupplicantStaIfaceProxy) SetWpsDeviceType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setWpsDeviceType")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSetWpsDeviceType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1594,7 +1594,7 @@ func (p *SupplicantStaIfaceProxy) SetWpsManufacturer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setWpsManufacturer")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSetWpsManufacturer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1620,7 +1620,7 @@ func (p *SupplicantStaIfaceProxy) SetWpsModelName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setWpsModelName")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSetWpsModelName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1646,7 +1646,7 @@ func (p *SupplicantStaIfaceProxy) SetWpsModelNumber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setWpsModelNumber")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSetWpsModelNumber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1672,7 +1672,7 @@ func (p *SupplicantStaIfaceProxy) SetWpsSerialNumber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "setWpsSerialNumber")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSetWpsSerialNumber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1720,7 +1720,7 @@ func (p *SupplicantStaIfaceProxy) StartDppConfiguratorInitiator(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startDppConfiguratorInitiator")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceStartDppConfiguratorInitiator
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1762,7 +1762,7 @@ func (p *SupplicantStaIfaceProxy) StartDppEnrolleeInitiator(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startDppEnrolleeInitiator")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceStartDppEnrolleeInitiator
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1788,7 +1788,7 @@ func (p *SupplicantStaIfaceProxy) StartDppEnrolleeResponder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startDppEnrolleeResponder")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceStartDppEnrolleeResponder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1812,7 +1812,7 @@ func (p *SupplicantStaIfaceProxy) StartRxFilter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startRxFilter")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceStartRxFilter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1845,7 +1845,7 @@ func (p *SupplicantStaIfaceProxy) StartWpsPbc(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startWpsPbc")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceStartWpsPbc
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1879,7 +1879,7 @@ func (p *SupplicantStaIfaceProxy) StartWpsPinDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startWpsPinDisplay")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceStartWpsPinDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1909,7 +1909,7 @@ func (p *SupplicantStaIfaceProxy) StartWpsPinKeypad(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startWpsPinKeypad")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceStartWpsPinKeypad
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1944,7 +1944,7 @@ func (p *SupplicantStaIfaceProxy) StartWpsRegistrar(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startWpsRegistrar")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceStartWpsRegistrar
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1968,7 +1968,7 @@ func (p *SupplicantStaIfaceProxy) StopDppInitiator(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "stopDppInitiator")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceStopDppInitiator
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1994,7 +1994,7 @@ func (p *SupplicantStaIfaceProxy) StopDppResponder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "stopDppResponder")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceStopDppResponder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2018,7 +2018,7 @@ func (p *SupplicantStaIfaceProxy) StopRxFilter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "stopRxFilter")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceStopRxFilter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2043,7 +2043,7 @@ func (p *SupplicantStaIfaceProxy) GetSignalPollResults(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getSignalPollResults")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceGetSignalPollResults
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2092,7 +2092,7 @@ func (p *SupplicantStaIfaceProxy) AddQosPolicyRequestForScs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "addQosPolicyRequestForScs")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceAddQosPolicyRequestForScs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2139,7 +2139,7 @@ func (p *SupplicantStaIfaceProxy) RemoveQosPolicyForScs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "removeQosPolicyForScs")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceRemoveQosPolicyForScs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2181,7 +2181,7 @@ func (p *SupplicantStaIfaceProxy) ConfigureMscs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "configureMscs")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceConfigureMscs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2205,7 +2205,7 @@ func (p *SupplicantStaIfaceProxy) DisableMscs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "disableMscs")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceDisableMscs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2230,7 +2230,7 @@ func (p *SupplicantStaIfaceProxy) GetUsdCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "getUsdCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISupplicantStaIfaceGetUsdCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2270,7 +2270,7 @@ func (p *SupplicantStaIfaceProxy) StartUsdPublish(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startUsdPublish")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceStartUsdPublish
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2301,7 +2301,7 @@ func (p *SupplicantStaIfaceProxy) StartUsdSubscribe(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "startUsdSubscribe")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceStartUsdSubscribe
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2336,7 +2336,7 @@ func (p *SupplicantStaIfaceProxy) UpdateUsdPublish(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "updateUsdPublish")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceUpdateUsdPublish
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2362,7 +2362,7 @@ func (p *SupplicantStaIfaceProxy) CancelUsdPublish(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "cancelUsdPublish")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCancelUsdPublish
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2388,7 +2388,7 @@ func (p *SupplicantStaIfaceProxy) CancelUsdSubscribe(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "cancelUsdSubscribe")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCancelUsdSubscribe
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2417,7 +2417,7 @@ func (p *SupplicantStaIfaceProxy) SendUsdMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIface, "sendUsdMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceSendUsdMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -46,7 +46,7 @@ func (p *BlobCommitCallbackProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBlobCommitCallback, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIBlobCommitCallbackOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

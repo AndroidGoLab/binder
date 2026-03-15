@@ -52,7 +52,7 @@ func (p *SensorPrivacyListenerProxy) OnSensorPrivacyChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyListener, "onSensorPrivacyChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorPrivacyListenerOnSensorPrivacyChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -73,7 +73,7 @@ func (p *SensorPrivacyListenerProxy) OnSensorPrivacyStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyListener, "onSensorPrivacyStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorPrivacyListenerOnSensorPrivacyStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

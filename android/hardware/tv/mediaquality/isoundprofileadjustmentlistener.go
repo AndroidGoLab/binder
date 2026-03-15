@@ -55,7 +55,7 @@ func (p *SoundProfileAdjustmentListenerProxy) OnSoundProfileAdjusted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundProfileAdjustmentListener, "onSoundProfileAdjusted")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundProfileAdjustmentListenerOnSoundProfileAdjusted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -83,7 +83,7 @@ func (p *SoundProfileAdjustmentListenerProxy) OnParamCapabilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundProfileAdjustmentListener, "onParamCapabilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundProfileAdjustmentListenerOnParamCapabilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -111,7 +111,7 @@ func (p *SoundProfileAdjustmentListenerProxy) OnVendorParamCapabilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundProfileAdjustmentListener, "onVendorParamCapabilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundProfileAdjustmentListenerOnVendorParamCapabilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -128,7 +128,7 @@ func (p *SoundProfileAdjustmentListenerProxy) OnRequestSoundParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundProfileAdjustmentListener, "onRequestSoundParameters")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundProfileAdjustmentListenerOnRequestSoundParameters
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -99,7 +99,7 @@ func (p *NotificationListenerProxy) OnListenerConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onListenerConnected")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnListenerConnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -121,7 +121,7 @@ func (p *NotificationListenerProxy) OnNotificationPosted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationPosted")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationPosted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -146,7 +146,7 @@ func (p *NotificationListenerProxy) OnNotificationPostedFull(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationPostedFull")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationPostedFull
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -163,7 +163,7 @@ func (p *NotificationListenerProxy) OnStatusBarIconsBehaviorChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onStatusBarIconsBehaviorChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnStatusBarIconsBehaviorChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -192,7 +192,7 @@ func (p *NotificationListenerProxy) OnNotificationRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -224,7 +224,7 @@ func (p *NotificationListenerProxy) OnNotificationRemovedFull(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationRemovedFull")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationRemovedFull
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -244,7 +244,7 @@ func (p *NotificationListenerProxy) OnNotificationRankingUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationRankingUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationRankingUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -261,7 +261,7 @@ func (p *NotificationListenerProxy) OnListenerHintsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onListenerHintsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnListenerHintsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -278,7 +278,7 @@ func (p *NotificationListenerProxy) OnInterruptionFilterChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onInterruptionFilterChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnInterruptionFilterChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -299,7 +299,7 @@ func (p *NotificationListenerProxy) OnNotificationChannelModification(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationChannelModification")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationChannelModification
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -320,7 +320,7 @@ func (p *NotificationListenerProxy) OnNotificationChannelGroupModification(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationChannelGroupModification")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationChannelGroupModification
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -343,7 +343,7 @@ func (p *NotificationListenerProxy) OnNotificationEnqueuedWithChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationEnqueuedWithChannel")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationEnqueuedWithChannel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -369,7 +369,7 @@ func (p *NotificationListenerProxy) OnNotificationEnqueuedWithChannelFull(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationEnqueuedWithChannelFull")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationEnqueuedWithChannelFull
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -388,7 +388,7 @@ func (p *NotificationListenerProxy) OnNotificationSnoozedUntilContext(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationSnoozedUntilContext")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationSnoozedUntilContext
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -410,7 +410,7 @@ func (p *NotificationListenerProxy) OnNotificationSnoozedUntilContextFull(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationSnoozedUntilContextFull")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationSnoozedUntilContextFull
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -434,7 +434,7 @@ func (p *NotificationListenerProxy) OnNotificationsSeen(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationsSeen")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationsSeen
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -451,7 +451,7 @@ func (p *NotificationListenerProxy) OnPanelRevealed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onPanelRevealed")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnPanelRevealed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -466,7 +466,7 @@ func (p *NotificationListenerProxy) OnPanelHidden(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onPanelHidden")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnPanelHidden
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -485,7 +485,7 @@ func (p *NotificationListenerProxy) OnNotificationVisibilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationVisibilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationVisibilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -506,7 +506,7 @@ func (p *NotificationListenerProxy) OnNotificationExpansionChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationExpansionChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationExpansionChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -523,7 +523,7 @@ func (p *NotificationListenerProxy) OnNotificationDirectReply(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationDirectReply")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationDirectReply
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -543,7 +543,7 @@ func (p *NotificationListenerProxy) OnSuggestedReplySent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onSuggestedReplySent")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnSuggestedReplySent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -563,7 +563,7 @@ func (p *NotificationListenerProxy) OnActionClicked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onActionClicked")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnActionClicked
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -580,7 +580,7 @@ func (p *NotificationListenerProxy) OnNotificationClicked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationClicked")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationClicked
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -595,7 +595,7 @@ func (p *NotificationListenerProxy) OnAllowedAdjustmentsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onAllowedAdjustmentsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnAllowedAdjustmentsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -618,7 +618,7 @@ func (p *NotificationListenerProxy) OnNotificationFeedbackReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationFeedbackReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionINotificationListenerOnNotificationFeedbackReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

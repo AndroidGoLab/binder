@@ -84,7 +84,7 @@ func (p *BluetoothHearingAidProxy) Connect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHearingAid, "connect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHearingAidConnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -119,7 +119,7 @@ func (p *BluetoothHearingAidProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHearingAid, "disconnect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHearingAidDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -149,7 +149,7 @@ func (p *BluetoothHearingAidProxy) GetConnectedDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHearingAid, "getConnectedDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHearingAidGetConnectedDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -197,7 +197,7 @@ func (p *BluetoothHearingAidProxy) GetDevicesMatchingConnectionStates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHearingAid, "getDevicesMatchingConnectionStates")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHearingAidGetDevicesMatchingConnectionStates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -241,7 +241,7 @@ func (p *BluetoothHearingAidProxy) GetConnectionState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHearingAid, "getConnectionState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHearingAidGetConnectionState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -276,7 +276,7 @@ func (p *BluetoothHearingAidProxy) SetActiveDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHearingAid, "setActiveDevice")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHearingAidSetActiveDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -306,7 +306,7 @@ func (p *BluetoothHearingAidProxy) GetActiveDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHearingAid, "getActiveDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHearingAidGetActiveDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -352,7 +352,7 @@ func (p *BluetoothHearingAidProxy) SetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHearingAid, "setConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHearingAidSetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -387,7 +387,7 @@ func (p *BluetoothHearingAidProxy) GetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHearingAid, "getConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHearingAidGetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -418,7 +418,7 @@ func (p *BluetoothHearingAidProxy) SetVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHearingAid, "setVolume")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothHearingAidSetVolume
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -449,7 +449,7 @@ func (p *BluetoothHearingAidProxy) GetHiSyncId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHearingAid, "getHiSyncId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHearingAidGetHiSyncId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -484,7 +484,7 @@ func (p *BluetoothHearingAidProxy) GetDeviceSide(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHearingAid, "getDeviceSide")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHearingAidGetDeviceSide
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -519,7 +519,7 @@ func (p *BluetoothHearingAidProxy) GetDeviceMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHearingAid, "getDeviceMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHearingAidGetDeviceMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -554,7 +554,7 @@ func (p *BluetoothHearingAidProxy) GetAdvertisementServiceData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHearingAid, "getAdvertisementServiceData")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHearingAidGetAdvertisementServiceData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

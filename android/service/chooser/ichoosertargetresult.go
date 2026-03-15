@@ -55,7 +55,7 @@ func (p *ChooserTargetResultProxy) SendResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIChooserTargetResult, "sendResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIChooserTargetResultSendResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

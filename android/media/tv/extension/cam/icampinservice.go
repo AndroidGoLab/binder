@@ -53,7 +53,7 @@ func (p *CamPinServiceProxy) AddCamPinCapabilityListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamPinService, "addCamPinCapabilityListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICamPinServiceAddCamPinCapabilityListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -79,7 +79,7 @@ func (p *CamPinServiceProxy) RemoveCamPinCapabilityListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamPinService, "removeCamPinCapabilityListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICamPinServiceRemoveCamPinCapabilityListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -117,7 +117,7 @@ func (p *CamPinServiceProxy) RequestCamPinValidation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamPinService, "requestCamPinValidation")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICamPinServiceRequestCamPinValidation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -149,7 +149,7 @@ func (p *CamPinServiceProxy) GetCamPinCapability(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamPinService, "getCamPinCapability")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICamPinServiceGetCamPinCapability
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

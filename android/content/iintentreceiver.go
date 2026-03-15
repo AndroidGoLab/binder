@@ -60,7 +60,7 @@ func (p *IntentReceiverProxy) PerformReceive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIntentReceiver, "performReceive")
 	if _err != nil {
-		return _err
+		_code = TransactionIIntentReceiverPerformReceive
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

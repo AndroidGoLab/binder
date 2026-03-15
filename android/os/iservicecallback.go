@@ -48,7 +48,7 @@ func (p *ServiceCallbackProxy) OnRegistration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceCallback, "onRegistration")
 	if _err != nil {
-		return _err
+		_code = TransactionIServiceCallbackOnRegistration
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

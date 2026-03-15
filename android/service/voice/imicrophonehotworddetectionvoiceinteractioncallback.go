@@ -56,7 +56,7 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnDetected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, "onDetected")
 	if _err != nil {
-		return _err
+		_code = TransactionIMicrophoneHotwordDetectionVoiceInteractionCallbackOnDetected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -76,7 +76,7 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnHotwordDetec
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, "onHotwordDetectionServiceFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIMicrophoneHotwordDetectionVoiceInteractionCallbackOnHotwordDetectionServiceFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -96,7 +96,7 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnRejected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback, "onRejected")
 	if _err != nil {
-		return _err
+		_code = TransactionIMicrophoneHotwordDetectionVoiceInteractionCallbackOnRejected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

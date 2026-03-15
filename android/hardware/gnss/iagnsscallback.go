@@ -49,7 +49,7 @@ func (p *AGnssCallbackProxy) AgnssStatusCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAGnssCallback, "agnssStatusCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIAGnssCallbackAgnssStatusCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

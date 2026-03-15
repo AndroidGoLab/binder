@@ -58,7 +58,7 @@ func (p *SpellCheckerSessionListenerProxy) OnGetSuggestions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpellCheckerSessionListener, "onGetSuggestions")
 	if _err != nil {
-		return _err
+		_code = TransactionISpellCheckerSessionListenerOnGetSuggestions
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -84,7 +84,7 @@ func (p *SpellCheckerSessionListenerProxy) OnGetSentenceSuggestions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpellCheckerSessionListener, "onGetSentenceSuggestions")
 	if _err != nil {
-		return _err
+		_code = TransactionISpellCheckerSessionListenerOnGetSentenceSuggestions
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

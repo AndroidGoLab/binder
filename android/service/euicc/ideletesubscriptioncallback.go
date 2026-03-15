@@ -46,7 +46,7 @@ func (p *DeleteSubscriptionCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeleteSubscriptionCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeleteSubscriptionCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

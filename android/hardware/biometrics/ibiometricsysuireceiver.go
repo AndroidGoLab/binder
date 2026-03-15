@@ -65,7 +65,7 @@ func (p *BiometricSysuiReceiverProxy) OnDialogDismissed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onDialogDismissed")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricSysuiReceiverOnDialogDismissed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -80,7 +80,7 @@ func (p *BiometricSysuiReceiverProxy) OnTryAgainPressed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onTryAgainPressed")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricSysuiReceiverOnTryAgainPressed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -95,7 +95,7 @@ func (p *BiometricSysuiReceiverProxy) OnDeviceCredentialPressed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onDeviceCredentialPressed")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricSysuiReceiverOnDeviceCredentialPressed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -112,7 +112,7 @@ func (p *BiometricSysuiReceiverProxy) OnSystemEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onSystemEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricSysuiReceiverOnSystemEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -129,7 +129,7 @@ func (p *BiometricSysuiReceiverProxy) OnDialogAnimatedIn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onDialogAnimatedIn")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricSysuiReceiverOnDialogAnimatedIn
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -144,7 +144,7 @@ func (p *BiometricSysuiReceiverProxy) OnStartFingerprintNow(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricSysuiReceiver, "onStartFingerprintNow")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricSysuiReceiverOnStartFingerprintNow
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

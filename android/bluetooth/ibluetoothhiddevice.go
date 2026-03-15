@@ -87,7 +87,7 @@ func (p *BluetoothHidDeviceProxy) RegisterApp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDevice, "registerApp")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidDeviceRegisterApp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -117,7 +117,7 @@ func (p *BluetoothHidDeviceProxy) UnregisterApp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDevice, "unregisterApp")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidDeviceUnregisterApp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -163,7 +163,7 @@ func (p *BluetoothHidDeviceProxy) SendReport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDevice, "sendReport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidDeviceSendReport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -211,7 +211,7 @@ func (p *BluetoothHidDeviceProxy) ReplyReport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDevice, "replyReport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidDeviceReplyReport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -248,7 +248,7 @@ func (p *BluetoothHidDeviceProxy) ReportError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDevice, "reportError")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidDeviceReportError
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -283,7 +283,7 @@ func (p *BluetoothHidDeviceProxy) Unplug(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDevice, "unplug")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidDeviceUnplug
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -318,7 +318,7 @@ func (p *BluetoothHidDeviceProxy) Connect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDevice, "connect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidDeviceConnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -353,7 +353,7 @@ func (p *BluetoothHidDeviceProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDevice, "disconnect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidDeviceDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -383,7 +383,7 @@ func (p *BluetoothHidDeviceProxy) GetConnectedDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDevice, "getConnectedDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidDeviceGetConnectedDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -431,7 +431,7 @@ func (p *BluetoothHidDeviceProxy) GetDevicesMatchingConnectionStates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDevice, "getDevicesMatchingConnectionStates")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidDeviceGetDevicesMatchingConnectionStates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -475,7 +475,7 @@ func (p *BluetoothHidDeviceProxy) GetConnectionState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDevice, "getConnectionState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidDeviceGetConnectionState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -505,7 +505,7 @@ func (p *BluetoothHidDeviceProxy) GetUserAppName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDevice, "getUserAppName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidDeviceGetUserAppName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -542,7 +542,7 @@ func (p *BluetoothHidDeviceProxy) SetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidDevice, "setConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidDeviceSetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

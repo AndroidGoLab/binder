@@ -46,7 +46,7 @@ func (p *DeleteProfileCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeleteProfileCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeleteProfileCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -58,7 +58,7 @@ func (p *MbmsGroupCallServiceProxy) Initialize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallService, "initialize")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMbmsGroupCallServiceInitialize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -90,7 +90,7 @@ func (p *MbmsGroupCallServiceProxy) StopGroupCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallService, "stopGroupCall")
 	if _err != nil {
-		return _err
+		_code = TransactionIMbmsGroupCallServiceStopGroupCall
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *MbmsGroupCallServiceProxy) UpdateGroupCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallService, "updateGroupCall")
 	if _err != nil {
-		return _err
+		_code = TransactionIMbmsGroupCallServiceUpdateGroupCall
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -173,7 +173,7 @@ func (p *MbmsGroupCallServiceProxy) StartGroupCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallService, "startGroupCall")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMbmsGroupCallServiceStartGroupCall
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -203,7 +203,7 @@ func (p *MbmsGroupCallServiceProxy) Dispose(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsGroupCallService, "dispose")
 	if _err != nil {
-		return _err
+		_code = TransactionIMbmsGroupCallServiceDispose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

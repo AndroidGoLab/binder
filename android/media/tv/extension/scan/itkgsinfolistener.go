@@ -57,7 +57,7 @@ func (p *TkgsInfoListenerProxy) OnServiceList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITkgsInfoListener, "onServiceList")
 	if _err != nil {
-		return _err
+		_code = TransactionITkgsInfoListenerOnServiceList
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -74,7 +74,7 @@ func (p *TkgsInfoListenerProxy) OnTableVersionUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITkgsInfoListener, "onTableVersionUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionITkgsInfoListenerOnTableVersionUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -91,7 +91,7 @@ func (p *TkgsInfoListenerProxy) OnUserMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITkgsInfoListener, "onUserMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionITkgsInfoListenerOnUserMessage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -75,7 +75,7 @@ func (p *TunerProxy) GetFrontendIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "getFrontendIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerGetFrontendIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -116,7 +116,7 @@ func (p *TunerProxy) OpenFrontendById(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "openFrontendById")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerOpenFrontendById
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -147,7 +147,7 @@ func (p *TunerProxy) OpenDemux(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "openDemux")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerOpenDemux
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -190,7 +190,7 @@ func (p *TunerProxy) GetDemuxCaps(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "getDemuxCaps")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerGetDemuxCaps
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -224,7 +224,7 @@ func (p *TunerProxy) OpenDescrambler(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "openDescrambler")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerOpenDescrambler
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -256,7 +256,7 @@ func (p *TunerProxy) GetFrontendInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "getFrontendInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerGetFrontendInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -290,7 +290,7 @@ func (p *TunerProxy) GetLnbIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "getLnbIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerGetLnbIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -331,7 +331,7 @@ func (p *TunerProxy) OpenLnbById(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "openLnbById")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerOpenLnbById
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -364,7 +364,7 @@ func (p *TunerProxy) OpenLnbByName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "openLnbByName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerOpenLnbByName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -408,7 +408,7 @@ func (p *TunerProxy) SetLna(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "setLna")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerSetLna
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -436,7 +436,7 @@ func (p *TunerProxy) SetMaxNumberOfFrontends(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "setMaxNumberOfFrontends")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerSetMaxNumberOfFrontends
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -463,7 +463,7 @@ func (p *TunerProxy) GetMaxNumberOfFrontends(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "getMaxNumberOfFrontends")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerGetMaxNumberOfFrontends
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -492,7 +492,7 @@ func (p *TunerProxy) IsLnaSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "isLnaSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerIsLnaSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -521,7 +521,7 @@ func (p *TunerProxy) GetDemuxIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "getDemuxIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerGetDemuxIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -562,7 +562,7 @@ func (p *TunerProxy) OpenDemuxById(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "openDemuxById")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerOpenDemuxById
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -594,7 +594,7 @@ func (p *TunerProxy) GetDemuxInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITuner, "getDemuxInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerGetDemuxInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

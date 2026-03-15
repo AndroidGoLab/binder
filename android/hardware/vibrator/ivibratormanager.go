@@ -71,7 +71,7 @@ func (p *VibratorManagerProxy) GetCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManager, "getCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVibratorManagerGetCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -100,7 +100,7 @@ func (p *VibratorManagerProxy) GetVibratorIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManager, "getVibratorIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVibratorManagerGetVibratorIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -141,7 +141,7 @@ func (p *VibratorManagerProxy) GetVibrator(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManager, "getVibrator")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVibratorManagerGetVibrator
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -179,7 +179,7 @@ func (p *VibratorManagerProxy) PrepareSynced(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManager, "prepareSynced")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibratorManagerPrepareSynced
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -205,7 +205,7 @@ func (p *VibratorManagerProxy) TriggerSynced(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManager, "triggerSynced")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibratorManagerTriggerSynced
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -229,7 +229,7 @@ func (p *VibratorManagerProxy) CancelSynced(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManager, "cancelSynced")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibratorManagerCancelSynced
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -270,7 +270,7 @@ func (p *VibratorManagerProxy) StartSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManager, "startSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVibratorManagerStartSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -299,7 +299,7 @@ func (p *VibratorManagerProxy) ClearSessions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManager, "clearSessions")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibratorManagerClearSessions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

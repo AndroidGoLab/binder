@@ -51,7 +51,7 @@ func (p *BinderThreadPriorityServiceProxy) GetThreadPriority(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderThreadPriorityService, "getThreadPriority")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderThreadPriorityServiceGetThreadPriority
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -80,7 +80,7 @@ func (p *BinderThreadPriorityServiceProxy) GetThreadSchedulerGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderThreadPriorityService, "getThreadSchedulerGroup")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderThreadPriorityServiceGetThreadSchedulerGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -110,7 +110,7 @@ func (p *BinderThreadPriorityServiceProxy) CallBack(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderThreadPriorityService, "callBack")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderThreadPriorityServiceCallBack
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -138,7 +138,7 @@ func (p *BinderThreadPriorityServiceProxy) SetPriorityAndCallBack(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderThreadPriorityService, "setPriorityAndCallBack")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderThreadPriorityServiceSetPriorityAndCallBack
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

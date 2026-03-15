@@ -50,7 +50,7 @@ func (p *ActivityPendingResultProxy) SendResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityPendingResult, "sendResult")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIActivityPendingResultSendResult
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

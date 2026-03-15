@@ -52,7 +52,7 @@ func (p *ChannelTunedListenerProxy) OnChannelTuned(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIChannelTunedListener, "onChannelTuned")
 	if _err != nil {
-		return _err
+		_code = TransactionIChannelTunedListenerOnChannelTuned
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

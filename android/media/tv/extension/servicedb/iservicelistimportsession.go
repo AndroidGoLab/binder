@@ -57,7 +57,7 @@ func (p *ServiceListImportSessionProxy) ImportServiceList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceListImportSession, "importServiceList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIServiceListImportSessionImportServiceList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -88,7 +88,7 @@ func (p *ServiceListImportSessionProxy) Preload(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceListImportSession, "preload")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIServiceListImportSessionPreload
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -117,7 +117,7 @@ func (p *ServiceListImportSessionProxy) Release(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceListImportSession, "release")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIServiceListImportSessionRelease
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

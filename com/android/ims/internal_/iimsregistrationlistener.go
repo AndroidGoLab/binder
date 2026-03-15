@@ -68,7 +68,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationListener, "registrationConnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationListenerRegistrationConnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -83,7 +83,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationProgressing(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationListener, "registrationProgressing")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationListenerRegistrationProgressing
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -100,7 +100,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationConnectedWithRadioTech(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationListener, "registrationConnectedWithRadioTech")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationListenerRegistrationConnectedWithRadioTech
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -117,7 +117,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationProgressingWithRadioTech(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationListener, "registrationProgressingWithRadioTech")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationListenerRegistrationProgressingWithRadioTech
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -137,7 +137,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationDisconnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationListener, "registrationDisconnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationListenerRegistrationDisconnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -152,7 +152,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationResumed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationListener, "registrationResumed")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationListenerRegistrationResumed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -167,7 +167,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationSuspended(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationListener, "registrationSuspended")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationListenerRegistrationSuspended
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -186,7 +186,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationServiceCapabilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationListener, "registrationServiceCapabilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationListenerRegistrationServiceCapabilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -221,7 +221,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationFeatureCapabilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationListener, "registrationFeatureCapabilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationListenerRegistrationFeatureCapabilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -238,7 +238,7 @@ func (p *ImsRegistrationListenerProxy) VoiceMessageCountUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationListener, "voiceMessageCountUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationListenerVoiceMessageCountUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -264,7 +264,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationAssociatedUriChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationListener, "registrationAssociatedUriChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationListenerRegistrationAssociatedUriChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -286,7 +286,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationChangeFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRegistrationListener, "registrationChangeFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsRegistrationListenerRegistrationChangeFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -77,7 +77,7 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackMetrics(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportPlaybackMetrics")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaMetricsManagerReportPlaybackMetrics
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -104,7 +104,7 @@ func (p *MediaMetricsManagerProxy) GetPlaybackSessionId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "getPlaybackSessionId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaMetricsManagerGetPlaybackSessionId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -135,7 +135,7 @@ func (p *MediaMetricsManagerProxy) GetRecordingSessionId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "getRecordingSessionId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaMetricsManagerGetRecordingSessionId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -172,7 +172,7 @@ func (p *MediaMetricsManagerProxy) ReportNetworkEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportNetworkEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaMetricsManagerReportNetworkEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -205,7 +205,7 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackErrorEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportPlaybackErrorEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaMetricsManagerReportPlaybackErrorEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -238,7 +238,7 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackStateEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportPlaybackStateEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaMetricsManagerReportPlaybackStateEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -271,7 +271,7 @@ func (p *MediaMetricsManagerProxy) ReportTrackChangeEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportTrackChangeEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaMetricsManagerReportTrackChangeEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -304,7 +304,7 @@ func (p *MediaMetricsManagerProxy) ReportEditingEndedEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportEditingEndedEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaMetricsManagerReportEditingEndedEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -331,7 +331,7 @@ func (p *MediaMetricsManagerProxy) GetTranscodingSessionId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "getTranscodingSessionId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaMetricsManagerGetTranscodingSessionId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -362,7 +362,7 @@ func (p *MediaMetricsManagerProxy) GetEditingSessionId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "getEditingSessionId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaMetricsManagerGetEditingSessionId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -393,7 +393,7 @@ func (p *MediaMetricsManagerProxy) GetBundleSessionId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "getBundleSessionId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaMetricsManagerGetBundleSessionId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -426,7 +426,7 @@ func (p *MediaMetricsManagerProxy) ReportBundleMetrics(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "reportBundleMetrics")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaMetricsManagerReportBundleMetrics
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -454,7 +454,7 @@ func (p *MediaMetricsManagerProxy) ReleaseSessionId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsManager, "releaseSessionId")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaMetricsManagerReleaseSessionId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

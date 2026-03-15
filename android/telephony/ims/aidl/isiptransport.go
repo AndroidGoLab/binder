@@ -58,7 +58,7 @@ func (p *SipTransportProxy) CreateSipDelegate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISipTransport, "createSipDelegate")
 	if _err != nil {
-		return _err
+		_code = TransactionISipTransportCreateSipDelegate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -77,7 +77,7 @@ func (p *SipTransportProxy) DestroySipDelegate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISipTransport, "destroySipDelegate")
 	if _err != nil {
-		return _err
+		_code = TransactionISipTransportDestroySipDelegate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

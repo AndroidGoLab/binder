@@ -66,7 +66,7 @@ func (p *NfcProxy) Open(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINfc, "open")
 	if _err != nil {
-		return _err
+		_code = TransactionINfcOpen
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -92,7 +92,7 @@ func (p *NfcProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINfc, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionINfcClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -116,7 +116,7 @@ func (p *NfcProxy) CoreInitialized(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINfc, "coreInitialized")
 	if _err != nil {
-		return _err
+		_code = TransactionINfcCoreInitialized
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -140,7 +140,7 @@ func (p *NfcProxy) FactoryReset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINfc, "factoryReset")
 	if _err != nil {
-		return _err
+		_code = TransactionINfcFactoryReset
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -165,7 +165,7 @@ func (p *NfcProxy) GetConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINfc, "getConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINfcGetConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -198,7 +198,7 @@ func (p *NfcProxy) PowerCycle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINfc, "powerCycle")
 	if _err != nil {
-		return _err
+		_code = TransactionINfcPowerCycle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -222,7 +222,7 @@ func (p *NfcProxy) PreDiscover(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINfc, "preDiscover")
 	if _err != nil {
-		return _err
+		_code = TransactionINfcPreDiscover
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -256,7 +256,7 @@ func (p *NfcProxy) Write(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINfc, "write")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINfcWrite
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -286,7 +286,7 @@ func (p *NfcProxy) SetEnableVerboseLogging(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINfc, "setEnableVerboseLogging")
 	if _err != nil {
-		return _err
+		_code = TransactionINfcSetEnableVerboseLogging
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -311,7 +311,7 @@ func (p *NfcProxy) IsVerboseLoggingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINfc, "isVerboseLoggingEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINfcIsVerboseLoggingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -340,7 +340,7 @@ func (p *NfcProxy) ControlGranted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINfc, "controlGranted")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionINfcControlGranted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

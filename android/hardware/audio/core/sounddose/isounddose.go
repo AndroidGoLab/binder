@@ -56,7 +56,7 @@ func (p *SoundDoseProxy) SetOutputRs2UpperBound(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "setOutputRs2UpperBound")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundDoseSetOutputRs2UpperBound
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -81,7 +81,7 @@ func (p *SoundDoseProxy) GetOutputRs2UpperBound(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "getOutputRs2UpperBound")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISoundDoseGetOutputRs2UpperBound
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -111,7 +111,7 @@ func (p *SoundDoseProxy) RegisterSoundDoseCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundDose, "registerSoundDoseCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundDoseRegisterSoundDoseCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

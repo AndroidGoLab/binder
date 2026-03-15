@@ -56,7 +56,7 @@ func (p *WalletCardsUpdatedListenerProxy) RegisterNewWalletCards(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWalletCardsUpdatedListener, "registerNewWalletCards")
 	if _err != nil {
-		return _err
+		_code = TransactionIWalletCardsUpdatedListenerRegisterNewWalletCards
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

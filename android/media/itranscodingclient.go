@@ -61,7 +61,7 @@ func (p *TranscodingClientProxy) SubmitRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClient, "submitRequest")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITranscodingClientSubmitRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -95,7 +95,7 @@ func (p *TranscodingClientProxy) CancelSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClient, "cancelSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITranscodingClientCancelSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -127,7 +127,7 @@ func (p *TranscodingClientProxy) GetSessionWithId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClient, "getSessionWithId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITranscodingClientGetSessionWithId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -163,7 +163,7 @@ func (p *TranscodingClientProxy) AddClientUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClient, "addClientUid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITranscodingClientAddClientUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -194,7 +194,7 @@ func (p *TranscodingClientProxy) GetClientUids(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClient, "getClientUids")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITranscodingClientGetClientUids
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -232,7 +232,7 @@ func (p *TranscodingClientProxy) Unregister(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClient, "unregister")
 	if _err != nil {
-		return _err
+		_code = TransactionITranscodingClientUnregister
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

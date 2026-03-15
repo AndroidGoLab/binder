@@ -49,7 +49,7 @@ func (p *GnssMeasurementCallbackProxy) GnssMeasurementCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssMeasurementCallback, "gnssMeasurementCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssMeasurementCallbackGnssMeasurementCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

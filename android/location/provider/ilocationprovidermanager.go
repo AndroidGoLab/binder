@@ -63,7 +63,7 @@ func (p *LocationProviderManagerProxy) OnInitialize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationProviderManager, "onInitialize")
 	if _err != nil {
-		return _err
+		_code = TransactionILocationProviderManagerOnInitialize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -89,7 +89,7 @@ func (p *LocationProviderManagerProxy) OnSetAllowed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationProviderManager, "onSetAllowed")
 	if _err != nil {
-		return _err
+		_code = TransactionILocationProviderManagerOnSetAllowed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -118,7 +118,7 @@ func (p *LocationProviderManagerProxy) OnSetProperties(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationProviderManager, "onSetProperties")
 	if _err != nil {
-		return _err
+		_code = TransactionILocationProviderManagerOnSetProperties
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -143,7 +143,7 @@ func (p *LocationProviderManagerProxy) OnReportLocation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationProviderManager, "onReportLocation")
 	if _err != nil {
-		return _err
+		_code = TransactionILocationProviderManagerOnReportLocation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -173,7 +173,7 @@ func (p *LocationProviderManagerProxy) OnReportLocations(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationProviderManager, "onReportLocations")
 	if _err != nil {
-		return _err
+		_code = TransactionILocationProviderManagerOnReportLocations
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -197,7 +197,7 @@ func (p *LocationProviderManagerProxy) OnFlushComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationProviderManager, "onFlushComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionILocationProviderManagerOnFlushComplete
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

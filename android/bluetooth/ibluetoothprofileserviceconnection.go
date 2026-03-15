@@ -49,7 +49,7 @@ func (p *BluetoothProfileServiceConnectionProxy) OnServiceConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothProfileServiceConnection, "onServiceConnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothProfileServiceConnectionOnServiceConnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *BluetoothProfileServiceConnectionProxy) OnServiceDisconnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothProfileServiceConnection, "onServiceDisconnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothProfileServiceConnectionOnServiceDisconnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

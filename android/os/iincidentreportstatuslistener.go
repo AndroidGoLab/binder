@@ -55,7 +55,7 @@ func (p *IncidentReportStatusListenerProxy) OnReportStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentReportStatusListener, "onReportStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentReportStatusListenerOnReportStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -74,7 +74,7 @@ func (p *IncidentReportStatusListenerProxy) OnReportSectionStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentReportStatusListener, "onReportSectionStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentReportStatusListenerOnReportSectionStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -89,7 +89,7 @@ func (p *IncidentReportStatusListenerProxy) OnReportFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentReportStatusListener, "onReportFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentReportStatusListenerOnReportFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -104,7 +104,7 @@ func (p *IncidentReportStatusListenerProxy) OnReportFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncidentReportStatusListener, "onReportFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIIncidentReportStatusListenerOnReportFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -52,7 +52,7 @@ func (p *ContextualSearchCallbackProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextualSearchCallback, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextualSearchCallbackOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -72,7 +72,7 @@ func (p *ContextualSearchCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextualSearchCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextualSearchCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

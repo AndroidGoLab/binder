@@ -61,7 +61,7 @@ func (p *GeofenceHardwareCallbackProxy) OnGeofenceTransition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGeofenceHardwareCallback, "onGeofenceTransition")
 	if _err != nil {
-		return _err
+		_code = TransactionIGeofenceHardwareCallbackOnGeofenceTransition
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -80,7 +80,7 @@ func (p *GeofenceHardwareCallbackProxy) OnGeofenceAdd(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGeofenceHardwareCallback, "onGeofenceAdd")
 	if _err != nil {
-		return _err
+		_code = TransactionIGeofenceHardwareCallbackOnGeofenceAdd
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -99,7 +99,7 @@ func (p *GeofenceHardwareCallbackProxy) OnGeofenceRemove(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGeofenceHardwareCallback, "onGeofenceRemove")
 	if _err != nil {
-		return _err
+		_code = TransactionIGeofenceHardwareCallbackOnGeofenceRemove
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -118,7 +118,7 @@ func (p *GeofenceHardwareCallbackProxy) OnGeofencePause(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGeofenceHardwareCallback, "onGeofencePause")
 	if _err != nil {
-		return _err
+		_code = TransactionIGeofenceHardwareCallbackOnGeofencePause
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -137,7 +137,7 @@ func (p *GeofenceHardwareCallbackProxy) OnGeofenceResume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGeofenceHardwareCallback, "onGeofenceResume")
 	if _err != nil {
-		return _err
+		_code = TransactionIGeofenceHardwareCallbackOnGeofenceResume
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

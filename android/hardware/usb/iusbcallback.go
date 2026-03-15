@@ -71,7 +71,7 @@ func (p *UsbCallbackProxy) NotifyPortStatusChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUsbCallback, "notifyPortStatusChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIUsbCallbackNotifyPortStatusChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -97,7 +97,7 @@ func (p *UsbCallbackProxy) NotifyRoleSwitchStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUsbCallback, "notifyRoleSwitchStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIUsbCallbackNotifyRoleSwitchStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -120,7 +120,7 @@ func (p *UsbCallbackProxy) NotifyEnableUsbDataStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUsbCallback, "notifyEnableUsbDataStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIUsbCallbackNotifyEnableUsbDataStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -141,7 +141,7 @@ func (p *UsbCallbackProxy) NotifyEnableUsbDataWhileDockedStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUsbCallback, "notifyEnableUsbDataWhileDockedStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIUsbCallbackNotifyEnableUsbDataWhileDockedStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -164,7 +164,7 @@ func (p *UsbCallbackProxy) NotifyContaminantEnabledStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUsbCallback, "notifyContaminantEnabledStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIUsbCallbackNotifyContaminantEnabledStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -185,7 +185,7 @@ func (p *UsbCallbackProxy) NotifyQueryPortStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUsbCallback, "notifyQueryPortStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIUsbCallbackNotifyQueryPortStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -208,7 +208,7 @@ func (p *UsbCallbackProxy) NotifyLimitPowerTransferStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUsbCallback, "notifyLimitPowerTransferStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIUsbCallbackNotifyLimitPowerTransferStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -229,7 +229,7 @@ func (p *UsbCallbackProxy) NotifyResetUsbPortStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUsbCallback, "notifyResetUsbPortStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIUsbCallbackNotifyResetUsbPortStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

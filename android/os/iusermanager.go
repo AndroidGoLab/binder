@@ -254,7 +254,7 @@ func (p *UserManagerProxy) GetCredentialOwnerProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getCredentialOwnerProfile")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetCredentialOwnerProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -285,7 +285,7 @@ func (p *UserManagerProxy) GetProfileParentId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getProfileParentId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetProfileParentId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -320,7 +320,7 @@ func (p *UserManagerProxy) CreateUserWithThrow(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "createUserWithThrow")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerCreateUserWithThrow
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -347,7 +347,7 @@ func (p *UserManagerProxy) PreCreateUserWithThrow(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "preCreateUserWithThrow")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerPreCreateUserWithThrow
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -389,7 +389,7 @@ func (p *UserManagerProxy) CreateProfileForUserWithThrow(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "createProfileForUserWithThrow")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerCreateProfileForUserWithThrow
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -418,7 +418,7 @@ func (p *UserManagerProxy) CreateRestrictedProfileWithThrow(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "createRestrictedProfileWithThrow")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerCreateRestrictedProfileWithThrow
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -445,7 +445,7 @@ func (p *UserManagerProxy) GetPreInstallableSystemPackages(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getPreInstallableSystemPackages")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetPreInstallableSystemPackages
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -485,7 +485,7 @@ func (p *UserManagerProxy) SetUserEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setUserEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserManagerSetUserEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -511,7 +511,7 @@ func (p *UserManagerProxy) SetUserAdmin(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setUserAdmin")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserManagerSetUserAdmin
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -537,7 +537,7 @@ func (p *UserManagerProxy) RevokeUserAdmin(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "revokeUserAdmin")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserManagerRevokeUserAdmin
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -563,7 +563,7 @@ func (p *UserManagerProxy) EvictCredentialEncryptionKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "evictCredentialEncryptionKey")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserManagerEvictCredentialEncryptionKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -590,7 +590,7 @@ func (p *UserManagerProxy) RemoveUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "removeUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerRemoveUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -621,7 +621,7 @@ func (p *UserManagerProxy) RemoveUserEvenWhenDisallowed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "removeUserEvenWhenDisallowed")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerRemoveUserEvenWhenDisallowed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -653,7 +653,7 @@ func (p *UserManagerProxy) SetUserName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setUserName")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserManagerSetUserName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -684,7 +684,7 @@ func (p *UserManagerProxy) SetUserIcon(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setUserIcon")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserManagerSetUserIcon
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -711,7 +711,7 @@ func (p *UserManagerProxy) GetUserIcon(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserIcon")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserIcon
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -740,7 +740,7 @@ func (p *UserManagerProxy) GetPrimaryUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getPrimaryUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetPrimaryUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -765,7 +765,7 @@ func (p *UserManagerProxy) GetMainUserId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getMainUserId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetMainUserId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -794,7 +794,7 @@ func (p *UserManagerProxy) GetCommunalProfileId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getCommunalProfileId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetCommunalProfileId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -823,7 +823,7 @@ func (p *UserManagerProxy) GetPreviousFullUserToEnterForeground(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getPreviousFullUserToEnterForeground")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetPreviousFullUserToEnterForeground
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -858,7 +858,7 @@ func (p *UserManagerProxy) GetUsers(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUsers")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUsers
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -897,7 +897,7 @@ func (p *UserManagerProxy) GetProfiles(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getProfiles")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetProfiles
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -936,7 +936,7 @@ func (p *UserManagerProxy) GetProfileIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getProfileIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetProfileIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -977,7 +977,7 @@ func (p *UserManagerProxy) IsUserTypeEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserTypeEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsUserTypeEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1008,7 +1008,7 @@ func (p *UserManagerProxy) CanAddMoreUsersOfType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "canAddMoreUsersOfType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerCanAddMoreUsersOfType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1039,7 +1039,7 @@ func (p *UserManagerProxy) GetRemainingCreatableUserCount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getRemainingCreatableUserCount")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetRemainingCreatableUserCount
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1072,7 +1072,7 @@ func (p *UserManagerProxy) GetRemainingCreatableProfileCount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getRemainingCreatableProfileCount")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetRemainingCreatableProfileCount
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1107,7 +1107,7 @@ func (p *UserManagerProxy) CanAddMoreProfilesToUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "canAddMoreProfilesToUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerCanAddMoreProfilesToUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1140,7 +1140,7 @@ func (p *UserManagerProxy) CanAddMoreManagedProfiles(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "canAddMoreManagedProfiles")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerCanAddMoreManagedProfiles
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1171,7 +1171,7 @@ func (p *UserManagerProxy) GetProfileParent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getProfileParent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetProfileParent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1200,7 +1200,7 @@ func (p *UserManagerProxy) IsSameProfileGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isSameProfileGroup")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsSameProfileGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1229,7 +1229,7 @@ func (p *UserManagerProxy) IsHeadlessSystemUserMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isHeadlessSystemUserMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsHeadlessSystemUserMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1262,7 +1262,7 @@ func (p *UserManagerProxy) IsUserOfType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserOfType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsUserOfType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1293,7 +1293,7 @@ func (p *UserManagerProxy) GetUserInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1320,7 +1320,7 @@ func (p *UserManagerProxy) GetUserPropertiesCopy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserPropertiesCopy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserPropertiesCopy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1347,7 +1347,7 @@ func (p *UserManagerProxy) GetUserAccount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserAccount")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserAccount
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1379,7 +1379,7 @@ func (p *UserManagerProxy) SetUserAccount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setUserAccount")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserManagerSetUserAccount
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1406,7 +1406,7 @@ func (p *UserManagerProxy) GetUserCreationTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserCreationTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserCreationTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1437,7 +1437,7 @@ func (p *UserManagerProxy) GetUserSwitchability(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserSwitchability")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserSwitchability
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1470,7 +1470,7 @@ func (p *UserManagerProxy) IsUserSwitcherEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserSwitcherEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsUserSwitcherEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1501,7 +1501,7 @@ func (p *UserManagerProxy) IsRestricted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isRestricted")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsRestricted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1532,7 +1532,7 @@ func (p *UserManagerProxy) CanHaveRestrictedProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "canHaveRestrictedProfile")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerCanHaveRestrictedProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1563,7 +1563,7 @@ func (p *UserManagerProxy) CanAddPrivateProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "canAddPrivateProfile")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerCanAddPrivateProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1594,7 +1594,7 @@ func (p *UserManagerProxy) GetUserSerialNumber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserSerialNumber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserSerialNumber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1625,7 +1625,7 @@ func (p *UserManagerProxy) GetUserHandle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserHandle")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserHandle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1658,7 +1658,7 @@ func (p *UserManagerProxy) GetUserRestrictionSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserRestrictionSource")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserRestrictionSource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1691,7 +1691,7 @@ func (p *UserManagerProxy) GetUserRestrictionSources(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserRestrictionSources")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserRestrictionSources
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1731,7 +1731,7 @@ func (p *UserManagerProxy) GetUserRestrictions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserRestrictions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserRestrictions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1769,7 +1769,7 @@ func (p *UserManagerProxy) HasBaseUserRestriction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "hasBaseUserRestriction")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerHasBaseUserRestriction
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1802,7 +1802,7 @@ func (p *UserManagerProxy) HasUserRestriction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "hasUserRestriction")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerHasUserRestriction
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1833,7 +1833,7 @@ func (p *UserManagerProxy) HasUserRestrictionOnAnyUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "hasUserRestrictionOnAnyUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerHasUserRestrictionOnAnyUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1869,7 +1869,7 @@ func (p *UserManagerProxy) IsSettingRestrictedForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isSettingRestrictedForUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsSettingRestrictedForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1899,7 +1899,7 @@ func (p *UserManagerProxy) AddUserRestrictionsListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "addUserRestrictionsListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserManagerAddUserRestrictionsListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1929,7 +1929,7 @@ func (p *UserManagerProxy) SetUserRestriction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setUserRestriction")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserManagerSetUserRestriction
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1962,7 +1962,7 @@ func (p *UserManagerProxy) SetApplicationRestrictions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setApplicationRestrictions")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserManagerSetApplicationRestrictions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1989,7 +1989,7 @@ func (p *UserManagerProxy) GetApplicationRestrictions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getApplicationRestrictions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetApplicationRestrictions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2027,7 +2027,7 @@ func (p *UserManagerProxy) GetApplicationRestrictionsForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getApplicationRestrictionsForUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetApplicationRestrictionsForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2065,7 +2065,7 @@ func (p *UserManagerProxy) SetDefaultGuestRestrictions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setDefaultGuestRestrictions")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserManagerSetDefaultGuestRestrictions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2090,7 +2090,7 @@ func (p *UserManagerProxy) GetDefaultGuestRestrictions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getDefaultGuestRestrictions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetDefaultGuestRestrictions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2128,7 +2128,7 @@ func (p *UserManagerProxy) RemoveUserWhenPossible(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "removeUserWhenPossible")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerRemoveUserWhenPossible
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2159,7 +2159,7 @@ func (p *UserManagerProxy) MarkGuestForDeletion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "markGuestForDeletion")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerMarkGuestForDeletion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2188,7 +2188,7 @@ func (p *UserManagerProxy) GetGuestUsers(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getGuestUsers")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetGuestUsers
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2225,7 +2225,7 @@ func (p *UserManagerProxy) IsQuietModeEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isQuietModeEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsQuietModeEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2270,7 +2270,7 @@ func (p *UserManagerProxy) CreateUserWithAttributes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "createUserWithAttributes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerCreateUserWithAttributes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2312,7 +2312,7 @@ func (p *UserManagerProxy) SetSeedAccountData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setSeedAccountData")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserManagerSetSeedAccountData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2339,7 +2339,7 @@ func (p *UserManagerProxy) GetSeedAccountName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getSeedAccountName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetSeedAccountName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2370,7 +2370,7 @@ func (p *UserManagerProxy) GetSeedAccountType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getSeedAccountType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetSeedAccountType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2401,7 +2401,7 @@ func (p *UserManagerProxy) GetSeedAccountOptions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getSeedAccountOptions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetSeedAccountOptions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2427,7 +2427,7 @@ func (p *UserManagerProxy) ClearSeedAccountData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "clearSeedAccountData")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserManagerClearSeedAccountData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2456,7 +2456,7 @@ func (p *UserManagerProxy) SomeUserHasSeedAccount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "someUserHasSeedAccount")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerSomeUserHasSeedAccount
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2489,7 +2489,7 @@ func (p *UserManagerProxy) SomeUserHasAccount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "someUserHasAccount")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerSomeUserHasAccount
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2520,7 +2520,7 @@ func (p *UserManagerProxy) GetProfileType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getProfileType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetProfileType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2551,7 +2551,7 @@ func (p *UserManagerProxy) IsDemoUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isDemoUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsDemoUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2582,7 +2582,7 @@ func (p *UserManagerProxy) IsAdminUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isAdminUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsAdminUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2613,7 +2613,7 @@ func (p *UserManagerProxy) IsPreCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isPreCreated")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsPreCreated
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2659,7 +2659,7 @@ func (p *UserManagerProxy) CreateProfileForUserEvenWhenDisallowedWithThrow(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "createProfileForUserEvenWhenDisallowedWithThrow")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerCreateProfileForUserEvenWhenDisallowedWithThrow
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2686,7 +2686,7 @@ func (p *UserManagerProxy) IsUserUnlockingOrUnlocked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserUnlockingOrUnlocked")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsUserUnlockingOrUnlocked
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2717,7 +2717,7 @@ func (p *UserManagerProxy) GetUserIconBadgeResId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserIconBadgeResId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserIconBadgeResId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2748,7 +2748,7 @@ func (p *UserManagerProxy) GetUserBadgeResId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserBadgeResId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserBadgeResId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2779,7 +2779,7 @@ func (p *UserManagerProxy) GetUserBadgeNoBackgroundResId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserBadgeNoBackgroundResId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserBadgeNoBackgroundResId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2810,7 +2810,7 @@ func (p *UserManagerProxy) GetUserBadgeLabelResId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserBadgeLabelResId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserBadgeLabelResId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2841,7 +2841,7 @@ func (p *UserManagerProxy) GetUserBadgeColorResId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserBadgeColorResId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserBadgeColorResId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2872,7 +2872,7 @@ func (p *UserManagerProxy) GetUserBadgeDarkColorResId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserBadgeDarkColorResId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserBadgeDarkColorResId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2903,7 +2903,7 @@ func (p *UserManagerProxy) GetUserStatusBarIconResId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserStatusBarIconResId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserStatusBarIconResId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2934,7 +2934,7 @@ func (p *UserManagerProxy) HasBadge(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "hasBadge")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerHasBadge
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2965,7 +2965,7 @@ func (p *UserManagerProxy) GetProfileLabelResId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getProfileLabelResId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetProfileLabelResId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2996,7 +2996,7 @@ func (p *UserManagerProxy) GetProfileAccessibilityLabelResId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getProfileAccessibilityLabelResId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetProfileAccessibilityLabelResId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3027,7 +3027,7 @@ func (p *UserManagerProxy) IsUserUnlocked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserUnlocked")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsUserUnlocked
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3058,7 +3058,7 @@ func (p *UserManagerProxy) IsUserRunning(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserRunning")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsUserRunning
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3089,7 +3089,7 @@ func (p *UserManagerProxy) IsUserForeground(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserForeground")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsUserForeground
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3120,7 +3120,7 @@ func (p *UserManagerProxy) IsUserVisible(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserVisible")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsUserVisible
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3149,7 +3149,7 @@ func (p *UserManagerProxy) GetVisibleUsers(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getVisibleUsers")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetVisibleUsers
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3190,7 +3190,7 @@ func (p *UserManagerProxy) GetMainDisplayIdAssignedToUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getMainDisplayIdAssignedToUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetMainDisplayIdAssignedToUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3219,7 +3219,7 @@ func (p *UserManagerProxy) IsForegroundUserAdmin(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isForegroundUserAdmin")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsForegroundUserAdmin
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3250,7 +3250,7 @@ func (p *UserManagerProxy) IsUserNameSet(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "isUserNameSet")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerIsUserNameSet
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3281,7 +3281,7 @@ func (p *UserManagerProxy) HasRestrictedProfiles(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "hasRestrictedProfiles")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerHasRestrictedProfiles
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3318,7 +3318,7 @@ func (p *UserManagerProxy) RequestQuietModeEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "requestQuietModeEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerRequestQuietModeEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3347,7 +3347,7 @@ func (p *UserManagerProxy) GetUserName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3376,7 +3376,7 @@ func (p *UserManagerProxy) GetUserStartRealtime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserStartRealtime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserStartRealtime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3405,7 +3405,7 @@ func (p *UserManagerProxy) GetUserUnlockRealtime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getUserUnlockRealtime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetUserUnlockRealtime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3438,7 +3438,7 @@ func (p *UserManagerProxy) SetUserEphemeral(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setUserEphemeral")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerSetUserEphemeral
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3468,7 +3468,7 @@ func (p *UserManagerProxy) SetBootUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "setBootUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIUserManagerSetBootUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3493,7 +3493,7 @@ func (p *UserManagerProxy) GetBootUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getBootUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetBootUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3526,7 +3526,7 @@ func (p *UserManagerProxy) GetProfileIdsExcludingHidden(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "getProfileIdsExcludingHidden")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUserManagerGetProfileIdsExcludingHidden
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

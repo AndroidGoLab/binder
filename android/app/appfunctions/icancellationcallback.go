@@ -47,7 +47,7 @@ func (p *CancellationCallbackProxy) SendCancellationTransport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICancellationCallback, "sendCancellationTransport")
 	if _err != nil {
-		return _err
+		_code = TransactionICancellationCallbackSendCancellationTransport
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

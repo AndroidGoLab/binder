@@ -45,7 +45,7 @@ func (p *TransactionReadyCallbackProxy) OnTransactionReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITransactionReadyCallback, "onTransactionReady")
 	if _err != nil {
-		return _err
+		_code = TransactionITransactionReadyCallbackOnTransactionReady
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

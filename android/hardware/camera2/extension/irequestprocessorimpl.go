@@ -61,7 +61,7 @@ func (p *RequestProcessorImplProxy) SetImageProcessor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRequestProcessorImpl, "setImageProcessor")
 	if _err != nil {
-		return _err
+		_code = TransactionIRequestProcessorImplSetImageProcessor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *RequestProcessorImplProxy) Submit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRequestProcessorImpl, "submit")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRequestProcessorImplSubmit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -135,7 +135,7 @@ func (p *RequestProcessorImplProxy) SubmitBurst(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRequestProcessorImpl, "submitBurst")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRequestProcessorImplSubmitBurst
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -171,7 +171,7 @@ func (p *RequestProcessorImplProxy) SetRepeating(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRequestProcessorImpl, "setRepeating")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRequestProcessorImplSetRepeating
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -199,7 +199,7 @@ func (p *RequestProcessorImplProxy) AbortCaptures(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRequestProcessorImpl, "abortCaptures")
 	if _err != nil {
-		return _err
+		_code = TransactionIRequestProcessorImplAbortCaptures
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -223,7 +223,7 @@ func (p *RequestProcessorImplProxy) StopRepeating(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRequestProcessorImpl, "stopRepeating")
 	if _err != nil {
-		return _err
+		_code = TransactionIRequestProcessorImplStopRepeating
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

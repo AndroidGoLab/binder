@@ -58,7 +58,7 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) GetDspModuleProperties(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSoundTriggerSession, "getDspModuleProperties")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVoiceInteractionSoundTriggerSessionGetDspModuleProperties
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -105,7 +105,7 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) StartRecognition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSoundTriggerSession, "startRecognition")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVoiceInteractionSoundTriggerSessionStartRecognition
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -138,7 +138,7 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) StopRecognition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSoundTriggerSession, "stopRecognition")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVoiceInteractionSoundTriggerSessionStopRecognition
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -173,7 +173,7 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) SetParameter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSoundTriggerSession, "setParameter")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVoiceInteractionSoundTriggerSessionSetParameter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -206,7 +206,7 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) GetParameter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSoundTriggerSession, "getParameter")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVoiceInteractionSoundTriggerSessionGetParameter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -239,7 +239,7 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) QueryParameter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSoundTriggerSession, "queryParameter")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVoiceInteractionSoundTriggerSessionQueryParameter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -272,7 +272,7 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) Detach(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSoundTriggerSession, "detach")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractionSoundTriggerSessionDetach
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

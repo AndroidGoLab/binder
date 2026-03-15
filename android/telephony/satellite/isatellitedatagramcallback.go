@@ -54,7 +54,7 @@ func (p *SatelliteDatagramCallbackProxy) OnSatelliteDatagramReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteDatagramCallback, "onSatelliteDatagramReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteDatagramCallbackOnSatelliteDatagramReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

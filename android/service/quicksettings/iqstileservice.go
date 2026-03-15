@@ -54,7 +54,7 @@ func (p *QSTileServiceProxy) OnTileAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSTileService, "onTileAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionIQSTileServiceOnTileAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *QSTileServiceProxy) OnTileRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSTileService, "onTileRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionIQSTileServiceOnTileRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -84,7 +84,7 @@ func (p *QSTileServiceProxy) OnStartListening(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSTileService, "onStartListening")
 	if _err != nil {
-		return _err
+		_code = TransactionIQSTileServiceOnStartListening
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -99,7 +99,7 @@ func (p *QSTileServiceProxy) OnStopListening(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSTileService, "onStopListening")
 	if _err != nil {
-		return _err
+		_code = TransactionIQSTileServiceOnStopListening
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -116,7 +116,7 @@ func (p *QSTileServiceProxy) OnClick(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSTileService, "onClick")
 	if _err != nil {
-		return _err
+		_code = TransactionIQSTileServiceOnClick
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -131,7 +131,7 @@ func (p *QSTileServiceProxy) OnUnlockComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIQSTileService, "onUnlockComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIQSTileServiceOnUnlockComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

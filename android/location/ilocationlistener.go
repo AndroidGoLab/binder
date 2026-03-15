@@ -60,7 +60,7 @@ func (p *LocationListenerProxy) OnLocationChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationListener, "onLocationChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionILocationListenerOnLocationChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -79,7 +79,7 @@ func (p *LocationListenerProxy) OnProviderEnabledChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationListener, "onProviderEnabledChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionILocationListenerOnProviderEnabledChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -96,7 +96,7 @@ func (p *LocationListenerProxy) OnFlushComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationListener, "onFlushComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionILocationListenerOnFlushComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

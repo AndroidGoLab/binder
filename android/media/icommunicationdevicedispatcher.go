@@ -46,7 +46,7 @@ func (p *CommunicationDeviceDispatcherProxy) DispatchCommunicationDeviceChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICommunicationDeviceDispatcher, "dispatchCommunicationDeviceChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionICommunicationDeviceDispatcherDispatchCommunicationDeviceChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

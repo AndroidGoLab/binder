@@ -55,7 +55,7 @@ func (p *ObbBackupServiceProxy) BackupObbs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIObbBackupService, "backupObbs")
 	if _err != nil {
-		return _err
+		_code = TransactionIObbBackupServiceBackupObbs
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *ObbBackupServiceProxy) RestoreObbFile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIObbBackupService, "restoreObbFile")
 	if _err != nil {
-		return _err
+		_code = TransactionIObbBackupServiceRestoreObbFile
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

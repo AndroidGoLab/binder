@@ -45,7 +45,7 @@ func (p *DragAndDropProxy) IsReadyToHandleDrag(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDragAndDrop, "isReadyToHandleDrag")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDragAndDropIsReadyToHandleDrag
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

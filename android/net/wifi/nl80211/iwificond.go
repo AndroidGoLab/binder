@@ -81,7 +81,7 @@ func (p *WificondProxy) CreateApInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "createApInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWificondCreateApInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -113,7 +113,7 @@ func (p *WificondProxy) CreateClientInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "createClientInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWificondCreateClientInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -145,7 +145,7 @@ func (p *WificondProxy) TearDownApInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "tearDownApInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWificondTearDownApInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -176,7 +176,7 @@ func (p *WificondProxy) TearDownClientInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "tearDownClientInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWificondTearDownClientInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -204,7 +204,7 @@ func (p *WificondProxy) TearDownInterfaces(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "tearDownInterfaces")
 	if _err != nil {
-		return _err
+		_code = TransactionIWificondTearDownInterfaces
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -229,7 +229,7 @@ func (p *WificondProxy) GetClientInterfaces(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "GetClientInterfaces")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWificondGetClientInterfaces
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -269,7 +269,7 @@ func (p *WificondProxy) GetApInterfaces(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "GetApInterfaces")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWificondGetApInterfaces
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -309,7 +309,7 @@ func (p *WificondProxy) GetAvailable2gChannels(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "getAvailable2gChannels")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWificondGetAvailable2gChannels
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -348,7 +348,7 @@ func (p *WificondProxy) GetAvailable5gNonDFSChannels(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "getAvailable5gNonDFSChannels")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWificondGetAvailable5gNonDFSChannels
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -387,7 +387,7 @@ func (p *WificondProxy) GetAvailableDFSChannels(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "getAvailableDFSChannels")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWificondGetAvailableDFSChannels
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -426,7 +426,7 @@ func (p *WificondProxy) GetAvailable6gChannels(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "getAvailable6gChannels")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWificondGetAvailable6gChannels
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -465,7 +465,7 @@ func (p *WificondProxy) GetAvailable60gChannels(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "getAvailable60gChannels")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWificondGetAvailable60gChannels
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -505,7 +505,7 @@ func (p *WificondProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "RegisterCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIWificondRegisterCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -522,7 +522,7 @@ func (p *WificondProxy) UnregisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "UnregisterCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIWificondUnregisterCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -539,7 +539,7 @@ func (p *WificondProxy) RegisterWificondEventCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "registerWificondEventCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIWificondRegisterWificondEventCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -556,7 +556,7 @@ func (p *WificondProxy) UnregisterWificondEventCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "unregisterWificondEventCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIWificondUnregisterWificondEventCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -574,7 +574,7 @@ func (p *WificondProxy) GetDeviceWiphyCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "getDeviceWiphyCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWificondGetDeviceWiphyCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -598,7 +598,7 @@ func (p *WificondProxy) NotifyCountryCodeChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWificond, "notifyCountryCodeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIWificondNotifyCountryCodeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -48,7 +48,7 @@ func (p *GetAvailableMemoryInBytesCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGetAvailableMemoryInBytesCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIGetAvailableMemoryInBytesCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *GetAvailableMemoryInBytesCallbackProxy) OnUnsupportedOperationException
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGetAvailableMemoryInBytesCallback, "onUnsupportedOperationException")
 	if _err != nil {
-		return _err
+		_code = TransactionIGetAvailableMemoryInBytesCallbackOnUnsupportedOperationException
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

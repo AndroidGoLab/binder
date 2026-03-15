@@ -46,7 +46,7 @@ func (p *PnoScanEventProxy) OnPnoNetworkFound(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPnoScanEvent, "OnPnoNetworkFound")
 	if _err != nil {
-		return _err
+		_code = TransactionIPnoScanEventOnPnoNetworkFound
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -61,7 +61,7 @@ func (p *PnoScanEventProxy) OnPnoScanFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPnoScanEvent, "OnPnoScanFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIPnoScanEventOnPnoScanFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

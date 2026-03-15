@@ -62,7 +62,7 @@ func (p *CellBroadcastServiceProxy) HandleGsmCellBroadcastSms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICellBroadcastService, "handleGsmCellBroadcastSms")
 	if _err != nil {
-		return _err
+		_code = TransactionICellBroadcastServiceHandleGsmCellBroadcastSms
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -90,7 +90,7 @@ func (p *CellBroadcastServiceProxy) HandleCdmaCellBroadcastSms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICellBroadcastService, "handleCdmaCellBroadcastSms")
 	if _err != nil {
-		return _err
+		_code = TransactionICellBroadcastServiceHandleCdmaCellBroadcastSms
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -121,7 +121,7 @@ func (p *CellBroadcastServiceProxy) HandleCdmaScpMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICellBroadcastService, "handleCdmaScpMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionICellBroadcastServiceHandleCdmaScpMessage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -139,7 +139,7 @@ func (p *CellBroadcastServiceProxy) GetCellBroadcastAreaInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICellBroadcastService, "getCellBroadcastAreaInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICellBroadcastServiceGetCellBroadcastAreaInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

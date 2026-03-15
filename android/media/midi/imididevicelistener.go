@@ -49,7 +49,7 @@ func (p *MidiDeviceListenerProxy) OnDeviceAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiDeviceListener, "onDeviceAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionIMidiDeviceListenerOnDeviceAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *MidiDeviceListenerProxy) OnDeviceRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiDeviceListener, "onDeviceRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionIMidiDeviceListenerOnDeviceRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -85,7 +85,7 @@ func (p *MidiDeviceListenerProxy) OnDeviceStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiDeviceListener, "onDeviceStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIMidiDeviceListenerOnDeviceStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

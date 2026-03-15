@@ -60,7 +60,7 @@ func (p *RemoteTransitionProxy) StartAnimation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteTransition, "startAnimation")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteTransitionStartAnimation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -87,7 +87,7 @@ func (p *RemoteTransitionProxy) MergeAnimation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteTransition, "mergeAnimation")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteTransitionMergeAnimation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -123,7 +123,7 @@ func (p *RemoteTransitionProxy) TakeOverAnimation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteTransition, "takeOverAnimation")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteTransitionTakeOverAnimation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -142,7 +142,7 @@ func (p *RemoteTransitionProxy) OnTransitionConsumed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteTransition, "onTransitionConsumed")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteTransitionOnTransitionConsumed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

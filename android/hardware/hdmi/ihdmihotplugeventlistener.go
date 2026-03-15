@@ -49,7 +49,7 @@ func (p *HdmiHotplugEventListenerProxy) OnReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiHotplugEventListener, "onReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiHotplugEventListenerOnReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

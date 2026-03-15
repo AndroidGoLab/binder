@@ -52,7 +52,7 @@ func (p *TextClassifierCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextClassifierCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionITextClassifierCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *TextClassifierCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextClassifierCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionITextClassifierCallbackOnFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

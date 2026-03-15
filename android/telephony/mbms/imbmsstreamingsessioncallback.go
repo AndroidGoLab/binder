@@ -52,7 +52,7 @@ func (p *MbmsStreamingSessionCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingSessionCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIMbmsStreamingSessionCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *MbmsStreamingSessionCallbackProxy) OnStreamingServicesUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingSessionCallback, "onStreamingServicesUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIMbmsStreamingSessionCallbackOnStreamingServicesUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -93,7 +93,7 @@ func (p *MbmsStreamingSessionCallbackProxy) OnMiddlewareReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMbmsStreamingSessionCallback, "onMiddlewareReady")
 	if _err != nil {
-		return _err
+		_code = TransactionIMbmsStreamingSessionCallbackOnMiddlewareReady
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -53,7 +53,7 @@ func (p *OperatorDetectionProxy) SetOperatorDetection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOperatorDetection, "setOperatorDetection")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOperatorDetectionSetOperatorDetection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *OperatorDetectionProxy) SetListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOperatorDetection, "setListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOperatorDetectionSetListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

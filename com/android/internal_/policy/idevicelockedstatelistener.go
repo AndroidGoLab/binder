@@ -46,7 +46,7 @@ func (p *DeviceLockedStateListenerProxy) OnDeviceLockedStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceLockedStateListener, "onDeviceLockedStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceLockedStateListenerOnDeviceLockedStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -55,7 +55,7 @@ func (p *CaptureProcessorImplProxy) OnOutputSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICaptureProcessorImpl, "onOutputSurface")
 	if _err != nil {
-		return _err
+		_code = TransactionICaptureProcessorImplOnOutputSurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -80,7 +80,7 @@ func (p *CaptureProcessorImplProxy) OnPostviewOutputSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICaptureProcessorImpl, "onPostviewOutputSurface")
 	if _err != nil {
-		return _err
+		_code = TransactionICaptureProcessorImplOnPostviewOutputSurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -114,7 +114,7 @@ func (p *CaptureProcessorImplProxy) OnResolutionUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICaptureProcessorImpl, "onResolutionUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionICaptureProcessorImplOnResolutionUpdate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -140,7 +140,7 @@ func (p *CaptureProcessorImplProxy) OnImageFormatUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICaptureProcessorImpl, "onImageFormatUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionICaptureProcessorImplOnImageFormatUpdate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -179,7 +179,7 @@ func (p *CaptureProcessorImplProxy) Process(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICaptureProcessorImpl, "process")
 	if _err != nil {
-		return _err
+		_code = TransactionICaptureProcessorImplProcess
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

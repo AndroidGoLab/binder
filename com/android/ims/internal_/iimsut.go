@@ -83,7 +83,7 @@ func (p *ImsUtProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsUtClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -110,7 +110,7 @@ func (p *ImsUtProxy) QueryCallBarring(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "queryCallBarring")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtQueryCallBarring
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -143,7 +143,7 @@ func (p *ImsUtProxy) QueryCallForward(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "queryCallForward")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtQueryCallForward
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -172,7 +172,7 @@ func (p *ImsUtProxy) QueryCallWaiting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "queryCallWaiting")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtQueryCallWaiting
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -201,7 +201,7 @@ func (p *ImsUtProxy) QueryCLIR(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "queryCLIR")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtQueryCLIR
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -230,7 +230,7 @@ func (p *ImsUtProxy) QueryCLIP(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "queryCLIP")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtQueryCLIP
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -259,7 +259,7 @@ func (p *ImsUtProxy) QueryCOLR(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "queryCOLR")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtQueryCOLR
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -288,7 +288,7 @@ func (p *ImsUtProxy) QueryCOLP(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "queryCOLP")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtQueryCOLP
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -322,7 +322,7 @@ func (p *ImsUtProxy) Transact(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "transact")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtTransact
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -364,7 +364,7 @@ func (p *ImsUtProxy) UpdateCallBarring(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "updateCallBarring")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtUpdateCallBarring
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -403,7 +403,7 @@ func (p *ImsUtProxy) UpdateCallForward(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "updateCallForward")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtUpdateCallForward
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -436,7 +436,7 @@ func (p *ImsUtProxy) UpdateCallWaiting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "updateCallWaiting")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtUpdateCallWaiting
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -467,7 +467,7 @@ func (p *ImsUtProxy) UpdateCLIR(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "updateCLIR")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtUpdateCLIR
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -498,7 +498,7 @@ func (p *ImsUtProxy) UpdateCLIP(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "updateCLIP")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtUpdateCLIP
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -529,7 +529,7 @@ func (p *ImsUtProxy) UpdateCOLR(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "updateCOLR")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtUpdateCOLR
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -560,7 +560,7 @@ func (p *ImsUtProxy) UpdateCOLP(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "updateCOLP")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtUpdateCOLP
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -590,7 +590,7 @@ func (p *ImsUtProxy) SetListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "setListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsUtSetListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -619,7 +619,7 @@ func (p *ImsUtProxy) QueryCallBarringForServiceClass(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "queryCallBarringForServiceClass")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtQueryCallBarringForServiceClass
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -663,7 +663,7 @@ func (p *ImsUtProxy) UpdateCallBarringForServiceClass(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "updateCallBarringForServiceClass")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtUpdateCallBarringForServiceClass
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -709,7 +709,7 @@ func (p *ImsUtProxy) UpdateCallBarringWithPassword(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsUt, "updateCallBarringWithPassword")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsUtUpdateCallBarringWithPassword
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

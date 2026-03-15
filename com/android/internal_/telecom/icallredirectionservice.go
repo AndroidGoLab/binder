@@ -62,7 +62,7 @@ func (p *CallRedirectionServiceProxy) PlaceCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallRedirectionService, "placeCall")
 	if _err != nil {
-		return _err
+		_code = TransactionICallRedirectionServicePlaceCall
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -77,7 +77,7 @@ func (p *CallRedirectionServiceProxy) NotifyTimeout(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallRedirectionService, "notifyTimeout")
 	if _err != nil {
-		return _err
+		_code = TransactionICallRedirectionServiceNotifyTimeout
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

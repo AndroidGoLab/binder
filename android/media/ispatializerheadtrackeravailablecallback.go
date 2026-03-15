@@ -46,7 +46,7 @@ func (p *SpatializerHeadTrackerAvailableCallbackProxy) DispatchSpatializerHeadTr
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializerHeadTrackerAvailableCallback, "dispatchSpatializerHeadTrackerAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerHeadTrackerAvailableCallbackDispatchSpatializerHeadTrackerAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -54,7 +54,7 @@ func (p *AssociationRequestCallbackProxy) OnAssociationPending(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAssociationRequestCallback, "onAssociationPending")
 	if _err != nil {
-		return _err
+		_code = TransactionIAssociationRequestCallbackOnAssociationPending
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -74,7 +74,7 @@ func (p *AssociationRequestCallbackProxy) OnAssociationCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAssociationRequestCallback, "onAssociationCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionIAssociationRequestCallbackOnAssociationCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *AssociationRequestCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAssociationRequestCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIAssociationRequestCallbackOnFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

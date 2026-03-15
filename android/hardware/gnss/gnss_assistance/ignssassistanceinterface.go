@@ -51,7 +51,7 @@ func (p *GnssAssistanceInterfaceProxy) InjectGnssAssistance(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssAssistanceInterface, "injectGnssAssistance")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssAssistanceInterfaceInjectGnssAssistance
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -77,7 +77,7 @@ func (p *GnssAssistanceInterfaceProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssAssistanceInterface, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssAssistanceInterfaceSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

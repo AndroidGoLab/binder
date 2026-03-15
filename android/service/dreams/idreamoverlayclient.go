@@ -66,7 +66,7 @@ func (p *DreamOverlayClientProxy) StartDream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlayClient, "startDream")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamOverlayClientStartDream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -90,7 +90,7 @@ func (p *DreamOverlayClientProxy) WakeUp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlayClient, "wakeUp")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamOverlayClientWakeUp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -114,7 +114,7 @@ func (p *DreamOverlayClientProxy) EndDream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlayClient, "endDream")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamOverlayClientEndDream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -138,7 +138,7 @@ func (p *DreamOverlayClientProxy) OnWakeRequested(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlayClient, "onWakeRequested")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamOverlayClientOnWakeRequested
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -162,7 +162,7 @@ func (p *DreamOverlayClientProxy) ComeToFront(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamOverlayClient, "comeToFront")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamOverlayClientComeToFront
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

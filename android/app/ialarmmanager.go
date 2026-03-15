@@ -89,7 +89,7 @@ func (p *AlarmManagerProxy) Set(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAlarmManager, "set")
 	if _err != nil {
-		return _err
+		_code = TransactionIAlarmManagerSet
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -116,7 +116,7 @@ func (p *AlarmManagerProxy) SetTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAlarmManager, "setTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAlarmManagerSetTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -146,7 +146,7 @@ func (p *AlarmManagerProxy) SetTimeZone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAlarmManager, "setTimeZone")
 	if _err != nil {
-		return _err
+		_code = TransactionIAlarmManagerSetTimeZone
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -177,7 +177,7 @@ func (p *AlarmManagerProxy) Remove(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAlarmManager, "remove")
 	if _err != nil {
-		return _err
+		_code = TransactionIAlarmManagerRemove
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -203,7 +203,7 @@ func (p *AlarmManagerProxy) RemoveAll(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAlarmManager, "removeAll")
 	if _err != nil {
-		return _err
+		_code = TransactionIAlarmManagerRemoveAll
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -228,7 +228,7 @@ func (p *AlarmManagerProxy) GetNextWakeFromIdleTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAlarmManager, "getNextWakeFromIdleTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAlarmManagerGetNextWakeFromIdleTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -259,7 +259,7 @@ func (p *AlarmManagerProxy) GetNextAlarmClock(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAlarmManager, "getNextAlarmClock")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAlarmManagerGetNextAlarmClock
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -295,7 +295,7 @@ func (p *AlarmManagerProxy) CanScheduleExactAlarms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAlarmManager, "canScheduleExactAlarms")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAlarmManagerCanScheduleExactAlarms
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -328,7 +328,7 @@ func (p *AlarmManagerProxy) HasScheduleExactAlarm(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAlarmManager, "hasScheduleExactAlarm")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAlarmManagerHasScheduleExactAlarm
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -357,7 +357,7 @@ func (p *AlarmManagerProxy) GetConfigVersion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAlarmManager, "getConfigVersion")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAlarmManagerGetConfigVersion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

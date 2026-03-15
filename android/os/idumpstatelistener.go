@@ -63,7 +63,7 @@ func (p *DumpstateListenerProxy) OnProgress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDumpstateListener, "onProgress")
 	if _err != nil {
-		return _err
+		_code = TransactionIDumpstateListenerOnProgress
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -80,7 +80,7 @@ func (p *DumpstateListenerProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDumpstateListener, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIDumpstateListenerOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -97,7 +97,7 @@ func (p *DumpstateListenerProxy) OnFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDumpstateListener, "onFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIDumpstateListenerOnFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -114,7 +114,7 @@ func (p *DumpstateListenerProxy) OnScreenshotTaken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDumpstateListener, "onScreenshotTaken")
 	if _err != nil {
-		return _err
+		_code = TransactionIDumpstateListenerOnScreenshotTaken
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -129,7 +129,7 @@ func (p *DumpstateListenerProxy) OnUiIntensiveBugreportDumpsFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDumpstateListener, "onUiIntensiveBugreportDumpsFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIDumpstateListenerOnUiIntensiveBugreportDumpsFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

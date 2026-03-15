@@ -48,7 +48,7 @@ func (p *InlineSuggestionUiProxy) GetSurfacePackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUi, "getSurfacePackage")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionUiGetSurfacePackage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *InlineSuggestionUiProxy) ReleaseSurfaceControlViewHost(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUi, "releaseSurfaceControlViewHost")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineSuggestionUiReleaseSurfaceControlViewHost
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

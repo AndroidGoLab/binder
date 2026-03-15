@@ -50,7 +50,7 @@ func (p *DragAndDropPermissionsProxy) Take(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDragAndDropPermissions, "take")
 	if _err != nil {
-		return _err
+		_code = TransactionIDragAndDropPermissionsTake
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -74,7 +74,7 @@ func (p *DragAndDropPermissionsProxy) TakeTransient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDragAndDropPermissions, "takeTransient")
 	if _err != nil {
-		return _err
+		_code = TransactionIDragAndDropPermissionsTakeTransient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -98,7 +98,7 @@ func (p *DragAndDropPermissionsProxy) Release(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDragAndDropPermissions, "release")
 	if _err != nil {
-		return _err
+		_code = TransactionIDragAndDropPermissionsRelease
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

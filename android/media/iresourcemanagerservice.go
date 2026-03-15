@@ -88,7 +88,7 @@ func (p *ResourceManagerServiceProxy) Config(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "config")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceManagerServiceConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *ResourceManagerServiceProxy) AddResource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "addResource")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceManagerServiceAddResource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -170,7 +170,7 @@ func (p *ResourceManagerServiceProxy) UpdateResource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "updateResource")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceManagerServiceUpdateResource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -210,7 +210,7 @@ func (p *ResourceManagerServiceProxy) RemoveResource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "removeResource")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceManagerServiceRemoveResource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -239,7 +239,7 @@ func (p *ResourceManagerServiceProxy) RemoveClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "removeClient")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceManagerServiceRemoveClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -280,7 +280,7 @@ func (p *ResourceManagerServiceProxy) ReclaimResource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "reclaimResource")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIResourceManagerServiceReclaimResource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -312,7 +312,7 @@ func (p *ResourceManagerServiceProxy) OverridePid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "overridePid")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceManagerServiceOverridePid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -344,7 +344,7 @@ func (p *ResourceManagerServiceProxy) OverrideProcessInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "overrideProcessInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceManagerServiceOverrideProcessInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -373,7 +373,7 @@ func (p *ResourceManagerServiceProxy) MarkClientForPendingRemoval(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "markClientForPendingRemoval")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceManagerServiceMarkClientForPendingRemoval
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -399,7 +399,7 @@ func (p *ResourceManagerServiceProxy) ReclaimResourcesFromClientsPendingRemoval(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "reclaimResourcesFromClientsPendingRemoval")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceManagerServiceReclaimResourcesFromClientsPendingRemoval
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -428,7 +428,7 @@ func (p *ResourceManagerServiceProxy) NotifyClientCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "notifyClientCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceManagerServiceNotifyClientCreated
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -457,7 +457,7 @@ func (p *ResourceManagerServiceProxy) NotifyClientStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "notifyClientStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceManagerServiceNotifyClientStarted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -486,7 +486,7 @@ func (p *ResourceManagerServiceProxy) NotifyClientStopped(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "notifyClientStopped")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceManagerServiceNotifyClientStopped
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -515,7 +515,7 @@ func (p *ResourceManagerServiceProxy) NotifyClientConfigChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "notifyClientConfigChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceManagerServiceNotifyClientConfigChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -540,7 +540,7 @@ func (p *ResourceManagerServiceProxy) GetMediaResourceUsageReport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerService, "getMediaResourceUsageReport")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourceManagerServiceGetMediaResourceUsageReport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

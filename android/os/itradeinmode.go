@@ -49,7 +49,7 @@ func (p *TradeInModeProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITradeInMode, "start")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITradeInModeStart
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -78,7 +78,7 @@ func (p *TradeInModeProxy) IsEvaluationModeAllowed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITradeInMode, "isEvaluationModeAllowed")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITradeInModeIsEvaluationModeAllowed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -107,7 +107,7 @@ func (p *TradeInModeProxy) EnterEvaluationMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITradeInMode, "enterEvaluationMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITradeInModeEnterEvaluationMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

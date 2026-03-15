@@ -52,7 +52,7 @@ func (p *MeasurementCorrectionsCallbackProxy) SetCapabilitiesCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMeasurementCorrectionsCallback, "setCapabilitiesCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIMeasurementCorrectionsCallbackSetCapabilitiesCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

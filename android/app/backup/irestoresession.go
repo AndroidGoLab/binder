@@ -57,7 +57,7 @@ func (p *RestoreSessionProxy) GetAvailableRestoreSets(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRestoreSession, "getAvailableRestoreSets")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRestoreSessionGetAvailableRestoreSets
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -92,7 +92,7 @@ func (p *RestoreSessionProxy) RestoreAll(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRestoreSession, "restoreAll")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRestoreSessionRestoreAll
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -136,7 +136,7 @@ func (p *RestoreSessionProxy) RestorePackages(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRestoreSession, "restorePackages")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRestoreSessionRestorePackages
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -171,7 +171,7 @@ func (p *RestoreSessionProxy) RestorePackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRestoreSession, "restorePackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRestoreSessionRestorePackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -199,7 +199,7 @@ func (p *RestoreSessionProxy) EndRestoreSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRestoreSession, "endRestoreSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIRestoreSessionEndRestoreSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

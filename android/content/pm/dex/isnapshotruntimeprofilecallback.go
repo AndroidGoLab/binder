@@ -48,7 +48,7 @@ func (p *SnapshotRuntimeProfileCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISnapshotRuntimeProfileCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionISnapshotRuntimeProfileCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *SnapshotRuntimeProfileCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISnapshotRuntimeProfileCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionISnapshotRuntimeProfileCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

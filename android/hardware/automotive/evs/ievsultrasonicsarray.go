@@ -57,7 +57,7 @@ func (p *EvsUltrasonicsArrayProxy) DoneWithDataFrame(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsUltrasonicsArray, "doneWithDataFrame")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsUltrasonicsArrayDoneWithDataFrame
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -82,7 +82,7 @@ func (p *EvsUltrasonicsArrayProxy) GetUltrasonicArrayInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsUltrasonicsArray, "getUltrasonicArrayInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsUltrasonicsArrayGetUltrasonicArrayInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -117,7 +117,7 @@ func (p *EvsUltrasonicsArrayProxy) SetMaxFramesInFlight(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsUltrasonicsArray, "setMaxFramesInFlight")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsUltrasonicsArraySetMaxFramesInFlight
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -143,7 +143,7 @@ func (p *EvsUltrasonicsArrayProxy) StartStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsUltrasonicsArray, "startStream")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsUltrasonicsArrayStartStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -167,7 +167,7 @@ func (p *EvsUltrasonicsArrayProxy) StopStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsUltrasonicsArray, "stopStream")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsUltrasonicsArrayStopStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

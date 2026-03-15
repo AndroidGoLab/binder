@@ -46,7 +46,7 @@ func (p *SyncStatusObserverProxy) OnStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISyncStatusObserver, "onStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISyncStatusObserverOnStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

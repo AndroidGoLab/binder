@@ -61,7 +61,7 @@ func (p *CarrierConfigLoaderProxy) GetConfigForSubId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierConfigLoader, "getConfigForSubId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICarrierConfigLoaderGetConfigForSubId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -91,7 +91,7 @@ func (p *CarrierConfigLoaderProxy) GetConfigForSubIdWithFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierConfigLoader, "getConfigForSubIdWithFeature")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICarrierConfigLoaderGetConfigForSubIdWithFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -120,7 +120,7 @@ func (p *CarrierConfigLoaderProxy) OverrideConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierConfigLoader, "overrideConfig")
 	if _err != nil {
-		return _err
+		_code = TransactionICarrierConfigLoaderOverrideConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -146,7 +146,7 @@ func (p *CarrierConfigLoaderProxy) NotifyConfigChangedForSubId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierConfigLoader, "notifyConfigChangedForSubId")
 	if _err != nil {
-		return _err
+		_code = TransactionICarrierConfigLoaderNotifyConfigChangedForSubId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -174,7 +174,7 @@ func (p *CarrierConfigLoaderProxy) UpdateConfigForPhoneId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierConfigLoader, "updateConfigForPhoneId")
 	if _err != nil {
-		return _err
+		_code = TransactionICarrierConfigLoaderUpdateConfigForPhoneId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -199,7 +199,7 @@ func (p *CarrierConfigLoaderProxy) GetDefaultCarrierServicePackageName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierConfigLoader, "getDefaultCarrierServicePackageName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICarrierConfigLoaderGetDefaultCarrierServicePackageName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -242,7 +242,7 @@ func (p *CarrierConfigLoaderProxy) GetConfigSubsetForSubIdWithFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICarrierConfigLoader, "getConfigSubsetForSubIdWithFeature")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICarrierConfigLoaderGetConfigSubsetForSubIdWithFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

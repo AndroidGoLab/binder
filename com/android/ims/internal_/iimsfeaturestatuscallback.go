@@ -46,7 +46,7 @@ func (p *ImsFeatureStatusCallbackProxy) NotifyImsFeatureStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsFeatureStatusCallback, "notifyImsFeatureStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsFeatureStatusCallbackNotifyImsFeatureStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

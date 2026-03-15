@@ -50,7 +50,7 @@ func (p *AttachEmbeddedWindowCallbackProxy) OnEmbeddedWindowAttached(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAttachEmbeddedWindowCallback, "onEmbeddedWindowAttached")
 	if _err != nil {
-		return _err
+		_code = TransactionIAttachEmbeddedWindowCallbackOnEmbeddedWindowAttached
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

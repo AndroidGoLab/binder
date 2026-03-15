@@ -46,7 +46,7 @@ func (p *InitializeSessionCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInitializeSessionCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIInitializeSessionCallbackOnSuccess
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -70,7 +70,7 @@ func (p *InitializeSessionCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInitializeSessionCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIInitializeSessionCallbackOnFailure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

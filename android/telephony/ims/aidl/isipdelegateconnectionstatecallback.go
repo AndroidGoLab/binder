@@ -55,7 +55,7 @@ func (p *SipDelegateConnectionStateCallbackProxy) OnCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISipDelegateConnectionStateCallback, "onCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionISipDelegateConnectionStateCallbackOnCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -86,7 +86,7 @@ func (p *SipDelegateConnectionStateCallbackProxy) OnFeatureTagStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISipDelegateConnectionStateCallback, "onFeatureTagStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISipDelegateConnectionStateCallbackOnFeatureTagStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -106,7 +106,7 @@ func (p *SipDelegateConnectionStateCallbackProxy) OnImsConfigurationChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISipDelegateConnectionStateCallback, "onImsConfigurationChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISipDelegateConnectionStateCallbackOnImsConfigurationChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -126,7 +126,7 @@ func (p *SipDelegateConnectionStateCallbackProxy) OnConfigurationChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISipDelegateConnectionStateCallback, "onConfigurationChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISipDelegateConnectionStateCallbackOnConfigurationChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -143,7 +143,7 @@ func (p *SipDelegateConnectionStateCallbackProxy) OnDestroyed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISipDelegateConnectionStateCallback, "onDestroyed")
 	if _err != nil {
-		return _err
+		_code = TransactionISipDelegateConnectionStateCallbackOnDestroyed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

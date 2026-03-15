@@ -62,7 +62,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationAcquired(
 
 	_code, _err := p.remote.ResolveCode(DescriptorAuthenticationStateListener, "onAuthenticationAcquired")
 	if _err != nil {
-		return _err
+		_code = TransactionAuthenticationStateListenerOnAuthenticationAcquired
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -82,7 +82,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorAuthenticationStateListener, "onAuthenticationError")
 	if _err != nil {
-		return _err
+		_code = TransactionAuthenticationStateListenerOnAuthenticationError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -102,7 +102,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorAuthenticationStateListener, "onAuthenticationFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionAuthenticationStateListenerOnAuthenticationFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -122,7 +122,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationHelp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorAuthenticationStateListener, "onAuthenticationHelp")
 	if _err != nil {
-		return _err
+		_code = TransactionAuthenticationStateListenerOnAuthenticationHelp
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -142,7 +142,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorAuthenticationStateListener, "onAuthenticationStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionAuthenticationStateListenerOnAuthenticationStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -162,7 +162,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationStopped(
 
 	_code, _err := p.remote.ResolveCode(DescriptorAuthenticationStateListener, "onAuthenticationStopped")
 	if _err != nil {
-		return _err
+		_code = TransactionAuthenticationStateListenerOnAuthenticationStopped
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -182,7 +182,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationSucceeded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorAuthenticationStateListener, "onAuthenticationSucceeded")
 	if _err != nil {
-		return _err
+		_code = TransactionAuthenticationStateListenerOnAuthenticationSucceeded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

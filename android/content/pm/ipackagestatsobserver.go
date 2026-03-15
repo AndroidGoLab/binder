@@ -51,7 +51,7 @@ func (p *PackageStatsObserverProxy) OnGetStatsCompleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageStatsObserver, "onGetStatsCompleted")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageStatsObserverOnGetStatsCompleted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

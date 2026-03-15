@@ -47,7 +47,7 @@ func (p *ResourceManagerClientProxy) ReclaimResource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerClient, "reclaimResource")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIResourceManagerClientReclaimResource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -76,7 +76,7 @@ func (p *ResourceManagerClientProxy) GetName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourceManagerClient, "getName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIResourceManagerClientGetName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

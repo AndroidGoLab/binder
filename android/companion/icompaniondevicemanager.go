@@ -135,7 +135,7 @@ func (p *CompanionDeviceManagerProxy) Associate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "associate")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerAssociate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -163,7 +163,7 @@ func (p *CompanionDeviceManagerProxy) GetAssociations(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "getAssociations")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICompanionDeviceManagerGetAssociations
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -203,7 +203,7 @@ func (p *CompanionDeviceManagerProxy) GetAllAssociationsForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "getAllAssociationsForUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICompanionDeviceManagerGetAllAssociationsForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -245,7 +245,7 @@ func (p *CompanionDeviceManagerProxy) LegacyDisassociate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "legacyDisassociate")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerLegacyDisassociate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -271,7 +271,7 @@ func (p *CompanionDeviceManagerProxy) Disassociate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "disassociate")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerDisassociate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -301,7 +301,7 @@ func (p *CompanionDeviceManagerProxy) HasNotificationAccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "hasNotificationAccess")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICompanionDeviceManagerHasNotificationAccess
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -337,7 +337,7 @@ func (p *CompanionDeviceManagerProxy) RequestNotificationAccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "requestNotificationAccess")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICompanionDeviceManagerRequestNotificationAccess
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -377,7 +377,7 @@ func (p *CompanionDeviceManagerProxy) IsDeviceAssociatedForWifiConnection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "isDeviceAssociatedForWifiConnection")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICompanionDeviceManagerIsDeviceAssociatedForWifiConnection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -410,7 +410,7 @@ func (p *CompanionDeviceManagerProxy) LegacyStartObservingDevicePresence(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "legacyStartObservingDevicePresence")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerLegacyStartObservingDevicePresence
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -439,7 +439,7 @@ func (p *CompanionDeviceManagerProxy) LegacyStopObservingDevicePresence(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "legacyStopObservingDevicePresence")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerLegacyStopObservingDevicePresence
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -472,7 +472,7 @@ func (p *CompanionDeviceManagerProxy) StartObservingDevicePresence(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "startObservingDevicePresence")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerStartObservingDevicePresence
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -505,7 +505,7 @@ func (p *CompanionDeviceManagerProxy) StopObservingDevicePresence(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "stopObservingDevicePresence")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerStopObservingDevicePresence
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -536,7 +536,7 @@ func (p *CompanionDeviceManagerProxy) CanPairWithoutPrompt(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "canPairWithoutPrompt")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICompanionDeviceManagerCanPairWithoutPrompt
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -579,7 +579,7 @@ func (p *CompanionDeviceManagerProxy) CreateAssociation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "createAssociation")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerCreateAssociation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -607,7 +607,7 @@ func (p *CompanionDeviceManagerProxy) AddOnAssociationsChangedListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "addOnAssociationsChangedListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerAddOnAssociationsChangedListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -635,7 +635,7 @@ func (p *CompanionDeviceManagerProxy) RemoveOnAssociationsChangedListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "removeOnAssociationsChangedListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerRemoveOnAssociationsChangedListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -661,7 +661,7 @@ func (p *CompanionDeviceManagerProxy) AddOnTransportsChangedListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "addOnTransportsChangedListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerAddOnTransportsChangedListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -687,7 +687,7 @@ func (p *CompanionDeviceManagerProxy) RemoveOnTransportsChangedListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "removeOnTransportsChangedListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerRemoveOnTransportsChangedListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -731,7 +731,7 @@ func (p *CompanionDeviceManagerProxy) SendMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "sendMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerSendMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -759,7 +759,7 @@ func (p *CompanionDeviceManagerProxy) AddOnMessageReceivedListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "addOnMessageReceivedListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerAddOnMessageReceivedListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -787,7 +787,7 @@ func (p *CompanionDeviceManagerProxy) RemoveOnMessageReceivedListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "removeOnMessageReceivedListener")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerRemoveOnMessageReceivedListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -813,7 +813,7 @@ func (p *CompanionDeviceManagerProxy) NotifySelfManagedDeviceAppeared(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "notifySelfManagedDeviceAppeared")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerNotifySelfManagedDeviceAppeared
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -839,7 +839,7 @@ func (p *CompanionDeviceManagerProxy) NotifySelfManagedDeviceDisappeared(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "notifySelfManagedDeviceDisappeared")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerNotifySelfManagedDeviceDisappeared
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -869,7 +869,7 @@ func (p *CompanionDeviceManagerProxy) BuildPermissionTransferUserConsentIntent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "buildPermissionTransferUserConsentIntent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICompanionDeviceManagerBuildPermissionTransferUserConsentIntent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -908,7 +908,7 @@ func (p *CompanionDeviceManagerProxy) IsPermissionTransferUserConsented(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "isPermissionTransferUserConsented")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICompanionDeviceManagerIsPermissionTransferUserConsented
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -944,7 +944,7 @@ func (p *CompanionDeviceManagerProxy) StartSystemDataTransfer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "startSystemDataTransfer")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerStartSystemDataTransfer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -976,7 +976,7 @@ func (p *CompanionDeviceManagerProxy) AttachSystemDataTransport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "attachSystemDataTransport")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerAttachSystemDataTransport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1006,7 +1006,7 @@ func (p *CompanionDeviceManagerProxy) DetachSystemDataTransport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "detachSystemDataTransport")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerDetachSystemDataTransport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1035,7 +1035,7 @@ func (p *CompanionDeviceManagerProxy) IsCompanionApplicationBound(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "isCompanionApplicationBound")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICompanionDeviceManagerIsCompanionApplicationBound
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1067,7 +1067,7 @@ func (p *CompanionDeviceManagerProxy) BuildAssociationCancellationIntent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "buildAssociationCancellationIntent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICompanionDeviceManagerBuildAssociationCancellationIntent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1104,7 +1104,7 @@ func (p *CompanionDeviceManagerProxy) EnableSystemDataSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "enableSystemDataSync")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerEnableSystemDataSync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1132,7 +1132,7 @@ func (p *CompanionDeviceManagerProxy) DisableSystemDataSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "disableSystemDataSync")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerDisableSystemDataSync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1158,7 +1158,7 @@ func (p *CompanionDeviceManagerProxy) EnablePermissionsSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "enablePermissionsSync")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerEnablePermissionsSync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1184,7 +1184,7 @@ func (p *CompanionDeviceManagerProxy) DisablePermissionsSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "disablePermissionsSync")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerDisablePermissionsSync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1211,7 +1211,7 @@ func (p *CompanionDeviceManagerProxy) GetPermissionSyncRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "getPermissionSyncRequest")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICompanionDeviceManagerGetPermissionSyncRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1246,7 +1246,7 @@ func (p *CompanionDeviceManagerProxy) EnableSecureTransport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "enableSecureTransport")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerEnableSecureTransport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1277,7 +1277,7 @@ func (p *CompanionDeviceManagerProxy) SetDeviceId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "setDeviceId")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerSetDeviceId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1304,7 +1304,7 @@ func (p *CompanionDeviceManagerProxy) GetBackupPayload(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "getBackupPayload")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICompanionDeviceManagerGetBackupPayload
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1353,7 +1353,7 @@ func (p *CompanionDeviceManagerProxy) ApplyRestoredPayload(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "applyRestoredPayload")
 	if _err != nil {
-		return _err
+		_code = TransactionICompanionDeviceManagerApplyRestoredPayload
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1384,7 +1384,7 @@ func (p *CompanionDeviceManagerProxy) RemoveBond(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICompanionDeviceManager, "removeBond")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICompanionDeviceManagerRemoveBond
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

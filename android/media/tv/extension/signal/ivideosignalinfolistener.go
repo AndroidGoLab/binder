@@ -52,7 +52,7 @@ func (p *VideoSignalInfoListenerProxy) OnVideoSignalInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVideoSignalInfoListener, "onVideoSignalInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIVideoSignalInfoListenerOnVideoSignalInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

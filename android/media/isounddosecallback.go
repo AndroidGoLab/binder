@@ -50,7 +50,7 @@ func (p *SoundDoseCallbackProxy) OnMomentaryExposure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundDoseCallback, "onMomentaryExposure")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundDoseCallbackOnMomentaryExposure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *SoundDoseCallbackProxy) OnNewCsdValue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundDoseCallback, "onNewCsdValue")
 	if _err != nil {
-		return _err
+		_code = TransactionISoundDoseCallbackOnNewCsdValue
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

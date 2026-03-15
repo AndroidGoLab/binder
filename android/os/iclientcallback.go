@@ -48,7 +48,7 @@ func (p *ClientCallbackProxy) OnClients(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIClientCallback, "onClients")
 	if _err != nil {
-		return _err
+		_code = TransactionIClientCallbackOnClients
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

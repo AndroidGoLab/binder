@@ -74,7 +74,7 @@ func (p *MediaProjectionProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "start")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionStart
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -100,7 +100,7 @@ func (p *MediaProjectionProxy) Stop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "stop")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionStop
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -125,7 +125,7 @@ func (p *MediaProjectionProxy) CanProjectAudio(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "canProjectAudio")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaProjectionCanProjectAudio
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -154,7 +154,7 @@ func (p *MediaProjectionProxy) CanProjectVideo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "canProjectVideo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaProjectionCanProjectVideo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -183,7 +183,7 @@ func (p *MediaProjectionProxy) CanProjectSecureVideo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "canProjectSecureVideo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaProjectionCanProjectSecureVideo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -214,7 +214,7 @@ func (p *MediaProjectionProxy) ApplyVirtualDisplayFlags(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "applyVirtualDisplayFlags")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaProjectionApplyVirtualDisplayFlags
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -244,7 +244,7 @@ func (p *MediaProjectionProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -270,7 +270,7 @@ func (p *MediaProjectionProxy) UnregisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "unregisterCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionUnregisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -295,7 +295,7 @@ func (p *MediaProjectionProxy) GetLaunchCookie(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "getLaunchCookie")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaProjectionGetLaunchCookie
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -320,7 +320,7 @@ func (p *MediaProjectionProxy) GetTaskId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "getTaskId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaProjectionGetTaskId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -349,7 +349,7 @@ func (p *MediaProjectionProxy) GetDisplayId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "getDisplayId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaProjectionGetDisplayId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -378,7 +378,7 @@ func (p *MediaProjectionProxy) SetLaunchCookie(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "setLaunchCookie")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionSetLaunchCookie
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -404,7 +404,7 @@ func (p *MediaProjectionProxy) SetTaskId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "setTaskId")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionSetTaskId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -429,7 +429,7 @@ func (p *MediaProjectionProxy) IsValid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "isValid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaProjectionIsValid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -459,7 +459,7 @@ func (p *MediaProjectionProxy) NotifyVirtualDisplayCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjection, "notifyVirtualDisplayCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaProjectionNotifyVirtualDisplayCreated
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -45,7 +45,7 @@ func (p *ProcessingSignalProxy) SendSignal(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProcessingSignal, "sendSignal")
 	if _err != nil {
-		return _err
+		_code = TransactionIProcessingSignalSendSignal
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -56,7 +56,7 @@ func (p *DataVerifyProxy) VerifyData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataVerify, "verifyData")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDataVerifyVerifyData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *DataVerifyProxy) ResetData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataVerify, "resetData")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataVerifyResetData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

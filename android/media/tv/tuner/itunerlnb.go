@@ -57,7 +57,7 @@ func (p *TunerLnbProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerLnb, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerLnbSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -83,7 +83,7 @@ func (p *TunerLnbProxy) SetVoltage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerLnb, "setVoltage")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerLnbSetVoltage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -109,7 +109,7 @@ func (p *TunerLnbProxy) SetTone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerLnb, "setTone")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerLnbSetTone
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -135,7 +135,7 @@ func (p *TunerLnbProxy) SetSatellitePosition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerLnb, "setSatellitePosition")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerLnbSetSatellitePosition
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -168,7 +168,7 @@ func (p *TunerLnbProxy) SendDiseqcMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerLnb, "sendDiseqcMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerLnbSendDiseqcMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -192,7 +192,7 @@ func (p *TunerLnbProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerLnb, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerLnbClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

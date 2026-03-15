@@ -48,7 +48,7 @@ func (p *HdmiConnectionCallbackProxy) OnHotplugEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiConnectionCallback, "onHotplugEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiConnectionCallbackOnHotplugEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

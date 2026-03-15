@@ -59,7 +59,7 @@ func (p *MediaHTTPConnectionProxy) Connect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaHTTPConnection, "connect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaHTTPConnectionConnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -88,7 +88,7 @@ func (p *MediaHTTPConnectionProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaHTTPConnection, "disconnect")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaHTTPConnectionDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -117,7 +117,7 @@ func (p *MediaHTTPConnectionProxy) ReadAt(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaHTTPConnection, "readAt")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaHTTPConnectionReadAt
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -146,7 +146,7 @@ func (p *MediaHTTPConnectionProxy) GetSize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaHTTPConnection, "getSize")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaHTTPConnectionGetSize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -175,7 +175,7 @@ func (p *MediaHTTPConnectionProxy) GetMIMEType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaHTTPConnection, "getMIMEType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaHTTPConnectionGetMIMEType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -204,7 +204,7 @@ func (p *MediaHTTPConnectionProxy) GetUri(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaHTTPConnection, "getUri")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaHTTPConnectionGetUri
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

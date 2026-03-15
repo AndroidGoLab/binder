@@ -52,7 +52,7 @@ func (p *BluetoothManagerCallbackProxy) OnBluetoothServiceUp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManagerCallback, "onBluetoothServiceUp")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothManagerCallbackOnBluetoothServiceUp
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *BluetoothManagerCallbackProxy) OnBluetoothServiceDown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManagerCallback, "onBluetoothServiceDown")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothManagerCallbackOnBluetoothServiceDown
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -82,7 +82,7 @@ func (p *BluetoothManagerCallbackProxy) OnBluetoothOn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManagerCallback, "onBluetoothOn")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothManagerCallbackOnBluetoothOn
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -97,7 +97,7 @@ func (p *BluetoothManagerCallbackProxy) OnBluetoothOff(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothManagerCallback, "onBluetoothOff")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothManagerCallbackOnBluetoothOff
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

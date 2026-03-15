@@ -58,7 +58,7 @@ func (p *MusicRecognitionServiceCallbackProxy) OnRecognitionSucceeded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMusicRecognitionServiceCallback, "onRecognitionSucceeded")
 	if _err != nil {
-		return _err
+		_code = TransactionIMusicRecognitionServiceCallbackOnRecognitionSucceeded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -75,7 +75,7 @@ func (p *MusicRecognitionServiceCallbackProxy) OnRecognitionFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMusicRecognitionServiceCallback, "onRecognitionFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIMusicRecognitionServiceCallbackOnRecognitionFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

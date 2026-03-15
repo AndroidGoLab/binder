@@ -51,7 +51,7 @@ func (p *BiometricContextListenerProxy) OnFoldChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricContextListener, "onFoldChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricContextListenerOnFoldChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -68,7 +68,7 @@ func (p *BiometricContextListenerProxy) OnDisplayStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricContextListener, "onDisplayStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricContextListenerOnDisplayStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -85,7 +85,7 @@ func (p *BiometricContextListenerProxy) OnHardwareIgnoreTouchesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricContextListener, "onHardwareIgnoreTouchesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricContextListenerOnHardwareIgnoreTouchesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

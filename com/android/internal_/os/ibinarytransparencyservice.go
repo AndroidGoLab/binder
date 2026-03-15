@@ -54,7 +54,7 @@ func (p *BinaryTransparencyServiceProxy) GetSignedImageInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinaryTransparencyService, "getSignedImageInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinaryTransparencyServiceGetSignedImageInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -82,7 +82,7 @@ func (p *BinaryTransparencyServiceProxy) RecordMeasurementsForAllPackages(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinaryTransparencyService, "recordMeasurementsForAllPackages")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinaryTransparencyServiceRecordMeasurementsForAllPackages
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -109,7 +109,7 @@ func (p *BinaryTransparencyServiceProxy) CollectAllApexInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinaryTransparencyService, "collectAllApexInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinaryTransparencyServiceCollectAllApexInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -148,7 +148,7 @@ func (p *BinaryTransparencyServiceProxy) CollectAllUpdatedPreloadInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinaryTransparencyService, "collectAllUpdatedPreloadInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinaryTransparencyServiceCollectAllUpdatedPreloadInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -187,7 +187,7 @@ func (p *BinaryTransparencyServiceProxy) CollectAllSilentInstalledMbaInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinaryTransparencyService, "collectAllSilentInstalledMbaInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinaryTransparencyServiceCollectAllSilentInstalledMbaInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

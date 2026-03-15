@@ -49,7 +49,7 @@ func (p *HdmiInputChangeListenerProxy) OnChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiInputChangeListener, "onChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiInputChangeListenerOnChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

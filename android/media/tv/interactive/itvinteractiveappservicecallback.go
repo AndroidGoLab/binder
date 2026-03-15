@@ -50,7 +50,7 @@ func (p *TvInteractiveAppServiceCallbackProxy) OnStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppServiceCallback, "onStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInteractiveAppServiceCallbackOnStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

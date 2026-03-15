@@ -53,7 +53,7 @@ func (p *VoiceActionCheckCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceActionCheckCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceActionCheckCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

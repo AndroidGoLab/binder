@@ -54,7 +54,7 @@ func (p *BeginGetCredentialCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBeginGetCredentialCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIBeginGetCredentialCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -72,7 +72,7 @@ func (p *BeginGetCredentialCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBeginGetCredentialCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIBeginGetCredentialCallbackOnFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -89,7 +89,7 @@ func (p *BeginGetCredentialCallbackProxy) OnCancellable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBeginGetCredentialCallback, "onCancellable")
 	if _err != nil {
-		return _err
+		_code = TransactionIBeginGetCredentialCallbackOnCancellable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

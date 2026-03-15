@@ -46,7 +46,7 @@ func (p *AudioServerStateDispatcherProxy) DispatchAudioServerStateChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioServerStateDispatcher, "dispatchAudioServerStateChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioServerStateDispatcherDispatchAudioServerStateChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

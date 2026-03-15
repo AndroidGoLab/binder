@@ -55,7 +55,7 @@ func (p *CancelSessionCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICancelSessionCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionICancelSessionCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

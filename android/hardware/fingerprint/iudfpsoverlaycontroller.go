@@ -62,7 +62,7 @@ func (p *UdfpsOverlayControllerProxy) ShowUdfpsOverlay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "showUdfpsOverlay")
 	if _err != nil {
-		return _err
+		_code = TransactionIUdfpsOverlayControllerShowUdfpsOverlay
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -79,7 +79,7 @@ func (p *UdfpsOverlayControllerProxy) HideUdfpsOverlay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "hideUdfpsOverlay")
 	if _err != nil {
-		return _err
+		_code = TransactionIUdfpsOverlayControllerHideUdfpsOverlay
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -98,7 +98,7 @@ func (p *UdfpsOverlayControllerProxy) OnAcquired(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "onAcquired")
 	if _err != nil {
-		return _err
+		_code = TransactionIUdfpsOverlayControllerOnAcquired
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -117,7 +117,7 @@ func (p *UdfpsOverlayControllerProxy) OnEnrollmentProgress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "onEnrollmentProgress")
 	if _err != nil {
-		return _err
+		_code = TransactionIUdfpsOverlayControllerOnEnrollmentProgress
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -134,7 +134,7 @@ func (p *UdfpsOverlayControllerProxy) OnEnrollmentHelp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "onEnrollmentHelp")
 	if _err != nil {
-		return _err
+		_code = TransactionIUdfpsOverlayControllerOnEnrollmentHelp
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -153,7 +153,7 @@ func (p *UdfpsOverlayControllerProxy) SetDebugMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsOverlayController, "setDebugMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionIUdfpsOverlayControllerSetDebugMessage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -53,7 +53,7 @@ func (p *BluetoothOobDataCallbackProxy) OnOobData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothOobDataCallback, "onOobData")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothOobDataCallbackOnOobData
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -70,7 +70,7 @@ func (p *BluetoothOobDataCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothOobDataCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothOobDataCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

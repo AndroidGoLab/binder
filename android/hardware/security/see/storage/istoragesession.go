@@ -56,7 +56,7 @@ func (p *StorageSessionProxy) CommitChanges(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageSession, "commitChanges")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageSessionCommitChanges
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -80,7 +80,7 @@ func (p *StorageSessionProxy) StageChangesForCommitOnAbUpdateComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageSession, "stageChangesForCommitOnAbUpdateComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageSessionStageChangesForCommitOnAbUpdateComplete
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -104,7 +104,7 @@ func (p *StorageSessionProxy) AbandonChanges(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageSession, "abandonChanges")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageSessionAbandonChanges
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -136,7 +136,7 @@ func (p *StorageSessionProxy) OpenFile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageSession, "openFile")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageSessionOpenFile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -167,7 +167,7 @@ func (p *StorageSessionProxy) DeleteFile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageSession, "deleteFile")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageSessionDeleteFile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -197,7 +197,7 @@ func (p *StorageSessionProxy) RenameFile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageSession, "renameFile")
 	if _err != nil {
-		return _err
+		_code = TransactionIStorageSessionRenameFile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -224,7 +224,7 @@ func (p *StorageSessionProxy) OpenDir(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageSession, "openDir")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIStorageSessionOpenDir
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -59,7 +59,7 @@ func (p *DreamServiceProxy) Attach(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamService, "attach")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamServiceAttach
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -74,7 +74,7 @@ func (p *DreamServiceProxy) Detach(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamService, "detach")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamServiceDetach
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -89,7 +89,7 @@ func (p *DreamServiceProxy) WakeUp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamService, "wakeUp")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamServiceWakeUp
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -104,7 +104,7 @@ func (p *DreamServiceProxy) ComeToFront(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDreamService, "comeToFront")
 	if _err != nil {
-		return _err
+		_code = TransactionIDreamServiceComeToFront
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

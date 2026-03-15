@@ -51,7 +51,7 @@ func (p *ExecuteAppFunctionCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIExecuteAppFunctionCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIExecuteAppFunctionCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *ExecuteAppFunctionCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIExecuteAppFunctionCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIExecuteAppFunctionCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

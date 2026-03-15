@@ -48,7 +48,7 @@ func (p *ContentCaptureDirectManagerProxy) SendEvents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureDirectManager, "sendEvents")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureDirectManagerSendEvents
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

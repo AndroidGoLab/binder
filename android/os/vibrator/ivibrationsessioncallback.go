@@ -50,7 +50,7 @@ func (p *VibrationSessionCallbackProxy) OnStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibrationSessionCallback, "onStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibrationSessionCallbackOnStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *VibrationSessionCallbackProxy) OnFinishing(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibrationSessionCallback, "onFinishing")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibrationSessionCallbackOnFinishing
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -82,7 +82,7 @@ func (p *VibrationSessionCallbackProxy) OnFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibrationSessionCallback, "onFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibrationSessionCallbackOnFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

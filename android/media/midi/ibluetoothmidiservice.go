@@ -51,7 +51,7 @@ func (p *BluetoothMidiServiceProxy) AddBluetoothDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothMidiService, "addBluetoothDevice")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothMidiServiceAddBluetoothDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -78,7 +78,7 @@ func (p *ContentCaptureManagerProxy) StartSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "startSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureManagerStartSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -95,7 +95,7 @@ func (p *ContentCaptureManagerProxy) FinishSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "finishSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureManagerFinishSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -111,7 +111,7 @@ func (p *ContentCaptureManagerProxy) GetServiceComponentName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "getServiceComponentName")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureManagerGetServiceComponentName
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -131,7 +131,7 @@ func (p *ContentCaptureManagerProxy) RemoveData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "removeData")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureManagerRemoveData
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -153,7 +153,7 @@ func (p *ContentCaptureManagerProxy) ShareData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "shareData")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureManagerShareData
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -169,7 +169,7 @@ func (p *ContentCaptureManagerProxy) IsContentCaptureFeatureEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "isContentCaptureFeatureEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureManagerIsContentCaptureFeatureEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -185,7 +185,7 @@ func (p *ContentCaptureManagerProxy) GetServiceSettingsActivity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "getServiceSettingsActivity")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureManagerGetServiceSettingsActivity
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -203,7 +203,7 @@ func (p *ContentCaptureManagerProxy) GetContentCaptureConditions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "getContentCaptureConditions")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureManagerGetContentCaptureConditions
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -220,7 +220,7 @@ func (p *ContentCaptureManagerProxy) ResetTemporaryService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "resetTemporaryService")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureManagerResetTemporaryService
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -241,7 +241,7 @@ func (p *ContentCaptureManagerProxy) SetTemporaryService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "setTemporaryService")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureManagerSetTemporaryService
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -260,7 +260,7 @@ func (p *ContentCaptureManagerProxy) SetDefaultServiceEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "setDefaultServiceEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureManagerSetDefaultServiceEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -279,7 +279,7 @@ func (p *ContentCaptureManagerProxy) RegisterContentCaptureOptionsCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "registerContentCaptureOptionsCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureManagerRegisterContentCaptureOptionsCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -295,7 +295,7 @@ func (p *ContentCaptureManagerProxy) OnLoginDetected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "onLoginDetected")
 	if _err != nil {
-		return _err
+		_code = TransactionIContentCaptureManagerOnLoginDetected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

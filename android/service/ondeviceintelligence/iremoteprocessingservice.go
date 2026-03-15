@@ -52,7 +52,7 @@ func (p *RemoteProcessingServiceProxy) UpdateProcessingState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteProcessingService, "updateProcessingState")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteProcessingServiceUpdateProcessingState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

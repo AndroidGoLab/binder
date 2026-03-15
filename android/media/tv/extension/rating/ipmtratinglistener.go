@@ -48,7 +48,7 @@ func (p *PmtRatingListenerProxy) OnPmtRatingChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPmtRatingListener, "onPmtRatingChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIPmtRatingListenerOnPmtRatingChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

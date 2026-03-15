@@ -46,7 +46,7 @@ func (p *CrossWindowBlurEnabledListenerProxy) OnCrossWindowBlurEnabledChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICrossWindowBlurEnabledListener, "onCrossWindowBlurEnabledChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionICrossWindowBlurEnabledListenerOnCrossWindowBlurEnabledChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

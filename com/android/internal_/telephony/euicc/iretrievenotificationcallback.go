@@ -52,7 +52,7 @@ func (p *RetrieveNotificationCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRetrieveNotificationCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIRetrieveNotificationCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

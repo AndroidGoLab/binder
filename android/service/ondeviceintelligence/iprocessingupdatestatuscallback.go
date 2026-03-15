@@ -47,7 +47,7 @@ func (p *ProcessingUpdateStatusCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProcessingUpdateStatusCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIProcessingUpdateStatusCallbackOnSuccess
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -75,7 +75,7 @@ func (p *ProcessingUpdateStatusCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProcessingUpdateStatusCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIProcessingUpdateStatusCallbackOnFailure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

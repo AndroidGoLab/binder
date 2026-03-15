@@ -44,7 +44,7 @@ func (p *InjectModelEventProxy) TriggerUnloadModel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInjectModelEvent, "triggerUnloadModel")
 	if _err != nil {
-		return _err
+		_code = TransactionIInjectModelEventTriggerUnloadModel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

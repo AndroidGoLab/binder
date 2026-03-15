@@ -53,7 +53,7 @@ func (p *RecognitionServiceManagerProxy) CreateSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionServiceManager, "createSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionServiceManagerCreateSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *RecognitionServiceManagerProxy) SetTemporaryComponent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionServiceManager, "setTemporaryComponent")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecognitionServiceManagerSetTemporaryComponent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -50,7 +50,7 @@ func (p *GetEuiccInfoCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGetEuiccInfoCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIGetEuiccInfoCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

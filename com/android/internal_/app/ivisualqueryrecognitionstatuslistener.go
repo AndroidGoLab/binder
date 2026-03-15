@@ -46,7 +46,7 @@ func (p *VisualQueryRecognitionStatusListenerProxy) OnStartPerceiving(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVisualQueryRecognitionStatusListener, "onStartPerceiving")
 	if _err != nil {
-		return _err
+		_code = TransactionIVisualQueryRecognitionStatusListenerOnStartPerceiving
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -61,7 +61,7 @@ func (p *VisualQueryRecognitionStatusListenerProxy) OnStopPerceiving(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVisualQueryRecognitionStatusListener, "onStopPerceiving")
 	if _err != nil {
-		return _err
+		_code = TransactionIVisualQueryRecognitionStatusListenerOnStopPerceiving
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

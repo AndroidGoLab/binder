@@ -60,7 +60,7 @@ func (p *MuteAwaitConnectionCallbackProxy) DispatchOnMutedUntilConnection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMuteAwaitConnectionCallback, "dispatchOnMutedUntilConnection")
 	if _err != nil {
-		return _err
+		_code = TransactionIMuteAwaitConnectionCallbackDispatchOnMutedUntilConnection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -91,7 +91,7 @@ func (p *MuteAwaitConnectionCallbackProxy) DispatchOnUnmutedEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMuteAwaitConnectionCallback, "dispatchOnUnmutedEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIMuteAwaitConnectionCallbackDispatchOnUnmutedEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -46,7 +46,7 @@ func (p *InputMonitorHostProxy) PilferPointers(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMonitorHost, "pilferPointers")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMonitorHostPilferPointers
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -61,7 +61,7 @@ func (p *InputMonitorHostProxy) Dispose(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMonitorHost, "dispose")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMonitorHostDispose
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -56,7 +56,7 @@ func (p *ScannerCallbackProxy) OnScannerRegistered(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScannerCallback, "onScannerRegistered")
 	if _err != nil {
-		return _err
+		_code = TransactionIScannerCallbackOnScannerRegistered
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -76,7 +76,7 @@ func (p *ScannerCallbackProxy) OnScanResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScannerCallback, "onScanResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIScannerCallbackOnScanResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -102,7 +102,7 @@ func (p *ScannerCallbackProxy) OnBatchScanResults(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScannerCallback, "onBatchScanResults")
 	if _err != nil {
-		return _err
+		_code = TransactionIScannerCallbackOnBatchScanResults
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -124,7 +124,7 @@ func (p *ScannerCallbackProxy) OnFoundOrLost(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScannerCallback, "onFoundOrLost")
 	if _err != nil {
-		return _err
+		_code = TransactionIScannerCallbackOnFoundOrLost
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -141,7 +141,7 @@ func (p *ScannerCallbackProxy) OnScanManagerErrorCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScannerCallback, "onScanManagerErrorCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIScannerCallbackOnScanManagerErrorCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

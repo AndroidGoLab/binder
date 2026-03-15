@@ -100,7 +100,7 @@ func (p *SessionCallbackProxy) OnCommand(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onCommand")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnCommand
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -125,7 +125,7 @@ func (p *SessionCallbackProxy) OnMediaButton(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onMediaButton")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnMediaButton
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -147,7 +147,7 @@ func (p *SessionCallbackProxy) OnMediaButtonFromController(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onMediaButtonFromController")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnMediaButtonFromController
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -168,7 +168,7 @@ func (p *SessionCallbackProxy) OnPrepare(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onPrepare")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnPrepare
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -192,7 +192,7 @@ func (p *SessionCallbackProxy) OnPrepareFromMediaId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onPrepareFromMediaId")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnPrepareFromMediaId
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -216,7 +216,7 @@ func (p *SessionCallbackProxy) OnPrepareFromSearch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onPrepareFromSearch")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnPrepareFromSearch
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -239,7 +239,7 @@ func (p *SessionCallbackProxy) OnPrepareFromUri(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onPrepareFromUri")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnPrepareFromUri
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -260,7 +260,7 @@ func (p *SessionCallbackProxy) OnPlay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onPlay")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnPlay
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -284,7 +284,7 @@ func (p *SessionCallbackProxy) OnPlayFromMediaId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onPlayFromMediaId")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnPlayFromMediaId
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -308,7 +308,7 @@ func (p *SessionCallbackProxy) OnPlayFromSearch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onPlayFromSearch")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnPlayFromSearch
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -331,7 +331,7 @@ func (p *SessionCallbackProxy) OnPlayFromUri(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onPlayFromUri")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnPlayFromUri
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -354,7 +354,7 @@ func (p *SessionCallbackProxy) OnSkipToTrack(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onSkipToTrack")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnSkipToTrack
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -375,7 +375,7 @@ func (p *SessionCallbackProxy) OnPause(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onPause")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnPause
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -396,7 +396,7 @@ func (p *SessionCallbackProxy) OnStop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onStop")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnStop
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -417,7 +417,7 @@ func (p *SessionCallbackProxy) OnNext(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onNext")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnNext
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -438,7 +438,7 @@ func (p *SessionCallbackProxy) OnPrevious(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onPrevious")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnPrevious
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -459,7 +459,7 @@ func (p *SessionCallbackProxy) OnFastForward(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onFastForward")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnFastForward
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -480,7 +480,7 @@ func (p *SessionCallbackProxy) OnRewind(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onRewind")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnRewind
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -503,7 +503,7 @@ func (p *SessionCallbackProxy) OnSeekTo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onSeekTo")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnSeekTo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -525,7 +525,7 @@ func (p *SessionCallbackProxy) OnRate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onRate")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnRate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -548,7 +548,7 @@ func (p *SessionCallbackProxy) OnSetPlaybackSpeed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onSetPlaybackSpeed")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnSetPlaybackSpeed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -572,7 +572,7 @@ func (p *SessionCallbackProxy) OnCustomAction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onCustomAction")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnCustomAction
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -595,7 +595,7 @@ func (p *SessionCallbackProxy) OnAdjustVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onAdjustVolume")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnAdjustVolume
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -618,7 +618,7 @@ func (p *SessionCallbackProxy) OnSetVolumeTo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionCallback, "onSetVolumeTo")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionCallbackOnSetVolumeTo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

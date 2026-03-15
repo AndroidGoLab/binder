@@ -48,7 +48,7 @@ func (p *ControlsSubscriptionProxy) Request(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIControlsSubscription, "request")
 	if _err != nil {
-		return _err
+		_code = TransactionIControlsSubscriptionRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *ControlsSubscriptionProxy) Cancel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIControlsSubscription, "cancel")
 	if _err != nil {
-		return _err
+		_code = TransactionIControlsSubscriptionCancel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

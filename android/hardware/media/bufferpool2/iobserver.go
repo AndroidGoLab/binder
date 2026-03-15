@@ -48,7 +48,7 @@ func (p *ObserverProxy) OnMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIObserver, "onMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionIObserverOnMessage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

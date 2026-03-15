@@ -59,7 +59,7 @@ func (p *HalAdapterVendorExtensionProxy) ParseVendorParameterIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHalAdapterVendorExtension, "parseVendorParameterIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHalAdapterVendorExtensionParseVendorParameterIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -103,7 +103,7 @@ func (p *HalAdapterVendorExtensionProxy) ParseVendorParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHalAdapterVendorExtension, "parseVendorParameters")
 	if _err != nil {
-		return _err
+		_code = TransactionIHalAdapterVendorExtensionParseVendorParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -154,7 +154,7 @@ func (p *HalAdapterVendorExtensionProxy) ParseBluetoothA2dpReconfigureOffload(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHalAdapterVendorExtension, "parseBluetoothA2dpReconfigureOffload")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHalAdapterVendorExtensionParseBluetoothA2dpReconfigureOffload
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -194,7 +194,7 @@ func (p *HalAdapterVendorExtensionProxy) ParseBluetoothLeReconfigureOffload(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHalAdapterVendorExtension, "parseBluetoothLeReconfigureOffload")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHalAdapterVendorExtensionParseBluetoothLeReconfigureOffload
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -245,7 +245,7 @@ func (p *HalAdapterVendorExtensionProxy) ProcessVendorParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHalAdapterVendorExtension, "processVendorParameters")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHalAdapterVendorExtensionProcessVendorParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -55,7 +55,7 @@ func (p *RemoteLockscreenValidationServiceProxy) ValidateLockscreenGuess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteLockscreenValidationService, "validateLockscreenGuess")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteLockscreenValidationServiceValidateLockscreenGuess
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

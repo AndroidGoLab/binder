@@ -61,7 +61,7 @@ func (p *SessionControllerCallbackProxy) OnEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionControllerCallbackOnEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -76,7 +76,7 @@ func (p *SessionControllerCallbackProxy) OnSessionDestroyed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onSessionDestroyed")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionControllerCallbackOnSessionDestroyed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -96,7 +96,7 @@ func (p *SessionControllerCallbackProxy) OnPlaybackStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onPlaybackStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionControllerCallbackOnPlaybackStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -112,7 +112,7 @@ func (p *SessionControllerCallbackProxy) OnMetadataChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onMetadataChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionControllerCallbackOnMetadataChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -128,7 +128,7 @@ func (p *SessionControllerCallbackProxy) OnQueueChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onQueueChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionControllerCallbackOnQueueChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -144,7 +144,7 @@ func (p *SessionControllerCallbackProxy) OnQueueTitleChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onQueueTitleChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionControllerCallbackOnQueueTitleChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -160,7 +160,7 @@ func (p *SessionControllerCallbackProxy) OnExtrasChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onExtrasChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionControllerCallbackOnExtrasChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -180,7 +180,7 @@ func (p *SessionControllerCallbackProxy) OnVolumeInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onVolumeInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISessionControllerCallbackOnVolumeInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -47,7 +47,7 @@ func (p *ScreenshotProxyProxy) IsNotificationShadeExpanded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScreenshotProxy, "isNotificationShadeExpanded")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIScreenshotProxyIsNotificationShadeExpanded
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -77,7 +77,7 @@ func (p *ScreenshotProxyProxy) DismissKeyguard(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScreenshotProxy, "dismissKeyguard")
 	if _err != nil {
-		return _err
+		_code = TransactionIScreenshotProxyDismissKeyguard
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -120,7 +120,7 @@ func (p *BluetoothVolumeControlProxy) GetConnectedDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "getConnectedDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlGetConnectedDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -168,7 +168,7 @@ func (p *BluetoothVolumeControlProxy) GetDevicesMatchingConnectionStates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "getDevicesMatchingConnectionStates")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlGetDevicesMatchingConnectionStates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -212,7 +212,7 @@ func (p *BluetoothVolumeControlProxy) GetConnectionState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "getConnectionState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlGetConnectionState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -249,7 +249,7 @@ func (p *BluetoothVolumeControlProxy) SetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "setConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlSetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -284,7 +284,7 @@ func (p *BluetoothVolumeControlProxy) GetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "getConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlGetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -319,7 +319,7 @@ func (p *BluetoothVolumeControlProxy) IsVolumeOffsetAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "isVolumeOffsetAvailable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlIsVolumeOffsetAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -354,7 +354,7 @@ func (p *BluetoothVolumeControlProxy) GetNumberOfVolumeOffsetInstances(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "getNumberOfVolumeOffsetInstances")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlGetNumberOfVolumeOffsetInstances
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -392,7 +392,7 @@ func (p *BluetoothVolumeControlProxy) SetVolumeOffset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "setVolumeOffset")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlSetVolumeOffset
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -421,7 +421,7 @@ func (p *BluetoothVolumeControlProxy) SetGroupVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "setGroupVolume")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlSetGroupVolume
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -449,7 +449,7 @@ func (p *BluetoothVolumeControlProxy) GetGroupVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "getGroupVolume")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlGetGroupVolume
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -482,7 +482,7 @@ func (p *BluetoothVolumeControlProxy) SetGroupActive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "setGroupActive")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlSetGroupActive
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -516,7 +516,7 @@ func (p *BluetoothVolumeControlProxy) SetDeviceVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "setDeviceVolume")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlSetDeviceVolume
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -546,7 +546,7 @@ func (p *BluetoothVolumeControlProxy) Mute(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "mute")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlMute
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -573,7 +573,7 @@ func (p *BluetoothVolumeControlProxy) MuteGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "muteGroup")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlMuteGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -603,7 +603,7 @@ func (p *BluetoothVolumeControlProxy) Unmute(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "unmute")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlUnmute
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -630,7 +630,7 @@ func (p *BluetoothVolumeControlProxy) UnmuteGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "unmuteGroup")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlUnmuteGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -657,7 +657,7 @@ func (p *BluetoothVolumeControlProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -684,7 +684,7 @@ func (p *BluetoothVolumeControlProxy) UnregisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "unregisterCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlUnregisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -711,7 +711,7 @@ func (p *BluetoothVolumeControlProxy) NotifyNewRegisteredCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "notifyNewRegisteredCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlNotifyNewRegisteredCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -742,7 +742,7 @@ func (p *BluetoothVolumeControlProxy) GetNumberOfAudioInputControlServices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "getNumberOfAudioInputControlServices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlGetNumberOfAudioInputControlServices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -780,7 +780,7 @@ func (p *BluetoothVolumeControlProxy) RegisterAudioInputControlCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "registerAudioInputControlCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlRegisterAudioInputControlCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -814,7 +814,7 @@ func (p *BluetoothVolumeControlProxy) UnregisterAudioInputControlCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "unregisterAudioInputControlCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothVolumeControlUnregisterAudioInputControlCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -847,7 +847,7 @@ func (p *BluetoothVolumeControlProxy) GetAudioInputGainSettingUnit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "getAudioInputGainSettingUnit")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlGetAudioInputGainSettingUnit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -884,7 +884,7 @@ func (p *BluetoothVolumeControlProxy) GetAudioInputGainSettingMin(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "getAudioInputGainSettingMin")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlGetAudioInputGainSettingMin
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -921,7 +921,7 @@ func (p *BluetoothVolumeControlProxy) GetAudioInputGainSettingMax(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "getAudioInputGainSettingMax")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlGetAudioInputGainSettingMax
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -958,7 +958,7 @@ func (p *BluetoothVolumeControlProxy) GetAudioInputDescription(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "getAudioInputDescription")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlGetAudioInputDescription
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -995,7 +995,7 @@ func (p *BluetoothVolumeControlProxy) IsAudioInputDescriptionWritable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "isAudioInputDescriptionWritable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlIsAudioInputDescriptionWritable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1034,7 +1034,7 @@ func (p *BluetoothVolumeControlProxy) SetAudioInputDescription(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "setAudioInputDescription")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlSetAudioInputDescription
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1071,7 +1071,7 @@ func (p *BluetoothVolumeControlProxy) GetAudioInputStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "getAudioInputStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlGetAudioInputStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1108,7 +1108,7 @@ func (p *BluetoothVolumeControlProxy) GetAudioInputType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "getAudioInputType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlGetAudioInputType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1145,7 +1145,7 @@ func (p *BluetoothVolumeControlProxy) GetAudioInputGainSetting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "getAudioInputGainSetting")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlGetAudioInputGainSetting
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1184,7 +1184,7 @@ func (p *BluetoothVolumeControlProxy) SetAudioInputGainSetting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "setAudioInputGainSetting")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlSetAudioInputGainSetting
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1221,7 +1221,7 @@ func (p *BluetoothVolumeControlProxy) GetAudioInputGainMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "getAudioInputGainMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlGetAudioInputGainMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1260,7 +1260,7 @@ func (p *BluetoothVolumeControlProxy) SetAudioInputGainMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "setAudioInputGainMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlSetAudioInputGainMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1297,7 +1297,7 @@ func (p *BluetoothVolumeControlProxy) GetAudioInputMute(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "getAudioInputMute")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlGetAudioInputMute
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1336,7 +1336,7 @@ func (p *BluetoothVolumeControlProxy) SetAudioInputMute(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothVolumeControl, "setAudioInputMute")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothVolumeControlSetAudioInputMute
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

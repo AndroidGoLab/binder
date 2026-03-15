@@ -60,7 +60,7 @@ func (p *AudioRecordProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioRecord, "start")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioRecordStart
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *AudioRecordProxy) Stop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioRecord, "stop")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioRecordStop
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -109,7 +109,7 @@ func (p *AudioRecordProxy) GetActiveMicrophones(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioRecord, "getActiveMicrophones")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioRecordGetActiveMicrophones
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -147,7 +147,7 @@ func (p *AudioRecordProxy) SetPreferredMicrophoneDirection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioRecord, "setPreferredMicrophoneDirection")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioRecordSetPreferredMicrophoneDirection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -173,7 +173,7 @@ func (p *AudioRecordProxy) SetPreferredMicrophoneFieldDimension(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioRecord, "setPreferredMicrophoneFieldDimension")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioRecordSetPreferredMicrophoneFieldDimension
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -201,7 +201,7 @@ func (p *AudioRecordProxy) ShareAudioHistory(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioRecord, "shareAudioHistory")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioRecordShareAudioHistory
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -227,7 +227,7 @@ func (p *AudioRecordProxy) SetParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioRecord, "setParameters")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioRecordSetParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

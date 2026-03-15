@@ -67,7 +67,7 @@ func (p *Idmap2Proxy) GetIdmapPath(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIdmap2, "getIdmapPath")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIdmap2GetIdmapPath
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -100,7 +100,7 @@ func (p *Idmap2Proxy) RemoveIdmap(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIdmap2, "removeIdmap")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIdmap2RemoveIdmap
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -141,7 +141,7 @@ func (p *Idmap2Proxy) VerifyIdmap(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIdmap2, "verifyIdmap")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIdmap2VerifyIdmap
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -182,7 +182,7 @@ func (p *Idmap2Proxy) CreateIdmap(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIdmap2, "createIdmap")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIdmap2CreateIdmap
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -216,7 +216,7 @@ func (p *Idmap2Proxy) CreateFabricatedOverlay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIdmap2, "createFabricatedOverlay")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIdmap2CreateFabricatedOverlay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -252,7 +252,7 @@ func (p *Idmap2Proxy) DeleteFabricatedOverlay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIdmap2, "deleteFabricatedOverlay")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIdmap2DeleteFabricatedOverlay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -281,7 +281,7 @@ func (p *Idmap2Proxy) AcquireFabricatedOverlayIterator(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIdmap2, "acquireFabricatedOverlayIterator")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIdmap2AcquireFabricatedOverlayIterator
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -311,7 +311,7 @@ func (p *Idmap2Proxy) ReleaseFabricatedOverlayIterator(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIdmap2, "releaseFabricatedOverlayIterator")
 	if _err != nil {
-		return _err
+		_code = TransactionIIdmap2ReleaseFabricatedOverlayIterator
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -338,7 +338,7 @@ func (p *Idmap2Proxy) NextFabricatedOverlayInfos(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIdmap2, "nextFabricatedOverlayInfos")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIdmap2NextFabricatedOverlayInfos
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -378,7 +378,7 @@ func (p *Idmap2Proxy) DumpIdmap(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIdmap2, "dumpIdmap")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIdmap2DumpIdmap
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

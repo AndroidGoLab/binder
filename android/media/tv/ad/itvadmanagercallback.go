@@ -50,7 +50,7 @@ func (p *TvAdManagerCallbackProxy) OnAdServiceAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvAdManagerCallback, "onAdServiceAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionITvAdManagerCallbackOnAdServiceAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *TvAdManagerCallbackProxy) OnAdServiceRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvAdManagerCallback, "onAdServiceRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionITvAdManagerCallbackOnAdServiceRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -84,7 +84,7 @@ func (p *TvAdManagerCallbackProxy) OnAdServiceUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvAdManagerCallback, "onAdServiceUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionITvAdManagerCallbackOnAdServiceUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

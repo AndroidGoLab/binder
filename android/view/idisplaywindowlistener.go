@@ -57,7 +57,7 @@ func (p *DisplayWindowListenerProxy) OnDisplayAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onDisplayAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayWindowListenerOnDisplayAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -75,7 +75,7 @@ func (p *DisplayWindowListenerProxy) OnDisplayConfigurationChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onDisplayConfigurationChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayWindowListenerOnDisplayConfigurationChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *DisplayWindowListenerProxy) OnDisplayRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onDisplayRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayWindowListenerOnDisplayRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -111,7 +111,7 @@ func (p *DisplayWindowListenerProxy) OnFixedRotationStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onFixedRotationStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayWindowListenerOnFixedRotationStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -128,7 +128,7 @@ func (p *DisplayWindowListenerProxy) OnFixedRotationFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onFixedRotationFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayWindowListenerOnFixedRotationFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -167,7 +167,7 @@ func (p *DisplayWindowListenerProxy) OnKeepClearAreasChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onKeepClearAreasChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayWindowListenerOnKeepClearAreasChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -48,7 +48,7 @@ func (p *KeyguardDismissCallbackProxy) OnDismissError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardDismissCallback, "onDismissError")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardDismissCallbackOnDismissError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *KeyguardDismissCallbackProxy) OnDismissSucceeded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardDismissCallback, "onDismissSucceeded")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardDismissCallbackOnDismissSucceeded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *KeyguardDismissCallbackProxy) OnDismissCancelled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardDismissCallback, "onDismissCancelled")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardDismissCallbackOnDismissCancelled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

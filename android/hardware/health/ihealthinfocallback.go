@@ -49,7 +49,7 @@ func (p *HealthInfoCallbackProxy) HealthInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHealthInfoCallback, "healthInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIHealthInfoCallbackHealthInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

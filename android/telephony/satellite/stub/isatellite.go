@@ -89,7 +89,7 @@ func (p *SatelliteProxy) SetSatelliteListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "setSatelliteListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteSetSatelliteListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -110,7 +110,7 @@ func (p *SatelliteProxy) RequestSatelliteListeningEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestSatelliteListeningEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteRequestSatelliteListeningEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -129,7 +129,7 @@ func (p *SatelliteProxy) EnableTerrestrialNetworkScanWhileSatelliteModeIsOn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "enableTerrestrialNetworkScanWhileSatelliteModeIsOn")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteEnableTerrestrialNetworkScanWhileSatelliteModeIsOn
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -151,7 +151,7 @@ func (p *SatelliteProxy) RequestSatelliteEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestSatelliteEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteRequestSatelliteEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -170,7 +170,7 @@ func (p *SatelliteProxy) RequestIsSatelliteEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestIsSatelliteEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteRequestIsSatelliteEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -189,7 +189,7 @@ func (p *SatelliteProxy) RequestIsSatelliteSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestIsSatelliteSupported")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteRequestIsSatelliteSupported
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -208,7 +208,7 @@ func (p *SatelliteProxy) RequestSatelliteCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestSatelliteCapabilities")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteRequestSatelliteCapabilities
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -225,7 +225,7 @@ func (p *SatelliteProxy) StartSendingSatellitePointingInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "startSendingSatellitePointingInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteStartSendingSatellitePointingInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -242,7 +242,7 @@ func (p *SatelliteProxy) StopSendingSatellitePointingInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "stopSendingSatellitePointingInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteStopSendingSatellitePointingInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -259,7 +259,7 @@ func (p *SatelliteProxy) PollPendingSatelliteDatagrams(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "pollPendingSatelliteDatagrams")
 	if _err != nil {
-		return _err
+		_code = TransactionISatellitePollPendingSatelliteDatagrams
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -283,7 +283,7 @@ func (p *SatelliteProxy) SendSatelliteDatagram(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "sendSatelliteDatagram")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteSendSatelliteDatagram
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -302,7 +302,7 @@ func (p *SatelliteProxy) RequestSatelliteModemState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestSatelliteModemState")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteRequestSatelliteModemState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -321,7 +321,7 @@ func (p *SatelliteProxy) RequestTimeForNextSatelliteVisibility(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestTimeForNextSatelliteVisibility")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteRequestTimeForNextSatelliteVisibility
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -358,7 +358,7 @@ func (p *SatelliteProxy) SetSatellitePlmn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "setSatellitePlmn")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteSetSatellitePlmn
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -379,7 +379,7 @@ func (p *SatelliteProxy) SetSatelliteEnabledForCarrier(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "setSatelliteEnabledForCarrier")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteSetSatelliteEnabledForCarrier
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -400,7 +400,7 @@ func (p *SatelliteProxy) RequestIsSatelliteEnabledForCarrier(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestIsSatelliteEnabledForCarrier")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteRequestIsSatelliteEnabledForCarrier
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -419,7 +419,7 @@ func (p *SatelliteProxy) RequestSignalStrength(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "requestSignalStrength")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteRequestSignalStrength
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -436,7 +436,7 @@ func (p *SatelliteProxy) StartSendingNtnSignalStrength(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "startSendingNtnSignalStrength")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteStartSendingNtnSignalStrength
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -453,7 +453,7 @@ func (p *SatelliteProxy) StopSendingNtnSignalStrength(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "stopSendingNtnSignalStrength")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteStopSendingNtnSignalStrength
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -470,7 +470,7 @@ func (p *SatelliteProxy) AbortSendingSatelliteDatagrams(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "abortSendingSatelliteDatagrams")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteAbortSendingSatelliteDatagrams
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -489,7 +489,7 @@ func (p *SatelliteProxy) UpdateSatelliteSubscription(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "updateSatelliteSubscription")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteUpdateSatelliteSubscription
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -517,7 +517,7 @@ func (p *SatelliteProxy) UpdateSystemSelectionChannels(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatellite, "updateSystemSelectionChannels")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteUpdateSystemSelectionChannels
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

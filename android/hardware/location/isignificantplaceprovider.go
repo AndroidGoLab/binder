@@ -48,7 +48,7 @@ func (p *SignificantPlaceProviderProxy) SetSignificantPlaceProviderManager(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISignificantPlaceProvider, "setSignificantPlaceProviderManager")
 	if _err != nil {
-		return _err
+		_code = TransactionISignificantPlaceProviderSetSignificantPlaceProviderManager
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *SignificantPlaceProviderProxy) OnSignificantPlaceCheck(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISignificantPlaceProvider, "onSignificantPlaceCheck")
 	if _err != nil {
-		return _err
+		_code = TransactionISignificantPlaceProviderOnSignificantPlaceCheck
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -61,7 +61,7 @@ func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierApps(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getDisabledUntilUsedPreinstalledCarrierApps")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISystemConfigGetDisabledUntilUsedPreinstalledCarrierApps
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -100,7 +100,7 @@ func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierAssociatedApp
 
 	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getDisabledUntilUsedPreinstalledCarrierAssociatedApps")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISystemConfigGetDisabledUntilUsedPreinstalledCarrierAssociatedApps
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -143,7 +143,7 @@ func (p *SystemConfigProxy) GetDisabledUntilUsedPreinstalledCarrierAssociatedApp
 
 	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISystemConfigGetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -188,7 +188,7 @@ func (p *SystemConfigProxy) GetSystemPermissionUids(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getSystemPermissionUids")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISystemConfigGetSystemPermissionUids
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -229,7 +229,7 @@ func (p *SystemConfigProxy) GetEnabledComponentOverrides(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getEnabledComponentOverrides")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISystemConfigGetEnabledComponentOverrides
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -264,7 +264,7 @@ func (p *SystemConfigProxy) GetDefaultVrComponents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getDefaultVrComponents")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISystemConfigGetDefaultVrComponents
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -299,7 +299,7 @@ func (p *SystemConfigProxy) GetPreventUserDisablePackages(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getPreventUserDisablePackages")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISystemConfigGetPreventUserDisablePackages
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -338,7 +338,7 @@ func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedPackages(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getEnhancedConfirmationTrustedPackages")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISystemConfigGetEnhancedConfirmationTrustedPackages
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -373,7 +373,7 @@ func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedInstallers(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISystemConfig, "getEnhancedConfirmationTrustedInstallers")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISystemConfigGetEnhancedConfirmationTrustedInstallers
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

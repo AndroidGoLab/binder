@@ -58,7 +58,7 @@ func (p *VoiceInteractionServiceProxy) Ready(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "ready")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractionServiceReady
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -73,7 +73,7 @@ func (p *VoiceInteractionServiceProxy) SoundModelsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "soundModelsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractionServiceSoundModelsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *VoiceInteractionServiceProxy) Shutdown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "shutdown")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractionServiceShutdown
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -103,7 +103,7 @@ func (p *VoiceInteractionServiceProxy) LaunchVoiceAssistFromKeyguard(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "launchVoiceAssistFromKeyguard")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractionServiceLaunchVoiceAssistFromKeyguard
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -128,7 +128,7 @@ func (p *VoiceInteractionServiceProxy) GetActiveServiceSupportedActions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "getActiveServiceSupportedActions")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractionServiceGetActiveServiceSupportedActions
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -146,7 +146,7 @@ func (p *VoiceInteractionServiceProxy) PrepareToShowSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "prepareToShowSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractionServicePrepareToShowSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -162,7 +162,7 @@ func (p *VoiceInteractionServiceProxy) ShowSessionFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "showSessionFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractionServiceShowSessionFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -181,7 +181,7 @@ func (p *VoiceInteractionServiceProxy) DetectorRemoteExceptionOccurred(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "detectorRemoteExceptionOccurred")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractionServiceDetectorRemoteExceptionOccurred
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

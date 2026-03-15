@@ -54,7 +54,7 @@ func (p *DescramblerProxy) SetDemuxSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "setDemuxSource")
 	if _err != nil {
-		return _err
+		_code = TransactionIDescramblerSetDemuxSource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -87,7 +87,7 @@ func (p *DescramblerProxy) SetKeyToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "setKeyToken")
 	if _err != nil {
-		return _err
+		_code = TransactionIDescramblerSetKeyToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -118,7 +118,7 @@ func (p *DescramblerProxy) AddPid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "addPid")
 	if _err != nil {
-		return _err
+		_code = TransactionIDescramblerAddPid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -149,7 +149,7 @@ func (p *DescramblerProxy) RemovePid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "removePid")
 	if _err != nil {
-		return _err
+		_code = TransactionIDescramblerRemovePid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -173,7 +173,7 @@ func (p *DescramblerProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDescrambler, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIDescramblerClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -54,7 +54,7 @@ func (p *PackageInstallerCallbackProxy) OnSessionCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerCallback, "onSessionCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerCallbackOnSessionCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *PackageInstallerCallbackProxy) OnSessionBadgingChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerCallback, "onSessionBadgingChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerCallbackOnSessionBadgingChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -90,7 +90,7 @@ func (p *PackageInstallerCallbackProxy) OnSessionActiveChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerCallback, "onSessionActiveChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerCallbackOnSessionActiveChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *PackageInstallerCallbackProxy) OnSessionProgressChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerCallback, "onSessionProgressChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerCallbackOnSessionProgressChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -128,7 +128,7 @@ func (p *PackageInstallerCallbackProxy) OnSessionFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerCallback, "onSessionFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerCallbackOnSessionFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

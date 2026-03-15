@@ -48,7 +48,7 @@ func (p *SpatializerHeadTrackingCallbackProxy) OnHeadTrackingModeChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializerHeadTrackingCallback, "onHeadTrackingModeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerHeadTrackingCallbackOnHeadTrackingModeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -72,7 +72,7 @@ func (p *SpatializerHeadTrackingCallbackProxy) OnHeadToSoundStagePoseUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializerHeadTrackingCallback, "onHeadToSoundStagePoseUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerHeadTrackingCallbackOnHeadToSoundStagePoseUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

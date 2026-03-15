@@ -48,7 +48,7 @@ func (p *UnfoldTransitionListenerProxy) OnTransitionStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUnfoldTransitionListener, "onTransitionStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIUnfoldTransitionListenerOnTransitionStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *UnfoldTransitionListenerProxy) OnTransitionProgress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUnfoldTransitionListener, "onTransitionProgress")
 	if _err != nil {
-		return _err
+		_code = TransactionIUnfoldTransitionListenerOnTransitionProgress
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -80,7 +80,7 @@ func (p *UnfoldTransitionListenerProxy) OnTransitionFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUnfoldTransitionListener, "onTransitionFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIUnfoldTransitionListenerOnTransitionFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

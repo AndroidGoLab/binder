@@ -50,7 +50,7 @@ func (p *SensitiveContentProtectionManagerProxy) SetSensitiveContentProtection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensitiveContentProtectionManager, "setSensitiveContentProtection")
 	if _err != nil {
-		return _err
+		_code = TransactionISensitiveContentProtectionManagerSetSensitiveContentProtection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -78,7 +78,7 @@ func (p *BluetoothLeCallControlProxy) RegisterBearer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControl, "registerBearer")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeCallControlRegisterBearer
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -96,7 +96,7 @@ func (p *BluetoothLeCallControlProxy) UnregisterBearer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControl, "unregisterBearer")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeCallControlUnregisterBearer
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -118,7 +118,7 @@ func (p *BluetoothLeCallControlProxy) RequestResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControl, "requestResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeCallControlRequestResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -141,7 +141,7 @@ func (p *BluetoothLeCallControlProxy) CallAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControl, "callAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeCallControlCallAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -162,7 +162,7 @@ func (p *BluetoothLeCallControlProxy) CallRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControl, "callRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeCallControlCallRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -183,7 +183,7 @@ func (p *BluetoothLeCallControlProxy) CallStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControl, "callStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeCallControlCallStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -212,7 +212,7 @@ func (p *BluetoothLeCallControlProxy) CurrentCallsList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothLeCallControl, "currentCallsList")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothLeCallControlCurrentCallsList
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

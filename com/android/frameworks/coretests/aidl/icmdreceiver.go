@@ -50,7 +50,7 @@ func (p *CmdReceiverProxy) DoSomeWork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICmdReceiver, "doSomeWork")
 	if _err != nil {
-		return _err
+		_code = TransactionICmdReceiverDoSomeWork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -74,7 +74,7 @@ func (p *CmdReceiverProxy) ShowApplicationOverlay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICmdReceiver, "showApplicationOverlay")
 	if _err != nil {
-		return _err
+		_code = TransactionICmdReceiverShowApplicationOverlay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -98,7 +98,7 @@ func (p *CmdReceiverProxy) FinishHost(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICmdReceiver, "finishHost")
 	if _err != nil {
-		return _err
+		_code = TransactionICmdReceiverFinishHost
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

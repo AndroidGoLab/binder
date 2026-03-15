@@ -152,7 +152,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnAnqpQueryDone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onAnqpQueryDone")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnAnqpQueryDone
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -172,7 +172,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnAssociationRejected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onAssociationRejected")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnAssociationRejected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -196,7 +196,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnAuthenticationTimeout(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onAuthenticationTimeout")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnAuthenticationTimeout
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -224,7 +224,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnAuxiliarySupplicantEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onAuxiliarySupplicantEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnAuxiliarySupplicantEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -244,7 +244,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnBssTmHandlingDone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onBssTmHandlingDone")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnBssTmHandlingDone
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -270,7 +270,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnBssidChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onBssidChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnBssidChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -298,7 +298,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDisconnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onDisconnected")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnDisconnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -328,7 +328,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onDppFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnDppFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -345,7 +345,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppProgress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onDppProgress")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnDppProgress
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -362,7 +362,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onDppSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnDppSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -404,7 +404,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppSuccessConfigReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onDppSuccessConfigReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnDppSuccessConfigReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -419,7 +419,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppSuccessConfigSent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onDppSuccessConfigSent")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnDppSuccessConfigSent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -445,7 +445,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnEapFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onEapFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnEapFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -462,7 +462,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnExtRadioWorkStart(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onExtRadioWorkStart")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnExtRadioWorkStart
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -479,7 +479,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnExtRadioWorkTimeout(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onExtRadioWorkTimeout")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnExtRadioWorkTimeout
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -509,7 +509,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnHs20DeauthImminentNotice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onHs20DeauthImminentNotice")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnHs20DeauthImminentNotice
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -544,7 +544,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnHs20IconQueryDone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onHs20IconQueryDone")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnHs20IconQueryDone
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -572,7 +572,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnHs20SubscriptionRemediation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onHs20SubscriptionRemediation")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnHs20SubscriptionRemediation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -598,7 +598,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnHs20TermsAndConditionsAcceptanceRequ
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onHs20TermsAndConditionsAcceptanceRequestedNotification")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnHs20TermsAndConditionsAcceptanceRequestedNotification
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -615,7 +615,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnNetworkAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onNetworkAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnNetworkAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -639,7 +639,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnNetworkNotFound(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onNetworkNotFound")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnNetworkNotFound
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -656,7 +656,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnNetworkRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onNetworkRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnNetworkRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -682,7 +682,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnPmkCacheAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onPmkCacheAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnPmkCacheAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -721,7 +721,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -749,7 +749,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnWpsEventFail(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onWpsEventFail")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnWpsEventFail
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -764,7 +764,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnWpsEventPbcOverlap(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onWpsEventPbcOverlap")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnWpsEventPbcOverlap
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -779,7 +779,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnWpsEventSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onWpsEventSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnWpsEventSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -794,7 +794,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnQosPolicyReset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onQosPolicyReset")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnQosPolicyReset
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -822,7 +822,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnQosPolicyRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onQosPolicyRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnQosPolicyRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -839,7 +839,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnMloLinksInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onMloLinksInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnMloLinksInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -859,7 +859,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppConfigReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onDppConfigReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnDppConfigReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -876,7 +876,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppConnectionStatusResultSent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onDppConnectionStatusResultSent")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnDppConnectionStatusResultSent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -893,7 +893,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnBssFrequencyChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onBssFrequencyChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnBssFrequencyChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -913,7 +913,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnSupplicantStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onSupplicantStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnSupplicantStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -939,7 +939,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnQosPolicyResponseForScs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onQosPolicyResponseForScs")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnQosPolicyResponseForScs
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -959,7 +959,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnPmkSaCacheAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onPmkSaCacheAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnPmkSaCacheAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -978,7 +978,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnUsdPublishStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdPublishStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnUsdPublishStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -997,7 +997,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnUsdSubscribeStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdSubscribeStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnUsdSubscribeStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1014,7 +1014,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnUsdPublishConfigFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdPublishConfigFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnUsdPublishConfigFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1031,7 +1031,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnUsdSubscribeConfigFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdSubscribeConfigFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnUsdSubscribeConfigFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1050,7 +1050,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnUsdPublishTerminated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdPublishTerminated")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnUsdPublishTerminated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1069,7 +1069,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnUsdSubscribeTerminated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdSubscribeTerminated")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnUsdSubscribeTerminated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1089,7 +1089,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnUsdPublishReplied(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdPublishReplied")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnUsdPublishReplied
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1109,7 +1109,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnUsdServiceDiscovered(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdServiceDiscovered")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnUsdServiceDiscovered
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1129,7 +1129,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnUsdMessageReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISupplicantStaIfaceCallback, "onUsdMessageReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionISupplicantStaIfaceCallbackOnUsdMessageReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -55,7 +55,7 @@ func (p *PictureProfileAdjustmentListenerProxy) OnPictureProfileAdjusted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileAdjustmentListener, "onPictureProfileAdjusted")
 	if _err != nil {
-		return _err
+		_code = TransactionIPictureProfileAdjustmentListenerOnPictureProfileAdjusted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -83,7 +83,7 @@ func (p *PictureProfileAdjustmentListenerProxy) OnParamCapabilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileAdjustmentListener, "onParamCapabilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIPictureProfileAdjustmentListenerOnParamCapabilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -111,7 +111,7 @@ func (p *PictureProfileAdjustmentListenerProxy) OnVendorParamCapabilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileAdjustmentListener, "onVendorParamCapabilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIPictureProfileAdjustmentListenerOnVendorParamCapabilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -128,7 +128,7 @@ func (p *PictureProfileAdjustmentListenerProxy) OnRequestPictureParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileAdjustmentListener, "onRequestPictureParameters")
 	if _err != nil {
-		return _err
+		_code = TransactionIPictureProfileAdjustmentListenerOnRequestPictureParameters
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

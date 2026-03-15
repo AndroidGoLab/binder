@@ -66,7 +66,7 @@ func (p *AppIntegrityManagerProxy) UpdateRuleSet(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppIntegrityManager, "updateRuleSet")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppIntegrityManagerUpdateRuleSet
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -91,7 +91,7 @@ func (p *AppIntegrityManagerProxy) GetCurrentRuleSetVersion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppIntegrityManager, "getCurrentRuleSetVersion")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAppIntegrityManagerGetCurrentRuleSetVersion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -120,7 +120,7 @@ func (p *AppIntegrityManagerProxy) GetCurrentRuleSetProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppIntegrityManager, "getCurrentRuleSetProvider")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAppIntegrityManagerGetCurrentRuleSetProvider
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -149,7 +149,7 @@ func (p *AppIntegrityManagerProxy) GetCurrentRules(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppIntegrityManager, "getCurrentRules")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAppIntegrityManagerGetCurrentRules
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -183,7 +183,7 @@ func (p *AppIntegrityManagerProxy) GetWhitelistedRuleProviders(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppIntegrityManager, "getWhitelistedRuleProviders")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAppIntegrityManagerGetWhitelistedRuleProviders
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

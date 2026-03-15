@@ -48,7 +48,7 @@ func (p *ChannelListTransferProxy) ImportChannelList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIChannelListTransfer, "importChannelList")
 	if _err != nil {
-		return _err
+		_code = TransactionIChannelListTransferImportChannelList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -74,7 +74,7 @@ func (p *ChannelListTransferProxy) ExportChannelList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIChannelListTransfer, "exportChannelList")
 	if _err != nil {
-		return _err
+		_code = TransactionIChannelListTransferExportChannelList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -87,7 +87,7 @@ func (p *SensorsProxy) Activate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensors, "activate")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorsActivate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -117,7 +117,7 @@ func (p *SensorsProxy) Batch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensors, "batch")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorsBatch
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -148,7 +148,7 @@ func (p *SensorsProxy) ConfigDirectReport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensors, "configDirectReport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISensorsConfigDirectReport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -178,7 +178,7 @@ func (p *SensorsProxy) Flush(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensors, "flush")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorsFlush
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -203,7 +203,7 @@ func (p *SensorsProxy) GetSensorsList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensors, "getSensorsList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISensorsGetSensorsList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -252,7 +252,7 @@ func (p *SensorsProxy) Initialize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensors, "initialize")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorsInitialize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -281,7 +281,7 @@ func (p *SensorsProxy) InjectSensorData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensors, "injectSensorData")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorsInjectSensorData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -311,7 +311,7 @@ func (p *SensorsProxy) RegisterDirectChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensors, "registerDirectChannel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISensorsRegisterDirectChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -341,7 +341,7 @@ func (p *SensorsProxy) SetOperationMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensors, "setOperationMode")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorsSetOperationMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -367,7 +367,7 @@ func (p *SensorsProxy) UnregisterDirectChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensors, "unregisterDirectChannel")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorsUnregisterDirectChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

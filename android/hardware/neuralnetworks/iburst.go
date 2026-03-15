@@ -69,7 +69,7 @@ func (p *BurstProxy) ExecuteSynchronously(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBurst, "executeSynchronously")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBurstExecuteSynchronously
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -104,7 +104,7 @@ func (p *BurstProxy) ReleaseMemoryResource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBurst, "releaseMemoryResource")
 	if _err != nil {
-		return _err
+		_code = TransactionIBurstReleaseMemoryResource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -150,7 +150,7 @@ func (p *BurstProxy) ExecuteSynchronouslyWithConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBurst, "executeSynchronouslyWithConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBurstExecuteSynchronouslyWithConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

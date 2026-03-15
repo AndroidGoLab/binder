@@ -61,7 +61,7 @@ func (p *ExplicitHealthCheckServiceProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIExplicitHealthCheckService, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIExplicitHealthCheckServiceSetCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *ExplicitHealthCheckServiceProxy) Request(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIExplicitHealthCheckService, "request")
 	if _err != nil {
-		return _err
+		_code = TransactionIExplicitHealthCheckServiceRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -95,7 +95,7 @@ func (p *ExplicitHealthCheckServiceProxy) Cancel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIExplicitHealthCheckService, "cancel")
 	if _err != nil {
-		return _err
+		_code = TransactionIExplicitHealthCheckServiceCancel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -115,7 +115,7 @@ func (p *ExplicitHealthCheckServiceProxy) GetSupportedPackages(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIExplicitHealthCheckService, "getSupportedPackages")
 	if _err != nil {
-		return _err
+		_code = TransactionIExplicitHealthCheckServiceGetSupportedPackages
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -135,7 +135,7 @@ func (p *ExplicitHealthCheckServiceProxy) GetRequestedPackages(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIExplicitHealthCheckService, "getRequestedPackages")
 	if _err != nil {
-		return _err
+		_code = TransactionIExplicitHealthCheckServiceGetRequestedPackages
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

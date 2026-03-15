@@ -72,7 +72,7 @@ func (p *InputMethodClientProxy) OnBindMethod(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodClient, "onBindMethod")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodClientOnBindMethod
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -94,7 +94,7 @@ func (p *InputMethodClientProxy) OnStartInputResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodClient, "onStartInputResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodClientOnStartInputResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -116,7 +116,7 @@ func (p *InputMethodClientProxy) OnBindAccessibilityService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodClient, "onBindAccessibilityService")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodClientOnBindAccessibilityService
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -135,7 +135,7 @@ func (p *InputMethodClientProxy) OnUnbindMethod(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodClient, "onUnbindMethod")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodClientOnUnbindMethod
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -154,7 +154,7 @@ func (p *InputMethodClientProxy) OnUnbindAccessibilityService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodClient, "onUnbindAccessibilityService")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodClientOnUnbindAccessibilityService
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -173,7 +173,7 @@ func (p *InputMethodClientProxy) SetActive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodClient, "setActive")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodClientSetActive
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -192,7 +192,7 @@ func (p *InputMethodClientProxy) SetInteractive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodClient, "setInteractive")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodClientSetInteractive
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -217,7 +217,7 @@ func (p *InputMethodClientProxy) SetImeVisibility(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodClient, "setImeVisibility")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodClientSetImeVisibility
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -234,7 +234,7 @@ func (p *InputMethodClientProxy) ScheduleStartInputIfNecessary(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodClient, "scheduleStartInputIfNecessary")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodClientScheduleStartInputIfNecessary
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -251,7 +251,7 @@ func (p *InputMethodClientProxy) ReportFullscreenMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodClient, "reportFullscreenMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodClientReportFullscreenMode
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -268,7 +268,7 @@ func (p *InputMethodClientProxy) SetImeTraceEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodClient, "setImeTraceEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodClientSetImeTraceEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -285,7 +285,7 @@ func (p *InputMethodClientProxy) ThrowExceptionFromSystem(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodClient, "throwExceptionFromSystem")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputMethodClientThrowExceptionFromSystem
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

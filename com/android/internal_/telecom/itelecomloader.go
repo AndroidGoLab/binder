@@ -49,7 +49,7 @@ func (p *TelecomLoaderProxy) CreateTelecomService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelecomLoader, "createTelecomService")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelecomLoaderCreateTelecomService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

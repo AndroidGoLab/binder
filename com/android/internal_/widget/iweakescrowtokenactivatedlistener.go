@@ -48,7 +48,7 @@ func (p *WeakEscrowTokenActivatedListenerProxy) OnWeakEscrowTokenActivated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWeakEscrowTokenActivatedListener, "onWeakEscrowTokenActivated")
 	if _err != nil {
-		return _err
+		_code = TransactionIWeakEscrowTokenActivatedListenerOnWeakEscrowTokenActivated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

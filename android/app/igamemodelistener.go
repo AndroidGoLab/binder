@@ -52,7 +52,7 @@ func (p *GameModeListenerProxy) OnGameModeChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGameModeListener, "onGameModeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIGameModeListenerOnGameModeChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

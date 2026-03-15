@@ -46,7 +46,7 @@ func (p *AddTileResultCallbackProxy) OnTileRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAddTileResultCallback, "onTileRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIAddTileResultCallbackOnTileRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

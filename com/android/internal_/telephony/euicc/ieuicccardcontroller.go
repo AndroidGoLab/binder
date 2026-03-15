@@ -94,7 +94,7 @@ func (p *EuiccCardControllerProxy) GetAllProfiles(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "getAllProfiles")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerGetAllProfiles
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -117,7 +117,7 @@ func (p *EuiccCardControllerProxy) GetProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "getProfile")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerGetProfile
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -140,7 +140,7 @@ func (p *EuiccCardControllerProxy) GetEnabledProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "getEnabledProfile")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerGetEnabledProfile
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -165,7 +165,7 @@ func (p *EuiccCardControllerProxy) DisableProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "disableProfile")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerDisableProfile
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -192,7 +192,7 @@ func (p *EuiccCardControllerProxy) SwitchToProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "switchToProfile")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerSwitchToProfile
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -217,7 +217,7 @@ func (p *EuiccCardControllerProxy) SetNickname(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "setNickname")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerSetNickname
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -240,7 +240,7 @@ func (p *EuiccCardControllerProxy) DeleteProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "deleteProfile")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerDeleteProfile
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -263,7 +263,7 @@ func (p *EuiccCardControllerProxy) ResetMemory(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "resetMemory")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerResetMemory
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -284,7 +284,7 @@ func (p *EuiccCardControllerProxy) GetDefaultSmdpAddress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "getDefaultSmdpAddress")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerGetDefaultSmdpAddress
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -305,7 +305,7 @@ func (p *EuiccCardControllerProxy) GetSmdsAddress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "getSmdsAddress")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerGetSmdsAddress
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -328,7 +328,7 @@ func (p *EuiccCardControllerProxy) SetDefaultSmdpAddress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "setDefaultSmdpAddress")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerSetDefaultSmdpAddress
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -349,7 +349,7 @@ func (p *EuiccCardControllerProxy) GetRulesAuthTable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "getRulesAuthTable")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerGetRulesAuthTable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -370,7 +370,7 @@ func (p *EuiccCardControllerProxy) GetEuiccChallenge(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "getEuiccChallenge")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerGetEuiccChallenge
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -391,7 +391,7 @@ func (p *EuiccCardControllerProxy) GetEuiccInfo1(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "getEuiccInfo1")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerGetEuiccInfo1
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -412,7 +412,7 @@ func (p *EuiccCardControllerProxy) GetEuiccInfo2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "getEuiccInfo2")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerGetEuiccInfo2
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -471,7 +471,7 @@ func (p *EuiccCardControllerProxy) AuthenticateServer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "authenticateServer")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerAuthenticateServer
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -528,7 +528,7 @@ func (p *EuiccCardControllerProxy) PrepareDownload(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "prepareDownload")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerPrepareDownload
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -558,7 +558,7 @@ func (p *EuiccCardControllerProxy) LoadBoundProfilePackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "loadBoundProfilePackage")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerLoadBoundProfilePackage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -590,7 +590,7 @@ func (p *EuiccCardControllerProxy) CancelSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "cancelSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerCancelSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -613,7 +613,7 @@ func (p *EuiccCardControllerProxy) ListNotifications(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "listNotifications")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerListNotifications
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -636,7 +636,7 @@ func (p *EuiccCardControllerProxy) RetrieveNotificationList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "retrieveNotificationList")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerRetrieveNotificationList
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -659,7 +659,7 @@ func (p *EuiccCardControllerProxy) RetrieveNotification(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "retrieveNotification")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerRetrieveNotification
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -682,7 +682,7 @@ func (p *EuiccCardControllerProxy) RemoveNotificationFromList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEuiccCardController, "removeNotificationFromList")
 	if _err != nil {
-		return _err
+		_code = TransactionIEuiccCardControllerRemoveNotificationFromList
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

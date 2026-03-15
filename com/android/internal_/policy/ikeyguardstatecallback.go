@@ -54,7 +54,7 @@ func (p *KeyguardStateCallbackProxy) OnShowingStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardStateCallback, "onShowingStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardStateCallbackOnShowingStateChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -80,7 +80,7 @@ func (p *KeyguardStateCallbackProxy) OnSimSecureStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardStateCallback, "onSimSecureStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardStateCallbackOnSimSecureStateChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -106,7 +106,7 @@ func (p *KeyguardStateCallbackProxy) OnInputRestrictedStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardStateCallback, "onInputRestrictedStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardStateCallbackOnInputRestrictedStateChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -132,7 +132,7 @@ func (p *KeyguardStateCallbackProxy) OnTrustedChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyguardStateCallback, "onTrustedChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIKeyguardStateCallbackOnTrustedChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

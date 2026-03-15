@@ -62,7 +62,7 @@ func (p *OccupantAwarenessProxy) StartDetection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOccupantAwareness, "startDetection")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOccupantAwarenessStartDetection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -92,7 +92,7 @@ func (p *OccupantAwarenessProxy) StopDetection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOccupantAwareness, "stopDetection")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOccupantAwarenessStopDetection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -124,7 +124,7 @@ func (p *OccupantAwarenessProxy) GetCapabilityForRole(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOccupantAwareness, "getCapabilityForRole")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOccupantAwarenessGetCapabilityForRole
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -157,7 +157,7 @@ func (p *OccupantAwarenessProxy) GetState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOccupantAwareness, "getState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOccupantAwarenessGetState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -188,7 +188,7 @@ func (p *OccupantAwarenessProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOccupantAwareness, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIOccupantAwarenessSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -213,7 +213,7 @@ func (p *OccupantAwarenessProxy) GetLatestDetection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOccupantAwareness, "getLatestDetection")
 	if _err != nil {
-		return _err
+		_code = TransactionIOccupantAwarenessGetLatestDetection
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

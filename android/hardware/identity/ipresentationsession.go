@@ -53,7 +53,7 @@ func (p *PresentationSessionProxy) GetEphemeralKeyPair(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPresentationSession, "getEphemeralKeyPair")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPresentationSessionGetEphemeralKeyPair
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -92,7 +92,7 @@ func (p *PresentationSessionProxy) GetAuthChallenge(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPresentationSession, "getAuthChallenge")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPresentationSessionGetAuthChallenge
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -129,7 +129,7 @@ func (p *PresentationSessionProxy) SetReaderEphemeralPublicKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPresentationSession, "setReaderEphemeralPublicKey")
 	if _err != nil {
-		return _err
+		_code = TransactionIPresentationSessionSetReaderEphemeralPublicKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -162,7 +162,7 @@ func (p *PresentationSessionProxy) SetSessionTranscript(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPresentationSession, "setSessionTranscript")
 	if _err != nil {
-		return _err
+		_code = TransactionIPresentationSessionSetSessionTranscript
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -196,7 +196,7 @@ func (p *PresentationSessionProxy) GetCredential(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPresentationSession, "getCredential")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPresentationSessionGetCredential
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

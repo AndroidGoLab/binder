@@ -50,7 +50,7 @@ func (p *InstantAppResolverProxy) GetInstantAppResolveInfoList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInstantAppResolver, "getInstantAppResolveInfoList")
 	if _err != nil {
-		return _err
+		_code = TransactionIInstantAppResolverGetInstantAppResolveInfoList
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *InstantAppResolverProxy) GetInstantAppIntentFilterList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInstantAppResolver, "getInstantAppIntentFilterList")
 	if _err != nil {
-		return _err
+		_code = TransactionIInstantAppResolverGetInstantAppIntentFilterList
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

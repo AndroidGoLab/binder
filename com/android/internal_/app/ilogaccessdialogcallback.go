@@ -50,7 +50,7 @@ func (p *LogAccessDialogCallbackProxy) ApproveAccessForClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILogAccessDialogCallback, "approveAccessForClient")
 	if _err != nil {
-		return _err
+		_code = TransactionILogAccessDialogCallbackApproveAccessForClient
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *LogAccessDialogCallbackProxy) DeclineAccessForClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILogAccessDialogCallback, "declineAccessForClient")
 	if _err != nil {
-		return _err
+		_code = TransactionILogAccessDialogCallbackDeclineAccessForClient
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -52,7 +52,7 @@ func (p *ScanBackgroundServiceUpdateListenerProxy) OnChannelListUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScanBackgroundServiceUpdateListener, "onChannelListUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIScanBackgroundServiceUpdateListenerOnChannelListUpdate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -91,7 +91,7 @@ func (p *ScanBackgroundServiceUpdateListenerProxy) OnNetworkListUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScanBackgroundServiceUpdateListener, "onNetworkListUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIScanBackgroundServiceUpdateListenerOnNetworkListUpdate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *ScanBackgroundServiceUpdateListenerProxy) OnTransportStreamingListUpdat
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScanBackgroundServiceUpdateListener, "onTransportStreamingListUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIScanBackgroundServiceUpdateListenerOnTransportStreamingListUpdate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

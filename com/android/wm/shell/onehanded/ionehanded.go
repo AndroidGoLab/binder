@@ -46,7 +46,7 @@ func (p *OneHandedProxy) StartOneHanded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOneHanded, "startOneHanded")
 	if _err != nil {
-		return _err
+		_code = TransactionIOneHandedStartOneHanded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -61,7 +61,7 @@ func (p *OneHandedProxy) StopOneHanded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOneHanded, "stopOneHanded")
 	if _err != nil {
-		return _err
+		_code = TransactionIOneHandedStopOneHanded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

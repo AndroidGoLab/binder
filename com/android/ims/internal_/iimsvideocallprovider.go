@@ -68,7 +68,7 @@ func (p *ImsVideoCallProviderProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallProvider, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallProviderSetCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -87,7 +87,7 @@ func (p *ImsVideoCallProviderProxy) SetCamera(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallProvider, "setCamera")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallProviderSetCamera
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -103,7 +103,7 @@ func (p *ImsVideoCallProviderProxy) SetPreviewSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallProvider, "setPreviewSurface")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallProviderSetPreviewSurface
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -119,7 +119,7 @@ func (p *ImsVideoCallProviderProxy) SetDisplaySurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallProvider, "setDisplaySurface")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallProviderSetDisplaySurface
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -136,7 +136,7 @@ func (p *ImsVideoCallProviderProxy) SetDeviceOrientation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallProvider, "setDeviceOrientation")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallProviderSetDeviceOrientation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -153,7 +153,7 @@ func (p *ImsVideoCallProviderProxy) SetZoom(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallProvider, "setZoom")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallProviderSetZoom
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -178,7 +178,7 @@ func (p *ImsVideoCallProviderProxy) SendSessionModifyRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallProvider, "sendSessionModifyRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallProviderSendSessionModifyRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -198,7 +198,7 @@ func (p *ImsVideoCallProviderProxy) SendSessionModifyResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallProvider, "sendSessionModifyResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallProviderSendSessionModifyResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -213,7 +213,7 @@ func (p *ImsVideoCallProviderProxy) RequestCameraCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallProvider, "requestCameraCapabilities")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallProviderRequestCameraCapabilities
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -228,7 +228,7 @@ func (p *ImsVideoCallProviderProxy) RequestCallDataUsage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallProvider, "requestCallDataUsage")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallProviderRequestCallDataUsage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -248,7 +248,7 @@ func (p *ImsVideoCallProviderProxy) SetPauseImage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsVideoCallProvider, "setPauseImage")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsVideoCallProviderSetPauseImage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

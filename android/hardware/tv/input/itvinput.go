@@ -71,7 +71,7 @@ func (p *TvInputProxy) CloseStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInput, "closeStream")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputCloseStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -98,7 +98,7 @@ func (p *TvInputProxy) GetStreamConfigurations(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInput, "getStreamConfigurations")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITvInputGetStreamConfigurations
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -140,7 +140,7 @@ func (p *TvInputProxy) OpenStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInput, "openStream")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITvInputOpenStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -175,7 +175,7 @@ func (p *TvInputProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInput, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -207,7 +207,7 @@ func (p *TvInputProxy) SetTvMessageEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInput, "setTvMessageEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputSetTvMessageEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -236,7 +236,7 @@ func (p *TvInputProxy) GetTvMessageQueueDesc(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInput, "getTvMessageQueueDesc")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputGetTvMessageQueueDesc
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -269,7 +269,7 @@ func (p *TvInputProxy) SetPictureProfileId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInput, "setPictureProfileId")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputSetPictureProfileId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -299,7 +299,7 @@ func (p *TvInputProxy) SetSoundProfileId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInput, "setSoundProfileId")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputSetSoundProfileId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

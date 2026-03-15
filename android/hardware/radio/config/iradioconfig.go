@@ -66,7 +66,7 @@ func (p *RadioConfigProxy) GetHalDeviceCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfig, "getHalDeviceCapabilities")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioConfigGetHalDeviceCapabilities
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -83,7 +83,7 @@ func (p *RadioConfigProxy) GetNumOfLiveModems(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfig, "getNumOfLiveModems")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioConfigGetNumOfLiveModems
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -100,7 +100,7 @@ func (p *RadioConfigProxy) GetPhoneCapability(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfig, "getPhoneCapability")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioConfigGetPhoneCapability
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -117,7 +117,7 @@ func (p *RadioConfigProxy) GetSimSlotsStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfig, "getSimSlotsStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioConfigGetSimSlotsStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -136,7 +136,7 @@ func (p *RadioConfigProxy) SetNumOfLiveModems(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfig, "setNumOfLiveModems")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioConfigSetNumOfLiveModems
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -155,7 +155,7 @@ func (p *RadioConfigProxy) SetPreferredDataModem(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfig, "setPreferredDataModem")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioConfigSetPreferredDataModem
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -174,7 +174,7 @@ func (p *RadioConfigProxy) SetResponseFunctions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfig, "setResponseFunctions")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioConfigSetResponseFunctions
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -202,7 +202,7 @@ func (p *RadioConfigProxy) SetSimSlotsMapping(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfig, "setSimSlotsMapping")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioConfigSetSimSlotsMapping
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -219,7 +219,7 @@ func (p *RadioConfigProxy) GetSimultaneousCallingSupport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfig, "getSimultaneousCallingSupport")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioConfigGetSimultaneousCallingSupport
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -236,7 +236,7 @@ func (p *RadioConfigProxy) GetSimTypeInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfig, "getSimTypeInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioConfigGetSimTypeInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -262,7 +262,7 @@ func (p *RadioConfigProxy) SetSimType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioConfig, "setSimType")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioConfigSetSimType
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

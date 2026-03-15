@@ -78,7 +78,7 @@ func (p *MagnificationConnectionProxy) EnableWindowMagnification(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnection, "enableWindowMagnification")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionEnableWindowMagnification
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -97,7 +97,7 @@ func (p *MagnificationConnectionProxy) SetScaleForWindowMagnification(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnection, "setScaleForWindowMagnification")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionSetScaleForWindowMagnification
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -116,7 +116,7 @@ func (p *MagnificationConnectionProxy) DisableWindowMagnification(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnection, "disableWindowMagnification")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionDisableWindowMagnification
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -137,7 +137,7 @@ func (p *MagnificationConnectionProxy) MoveWindowMagnifier(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnection, "moveWindowMagnifier")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionMoveWindowMagnifier
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -160,7 +160,7 @@ func (p *MagnificationConnectionProxy) MoveWindowMagnifierToPosition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnection, "moveWindowMagnifierToPosition")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionMoveWindowMagnifierToPosition
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -179,7 +179,7 @@ func (p *MagnificationConnectionProxy) ShowMagnificationButton(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnection, "showMagnificationButton")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionShowMagnificationButton
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -196,7 +196,7 @@ func (p *MagnificationConnectionProxy) RemoveMagnificationButton(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnection, "removeMagnificationButton")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionRemoveMagnificationButton
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -213,7 +213,7 @@ func (p *MagnificationConnectionProxy) RemoveMagnificationSettingsPanel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnection, "removeMagnificationSettingsPanel")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionRemoveMagnificationSettingsPanel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -230,7 +230,7 @@ func (p *MagnificationConnectionProxy) SetConnectionCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnection, "setConnectionCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionSetConnectionCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -251,7 +251,7 @@ func (p *MagnificationConnectionProxy) OnUserMagnificationScaleChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnection, "onUserMagnificationScaleChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionOnUserMagnificationScaleChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -270,7 +270,7 @@ func (p *MagnificationConnectionProxy) OnFullscreenMagnificationActivationChange
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMagnificationConnection, "onFullscreenMagnificationActivationChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIMagnificationConnectionOnFullscreenMagnificationActivationChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

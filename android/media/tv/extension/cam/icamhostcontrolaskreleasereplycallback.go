@@ -48,7 +48,7 @@ func (p *CamHostControlAskReleaseReplyCallbackProxy) OnAskReleaseReply(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamHostControlAskReleaseReplyCallback, "onAskReleaseReply")
 	if _err != nil {
-		return _err
+		_code = TransactionICamHostControlAskReleaseReplyCallbackOnAskReleaseReply
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

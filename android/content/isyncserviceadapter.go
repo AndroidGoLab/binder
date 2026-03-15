@@ -49,7 +49,7 @@ func (p *SyncServiceAdapterProxy) StartSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISyncServiceAdapter, "startSync")
 	if _err != nil {
-		return _err
+		_code = TransactionISyncServiceAdapterStartSync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -66,7 +66,7 @@ func (p *SyncServiceAdapterProxy) CancelSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISyncServiceAdapter, "cancelSync")
 	if _err != nil {
-		return _err
+		_code = TransactionISyncServiceAdapterCancelSync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

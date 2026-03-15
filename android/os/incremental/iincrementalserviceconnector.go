@@ -47,7 +47,7 @@ func (p *IncrementalServiceConnectorProxy) SetStorageParams(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIncrementalServiceConnector, "setStorageParams")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIncrementalServiceConnectorSetStorageParams
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

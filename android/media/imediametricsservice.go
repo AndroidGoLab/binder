@@ -53,7 +53,7 @@ func (p *MediaMetricsServiceProxy) SubmitBuffer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaMetricsService, "submitBuffer")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaMetricsServiceSubmitBuffer
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

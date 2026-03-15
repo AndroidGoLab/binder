@@ -45,7 +45,7 @@ func (p *ClientTokenProxy) GenerateClientToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIClientToken, "generateClientToken")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIClientTokenGenerateClientToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -50,7 +50,7 @@ func (p *InputFilterProxy) Install(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputFilter, "install")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputFilterInstall
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *InputFilterProxy) Uninstall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputFilter, "uninstall")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputFilterUninstall
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -87,7 +87,7 @@ func (p *InputFilterProxy) FilterInputEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputFilter, "filterInputEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputFilterFilterInputEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

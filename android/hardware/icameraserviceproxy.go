@@ -54,7 +54,7 @@ func (p *CameraServiceProxyProxy) PingForUserUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceProxy, "pingForUserUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceProxyPingForUserUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -70,7 +70,7 @@ func (p *CameraServiceProxyProxy) NotifyCameraState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceProxy, "notifyCameraState")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceProxyNotifyCameraState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -90,7 +90,7 @@ func (p *CameraServiceProxyProxy) NotifyFeatureCombinationStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceProxy, "notifyFeatureCombinationStats")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceProxyNotifyFeatureCombinationStats
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -112,7 +112,7 @@ func (p *CameraServiceProxyProxy) GetRotateAndCropOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceProxy, "getRotateAndCropOverride")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceProxyGetRotateAndCropOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -143,7 +143,7 @@ func (p *CameraServiceProxyProxy) GetAutoframingOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceProxy, "getAutoframingOverride")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceProxyGetAutoframingOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -174,7 +174,7 @@ func (p *CameraServiceProxyProxy) IsCameraDisabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceProxy, "isCameraDisabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraServiceProxyIsCameraDisabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

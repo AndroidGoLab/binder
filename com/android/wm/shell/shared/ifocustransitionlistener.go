@@ -46,7 +46,7 @@ func (p *FocusTransitionListenerProxy) OnFocusedDisplayChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFocusTransitionListener, "onFocusedDisplayChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIFocusTransitionListenerOnFocusedDisplayChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

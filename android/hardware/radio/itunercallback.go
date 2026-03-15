@@ -70,7 +70,7 @@ func (p *TunerCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *TunerCallbackProxy) OnTuneFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onTuneFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnTuneFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -112,7 +112,7 @@ func (p *TunerCallbackProxy) OnConfigurationChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onConfigurationChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnConfigurationChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -132,7 +132,7 @@ func (p *TunerCallbackProxy) OnCurrentProgramInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onCurrentProgramInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnCurrentProgramInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -149,7 +149,7 @@ func (p *TunerCallbackProxy) OnTrafficAnnouncement(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onTrafficAnnouncement")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnTrafficAnnouncement
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -166,7 +166,7 @@ func (p *TunerCallbackProxy) OnEmergencyAnnouncement(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onEmergencyAnnouncement")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnEmergencyAnnouncement
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -183,7 +183,7 @@ func (p *TunerCallbackProxy) OnAntennaState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onAntennaState")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnAntennaState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -200,7 +200,7 @@ func (p *TunerCallbackProxy) OnBackgroundScanAvailabilityChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onBackgroundScanAvailabilityChange")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnBackgroundScanAvailabilityChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -215,7 +215,7 @@ func (p *TunerCallbackProxy) OnBackgroundScanComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onBackgroundScanComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnBackgroundScanComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -230,7 +230,7 @@ func (p *TunerCallbackProxy) OnProgramListChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onProgramListChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnProgramListChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -250,7 +250,7 @@ func (p *TunerCallbackProxy) OnProgramListUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onProgramListUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnProgramListUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -269,7 +269,7 @@ func (p *TunerCallbackProxy) OnConfigFlagUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onConfigFlagUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnConfigFlagUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -294,7 +294,7 @@ func (p *TunerCallbackProxy) OnParametersUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerCallback, "onParametersUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerCallbackOnParametersUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

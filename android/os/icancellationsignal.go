@@ -44,7 +44,7 @@ func (p *CancellationSignalProxy) Cancel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICancellationSignal, "cancel")
 	if _err != nil {
-		return _err
+		_code = TransactionICancellationSignalCancel
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

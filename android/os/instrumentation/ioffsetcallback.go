@@ -52,7 +52,7 @@ func (p *OffsetCallbackProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOffsetCallback, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIOffsetCallbackOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

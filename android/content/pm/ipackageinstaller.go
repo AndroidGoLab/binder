@@ -107,7 +107,7 @@ func (p *PackageInstallerProxy) CreateSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "createSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageInstallerCreateSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -142,7 +142,7 @@ func (p *PackageInstallerProxy) UpdateSessionAppIcon(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "updateSessionAppIcon")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerUpdateSessionAppIcon
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -170,7 +170,7 @@ func (p *PackageInstallerProxy) UpdateSessionAppLabel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "updateSessionAppLabel")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerUpdateSessionAppLabel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -196,7 +196,7 @@ func (p *PackageInstallerProxy) AbandonSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "abandonSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerAbandonSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -223,7 +223,7 @@ func (p *PackageInstallerProxy) OpenSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "openSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageInstallerOpenSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -255,7 +255,7 @@ func (p *PackageInstallerProxy) GetSessionInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "getSessionInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageInstallerGetSessionInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -291,7 +291,7 @@ func (p *PackageInstallerProxy) GetAllSessions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "getAllSessions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageInstallerGetAllSessions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -329,7 +329,7 @@ func (p *PackageInstallerProxy) GetMySessions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "getMySessions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageInstallerGetMySessions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -363,7 +363,7 @@ func (p *PackageInstallerProxy) GetStagedSessions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "getStagedSessions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageInstallerGetStagedSessions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -400,7 +400,7 @@ func (p *PackageInstallerProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -426,7 +426,7 @@ func (p *PackageInstallerProxy) UnregisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "unregisterCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerUnregisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -462,7 +462,7 @@ func (p *PackageInstallerProxy) Uninstall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "uninstall")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerUninstall
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -496,7 +496,7 @@ func (p *PackageInstallerProxy) UninstallExistingPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "uninstallExistingPackage")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerUninstallExistingPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -538,7 +538,7 @@ func (p *PackageInstallerProxy) InstallExistingPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "installExistingPackage")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerInstallExistingPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -566,7 +566,7 @@ func (p *PackageInstallerProxy) SetPermissionsResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "setPermissionsResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerSetPermissionsResult
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -592,7 +592,7 @@ func (p *PackageInstallerProxy) BypassNextStagedInstallerCheck(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "bypassNextStagedInstallerCheck")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerBypassNextStagedInstallerCheck
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -618,7 +618,7 @@ func (p *PackageInstallerProxy) BypassNextAllowedApexUpdateCheck(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "bypassNextAllowedApexUpdateCheck")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerBypassNextAllowedApexUpdateCheck
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -644,7 +644,7 @@ func (p *PackageInstallerProxy) DisableVerificationForUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "disableVerificationForUid")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerDisableVerificationForUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -670,7 +670,7 @@ func (p *PackageInstallerProxy) SetAllowUnlimitedSilentUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "setAllowUnlimitedSilentUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerSetAllowUnlimitedSilentUpdates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -696,7 +696,7 @@ func (p *PackageInstallerProxy) SetSilentUpdatesThrottleTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "setSilentUpdatesThrottleTime")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerSetSilentUpdatesThrottleTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -737,7 +737,7 @@ func (p *PackageInstallerProxy) CheckInstallConstraints(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "checkInstallConstraints")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerCheckInstallConstraints
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -780,7 +780,7 @@ func (p *PackageInstallerProxy) WaitForInstallConstraints(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "waitForInstallConstraints")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerWaitForInstallConstraints
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -812,7 +812,7 @@ func (p *PackageInstallerProxy) RequestArchive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "requestArchive")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerRequestArchive
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -842,7 +842,7 @@ func (p *PackageInstallerProxy) RequestUnarchive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "requestUnarchive")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerRequestUnarchive
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -880,7 +880,7 @@ func (p *PackageInstallerProxy) InstallPackageArchived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "installPackageArchived")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerInstallPackageArchived
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -912,7 +912,7 @@ func (p *PackageInstallerProxy) ReportUnarchivalStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "reportUnarchivalStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageInstallerReportUnarchivalStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

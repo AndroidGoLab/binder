@@ -47,7 +47,7 @@ func (p *OemNetdProxy) IsAlive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOemNetd, "isAlive")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOemNetdIsAlive
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -77,7 +77,7 @@ func (p *OemNetdProxy) RegisterOemUnsolicitedEventListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOemNetd, "registerOemUnsolicitedEventListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIOemNetdRegisterOemUnsolicitedEventListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

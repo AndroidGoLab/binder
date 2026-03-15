@@ -82,7 +82,7 @@ func (p *TunerFilterProxy) GetId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "getId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerFilterGetId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -111,7 +111,7 @@ func (p *TunerFilterProxy) GetId64Bit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "getId64Bit")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerFilterGetId64Bit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -140,7 +140,7 @@ func (p *TunerFilterProxy) GetQueueDesc(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "getQueueDesc")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerFilterGetQueueDesc
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -178,7 +178,7 @@ func (p *TunerFilterProxy) Configure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "configure")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFilterConfigure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -204,7 +204,7 @@ func (p *TunerFilterProxy) ConfigureMonitorEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "configureMonitorEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFilterConfigureMonitorEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -230,7 +230,7 @@ func (p *TunerFilterProxy) ConfigureIpFilterContextId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "configureIpFilterContextId")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFilterConfigureIpFilterContextId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -259,7 +259,7 @@ func (p *TunerFilterProxy) ConfigureAvStreamType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "configureAvStreamType")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFilterConfigureAvStreamType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -285,7 +285,7 @@ func (p *TunerFilterProxy) GetAvSharedHandle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "getAvSharedHandle")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerFilterGetAvSharedHandle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -323,7 +323,7 @@ func (p *TunerFilterProxy) ReleaseAvHandle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "releaseAvHandle")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFilterReleaseAvHandle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -349,7 +349,7 @@ func (p *TunerFilterProxy) SetDataSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "setDataSource")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFilterSetDataSource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -373,7 +373,7 @@ func (p *TunerFilterProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "start")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFilterStart
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -397,7 +397,7 @@ func (p *TunerFilterProxy) Stop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "stop")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFilterStop
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -421,7 +421,7 @@ func (p *TunerFilterProxy) Flush(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "flush")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFilterFlush
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -445,7 +445,7 @@ func (p *TunerFilterProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFilterClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -470,7 +470,7 @@ func (p *TunerFilterProxy) AcquireSharedFilterToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "acquireSharedFilterToken")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerFilterAcquireSharedFilterToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -500,7 +500,7 @@ func (p *TunerFilterProxy) FreeSharedFilterToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "freeSharedFilterToken")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFilterFreeSharedFilterToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -525,7 +525,7 @@ func (p *TunerFilterProxy) GetFilterType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "getFilterType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITunerFilterGetFilterType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -563,7 +563,7 @@ func (p *TunerFilterProxy) SetDelayHint(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFilter, "setDelayHint")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFilterSetDelayHint
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

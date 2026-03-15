@@ -56,7 +56,7 @@ func (p *PlayerProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlayer, "start")
 	if _err != nil {
-		return _err
+		_code = TransactionIPlayerStart
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *PlayerProxy) Pause(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlayer, "pause")
 	if _err != nil {
-		return _err
+		_code = TransactionIPlayerPause
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -86,7 +86,7 @@ func (p *PlayerProxy) Stop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlayer, "stop")
 	if _err != nil {
-		return _err
+		_code = TransactionIPlayerStop
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -103,7 +103,7 @@ func (p *PlayerProxy) SetVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlayer, "setVolume")
 	if _err != nil {
-		return _err
+		_code = TransactionIPlayerSetVolume
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -120,7 +120,7 @@ func (p *PlayerProxy) SetPan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlayer, "setPan")
 	if _err != nil {
-		return _err
+		_code = TransactionIPlayerSetPan
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -137,7 +137,7 @@ func (p *PlayerProxy) SetStartDelayMs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlayer, "setStartDelayMs")
 	if _err != nil {
-		return _err
+		_code = TransactionIPlayerSetStartDelayMs
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -162,7 +162,7 @@ func (p *PlayerProxy) ApplyVolumeShaper(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPlayer, "applyVolumeShaper")
 	if _err != nil {
-		return _err
+		_code = TransactionIPlayerApplyVolumeShaper
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -61,7 +61,7 @@ func (p *FastbootProxy) DoOemCommand(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFastboot, "doOemCommand")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFastbootDoOemCommand
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -89,7 +89,7 @@ func (p *FastbootProxy) DoOemSpecificErase(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFastboot, "doOemSpecificErase")
 	if _err != nil {
-		return _err
+		_code = TransactionIFastbootDoOemSpecificErase
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -114,7 +114,7 @@ func (p *FastbootProxy) GetBatteryVoltageFlashingThreshold(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFastboot, "getBatteryVoltageFlashingThreshold")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFastbootGetBatteryVoltageFlashingThreshold
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -143,7 +143,7 @@ func (p *FastbootProxy) GetOffModeChargeState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFastboot, "getOffModeChargeState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFastbootGetOffModeChargeState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -174,7 +174,7 @@ func (p *FastbootProxy) GetPartitionType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFastboot, "getPartitionType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFastbootGetPartitionType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -204,7 +204,7 @@ func (p *FastbootProxy) GetVariant(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFastboot, "getVariant")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFastbootGetVariant
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

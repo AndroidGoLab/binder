@@ -54,7 +54,7 @@ func (p *KeyGestureHandlerProxy) HandleKeyGesture(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyGestureHandler, "handleKeyGesture")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeyGestureHandlerHandleKeyGesture
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -85,7 +85,7 @@ func (p *KeyGestureHandlerProxy) IsKeyGestureSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIKeyGestureHandler, "isKeyGestureSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIKeyGestureHandlerIsKeyGestureSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -95,7 +95,7 @@ func (p *ContextHubServiceProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "registerCallback")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -124,7 +124,7 @@ func (p *ContextHubServiceProxy) GetContextHubHandles(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "getContextHubHandles")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceGetContextHubHandles
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -165,7 +165,7 @@ func (p *ContextHubServiceProxy) GetContextHubInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "getContextHubInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceGetContextHubInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -206,7 +206,7 @@ func (p *ContextHubServiceProxy) LoadNanoApp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "loadNanoApp")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceLoadNanoApp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -237,7 +237,7 @@ func (p *ContextHubServiceProxy) UnloadNanoApp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "unloadNanoApp")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceUnloadNanoApp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -268,7 +268,7 @@ func (p *ContextHubServiceProxy) GetNanoAppInstanceInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "getNanoAppInstanceInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceGetNanoAppInstanceInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -309,7 +309,7 @@ func (p *ContextHubServiceProxy) FindNanoAppOnHub(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "findNanoAppOnHub")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceFindNanoAppOnHub
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -357,7 +357,7 @@ func (p *ContextHubServiceProxy) SendMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "sendMessage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceSendMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -394,7 +394,7 @@ func (p *ContextHubServiceProxy) CreateClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "createClient")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceCreateClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -431,7 +431,7 @@ func (p *ContextHubServiceProxy) CreatePendingIntentClient(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "createPendingIntentClient")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceCreatePendingIntentClient
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -461,7 +461,7 @@ func (p *ContextHubServiceProxy) GetContextHubs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "getContextHubs")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceGetContextHubs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -499,7 +499,7 @@ func (p *ContextHubServiceProxy) GetHubs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "getHubs")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceGetHubs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -545,7 +545,7 @@ func (p *ContextHubServiceProxy) LoadNanoAppOnHub(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "loadNanoAppOnHub")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubServiceLoadNanoAppOnHub
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -575,7 +575,7 @@ func (p *ContextHubServiceProxy) UnloadNanoAppFromHub(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "unloadNanoAppFromHub")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubServiceUnloadNanoAppFromHub
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -605,7 +605,7 @@ func (p *ContextHubServiceProxy) EnableNanoApp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "enableNanoApp")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubServiceEnableNanoApp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -635,7 +635,7 @@ func (p *ContextHubServiceProxy) DisableNanoApp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "disableNanoApp")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubServiceDisableNanoApp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -663,7 +663,7 @@ func (p *ContextHubServiceProxy) QueryNanoApps(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "queryNanoApps")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubServiceQueryNanoApps
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -693,7 +693,7 @@ func (p *ContextHubServiceProxy) GetPreloadedNanoAppIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "getPreloadedNanoAppIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceGetPreloadedNanoAppIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -734,7 +734,7 @@ func (p *ContextHubServiceProxy) SetTestMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "setTestMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceSetTestMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -765,7 +765,7 @@ func (p *ContextHubServiceProxy) FindEndpoints(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "findEndpoints")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceFindEndpoints
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -802,7 +802,7 @@ func (p *ContextHubServiceProxy) FindEndpointsWithService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "findEndpointsWithService")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceFindEndpointsWithService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -839,7 +839,7 @@ func (p *ContextHubServiceProxy) RegisterEndpoint(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "registerEndpoint")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubServiceRegisterEndpoint
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -866,7 +866,7 @@ func (p *ContextHubServiceProxy) RegisterEndpointDiscoveryCallbackId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "registerEndpointDiscoveryCallbackId")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubServiceRegisterEndpointDiscoveryCallbackId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -893,7 +893,7 @@ func (p *ContextHubServiceProxy) RegisterEndpointDiscoveryCallbackDescriptor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "registerEndpointDiscoveryCallbackDescriptor")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubServiceRegisterEndpointDiscoveryCallbackDescriptor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -918,7 +918,7 @@ func (p *ContextHubServiceProxy) UnregisterEndpointDiscoveryCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "unregisterEndpointDiscoveryCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubServiceUnregisterEndpointDiscoveryCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -53,7 +53,7 @@ func (p *BubblesListenerProxy) OnBubbleStateChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBubblesListener, "onBubbleStateChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIBubblesListenerOnBubbleStateChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -73,7 +73,7 @@ func (p *BubblesListenerProxy) AnimateBubbleBarLocation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBubblesListener, "animateBubbleBarLocation")
 	if _err != nil {
-		return _err
+		_code = TransactionIBubblesListenerAnimateBubbleBarLocation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -62,7 +62,7 @@ func (p *AllocatorProxy) Allocate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAllocator, "allocate")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAllocatorAllocate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -103,7 +103,7 @@ func (p *AllocatorProxy) Allocate2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAllocator, "allocate2")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAllocatorAllocate2
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -142,7 +142,7 @@ func (p *AllocatorProxy) IsSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAllocator, "isSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAllocatorIsSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -171,7 +171,7 @@ func (p *AllocatorProxy) GetIMapperLibrarySuffix(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAllocator, "getIMapperLibrarySuffix")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAllocatorGetIMapperLibrarySuffix
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

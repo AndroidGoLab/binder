@@ -51,7 +51,7 @@ func (p *ProviderRequestListenerProxy) OnProviderRequestChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProviderRequestListener, "onProviderRequestChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIProviderRequestListenerOnProviderRequestChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

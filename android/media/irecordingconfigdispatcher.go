@@ -55,7 +55,7 @@ func (p *RecordingConfigDispatcherProxy) DispatchRecordingConfigChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecordingConfigDispatcher, "dispatchRecordingConfigChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecordingConfigDispatcherDispatchRecordingConfigChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

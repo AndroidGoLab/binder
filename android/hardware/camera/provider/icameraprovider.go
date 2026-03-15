@@ -67,7 +67,7 @@ func (p *CameraProviderProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraProvider, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraProviderSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -92,7 +92,7 @@ func (p *CameraProviderProxy) GetVendorTags(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraProvider, "getVendorTags")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraProviderGetVendorTags
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *CameraProviderProxy) GetCameraIdList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraProvider, "getCameraIdList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraProviderGetCameraIdList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -171,7 +171,7 @@ func (p *CameraProviderProxy) GetCameraDeviceInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraProvider, "getCameraDeviceInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraProviderGetCameraDeviceInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -202,7 +202,7 @@ func (p *CameraProviderProxy) NotifyDeviceStateChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraProvider, "notifyDeviceStateChange")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraProviderNotifyDeviceStateChange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -227,7 +227,7 @@ func (p *CameraProviderProxy) GetConcurrentCameraIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraProvider, "getConcurrentCameraIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraProviderGetConcurrentCameraIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -276,7 +276,7 @@ func (p *CameraProviderProxy) IsConcurrentStreamCombinationSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraProvider, "isConcurrentStreamCombinationSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICameraProviderIsConcurrentStreamCombinationSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

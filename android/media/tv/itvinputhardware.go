@@ -55,7 +55,7 @@ func (p *TvInputHardwareProxy) SetSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputHardware, "setSurface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITvInputHardwareSetSurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -85,7 +85,7 @@ func (p *TvInputHardwareProxy) SetStreamVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputHardware, "setStreamVolume")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputHardwareSetStreamVolume
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -119,7 +119,7 @@ func (p *TvInputHardwareProxy) OverrideAudioSink(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputHardware, "overrideAudioSink")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputHardwareOverrideAudioSink
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

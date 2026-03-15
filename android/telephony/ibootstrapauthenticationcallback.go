@@ -59,7 +59,7 @@ func (p *BootstrapAuthenticationCallbackProxy) OnKeysAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBootstrapAuthenticationCallback, "onKeysAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionIBootstrapAuthenticationCallbackOnKeysAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *BootstrapAuthenticationCallbackProxy) OnAuthenticationFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBootstrapAuthenticationCallback, "onAuthenticationFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIBootstrapAuthenticationCallbackOnAuthenticationFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

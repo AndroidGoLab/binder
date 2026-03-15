@@ -60,7 +60,7 @@ func (p *ContextHubClientProxy) SendMessageToNanoApp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClient, "sendMessageToNanoApp")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubClientSendMessageToNanoApp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -88,7 +88,7 @@ func (p *ContextHubClientProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClient, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubClientClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -113,7 +113,7 @@ func (p *ContextHubClientProxy) GetId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClient, "getId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubClientGetId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -141,7 +141,7 @@ func (p *ContextHubClientProxy) CallbackFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClient, "callbackFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubClientCallbackFinished
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -169,7 +169,7 @@ func (p *ContextHubClientProxy) ReliableMessageCallbackFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClient, "reliableMessageCallbackFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIContextHubClientReliableMessageCallbackFinished
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -201,7 +201,7 @@ func (p *ContextHubClientProxy) SendReliableMessageToNanoApp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubClient, "sendReliableMessageToNanoApp")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIContextHubClientSendReliableMessageToNanoApp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

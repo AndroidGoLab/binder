@@ -58,7 +58,7 @@ func (p *VirtualCameraServiceProxy) RegisterCamera(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualCameraService, "registerCamera")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVirtualCameraServiceRegisterCamera
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -88,7 +88,7 @@ func (p *VirtualCameraServiceProxy) UnregisterCamera(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualCameraService, "unregisterCamera")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualCameraServiceUnregisterCamera
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -115,7 +115,7 @@ func (p *VirtualCameraServiceProxy) GetCameraId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualCameraService, "getCameraId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVirtualCameraServiceGetCameraId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

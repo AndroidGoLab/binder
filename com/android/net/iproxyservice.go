@@ -51,7 +51,7 @@ func (p *ProxyServiceProxy) ResolvePacFile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProxyService, "resolvePacFile")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIProxyServiceResolvePacFile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -81,7 +81,7 @@ func (p *ProxyServiceProxy) SetPacFile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProxyService, "setPacFile")
 	if _err != nil {
-		return _err
+		_code = TransactionIProxyServiceSetPacFile
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

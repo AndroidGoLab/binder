@@ -79,7 +79,7 @@ func (p *SensorPrivacyManagerProxy) SupportsSensorToggle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyManager, "supportsSensorToggle")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISensorPrivacyManagerSupportsSensorToggle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -109,7 +109,7 @@ func (p *SensorPrivacyManagerProxy) AddSensorPrivacyListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyManager, "addSensorPrivacyListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorPrivacyManagerAddSensorPrivacyListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -135,7 +135,7 @@ func (p *SensorPrivacyManagerProxy) AddToggleSensorPrivacyListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyManager, "addToggleSensorPrivacyListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorPrivacyManagerAddToggleSensorPrivacyListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -161,7 +161,7 @@ func (p *SensorPrivacyManagerProxy) RemoveSensorPrivacyListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyManager, "removeSensorPrivacyListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorPrivacyManagerRemoveSensorPrivacyListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -187,7 +187,7 @@ func (p *SensorPrivacyManagerProxy) RemoveToggleSensorPrivacyListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyManager, "removeToggleSensorPrivacyListener")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorPrivacyManagerRemoveToggleSensorPrivacyListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -212,7 +212,7 @@ func (p *SensorPrivacyManagerProxy) IsSensorPrivacyEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyManager, "isSensorPrivacyEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISensorPrivacyManagerIsSensorPrivacyEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -243,7 +243,7 @@ func (p *SensorPrivacyManagerProxy) IsCombinedToggleSensorPrivacyEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyManager, "isCombinedToggleSensorPrivacyEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISensorPrivacyManagerIsCombinedToggleSensorPrivacyEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -276,7 +276,7 @@ func (p *SensorPrivacyManagerProxy) IsToggleSensorPrivacyEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyManager, "isToggleSensorPrivacyEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISensorPrivacyManagerIsToggleSensorPrivacyEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -306,7 +306,7 @@ func (p *SensorPrivacyManagerProxy) SetSensorPrivacy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyManager, "setSensorPrivacy")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorPrivacyManagerSetSensorPrivacy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -338,7 +338,7 @@ func (p *SensorPrivacyManagerProxy) SetToggleSensorPrivacy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyManager, "setToggleSensorPrivacy")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorPrivacyManagerSetToggleSensorPrivacy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -370,7 +370,7 @@ func (p *SensorPrivacyManagerProxy) SetToggleSensorPrivacyForProfileGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyManager, "setToggleSensorPrivacyForProfileGroup")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorPrivacyManagerSetToggleSensorPrivacyForProfileGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -395,7 +395,7 @@ func (p *SensorPrivacyManagerProxy) GetCameraPrivacyAllowlist(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyManager, "getCameraPrivacyAllowlist")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISensorPrivacyManagerGetCameraPrivacyAllowlist
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -438,7 +438,7 @@ func (p *SensorPrivacyManagerProxy) GetToggleSensorPrivacyState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyManager, "getToggleSensorPrivacyState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISensorPrivacyManagerGetToggleSensorPrivacyState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -474,7 +474,7 @@ func (p *SensorPrivacyManagerProxy) SetToggleSensorPrivacyState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyManager, "setToggleSensorPrivacyState")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorPrivacyManagerSetToggleSensorPrivacyState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -506,7 +506,7 @@ func (p *SensorPrivacyManagerProxy) SetToggleSensorPrivacyStateForProfileGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyManager, "setToggleSensorPrivacyStateForProfileGroup")
 	if _err != nil {
-		return _err
+		_code = TransactionISensorPrivacyManagerSetToggleSensorPrivacyStateForProfileGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -533,7 +533,7 @@ func (p *SensorPrivacyManagerProxy) IsCameraPrivacyEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISensorPrivacyManager, "isCameraPrivacyEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISensorPrivacyManagerIsCameraPrivacyEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

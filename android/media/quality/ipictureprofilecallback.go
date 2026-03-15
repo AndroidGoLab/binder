@@ -59,7 +59,7 @@ func (p *PictureProfileCallbackProxy) OnPictureProfileAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileCallback, "onPictureProfileAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionIPictureProfileCallbackOnPictureProfileAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -81,7 +81,7 @@ func (p *PictureProfileCallbackProxy) OnPictureProfileUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileCallback, "onPictureProfileUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIPictureProfileCallbackOnPictureProfileUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -103,7 +103,7 @@ func (p *PictureProfileCallbackProxy) OnPictureProfileRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileCallback, "onPictureProfileRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionIPictureProfileCallbackOnPictureProfileRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -131,7 +131,7 @@ func (p *PictureProfileCallbackProxy) OnParamCapabilitiesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileCallback, "onParamCapabilitiesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIPictureProfileCallbackOnParamCapabilitiesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -150,7 +150,7 @@ func (p *PictureProfileCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPictureProfileCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIPictureProfileCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

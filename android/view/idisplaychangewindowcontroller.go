@@ -53,7 +53,7 @@ func (p *DisplayChangeWindowControllerProxy) OnDisplayChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayChangeWindowController, "onDisplayChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayChangeWindowControllerOnDisplayChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

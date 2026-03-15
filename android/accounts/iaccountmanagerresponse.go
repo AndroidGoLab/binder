@@ -47,7 +47,7 @@ func (p *AccountManagerResponseProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManagerResponse, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerResponseOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -66,7 +66,7 @@ func (p *AccountManagerResponseProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManagerResponse, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerResponseOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

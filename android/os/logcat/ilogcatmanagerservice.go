@@ -54,7 +54,7 @@ func (p *LogcatManagerServiceProxy) StartThread(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILogcatManagerService, "startThread")
 	if _err != nil {
-		return _err
+		_code = TransactionILogcatManagerServiceStartThread
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -77,7 +77,7 @@ func (p *LogcatManagerServiceProxy) FinishThread(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILogcatManagerService, "finishThread")
 	if _err != nil {
-		return _err
+		_code = TransactionILogcatManagerServiceFinishThread
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

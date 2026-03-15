@@ -52,7 +52,7 @@ func (p *BluetoothSocketProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocket, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothSocketRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -77,7 +77,7 @@ func (p *BluetoothSocketProxy) GetSocketCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocket, "getSocketCapabilities")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothSocketGetSocketCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -115,7 +115,7 @@ func (p *BluetoothSocketProxy) Opened(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocket, "opened")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothSocketOpened
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -141,7 +141,7 @@ func (p *BluetoothSocketProxy) Closed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocket, "closed")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothSocketClosed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

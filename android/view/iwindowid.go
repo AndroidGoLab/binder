@@ -50,7 +50,7 @@ func (p *WindowIdProxy) RegisterFocusObserver(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowId, "registerFocusObserver")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowIdRegisterFocusObserver
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -76,7 +76,7 @@ func (p *WindowIdProxy) UnregisterFocusObserver(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowId, "unregisterFocusObserver")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowIdUnregisterFocusObserver
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -101,7 +101,7 @@ func (p *WindowIdProxy) IsFocused(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowId, "isFocused")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIWindowIdIsFocused
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

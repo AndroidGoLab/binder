@@ -48,7 +48,7 @@ func (p *ImsMultiEndpointProxy) SetListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMultiEndpoint, "setListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMultiEndpointSetListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -72,7 +72,7 @@ func (p *ImsMultiEndpointProxy) RequestImsExternalCallStateInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsMultiEndpoint, "requestImsExternalCallStateInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsMultiEndpointRequestImsExternalCallStateInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

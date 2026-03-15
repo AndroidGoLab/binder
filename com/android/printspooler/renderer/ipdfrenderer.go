@@ -52,7 +52,7 @@ func (p *PdfRendererProxy) OpenDocument(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPdfRenderer, "openDocument")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPdfRendererOpenDocument
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *PdfRendererProxy) RenderPage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPdfRenderer, "renderPage")
 	if _err != nil {
-		return _err
+		_code = TransactionIPdfRendererRenderPage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -108,7 +108,7 @@ func (p *PdfRendererProxy) CloseDocument(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPdfRenderer, "closeDocument")
 	if _err != nil {
-		return _err
+		_code = TransactionIPdfRendererCloseDocument
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

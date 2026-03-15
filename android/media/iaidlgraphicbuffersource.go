@@ -69,7 +69,7 @@ func (p *AidlGraphicBufferSourceProxy) Configure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "configure")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlGraphicBufferSourceConfigure
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -97,7 +97,7 @@ func (p *AidlGraphicBufferSourceProxy) SetSuspend(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "setSuspend")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlGraphicBufferSourceSetSuspend
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -123,7 +123,7 @@ func (p *AidlGraphicBufferSourceProxy) SetRepeatPreviousFrameDelayUs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "setRepeatPreviousFrameDelayUs")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlGraphicBufferSourceSetRepeatPreviousFrameDelayUs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -149,7 +149,7 @@ func (p *AidlGraphicBufferSourceProxy) SetMaxFps(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "setMaxFps")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlGraphicBufferSourceSetMaxFps
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -177,7 +177,7 @@ func (p *AidlGraphicBufferSourceProxy) SetTimeLapseConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "setTimeLapseConfig")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlGraphicBufferSourceSetTimeLapseConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -203,7 +203,7 @@ func (p *AidlGraphicBufferSourceProxy) SetStartTimeUs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "setStartTimeUs")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlGraphicBufferSourceSetStartTimeUs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -229,7 +229,7 @@ func (p *AidlGraphicBufferSourceProxy) SetStopTimeUs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "setStopTimeUs")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlGraphicBufferSourceSetStopTimeUs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -254,7 +254,7 @@ func (p *AidlGraphicBufferSourceProxy) GetStopTimeOffsetUs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "getStopTimeOffsetUs")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAidlGraphicBufferSourceGetStopTimeOffsetUs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -287,7 +287,7 @@ func (p *AidlGraphicBufferSourceProxy) SetColorAspects(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "setColorAspects")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlGraphicBufferSourceSetColorAspects
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -313,7 +313,7 @@ func (p *AidlGraphicBufferSourceProxy) SetTimeOffsetUs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "setTimeOffsetUs")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlGraphicBufferSourceSetTimeOffsetUs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -337,7 +337,7 @@ func (p *AidlGraphicBufferSourceProxy) SignalEndOfInputStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlGraphicBufferSource, "signalEndOfInputStream")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlGraphicBufferSourceSignalEndOfInputStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

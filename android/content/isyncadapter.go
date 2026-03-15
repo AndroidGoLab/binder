@@ -50,7 +50,7 @@ func (p *SyncAdapterProxy) OnUnsyncableAccount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISyncAdapter, "onUnsyncableAccount")
 	if _err != nil {
-		return _err
+		_code = TransactionISyncAdapterOnUnsyncableAccount
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *SyncAdapterProxy) StartSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISyncAdapter, "startSync")
 	if _err != nil {
-		return _err
+		_code = TransactionISyncAdapterStartSync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *SyncAdapterProxy) CancelSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISyncAdapter, "cancelSync")
 	if _err != nil {
-		return _err
+		_code = TransactionISyncAdapterCancelSync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

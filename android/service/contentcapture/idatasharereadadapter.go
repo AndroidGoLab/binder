@@ -50,7 +50,7 @@ func (p *DataShareReadAdapterProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataShareReadAdapter, "start")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataShareReadAdapterStart
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *DataShareReadAdapterProxy) Error(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataShareReadAdapter, "error")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataShareReadAdapterError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -82,7 +82,7 @@ func (p *DataShareReadAdapterProxy) Finish(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataShareReadAdapter, "finish")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataShareReadAdapterFinish
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

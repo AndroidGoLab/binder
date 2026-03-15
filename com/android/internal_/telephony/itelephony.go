@@ -924,7 +924,7 @@ func (p *TelephonyProxy) Dial(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "dial")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyDial
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -952,7 +952,7 @@ func (p *TelephonyProxy) Call(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "call")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyCall
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -979,7 +979,7 @@ func (p *TelephonyProxy) IsRadioOn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isRadioOn")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsRadioOn
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1011,7 +1011,7 @@ func (p *TelephonyProxy) IsRadioOnWithFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isRadioOnWithFeature")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsRadioOnWithFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1044,7 +1044,7 @@ func (p *TelephonyProxy) IsRadioOnForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isRadioOnForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsRadioOnForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1078,7 +1078,7 @@ func (p *TelephonyProxy) IsRadioOnForSubscriberWithFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isRadioOnForSubscriberWithFeature")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsRadioOnForSubscriberWithFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1110,7 +1110,7 @@ func (p *TelephonyProxy) SetCallComposerStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setCallComposerStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetCallComposerStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1137,7 +1137,7 @@ func (p *TelephonyProxy) GetCallComposerStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCallComposerStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCallComposerStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1170,7 +1170,7 @@ func (p *TelephonyProxy) SupplyPinForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "supplyPinForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySupplyPinForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1205,7 +1205,7 @@ func (p *TelephonyProxy) SupplyPukForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "supplyPukForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySupplyPukForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1238,7 +1238,7 @@ func (p *TelephonyProxy) SupplyPinReportResultForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "supplyPinReportResultForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySupplyPinReportResultForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1283,7 +1283,7 @@ func (p *TelephonyProxy) SupplyPukReportResultForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "supplyPukReportResultForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySupplyPukReportResultForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1324,7 +1324,7 @@ func (p *TelephonyProxy) HandlePinMmi(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "handlePinMmi")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyHandlePinMmi
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1361,7 +1361,7 @@ func (p *TelephonyProxy) HandleUssdRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "handleUssdRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyHandleUssdRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1390,7 +1390,7 @@ func (p *TelephonyProxy) HandlePinMmiForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "handlePinMmiForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyHandlePinMmiForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1418,7 +1418,7 @@ func (p *TelephonyProxy) ToggleRadioOnOff(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "toggleRadioOnOff")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyToggleRadioOnOff
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1444,7 +1444,7 @@ func (p *TelephonyProxy) ToggleRadioOnOffForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "toggleRadioOnOffForSubscriber")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyToggleRadioOnOffForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1471,7 +1471,7 @@ func (p *TelephonyProxy) SetRadio(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setRadio")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetRadio
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1504,7 +1504,7 @@ func (p *TelephonyProxy) SetRadioForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setRadioForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetRadioForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1535,7 +1535,7 @@ func (p *TelephonyProxy) SetRadioPower(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setRadioPower")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetRadioPower
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1568,7 +1568,7 @@ func (p *TelephonyProxy) RequestRadioPowerOffForReason(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestRadioPowerOffForReason")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyRequestRadioPowerOffForReason
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1601,7 +1601,7 @@ func (p *TelephonyProxy) ClearRadioPowerOffForReason(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "clearRadioPowerOffForReason")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyClearRadioPowerOffForReason
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1635,7 +1635,7 @@ func (p *TelephonyProxy) GetRadioPowerOffReasons(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getRadioPowerOffReasons")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetRadioPowerOffReasons
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1669,7 +1669,7 @@ func (p *TelephonyProxy) UpdateServiceLocation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "updateServiceLocation")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUpdateServiceLocation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1695,7 +1695,7 @@ func (p *TelephonyProxy) UpdateServiceLocationWithPackageName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "updateServiceLocationWithPackageName")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUpdateServiceLocationWithPackageName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1719,7 +1719,7 @@ func (p *TelephonyProxy) EnableLocationUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "enableLocationUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyEnableLocationUpdates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1743,7 +1743,7 @@ func (p *TelephonyProxy) DisableLocationUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "disableLocationUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyDisableLocationUpdates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1770,7 +1770,7 @@ func (p *TelephonyProxy) EnableDataConnectivity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "enableDataConnectivity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyEnableDataConnectivity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1801,7 +1801,7 @@ func (p *TelephonyProxy) DisableDataConnectivity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "disableDataConnectivity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyDisableDataConnectivity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1832,7 +1832,7 @@ func (p *TelephonyProxy) IsDataConnectivityPossible(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isDataConnectivityPossible")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsDataConnectivityPossible
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1865,7 +1865,7 @@ func (p *TelephonyProxy) GetCellLocation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCellLocation")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCellLocation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1901,7 +1901,7 @@ func (p *TelephonyProxy) GetNetworkCountryIsoForPhone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getNetworkCountryIsoForPhone")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetNetworkCountryIsoForPhone
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1934,7 +1934,7 @@ func (p *TelephonyProxy) GetNeighboringCellInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getNeighboringCellInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetNeighboringCellInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1972,7 +1972,7 @@ func (p *TelephonyProxy) GetCallState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCallState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCallState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2007,7 +2007,7 @@ func (p *TelephonyProxy) GetCallStateForSubscription(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCallStateForSubscription")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCallStateForSubscription
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2036,7 +2036,7 @@ func (p *TelephonyProxy) GetDataActivity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getDataActivity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetDataActivity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2067,7 +2067,7 @@ func (p *TelephonyProxy) GetDataActivityForSubId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getDataActivityForSubId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetDataActivityForSubId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2096,7 +2096,7 @@ func (p *TelephonyProxy) GetDataState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getDataState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetDataState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2127,7 +2127,7 @@ func (p *TelephonyProxy) GetDataStateForSubId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getDataStateForSubId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetDataStateForSubId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2156,7 +2156,7 @@ func (p *TelephonyProxy) GetActivePhoneType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getActivePhoneType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetActivePhoneType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2187,7 +2187,7 @@ func (p *TelephonyProxy) GetActivePhoneTypeForSlot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getActivePhoneTypeForSlot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetActivePhoneTypeForSlot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2219,7 +2219,7 @@ func (p *TelephonyProxy) GetCdmaEriIconIndex(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCdmaEriIconIndex")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCdmaEriIconIndex
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2253,7 +2253,7 @@ func (p *TelephonyProxy) GetCdmaEriIconIndexForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCdmaEriIconIndexForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCdmaEriIconIndexForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2285,7 +2285,7 @@ func (p *TelephonyProxy) GetCdmaEriIconMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCdmaEriIconMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCdmaEriIconMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2319,7 +2319,7 @@ func (p *TelephonyProxy) GetCdmaEriIconModeForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCdmaEriIconModeForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCdmaEriIconModeForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2351,7 +2351,7 @@ func (p *TelephonyProxy) GetCdmaEriText(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCdmaEriText")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCdmaEriText
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2385,7 +2385,7 @@ func (p *TelephonyProxy) GetCdmaEriTextForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCdmaEriTextForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCdmaEriTextForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2414,7 +2414,7 @@ func (p *TelephonyProxy) NeedsOtaServiceProvisioning(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "needsOtaServiceProvisioning")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyNeedsOtaServiceProvisioning
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2449,7 +2449,7 @@ func (p *TelephonyProxy) SetVoiceMailNumber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setVoiceMailNumber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetVoiceMailNumber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2481,7 +2481,7 @@ func (p *TelephonyProxy) SetVoiceActivationState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setVoiceActivationState")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetVoiceActivationState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2509,7 +2509,7 @@ func (p *TelephonyProxy) SetDataActivationState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setDataActivationState")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetDataActivationState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2538,7 +2538,7 @@ func (p *TelephonyProxy) GetVoiceActivationState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getVoiceActivationState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetVoiceActivationState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2571,7 +2571,7 @@ func (p *TelephonyProxy) GetDataActivationState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getDataActivationState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetDataActivationState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2605,7 +2605,7 @@ func (p *TelephonyProxy) GetVoiceMessageCountForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getVoiceMessageCountForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetVoiceMessageCountForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2636,7 +2636,7 @@ func (p *TelephonyProxy) IsConcurrentVoiceAndDataAllowed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isConcurrentVoiceAndDataAllowed")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsConcurrentVoiceAndDataAllowed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2669,7 +2669,7 @@ func (p *TelephonyProxy) GetVisualVoicemailSettings(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getVisualVoicemailSettings")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetVisualVoicemailSettings
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2708,7 +2708,7 @@ func (p *TelephonyProxy) GetVisualVoicemailPackageName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getVisualVoicemailPackageName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetVisualVoicemailPackageName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2745,7 +2745,7 @@ func (p *TelephonyProxy) EnableVisualVoicemailSmsFilter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "enableVisualVoicemailSmsFilter")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyEnableVisualVoicemailSmsFilter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2773,7 +2773,7 @@ func (p *TelephonyProxy) DisableVisualVoicemailSmsFilter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "disableVisualVoicemailSmsFilter")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyDisableVisualVoicemailSmsFilter
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -2793,7 +2793,7 @@ func (p *TelephonyProxy) GetVisualVoicemailSmsFilterSettings(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getVisualVoicemailSmsFilterSettings")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetVisualVoicemailSmsFilterSettings
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2829,7 +2829,7 @@ func (p *TelephonyProxy) GetActiveVisualVoicemailSmsFilterSettings(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getActiveVisualVoicemailSmsFilterSettings")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetActiveVisualVoicemailSmsFilterSettings
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2879,7 +2879,7 @@ func (p *TelephonyProxy) SendVisualVoicemailSmsForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "sendVisualVoicemailSmsForSubscriber")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySendVisualVoicemailSmsForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2907,7 +2907,7 @@ func (p *TelephonyProxy) SendDialerSpecialCode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "sendDialerSpecialCode")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySendDialerSpecialCode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2937,7 +2937,7 @@ func (p *TelephonyProxy) GetNetworkTypeForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getNetworkTypeForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetNetworkTypeForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2969,7 +2969,7 @@ func (p *TelephonyProxy) GetDataNetworkType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getDataNetworkType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetDataNetworkType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3003,7 +3003,7 @@ func (p *TelephonyProxy) GetDataNetworkTypeForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getDataNetworkTypeForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetDataNetworkTypeForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3037,7 +3037,7 @@ func (p *TelephonyProxy) GetVoiceNetworkTypeForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getVoiceNetworkTypeForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetVoiceNetworkTypeForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3066,7 +3066,7 @@ func (p *TelephonyProxy) HasIccCard(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "hasIccCard")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyHasIccCard
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3097,7 +3097,7 @@ func (p *TelephonyProxy) HasIccCardUsingSlotIndex(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "hasIccCardUsingSlotIndex")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyHasIccCardUsingSlotIndex
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3129,7 +3129,7 @@ func (p *TelephonyProxy) GetLteOnCdmaMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getLteOnCdmaMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetLteOnCdmaMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3163,7 +3163,7 @@ func (p *TelephonyProxy) GetLteOnCdmaModeForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getLteOnCdmaModeForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetLteOnCdmaModeForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3196,7 +3196,7 @@ func (p *TelephonyProxy) GetAllCellInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getAllCellInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetAllCellInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3241,7 +3241,7 @@ func (p *TelephonyProxy) RequestCellInfoUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestCellInfoUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestCellInfoUpdate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3274,7 +3274,7 @@ func (p *TelephonyProxy) RequestCellInfoUpdateWithWorkSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestCellInfoUpdateWithWorkSource")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestCellInfoUpdateWithWorkSource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3302,7 +3302,7 @@ func (p *TelephonyProxy) SetCellInfoListRate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setCellInfoListRate")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetCellInfoListRate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3332,7 +3332,7 @@ func (p *TelephonyProxy) IccOpenLogicalChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "iccOpenLogicalChannel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIccOpenLogicalChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3371,7 +3371,7 @@ func (p *TelephonyProxy) IccCloseLogicalChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "iccCloseLogicalChannel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIccCloseLogicalChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3418,7 +3418,7 @@ func (p *TelephonyProxy) IccTransmitApduLogicalChannelByPort(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "iccTransmitApduLogicalChannelByPort")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIccTransmitApduLogicalChannelByPort
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3463,7 +3463,7 @@ func (p *TelephonyProxy) IccTransmitApduLogicalChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "iccTransmitApduLogicalChannel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIccTransmitApduLogicalChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3510,7 +3510,7 @@ func (p *TelephonyProxy) IccTransmitApduBasicChannelByPort(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "iccTransmitApduBasicChannelByPort")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIccTransmitApduBasicChannelByPort
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3555,7 +3555,7 @@ func (p *TelephonyProxy) IccTransmitApduBasicChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "iccTransmitApduBasicChannel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIccTransmitApduBasicChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3598,7 +3598,7 @@ func (p *TelephonyProxy) IccExchangeSimIO(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "iccExchangeSimIO")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIccExchangeSimIO
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3641,7 +3641,7 @@ func (p *TelephonyProxy) SendEnvelopeWithStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "sendEnvelopeWithStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySendEnvelopeWithStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3672,7 +3672,7 @@ func (p *TelephonyProxy) NvReadItem(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "nvReadItem")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyNvReadItem
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3705,7 +3705,7 @@ func (p *TelephonyProxy) NvWriteItem(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "nvWriteItem")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyNvWriteItem
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3743,7 +3743,7 @@ func (p *TelephonyProxy) NvWriteCdmaPrl(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "nvWriteCdmaPrl")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyNvWriteCdmaPrl
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3774,7 +3774,7 @@ func (p *TelephonyProxy) ResetModemConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "resetModemConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyResetModemConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3805,7 +3805,7 @@ func (p *TelephonyProxy) RebootModem(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "rebootModem")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyRebootModem
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3836,7 +3836,7 @@ func (p *TelephonyProxy) GetAllowedNetworkTypesBitmask(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getAllowedNetworkTypesBitmask")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetAllowedNetworkTypesBitmask
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3867,7 +3867,7 @@ func (p *TelephonyProxy) IsTetheringApnRequiredForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isTetheringApnRequiredForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsTetheringApnRequiredForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3897,7 +3897,7 @@ func (p *TelephonyProxy) EnableIms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "enableIms")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyEnableIms
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3923,7 +3923,7 @@ func (p *TelephonyProxy) DisableIms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "disableIms")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyDisableIms
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3949,7 +3949,7 @@ func (p *TelephonyProxy) ResetIms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "resetIms")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyResetIms
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -3977,7 +3977,7 @@ func (p *TelephonyProxy) RegisterMmTelFeatureCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerMmTelFeatureCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRegisterMmTelFeatureCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4003,7 +4003,7 @@ func (p *TelephonyProxy) UnregisterImsFeatureCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterImsFeatureCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterImsFeatureCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4032,7 +4032,7 @@ func (p *TelephonyProxy) GetImsRegistration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getImsRegistration")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetImsRegistration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4061,7 +4061,7 @@ func (p *TelephonyProxy) GetImsConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getImsConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetImsConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4103,7 +4103,7 @@ func (p *TelephonyProxy) SetBoundImsServiceOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setBoundImsServiceOverride")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetBoundImsServiceOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4134,7 +4134,7 @@ func (p *TelephonyProxy) ClearCarrierImsServiceOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "clearCarrierImsServiceOverride")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyClearCarrierImsServiceOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4169,7 +4169,7 @@ func (p *TelephonyProxy) GetBoundImsServicePackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getBoundImsServicePackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetBoundImsServicePackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4201,7 +4201,7 @@ func (p *TelephonyProxy) GetImsMmTelFeatureState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getImsMmTelFeatureState")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyGetImsMmTelFeatureState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4227,7 +4227,7 @@ func (p *TelephonyProxy) SetNetworkSelectionModeAutomatic(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setNetworkSelectionModeAutomatic")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetNetworkSelectionModeAutomatic
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4257,7 +4257,7 @@ func (p *TelephonyProxy) GetCellNetworkScanResults(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCellNetworkScanResults")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCellNetworkScanResults
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4310,7 +4310,7 @@ func (p *TelephonyProxy) RequestNetworkScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestNetworkScan")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyRequestNetworkScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4342,7 +4342,7 @@ func (p *TelephonyProxy) StopNetworkScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "stopNetworkScan")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyStopNetworkScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4376,7 +4376,7 @@ func (p *TelephonyProxy) SetNetworkSelectionModeManual(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setNetworkSelectionModeManual")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetNetworkSelectionModeManual
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4409,7 +4409,7 @@ func (p *TelephonyProxy) GetAllowedNetworkTypesForReason(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getAllowedNetworkTypesForReason")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetAllowedNetworkTypesForReason
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4444,7 +4444,7 @@ func (p *TelephonyProxy) SetAllowedNetworkTypesForReason(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setAllowedNetworkTypesForReason")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetAllowedNetworkTypesForReason
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4475,7 +4475,7 @@ func (p *TelephonyProxy) GetDataEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getDataEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetDataEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4506,7 +4506,7 @@ func (p *TelephonyProxy) IsUserDataEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isUserDataEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsUserDataEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4537,7 +4537,7 @@ func (p *TelephonyProxy) IsDataEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isDataEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsDataEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4573,7 +4573,7 @@ func (p *TelephonyProxy) SetDataEnabledForReason(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setDataEnabledForReason")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetDataEnabledForReason
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4602,7 +4602,7 @@ func (p *TelephonyProxy) IsDataEnabledForReason(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isDataEnabledForReason")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsDataEnabledForReason
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4633,7 +4633,7 @@ func (p *TelephonyProxy) IsManualNetworkSelectionAllowed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isManualNetworkSelectionAllowed")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsManualNetworkSelectionAllowed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4663,7 +4663,7 @@ func (p *TelephonyProxy) SetImsRegistrationState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setImsRegistrationState")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetImsRegistrationState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4690,7 +4690,7 @@ func (p *TelephonyProxy) GetCdmaMdn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCdmaMdn")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCdmaMdn
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4721,7 +4721,7 @@ func (p *TelephonyProxy) GetCdmaMin(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCdmaMin")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCdmaMin
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4760,7 +4760,7 @@ func (p *TelephonyProxy) RequestNumberVerification(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestNumberVerification")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestNumberVerification
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4787,7 +4787,7 @@ func (p *TelephonyProxy) GetCarrierPrivilegeStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCarrierPrivilegeStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCarrierPrivilegeStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4820,7 +4820,7 @@ func (p *TelephonyProxy) GetCarrierPrivilegeStatusForUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCarrierPrivilegeStatusForUid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCarrierPrivilegeStatusForUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4853,7 +4853,7 @@ func (p *TelephonyProxy) CheckCarrierPrivilegesForPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "checkCarrierPrivilegesForPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyCheckCarrierPrivilegesForPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4884,7 +4884,7 @@ func (p *TelephonyProxy) CheckCarrierPrivilegesForPackageAnyPhone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "checkCarrierPrivilegesForPackageAnyPhone")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyCheckCarrierPrivilegesForPackageAnyPhone
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4920,7 +4920,7 @@ func (p *TelephonyProxy) GetCarrierPackageNamesForIntentAndPhone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCarrierPackageNamesForIntentAndPhone")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCarrierPackageNamesForIntentAndPhone
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4965,7 +4965,7 @@ func (p *TelephonyProxy) SetLine1NumberForDisplayForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setLine1NumberForDisplayForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetLine1NumberForDisplayForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -4999,7 +4999,7 @@ func (p *TelephonyProxy) GetLine1NumberForDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getLine1NumberForDisplay")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetLine1NumberForDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5033,7 +5033,7 @@ func (p *TelephonyProxy) GetLine1AlphaTagForDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getLine1AlphaTagForDisplay")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetLine1AlphaTagForDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5067,7 +5067,7 @@ func (p *TelephonyProxy) GetMergedSubscriberIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getMergedSubscriberIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetMergedSubscriberIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5110,7 +5110,7 @@ func (p *TelephonyProxy) GetMergedImsisFromGroup(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getMergedImsisFromGroup")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetMergedImsisFromGroup
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5153,7 +5153,7 @@ func (p *TelephonyProxy) SetOperatorBrandOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setOperatorBrandOverride")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetOperatorBrandOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5220,7 +5220,7 @@ func (p *TelephonyProxy) SetRoamingOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setRoamingOverride")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetRoamingOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5249,7 +5249,7 @@ func (p *TelephonyProxy) NeedMobileRadioShutdown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "needMobileRadioShutdown")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyNeedMobileRadioShutdown
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5277,7 +5277,7 @@ func (p *TelephonyProxy) ShutdownMobileRadios(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "shutdownMobileRadios")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyShutdownMobileRadios
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5306,7 +5306,7 @@ func (p *TelephonyProxy) GetRadioAccessFamily(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getRadioAccessFamily")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetRadioAccessFamily
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5347,7 +5347,7 @@ func (p *TelephonyProxy) UploadCallComposerPicture(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "uploadCallComposerPicture")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUploadCallComposerPicture
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5373,7 +5373,7 @@ func (p *TelephonyProxy) EnableVideoCalling(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "enableVideoCalling")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyEnableVideoCalling
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5401,7 +5401,7 @@ func (p *TelephonyProxy) IsVideoCallingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isVideoCallingEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsVideoCallingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5435,7 +5435,7 @@ func (p *TelephonyProxy) CanChangeDtmfToneLength(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "canChangeDtmfToneLength")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyCanChangeDtmfToneLength
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5469,7 +5469,7 @@ func (p *TelephonyProxy) IsWorldPhone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isWorldPhone")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsWorldPhone
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5498,7 +5498,7 @@ func (p *TelephonyProxy) IsTtyModeSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isTtyModeSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsTtyModeSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5529,7 +5529,7 @@ func (p *TelephonyProxy) IsRttSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isRttSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsRttSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5558,7 +5558,7 @@ func (p *TelephonyProxy) IsHearingAidCompatibilitySupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isHearingAidCompatibilitySupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsHearingAidCompatibilitySupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5589,7 +5589,7 @@ func (p *TelephonyProxy) IsImsRegistered(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isImsRegistered")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsImsRegistered
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5620,7 +5620,7 @@ func (p *TelephonyProxy) IsWifiCallingAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isWifiCallingAvailable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsWifiCallingAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5651,7 +5651,7 @@ func (p *TelephonyProxy) IsVideoTelephonyAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isVideoTelephonyAvailable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsVideoTelephonyAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5682,7 +5682,7 @@ func (p *TelephonyProxy) GetImsRegTechnologyForMmTel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getImsRegTechnologyForMmTel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetImsRegTechnologyForMmTel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5713,7 +5713,7 @@ func (p *TelephonyProxy) GetDeviceId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getDeviceId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetDeviceId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5745,7 +5745,7 @@ func (p *TelephonyProxy) GetDeviceIdWithFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getDeviceIdWithFeature")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetDeviceIdWithFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5779,7 +5779,7 @@ func (p *TelephonyProxy) GetImeiForSlot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getImeiForSlot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetImeiForSlot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5811,7 +5811,7 @@ func (p *TelephonyProxy) GetPrimaryImei(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getPrimaryImei")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetPrimaryImei
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5842,7 +5842,7 @@ func (p *TelephonyProxy) GetTypeAllocationCodeForSlot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getTypeAllocationCodeForSlot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetTypeAllocationCodeForSlot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5876,7 +5876,7 @@ func (p *TelephonyProxy) GetMeidForSlot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getMeidForSlot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetMeidForSlot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5907,7 +5907,7 @@ func (p *TelephonyProxy) GetManufacturerCodeForSlot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getManufacturerCodeForSlot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetManufacturerCodeForSlot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5941,7 +5941,7 @@ func (p *TelephonyProxy) GetDeviceSoftwareVersionForSlot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getDeviceSoftwareVersionForSlot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetDeviceSoftwareVersionForSlot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -5978,7 +5978,7 @@ func (p *TelephonyProxy) GetSubIdForPhoneAccountHandle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getSubIdForPhoneAccountHandle")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetSubIdForPhoneAccountHandle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6009,7 +6009,7 @@ func (p *TelephonyProxy) GetPhoneAccountHandleForSubscriptionId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getPhoneAccountHandleForSubscriptionId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetPhoneAccountHandleForSubscriptionId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6046,7 +6046,7 @@ func (p *TelephonyProxy) FactoryReset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "factoryReset")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyFactoryReset
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6073,7 +6073,7 @@ func (p *TelephonyProxy) GetSimLocaleForSubscriber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getSimLocaleForSubscriber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetSimLocaleForSubscriber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6106,7 +6106,7 @@ func (p *TelephonyProxy) RequestModemActivityInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestModemActivityInfo")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestModemActivityInfo
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -6131,7 +6131,7 @@ func (p *TelephonyProxy) GetServiceStateForSlot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getServiceStateForSlot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetServiceStateForSlot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6170,7 +6170,7 @@ func (p *TelephonyProxy) GetVoicemailRingtoneUri(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getVoicemailRingtoneUri")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetVoicemailRingtoneUri
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6215,7 +6215,7 @@ func (p *TelephonyProxy) SetVoicemailRingtoneUri(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setVoicemailRingtoneUri")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetVoicemailRingtoneUri
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6245,7 +6245,7 @@ func (p *TelephonyProxy) IsVoicemailVibrationEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isVoicemailVibrationEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsVoicemailVibrationEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6282,7 +6282,7 @@ func (p *TelephonyProxy) SetVoicemailVibrationEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setVoicemailVibrationEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetVoicemailVibrationEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6309,7 +6309,7 @@ func (p *TelephonyProxy) GetPackagesWithCarrierPrivileges(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getPackagesWithCarrierPrivileges")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetPackagesWithCarrierPrivileges
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6348,7 +6348,7 @@ func (p *TelephonyProxy) GetPackagesWithCarrierPrivilegesForAllPhones(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getPackagesWithCarrierPrivilegesForAllPhones")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetPackagesWithCarrierPrivilegesForAllPhones
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6391,7 +6391,7 @@ func (p *TelephonyProxy) GetAidForAppType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getAidForAppType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetAidForAppType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6422,7 +6422,7 @@ func (p *TelephonyProxy) GetEsn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getEsn")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetEsn
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6453,7 +6453,7 @@ func (p *TelephonyProxy) GetCdmaPrlVersion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCdmaPrlVersion")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCdmaPrlVersion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6482,7 +6482,7 @@ func (p *TelephonyProxy) GetTelephonyHistograms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getTelephonyHistograms")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetTelephonyHistograms
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6525,7 +6525,7 @@ func (p *TelephonyProxy) SetAllowedCarriers(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setAllowedCarriers")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetAllowedCarriers
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6554,7 +6554,7 @@ func (p *TelephonyProxy) GetAllowedCarriers(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getAllowedCarriers")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetAllowedCarriers
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6590,7 +6590,7 @@ func (p *TelephonyProxy) GetSubscriptionCarrierId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getSubscriptionCarrierId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetSubscriptionCarrierId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6621,7 +6621,7 @@ func (p *TelephonyProxy) GetSubscriptionCarrierName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getSubscriptionCarrierName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetSubscriptionCarrierName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6652,7 +6652,7 @@ func (p *TelephonyProxy) GetSubscriptionSpecificCarrierId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getSubscriptionSpecificCarrierId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetSubscriptionSpecificCarrierId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6683,7 +6683,7 @@ func (p *TelephonyProxy) GetSubscriptionSpecificCarrierName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getSubscriptionSpecificCarrierName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetSubscriptionSpecificCarrierName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6718,7 +6718,7 @@ func (p *TelephonyProxy) GetCarrierIdFromMccMnc(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCarrierIdFromMccMnc")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCarrierIdFromMccMnc
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6750,7 +6750,7 @@ func (p *TelephonyProxy) CarrierActionSetRadioEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "carrierActionSetRadioEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyCarrierActionSetRadioEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6778,7 +6778,7 @@ func (p *TelephonyProxy) CarrierActionReportDefaultNetworkStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "carrierActionReportDefaultNetworkStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyCarrierActionReportDefaultNetworkStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6804,7 +6804,7 @@ func (p *TelephonyProxy) CarrierActionResetAll(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "carrierActionResetAll")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyCarrierActionResetAll
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6834,7 +6834,7 @@ func (p *TelephonyProxy) GetCallForwarding(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCallForwarding")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyGetCallForwarding
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6867,7 +6867,7 @@ func (p *TelephonyProxy) SetCallForwarding(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setCallForwarding")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetCallForwarding
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6895,7 +6895,7 @@ func (p *TelephonyProxy) GetCallWaitingStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCallWaitingStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyGetCallWaitingStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6925,7 +6925,7 @@ func (p *TelephonyProxy) SetCallWaitingStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setCallWaitingStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetCallWaitingStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6955,7 +6955,7 @@ func (p *TelephonyProxy) GetClientRequestStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getClientRequestStats")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetClientRequestStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -6996,7 +6996,7 @@ func (p *TelephonyProxy) SetSimPowerStateForSlot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setSimPowerStateForSlot")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetSimPowerStateForSlot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7026,7 +7026,7 @@ func (p *TelephonyProxy) SetSimPowerStateForSlotWithCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setSimPowerStateForSlotWithCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetSimPowerStateForSlotWithCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7058,7 +7058,7 @@ func (p *TelephonyProxy) GetForbiddenPlmns(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getForbiddenPlmns")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetForbiddenPlmns
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7113,7 +7113,7 @@ func (p *TelephonyProxy) SetForbiddenPlmns(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setForbiddenPlmns")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetForbiddenPlmns
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7144,7 +7144,7 @@ func (p *TelephonyProxy) GetEmergencyCallbackMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getEmergencyCallbackMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetEmergencyCallbackMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7175,7 +7175,7 @@ func (p *TelephonyProxy) GetSignalStrength(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getSignalStrength")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetSignalStrength
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7213,7 +7213,7 @@ func (p *TelephonyProxy) GetCardIdForDefaultEuicc(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCardIdForDefaultEuicc")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCardIdForDefaultEuicc
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7244,7 +7244,7 @@ func (p *TelephonyProxy) GetUiccCardsInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getUiccCardsInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetUiccCardsInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7284,7 +7284,7 @@ func (p *TelephonyProxy) GetUiccSlotsInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getUiccSlotsInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetUiccSlotsInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7331,7 +7331,7 @@ func (p *TelephonyProxy) SwitchSlots(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "switchSlots")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySwitchSlots
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7371,7 +7371,7 @@ func (p *TelephonyProxy) SetSimSlotMapping(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setSimSlotMapping")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetSimSlotMapping
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7402,7 +7402,7 @@ func (p *TelephonyProxy) IsDataRoamingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isDataRoamingEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsDataRoamingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7434,7 +7434,7 @@ func (p *TelephonyProxy) SetDataRoamingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setDataRoamingEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetDataRoamingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7461,7 +7461,7 @@ func (p *TelephonyProxy) GetCdmaRoamingMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCdmaRoamingMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCdmaRoamingMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7494,7 +7494,7 @@ func (p *TelephonyProxy) SetCdmaRoamingMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setCdmaRoamingMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetCdmaRoamingMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7525,7 +7525,7 @@ func (p *TelephonyProxy) GetCdmaSubscriptionMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCdmaSubscriptionMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCdmaSubscriptionMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7558,7 +7558,7 @@ func (p *TelephonyProxy) SetCdmaSubscriptionMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setCdmaSubscriptionMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetCdmaSubscriptionMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7606,7 +7606,7 @@ func (p *TelephonyProxy) SetCarrierTestOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setCarrierTestOverride")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetCarrierTestOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7636,7 +7636,7 @@ func (p *TelephonyProxy) SetCarrierServicePackageOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setCarrierServicePackageOverride")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetCarrierServicePackageOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7663,7 +7663,7 @@ func (p *TelephonyProxy) GetCarrierIdListVersion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCarrierIdListVersion")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCarrierIdListVersion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7693,7 +7693,7 @@ func (p *TelephonyProxy) RefreshUiccProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "refreshUiccProfile")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRefreshUiccProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7723,7 +7723,7 @@ func (p *TelephonyProxy) GetNumberOfModemsWithSimultaneousDataConnections(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getNumberOfModemsWithSimultaneousDataConnections")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetNumberOfModemsWithSimultaneousDataConnections
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7754,7 +7754,7 @@ func (p *TelephonyProxy) GetNetworkSelectionMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getNetworkSelectionMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetNetworkSelectionMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7783,7 +7783,7 @@ func (p *TelephonyProxy) IsInEmergencySmsMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isInEmergencySmsMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsInEmergencySmsMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7817,7 +7817,7 @@ func (p *TelephonyProxy) GetRadioPowerState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getRadioPowerState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetRadioPowerState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7848,7 +7848,7 @@ func (p *TelephonyProxy) RegisterImsRegistrationCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerImsRegistrationCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRegisterImsRegistrationCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7875,7 +7875,7 @@ func (p *TelephonyProxy) UnregisterImsRegistrationCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterImsRegistrationCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterImsRegistrationCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7902,7 +7902,7 @@ func (p *TelephonyProxy) RegisterImsEmergencyRegistrationCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerImsEmergencyRegistrationCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRegisterImsEmergencyRegistrationCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7929,7 +7929,7 @@ func (p *TelephonyProxy) UnregisterImsEmergencyRegistrationCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterImsEmergencyRegistrationCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterImsEmergencyRegistrationCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7957,7 +7957,7 @@ func (p *TelephonyProxy) GetImsMmTelRegistrationState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getImsMmTelRegistrationState")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyGetImsMmTelRegistrationState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -7985,7 +7985,7 @@ func (p *TelephonyProxy) GetImsMmTelRegistrationTransportType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getImsMmTelRegistrationTransportType")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyGetImsMmTelRegistrationTransportType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8012,7 +8012,7 @@ func (p *TelephonyProxy) RegisterMmTelCapabilityCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerMmTelCapabilityCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRegisterMmTelCapabilityCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8039,7 +8039,7 @@ func (p *TelephonyProxy) UnregisterMmTelCapabilityCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterMmTelCapabilityCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterMmTelCapabilityCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8070,7 +8070,7 @@ func (p *TelephonyProxy) IsCapable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isCapable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsCapable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8105,7 +8105,7 @@ func (p *TelephonyProxy) IsAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isAvailable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8141,7 +8141,7 @@ func (p *TelephonyProxy) IsMmTelCapabilitySupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isMmTelCapabilitySupported")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyIsMmTelCapabilitySupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8168,7 +8168,7 @@ func (p *TelephonyProxy) IsAdvancedCallingSettingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isAdvancedCallingSettingEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsAdvancedCallingSettingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8200,7 +8200,7 @@ func (p *TelephonyProxy) SetAdvancedCallingSettingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setAdvancedCallingSettingEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetAdvancedCallingSettingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8227,7 +8227,7 @@ func (p *TelephonyProxy) IsVtSettingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isVtSettingEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsVtSettingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8259,7 +8259,7 @@ func (p *TelephonyProxy) SetVtSettingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setVtSettingEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetVtSettingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8286,7 +8286,7 @@ func (p *TelephonyProxy) IsVoWiFiSettingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isVoWiFiSettingEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsVoWiFiSettingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8318,7 +8318,7 @@ func (p *TelephonyProxy) SetVoWiFiSettingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setVoWiFiSettingEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetVoWiFiSettingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8345,7 +8345,7 @@ func (p *TelephonyProxy) IsCrossSimCallingEnabledByUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isCrossSimCallingEnabledByUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsCrossSimCallingEnabledByUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8377,7 +8377,7 @@ func (p *TelephonyProxy) SetCrossSimCallingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setCrossSimCallingEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetCrossSimCallingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8404,7 +8404,7 @@ func (p *TelephonyProxy) IsVoWiFiRoamingSettingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isVoWiFiRoamingSettingEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsVoWiFiRoamingSettingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8436,7 +8436,7 @@ func (p *TelephonyProxy) SetVoWiFiRoamingSettingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setVoWiFiRoamingSettingEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetVoWiFiRoamingSettingEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8466,7 +8466,7 @@ func (p *TelephonyProxy) SetVoWiFiNonPersistent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setVoWiFiNonPersistent")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetVoWiFiNonPersistent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8493,7 +8493,7 @@ func (p *TelephonyProxy) GetVoWiFiModeSetting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getVoWiFiModeSetting")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetVoWiFiModeSetting
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8525,7 +8525,7 @@ func (p *TelephonyProxy) SetVoWiFiModeSetting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setVoWiFiModeSetting")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetVoWiFiModeSetting
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8552,7 +8552,7 @@ func (p *TelephonyProxy) GetVoWiFiRoamingModeSetting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getVoWiFiRoamingModeSetting")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetVoWiFiRoamingModeSetting
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8584,7 +8584,7 @@ func (p *TelephonyProxy) SetVoWiFiRoamingModeSetting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setVoWiFiRoamingModeSetting")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetVoWiFiRoamingModeSetting
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8612,7 +8612,7 @@ func (p *TelephonyProxy) SetRttCapabilitySetting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setRttCapabilitySetting")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetRttCapabilitySetting
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8639,7 +8639,7 @@ func (p *TelephonyProxy) IsTtyOverVolteEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isTtyOverVolteEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsTtyOverVolteEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8671,7 +8671,7 @@ func (p *TelephonyProxy) GetEmergencyNumberList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getEmergencyNumberList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetEmergencyNumberList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8718,7 +8718,7 @@ func (p *TelephonyProxy) IsEmergencyNumber(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isEmergencyNumber")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsEmergencyNumber
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8749,7 +8749,7 @@ func (p *TelephonyProxy) GetCertsFromCarrierPrivilegeAccessRules(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCertsFromCarrierPrivilegeAccessRules")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCertsFromCarrierPrivilegeAccessRules
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8790,7 +8790,7 @@ func (p *TelephonyProxy) RegisterImsProvisioningChangedCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerImsProvisioningChangedCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRegisterImsProvisioningChangedCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8817,7 +8817,7 @@ func (p *TelephonyProxy) UnregisterImsProvisioningChangedCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterImsProvisioningChangedCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterImsProvisioningChangedCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8844,7 +8844,7 @@ func (p *TelephonyProxy) RegisterFeatureProvisioningChangedCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerFeatureProvisioningChangedCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRegisterFeatureProvisioningChangedCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8871,7 +8871,7 @@ func (p *TelephonyProxy) UnregisterFeatureProvisioningChangedCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterFeatureProvisioningChangedCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterFeatureProvisioningChangedCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8903,7 +8903,7 @@ func (p *TelephonyProxy) SetImsProvisioningStatusForCapability(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setImsProvisioningStatusForCapability")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetImsProvisioningStatusForCapability
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8934,7 +8934,7 @@ func (p *TelephonyProxy) GetImsProvisioningStatusForCapability(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getImsProvisioningStatusForCapability")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetImsProvisioningStatusForCapability
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -8969,7 +8969,7 @@ func (p *TelephonyProxy) GetRcsProvisioningStatusForCapability(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getRcsProvisioningStatusForCapability")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetRcsProvisioningStatusForCapability
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9005,7 +9005,7 @@ func (p *TelephonyProxy) SetRcsProvisioningStatusForCapability(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setRcsProvisioningStatusForCapability")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetRcsProvisioningStatusForCapability
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9034,7 +9034,7 @@ func (p *TelephonyProxy) GetImsProvisioningInt(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getImsProvisioningInt")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetImsProvisioningInt
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9067,7 +9067,7 @@ func (p *TelephonyProxy) GetImsProvisioningString(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getImsProvisioningString")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetImsProvisioningString
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9102,7 +9102,7 @@ func (p *TelephonyProxy) SetImsProvisioningInt(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setImsProvisioningInt")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetImsProvisioningInt
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9137,7 +9137,7 @@ func (p *TelephonyProxy) SetImsProvisioningString(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setImsProvisioningString")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetImsProvisioningString
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9165,7 +9165,7 @@ func (p *TelephonyProxy) StartEmergencyCallbackMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "startEmergencyCallbackMode")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyStartEmergencyCallbackMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9196,7 +9196,7 @@ func (p *TelephonyProxy) UpdateEmergencyNumberListTestMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "updateEmergencyNumberListTestMode")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUpdateEmergencyNumberListTestMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9221,7 +9221,7 @@ func (p *TelephonyProxy) GetEmergencyNumberListTestMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getEmergencyNumberListTestMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetEmergencyNumberListTestMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9262,7 +9262,7 @@ func (p *TelephonyProxy) GetEmergencyNumberDbVersion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getEmergencyNumberDbVersion")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetEmergencyNumberDbVersion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9290,7 +9290,7 @@ func (p *TelephonyProxy) NotifyOtaEmergencyNumberDbInstalled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "notifyOtaEmergencyNumberDbInstalled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyNotifyOtaEmergencyNumberDbInstalled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9316,7 +9316,7 @@ func (p *TelephonyProxy) UpdateOtaEmergencyNumberDbFilePath(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "updateOtaEmergencyNumberDbFilePath")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUpdateOtaEmergencyNumberDbFilePath
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9340,7 +9340,7 @@ func (p *TelephonyProxy) ResetOtaEmergencyNumberDbFilePath(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "resetOtaEmergencyNumberDbFilePath")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyResetOtaEmergencyNumberDbFilePath
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9369,7 +9369,7 @@ func (p *TelephonyProxy) EnableModemForSlot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "enableModemForSlot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyEnableModemForSlot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9399,7 +9399,7 @@ func (p *TelephonyProxy) SetMultiSimCarrierRestriction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setMultiSimCarrierRestriction")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetMultiSimCarrierRestriction
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9427,7 +9427,7 @@ func (p *TelephonyProxy) IsMultiSimSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isMultiSimSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsMultiSimSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9457,7 +9457,7 @@ func (p *TelephonyProxy) SwitchMultiSimConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "switchMultiSimConfig")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySwitchMultiSimConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9487,7 +9487,7 @@ func (p *TelephonyProxy) DoesSwitchMultiSimConfigTriggerReboot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "doesSwitchMultiSimConfigTriggerReboot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyDoesSwitchMultiSimConfigTriggerReboot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9518,7 +9518,7 @@ func (p *TelephonyProxy) GetSlotsMapping(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getSlotsMapping")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetSlotsMapping
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9556,7 +9556,7 @@ func (p *TelephonyProxy) GetRadioHalVersion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getRadioHalVersion")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetRadioHalVersion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9587,7 +9587,7 @@ func (p *TelephonyProxy) GetHalVersion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getHalVersion")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetHalVersion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9616,7 +9616,7 @@ func (p *TelephonyProxy) GetCurrentPackageName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCurrentPackageName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCurrentPackageName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9649,7 +9649,7 @@ func (p *TelephonyProxy) IsApplicationOnUicc(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isApplicationOnUicc")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsApplicationOnUicc
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9683,7 +9683,7 @@ func (p *TelephonyProxy) IsModemEnabledForSlot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isModemEnabledForSlot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsModemEnabledForSlot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9718,7 +9718,7 @@ func (p *TelephonyProxy) IsDataEnabledForApn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isDataEnabledForApn")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsDataEnabledForApn
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9751,7 +9751,7 @@ func (p *TelephonyProxy) IsApnMetered(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isApnMetered")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsApnMetered
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9794,7 +9794,7 @@ func (p *TelephonyProxy) SetSystemSelectionChannels(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setSystemSelectionChannels")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetSystemSelectionChannels
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -9812,7 +9812,7 @@ func (p *TelephonyProxy) GetSystemSelectionChannels(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getSystemSelectionChannels")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetSystemSelectionChannels
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9856,7 +9856,7 @@ func (p *TelephonyProxy) IsMvnoMatched(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isMvnoMatched")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsMvnoMatched
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9890,7 +9890,7 @@ func (p *TelephonyProxy) EnqueueSmsPickResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "enqueueSmsPickResult")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyEnqueueSmsPickResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -9905,7 +9905,7 @@ func (p *TelephonyProxy) ShowSwitchToManagedProfileDialog(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "showSwitchToManagedProfileDialog")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyShowSwitchToManagedProfileDialog
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -9923,7 +9923,7 @@ func (p *TelephonyProxy) GetMmsUserAgent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getMmsUserAgent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetMmsUserAgent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9954,7 +9954,7 @@ func (p *TelephonyProxy) GetMmsUAProfUrl(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getMmsUAProfUrl")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetMmsUAProfUrl
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -9988,7 +9988,7 @@ func (p *TelephonyProxy) SetMobileDataPolicyEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setMobileDataPolicyEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetMobileDataPolicyEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10017,7 +10017,7 @@ func (p *TelephonyProxy) IsMobileDataPolicyEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isMobileDataPolicyEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsMobileDataPolicyEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10047,7 +10047,7 @@ func (p *TelephonyProxy) SetCepEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setCepEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetCepEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -10075,7 +10075,7 @@ func (p *TelephonyProxy) NotifyRcsAutoConfigurationReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "notifyRcsAutoConfigurationReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyNotifyRcsAutoConfigurationReceived
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10102,7 +10102,7 @@ func (p *TelephonyProxy) IsIccLockEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isIccLockEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsIccLockEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10137,7 +10137,7 @@ func (p *TelephonyProxy) SetIccLockEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setIccLockEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetIccLockEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10172,7 +10172,7 @@ func (p *TelephonyProxy) ChangeIccLockPassword(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "changeIccLockPassword")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyChangeIccLockPassword
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10200,7 +10200,7 @@ func (p *TelephonyProxy) RequestUserActivityNotification(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestUserActivityNotification")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestUserActivityNotification
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -10215,7 +10215,7 @@ func (p *TelephonyProxy) UserActivity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "userActivity")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUserActivity
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -10233,7 +10233,7 @@ func (p *TelephonyProxy) GetManualNetworkSelectionPlmn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getManualNetworkSelectionPlmn")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetManualNetworkSelectionPlmn
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10262,7 +10262,7 @@ func (p *TelephonyProxy) CanConnectTo5GInDsdsMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "canConnectTo5GInDsdsMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyCanConnectTo5GInDsdsMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10296,7 +10296,7 @@ func (p *TelephonyProxy) GetEquivalentHomePlmns(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getEquivalentHomePlmns")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetEquivalentHomePlmns
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10339,7 +10339,7 @@ func (p *TelephonyProxy) SetVoNrEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setVoNrEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetVoNrEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10370,7 +10370,7 @@ func (p *TelephonyProxy) IsVoNrEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isVoNrEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsVoNrEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10403,7 +10403,7 @@ func (p *TelephonyProxy) SetNrDualConnectivityState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setNrDualConnectivityState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetNrDualConnectivityState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10434,7 +10434,7 @@ func (p *TelephonyProxy) IsNrDualConnectivityEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isNrDualConnectivityEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsNrDualConnectivityEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10465,7 +10465,7 @@ func (p *TelephonyProxy) IsRadioInterfaceCapabilitySupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isRadioInterfaceCapabilitySupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsRadioInterfaceCapabilitySupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10503,7 +10503,7 @@ func (p *TelephonyProxy) SendThermalMitigationRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "sendThermalMitigationRequest")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySendThermalMitigationRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10549,7 +10549,7 @@ func (p *TelephonyProxy) BootstrapAuthenticationRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "bootstrapAuthenticationRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyBootstrapAuthenticationRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10578,7 +10578,7 @@ func (p *TelephonyProxy) SetBoundGbaServiceOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setBoundGbaServiceOverride")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetBoundGbaServiceOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10609,7 +10609,7 @@ func (p *TelephonyProxy) GetBoundGbaService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getBoundGbaService")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetBoundGbaService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10642,7 +10642,7 @@ func (p *TelephonyProxy) SetGbaReleaseTimeOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setGbaReleaseTimeOverride")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetGbaReleaseTimeOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10673,7 +10673,7 @@ func (p *TelephonyProxy) GetGbaReleaseTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getGbaReleaseTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetGbaReleaseTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10708,7 +10708,7 @@ func (p *TelephonyProxy) SetRcsClientConfiguration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setRcsClientConfiguration")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetRcsClientConfiguration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10735,7 +10735,7 @@ func (p *TelephonyProxy) IsRcsVolteSingleRegistrationCapable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isRcsVolteSingleRegistrationCapable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsRcsVolteSingleRegistrationCapable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10766,7 +10766,7 @@ func (p *TelephonyProxy) RegisterRcsProvisioningCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerRcsProvisioningCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRegisterRcsProvisioningCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10793,7 +10793,7 @@ func (p *TelephonyProxy) UnregisterRcsProvisioningCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterRcsProvisioningCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterRcsProvisioningCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10819,7 +10819,7 @@ func (p *TelephonyProxy) TriggerRcsReconfiguration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "triggerRcsReconfiguration")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyTriggerRcsReconfiguration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10845,7 +10845,7 @@ func (p *TelephonyProxy) SetRcsSingleRegistrationTestModeEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setRcsSingleRegistrationTestModeEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetRcsSingleRegistrationTestModeEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10870,7 +10870,7 @@ func (p *TelephonyProxy) GetRcsSingleRegistrationTestModeEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getRcsSingleRegistrationTestModeEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetRcsSingleRegistrationTestModeEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10900,7 +10900,7 @@ func (p *TelephonyProxy) SetDeviceSingleRegistrationEnabledOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setDeviceSingleRegistrationEnabledOverride")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetDeviceSingleRegistrationEnabledOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10925,7 +10925,7 @@ func (p *TelephonyProxy) GetDeviceSingleRegistrationEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getDeviceSingleRegistrationEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetDeviceSingleRegistrationEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10958,7 +10958,7 @@ func (p *TelephonyProxy) SetCarrierSingleRegistrationEnabledOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setCarrierSingleRegistrationEnabledOverride")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetCarrierSingleRegistrationEnabledOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -10990,7 +10990,7 @@ func (p *TelephonyProxy) SendDeviceToDeviceMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "sendDeviceToDeviceMessage")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySendDeviceToDeviceMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11016,7 +11016,7 @@ func (p *TelephonyProxy) SetActiveDeviceToDeviceTransport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setActiveDeviceToDeviceTransport")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetActiveDeviceToDeviceTransport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11042,7 +11042,7 @@ func (p *TelephonyProxy) SetDeviceToDeviceForceEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setDeviceToDeviceForceEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetDeviceToDeviceForceEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11069,7 +11069,7 @@ func (p *TelephonyProxy) GetCarrierSingleRegistrationEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCarrierSingleRegistrationEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCarrierSingleRegistrationEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11102,7 +11102,7 @@ func (p *TelephonyProxy) SetImsFeatureValidationOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setImsFeatureValidationOverride")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetImsFeatureValidationOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11133,7 +11133,7 @@ func (p *TelephonyProxy) GetImsFeatureValidationOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getImsFeatureValidationOverride")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetImsFeatureValidationOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11162,7 +11162,7 @@ func (p *TelephonyProxy) GetMobileProvisioningUrl(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getMobileProvisioningUrl")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetMobileProvisioningUrl
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11195,7 +11195,7 @@ func (p *TelephonyProxy) RemoveContactFromEab(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "removeContactFromEab")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyRemoveContactFromEab
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11226,7 +11226,7 @@ func (p *TelephonyProxy) GetContactFromEab(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getContactFromEab")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetContactFromEab
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11257,7 +11257,7 @@ func (p *TelephonyProxy) GetCapabilityFromEab(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCapabilityFromEab")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCapabilityFromEab
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11286,7 +11286,7 @@ func (p *TelephonyProxy) GetDeviceUceEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getDeviceUceEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetDeviceUceEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11316,7 +11316,7 @@ func (p *TelephonyProxy) SetDeviceUceEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setDeviceUceEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetDeviceUceEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11352,7 +11352,7 @@ func (p *TelephonyProxy) AddUceRegistrationOverrideShell(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "addUceRegistrationOverrideShell")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyAddUceRegistrationOverrideShell
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11397,7 +11397,7 @@ func (p *TelephonyProxy) RemoveUceRegistrationOverrideShell(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "removeUceRegistrationOverrideShell")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyRemoveUceRegistrationOverrideShell
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11433,7 +11433,7 @@ func (p *TelephonyProxy) ClearUceRegistrationOverrideShell(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "clearUceRegistrationOverrideShell")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyClearUceRegistrationOverrideShell
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11469,7 +11469,7 @@ func (p *TelephonyProxy) GetLatestRcsContactUceCapabilityShell(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getLatestRcsContactUceCapabilityShell")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetLatestRcsContactUceCapabilityShell
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11505,7 +11505,7 @@ func (p *TelephonyProxy) GetLastUcePidfXmlShell(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getLastUcePidfXmlShell")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetLastUcePidfXmlShell
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11536,7 +11536,7 @@ func (p *TelephonyProxy) RemoveUceRequestDisallowedStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "removeUceRequestDisallowedStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyRemoveUceRequestDisallowedStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11569,7 +11569,7 @@ func (p *TelephonyProxy) SetCapabilitiesRequestTimeout(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setCapabilitiesRequestTimeout")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetCapabilitiesRequestTimeout
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11606,7 +11606,7 @@ func (p *TelephonyProxy) SetSignalStrengthUpdateRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setSignalStrengthUpdateRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetSignalStrengthUpdateRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11639,7 +11639,7 @@ func (p *TelephonyProxy) ClearSignalStrengthUpdateRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "clearSignalStrengthUpdateRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyClearSignalStrengthUpdateRequest
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11664,7 +11664,7 @@ func (p *TelephonyProxy) GetPhoneCapability(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getPhoneCapability")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetPhoneCapability
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11698,7 +11698,7 @@ func (p *TelephonyProxy) PrepareForUnattendedReboot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "prepareForUnattendedReboot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyPrepareForUnattendedReboot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11731,7 +11731,7 @@ func (p *TelephonyProxy) GetSlicingConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getSlicingConfig")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyGetSlicingConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11760,7 +11760,7 @@ func (p *TelephonyProxy) IsPremiumCapabilityAvailableForPurchase(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isPremiumCapabilityAvailableForPurchase")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsPremiumCapabilityAvailableForPurchase
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11794,7 +11794,7 @@ func (p *TelephonyProxy) PurchasePremiumCapability(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "purchasePremiumCapability")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyPurchasePremiumCapability
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11826,7 +11826,7 @@ func (p *TelephonyProxy) RegisterImsStateCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerImsStateCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRegisterImsStateCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11852,7 +11852,7 @@ func (p *TelephonyProxy) UnregisterImsStateCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterImsStateCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterImsStateCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11882,7 +11882,7 @@ func (p *TelephonyProxy) GetLastKnownCellIdentity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getLastKnownCellIdentity")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetLastKnownCellIdentity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11918,7 +11918,7 @@ func (p *TelephonyProxy) SetModemService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setModemService")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetModemService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11947,7 +11947,7 @@ func (p *TelephonyProxy) GetModemService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getModemService")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetModemService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -11982,7 +11982,7 @@ func (p *TelephonyProxy) IsProvisioningRequiredForCapability(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isProvisioningRequiredForCapability")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsProvisioningRequiredForCapability
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12017,7 +12017,7 @@ func (p *TelephonyProxy) IsRcsProvisioningRequiredForCapability(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isRcsProvisioningRequiredForCapability")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsRcsProvisioningRequiredForCapability
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12051,7 +12051,7 @@ func (p *TelephonyProxy) SetVoiceServiceStateOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setVoiceServiceStateOverride")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetVoiceServiceStateOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12078,7 +12078,7 @@ func (p *TelephonyProxy) GetCarrierServicePackageNameForLogicalSlot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCarrierServicePackageNameForLogicalSlot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCarrierServicePackageNameForLogicalSlot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12110,7 +12110,7 @@ func (p *TelephonyProxy) SetRemovableEsimAsDefaultEuicc(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setRemovableEsimAsDefaultEuicc")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetRemovableEsimAsDefaultEuicc
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12137,7 +12137,7 @@ func (p *TelephonyProxy) IsRemovableEsimDefaultEuicc(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isRemovableEsimDefaultEuicc")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsRemovableEsimDefaultEuicc
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12170,7 +12170,7 @@ func (p *TelephonyProxy) GetDefaultRespondViaMessageApplication(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getDefaultRespondViaMessageApplication")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetDefaultRespondViaMessageApplication
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12206,7 +12206,7 @@ func (p *TelephonyProxy) GetSimStateForSlotIndex(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getSimStateForSlotIndex")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetSimStateForSlotIndex
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12244,7 +12244,7 @@ func (p *TelephonyProxy) PersistEmergencyCallDiagnosticData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "persistEmergencyCallDiagnosticData")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyPersistEmergencyCallDiagnosticData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12270,7 +12270,7 @@ func (p *TelephonyProxy) SetNullCipherAndIntegrityEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setNullCipherAndIntegrityEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetNullCipherAndIntegrityEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12295,7 +12295,7 @@ func (p *TelephonyProxy) IsNullCipherAndIntegrityPreferenceEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isNullCipherAndIntegrityPreferenceEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsNullCipherAndIntegrityPreferenceEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12326,7 +12326,7 @@ func (p *TelephonyProxy) GetCellBroadcastIdRanges(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCellBroadcastIdRanges")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCellBroadcastIdRanges
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12378,7 +12378,7 @@ func (p *TelephonyProxy) SetCellBroadcastIdRanges(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setCellBroadcastIdRanges")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetCellBroadcastIdRanges
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12403,7 +12403,7 @@ func (p *TelephonyProxy) IsDomainSelectionSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isDomainSelectionSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsDomainSelectionSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12435,7 +12435,7 @@ func (p *TelephonyProxy) GetCarrierRestrictionStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCarrierRestrictionStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyGetCarrierRestrictionStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12467,7 +12467,7 @@ func (p *TelephonyProxy) RequestSatelliteEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestSatelliteEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestSatelliteEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12496,7 +12496,7 @@ func (p *TelephonyProxy) RequestIsSatelliteEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestIsSatelliteEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestIsSatelliteEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12525,7 +12525,7 @@ func (p *TelephonyProxy) RequestIsDemoModeEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestIsDemoModeEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestIsDemoModeEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12554,7 +12554,7 @@ func (p *TelephonyProxy) RequestIsEmergencyModeEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestIsEmergencyModeEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestIsEmergencyModeEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12583,7 +12583,7 @@ func (p *TelephonyProxy) RequestIsSatelliteSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestIsSatelliteSupported")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestIsSatelliteSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12612,7 +12612,7 @@ func (p *TelephonyProxy) RequestSatelliteCapabilities(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestSatelliteCapabilities")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestSatelliteCapabilities
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12639,7 +12639,7 @@ func (p *TelephonyProxy) StartSatelliteTransmissionUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "startSatelliteTransmissionUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyStartSatelliteTransmissionUpdates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12666,7 +12666,7 @@ func (p *TelephonyProxy) StopSatelliteTransmissionUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "stopSatelliteTransmissionUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyStopSatelliteTransmissionUpdates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12704,7 +12704,7 @@ func (p *TelephonyProxy) ProvisionSatelliteService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "provisionSatelliteService")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyProvisionSatelliteService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12737,7 +12737,7 @@ func (p *TelephonyProxy) DeprovisionSatelliteService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "deprovisionSatelliteService")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyDeprovisionSatelliteService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12763,7 +12763,7 @@ func (p *TelephonyProxy) RegisterForSatelliteProvisionStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForSatelliteProvisionStateChanged")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyRegisterForSatelliteProvisionStateChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12792,7 +12792,7 @@ func (p *TelephonyProxy) UnregisterForSatelliteProvisionStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForSatelliteProvisionStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterForSatelliteProvisionStateChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12821,7 +12821,7 @@ func (p *TelephonyProxy) RequestIsSatelliteProvisioned(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestIsSatelliteProvisioned")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestIsSatelliteProvisioned
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12847,7 +12847,7 @@ func (p *TelephonyProxy) RegisterForSatelliteModemStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForSatelliteModemStateChanged")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyRegisterForSatelliteModemStateChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12876,7 +12876,7 @@ func (p *TelephonyProxy) UnregisterForModemStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForModemStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterForModemStateChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12902,7 +12902,7 @@ func (p *TelephonyProxy) RegisterForIncomingDatagram(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForIncomingDatagram")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyRegisterForIncomingDatagram
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12931,7 +12931,7 @@ func (p *TelephonyProxy) UnregisterForIncomingDatagram(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForIncomingDatagram")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterForIncomingDatagram
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12957,7 +12957,7 @@ func (p *TelephonyProxy) PollPendingDatagrams(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "pollPendingDatagrams")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyPollPendingDatagrams
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -12988,7 +12988,7 @@ func (p *TelephonyProxy) SendDatagram(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "sendDatagram")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySendDatagram
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13013,7 +13013,7 @@ func (p *TelephonyProxy) GetSatelliteDisallowedReasons(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getSatelliteDisallowedReasons")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetSatelliteDisallowedReasons
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13052,7 +13052,7 @@ func (p *TelephonyProxy) RegisterForSatelliteDisallowedReasonsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForSatelliteDisallowedReasonsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRegisterForSatelliteDisallowedReasonsChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13077,7 +13077,7 @@ func (p *TelephonyProxy) UnregisterForSatelliteDisallowedReasonsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForSatelliteDisallowedReasonsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterForSatelliteDisallowedReasonsChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13108,7 +13108,7 @@ func (p *TelephonyProxy) RequestIsCommunicationAllowedForCurrentLocation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestIsCommunicationAllowedForCurrentLocation")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestIsCommunicationAllowedForCurrentLocation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13137,7 +13137,7 @@ func (p *TelephonyProxy) RequestSatelliteAccessConfigurationForCurrentLocation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestSatelliteAccessConfigurationForCurrentLocation")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestSatelliteAccessConfigurationForCurrentLocation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13166,7 +13166,7 @@ func (p *TelephonyProxy) RequestTimeForNextSatelliteVisibility(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestTimeForNextSatelliteVisibility")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestTimeForNextSatelliteVisibility
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13195,7 +13195,7 @@ func (p *TelephonyProxy) RequestSelectedNbIotSatelliteSubscriptionId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestSelectedNbIotSatelliteSubscriptionId")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestSelectedNbIotSatelliteSubscriptionId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13221,7 +13221,7 @@ func (p *TelephonyProxy) RegisterForSelectedNbIotSatelliteSubscriptionChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForSelectedNbIotSatelliteSubscriptionChanged")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyRegisterForSelectedNbIotSatelliteSubscriptionChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13250,7 +13250,7 @@ func (p *TelephonyProxy) UnregisterForSelectedNbIotSatelliteSubscriptionChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForSelectedNbIotSatelliteSubscriptionChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterForSelectedNbIotSatelliteSubscriptionChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13276,7 +13276,7 @@ func (p *TelephonyProxy) SetDeviceAlignedWithSatellite(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setDeviceAlignedWithSatellite")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetDeviceAlignedWithSatellite
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13305,7 +13305,7 @@ func (p *TelephonyProxy) SetSatelliteServicePackageName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setSatelliteServicePackageName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetSatelliteServicePackageName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13336,7 +13336,7 @@ func (p *TelephonyProxy) SetSatelliteGatewayServicePackageName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setSatelliteGatewayServicePackageName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetSatelliteGatewayServicePackageName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13367,7 +13367,7 @@ func (p *TelephonyProxy) SetSatelliteListeningTimeoutDuration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setSatelliteListeningTimeoutDuration")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetSatelliteListeningTimeoutDuration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13398,7 +13398,7 @@ func (p *TelephonyProxy) SetSatelliteIgnoreCellularServiceState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setSatelliteIgnoreCellularServiceState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetSatelliteIgnoreCellularServiceState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13431,7 +13431,7 @@ func (p *TelephonyProxy) SetSatellitePointingUiClassName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setSatellitePointingUiClassName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetSatellitePointingUiClassName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13466,7 +13466,7 @@ func (p *TelephonyProxy) SetDatagramControllerTimeoutDuration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setDatagramControllerTimeoutDuration")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetDatagramControllerTimeoutDuration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13501,7 +13501,7 @@ func (p *TelephonyProxy) SetSatelliteControllerTimeoutDuration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setSatelliteControllerTimeoutDuration")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetSatelliteControllerTimeoutDuration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13534,7 +13534,7 @@ func (p *TelephonyProxy) SetEmergencyCallToSatelliteHandoverType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setEmergencyCallToSatelliteHandoverType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetEmergencyCallToSatelliteHandoverType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13588,7 +13588,7 @@ func (p *TelephonyProxy) SetCountryCodes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setCountryCodes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetCountryCodes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13636,7 +13636,7 @@ func (p *TelephonyProxy) SetSatelliteAccessControlOverlayConfigs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setSatelliteAccessControlOverlayConfigs")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetSatelliteAccessControlOverlayConfigs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13669,7 +13669,7 @@ func (p *TelephonyProxy) SetOemEnabledSatelliteProvisionStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setOemEnabledSatelliteProvisionStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetOemEnabledSatelliteProvisionStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13702,7 +13702,7 @@ func (p *TelephonyProxy) GetShaIdFromAllowList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getShaIdFromAllowList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetShaIdFromAllowList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13746,7 +13746,7 @@ func (p *TelephonyProxy) AddAttachRestrictionForCarrier(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "addAttachRestrictionForCarrier")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyAddAttachRestrictionForCarrier
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13776,7 +13776,7 @@ func (p *TelephonyProxy) RemoveAttachRestrictionForCarrier(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "removeAttachRestrictionForCarrier")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRemoveAttachRestrictionForCarrier
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13803,7 +13803,7 @@ func (p *TelephonyProxy) GetAttachRestrictionReasonsForCarrier(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getAttachRestrictionReasonsForCarrier")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetAttachRestrictionReasonsForCarrier
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13846,7 +13846,7 @@ func (p *TelephonyProxy) RequestNtnSignalStrength(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestNtnSignalStrength")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestNtnSignalStrength
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13871,7 +13871,7 @@ func (p *TelephonyProxy) RegisterForNtnSignalStrengthChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForNtnSignalStrengthChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRegisterForNtnSignalStrengthChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13896,7 +13896,7 @@ func (p *TelephonyProxy) UnregisterForNtnSignalStrengthChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForNtnSignalStrengthChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterForNtnSignalStrengthChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13922,7 +13922,7 @@ func (p *TelephonyProxy) RegisterForCapabilitiesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForCapabilitiesChanged")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyRegisterForCapabilitiesChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13951,7 +13951,7 @@ func (p *TelephonyProxy) UnregisterForCapabilitiesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForCapabilitiesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterForCapabilitiesChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -13978,7 +13978,7 @@ func (p *TelephonyProxy) SetShouldSendDatagramToModemInDemoMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setShouldSendDatagramToModemInDemoMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetShouldSendDatagramToModemInDemoMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14012,7 +14012,7 @@ func (p *TelephonyProxy) SetDomainSelectionServiceOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setDomainSelectionServiceOverride")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetDomainSelectionServiceOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14041,7 +14041,7 @@ func (p *TelephonyProxy) ClearDomainSelectionServiceOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "clearDomainSelectionServiceOverride")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyClearDomainSelectionServiceOverride
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14070,7 +14070,7 @@ func (p *TelephonyProxy) IsAospDomainSelectionService(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isAospDomainSelectionService")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsAospDomainSelectionService
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14100,7 +14100,7 @@ func (p *TelephonyProxy) SetEnableCellularIdentifierDisclosureNotifications(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setEnableCellularIdentifierDisclosureNotifications")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetEnableCellularIdentifierDisclosureNotifications
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14125,7 +14125,7 @@ func (p *TelephonyProxy) IsCellularIdentifierDisclosureNotificationsEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isCellularIdentifierDisclosureNotificationsEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsCellularIdentifierDisclosureNotificationsEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14155,7 +14155,7 @@ func (p *TelephonyProxy) SetNullCipherNotificationsEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setNullCipherNotificationsEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetNullCipherNotificationsEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14180,7 +14180,7 @@ func (p *TelephonyProxy) IsNullCipherNotificationsEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "isNullCipherNotificationsEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyIsNullCipherNotificationsEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14211,7 +14211,7 @@ func (p *TelephonyProxy) GetSatellitePlmnsForCarrier(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getSatellitePlmnsForCarrier")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetSatellitePlmnsForCarrier
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14251,7 +14251,7 @@ func (p *TelephonyProxy) RegisterForSatelliteSupportedStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForSatelliteSupportedStateChanged")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyRegisterForSatelliteSupportedStateChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14280,7 +14280,7 @@ func (p *TelephonyProxy) UnregisterForSatelliteSupportedStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForSatelliteSupportedStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterForSatelliteSupportedStateChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14308,7 +14308,7 @@ func (p *TelephonyProxy) RegisterForCommunicationAllowedStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForCommunicationAllowedStateChanged")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyRegisterForCommunicationAllowedStateChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14339,7 +14339,7 @@ func (p *TelephonyProxy) UnregisterForCommunicationAllowedStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForCommunicationAllowedStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyUnregisterForCommunicationAllowedStateChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14370,7 +14370,7 @@ func (p *TelephonyProxy) SetDatagramControllerBooleanConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setDatagramControllerBooleanConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetDatagramControllerBooleanConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14401,7 +14401,7 @@ func (p *TelephonyProxy) SetIsSatelliteCommunicationAllowedForCurrentLocationCac
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setIsSatelliteCommunicationAllowedForCurrentLocationCache")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetIsSatelliteCommunicationAllowedForCurrentLocationCache
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14436,7 +14436,7 @@ func (p *TelephonyProxy) RequestSatelliteSessionStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestSatelliteSessionStats")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestSatelliteSessionStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14465,7 +14465,7 @@ func (p *TelephonyProxy) RequestSatelliteSubscriberProvisionStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestSatelliteSubscriberProvisionStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestSatelliteSubscriberProvisionStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14494,7 +14494,7 @@ func (p *TelephonyProxy) RequestSatelliteDisplayName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "requestSatelliteDisplayName")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyRequestSatelliteDisplayName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14529,7 +14529,7 @@ func (p *TelephonyProxy) ProvisionSatellite(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "provisionSatellite")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyProvisionSatellite
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14556,7 +14556,7 @@ func (p *TelephonyProxy) SetSatelliteSubscriberIdListChangedIntentComponent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setSatelliteSubscriberIdListChangedIntentComponent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonySetSatelliteSubscriberIdListChangedIntentComponent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14589,7 +14589,7 @@ func (p *TelephonyProxy) SetTestEuiccUiComponent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setTestEuiccUiComponent")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetTestEuiccUiComponent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14614,7 +14614,7 @@ func (p *TelephonyProxy) GetTestEuiccUiComponent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getTestEuiccUiComponent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetTestEuiccUiComponent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14652,7 +14652,7 @@ func (p *TelephonyProxy) OverrideCarrierRoamingNtnEligibilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "overrideCarrierRoamingNtnEligibilityChanged")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyOverrideCarrierRoamingNtnEligibilityChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14691,7 +14691,7 @@ func (p *TelephonyProxy) DeprovisionSatellite(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "deprovisionSatellite")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonyDeprovisionSatellite
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14717,7 +14717,7 @@ func (p *TelephonyProxy) SetNtnSmsSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "setNtnSmsSupported")
 	if _err != nil {
-		return _err
+		_code = TransactionITelephonySetNtnSmsSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -14747,7 +14747,7 @@ func (p *TelephonyProxy) GetCarrierIdFromIdentifier(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "getCarrierIdFromIdentifier")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITelephonyGetCarrierIdFromIdentifier
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -52,7 +52,7 @@ func (p *AidlBufferSourceProxy) OnStart(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlBufferSource, "onStart")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlBufferSourceOnStart
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -76,7 +76,7 @@ func (p *AidlBufferSourceProxy) OnStop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlBufferSource, "onStop")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlBufferSourceOnStop
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -100,7 +100,7 @@ func (p *AidlBufferSourceProxy) OnRelease(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlBufferSource, "onRelease")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlBufferSourceOnRelease
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -126,7 +126,7 @@ func (p *AidlBufferSourceProxy) OnInputBufferAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlBufferSource, "onInputBufferAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlBufferSourceOnInputBufferAdded
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -158,7 +158,7 @@ func (p *AidlBufferSourceProxy) OnInputBufferEmptied(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAidlBufferSource, "onInputBufferEmptied")
 	if _err != nil {
-		return _err
+		_code = TransactionIAidlBufferSourceOnInputBufferEmptied
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

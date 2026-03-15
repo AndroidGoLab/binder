@@ -56,7 +56,7 @@ func (p *BiometricServiceReceiverProxy) OnAuthenticationSucceeded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricServiceReceiver, "onAuthenticationSucceeded")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricServiceReceiverOnAuthenticationSucceeded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *BiometricServiceReceiverProxy) OnAuthenticationFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricServiceReceiver, "onAuthenticationFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricServiceReceiverOnAuthenticationFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *BiometricServiceReceiverProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricServiceReceiver, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricServiceReceiverOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -111,7 +111,7 @@ func (p *BiometricServiceReceiverProxy) OnAcquired(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricServiceReceiver, "onAcquired")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricServiceReceiverOnAcquired
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -128,7 +128,7 @@ func (p *BiometricServiceReceiverProxy) OnDialogDismissed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricServiceReceiver, "onDialogDismissed")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricServiceReceiverOnDialogDismissed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -145,7 +145,7 @@ func (p *BiometricServiceReceiverProxy) OnSystemEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBiometricServiceReceiver, "onSystemEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIBiometricServiceReceiverOnSystemEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

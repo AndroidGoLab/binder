@@ -70,7 +70,7 @@ func (p *VehicleProxy) GetAllPropConfigs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "getAllPropConfigs")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVehicleGetAllPropConfigs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -113,7 +113,7 @@ func (p *VehicleProxy) GetPropConfigs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "getPropConfigs")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVehicleGetPropConfigs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -153,7 +153,7 @@ func (p *VehicleProxy) GetValues(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "getValues")
 	if _err != nil {
-		return _err
+		_code = TransactionIVehicleGetValues
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -184,7 +184,7 @@ func (p *VehicleProxy) SetValues(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "setValues")
 	if _err != nil {
-		return _err
+		_code = TransactionIVehicleSetValues
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -223,7 +223,7 @@ func (p *VehicleProxy) Subscribe(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "subscribe")
 	if _err != nil {
-		return _err
+		_code = TransactionIVehicleSubscribe
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -258,7 +258,7 @@ func (p *VehicleProxy) Unsubscribe(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "unsubscribe")
 	if _err != nil {
-		return _err
+		_code = TransactionIVehicleUnsubscribe
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -286,7 +286,7 @@ func (p *VehicleProxy) ReturnSharedMemory(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "returnSharedMemory")
 	if _err != nil {
-		return _err
+		_code = TransactionIVehicleReturnSharedMemory
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -322,7 +322,7 @@ func (p *VehicleProxy) GetSupportedValuesLists(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "getSupportedValuesLists")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVehicleGetSupportedValuesLists
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -367,7 +367,7 @@ func (p *VehicleProxy) GetMinMaxSupportedValue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "getMinMaxSupportedValue")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVehicleGetMinMaxSupportedValue
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -413,7 +413,7 @@ func (p *VehicleProxy) RegisterSupportedValueChangeCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "registerSupportedValueChangeCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIVehicleRegisterSupportedValueChangeCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -450,7 +450,7 @@ func (p *VehicleProxy) UnregisterSupportedValueChangeCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVehicle, "unregisterSupportedValueChangeCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIVehicleUnregisterSupportedValueChangeCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -57,7 +57,7 @@ func (p *ClassificationsCallbackProxy) OnContentClassificationsAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIClassificationsCallback, "onContentClassificationsAvailable")
 	if _err != nil {
-		return _err
+		_code = TransactionIClassificationsCallbackOnContentClassificationsAvailable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

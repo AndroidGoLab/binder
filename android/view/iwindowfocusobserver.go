@@ -48,7 +48,7 @@ func (p *WindowFocusObserverProxy) FocusGained(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowFocusObserver, "focusGained")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowFocusObserverFocusGained
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *WindowFocusObserverProxy) FocusLost(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowFocusObserver, "focusLost")
 	if _err != nil {
-		return _err
+		_code = TransactionIWindowFocusObserverFocusLost
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

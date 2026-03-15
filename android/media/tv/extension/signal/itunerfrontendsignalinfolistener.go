@@ -46,7 +46,7 @@ func (p *TunerFrontendSignalInfoListenerProxy) OnFrontendStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerFrontendSignalInfoListener, "onFrontendStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerFrontendSignalInfoListenerOnFrontendStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

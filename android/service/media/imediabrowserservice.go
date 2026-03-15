@@ -66,7 +66,7 @@ func (p *MediaBrowserServiceProxy) Connect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserService, "connect")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaBrowserServiceConnect
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -83,7 +83,7 @@ func (p *MediaBrowserServiceProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserService, "disconnect")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaBrowserServiceDisconnect
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -102,7 +102,7 @@ func (p *MediaBrowserServiceProxy) AddSubscriptionDeprecated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserService, "addSubscriptionDeprecated")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaBrowserServiceAddSubscriptionDeprecated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -121,7 +121,7 @@ func (p *MediaBrowserServiceProxy) RemoveSubscriptionDeprecated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserService, "removeSubscriptionDeprecated")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaBrowserServiceRemoveSubscriptionDeprecated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -145,7 +145,7 @@ func (p *MediaBrowserServiceProxy) GetMediaItem(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserService, "getMediaItem")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaBrowserServiceGetMediaItem
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -171,7 +171,7 @@ func (p *MediaBrowserServiceProxy) AddSubscription(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserService, "addSubscription")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaBrowserServiceAddSubscription
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -192,7 +192,7 @@ func (p *MediaBrowserServiceProxy) RemoveSubscription(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaBrowserService, "removeSubscription")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaBrowserServiceRemoveSubscription
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -47,7 +47,7 @@ func (p *VoldProxy) RegisterCheckpointListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVold, "registerCheckpointListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVoldRegisterCheckpointListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -56,7 +56,7 @@ func (p *AudioSignalInfoProxy) GetAudioSignalInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioSignalInfo, "getAudioSignalInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioSignalInfoGetAudioSignalInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -91,7 +91,7 @@ func (p *AudioSignalInfoProxy) NotifyMtsSelectTrackFlag(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioSignalInfo, "notifyMtsSelectTrackFlag")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioSignalInfoNotifyMtsSelectTrackFlag
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -116,7 +116,7 @@ func (p *AudioSignalInfoProxy) GetMtsSelectedTrackId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioSignalInfo, "getMtsSelectedTrackId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAudioSignalInfoGetMtsSelectedTrackId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -148,7 +148,7 @@ func (p *AudioSignalInfoProxy) AddAudioSignalInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioSignalInfo, "addAudioSignalInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioSignalInfoAddAudioSignalInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -174,7 +174,7 @@ func (p *AudioSignalInfoProxy) RemoveAudioSignalInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioSignalInfo, "removeAudioSignalInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioSignalInfoRemoveAudioSignalInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

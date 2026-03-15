@@ -69,7 +69,7 @@ func (p *DataServiceCallbackProxy) OnSetupDataCallComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onSetupDataCallComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceCallbackOnSetupDataCallComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -86,7 +86,7 @@ func (p *DataServiceCallbackProxy) OnDeactivateDataCallComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onDeactivateDataCallComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceCallbackOnDeactivateDataCallComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -103,7 +103,7 @@ func (p *DataServiceCallbackProxy) OnSetInitialAttachApnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onSetInitialAttachApnComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceCallbackOnSetInitialAttachApnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -120,7 +120,7 @@ func (p *DataServiceCallbackProxy) OnSetDataProfileComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onSetDataProfileComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceCallbackOnSetDataProfileComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -148,7 +148,7 @@ func (p *DataServiceCallbackProxy) OnRequestDataCallListComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onRequestDataCallListComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceCallbackOnRequestDataCallListComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -174,7 +174,7 @@ func (p *DataServiceCallbackProxy) OnDataCallListChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onDataCallListChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceCallbackOnDataCallListChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -191,7 +191,7 @@ func (p *DataServiceCallbackProxy) OnHandoverStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onHandoverStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceCallbackOnHandoverStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -208,7 +208,7 @@ func (p *DataServiceCallbackProxy) OnHandoverCancelled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onHandoverCancelled")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceCallbackOnHandoverCancelled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -225,7 +225,7 @@ func (p *DataServiceCallbackProxy) OnApnUnthrottled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onApnUnthrottled")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceCallbackOnApnUnthrottled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -245,7 +245,7 @@ func (p *DataServiceCallbackProxy) OnDataProfileUnthrottled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataServiceCallback, "onDataProfileUnthrottled")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceCallbackOnDataProfileUnthrottled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

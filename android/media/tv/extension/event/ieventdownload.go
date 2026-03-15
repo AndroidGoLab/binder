@@ -53,7 +53,7 @@ func (p *EventDownloadProxy) CreateSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventDownload, "createSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEventDownloadCreateSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

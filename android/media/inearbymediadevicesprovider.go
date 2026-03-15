@@ -48,7 +48,7 @@ func (p *NearbyMediaDevicesProviderProxy) RegisterNearbyDevicesCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINearbyMediaDevicesProvider, "registerNearbyDevicesCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionINearbyMediaDevicesProviderRegisterNearbyDevicesCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *NearbyMediaDevicesProviderProxy) UnregisterNearbyDevicesCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINearbyMediaDevicesProvider, "unregisterNearbyDevicesCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionINearbyMediaDevicesProviderUnregisterNearbyDevicesCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

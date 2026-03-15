@@ -49,7 +49,7 @@ func (p *AudioRoutesObserverProxy) DispatchAudioRoutesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioRoutesObserver, "dispatchAudioRoutesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioRoutesObserverDispatchAudioRoutesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

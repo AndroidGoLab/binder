@@ -51,7 +51,7 @@ func (p *MemtrackProxy) GetMemory(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMemtrack, "getMemory")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMemtrackGetMemory
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -89,7 +89,7 @@ func (p *MemtrackProxy) GetGpuDeviceInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMemtrack, "getGpuDeviceInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMemtrackGetGpuDeviceInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

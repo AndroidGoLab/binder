@@ -49,7 +49,7 @@ func (p *MuxTuneProxy) CreateSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMuxTune, "createSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMuxTuneCreateSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

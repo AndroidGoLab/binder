@@ -83,7 +83,7 @@ func (p *BluetoothHidHostProxy) Connect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "connect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostConnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -118,7 +118,7 @@ func (p *BluetoothHidHostProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "disconnect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -148,7 +148,7 @@ func (p *BluetoothHidHostProxy) GetConnectedDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "getConnectedDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostGetConnectedDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -196,7 +196,7 @@ func (p *BluetoothHidHostProxy) GetDevicesMatchingConnectionStates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "getDevicesMatchingConnectionStates")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostGetDevicesMatchingConnectionStates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -240,7 +240,7 @@ func (p *BluetoothHidHostProxy) GetConnectionState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "getConnectionState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostGetConnectionState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -277,7 +277,7 @@ func (p *BluetoothHidHostProxy) SetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "setConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostSetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -312,7 +312,7 @@ func (p *BluetoothHidHostProxy) GetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "getConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostGetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -349,7 +349,7 @@ func (p *BluetoothHidHostProxy) SetPreferredTransport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "setPreferredTransport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostSetPreferredTransport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -384,7 +384,7 @@ func (p *BluetoothHidHostProxy) GetPreferredTransport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "getPreferredTransport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostGetPreferredTransport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -419,7 +419,7 @@ func (p *BluetoothHidHostProxy) GetProtocolMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "getProtocolMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostGetProtocolMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -454,7 +454,7 @@ func (p *BluetoothHidHostProxy) VirtualUnplug(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "virtualUnplug")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostVirtualUnplug
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -491,7 +491,7 @@ func (p *BluetoothHidHostProxy) SetProtocolMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "setProtocolMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostSetProtocolMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -532,7 +532,7 @@ func (p *BluetoothHidHostProxy) GetReport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "getReport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostGetReport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -571,7 +571,7 @@ func (p *BluetoothHidHostProxy) SetReport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "setReport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostSetReport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -608,7 +608,7 @@ func (p *BluetoothHidHostProxy) SendData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "sendData")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostSendData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -643,7 +643,7 @@ func (p *BluetoothHidHostProxy) GetIdleTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "getIdleTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostGetIdleTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -680,7 +680,7 @@ func (p *BluetoothHidHostProxy) SetIdleTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHidHost, "setIdleTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothHidHostSetIdleTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

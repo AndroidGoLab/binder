@@ -62,7 +62,7 @@ func (p *RecentsAnimationControllerProxy) ScreenshotTask(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationController, "screenshotTask")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRecentsAnimationControllerScreenshotTask
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -107,7 +107,7 @@ func (p *RecentsAnimationControllerProxy) SetFinishTaskTransaction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationController, "setFinishTaskTransaction")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecentsAnimationControllerSetFinishTaskTransaction
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -137,7 +137,7 @@ func (p *RecentsAnimationControllerProxy) Finish(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationController, "finish")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecentsAnimationControllerFinish
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -163,7 +163,7 @@ func (p *RecentsAnimationControllerProxy) SetInputConsumerEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationController, "setInputConsumerEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecentsAnimationControllerSetInputConsumerEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -189,7 +189,7 @@ func (p *RecentsAnimationControllerProxy) SetWillFinishToHome(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationController, "setWillFinishToHome")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecentsAnimationControllerSetWillFinishToHome
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -215,7 +215,7 @@ func (p *RecentsAnimationControllerProxy) DetachNavigationBarFromApp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationController, "detachNavigationBarFromApp")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecentsAnimationControllerDetachNavigationBarFromApp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -261,7 +261,7 @@ func (p *RecentsAnimationControllerProxy) HandOffAnimation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecentsAnimationController, "handOffAnimation")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecentsAnimationControllerHandOffAnimation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

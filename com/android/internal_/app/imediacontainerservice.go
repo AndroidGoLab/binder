@@ -54,7 +54,7 @@ func (p *MediaContainerServiceProxy) CopyPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaContainerService, "copyPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaContainerServiceCopyPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -89,7 +89,7 @@ func (p *MediaContainerServiceProxy) GetMinimalPackageInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaContainerService, "getMinimalPackageInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaContainerServiceGetMinimalPackageInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -116,7 +116,7 @@ func (p *MediaContainerServiceProxy) GetObbInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaContainerService, "getObbInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaContainerServiceGetObbInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -145,7 +145,7 @@ func (p *MediaContainerServiceProxy) CalculateInstalledSize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaContainerService, "calculateInstalledSize")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaContainerServiceCalculateInstalledSize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

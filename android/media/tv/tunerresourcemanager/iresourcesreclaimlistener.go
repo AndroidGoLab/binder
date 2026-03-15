@@ -44,7 +44,7 @@ func (p *ResourcesReclaimListenerProxy) OnReclaimResources(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourcesReclaimListener, "onReclaimResources")
 	if _err != nil {
-		return _err
+		_code = TransactionIResourcesReclaimListenerOnReclaimResources
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

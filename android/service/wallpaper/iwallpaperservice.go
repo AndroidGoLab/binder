@@ -80,7 +80,7 @@ func (p *WallpaperServiceProxy) Attach(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperService, "attach")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperServiceAttach
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -97,7 +97,7 @@ func (p *WallpaperServiceProxy) Detach(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperService, "detach")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperServiceDetach
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

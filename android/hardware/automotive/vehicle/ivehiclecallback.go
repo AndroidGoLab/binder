@@ -57,7 +57,7 @@ func (p *VehicleCallbackProxy) OnGetValues(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVehicleCallback, "onGetValues")
 	if _err != nil {
-		return _err
+		_code = TransactionIVehicleCallbackOnGetValues
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -77,7 +77,7 @@ func (p *VehicleCallbackProxy) OnSetValues(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVehicleCallback, "onSetValues")
 	if _err != nil {
-		return _err
+		_code = TransactionIVehicleCallbackOnSetValues
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -99,7 +99,7 @@ func (p *VehicleCallbackProxy) OnPropertyEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVehicleCallback, "onPropertyEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIVehicleCallbackOnPropertyEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -119,7 +119,7 @@ func (p *VehicleCallbackProxy) OnPropertySetError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVehicleCallback, "onPropertySetError")
 	if _err != nil {
-		return _err
+		_code = TransactionIVehicleCallbackOnPropertySetError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -145,7 +145,7 @@ func (p *VehicleCallbackProxy) OnSupportedValueChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVehicleCallback, "onSupportedValueChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIVehicleCallbackOnSupportedValueChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

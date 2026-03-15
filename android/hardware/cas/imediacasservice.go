@@ -55,7 +55,7 @@ func (p *MediaCasServiceProxy) CreateDescrambler(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaCasService, "createDescrambler")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaCasServiceCreateDescrambler
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -89,7 +89,7 @@ func (p *MediaCasServiceProxy) CreatePlugin(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaCasService, "createPlugin")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaCasServiceCreatePlugin
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -119,7 +119,7 @@ func (p *MediaCasServiceProxy) EnumeratePlugins(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaCasService, "enumeratePlugins")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaCasServiceEnumeratePlugins
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -159,7 +159,7 @@ func (p *MediaCasServiceProxy) IsDescramblerSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaCasService, "isDescramblerSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaCasServiceIsDescramblerSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -190,7 +190,7 @@ func (p *MediaCasServiceProxy) IsSystemIdSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaCasService, "isSystemIdSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMediaCasServiceIsSystemIdSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

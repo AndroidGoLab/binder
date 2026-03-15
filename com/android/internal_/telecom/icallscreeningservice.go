@@ -52,7 +52,7 @@ func (p *CallScreeningServiceProxy) ScreenCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallScreeningService, "screenCall")
 	if _err != nil {
-		return _err
+		_code = TransactionICallScreeningServiceScreenCall
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

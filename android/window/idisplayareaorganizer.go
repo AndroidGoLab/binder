@@ -54,7 +54,7 @@ func (p *DisplayAreaOrganizerProxy) OnDisplayAreaAppeared(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayAreaOrganizer, "onDisplayAreaAppeared")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayAreaOrganizerOnDisplayAreaAppeared
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -74,7 +74,7 @@ func (p *DisplayAreaOrganizerProxy) OnDisplayAreaVanished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayAreaOrganizer, "onDisplayAreaVanished")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayAreaOrganizerOnDisplayAreaVanished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -94,7 +94,7 @@ func (p *DisplayAreaOrganizerProxy) OnDisplayAreaInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayAreaOrganizer, "onDisplayAreaInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayAreaOrganizerOnDisplayAreaInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -66,7 +66,7 @@ func (p *DumpstateProxy) PreDumpUiData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDumpstate, "preDumpUiData")
 	if _err != nil {
-		return _err
+		_code = TransactionIDumpstatePreDumpUiData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -105,7 +105,7 @@ func (p *DumpstateProxy) StartBugreport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDumpstate, "startBugreport")
 	if _err != nil {
-		return _err
+		_code = TransactionIDumpstateStartBugreport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -132,7 +132,7 @@ func (p *DumpstateProxy) CancelBugreport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDumpstate, "cancelBugreport")
 	if _err != nil {
-		return _err
+		_code = TransactionIDumpstateCancelBugreport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -169,7 +169,7 @@ func (p *DumpstateProxy) RetrieveBugreport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDumpstate, "retrieveBugreport")
 	if _err != nil {
-		return _err
+		_code = TransactionIDumpstateRetrieveBugreport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -46,7 +46,7 @@ func (p *StoreUpgradedKeyCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStoreUpgradedKeyCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIStoreUpgradedKeyCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *StoreUpgradedKeyCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStoreUpgradedKeyCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIStoreUpgradedKeyCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

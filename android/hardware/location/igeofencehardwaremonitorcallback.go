@@ -49,7 +49,7 @@ func (p *GeofenceHardwareMonitorCallbackProxy) OnMonitoringSystemChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGeofenceHardwareMonitorCallback, "onMonitoringSystemChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIGeofenceHardwareMonitorCallbackOnMonitoringSystemChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

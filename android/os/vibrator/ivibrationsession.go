@@ -60,7 +60,7 @@ func (p *VibrationSessionProxy) Vibrate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibrationSession, "vibrate")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibrationSessionVibrate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *VibrationSessionProxy) FinishSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibrationSession, "finishSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibrationSessionFinishSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -108,7 +108,7 @@ func (p *VibrationSessionProxy) CancelSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibrationSession, "cancelSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIVibrationSessionCancelSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

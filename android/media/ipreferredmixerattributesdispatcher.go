@@ -59,7 +59,7 @@ func (p *PreferredMixerAttributesDispatcherProxy) DispatchPrefMixerAttributesCha
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPreferredMixerAttributesDispatcher, "dispatchPrefMixerAttributesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIPreferredMixerAttributesDispatcherDispatchPrefMixerAttributesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -103,7 +103,7 @@ func (p *VirtualHalProxy) SetEnrollments(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setEnrollments")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetEnrollments
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -129,7 +129,7 @@ func (p *VirtualHalProxy) SetEnrollmentHit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setEnrollmentHit")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetEnrollmentHit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -158,7 +158,7 @@ func (p *VirtualHalProxy) SetNextEnrollment(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setNextEnrollment")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetNextEnrollment
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -184,7 +184,7 @@ func (p *VirtualHalProxy) SetAuthenticatorId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setAuthenticatorId")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetAuthenticatorId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -210,7 +210,7 @@ func (p *VirtualHalProxy) SetChallenge(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setChallenge")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetChallenge
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -236,7 +236,7 @@ func (p *VirtualHalProxy) SetOperationAuthenticateFails(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationAuthenticateFails")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetOperationAuthenticateFails
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -269,7 +269,7 @@ func (p *VirtualHalProxy) SetOperationAuthenticateLatency(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationAuthenticateLatency")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetOperationAuthenticateLatency
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -295,7 +295,7 @@ func (p *VirtualHalProxy) SetOperationAuthenticateDuration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationAuthenticateDuration")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetOperationAuthenticateDuration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -321,7 +321,7 @@ func (p *VirtualHalProxy) SetOperationAuthenticateError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationAuthenticateError")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetOperationAuthenticateError
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -356,7 +356,7 @@ func (p *VirtualHalProxy) SetOperationAuthenticateAcquired(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationAuthenticateAcquired")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetOperationAuthenticateAcquired
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -389,7 +389,7 @@ func (p *VirtualHalProxy) SetOperationEnrollLatency(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationEnrollLatency")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetOperationEnrollLatency
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -422,7 +422,7 @@ func (p *VirtualHalProxy) SetOperationDetectInteractionLatency(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationDetectInteractionLatency")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetOperationDetectInteractionLatency
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -448,7 +448,7 @@ func (p *VirtualHalProxy) SetOperationDetectInteractionFails(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setOperationDetectInteractionFails")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetOperationDetectInteractionFails
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -474,7 +474,7 @@ func (p *VirtualHalProxy) SetLockout(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setLockout")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetLockout
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -500,7 +500,7 @@ func (p *VirtualHalProxy) SetLockoutEnable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setLockoutEnable")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetLockoutEnable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -526,7 +526,7 @@ func (p *VirtualHalProxy) SetLockoutTimedEnable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setLockoutTimedEnable")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetLockoutTimedEnable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -552,7 +552,7 @@ func (p *VirtualHalProxy) SetLockoutTimedThreshold(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setLockoutTimedThreshold")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetLockoutTimedThreshold
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -578,7 +578,7 @@ func (p *VirtualHalProxy) SetLockoutTimedDuration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setLockoutTimedDuration")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetLockoutTimedDuration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -604,7 +604,7 @@ func (p *VirtualHalProxy) SetLockoutPermanentThreshold(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setLockoutPermanentThreshold")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetLockoutPermanentThreshold
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -628,7 +628,7 @@ func (p *VirtualHalProxy) ResetConfigurations(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "resetConfigurations")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalResetConfigurations
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -654,7 +654,7 @@ func (p *VirtualHalProxy) SetType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setType")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -680,7 +680,7 @@ func (p *VirtualHalProxy) SetSensorStrength(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "setSensorStrength")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualHalSetSensorStrength
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -705,7 +705,7 @@ func (p *VirtualHalProxy) GetFaceHal(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualHal, "getFaceHal")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVirtualHalGetFaceHal
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

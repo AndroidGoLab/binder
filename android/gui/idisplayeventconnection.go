@@ -53,7 +53,7 @@ func (p *DisplayEventConnectionProxy) StealReceiveChannel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayEventConnection, "stealReceiveChannel")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayEventConnectionStealReceiveChannel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -79,7 +79,7 @@ func (p *DisplayEventConnectionProxy) SetVsyncRate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayEventConnection, "setVsyncRate")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayEventConnectionSetVsyncRate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -103,7 +103,7 @@ func (p *DisplayEventConnectionProxy) RequestNextVsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayEventConnection, "requestNextVsync")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayEventConnectionRequestNextVsync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -119,7 +119,7 @@ func (p *DisplayEventConnectionProxy) GetLatestVsyncEventData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayEventConnection, "getLatestVsyncEventData")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayEventConnectionGetLatestVsyncEventData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -144,7 +144,7 @@ func (p *DisplayEventConnectionProxy) GetSchedulingPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayEventConnection, "getSchedulingPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayEventConnectionGetSchedulingPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

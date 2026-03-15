@@ -137,7 +137,7 @@ func (p *ModuleProxy) SetModuleDebug(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "setModuleDebug")
 	if _err != nil {
-		return _err
+		_code = TransactionIModuleSetModuleDebug
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -162,7 +162,7 @@ func (p *ModuleProxy) GetTelephony(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getTelephony")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetTelephony
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -192,7 +192,7 @@ func (p *ModuleProxy) GetBluetooth(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getBluetooth")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetBluetooth
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -222,7 +222,7 @@ func (p *ModuleProxy) GetBluetoothA2dp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getBluetoothA2dp")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetBluetoothA2dp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -252,7 +252,7 @@ func (p *ModuleProxy) GetBluetoothLe(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getBluetoothLe")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetBluetoothLe
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -287,7 +287,7 @@ func (p *ModuleProxy) ConnectExternalDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "connectExternalDevice")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleConnectExternalDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -322,7 +322,7 @@ func (p *ModuleProxy) DisconnectExternalDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "disconnectExternalDevice")
 	if _err != nil {
-		return _err
+		_code = TransactionIModuleDisconnectExternalDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -347,7 +347,7 @@ func (p *ModuleProxy) GetAudioPatches(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getAudioPatches")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetAudioPatches
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -387,7 +387,7 @@ func (p *ModuleProxy) GetAudioPort(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getAudioPort")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetAudioPort
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -421,7 +421,7 @@ func (p *ModuleProxy) GetAudioPortConfigs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getAudioPortConfigs")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetAudioPortConfigs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -459,7 +459,7 @@ func (p *ModuleProxy) GetAudioPorts(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getAudioPorts")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetAudioPorts
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -497,7 +497,7 @@ func (p *ModuleProxy) GetAudioRoutes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getAudioRoutes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetAudioRoutes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -537,7 +537,7 @@ func (p *ModuleProxy) GetAudioRoutesForAudioPort(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getAudioRoutesForAudioPort")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetAudioRoutesForAudioPort
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -576,7 +576,7 @@ func (p *ModuleProxy) OpenInputStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "openInputStream")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleOpenInputStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -602,7 +602,7 @@ func (p *ModuleProxy) OpenOutputStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "openOutputStream")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleOpenOutputStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -627,7 +627,7 @@ func (p *ModuleProxy) GetSupportedPlaybackRateFactors(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getSupportedPlaybackRateFactors")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetSupportedPlaybackRateFactors
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -657,7 +657,7 @@ func (p *ModuleProxy) SetAudioPatch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "setAudioPatch")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleSetAudioPatch
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -697,7 +697,7 @@ func (p *ModuleProxy) SetAudioPortConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "setAudioPortConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleSetAudioPortConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -730,7 +730,7 @@ func (p *ModuleProxy) ResetAudioPatch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "resetAudioPatch")
 	if _err != nil {
-		return _err
+		_code = TransactionIModuleResetAudioPatch
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -756,7 +756,7 @@ func (p *ModuleProxy) ResetAudioPortConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "resetAudioPortConfig")
 	if _err != nil {
-		return _err
+		_code = TransactionIModuleResetAudioPortConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -781,7 +781,7 @@ func (p *ModuleProxy) GetMasterMute(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getMasterMute")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetMasterMute
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -811,7 +811,7 @@ func (p *ModuleProxy) SetMasterMute(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "setMasterMute")
 	if _err != nil {
-		return _err
+		_code = TransactionIModuleSetMasterMute
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -836,7 +836,7 @@ func (p *ModuleProxy) GetMasterVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getMasterVolume")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetMasterVolume
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -866,7 +866,7 @@ func (p *ModuleProxy) SetMasterVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "setMasterVolume")
 	if _err != nil {
-		return _err
+		_code = TransactionIModuleSetMasterVolume
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -891,7 +891,7 @@ func (p *ModuleProxy) GetMicMute(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getMicMute")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetMicMute
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -921,7 +921,7 @@ func (p *ModuleProxy) SetMicMute(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "setMicMute")
 	if _err != nil {
-		return _err
+		_code = TransactionIModuleSetMicMute
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -946,7 +946,7 @@ func (p *ModuleProxy) GetMicrophones(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getMicrophones")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetMicrophones
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -985,7 +985,7 @@ func (p *ModuleProxy) UpdateAudioMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "updateAudioMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIModuleUpdateAudioMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1010,7 +1010,7 @@ func (p *ModuleProxy) UpdateScreenRotation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "updateScreenRotation")
 	if _err != nil {
-		return _err
+		_code = TransactionIModuleUpdateScreenRotation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1036,7 +1036,7 @@ func (p *ModuleProxy) UpdateScreenState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "updateScreenState")
 	if _err != nil {
-		return _err
+		_code = TransactionIModuleUpdateScreenState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1061,7 +1061,7 @@ func (p *ModuleProxy) GetSoundDose(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getSoundDose")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetSoundDose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1091,7 +1091,7 @@ func (p *ModuleProxy) GenerateHwAvSyncId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "generateHwAvSyncId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGenerateHwAvSyncId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1129,7 +1129,7 @@ func (p *ModuleProxy) GetVendorParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getVendorParameters")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetVendorParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1179,7 +1179,7 @@ func (p *ModuleProxy) SetVendorParameters(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "setVendorParameters")
 	if _err != nil {
-		return _err
+		_code = TransactionIModuleSetVendorParameters
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1207,7 +1207,7 @@ func (p *ModuleProxy) AddDeviceEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "addDeviceEffect")
 	if _err != nil {
-		return _err
+		_code = TransactionIModuleAddDeviceEffect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1235,7 +1235,7 @@ func (p *ModuleProxy) RemoveDeviceEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "removeDeviceEffect")
 	if _err != nil {
-		return _err
+		_code = TransactionIModuleRemoveDeviceEffect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1262,7 +1262,7 @@ func (p *ModuleProxy) GetMmapPolicyInfos(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getMmapPolicyInfos")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetMmapPolicyInfos
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1300,7 +1300,7 @@ func (p *ModuleProxy) SupportsVariableLatency(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "supportsVariableLatency")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleSupportsVariableLatency
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1329,7 +1329,7 @@ func (p *ModuleProxy) GetAAudioMixerBurstCount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getAAudioMixerBurstCount")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetAAudioMixerBurstCount
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1358,7 +1358,7 @@ func (p *ModuleProxy) GetAAudioHardwareBurstMinUsec(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "getAAudioHardwareBurstMinUsec")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIModuleGetAAudioHardwareBurstMinUsec
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1388,7 +1388,7 @@ func (p *ModuleProxy) PrepareToDisconnectExternalDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIModule, "prepareToDisconnectExternalDevice")
 	if _err != nil {
-		return _err
+		_code = TransactionIModulePrepareToDisconnectExternalDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

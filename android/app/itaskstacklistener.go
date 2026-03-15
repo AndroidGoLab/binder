@@ -101,7 +101,7 @@ func (p *TaskStackListenerProxy) OnTaskStackChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskStackChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnTaskStackChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -124,7 +124,7 @@ func (p *TaskStackListenerProxy) OnActivityPinned(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityPinned")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnActivityPinned
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -139,7 +139,7 @@ func (p *TaskStackListenerProxy) OnActivityUnpinned(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityUnpinned")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnActivityUnpinned
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -165,7 +165,7 @@ func (p *TaskStackListenerProxy) OnActivityRestartAttempt(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityRestartAttempt")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnActivityRestartAttempt
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -186,7 +186,7 @@ func (p *TaskStackListenerProxy) OnActivityForcedResizable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityForcedResizable")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnActivityForcedResizable
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -201,7 +201,7 @@ func (p *TaskStackListenerProxy) OnActivityDismissingDockedTask(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityDismissingDockedTask")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnActivityDismissingDockedTask
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -223,7 +223,7 @@ func (p *TaskStackListenerProxy) OnActivityLaunchOnSecondaryDisplayFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityLaunchOnSecondaryDisplayFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnActivityLaunchOnSecondaryDisplayFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -245,7 +245,7 @@ func (p *TaskStackListenerProxy) OnActivityLaunchOnSecondaryDisplayRerouted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityLaunchOnSecondaryDisplayRerouted")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnActivityLaunchOnSecondaryDisplayRerouted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -263,7 +263,7 @@ func (p *TaskStackListenerProxy) OnTaskCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnTaskCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -280,7 +280,7 @@ func (p *TaskStackListenerProxy) OnTaskRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnTaskRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -300,7 +300,7 @@ func (p *TaskStackListenerProxy) OnTaskMovedToFront(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskMovedToFront")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnTaskMovedToFront
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -320,7 +320,7 @@ func (p *TaskStackListenerProxy) OnTaskDescriptionChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskDescriptionChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnTaskDescriptionChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -339,7 +339,7 @@ func (p *TaskStackListenerProxy) OnActivityRequestedOrientationChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityRequestedOrientationChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnActivityRequestedOrientationChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -359,7 +359,7 @@ func (p *TaskStackListenerProxy) OnTaskRemovalStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskRemovalStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnTaskRemovalStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -381,7 +381,7 @@ func (p *TaskStackListenerProxy) OnTaskProfileLocked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskProfileLocked")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnTaskProfileLocked
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -399,7 +399,7 @@ func (p *TaskStackListenerProxy) OnTaskSnapshotChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskSnapshotChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnTaskSnapshotChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -416,7 +416,7 @@ func (p *TaskStackListenerProxy) OnTaskSnapshotInvalidated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskSnapshotInvalidated")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnTaskSnapshotInvalidated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -436,7 +436,7 @@ func (p *TaskStackListenerProxy) OnBackPressedOnTaskRoot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onBackPressedOnTaskRoot")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnBackPressedOnTaskRoot
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -455,7 +455,7 @@ func (p *TaskStackListenerProxy) OnTaskDisplayChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskDisplayChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnTaskDisplayChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -470,7 +470,7 @@ func (p *TaskStackListenerProxy) OnRecentTaskListUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onRecentTaskListUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnRecentTaskListUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -487,7 +487,7 @@ func (p *TaskStackListenerProxy) OnRecentTaskListFrozenChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onRecentTaskListFrozenChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnRecentTaskListFrozenChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -504,7 +504,7 @@ func (p *TaskStackListenerProxy) OnRecentTaskRemovedForAddTask(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onRecentTaskRemovedForAddTask")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnRecentTaskRemovedForAddTask
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -523,7 +523,7 @@ func (p *TaskStackListenerProxy) OnTaskFocusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskFocusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnTaskFocusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -542,7 +542,7 @@ func (p *TaskStackListenerProxy) OnTaskRequestedOrientationChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskRequestedOrientationChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnTaskRequestedOrientationChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -559,7 +559,7 @@ func (p *TaskStackListenerProxy) OnActivityRotation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onActivityRotation")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnActivityRotation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -579,7 +579,7 @@ func (p *TaskStackListenerProxy) OnTaskMovedToBack(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onTaskMovedToBack")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnTaskMovedToBack
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -596,7 +596,7 @@ func (p *TaskStackListenerProxy) OnLockTaskModeChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskStackListener, "onLockTaskModeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITaskStackListenerOnLockTaskModeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

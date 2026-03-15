@@ -61,7 +61,7 @@ func (p *RemoteMemoryIntArrayProxy) PeekInstance(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteMemoryIntArray, "peekInstance")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRemoteMemoryIntArrayPeekInstance
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -96,7 +96,7 @@ func (p *RemoteMemoryIntArrayProxy) Create(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteMemoryIntArray, "create")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteMemoryIntArrayCreate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -121,7 +121,7 @@ func (p *RemoteMemoryIntArrayProxy) IsWritable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteMemoryIntArray, "isWritable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRemoteMemoryIntArrayIsWritable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -152,7 +152,7 @@ func (p *RemoteMemoryIntArrayProxy) Get(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteMemoryIntArray, "get")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRemoteMemoryIntArrayGet
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -184,7 +184,7 @@ func (p *RemoteMemoryIntArrayProxy) Set(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteMemoryIntArray, "set")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteMemoryIntArraySet
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -209,7 +209,7 @@ func (p *RemoteMemoryIntArrayProxy) Size(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteMemoryIntArray, "size")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRemoteMemoryIntArraySize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -237,7 +237,7 @@ func (p *RemoteMemoryIntArrayProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteMemoryIntArray, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteMemoryIntArrayClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -262,7 +262,7 @@ func (p *RemoteMemoryIntArrayProxy) IsClosed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteMemoryIntArray, "isClosed")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRemoteMemoryIntArrayIsClosed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -295,7 +295,7 @@ func (p *RemoteMemoryIntArrayProxy) AccessLastElementInRemoteProcess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteMemoryIntArray, "accessLastElementInRemoteProcess")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteMemoryIntArrayAccessLastElementInRemoteProcess
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

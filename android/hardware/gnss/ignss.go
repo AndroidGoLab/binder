@@ -106,7 +106,7 @@ func (p *GnssProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *GnssProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -155,7 +155,7 @@ func (p *GnssProxy) GetExtensionPsds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionPsds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssGetExtensionPsds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -185,7 +185,7 @@ func (p *GnssProxy) GetExtensionGnssConfiguration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssConfiguration")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssGetExtensionGnssConfiguration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -215,7 +215,7 @@ func (p *GnssProxy) GetExtensionGnssMeasurement(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssMeasurement")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssGetExtensionGnssMeasurement
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -245,7 +245,7 @@ func (p *GnssProxy) GetExtensionGnssPowerIndication(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssPowerIndication")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssGetExtensionGnssPowerIndication
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -275,7 +275,7 @@ func (p *GnssProxy) GetExtensionGnssBatching(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssBatching")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssGetExtensionGnssBatching
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -305,7 +305,7 @@ func (p *GnssProxy) GetExtensionGnssGeofence(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssGeofence")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssGetExtensionGnssGeofence
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -335,7 +335,7 @@ func (p *GnssProxy) GetExtensionGnssNavigationMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssNavigationMessage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssGetExtensionGnssNavigationMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -365,7 +365,7 @@ func (p *GnssProxy) GetExtensionAGnss(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionAGnss")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssGetExtensionAGnss
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -395,7 +395,7 @@ func (p *GnssProxy) GetExtensionAGnssRil(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionAGnssRil")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssGetExtensionAGnssRil
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -425,7 +425,7 @@ func (p *GnssProxy) GetExtensionGnssDebug(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssDebug")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssGetExtensionGnssDebug
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -455,7 +455,7 @@ func (p *GnssProxy) GetExtensionGnssVisibilityControl(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssVisibilityControl")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssGetExtensionGnssVisibilityControl
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -484,7 +484,7 @@ func (p *GnssProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "start")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssStart
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -508,7 +508,7 @@ func (p *GnssProxy) Stop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "stop")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssStop
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -538,7 +538,7 @@ func (p *GnssProxy) InjectTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "injectTime")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssInjectTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -567,7 +567,7 @@ func (p *GnssProxy) InjectLocation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "injectLocation")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssInjectLocation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -596,7 +596,7 @@ func (p *GnssProxy) InjectBestLocation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "injectBestLocation")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssInjectBestLocation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -622,7 +622,7 @@ func (p *GnssProxy) DeleteAidingData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "deleteAidingData")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssDeleteAidingData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -651,7 +651,7 @@ func (p *GnssProxy) SetPositionMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "setPositionMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssSetPositionMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -676,7 +676,7 @@ func (p *GnssProxy) GetExtensionGnssAntennaInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssAntennaInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssGetExtensionGnssAntennaInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -706,7 +706,7 @@ func (p *GnssProxy) GetExtensionMeasurementCorrections(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionMeasurementCorrections")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssGetExtensionMeasurementCorrections
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -730,7 +730,7 @@ func (p *GnssProxy) StartSvStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "startSvStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssStartSvStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -754,7 +754,7 @@ func (p *GnssProxy) StopSvStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "stopSvStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssStopSvStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -778,7 +778,7 @@ func (p *GnssProxy) StartNmea(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "startNmea")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssStartNmea
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -802,7 +802,7 @@ func (p *GnssProxy) StopNmea(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "stopNmea")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssStopNmea
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -827,7 +827,7 @@ func (p *GnssProxy) GetExtensionGnssAssistanceInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnss, "getExtensionGnssAssistanceInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGnssGetExtensionGnssAssistanceInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

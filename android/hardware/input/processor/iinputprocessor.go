@@ -55,7 +55,7 @@ func (p *InputProcessorProxy) Classify(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputProcessor, "classify")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIInputProcessorClassify
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -84,7 +84,7 @@ func (p *InputProcessorProxy) Reset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputProcessor, "reset")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputProcessorReset
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -110,7 +110,7 @@ func (p *InputProcessorProxy) ResetDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputProcessor, "resetDevice")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputProcessorResetDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

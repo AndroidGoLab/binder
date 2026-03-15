@@ -55,7 +55,7 @@ func (p *BinderRpcBenchmarkProxy) RepeatString(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcBenchmark, "repeatString")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcBenchmarkRepeatString
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -86,7 +86,7 @@ func (p *BinderRpcBenchmarkProxy) RepeatBinder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcBenchmark, "repeatBinder")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcBenchmarkRepeatBinder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -125,7 +125,7 @@ func (p *BinderRpcBenchmarkProxy) RepeatBytes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcBenchmark, "repeatBytes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcBenchmarkRepeatBytes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -164,7 +164,7 @@ func (p *BinderRpcBenchmarkProxy) GimmeBinder(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcBenchmark, "gimmeBinder")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderRpcBenchmarkGimmeBinder
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -193,7 +193,7 @@ func (p *BinderRpcBenchmarkProxy) WaitGimmesDestroyed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderRpcBenchmark, "waitGimmesDestroyed")
 	if _err != nil {
-		return _err
+		_code = TransactionIBinderRpcBenchmarkWaitGimmesDestroyed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -51,7 +51,7 @@ func (p *DistanceMeasurementCallbackProxy) OnStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurementCallback, "onStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIDistanceMeasurementCallbackOnStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *DistanceMeasurementCallbackProxy) OnStartFail(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurementCallback, "onStartFail")
 	if _err != nil {
-		return _err
+		_code = TransactionIDistanceMeasurementCallbackOnStartFail
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -87,7 +87,7 @@ func (p *DistanceMeasurementCallbackProxy) OnStopped(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurementCallback, "onStopped")
 	if _err != nil {
-		return _err
+		_code = TransactionIDistanceMeasurementCallbackOnStopped
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -108,7 +108,7 @@ func (p *DistanceMeasurementCallbackProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDistanceMeasurementCallback, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIDistanceMeasurementCallbackOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

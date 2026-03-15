@@ -62,7 +62,7 @@ func (p *AugmentedAutofillManagerClientProxy) GetViewCoordinates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "getViewCoordinates")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAugmentedAutofillManagerClientGetViewCoordinates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -101,7 +101,7 @@ func (p *AugmentedAutofillManagerClientProxy) GetViewNodeParcelable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "getViewNodeParcelable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAugmentedAutofillManagerClientGetViewNodeParcelable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -160,7 +160,7 @@ func (p *AugmentedAutofillManagerClientProxy) Autofill(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "autofill")
 	if _err != nil {
-		return _err
+		_code = TransactionIAugmentedAutofillManagerClientAutofill
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -202,7 +202,7 @@ func (p *AugmentedAutofillManagerClientProxy) RequestShowFillUi(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "requestShowFillUi")
 	if _err != nil {
-		return _err
+		_code = TransactionIAugmentedAutofillManagerClientRequestShowFillUi
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -233,7 +233,7 @@ func (p *AugmentedAutofillManagerClientProxy) RequestHideFillUi(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "requestHideFillUi")
 	if _err != nil {
-		return _err
+		_code = TransactionIAugmentedAutofillManagerClientRequestHideFillUi
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -265,7 +265,7 @@ func (p *AugmentedAutofillManagerClientProxy) RequestAutofill(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAugmentedAutofillManagerClient, "requestAutofill")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAugmentedAutofillManagerClientRequestAutofill
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

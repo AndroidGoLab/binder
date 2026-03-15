@@ -52,7 +52,7 @@ func (p *AccessibilityManagerClientProxy) SetState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityManagerClient, "setState")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityManagerClientSetState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *AccessibilityManagerClientProxy) NotifyServicesStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityManagerClient, "notifyServicesStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityManagerClientNotifyServicesStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -86,7 +86,7 @@ func (p *AccessibilityManagerClientProxy) SetRelevantEventTypes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityManagerClient, "setRelevantEventTypes")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityManagerClientSetRelevantEventTypes
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -105,7 +105,7 @@ func (p *AccessibilityManagerClientProxy) SetFocusAppearance(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityManagerClient, "setFocusAppearance")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityManagerClientSetFocusAppearance
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -50,7 +50,7 @@ func (p *FavoriteNetworkProxy) GetFavoriteNetworks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFavoriteNetwork, "getFavoriteNetworks")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFavoriteNetworkGetFavoriteNetworks
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *FavoriteNetworkProxy) SetFavoriteNetwork(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFavoriteNetwork, "setFavoriteNetwork")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFavoriteNetworkSetFavoriteNetwork
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -124,7 +124,7 @@ func (p *FavoriteNetworkProxy) SetListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFavoriteNetwork, "setListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFavoriteNetworkSetListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

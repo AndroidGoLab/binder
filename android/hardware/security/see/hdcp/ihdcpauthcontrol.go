@@ -51,7 +51,7 @@ func (p *HdcpAuthControlProxy) GetHdcpLevels(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdcpAuthControl, "getHdcpLevels")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHdcpAuthControlGetHdcpLevels
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -86,7 +86,7 @@ func (p *HdcpAuthControlProxy) TrySetHdcpLevel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdcpAuthControl, "trySetHdcpLevel")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdcpAuthControlTrySetHdcpLevel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -111,7 +111,7 @@ func (p *HdcpAuthControlProxy) GetPendingHdcpLevel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdcpAuthControl, "getPendingHdcpLevel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHdcpAuthControlGetPendingHdcpLevel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

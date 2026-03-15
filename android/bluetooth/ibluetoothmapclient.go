@@ -65,7 +65,7 @@ func (p *BluetoothMapClientProxy) Connect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothMapClient, "connect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothMapClientConnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -100,7 +100,7 @@ func (p *BluetoothMapClientProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothMapClient, "disconnect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothMapClientDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *BluetoothMapClientProxy) GetConnectedDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothMapClient, "getConnectedDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothMapClientGetConnectedDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -178,7 +178,7 @@ func (p *BluetoothMapClientProxy) GetDevicesMatchingConnectionStates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothMapClient, "getDevicesMatchingConnectionStates")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothMapClientGetDevicesMatchingConnectionStates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -222,7 +222,7 @@ func (p *BluetoothMapClientProxy) GetConnectionState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothMapClient, "getConnectionState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothMapClientGetConnectionState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -259,7 +259,7 @@ func (p *BluetoothMapClientProxy) SetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothMapClient, "setConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothMapClientSetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -294,7 +294,7 @@ func (p *BluetoothMapClientProxy) GetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothMapClient, "getConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothMapClientGetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -339,7 +339,7 @@ func (p *BluetoothMapClientProxy) SendMessage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothMapClient, "sendMessage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothMapClientSendMessage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

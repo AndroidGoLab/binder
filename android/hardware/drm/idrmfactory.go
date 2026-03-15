@@ -56,7 +56,7 @@ func (p *DrmFactoryProxy) CreateDrmPlugin(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDrmFactory, "createDrmPlugin")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDrmFactoryCreateDrmPlugin
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -100,7 +100,7 @@ func (p *DrmFactoryProxy) CreateCryptoPlugin(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDrmFactory, "createCryptoPlugin")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDrmFactoryCreateCryptoPlugin
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -130,7 +130,7 @@ func (p *DrmFactoryProxy) GetSupportedCryptoSchemes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDrmFactory, "getSupportedCryptoSchemes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDrmFactoryGetSupportedCryptoSchemes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -56,7 +56,7 @@ func (p *SendMgmtFrameEventProxy) OnAck(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISendMgmtFrameEvent, "OnAck")
 	if _err != nil {
-		return _err
+		_code = TransactionISendMgmtFrameEventOnAck
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -73,7 +73,7 @@ func (p *SendMgmtFrameEventProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISendMgmtFrameEvent, "OnFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionISendMgmtFrameEventOnFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

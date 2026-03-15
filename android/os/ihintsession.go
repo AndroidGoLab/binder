@@ -59,7 +59,7 @@ func (p *HintSessionProxy) UpdateTargetWorkDuration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHintSession, "updateTargetWorkDuration")
 	if _err != nil {
-		return _err
+		_code = TransactionIHintSessionUpdateTargetWorkDuration
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *HintSessionProxy) ReportActualWorkDuration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHintSession, "reportActualWorkDuration")
 	if _err != nil {
-		return _err
+		_code = TransactionIHintSessionReportActualWorkDuration
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -107,7 +107,7 @@ func (p *HintSessionProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHintSession, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIHintSessionClose
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -124,7 +124,7 @@ func (p *HintSessionProxy) SendHint(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHintSession, "sendHint")
 	if _err != nil {
-		return _err
+		_code = TransactionIHintSessionSendHint
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -143,7 +143,7 @@ func (p *HintSessionProxy) SetMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHintSession, "setMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIHintSessionSetMode
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -169,7 +169,7 @@ func (p *HintSessionProxy) ReportActualWorkDuration2(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHintSession, "reportActualWorkDuration2")
 	if _err != nil {
-		return _err
+		_code = TransactionIHintSessionReportActualWorkDuration2
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -193,7 +193,7 @@ func (p *HintSessionProxy) AssociateToLayers(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHintSession, "associateToLayers")
 	if _err != nil {
-		return _err
+		_code = TransactionIHintSessionAssociateToLayers
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

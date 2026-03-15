@@ -57,7 +57,7 @@ func (p *ImsServiceControllerProxy) CreateEmergencyMMTelFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "createEmergencyMMTelFeature")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceControllerCreateEmergencyMMTelFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -89,7 +89,7 @@ func (p *ImsServiceControllerProxy) CreateMMTelFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "createMMTelFeature")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceControllerCreateMMTelFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -121,7 +121,7 @@ func (p *ImsServiceControllerProxy) CreateRcsFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "createRcsFeature")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceControllerCreateRcsFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -154,7 +154,7 @@ func (p *ImsServiceControllerProxy) RemoveImsFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "removeImsFeature")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceControllerRemoveImsFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -184,7 +184,7 @@ func (p *ImsServiceControllerProxy) AddFeatureStatusCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "addFeatureStatusCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceControllerAddFeatureStatusCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -214,7 +214,7 @@ func (p *ImsServiceControllerProxy) RemoveFeatureStatusCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsServiceController, "removeFeatureStatusCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceControllerRemoveFeatureStatusCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

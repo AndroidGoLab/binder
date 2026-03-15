@@ -48,7 +48,7 @@ func (p *AdbCallbackProxy) OnDebuggingChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdbCallback, "onDebuggingChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAdbCallbackOnDebuggingChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

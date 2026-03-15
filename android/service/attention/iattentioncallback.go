@@ -50,7 +50,7 @@ func (p *AttentionCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAttentionCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIAttentionCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *AttentionCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAttentionCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIAttentionCallbackOnFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

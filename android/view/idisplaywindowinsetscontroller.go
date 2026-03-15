@@ -58,7 +58,7 @@ func (p *DisplayWindowInsetsControllerProxy) TopFocusedWindowChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowInsetsController, "topFocusedWindowChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayWindowInsetsControllerTopFocusedWindowChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *DisplayWindowInsetsControllerProxy) InsetsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowInsetsController, "insetsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayWindowInsetsControllerInsetsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *DisplayWindowInsetsControllerProxy) InsetsControlChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowInsetsController, "insetsControlChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayWindowInsetsControllerInsetsControlChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -136,7 +136,7 @@ func (p *DisplayWindowInsetsControllerProxy) ShowInsets(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowInsetsController, "showInsets")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayWindowInsetsControllerShowInsets
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -163,7 +163,7 @@ func (p *DisplayWindowInsetsControllerProxy) HideInsets(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowInsetsController, "hideInsets")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayWindowInsetsControllerHideInsets
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -185,7 +185,7 @@ func (p *DisplayWindowInsetsControllerProxy) SetImeInputTargetRequestedVisibilit
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowInsetsController, "setImeInputTargetRequestedVisibility")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayWindowInsetsControllerSetImeInputTargetRequestedVisibility
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

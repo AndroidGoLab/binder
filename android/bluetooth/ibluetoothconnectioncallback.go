@@ -51,7 +51,7 @@ func (p *BluetoothConnectionCallbackProxy) OnDeviceConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothConnectionCallback, "onDeviceConnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothConnectionCallbackOnDeviceConnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -73,7 +73,7 @@ func (p *BluetoothConnectionCallbackProxy) OnDeviceDisconnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothConnectionCallback, "onDeviceDisconnected")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothConnectionCallbackOnDeviceDisconnected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

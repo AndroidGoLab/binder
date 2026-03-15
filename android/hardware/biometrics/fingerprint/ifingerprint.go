@@ -47,7 +47,7 @@ func (p *FingerprintProxy) GetSensorProps(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFingerprint, "getSensorProps")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFingerprintGetSensorProps
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -91,7 +91,7 @@ func (p *FingerprintProxy) CreateSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFingerprint, "createSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFingerprintCreateSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

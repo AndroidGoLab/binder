@@ -46,7 +46,7 @@ func (p *HomeTransitionListenerProxy) OnHomeVisibilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHomeTransitionListener, "onHomeVisibilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIHomeTransitionListenerOnHomeVisibilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

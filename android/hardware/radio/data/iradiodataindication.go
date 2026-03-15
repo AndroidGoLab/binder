@@ -66,7 +66,7 @@ func (p *RadioDataIndicationProxy) DataCallListChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioDataIndication, "dataCallListChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioDataIndicationDataCallListChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *RadioDataIndicationProxy) KeepaliveStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioDataIndication, "keepaliveStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioDataIndicationKeepaliveStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -110,7 +110,7 @@ func (p *RadioDataIndicationProxy) PcoData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioDataIndication, "pcoData")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioDataIndicationPcoData
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -132,7 +132,7 @@ func (p *RadioDataIndicationProxy) UnthrottleApn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioDataIndication, "unthrottleApn")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioDataIndicationUnthrottleApn
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -154,7 +154,7 @@ func (p *RadioDataIndicationProxy) SlicingConfigChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioDataIndication, "slicingConfigChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioDataIndicationSlicingConfigChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

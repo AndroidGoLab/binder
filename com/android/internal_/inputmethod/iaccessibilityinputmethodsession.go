@@ -63,7 +63,7 @@ func (p *AccessibilityInputMethodSessionProxy) UpdateSelection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInputMethodSession, "updateSelection")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityInputMethodSessionUpdateSelection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -78,7 +78,7 @@ func (p *AccessibilityInputMethodSessionProxy) FinishInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInputMethodSession, "finishInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityInputMethodSessionFinishInput
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -93,7 +93,7 @@ func (p *AccessibilityInputMethodSessionProxy) FinishSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInputMethodSession, "finishSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityInputMethodSessionFinishSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -117,7 +117,7 @@ func (p *AccessibilityInputMethodSessionProxy) InvalidateInput(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInputMethodSession, "invalidateInput")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccessibilityInputMethodSessionInvalidateInput
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

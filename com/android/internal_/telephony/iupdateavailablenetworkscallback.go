@@ -46,7 +46,7 @@ func (p *UpdateAvailableNetworksCallbackProxy) OnComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUpdateAvailableNetworksCallback, "onComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionIUpdateAvailableNetworksCallbackOnComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

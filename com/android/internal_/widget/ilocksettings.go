@@ -167,7 +167,7 @@ func (p *LockSettingsProxy) SetBoolean(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "setBoolean")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsSetBoolean
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -197,7 +197,7 @@ func (p *LockSettingsProxy) SetLong(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "setLong")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsSetLong
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -227,7 +227,7 @@ func (p *LockSettingsProxy) SetString(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "setString")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsSetString
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -258,7 +258,7 @@ func (p *LockSettingsProxy) GetBoolean(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "getBoolean")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsGetBoolean
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -293,7 +293,7 @@ func (p *LockSettingsProxy) GetLong(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "getLong")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsGetLong
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -328,7 +328,7 @@ func (p *LockSettingsProxy) GetString(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "getString")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsGetString
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -369,7 +369,7 @@ func (p *LockSettingsProxy) SetLockCredential(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "setLockCredential")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsSetLockCredential
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -399,7 +399,7 @@ func (p *LockSettingsProxy) ResetKeyStore(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "resetKeyStore")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsResetKeyStore
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -433,7 +433,7 @@ func (p *LockSettingsProxy) CheckCredential(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "checkCredential")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsCheckCredential
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -476,7 +476,7 @@ func (p *LockSettingsProxy) VerifyCredential(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "verifyCredential")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsVerifyCredential
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -519,7 +519,7 @@ func (p *LockSettingsProxy) VerifyTiedProfileChallenge(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "verifyTiedProfileChallenge")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsVerifyTiedProfileChallenge
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -559,7 +559,7 @@ func (p *LockSettingsProxy) VerifyGatekeeperPasswordHandle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "verifyGatekeeperPasswordHandle")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsVerifyGatekeeperPasswordHandle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -594,7 +594,7 @@ func (p *LockSettingsProxy) RemoveGatekeeperPasswordHandle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "removeGatekeeperPasswordHandle")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsRemoveGatekeeperPasswordHandle
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -621,7 +621,7 @@ func (p *LockSettingsProxy) GetCredentialType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "getCredentialType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsGetCredentialType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -652,7 +652,7 @@ func (p *LockSettingsProxy) GetPinLength(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "getPinLength")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsGetPinLength
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -683,7 +683,7 @@ func (p *LockSettingsProxy) RefreshStoredPinLength(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "refreshStoredPinLength")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsRefreshStoredPinLength
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -719,7 +719,7 @@ func (p *LockSettingsProxy) GetHashFactor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "getHashFactor")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsGetHashFactor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -766,7 +766,7 @@ func (p *LockSettingsProxy) SetSeparateProfileChallengeEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "setSeparateProfileChallengeEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsSetSeparateProfileChallengeEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -793,7 +793,7 @@ func (p *LockSettingsProxy) GetSeparateProfileChallengeEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "getSeparateProfileChallengeEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsGetSeparateProfileChallengeEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -823,7 +823,7 @@ func (p *LockSettingsProxy) RegisterStrongAuthTracker(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "registerStrongAuthTracker")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsRegisterStrongAuthTracker
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -849,7 +849,7 @@ func (p *LockSettingsProxy) UnregisterStrongAuthTracker(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "unregisterStrongAuthTracker")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsUnregisterStrongAuthTracker
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -877,7 +877,7 @@ func (p *LockSettingsProxy) RequireStrongAuth(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "requireStrongAuth")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsRequireStrongAuth
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -905,7 +905,7 @@ func (p *LockSettingsProxy) ReportSuccessfulBiometricUnlock(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "reportSuccessfulBiometricUnlock")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsReportSuccessfulBiometricUnlock
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -931,7 +931,7 @@ func (p *LockSettingsProxy) ScheduleNonStrongBiometricIdleTimeout(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "scheduleNonStrongBiometricIdleTimeout")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsScheduleNonStrongBiometricIdleTimeout
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -955,7 +955,7 @@ func (p *LockSettingsProxy) SystemReady(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "systemReady")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsSystemReady
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -981,7 +981,7 @@ func (p *LockSettingsProxy) UserPresent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "userPresent")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsUserPresent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1008,7 +1008,7 @@ func (p *LockSettingsProxy) GetStrongAuthForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "getStrongAuthForUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsGetStrongAuthForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1039,7 +1039,7 @@ func (p *LockSettingsProxy) HasPendingEscrowToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "hasPendingEscrowToken")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsHasPendingEscrowToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1087,7 +1087,7 @@ func (p *LockSettingsProxy) InitRecoveryServiceWithSigFile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "initRecoveryServiceWithSigFile")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsInitRecoveryServiceWithSigFile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1112,7 +1112,7 @@ func (p *LockSettingsProxy) GetKeyChainSnapshot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "getKeyChainSnapshot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsGetKeyChainSnapshot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1148,7 +1148,7 @@ func (p *LockSettingsProxy) GenerateKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "generateKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsGenerateKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1188,7 +1188,7 @@ func (p *LockSettingsProxy) GenerateKeyWithMetadata(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "generateKeyWithMetadata")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsGenerateKeyWithMetadata
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1228,7 +1228,7 @@ func (p *LockSettingsProxy) ImportKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "importKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsImportKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1277,7 +1277,7 @@ func (p *LockSettingsProxy) ImportKeyWithMetadata(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "importKeyWithMetadata")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsImportKeyWithMetadata
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1308,7 +1308,7 @@ func (p *LockSettingsProxy) GetKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "getKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsGetKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1338,7 +1338,7 @@ func (p *LockSettingsProxy) RemoveKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "removeKey")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsRemoveKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1367,7 +1367,7 @@ func (p *LockSettingsProxy) SetSnapshotCreatedPendingIntent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "setSnapshotCreatedPendingIntent")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsSetSnapshotCreatedPendingIntent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1400,7 +1400,7 @@ func (p *LockSettingsProxy) SetServerParams(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "setServerParams")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsSetServerParams
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1428,7 +1428,7 @@ func (p *LockSettingsProxy) SetRecoveryStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "setRecoveryStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsSetRecoveryStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1453,7 +1453,7 @@ func (p *LockSettingsProxy) GetRecoveryStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "getRecoveryStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsGetRecoveryStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1504,7 +1504,7 @@ func (p *LockSettingsProxy) SetRecoverySecretTypes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "setRecoverySecretTypes")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsSetRecoverySecretTypes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1529,7 +1529,7 @@ func (p *LockSettingsProxy) GetRecoverySecretTypes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "getRecoverySecretTypes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsGetRecoverySecretTypes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1606,7 +1606,7 @@ func (p *LockSettingsProxy) StartRecoverySessionWithCertPath(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "startRecoverySessionWithCertPath")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsStartRecoverySessionWithCertPath
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1667,7 +1667,7 @@ func (p *LockSettingsProxy) RecoverKeyChainSnapshot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "recoverKeyChainSnapshot")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsRecoverKeyChainSnapshot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1711,7 +1711,7 @@ func (p *LockSettingsProxy) CloseSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "closeSession")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsCloseSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1736,7 +1736,7 @@ func (p *LockSettingsProxy) StartRemoteLockscreenValidation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "startRemoteLockscreenValidation")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsStartRemoteLockscreenValidation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1779,7 +1779,7 @@ func (p *LockSettingsProxy) ValidateRemoteLockscreen(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "validateRemoteLockscreen")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsValidateRemoteLockscreen
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1813,7 +1813,7 @@ func (p *LockSettingsProxy) HasSecureLockScreen(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "hasSecureLockScreen")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsHasSecureLockScreen
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1844,7 +1844,7 @@ func (p *LockSettingsProxy) TryUnlockWithCachedUnifiedChallenge(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "tryUnlockWithCachedUnifiedChallenge")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsTryUnlockWithCachedUnifiedChallenge
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1874,7 +1874,7 @@ func (p *LockSettingsProxy) RemoveCachedUnifiedChallenge(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "removeCachedUnifiedChallenge")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsRemoveCachedUnifiedChallenge
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1901,7 +1901,7 @@ func (p *LockSettingsProxy) RegisterWeakEscrowTokenRemovedListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "registerWeakEscrowTokenRemovedListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsRegisterWeakEscrowTokenRemovedListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1932,7 +1932,7 @@ func (p *LockSettingsProxy) UnregisterWeakEscrowTokenRemovedListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "unregisterWeakEscrowTokenRemovedListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsUnregisterWeakEscrowTokenRemovedListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1974,7 +1974,7 @@ func (p *LockSettingsProxy) AddWeakEscrowToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "addWeakEscrowToken")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsAddWeakEscrowToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2007,7 +2007,7 @@ func (p *LockSettingsProxy) RemoveWeakEscrowToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "removeWeakEscrowToken")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsRemoveWeakEscrowToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2040,7 +2040,7 @@ func (p *LockSettingsProxy) IsWeakEscrowTokenActive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "isWeakEscrowTokenActive")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsIsWeakEscrowTokenActive
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2082,7 +2082,7 @@ func (p *LockSettingsProxy) IsWeakEscrowTokenValid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "isWeakEscrowTokenValid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsIsWeakEscrowTokenValid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2112,7 +2112,7 @@ func (p *LockSettingsProxy) UnlockUserKeyIfUnsecured(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "unlockUserKeyIfUnsecured")
 	if _err != nil {
-		return _err
+		_code = TransactionILockSettingsUnlockUserKeyIfUnsecured
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2139,7 +2139,7 @@ func (p *LockSettingsProxy) WriteRepairModeCredential(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILockSettings, "writeRepairModeCredential")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILockSettingsWriteRepairModeCredential
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

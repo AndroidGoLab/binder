@@ -48,7 +48,7 @@ func (p *MediaRouterClientProxy) OnStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterClient, "onStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterClientOnStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *MediaRouterClientProxy) OnRestoreRoute(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterClient, "onRestoreRoute")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterClientOnRestoreRoute
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -80,7 +80,7 @@ func (p *MediaRouterClientProxy) OnGroupRouteSelected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRouterClient, "onGroupRouteSelected")
 	if _err != nil {
-		return _err
+		_code = TransactionIMediaRouterClientOnGroupRouteSelected
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

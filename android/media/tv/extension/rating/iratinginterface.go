@@ -50,7 +50,7 @@ func (p *RatingInterfaceProxy) GetRRTRatingInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRatingInterface, "getRRTRatingInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRatingInterfaceGetRRTRatingInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -89,7 +89,7 @@ func (p *RatingInterfaceProxy) SetRRTRatingInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRatingInterface, "setRRTRatingInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRatingInterfaceSetRRTRatingInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -118,7 +118,7 @@ func (p *RatingInterfaceProxy) SetResetRrt5(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRatingInterface, "setResetRrt5")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRatingInterfaceSetResetRrt5
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

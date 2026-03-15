@@ -145,7 +145,7 @@ func (p *RadioNetworkResponseProxy) AcknowledgeRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "acknowledgeRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseAcknowledgeRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -167,7 +167,7 @@ func (p *RadioNetworkResponseProxy) GetAllowedNetworkTypesBitmapResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "getAllowedNetworkTypesBitmapResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseGetAllowedNetworkTypesBitmapResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -196,7 +196,7 @@ func (p *RadioNetworkResponseProxy) GetAvailableBandModesResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "getAvailableBandModesResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseGetAvailableBandModesResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -227,7 +227,7 @@ func (p *RadioNetworkResponseProxy) GetAvailableNetworksResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "getAvailableNetworksResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseGetAvailableNetworksResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -263,7 +263,7 @@ func (p *RadioNetworkResponseProxy) GetBarringInfoResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "getBarringInfoResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseGetBarringInfoResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -285,7 +285,7 @@ func (p *RadioNetworkResponseProxy) GetCdmaRoamingPreferenceResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "getCdmaRoamingPreferenceResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseGetCdmaRoamingPreferenceResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -316,7 +316,7 @@ func (p *RadioNetworkResponseProxy) GetCellInfoListResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "getCellInfoListResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseGetCellInfoListResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -341,7 +341,7 @@ func (p *RadioNetworkResponseProxy) GetDataRegistrationStateResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "getDataRegistrationStateResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseGetDataRegistrationStateResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -365,7 +365,7 @@ func (p *RadioNetworkResponseProxy) GetImsRegistrationStateResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "getImsRegistrationStateResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseGetImsRegistrationStateResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -387,7 +387,7 @@ func (p *RadioNetworkResponseProxy) GetNetworkSelectionModeResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "getNetworkSelectionModeResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseGetNetworkSelectionModeResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -413,7 +413,7 @@ func (p *RadioNetworkResponseProxy) GetOperatorResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "getOperatorResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseGetOperatorResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -438,7 +438,7 @@ func (p *RadioNetworkResponseProxy) GetSignalStrengthResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "getSignalStrengthResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseGetSignalStrengthResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -469,7 +469,7 @@ func (p *RadioNetworkResponseProxy) GetSystemSelectionChannelsResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "getSystemSelectionChannelsResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseGetSystemSelectionChannelsResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -491,7 +491,7 @@ func (p *RadioNetworkResponseProxy) GetVoiceRadioTechnologyResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "getVoiceRadioTechnologyResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseGetVoiceRadioTechnologyResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -516,7 +516,7 @@ func (p *RadioNetworkResponseProxy) GetVoiceRegistrationStateResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "getVoiceRegistrationStateResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseGetVoiceRegistrationStateResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -538,7 +538,7 @@ func (p *RadioNetworkResponseProxy) IsNrDualConnectivityEnabledResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "isNrDualConnectivityEnabledResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseIsNrDualConnectivityEnabledResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -558,7 +558,7 @@ func (p *RadioNetworkResponseProxy) SetAllowedNetworkTypesBitmapResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setAllowedNetworkTypesBitmapResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetAllowedNetworkTypesBitmapResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -578,7 +578,7 @@ func (p *RadioNetworkResponseProxy) SetBandModeResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setBandModeResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetBandModeResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -598,7 +598,7 @@ func (p *RadioNetworkResponseProxy) SetBarringPasswordResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setBarringPasswordResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetBarringPasswordResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -618,7 +618,7 @@ func (p *RadioNetworkResponseProxy) SetCdmaRoamingPreferenceResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setCdmaRoamingPreferenceResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetCdmaRoamingPreferenceResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -638,7 +638,7 @@ func (p *RadioNetworkResponseProxy) SetCellInfoListRateResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setCellInfoListRateResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetCellInfoListRateResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -658,7 +658,7 @@ func (p *RadioNetworkResponseProxy) SetIndicationFilterResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setIndicationFilterResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetIndicationFilterResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -678,7 +678,7 @@ func (p *RadioNetworkResponseProxy) SetLinkCapacityReportingCriteriaResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setLinkCapacityReportingCriteriaResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetLinkCapacityReportingCriteriaResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -698,7 +698,7 @@ func (p *RadioNetworkResponseProxy) SetLocationUpdatesResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setLocationUpdatesResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetLocationUpdatesResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -718,7 +718,7 @@ func (p *RadioNetworkResponseProxy) SetNetworkSelectionModeAutomaticResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setNetworkSelectionModeAutomaticResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetNetworkSelectionModeAutomaticResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -738,7 +738,7 @@ func (p *RadioNetworkResponseProxy) SetNetworkSelectionModeManualResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setNetworkSelectionModeManualResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetNetworkSelectionModeManualResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -758,7 +758,7 @@ func (p *RadioNetworkResponseProxy) SetNrDualConnectivityStateResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setNrDualConnectivityStateResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetNrDualConnectivityStateResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -778,7 +778,7 @@ func (p *RadioNetworkResponseProxy) SetSignalStrengthReportingCriteriaResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setSignalStrengthReportingCriteriaResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetSignalStrengthReportingCriteriaResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -798,7 +798,7 @@ func (p *RadioNetworkResponseProxy) SetSuppServiceNotificationsResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setSuppServiceNotificationsResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetSuppServiceNotificationsResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -818,7 +818,7 @@ func (p *RadioNetworkResponseProxy) SetSystemSelectionChannelsResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setSystemSelectionChannelsResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetSystemSelectionChannelsResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -838,7 +838,7 @@ func (p *RadioNetworkResponseProxy) StartNetworkScanResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "startNetworkScanResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseStartNetworkScanResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -858,7 +858,7 @@ func (p *RadioNetworkResponseProxy) StopNetworkScanResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "stopNetworkScanResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseStopNetworkScanResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -880,7 +880,7 @@ func (p *RadioNetworkResponseProxy) SupplyNetworkDepersonalizationResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "supplyNetworkDepersonalizationResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSupplyNetworkDepersonalizationResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -900,7 +900,7 @@ func (p *RadioNetworkResponseProxy) SetUsageSettingResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setUsageSettingResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetUsageSettingResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -922,7 +922,7 @@ func (p *RadioNetworkResponseProxy) GetUsageSettingResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "getUsageSettingResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseGetUsageSettingResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -947,7 +947,7 @@ func (p *RadioNetworkResponseProxy) SetEmergencyModeResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setEmergencyModeResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetEmergencyModeResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -967,7 +967,7 @@ func (p *RadioNetworkResponseProxy) TriggerEmergencyNetworkScanResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "triggerEmergencyNetworkScanResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseTriggerEmergencyNetworkScanResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -987,7 +987,7 @@ func (p *RadioNetworkResponseProxy) ExitEmergencyModeResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "exitEmergencyModeResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseExitEmergencyModeResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1007,7 +1007,7 @@ func (p *RadioNetworkResponseProxy) CancelEmergencyNetworkScanResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "cancelEmergencyNetworkScanResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseCancelEmergencyNetworkScanResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1027,7 +1027,7 @@ func (p *RadioNetworkResponseProxy) SetNullCipherAndIntegrityEnabledResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setNullCipherAndIntegrityEnabledResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetNullCipherAndIntegrityEnabledResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1049,7 +1049,7 @@ func (p *RadioNetworkResponseProxy) IsNullCipherAndIntegrityEnabledResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "isNullCipherAndIntegrityEnabledResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseIsNullCipherAndIntegrityEnabledResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1071,7 +1071,7 @@ func (p *RadioNetworkResponseProxy) IsN1ModeEnabledResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "isN1ModeEnabledResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseIsN1ModeEnabledResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1091,7 +1091,7 @@ func (p *RadioNetworkResponseProxy) SetN1ModeEnabledResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setN1ModeEnabledResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetN1ModeEnabledResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1113,7 +1113,7 @@ func (p *RadioNetworkResponseProxy) IsCellularIdentifierTransparencyEnabledRespo
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "isCellularIdentifierTransparencyEnabledResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseIsCellularIdentifierTransparencyEnabledResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1133,7 +1133,7 @@ func (p *RadioNetworkResponseProxy) SetCellularIdentifierTransparencyEnabledResp
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setCellularIdentifierTransparencyEnabledResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetCellularIdentifierTransparencyEnabledResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1153,7 +1153,7 @@ func (p *RadioNetworkResponseProxy) SetSecurityAlgorithmsUpdatedEnabledResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setSecurityAlgorithmsUpdatedEnabledResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetSecurityAlgorithmsUpdatedEnabledResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1175,7 +1175,7 @@ func (p *RadioNetworkResponseProxy) IsSecurityAlgorithmsUpdatedEnabledResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "isSecurityAlgorithmsUpdatedEnabledResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseIsSecurityAlgorithmsUpdatedEnabledResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1195,7 +1195,7 @@ func (p *RadioNetworkResponseProxy) SetSatellitePlmnResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setSatellitePlmnResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetSatellitePlmnResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1215,7 +1215,7 @@ func (p *RadioNetworkResponseProxy) SetSatelliteEnabledForCarrierResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "setSatelliteEnabledForCarrierResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseSetSatelliteEnabledForCarrierResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1237,7 +1237,7 @@ func (p *RadioNetworkResponseProxy) IsSatelliteEnabledForCarrierResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRadioNetworkResponse, "isSatelliteEnabledForCarrierResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionIRadioNetworkResponseIsSatelliteEnabledForCarrierResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

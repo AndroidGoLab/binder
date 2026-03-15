@@ -89,7 +89,7 @@ func (p *ImsServiceProxy) Open(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsService, "open")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceOpen
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -119,7 +119,7 @@ func (p *ImsServiceProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsService, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -150,7 +150,7 @@ func (p *ImsServiceProxy) IsConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsService, "isConnected")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceIsConnected
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -181,7 +181,7 @@ func (p *ImsServiceProxy) IsOpened(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsService, "isOpened")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceIsOpened
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -213,7 +213,7 @@ func (p *ImsServiceProxy) SetRegistrationListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsService, "setRegistrationListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceSetRegistrationListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -243,7 +243,7 @@ func (p *ImsServiceProxy) AddRegistrationListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsService, "addRegistrationListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceAddRegistrationListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -274,7 +274,7 @@ func (p *ImsServiceProxy) CreateCallProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsService, "createCallProfile")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceCreateCallProfile
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -317,7 +317,7 @@ func (p *ImsServiceProxy) CreateCallSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsService, "createCallSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceCreateCallSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -351,7 +351,7 @@ func (p *ImsServiceProxy) GetPendingCallSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsService, "getPendingCallSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceGetPendingCallSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -383,7 +383,7 @@ func (p *ImsServiceProxy) GetUtInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsService, "getUtInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceGetUtInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -415,7 +415,7 @@ func (p *ImsServiceProxy) GetConfigInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsService, "getConfigInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceGetConfigInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -446,7 +446,7 @@ func (p *ImsServiceProxy) TurnOnIms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsService, "turnOnIms")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceTurnOnIms
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -472,7 +472,7 @@ func (p *ImsServiceProxy) TurnOffIms(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsService, "turnOffIms")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceTurnOffIms
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -499,7 +499,7 @@ func (p *ImsServiceProxy) GetEcbmInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsService, "getEcbmInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceGetEcbmInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -537,7 +537,7 @@ func (p *ImsServiceProxy) SetUiTTYMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsService, "setUiTTYMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIImsServiceSetUiTTYMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -564,7 +564,7 @@ func (p *ImsServiceProxy) GetMultiEndpointInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsService, "getMultiEndpointInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIImsServiceGetMultiEndpointInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

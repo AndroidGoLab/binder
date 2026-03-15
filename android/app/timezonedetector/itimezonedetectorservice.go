@@ -62,7 +62,7 @@ func (p *TimeZoneDetectorServiceProxy) GetCapabilitiesAndConfig(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "getCapabilitiesAndConfig")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITimeZoneDetectorServiceGetCapabilitiesAndConfig
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -97,7 +97,7 @@ func (p *TimeZoneDetectorServiceProxy) AddListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "addListener")
 	if _err != nil {
-		return _err
+		_code = TransactionITimeZoneDetectorServiceAddListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -123,7 +123,7 @@ func (p *TimeZoneDetectorServiceProxy) RemoveListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "removeListener")
 	if _err != nil {
-		return _err
+		_code = TransactionITimeZoneDetectorServiceRemoveListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -153,7 +153,7 @@ func (p *TimeZoneDetectorServiceProxy) UpdateConfiguration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "updateConfiguration")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITimeZoneDetectorServiceUpdateConfiguration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -182,7 +182,7 @@ func (p *TimeZoneDetectorServiceProxy) GetTimeZoneState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "getTimeZoneState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITimeZoneDetectorServiceGetTimeZoneState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -218,7 +218,7 @@ func (p *TimeZoneDetectorServiceProxy) ConfirmTimeZone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "confirmTimeZone")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITimeZoneDetectorServiceConfirmTimeZone
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -252,7 +252,7 @@ func (p *TimeZoneDetectorServiceProxy) SetManualTimeZone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "setManualTimeZone")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITimeZoneDetectorServiceSetManualTimeZone
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -286,7 +286,7 @@ func (p *TimeZoneDetectorServiceProxy) SuggestManualTimeZone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "suggestManualTimeZone")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITimeZoneDetectorServiceSuggestManualTimeZone
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -319,7 +319,7 @@ func (p *TimeZoneDetectorServiceProxy) SuggestTelephonyTimeZone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITimeZoneDetectorService, "suggestTelephonyTimeZone")
 	if _err != nil {
-		return _err
+		_code = TransactionITimeZoneDetectorServiceSuggestTelephonyTimeZone
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

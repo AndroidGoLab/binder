@@ -46,7 +46,7 @@ func (p *SetEnabledProvidersCallbackProxy) OnResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISetEnabledProvidersCallback, "onResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionISetEnabledProvidersCallbackOnResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *SetEnabledProvidersCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISetEnabledProvidersCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionISetEnabledProvidersCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

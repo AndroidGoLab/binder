@@ -46,7 +46,7 @@ func (p *WakelockCallbackProxy) NotifyAcquired(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWakelockCallback, "notifyAcquired")
 	if _err != nil {
-		return _err
+		_code = TransactionIWakelockCallbackNotifyAcquired
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -61,7 +61,7 @@ func (p *WakelockCallbackProxy) NotifyReleased(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWakelockCallback, "notifyReleased")
 	if _err != nil {
-		return _err
+		_code = TransactionIWakelockCallbackNotifyReleased
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

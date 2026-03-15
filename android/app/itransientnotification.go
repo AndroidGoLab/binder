@@ -48,7 +48,7 @@ func (p *TransientNotificationProxy) Show(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITransientNotification, "show")
 	if _err != nil {
-		return _err
+		_code = TransactionITransientNotificationShow
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *TransientNotificationProxy) Hide(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITransientNotification, "hide")
 	if _err != nil {
-		return _err
+		_code = TransactionITransientNotificationHide
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

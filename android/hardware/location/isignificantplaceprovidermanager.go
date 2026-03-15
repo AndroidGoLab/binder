@@ -46,7 +46,7 @@ func (p *SignificantPlaceProviderManagerProxy) SetInSignificantPlace(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISignificantPlaceProviderManager, "setInSignificantPlace")
 	if _err != nil {
-		return _err
+		_code = TransactionISignificantPlaceProviderManagerSetInSignificantPlace
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

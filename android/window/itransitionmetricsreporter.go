@@ -48,7 +48,7 @@ func (p *TransitionMetricsReporterProxy) ReportAnimationStart(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITransitionMetricsReporter, "reportAnimationStart")
 	if _err != nil {
-		return _err
+		_code = TransactionITransitionMetricsReporterReportAnimationStart
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

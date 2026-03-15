@@ -46,7 +46,7 @@ func (p *ScreenRecordingCallbackProxy) OnScreenRecordingStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScreenRecordingCallback, "onScreenRecordingStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIScreenRecordingCallbackOnScreenRecordingStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

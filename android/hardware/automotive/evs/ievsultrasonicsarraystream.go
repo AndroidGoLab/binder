@@ -51,7 +51,7 @@ func (p *EvsUltrasonicsArrayStreamProxy) DeliverDataFrame(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsUltrasonicsArrayStream, "deliverDataFrame")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsUltrasonicsArrayStreamDeliverDataFrame
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *EvsUltrasonicsArrayStreamProxy) Notify(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsUltrasonicsArrayStream, "notify")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsUltrasonicsArrayStreamNotify
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

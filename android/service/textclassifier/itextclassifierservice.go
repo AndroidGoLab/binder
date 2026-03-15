@@ -75,7 +75,7 @@ func (p *TextClassifierServiceProxy) OnSuggestSelection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextClassifierService, "onSuggestSelection")
 	if _err != nil {
-		return _err
+		_code = TransactionITextClassifierServiceOnSuggestSelection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -102,7 +102,7 @@ func (p *TextClassifierServiceProxy) OnClassifyText(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextClassifierService, "onClassifyText")
 	if _err != nil {
-		return _err
+		_code = TransactionITextClassifierServiceOnClassifyText
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -129,7 +129,7 @@ func (p *TextClassifierServiceProxy) OnGenerateLinks(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextClassifierService, "onGenerateLinks")
 	if _err != nil {
-		return _err
+		_code = TransactionITextClassifierServiceOnGenerateLinks
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -154,7 +154,7 @@ func (p *TextClassifierServiceProxy) OnSelectionEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextClassifierService, "onSelectionEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionITextClassifierServiceOnSelectionEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -179,7 +179,7 @@ func (p *TextClassifierServiceProxy) OnTextClassifierEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextClassifierService, "onTextClassifierEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionITextClassifierServiceOnTextClassifierEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -204,7 +204,7 @@ func (p *TextClassifierServiceProxy) OnCreateTextClassificationSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextClassifierService, "onCreateTextClassificationSession")
 	if _err != nil {
-		return _err
+		_code = TransactionITextClassifierServiceOnCreateTextClassificationSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -224,7 +224,7 @@ func (p *TextClassifierServiceProxy) OnDestroyTextClassificationSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextClassifierService, "onDestroyTextClassificationSession")
 	if _err != nil {
-		return _err
+		_code = TransactionITextClassifierServiceOnDestroyTextClassificationSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -251,7 +251,7 @@ func (p *TextClassifierServiceProxy) OnDetectLanguage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextClassifierService, "onDetectLanguage")
 	if _err != nil {
-		return _err
+		_code = TransactionITextClassifierServiceOnDetectLanguage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -278,7 +278,7 @@ func (p *TextClassifierServiceProxy) OnSuggestConversationActions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextClassifierService, "onSuggestConversationActions")
 	if _err != nil {
-		return _err
+		_code = TransactionITextClassifierServiceOnSuggestConversationActions
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -295,7 +295,7 @@ func (p *TextClassifierServiceProxy) OnConnectedStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITextClassifierService, "onConnectedStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITextClassifierServiceOnConnectedStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

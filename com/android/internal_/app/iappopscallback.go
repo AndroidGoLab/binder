@@ -52,7 +52,7 @@ func (p *AppOpsCallbackProxy) OpChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsCallback, "opChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppOpsCallbackOpChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

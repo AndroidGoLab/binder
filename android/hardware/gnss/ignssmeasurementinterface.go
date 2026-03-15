@@ -55,7 +55,7 @@ func (p *GnssMeasurementInterfaceProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssMeasurementInterface, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssMeasurementInterfaceSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -79,7 +79,7 @@ func (p *GnssMeasurementInterfaceProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssMeasurementInterface, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssMeasurementInterfaceClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -110,7 +110,7 @@ func (p *GnssMeasurementInterfaceProxy) SetCallbackWithOptions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssMeasurementInterface, "setCallbackWithOptions")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssMeasurementInterfaceSetCallbackWithOptions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

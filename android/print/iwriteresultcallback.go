@@ -55,7 +55,7 @@ func (p *WriteResultCallbackProxy) OnWriteStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWriteResultCallback, "onWriteStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIWriteResultCallbackOnWriteStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -83,7 +83,7 @@ func (p *WriteResultCallbackProxy) OnWriteFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWriteResultCallback, "onWriteFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionIWriteResultCallbackOnWriteFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -101,7 +101,7 @@ func (p *WriteResultCallbackProxy) OnWriteFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWriteResultCallback, "onWriteFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIWriteResultCallbackOnWriteFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -118,7 +118,7 @@ func (p *WriteResultCallbackProxy) OnWriteCanceled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWriteResultCallback, "onWriteCanceled")
 	if _err != nil {
-		return _err
+		_code = TransactionIWriteResultCallbackOnWriteCanceled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

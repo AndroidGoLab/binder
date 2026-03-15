@@ -49,7 +49,7 @@ func (p *BinderWorkSourceNestedServiceProxy) NestedCallWithWorkSourceToSet(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderWorkSourceNestedService, "nestedCallWithWorkSourceToSet")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderWorkSourceNestedServiceNestedCallWithWorkSourceToSet
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -88,7 +88,7 @@ func (p *BinderWorkSourceNestedServiceProxy) NestedCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBinderWorkSourceNestedService, "nestedCall")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBinderWorkSourceNestedServiceNestedCall
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

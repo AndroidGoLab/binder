@@ -59,7 +59,7 @@ func (p *RecordedContentsProxy) DeleteRecordedContents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecordedContents, "deleteRecordedContents")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecordedContentsDeleteRecordedContents
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -86,7 +86,7 @@ func (p *RecordedContentsProxy) GetRecordedContentsLockInfoSync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecordedContents, "getRecordedContentsLockInfoSync")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRecordedContentsGetRecordedContentsLockInfoSync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -118,7 +118,7 @@ func (p *RecordedContentsProxy) GetRecordedContentsLockInfoAsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecordedContents, "getRecordedContentsLockInfoAsync")
 	if _err != nil {
-		return _err
+		_code = TransactionIRecordedContentsGetRecordedContentsLockInfoAsync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

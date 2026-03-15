@@ -49,7 +49,7 @@ func (p *CreateCredentialCallbackProxy) OnPendingIntent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICreateCredentialCallback, "onPendingIntent")
 	if _err != nil {
-		return _err
+		_code = TransactionICreateCredentialCallbackOnPendingIntent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *CreateCredentialCallbackProxy) OnResponse(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICreateCredentialCallback, "onResponse")
 	if _err != nil {
-		return _err
+		_code = TransactionICreateCredentialCallbackOnResponse
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *CreateCredentialCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICreateCredentialCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionICreateCredentialCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

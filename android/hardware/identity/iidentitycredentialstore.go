@@ -70,7 +70,7 @@ func (p *IdentityCredentialStoreProxy) GetHardwareInformation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIdentityCredentialStore, "getHardwareInformation")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIdentityCredentialStoreGetHardwareInformation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -108,7 +108,7 @@ func (p *IdentityCredentialStoreProxy) CreateCredential(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIdentityCredentialStore, "createCredential")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIdentityCredentialStoreCreateCredential
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -149,7 +149,7 @@ func (p *IdentityCredentialStoreProxy) GetCredential(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIdentityCredentialStore, "getCredential")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIdentityCredentialStoreGetCredential
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -181,7 +181,7 @@ func (p *IdentityCredentialStoreProxy) CreatePresentationSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIdentityCredentialStore, "createPresentationSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIdentityCredentialStoreCreatePresentationSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -211,7 +211,7 @@ func (p *IdentityCredentialStoreProxy) GetRemotelyProvisionedComponent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIdentityCredentialStore, "getRemotelyProvisionedComponent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIdentityCredentialStoreGetRemotelyProvisionedComponent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -44,7 +44,7 @@ func (p *AcknowledgeEventProxy) EventReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAcknowledgeEvent, "eventReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionIAcknowledgeEventEventReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

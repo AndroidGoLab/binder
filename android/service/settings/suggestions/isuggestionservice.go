@@ -49,7 +49,7 @@ func (p *SuggestionServiceProxy) GetSuggestions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISuggestionService, "getSuggestions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISuggestionServiceGetSuggestions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -91,7 +91,7 @@ func (p *SuggestionServiceProxy) DismissSuggestion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISuggestionService, "dismissSuggestion")
 	if _err != nil {
-		return _err
+		_code = TransactionISuggestionServiceDismissSuggestion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -120,7 +120,7 @@ func (p *SuggestionServiceProxy) LaunchSuggestion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISuggestionService, "launchSuggestion")
 	if _err != nil {
-		return _err
+		_code = TransactionISuggestionServiceLaunchSuggestion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -56,7 +56,7 @@ func (p *StreamOutEventCallbackProxy) OnCodecFormatChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamOutEventCallback, "onCodecFormatChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamOutEventCallbackOnCodecFormatChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -80,7 +80,7 @@ func (p *StreamOutEventCallbackProxy) OnRecommendedLatencyModeChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStreamOutEventCallback, "onRecommendedLatencyModeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIStreamOutEventCallbackOnRecommendedLatencyModeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

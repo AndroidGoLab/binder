@@ -55,7 +55,7 @@ func (p *TunerDescramblerProxy) SetDemuxSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDescrambler, "setDemuxSource")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDescramblerSetDemuxSource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -88,7 +88,7 @@ func (p *TunerDescramblerProxy) SetKeyToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDescrambler, "setKeyToken")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDescramblerSetKeyToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -119,7 +119,7 @@ func (p *TunerDescramblerProxy) AddPid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDescrambler, "addPid")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDescramblerAddPid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -150,7 +150,7 @@ func (p *TunerDescramblerProxy) RemovePid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDescrambler, "removePid")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDescramblerRemovePid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -174,7 +174,7 @@ func (p *TunerDescramblerProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITunerDescrambler, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionITunerDescramblerClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

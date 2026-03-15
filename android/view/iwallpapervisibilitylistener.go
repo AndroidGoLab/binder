@@ -48,7 +48,7 @@ func (p *WallpaperVisibilityListenerProxy) OnWallpaperVisibilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperVisibilityListener, "onWallpaperVisibilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperVisibilityListenerOnWallpaperVisibilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

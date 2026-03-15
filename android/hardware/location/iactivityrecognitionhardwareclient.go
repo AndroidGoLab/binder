@@ -48,7 +48,7 @@ func (p *ActivityRecognitionHardwareClientProxy) OnAvailabilityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityRecognitionHardwareClient, "onAvailabilityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIActivityRecognitionHardwareClientOnAvailabilityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

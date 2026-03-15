@@ -47,7 +47,7 @@ func (p *FencedExecutionCallbackProxy) GetExecutionInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFencedExecutionCallback, "getExecutionInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIFencedExecutionCallbackGetExecutionInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

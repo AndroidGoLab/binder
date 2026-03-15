@@ -52,7 +52,7 @@ func (p *AltitudeServiceProxy) AddMslAltitudeToLocation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAltitudeService, "addMslAltitudeToLocation")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAltitudeServiceAddMslAltitudeToLocation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -91,7 +91,7 @@ func (p *AltitudeServiceProxy) GetGeoidHeight(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAltitudeService, "getGeoidHeight")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAltitudeServiceGetGeoidHeight
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

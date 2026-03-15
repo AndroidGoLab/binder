@@ -53,7 +53,7 @@ func (p *InputDevicesChangedListenerProxy) OnInputDevicesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputDevicesChangedListener, "onInputDevicesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputDevicesChangedListenerOnInputDevicesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -48,7 +48,7 @@ func (p *EventQueueProxy) DisableSensor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventQueue, "disableSensor")
 	if _err != nil {
-		return _err
+		_code = TransactionIEventQueueDisableSensor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -78,7 +78,7 @@ func (p *EventQueueProxy) EnableSensor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEventQueue, "enableSensor")
 	if _err != nil {
-		return _err
+		_code = TransactionIEventQueueEnableSensor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

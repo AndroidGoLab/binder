@@ -140,7 +140,7 @@ func (p *AccountManagerProxy) GetPassword(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "getPassword")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerGetPassword
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -176,7 +176,7 @@ func (p *AccountManagerProxy) GetUserData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "getUserData")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerGetUserData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -207,7 +207,7 @@ func (p *AccountManagerProxy) GetAuthenticatorTypes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "getAuthenticatorTypes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerGetAuthenticatorTypes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -251,7 +251,7 @@ func (p *AccountManagerProxy) GetAccountsForPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "getAccountsForPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerGetAccountsForPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -295,7 +295,7 @@ func (p *AccountManagerProxy) GetAccountsByTypeForPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "getAccountsByTypeForPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerGetAccountsByTypeForPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -338,7 +338,7 @@ func (p *AccountManagerProxy) GetAccountsAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "getAccountsAsUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerGetAccountsAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -394,7 +394,7 @@ func (p *AccountManagerProxy) HasFeatures(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "hasFeatures")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerHasFeatures
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -433,7 +433,7 @@ func (p *AccountManagerProxy) GetAccountByTypeAndFeatures(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "getAccountByTypeAndFeatures")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerGetAccountByTypeAndFeatures
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -472,7 +472,7 @@ func (p *AccountManagerProxy) GetAccountsByFeatures(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "getAccountsByFeatures")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerGetAccountsByFeatures
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -507,7 +507,7 @@ func (p *AccountManagerProxy) AddAccountExplicitly(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "addAccountExplicitly")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerAddAccountExplicitly
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -546,7 +546,7 @@ func (p *AccountManagerProxy) RemoveAccountAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "removeAccountAsUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerRemoveAccountAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -576,7 +576,7 @@ func (p *AccountManagerProxy) RemoveAccountExplicitly(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "removeAccountExplicitly")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerRemoveAccountExplicitly
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -615,7 +615,7 @@ func (p *AccountManagerProxy) CopyAccountToUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "copyAccountToUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerCopyAccountToUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -643,7 +643,7 @@ func (p *AccountManagerProxy) InvalidateAuthToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "invalidateAuthToken")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerInvalidateAuthToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -675,7 +675,7 @@ func (p *AccountManagerProxy) PeekAuthToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "peekAuthToken")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerPeekAuthToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -712,7 +712,7 @@ func (p *AccountManagerProxy) SetAuthToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "setAuthToken")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerSetAuthToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -743,7 +743,7 @@ func (p *AccountManagerProxy) SetPassword(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "setPassword")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerSetPassword
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -772,7 +772,7 @@ func (p *AccountManagerProxy) ClearPassword(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "clearPassword")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerClearPassword
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -805,7 +805,7 @@ func (p *AccountManagerProxy) SetUserData(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "setUserData")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerSetUserData
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -840,7 +840,7 @@ func (p *AccountManagerProxy) UpdateAppPermission(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "updateAppPermission")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerUpdateAppPermission
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -878,7 +878,7 @@ func (p *AccountManagerProxy) GetAuthToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "getAuthToken")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerGetAuthToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -920,7 +920,7 @@ func (p *AccountManagerProxy) AddAccount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "addAccount")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerAddAccount
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -964,7 +964,7 @@ func (p *AccountManagerProxy) AddAccountAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "addAccountAsUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerAddAccountAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1000,7 +1000,7 @@ func (p *AccountManagerProxy) UpdateCredentials(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "updateCredentials")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerUpdateCredentials
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1030,7 +1030,7 @@ func (p *AccountManagerProxy) EditProperties(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "editProperties")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerEditProperties
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1066,7 +1066,7 @@ func (p *AccountManagerProxy) ConfirmCredentialsAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "confirmCredentialsAsUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerConfirmCredentialsAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1096,7 +1096,7 @@ func (p *AccountManagerProxy) AccountAuthenticated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "accountAuthenticated")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerAccountAuthenticated
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1130,7 +1130,7 @@ func (p *AccountManagerProxy) GetAuthTokenLabel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "getAuthTokenLabel")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerGetAuthTokenLabel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1159,7 +1159,7 @@ func (p *AccountManagerProxy) AddSharedAccountsFromParentUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "addSharedAccountsFromParentUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerAddSharedAccountsFromParentUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1192,7 +1192,7 @@ func (p *AccountManagerProxy) RenameAccount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "renameAccount")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerRenameAccount
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1222,7 +1222,7 @@ func (p *AccountManagerProxy) GetPreviousName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "getPreviousName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerGetPreviousName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1268,7 +1268,7 @@ func (p *AccountManagerProxy) StartAddAccountSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "startAddAccountSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerStartAddAccountSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1304,7 +1304,7 @@ func (p *AccountManagerProxy) StartUpdateCredentialsSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "startUpdateCredentialsSession")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerStartUpdateCredentialsSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1336,7 +1336,7 @@ func (p *AccountManagerProxy) FinishSessionAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "finishSessionAsUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerFinishSessionAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1366,7 +1366,7 @@ func (p *AccountManagerProxy) SomeUserHasAccount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "someUserHasAccount")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerSomeUserHasAccount
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1403,7 +1403,7 @@ func (p *AccountManagerProxy) IsCredentialsUpdateSuggested(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "isCredentialsUpdateSuggested")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerIsCredentialsUpdateSuggested
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1433,7 +1433,7 @@ func (p *AccountManagerProxy) GetPackagesAndVisibilityForAccount(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "getPackagesAndVisibilityForAccount")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerGetPackagesAndVisibilityForAccount
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1496,7 +1496,7 @@ func (p *AccountManagerProxy) AddAccountExplicitlyWithVisibility(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "addAccountExplicitlyWithVisibility")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerAddAccountExplicitlyWithVisibility
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1534,7 +1534,7 @@ func (p *AccountManagerProxy) SetAccountVisibility(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "setAccountVisibility")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerSetAccountVisibility
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1570,7 +1570,7 @@ func (p *AccountManagerProxy) GetAccountVisibility(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "getAccountVisibility")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerGetAccountVisibility
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1603,7 +1603,7 @@ func (p *AccountManagerProxy) GetAccountsAndVisibilityForPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "getAccountsAndVisibilityForPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerGetAccountsAndVisibilityForPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1656,7 +1656,7 @@ func (p *AccountManagerProxy) RegisterAccountListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "registerAccountListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerRegisterAccountListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1691,7 +1691,7 @@ func (p *AccountManagerProxy) UnregisterAccountListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "unregisterAccountListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerUnregisterAccountListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1724,7 +1724,7 @@ func (p *AccountManagerProxy) HasAccountAccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "hasAccountAccess")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerHasAccountAccess
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1761,7 +1761,7 @@ func (p *AccountManagerProxy) CreateRequestAccountAccessIntentSenderAsUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "createRequestAccountAccessIntentSenderAsUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIAccountManagerCreateRequestAccountAccessIntentSenderAsUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1787,7 +1787,7 @@ func (p *AccountManagerProxy) OnAccountAccessed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccountManager, "onAccountAccessed")
 	if _err != nil {
-		return _err
+		_code = TransactionIAccountManagerOnAccountAccessed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

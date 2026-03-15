@@ -50,7 +50,7 @@ func (p *VirtualDeviceIntentInterceptorProxy) OnIntentIntercepted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVirtualDeviceIntentInterceptor, "onIntentIntercepted")
 	if _err != nil {
-		return _err
+		_code = TransactionIVirtualDeviceIntentInterceptorOnIntentIntercepted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

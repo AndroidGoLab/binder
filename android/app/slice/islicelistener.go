@@ -49,7 +49,7 @@ func (p *SliceListenerProxy) OnSliceUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISliceListener, "onSliceUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionISliceListenerOnSliceUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

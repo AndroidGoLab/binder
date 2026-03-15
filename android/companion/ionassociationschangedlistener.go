@@ -55,7 +55,7 @@ func (p *OnAssociationsChangedListenerProxy) OnAssociationsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnAssociationsChangedListener, "onAssociationsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIOnAssociationsChangedListenerOnAssociationsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

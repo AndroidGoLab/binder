@@ -65,7 +65,7 @@ func (p *SmartspaceServiceProxy) OnCreateSmartspaceSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceService, "onCreateSmartspaceSession")
 	if _err != nil {
-		return _err
+		_code = TransactionISmartspaceServiceOnCreateSmartspaceSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -90,7 +90,7 @@ func (p *SmartspaceServiceProxy) NotifySmartspaceEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceService, "notifySmartspaceEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionISmartspaceServiceNotifySmartspaceEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -110,7 +110,7 @@ func (p *SmartspaceServiceProxy) RequestSmartspaceUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceService, "requestSmartspaceUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionISmartspaceServiceRequestSmartspaceUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -132,7 +132,7 @@ func (p *SmartspaceServiceProxy) RegisterSmartspaceUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceService, "registerSmartspaceUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionISmartspaceServiceRegisterSmartspaceUpdates
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -154,7 +154,7 @@ func (p *SmartspaceServiceProxy) UnregisterSmartspaceUpdates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceService, "unregisterSmartspaceUpdates")
 	if _err != nil {
-		return _err
+		_code = TransactionISmartspaceServiceUnregisterSmartspaceUpdates
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -174,7 +174,7 @@ func (p *SmartspaceServiceProxy) OnDestroySmartspaceSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISmartspaceService, "onDestroySmartspaceSession")
 	if _err != nil {
-		return _err
+		_code = TransactionISmartspaceServiceOnDestroySmartspaceSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

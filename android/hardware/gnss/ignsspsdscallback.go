@@ -46,7 +46,7 @@ func (p *GnssPsdsCallbackProxy) DownloadRequestCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssPsdsCallback, "downloadRequestCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIGnssPsdsCallbackDownloadRequestCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

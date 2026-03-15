@@ -54,7 +54,7 @@ func (p *InlineContentProviderProxy) ProvideContent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineContentProvider, "provideContent")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineContentProviderProvideContent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *InlineContentProviderProxy) RequestSurfacePackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineContentProvider, "requestSurfacePackage")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineContentProviderRequestSurfacePackage
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -84,7 +84,7 @@ func (p *InlineContentProviderProxy) OnSurfacePackageReleased(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineContentProvider, "onSurfacePackageReleased")
 	if _err != nil {
-		return _err
+		_code = TransactionIInlineContentProviderOnSurfacePackageReleased
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -47,7 +47,7 @@ func (p *IntrusionDetectionServiceStateCallbackProxy) OnStateChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIntrusionDetectionServiceStateCallback, "onStateChange")
 	if _err != nil {
-		return _err
+		_code = TransactionIIntrusionDetectionServiceStateCallbackOnStateChange
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

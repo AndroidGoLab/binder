@@ -51,7 +51,7 @@ func (p *MeasurementCorrectionsInterfaceProxy) SetCorrections(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMeasurementCorrectionsInterface, "setCorrections")
 	if _err != nil {
-		return _err
+		_code = TransactionIMeasurementCorrectionsInterfaceSetCorrections
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -77,7 +77,7 @@ func (p *MeasurementCorrectionsInterfaceProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMeasurementCorrectionsInterface, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIMeasurementCorrectionsInterfaceSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

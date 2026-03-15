@@ -50,7 +50,7 @@ func (p *ClientManagerProxy) RegisterSender(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIClientManager, "registerSender")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIClientManagerRegisterSender
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -86,7 +86,7 @@ func (p *ClientManagerProxy) RegisterPassiveSender(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIClientManager, "registerPassiveSender")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIClientManagerRegisterPassiveSender
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -49,7 +49,7 @@ func (p *GraphicsStatsProxy) RequestBufferForProcess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGraphicsStats, "requestBufferForProcess")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIGraphicsStatsRequestBufferForProcess
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

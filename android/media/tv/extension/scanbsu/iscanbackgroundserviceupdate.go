@@ -50,7 +50,7 @@ func (p *ScanBackgroundServiceUpdateProxy) AddBackgroundServiceUpdateListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScanBackgroundServiceUpdate, "addBackgroundServiceUpdateListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIScanBackgroundServiceUpdateAddBackgroundServiceUpdateListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -76,7 +76,7 @@ func (p *ScanBackgroundServiceUpdateProxy) RemoveBackgroundServiceUpdateListener
 
 	_code, _err := p.remote.ResolveCode(DescriptorIScanBackgroundServiceUpdate, "removeBackgroundServiceUpdateListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIScanBackgroundServiceUpdateRemoveBackgroundServiceUpdateListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

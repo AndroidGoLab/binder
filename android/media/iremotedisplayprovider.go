@@ -56,7 +56,7 @@ func (p *RemoteDisplayProviderProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteDisplayProviderSetCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -73,7 +73,7 @@ func (p *RemoteDisplayProviderProxy) SetDiscoveryMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "setDiscoveryMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteDisplayProviderSetDiscoveryMode
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -90,7 +90,7 @@ func (p *RemoteDisplayProviderProxy) Connect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "connect")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteDisplayProviderConnect
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -107,7 +107,7 @@ func (p *RemoteDisplayProviderProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "disconnect")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteDisplayProviderDisconnect
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -126,7 +126,7 @@ func (p *RemoteDisplayProviderProxy) SetVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "setVolume")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteDisplayProviderSetVolume
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -145,7 +145,7 @@ func (p *RemoteDisplayProviderProxy) AdjustVolume(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteDisplayProvider, "adjustVolume")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteDisplayProviderAdjustVolume
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

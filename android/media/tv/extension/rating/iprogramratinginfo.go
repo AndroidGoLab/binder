@@ -53,7 +53,7 @@ func (p *ProgramRatingInfoProxy) AddProgramRatingInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProgramRatingInfo, "addProgramRatingInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIProgramRatingInfoAddProgramRatingInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -79,7 +79,7 @@ func (p *ProgramRatingInfoProxy) RemoveProgramRatingInfoListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProgramRatingInfo, "removeProgramRatingInfoListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIProgramRatingInfoRemoveProgramRatingInfoListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -106,7 +106,7 @@ func (p *ProgramRatingInfoProxy) GetProgramRatingInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIProgramRatingInfo, "getProgramRatingInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIProgramRatingInfoGetProgramRatingInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

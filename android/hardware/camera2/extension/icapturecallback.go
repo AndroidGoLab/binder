@@ -62,7 +62,7 @@ func (p *CaptureCallbackProxy) OnCaptureStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICaptureCallback, "onCaptureStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionICaptureCallbackOnCaptureStarted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -88,7 +88,7 @@ func (p *CaptureCallbackProxy) OnCaptureProcessStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICaptureCallback, "onCaptureProcessStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionICaptureCallbackOnCaptureProcessStarted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -114,7 +114,7 @@ func (p *CaptureCallbackProxy) OnCaptureFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICaptureCallback, "onCaptureFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionICaptureCallbackOnCaptureFailed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -140,7 +140,7 @@ func (p *CaptureCallbackProxy) OnCaptureSequenceCompleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICaptureCallback, "onCaptureSequenceCompleted")
 	if _err != nil {
-		return _err
+		_code = TransactionICaptureCallbackOnCaptureSequenceCompleted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -166,7 +166,7 @@ func (p *CaptureCallbackProxy) OnCaptureSequenceAborted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICaptureCallback, "onCaptureSequenceAborted")
 	if _err != nil {
-		return _err
+		_code = TransactionICaptureCallbackOnCaptureSequenceAborted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -195,7 +195,7 @@ func (p *CaptureCallbackProxy) OnCaptureCompleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICaptureCallback, "onCaptureCompleted")
 	if _err != nil {
-		return _err
+		_code = TransactionICaptureCallbackOnCaptureCompleted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -221,7 +221,7 @@ func (p *CaptureCallbackProxy) OnCaptureProcessProgressed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICaptureCallback, "onCaptureProcessProgressed")
 	if _err != nil {
-		return _err
+		_code = TransactionICaptureCallbackOnCaptureProcessProgressed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -249,7 +249,7 @@ func (p *CaptureCallbackProxy) OnCaptureProcessFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICaptureCallback, "onCaptureProcessFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionICaptureCallbackOnCaptureProcessFailed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -60,7 +60,7 @@ func (p *NetworkPolicyListenerProxy) OnUidRulesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onUidRulesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkPolicyListenerOnUidRulesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -84,7 +84,7 @@ func (p *NetworkPolicyListenerProxy) OnMeteredIfacesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onMeteredIfacesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkPolicyListenerOnMeteredIfacesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -101,7 +101,7 @@ func (p *NetworkPolicyListenerProxy) OnRestrictBackgroundChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onRestrictBackgroundChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkPolicyListenerOnRestrictBackgroundChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -120,7 +120,7 @@ func (p *NetworkPolicyListenerProxy) OnUidPoliciesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onUidPoliciesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkPolicyListenerOnUidPoliciesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -150,7 +150,7 @@ func (p *NetworkPolicyListenerProxy) OnSubscriptionOverride(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onSubscriptionOverride")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkPolicyListenerOnSubscriptionOverride
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -173,7 +173,7 @@ func (p *NetworkPolicyListenerProxy) OnSubscriptionPlansChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onSubscriptionPlansChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkPolicyListenerOnSubscriptionPlansChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -194,7 +194,7 @@ func (p *NetworkPolicyListenerProxy) OnBlockedReasonChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onBlockedReasonChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionINetworkPolicyListenerOnBlockedReasonChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

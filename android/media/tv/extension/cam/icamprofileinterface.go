@@ -50,7 +50,7 @@ func (p *CamProfileInterfaceProxy) GetCamServiceUpdateInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamProfileInterface, "getCamServiceUpdateInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionICamProfileInterfaceGetCamServiceUpdateInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -83,7 +83,7 @@ func (p *CamProfileInterfaceProxy) RequestResendProfileInfoBroadcastACON(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICamProfileInterface, "requestResendProfileInfoBroadcastACON")
 	if _err != nil {
-		return _err
+		_code = TransactionICamProfileInterfaceRequestResendProfileInfoBroadcastACON
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

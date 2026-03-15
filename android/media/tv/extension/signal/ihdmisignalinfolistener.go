@@ -48,7 +48,7 @@ func (p *HdmiSignalInfoListenerProxy) OnSignalInfoChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiSignalInfoListener, "onSignalInfoChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiSignalInfoListenerOnSignalInfoChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *HdmiSignalInfoListenerProxy) OnLowLatencyModeChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiSignalInfoListener, "onLowLatencyModeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiSignalInfoListenerOnLowLatencyModeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -58,7 +58,7 @@ func (p *AudioConfigChangedCallbackProxy) OnPlaybackConfigChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioConfigChangedCallback, "onPlaybackConfigChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioConfigChangedCallbackOnPlaybackConfigChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -84,7 +84,7 @@ func (p *AudioConfigChangedCallbackProxy) OnRecordingConfigChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioConfigChangedCallback, "onRecordingConfigChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioConfigChangedCallbackOnRecordingConfigChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

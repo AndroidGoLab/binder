@@ -48,7 +48,7 @@ func (p *SpatializerHeadTrackingModeCallbackProxy) DispatchSpatializerActualHead
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializerHeadTrackingModeCallback, "dispatchSpatializerActualHeadTrackingModeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerHeadTrackingModeCallbackDispatchSpatializerActualHeadTrackingModeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -65,7 +65,7 @@ func (p *SpatializerHeadTrackingModeCallbackProxy) DispatchSpatializerDesiredHea
 
 	_code, _err := p.remote.ResolveCode(DescriptorISpatializerHeadTrackingModeCallback, "dispatchSpatializerDesiredHeadTrackingModeChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISpatializerHeadTrackingModeCallbackDispatchSpatializerDesiredHeadTrackingModeChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

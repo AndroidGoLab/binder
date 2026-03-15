@@ -44,7 +44,7 @@ func (p *CameraOfflineSessionProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraOfflineSession, "disconnect")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraOfflineSessionDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -62,7 +62,7 @@ func (p *DevicesForAttributesCallbackProxy) OnDevicesForAttributesChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDevicesForAttributesCallback, "onDevicesForAttributesChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDevicesForAttributesCallbackOnDevicesForAttributesChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

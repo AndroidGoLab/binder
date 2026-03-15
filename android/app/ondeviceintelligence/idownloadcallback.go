@@ -52,7 +52,7 @@ func (p *DownloadCallbackProxy) OnDownloadStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDownloadCallback, "onDownloadStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIDownloadCallbackOnDownloadStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -69,7 +69,7 @@ func (p *DownloadCallbackProxy) OnDownloadProgress(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDownloadCallback, "onDownloadProgress")
 	if _err != nil {
-		return _err
+		_code = TransactionIDownloadCallbackOnDownloadProgress
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -89,7 +89,7 @@ func (p *DownloadCallbackProxy) OnDownloadFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDownloadCallback, "onDownloadFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIDownloadCallbackOnDownloadFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -105,7 +105,7 @@ func (p *DownloadCallbackProxy) OnDownloadCompleted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDownloadCallback, "onDownloadCompleted")
 	if _err != nil {
-		return _err
+		_code = TransactionIDownloadCallbackOnDownloadCompleted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

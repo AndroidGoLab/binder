@@ -55,7 +55,7 @@ func (p *S2CellIdsCallbackProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIS2CellIdsCallback, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionIS2CellIdsCallbackOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -70,7 +70,7 @@ func (p *S2CellIdsCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIS2CellIdsCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionIS2CellIdsCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -48,7 +48,7 @@ func (p *SecureElementCallbackProxy) OnStateChange(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementCallback, "onStateChange")
 	if _err != nil {
-		return _err
+		_code = TransactionISecureElementCallbackOnStateChange
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

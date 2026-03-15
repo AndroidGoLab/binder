@@ -49,7 +49,7 @@ func (p *DeviceStateListenerProxy) OnDeviceStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDeviceStateListener, "onDeviceStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDeviceStateListenerOnDeviceStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -44,7 +44,7 @@ func (p *EnterMenuErrorCallbackProxy) OnAppInfoEnterMenuError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEnterMenuErrorCallback, "onAppInfoEnterMenuError")
 	if _err != nil {
-		return _err
+		_code = TransactionIEnterMenuErrorCallbackOnAppInfoEnterMenuError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

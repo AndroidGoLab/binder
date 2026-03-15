@@ -50,7 +50,7 @@ func (p *UdfpsRefreshRateRequestCallbackProxy) OnRequestEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsRefreshRateRequestCallback, "onRequestEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIUdfpsRefreshRateRequestCallbackOnRequestEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -67,7 +67,7 @@ func (p *UdfpsRefreshRateRequestCallbackProxy) OnRequestDisabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsRefreshRateRequestCallback, "onRequestDisabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIUdfpsRefreshRateRequestCallbackOnRequestDisabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -86,7 +86,7 @@ func (p *UdfpsRefreshRateRequestCallbackProxy) OnAuthenticationPossible(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUdfpsRefreshRateRequestCallback, "onAuthenticationPossible")
 	if _err != nil {
-		return _err
+		_code = TransactionIUdfpsRefreshRateRequestCallbackOnAuthenticationPossible
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

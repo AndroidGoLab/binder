@@ -53,7 +53,7 @@ func (p *LightsProxy) SetLightState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILights, "setLightState")
 	if _err != nil {
-		return _err
+		_code = TransactionILightsSetLightState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -78,7 +78,7 @@ func (p *LightsProxy) GetLights(
 
 	_code, _err := p.remote.ResolveCode(DescriptorILights, "getLights")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionILightsGetLights
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

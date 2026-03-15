@@ -47,7 +47,7 @@ func (p *ConsumerIrProxy) GetCarrierFreqs(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConsumerIr, "getCarrierFreqs")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIConsumerIrGetCarrierFreqs
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -95,7 +95,7 @@ func (p *ConsumerIrProxy) Transmit(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConsumerIr, "transmit")
 	if _err != nil {
-		return _err
+		_code = TransactionIConsumerIrTransmit
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

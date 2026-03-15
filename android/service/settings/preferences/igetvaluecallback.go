@@ -51,7 +51,7 @@ func (p *GetValueCallbackProxy) OnSuccess(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGetValueCallback, "onSuccess")
 	if _err != nil {
-		return _err
+		_code = TransactionIGetValueCallbackOnSuccess
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -66,7 +66,7 @@ func (p *GetValueCallbackProxy) OnFailure(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGetValueCallback, "onFailure")
 	if _err != nil {
-		return _err
+		_code = TransactionIGetValueCallbackOnFailure
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

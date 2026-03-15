@@ -219,7 +219,7 @@ func (p *PowerManagerProxy) AcquireWakeLock(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "acquireWakeLock")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerAcquireWakeLock
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -257,7 +257,7 @@ func (p *PowerManagerProxy) AcquireWakeLockWithUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "acquireWakeLockWithUid")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerAcquireWakeLockWithUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -285,7 +285,7 @@ func (p *PowerManagerProxy) ReleaseWakeLock(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "releaseWakeLock")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerReleaseWakeLock
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -320,7 +320,7 @@ func (p *PowerManagerProxy) UpdateWakeLockUids(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "updateWakeLockUids")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerUpdateWakeLockUids
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -348,7 +348,7 @@ func (p *PowerManagerProxy) SetPowerBoost(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setPowerBoost")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerSetPowerBoost
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -367,7 +367,7 @@ func (p *PowerManagerProxy) SetPowerMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setPowerMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerSetPowerMode
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -387,7 +387,7 @@ func (p *PowerManagerProxy) SetPowerModeChecked(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setPowerModeChecked")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerSetPowerModeChecked
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -420,7 +420,7 @@ func (p *PowerManagerProxy) UpdateWakeLockWorkSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "updateWakeLockWorkSource")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerUpdateWakeLockWorkSource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -448,7 +448,7 @@ func (p *PowerManagerProxy) UpdateWakeLockCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "updateWakeLockCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerUpdateWakeLockCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -475,7 +475,7 @@ func (p *PowerManagerProxy) IsWakeLockLevelSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isWakeLockLevelSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsWakeLockLevelSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -508,7 +508,7 @@ func (p *PowerManagerProxy) IsWakeLockLevelSupportedWithDisplayId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isWakeLockLevelSupportedWithDisplayId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsWakeLockLevelSupportedWithDisplayId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -544,7 +544,7 @@ func (p *PowerManagerProxy) UserActivity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "userActivity")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerUserActivity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -576,7 +576,7 @@ func (p *PowerManagerProxy) WakeUp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "wakeUp")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerWakeUp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -610,7 +610,7 @@ func (p *PowerManagerProxy) WakeUpWithDisplayId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "wakeUpWithDisplayId")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerWakeUpWithDisplayId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -640,7 +640,7 @@ func (p *PowerManagerProxy) GoToSleep(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "goToSleep")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerGoToSleep
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -672,7 +672,7 @@ func (p *PowerManagerProxy) GoToSleepWithDisplayId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "goToSleepWithDisplayId")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerGoToSleepWithDisplayId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -698,7 +698,7 @@ func (p *PowerManagerProxy) Nap(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "nap")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerNap
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -727,7 +727,7 @@ func (p *PowerManagerProxy) GetBrightnessConstraint(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getBrightnessConstraint")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerGetBrightnessConstraint
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -756,7 +756,7 @@ func (p *PowerManagerProxy) IsInteractive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isInteractive")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsInteractive
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -787,7 +787,7 @@ func (p *PowerManagerProxy) IsDisplayInteractive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isDisplayInteractive")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsDisplayInteractive
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -816,7 +816,7 @@ func (p *PowerManagerProxy) AreAutoPowerSaveModesEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "areAutoPowerSaveModesEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerAreAutoPowerSaveModesEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -845,7 +845,7 @@ func (p *PowerManagerProxy) IsPowerSaveMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isPowerSaveMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsPowerSaveMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -876,7 +876,7 @@ func (p *PowerManagerProxy) GetPowerSaveState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getPowerSaveState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerGetPowerSaveState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -903,7 +903,7 @@ func (p *PowerManagerProxy) SetPowerSaveModeEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setPowerSaveModeEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerSetPowerSaveModeEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -932,7 +932,7 @@ func (p *PowerManagerProxy) IsBatterySaverSupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isBatterySaverSupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsBatterySaverSupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -961,7 +961,7 @@ func (p *PowerManagerProxy) GetFullPowerSavePolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getFullPowerSavePolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerGetFullPowerSavePolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -987,7 +987,7 @@ func (p *PowerManagerProxy) SetFullPowerSavePolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setFullPowerSavePolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerSetFullPowerSavePolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1020,7 +1020,7 @@ func (p *PowerManagerProxy) SetDynamicPowerSaveHint(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setDynamicPowerSaveHint")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerSetDynamicPowerSaveHint
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1050,7 +1050,7 @@ func (p *PowerManagerProxy) SetAdaptivePowerSavePolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setAdaptivePowerSavePolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerSetAdaptivePowerSavePolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1081,7 +1081,7 @@ func (p *PowerManagerProxy) SetAdaptivePowerSaveEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setAdaptivePowerSaveEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerSetAdaptivePowerSaveEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1110,7 +1110,7 @@ func (p *PowerManagerProxy) GetPowerSaveModeTrigger(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getPowerSaveModeTrigger")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerGetPowerSaveModeTrigger
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1141,7 +1141,7 @@ func (p *PowerManagerProxy) SetBatteryDischargePrediction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setBatteryDischargePrediction")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerSetBatteryDischargePrediction
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1166,7 +1166,7 @@ func (p *PowerManagerProxy) GetBatteryDischargePrediction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getBatteryDischargePrediction")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerGetBatteryDischargePrediction
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1191,7 +1191,7 @@ func (p *PowerManagerProxy) IsBatteryDischargePredictionPersonalized(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isBatteryDischargePredictionPersonalized")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsBatteryDischargePredictionPersonalized
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1220,7 +1220,7 @@ func (p *PowerManagerProxy) IsDeviceIdleMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isDeviceIdleMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsDeviceIdleMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1249,7 +1249,7 @@ func (p *PowerManagerProxy) IsLightDeviceIdleMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isLightDeviceIdleMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsLightDeviceIdleMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1278,7 +1278,7 @@ func (p *PowerManagerProxy) IsLowPowerStandbySupported(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isLowPowerStandbySupported")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsLowPowerStandbySupported
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1307,7 +1307,7 @@ func (p *PowerManagerProxy) IsLowPowerStandbyEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isLowPowerStandbyEnabled")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsLowPowerStandbyEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1337,7 +1337,7 @@ func (p *PowerManagerProxy) SetLowPowerStandbyEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setLowPowerStandbyEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerSetLowPowerStandbyEnabled
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1363,7 +1363,7 @@ func (p *PowerManagerProxy) SetLowPowerStandbyActiveDuringMaintenance(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setLowPowerStandbyActiveDuringMaintenance")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerSetLowPowerStandbyActiveDuringMaintenance
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1389,7 +1389,7 @@ func (p *PowerManagerProxy) ForceLowPowerStandbyActive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "forceLowPowerStandbyActive")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerForceLowPowerStandbyActive
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1421,7 +1421,7 @@ func (p *PowerManagerProxy) SetLowPowerStandbyPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setLowPowerStandbyPolicy")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerSetLowPowerStandbyPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1446,7 +1446,7 @@ func (p *PowerManagerProxy) GetLowPowerStandbyPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getLowPowerStandbyPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerGetLowPowerStandbyPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1480,7 +1480,7 @@ func (p *PowerManagerProxy) IsExemptFromLowPowerStandby(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isExemptFromLowPowerStandby")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsExemptFromLowPowerStandby
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1511,7 +1511,7 @@ func (p *PowerManagerProxy) IsReasonAllowedInLowPowerStandby(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isReasonAllowedInLowPowerStandby")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsReasonAllowedInLowPowerStandby
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1542,7 +1542,7 @@ func (p *PowerManagerProxy) IsFeatureAllowedInLowPowerStandby(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isFeatureAllowedInLowPowerStandby")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsFeatureAllowedInLowPowerStandby
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1583,7 +1583,7 @@ func (p *PowerManagerProxy) AcquireLowPowerStandbyPorts(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "acquireLowPowerStandbyPorts")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerAcquireLowPowerStandbyPorts
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1609,7 +1609,7 @@ func (p *PowerManagerProxy) ReleaseLowPowerStandbyPorts(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "releaseLowPowerStandbyPorts")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerReleaseLowPowerStandbyPorts
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1634,7 +1634,7 @@ func (p *PowerManagerProxy) GetActiveLowPowerStandbyPorts(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getActiveLowPowerStandbyPorts")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerGetActiveLowPowerStandbyPorts
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1677,7 +1677,7 @@ func (p *PowerManagerProxy) Reboot(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "reboot")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerReboot
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1705,7 +1705,7 @@ func (p *PowerManagerProxy) RebootSafeMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "rebootSafeMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerRebootSafeMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1735,7 +1735,7 @@ func (p *PowerManagerProxy) Shutdown(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "shutdown")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerShutdown
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1761,7 +1761,7 @@ func (p *PowerManagerProxy) Crash(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "crash")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerCrash
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1786,7 +1786,7 @@ func (p *PowerManagerProxy) GetLastShutdownReason(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getLastShutdownReason")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerGetLastShutdownReason
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1815,7 +1815,7 @@ func (p *PowerManagerProxy) GetLastSleepReason(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "getLastSleepReason")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerGetLastSleepReason
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1845,7 +1845,7 @@ func (p *PowerManagerProxy) SetStayOnSetting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setStayOnSetting")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerSetStayOnSetting
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1871,7 +1871,7 @@ func (p *PowerManagerProxy) BoostScreenBrightness(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "boostScreenBrightness")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerBoostScreenBrightness
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1906,7 +1906,7 @@ func (p *PowerManagerProxy) AcquireWakeLockAsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "acquireWakeLockAsync")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerAcquireWakeLockAsync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1925,7 +1925,7 @@ func (p *PowerManagerProxy) ReleaseWakeLockAsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "releaseWakeLockAsync")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerReleaseWakeLockAsync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1951,7 +1951,7 @@ func (p *PowerManagerProxy) UpdateWakeLockUidsAsync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "updateWakeLockUidsAsync")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerUpdateWakeLockUidsAsync
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -1967,7 +1967,7 @@ func (p *PowerManagerProxy) IsScreenBrightnessBoosted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isScreenBrightnessBoosted")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsScreenBrightnessBoosted
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1999,7 +1999,7 @@ func (p *PowerManagerProxy) SetAttentionLight(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setAttentionLight")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerSetAttentionLight
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2025,7 +2025,7 @@ func (p *PowerManagerProxy) SetDozeAfterScreenOff(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "setDozeAfterScreenOff")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerSetDozeAfterScreenOff
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2050,7 +2050,7 @@ func (p *PowerManagerProxy) IsAmbientDisplayAvailable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isAmbientDisplayAvailable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsAmbientDisplayAvailable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2082,7 +2082,7 @@ func (p *PowerManagerProxy) SuppressAmbientDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "suppressAmbientDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIPowerManagerSuppressAmbientDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2109,7 +2109,7 @@ func (p *PowerManagerProxy) IsAmbientDisplaySuppressedForToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isAmbientDisplaySuppressedForToken")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsAmbientDisplaySuppressedForToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2138,7 +2138,7 @@ func (p *PowerManagerProxy) IsAmbientDisplaySuppressed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isAmbientDisplaySuppressed")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsAmbientDisplaySuppressed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2171,7 +2171,7 @@ func (p *PowerManagerProxy) IsAmbientDisplaySuppressedForTokenByApp(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "isAmbientDisplaySuppressedForTokenByApp")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerIsAmbientDisplaySuppressedForTokenByApp
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2200,7 +2200,7 @@ func (p *PowerManagerProxy) ForceSuspend(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPowerManager, "forceSuspend")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPowerManagerForceSuspend
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

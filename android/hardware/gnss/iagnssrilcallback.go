@@ -48,7 +48,7 @@ func (p *AGnssRilCallbackProxy) RequestSetIdCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAGnssRilCallback, "requestSetIdCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIAGnssRilCallbackRequestSetIdCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -72,7 +72,7 @@ func (p *AGnssRilCallbackProxy) RequestRefLocCb(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAGnssRilCallback, "requestRefLocCb")
 	if _err != nil {
-		return _err
+		_code = TransactionIAGnssRilCallbackRequestRefLocCb
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

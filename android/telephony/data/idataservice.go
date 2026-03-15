@@ -73,7 +73,7 @@ func (p *DataServiceProxy) CreateDataServiceProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "createDataServiceProvider")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceCreateDataServiceProvider
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -90,7 +90,7 @@ func (p *DataServiceProxy) RemoveDataServiceProvider(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "removeDataServiceProvider")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceRemoveDataServiceProvider
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -137,7 +137,7 @@ func (p *DataServiceProxy) SetupDataCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "setupDataCall")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceSetupDataCall
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -160,7 +160,7 @@ func (p *DataServiceProxy) DeactivateDataCall(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "deactivateDataCall")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceDeactivateDataCall
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -186,7 +186,7 @@ func (p *DataServiceProxy) SetInitialAttachApn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "setInitialAttachApn")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceSetInitialAttachApn
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -218,7 +218,7 @@ func (p *DataServiceProxy) SetDataProfile(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "setDataProfile")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceSetDataProfile
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -237,7 +237,7 @@ func (p *DataServiceProxy) RequestDataCallList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "requestDataCallList")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceRequestDataCallList
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -256,7 +256,7 @@ func (p *DataServiceProxy) RegisterForDataCallListChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "registerForDataCallListChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceRegisterForDataCallListChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -275,7 +275,7 @@ func (p *DataServiceProxy) UnregisterForDataCallListChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "unregisterForDataCallListChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceUnregisterForDataCallListChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -296,7 +296,7 @@ func (p *DataServiceProxy) StartHandover(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "startHandover")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceStartHandover
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -317,7 +317,7 @@ func (p *DataServiceProxy) CancelHandover(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "cancelHandover")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceCancelHandover
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -336,7 +336,7 @@ func (p *DataServiceProxy) RegisterForUnthrottleApn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "registerForUnthrottleApn")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceRegisterForUnthrottleApn
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -355,7 +355,7 @@ func (p *DataServiceProxy) UnregisterForUnthrottleApn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "unregisterForUnthrottleApn")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceUnregisterForUnthrottleApn
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -376,7 +376,7 @@ func (p *DataServiceProxy) RequestNetworkValidation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDataService, "requestNetworkValidation")
 	if _err != nil {
-		return _err
+		_code = TransactionIDataServiceRequestNetworkValidation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

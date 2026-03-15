@@ -71,7 +71,7 @@ func (p *MidiManagerProxy) GetDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "getDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMidiManagerGetDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -108,7 +108,7 @@ func (p *MidiManagerProxy) GetDevicesForTransport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "getDevicesForTransport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMidiManagerGetDevicesForTransport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -146,7 +146,7 @@ func (p *MidiManagerProxy) RegisterListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "registerListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIMidiManagerRegisterListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -174,7 +174,7 @@ func (p *MidiManagerProxy) UnregisterListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "unregisterListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIMidiManagerUnregisterListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -203,7 +203,7 @@ func (p *MidiManagerProxy) OpenDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "openDevice")
 	if _err != nil {
-		return _err
+		_code = TransactionIMidiManagerOpenDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -236,7 +236,7 @@ func (p *MidiManagerProxy) OpenBluetoothDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "openBluetoothDevice")
 	if _err != nil {
-		return _err
+		_code = TransactionIMidiManagerOpenBluetoothDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -264,7 +264,7 @@ func (p *MidiManagerProxy) CloseDevice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "closeDevice")
 	if _err != nil {
-		return _err
+		_code = TransactionIMidiManagerCloseDevice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -322,7 +322,7 @@ func (p *MidiManagerProxy) RegisterDeviceServer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "registerDeviceServer")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMidiManagerRegisterDeviceServer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -348,7 +348,7 @@ func (p *MidiManagerProxy) UnregisterDeviceServer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "unregisterDeviceServer")
 	if _err != nil {
-		return _err
+		_code = TransactionIMidiManagerUnregisterDeviceServer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -377,7 +377,7 @@ func (p *MidiManagerProxy) GetServiceDeviceInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "getServiceDeviceInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMidiManagerGetServiceDeviceInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -403,7 +403,7 @@ func (p *MidiManagerProxy) GetDeviceStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "getDeviceStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMidiManagerGetDeviceStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -443,7 +443,7 @@ func (p *MidiManagerProxy) SetDeviceStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "setDeviceStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionIMidiManagerSetDeviceStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -473,7 +473,7 @@ func (p *MidiManagerProxy) UpdateTotalBytes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "updateTotalBytes")
 	if _err != nil {
-		return _err
+		_code = TransactionIMidiManagerUpdateTotalBytes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

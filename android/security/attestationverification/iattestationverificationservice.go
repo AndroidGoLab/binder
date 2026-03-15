@@ -65,7 +65,7 @@ func (p *AttestationVerificationServiceProxy) OnVerifyAttestation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAttestationVerificationService, "onVerifyAttestation")
 	if _err != nil {
-		return _err
+		_code = TransactionIAttestationVerificationServiceOnVerifyAttestation
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

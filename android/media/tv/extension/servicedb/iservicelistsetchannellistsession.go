@@ -66,7 +66,7 @@ func (p *ServiceListSetChannelListSessionProxy) SetChannelList(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceListSetChannelListSession, "setChannelList")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIServiceListSetChannelListSessionSetChannelList
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -95,7 +95,7 @@ func (p *ServiceListSetChannelListSessionProxy) Release(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIServiceListSetChannelListSession, "release")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIServiceListSetChannelListSessionRelease
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -48,7 +48,7 @@ func (p *ChannelTunedInterfaceProxy) AddChannelTunedListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIChannelTunedInterface, "addChannelTunedListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIChannelTunedInterfaceAddChannelTunedListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -74,7 +74,7 @@ func (p *ChannelTunedInterfaceProxy) RemoveChannelTunedListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIChannelTunedInterface, "removeChannelTunedListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIChannelTunedInterfaceRemoveChannelTunedListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

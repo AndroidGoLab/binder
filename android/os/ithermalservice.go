@@ -73,7 +73,7 @@ func (p *ThermalServiceProxy) RegisterThermalEventListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIThermalService, "registerThermalEventListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIThermalServiceRegisterThermalEventListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -106,7 +106,7 @@ func (p *ThermalServiceProxy) RegisterThermalEventListenerWithType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIThermalService, "registerThermalEventListenerWithType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIThermalServiceRegisterThermalEventListenerWithType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -137,7 +137,7 @@ func (p *ThermalServiceProxy) UnregisterThermalEventListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIThermalService, "unregisterThermalEventListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIThermalServiceUnregisterThermalEventListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -166,7 +166,7 @@ func (p *ThermalServiceProxy) GetCurrentTemperatures(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIThermalService, "getCurrentTemperatures")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIThermalServiceGetCurrentTemperatures
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -203,7 +203,7 @@ func (p *ThermalServiceProxy) GetCurrentTemperaturesWithType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIThermalService, "getCurrentTemperaturesWithType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIThermalServiceGetCurrentTemperaturesWithType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -240,7 +240,7 @@ func (p *ThermalServiceProxy) RegisterThermalStatusListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIThermalService, "registerThermalStatusListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIThermalServiceRegisterThermalStatusListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -271,7 +271,7 @@ func (p *ThermalServiceProxy) UnregisterThermalStatusListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIThermalService, "unregisterThermalStatusListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIThermalServiceUnregisterThermalStatusListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -300,7 +300,7 @@ func (p *ThermalServiceProxy) GetCurrentThermalStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIThermalService, "getCurrentThermalStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIThermalServiceGetCurrentThermalStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -329,7 +329,7 @@ func (p *ThermalServiceProxy) GetCurrentCoolingDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIThermalService, "getCurrentCoolingDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIThermalServiceGetCurrentCoolingDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -366,7 +366,7 @@ func (p *ThermalServiceProxy) GetCurrentCoolingDevicesWithType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIThermalService, "getCurrentCoolingDevicesWithType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIThermalServiceGetCurrentCoolingDevicesWithType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -403,7 +403,7 @@ func (p *ThermalServiceProxy) GetThermalHeadroom(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIThermalService, "getThermalHeadroom")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIThermalServiceGetThermalHeadroom
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -432,7 +432,7 @@ func (p *ThermalServiceProxy) GetThermalHeadroomThresholds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIThermalService, "getThermalHeadroomThresholds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIThermalServiceGetThermalHeadroomThresholds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -473,7 +473,7 @@ func (p *ThermalServiceProxy) RegisterThermalHeadroomListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIThermalService, "registerThermalHeadroomListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIThermalServiceRegisterThermalHeadroomListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -504,7 +504,7 @@ func (p *ThermalServiceProxy) UnregisterThermalHeadroomListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIThermalService, "unregisterThermalHeadroomListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIThermalServiceUnregisterThermalHeadroomListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

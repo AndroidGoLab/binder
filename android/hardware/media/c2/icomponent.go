@@ -72,7 +72,7 @@ func (p *ComponentProxy) ConfigureVideoTunnel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "configureVideoTunnel")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIComponentConfigureVideoTunnel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -107,7 +107,7 @@ func (p *ComponentProxy) CreateBlockPool(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "createBlockPool")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIComponentCreateBlockPool
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -133,7 +133,7 @@ func (p *ComponentProxy) DestroyBlockPool(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "destroyBlockPool")
 	if _err != nil {
-		return _err
+		_code = TransactionIComponentDestroyBlockPool
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -159,7 +159,7 @@ func (p *ComponentProxy) Drain(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "drain")
 	if _err != nil {
-		return _err
+		_code = TransactionIComponentDrain
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -184,7 +184,7 @@ func (p *ComponentProxy) Flush(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "flush")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIComponentFlush
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -218,7 +218,7 @@ func (p *ComponentProxy) GetInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "getInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIComponentGetInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -252,7 +252,7 @@ func (p *ComponentProxy) Queue(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "queue")
 	if _err != nil {
-		return _err
+		_code = TransactionIComponentQueue
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -276,7 +276,7 @@ func (p *ComponentProxy) Release(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "release")
 	if _err != nil {
-		return _err
+		_code = TransactionIComponentRelease
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -300,7 +300,7 @@ func (p *ComponentProxy) Reset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "reset")
 	if _err != nil {
-		return _err
+		_code = TransactionIComponentReset
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -324,7 +324,7 @@ func (p *ComponentProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "start")
 	if _err != nil {
-		return _err
+		_code = TransactionIComponentStart
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -348,7 +348,7 @@ func (p *ComponentProxy) Stop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "stop")
 	if _err != nil {
-		return _err
+		_code = TransactionIComponentStop
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -375,7 +375,7 @@ func (p *ComponentProxy) ConnectToInputSurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "connectToInputSurface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIComponentConnectToInputSurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -405,7 +405,7 @@ func (p *ComponentProxy) AsInputSink(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "asInputSink")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIComponentAsInputSink
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

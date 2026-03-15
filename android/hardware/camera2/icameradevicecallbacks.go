@@ -72,7 +72,7 @@ func (p *CameraDeviceCallbacksProxy) OnDeviceError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceCallbacks, "onDeviceError")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceCallbacksOnDeviceError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -87,7 +87,7 @@ func (p *CameraDeviceCallbacksProxy) OnDeviceIdle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceCallbacks, "onDeviceIdle")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceCallbacksOnDeviceIdle
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -105,7 +105,7 @@ func (p *CameraDeviceCallbacksProxy) OnCaptureStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceCallbacks, "onCaptureStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceCallbacksOnCaptureStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -132,7 +132,7 @@ func (p *CameraDeviceCallbacksProxy) OnResultReceived(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceCallbacks, "onResultReceived")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceCallbacksOnResultReceived
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -149,7 +149,7 @@ func (p *CameraDeviceCallbacksProxy) OnPrepared(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceCallbacks, "onPrepared")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceCallbacksOnPrepared
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -168,7 +168,7 @@ func (p *CameraDeviceCallbacksProxy) OnRepeatingRequestError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceCallbacks, "onRepeatingRequestError")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceCallbacksOnRepeatingRequestError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -183,7 +183,7 @@ func (p *CameraDeviceCallbacksProxy) OnRequestQueueEmpty(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceCallbacks, "onRequestQueueEmpty")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceCallbacksOnRequestQueueEmpty
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -200,7 +200,7 @@ func (p *CameraDeviceCallbacksProxy) OnClientSharedAccessPriorityChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceCallbacks, "onClientSharedAccessPriorityChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraDeviceCallbacksOnClientSharedAccessPriorityChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

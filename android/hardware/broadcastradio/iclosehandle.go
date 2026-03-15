@@ -44,7 +44,7 @@ func (p *CloseHandleProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICloseHandle, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionICloseHandleClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

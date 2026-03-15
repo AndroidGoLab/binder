@@ -63,7 +63,7 @@ func (p *TranscodingClientCallbackProxy) OpenFileDescriptor(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClientCallback, "openFileDescriptor")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITranscodingClientCallbackOpenFileDescriptor
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClientCallback, "onTranscodingStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionITranscodingClientCallbackOnTranscodingStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -110,7 +110,7 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingPaused(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClientCallback, "onTranscodingPaused")
 	if _err != nil {
-		return _err
+		_code = TransactionITranscodingClientCallbackOnTranscodingPaused
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -127,7 +127,7 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingResumed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClientCallback, "onTranscodingResumed")
 	if _err != nil {
-		return _err
+		_code = TransactionITranscodingClientCallbackOnTranscodingResumed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -149,7 +149,7 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClientCallback, "onTranscodingFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionITranscodingClientCallbackOnTranscodingFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -168,7 +168,7 @@ func (p *TranscodingClientCallbackProxy) OnTranscodingFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClientCallback, "onTranscodingFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionITranscodingClientCallbackOnTranscodingFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -189,7 +189,7 @@ func (p *TranscodingClientCallbackProxy) OnAwaitNumberOfSessionsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClientCallback, "onAwaitNumberOfSessionsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITranscodingClientCallbackOnAwaitNumberOfSessionsChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -208,7 +208,7 @@ func (p *TranscodingClientCallbackProxy) OnProgressUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranscodingClientCallback, "onProgressUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionITranscodingClientCallbackOnProgressUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -48,7 +48,7 @@ func (p *TransportStatusCallbackProxy) OnOperationCompleteWithStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITransportStatusCallback, "onOperationCompleteWithStatus")
 	if _err != nil {
-		return _err
+		_code = TransactionITransportStatusCallbackOnOperationCompleteWithStatus
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -63,7 +63,7 @@ func (p *TransportStatusCallbackProxy) OnOperationComplete(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITransportStatusCallback, "onOperationComplete")
 	if _err != nil {
-		return _err
+		_code = TransactionITransportStatusCallbackOnOperationComplete
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

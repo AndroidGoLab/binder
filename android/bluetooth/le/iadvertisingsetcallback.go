@@ -70,7 +70,7 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingSetStarted(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onAdvertisingSetStarted")
 	if _err != nil {
-		return _err
+		_code = TransactionIAdvertisingSetCallbackOnAdvertisingSetStarted
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -91,7 +91,7 @@ func (p *AdvertisingSetCallbackProxy) OnOwnAddressRead(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onOwnAddressRead")
 	if _err != nil {
-		return _err
+		_code = TransactionIAdvertisingSetCallbackOnOwnAddressRead
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -108,7 +108,7 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingSetStopped(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onAdvertisingSetStopped")
 	if _err != nil {
-		return _err
+		_code = TransactionIAdvertisingSetCallbackOnAdvertisingSetStopped
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -129,7 +129,7 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onAdvertisingEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIAdvertisingSetCallbackOnAdvertisingEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -148,7 +148,7 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingDataSet(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onAdvertisingDataSet")
 	if _err != nil {
-		return _err
+		_code = TransactionIAdvertisingSetCallbackOnAdvertisingDataSet
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -167,7 +167,7 @@ func (p *AdvertisingSetCallbackProxy) OnScanResponseDataSet(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onScanResponseDataSet")
 	if _err != nil {
-		return _err
+		_code = TransactionIAdvertisingSetCallbackOnScanResponseDataSet
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -188,7 +188,7 @@ func (p *AdvertisingSetCallbackProxy) OnAdvertisingParametersUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onAdvertisingParametersUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIAdvertisingSetCallbackOnAdvertisingParametersUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -207,7 +207,7 @@ func (p *AdvertisingSetCallbackProxy) OnPeriodicAdvertisingParametersUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onPeriodicAdvertisingParametersUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionIAdvertisingSetCallbackOnPeriodicAdvertisingParametersUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -226,7 +226,7 @@ func (p *AdvertisingSetCallbackProxy) OnPeriodicAdvertisingDataSet(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onPeriodicAdvertisingDataSet")
 	if _err != nil {
-		return _err
+		_code = TransactionIAdvertisingSetCallbackOnPeriodicAdvertisingDataSet
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -247,7 +247,7 @@ func (p *AdvertisingSetCallbackProxy) OnPeriodicAdvertisingEnabled(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAdvertisingSetCallback, "onPeriodicAdvertisingEnabled")
 	if _err != nil {
-		return _err
+		_code = TransactionIAdvertisingSetCallbackOnPeriodicAdvertisingEnabled
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

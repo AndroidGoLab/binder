@@ -60,7 +60,7 @@ func (p *BluetoothPanProxy) IsTetheringOn(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPan, "isTetheringOn")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothPanIsTetheringOn
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -95,7 +95,7 @@ func (p *BluetoothPanProxy) SetBluetoothTethering(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPan, "setBluetoothTethering")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothPanSetBluetoothTethering
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -126,7 +126,7 @@ func (p *BluetoothPanProxy) Connect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPan, "connect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothPanConnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -161,7 +161,7 @@ func (p *BluetoothPanProxy) Disconnect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPan, "disconnect")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothPanDisconnect
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -191,7 +191,7 @@ func (p *BluetoothPanProxy) GetConnectedDevices(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPan, "getConnectedDevices")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothPanGetConnectedDevices
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -239,7 +239,7 @@ func (p *BluetoothPanProxy) GetDevicesMatchingConnectionStates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPan, "getDevicesMatchingConnectionStates")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothPanGetDevicesMatchingConnectionStates
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -283,7 +283,7 @@ func (p *BluetoothPanProxy) GetConnectionState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPan, "getConnectionState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothPanGetConnectionState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -320,7 +320,7 @@ func (p *BluetoothPanProxy) SetConnectionPolicy(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothPan, "setConnectionPolicy")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothPanSetConnectionPolicy
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -56,7 +56,7 @@ func (p *TvInputManagerCallbackProxy) OnInputAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onInputAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputManagerCallbackOnInputAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -73,7 +73,7 @@ func (p *TvInputManagerCallbackProxy) OnInputRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onInputRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputManagerCallbackOnInputRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -90,7 +90,7 @@ func (p *TvInputManagerCallbackProxy) OnInputUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onInputUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputManagerCallbackOnInputUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *TvInputManagerCallbackProxy) OnInputStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onInputStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputManagerCallbackOnInputStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -129,7 +129,7 @@ func (p *TvInputManagerCallbackProxy) OnTvInputInfoUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onTvInputInfoUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputManagerCallbackOnTvInputInfoUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -155,7 +155,7 @@ func (p *TvInputManagerCallbackProxy) OnCurrentTunedInfosUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputManagerCallback, "onCurrentTunedInfosUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputManagerCallbackOnCurrentTunedInfosUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

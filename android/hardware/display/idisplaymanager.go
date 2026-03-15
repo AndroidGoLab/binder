@@ -178,7 +178,7 @@ func (p *DisplayManagerProxy) GetDisplayInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getDisplayInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetDisplayInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -205,7 +205,7 @@ func (p *DisplayManagerProxy) GetDisplayIds(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getDisplayIds")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetDisplayIds
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -248,7 +248,7 @@ func (p *DisplayManagerProxy) IsUidPresentOnDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "isUidPresentOnDisplay")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerIsUidPresentOnDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -278,7 +278,7 @@ func (p *DisplayManagerProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerRegisterCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -306,7 +306,7 @@ func (p *DisplayManagerProxy) RegisterCallbackWithEventMask(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "registerCallbackWithEventMask")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerRegisterCallbackWithEventMask
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -330,7 +330,7 @@ func (p *DisplayManagerProxy) StartWifiDisplayScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "startWifiDisplayScan")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerStartWifiDisplayScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -354,7 +354,7 @@ func (p *DisplayManagerProxy) StopWifiDisplayScan(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "stopWifiDisplayScan")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerStopWifiDisplayScan
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -380,7 +380,7 @@ func (p *DisplayManagerProxy) ConnectWifiDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "connectWifiDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerConnectWifiDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -404,7 +404,7 @@ func (p *DisplayManagerProxy) DisconnectWifiDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "disconnectWifiDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerDisconnectWifiDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -432,7 +432,7 @@ func (p *DisplayManagerProxy) RenameWifiDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "renameWifiDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerRenameWifiDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -458,7 +458,7 @@ func (p *DisplayManagerProxy) ForgetWifiDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "forgetWifiDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerForgetWifiDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -482,7 +482,7 @@ func (p *DisplayManagerProxy) PauseWifiDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "pauseWifiDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerPauseWifiDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -506,7 +506,7 @@ func (p *DisplayManagerProxy) ResumeWifiDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "resumeWifiDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerResumeWifiDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -531,7 +531,7 @@ func (p *DisplayManagerProxy) GetWifiDisplayStatus(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getWifiDisplayStatus")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetWifiDisplayStatus
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -573,7 +573,7 @@ func (p *DisplayManagerProxy) SetUserDisabledHdrTypes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setUserDisabledHdrTypes")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerSetUserDisabledHdrTypes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -599,7 +599,7 @@ func (p *DisplayManagerProxy) SetAreUserDisabledHdrTypesAllowed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setAreUserDisabledHdrTypesAllowed")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerSetAreUserDisabledHdrTypesAllowed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -624,7 +624,7 @@ func (p *DisplayManagerProxy) AreUserDisabledHdrTypesAllowed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "areUserDisabledHdrTypesAllowed")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerAreUserDisabledHdrTypesAllowed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -653,7 +653,7 @@ func (p *DisplayManagerProxy) GetUserDisabledHdrTypes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getUserDisabledHdrTypes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetUserDisabledHdrTypes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -702,7 +702,7 @@ func (p *DisplayManagerProxy) OverrideHdrTypes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "overrideHdrTypes")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerOverrideHdrTypes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -730,7 +730,7 @@ func (p *DisplayManagerProxy) RequestColorMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "requestColorMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerRequestColorMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -766,7 +766,7 @@ func (p *DisplayManagerProxy) CreateVirtualDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "createVirtualDisplay")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerCreateVirtualDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -802,7 +802,7 @@ func (p *DisplayManagerProxy) ResizeVirtualDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "resizeVirtualDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerResizeVirtualDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -829,7 +829,7 @@ func (p *DisplayManagerProxy) SetVirtualDisplaySurface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setVirtualDisplaySurface")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerSetVirtualDisplaySurface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -855,7 +855,7 @@ func (p *DisplayManagerProxy) ReleaseVirtualDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "releaseVirtualDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerReleaseVirtualDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -883,7 +883,7 @@ func (p *DisplayManagerProxy) SetVirtualDisplayRotation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setVirtualDisplayRotation")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerSetVirtualDisplayRotation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -908,7 +908,7 @@ func (p *DisplayManagerProxy) GetStableDisplaySize(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getStableDisplaySize")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetStableDisplaySize
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -944,7 +944,7 @@ func (p *DisplayManagerProxy) GetBrightnessEvents(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getBrightnessEvents")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetBrightnessEvents
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -978,7 +978,7 @@ func (p *DisplayManagerProxy) GetAmbientBrightnessStats(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getAmbientBrightnessStats")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetAmbientBrightnessStats
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1020,7 +1020,7 @@ func (p *DisplayManagerProxy) SetBrightnessConfigurationForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setBrightnessConfigurationForUser")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerSetBrightnessConfigurationForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1055,7 +1055,7 @@ func (p *DisplayManagerProxy) SetBrightnessConfigurationForDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setBrightnessConfigurationForDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerSetBrightnessConfigurationForDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1084,7 +1084,7 @@ func (p *DisplayManagerProxy) GetBrightnessConfigurationForDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getBrightnessConfigurationForDisplay")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetBrightnessConfigurationForDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1120,7 +1120,7 @@ func (p *DisplayManagerProxy) GetBrightnessConfigurationForUser(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getBrightnessConfigurationForUser")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetBrightnessConfigurationForUser
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1154,7 +1154,7 @@ func (p *DisplayManagerProxy) GetDefaultBrightnessConfiguration(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getDefaultBrightnessConfiguration")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetDefaultBrightnessConfiguration
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1190,7 +1190,7 @@ func (p *DisplayManagerProxy) IsMinimalPostProcessingRequested(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "isMinimalPostProcessingRequested")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerIsMinimalPostProcessingRequested
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1222,7 +1222,7 @@ func (p *DisplayManagerProxy) SetTemporaryBrightness(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setTemporaryBrightness")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerSetTemporaryBrightness
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1250,7 +1250,7 @@ func (p *DisplayManagerProxy) SetBrightness(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setBrightness")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerSetBrightness
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1277,7 +1277,7 @@ func (p *DisplayManagerProxy) GetBrightness(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getBrightness")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetBrightness
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1307,7 +1307,7 @@ func (p *DisplayManagerProxy) SetTemporaryAutoBrightnessAdjustment(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setTemporaryAutoBrightnessAdjustment")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerSetTemporaryAutoBrightnessAdjustment
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1332,7 +1332,7 @@ func (p *DisplayManagerProxy) GetMinimumBrightnessCurve(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getMinimumBrightnessCurve")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetMinimumBrightnessCurve
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1368,7 +1368,7 @@ func (p *DisplayManagerProxy) GetBrightnessInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getBrightnessInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetBrightnessInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1402,7 +1402,7 @@ func (p *DisplayManagerProxy) GetPreferredWideGamutColorSpaceId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getPreferredWideGamutColorSpaceId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetPreferredWideGamutColorSpaceId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1434,7 +1434,7 @@ func (p *DisplayManagerProxy) SetUserPreferredDisplayMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setUserPreferredDisplayMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerSetUserPreferredDisplayMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1461,7 +1461,7 @@ func (p *DisplayManagerProxy) GetUserPreferredDisplayMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getUserPreferredDisplayMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetUserPreferredDisplayMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1493,7 +1493,7 @@ func (p *DisplayManagerProxy) GetSystemPreferredDisplayMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getSystemPreferredDisplayMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetSystemPreferredDisplayMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1527,7 +1527,7 @@ func (p *DisplayManagerProxy) SetHdrConversionMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setHdrConversionMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerSetHdrConversionMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1552,7 +1552,7 @@ func (p *DisplayManagerProxy) GetHdrConversionModeSetting(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getHdrConversionModeSetting")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetHdrConversionModeSetting
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1586,7 +1586,7 @@ func (p *DisplayManagerProxy) GetHdrConversionMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getHdrConversionMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetHdrConversionMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1620,7 +1620,7 @@ func (p *DisplayManagerProxy) GetSupportedHdrOutputTypes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getSupportedHdrOutputTypes")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetSupportedHdrOutputTypes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1660,7 +1660,7 @@ func (p *DisplayManagerProxy) SetShouldAlwaysRespectAppRequestedMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setShouldAlwaysRespectAppRequestedMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerSetShouldAlwaysRespectAppRequestedMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1685,7 +1685,7 @@ func (p *DisplayManagerProxy) ShouldAlwaysRespectAppRequestedMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "shouldAlwaysRespectAppRequestedMode")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerShouldAlwaysRespectAppRequestedMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1715,7 +1715,7 @@ func (p *DisplayManagerProxy) SetRefreshRateSwitchingType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setRefreshRateSwitchingType")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerSetRefreshRateSwitchingType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1740,7 +1740,7 @@ func (p *DisplayManagerProxy) GetRefreshRateSwitchingType(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getRefreshRateSwitchingType")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetRefreshRateSwitchingType
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1771,7 +1771,7 @@ func (p *DisplayManagerProxy) GetDisplayDecorationSupport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getDisplayDecorationSupport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetDisplayDecorationSupport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1808,7 +1808,7 @@ func (p *DisplayManagerProxy) SetDisplayIdToMirror(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setDisplayIdToMirror")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerSetDisplayIdToMirror
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1833,7 +1833,7 @@ func (p *DisplayManagerProxy) GetOverlaySupport(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getOverlaySupport")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetOverlaySupport
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1868,7 +1868,7 @@ func (p *DisplayManagerProxy) EnableConnectedDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "enableConnectedDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerEnableConnectedDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1894,7 +1894,7 @@ func (p *DisplayManagerProxy) DisableConnectedDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "disableConnectedDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerDisableConnectedDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1923,7 +1923,7 @@ func (p *DisplayManagerProxy) RequestDisplayPower(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "requestDisplayPower")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerRequestDisplayPower
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1964,7 +1964,7 @@ func (p *DisplayManagerProxy) RequestDisplayModes(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "requestDisplayModes")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerRequestDisplayModes
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -1991,7 +1991,7 @@ func (p *DisplayManagerProxy) GetHighestHdrSdrRatio(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getHighestHdrSdrRatio")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetHighestHdrSdrRatio
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2022,7 +2022,7 @@ func (p *DisplayManagerProxy) GetDozeBrightnessSensorValueToBrightness(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getDozeBrightnessSensorValueToBrightness")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetDozeBrightnessSensorValueToBrightness
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2063,7 +2063,7 @@ func (p *DisplayManagerProxy) GetDefaultDozeBrightness(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getDefaultDozeBrightness")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetDefaultDozeBrightness
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2092,7 +2092,7 @@ func (p *DisplayManagerProxy) GetDisplayTopology(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "getDisplayTopology")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDisplayManagerGetDisplayTopology
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -2130,7 +2130,7 @@ func (p *DisplayManagerProxy) SetDisplayTopology(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayManager, "setDisplayTopology")
 	if _err != nil {
-		return _err
+		_code = TransactionIDisplayManagerSetDisplayTopology
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

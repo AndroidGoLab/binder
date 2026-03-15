@@ -47,7 +47,7 @@ func (p *RemoteServiceCallbackProxy) OnError(
 
 	_code, _err := p.remote.ResolveCode(DescriptorRemoteServiceCallback, "onError")
 	if _err != nil {
-		return _err
+		_code = TransactionRemoteServiceCallbackOnError
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -82,7 +82,7 @@ func (p *RemoteServiceCallbackProxy) OnResult(
 
 	_code, _err := p.remote.ResolveCode(DescriptorRemoteServiceCallback, "onResult")
 	if _err != nil {
-		return _err
+		_code = TransactionRemoteServiceCallbackOnResult
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

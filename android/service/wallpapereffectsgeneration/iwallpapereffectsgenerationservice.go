@@ -50,7 +50,7 @@ func (p *WallpaperEffectsGenerationServiceProxy) OnGenerateCinematicEffect(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperEffectsGenerationService, "onGenerateCinematicEffect")
 	if _err != nil {
-		return _err
+		_code = TransactionIWallpaperEffectsGenerationServiceOnGenerateCinematicEffect
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -55,7 +55,7 @@ func (p *RebootEscrowProxy) StoreKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRebootEscrow, "storeKey")
 	if _err != nil {
-		return _err
+		_code = TransactionIRebootEscrowStoreKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -80,7 +80,7 @@ func (p *RebootEscrowProxy) RetrieveKey(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRebootEscrow, "retrieveKey")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIRebootEscrowRetrieveKey
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -51,7 +51,7 @@ func (p *InputFilterHostProxy) SendInputEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputFilterHost, "sendInputEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIInputFilterHostSendInputEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

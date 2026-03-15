@@ -47,7 +47,7 @@ func (p *UwbProxy) GetChips(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUwb, "getChips")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUwbGetChips
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -88,7 +88,7 @@ func (p *UwbProxy) GetChip(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUwb, "getChip")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIUwbGetChip
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

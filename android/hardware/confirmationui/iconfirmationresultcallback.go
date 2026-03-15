@@ -64,7 +64,7 @@ func (p *ConfirmationResultCallbackProxy) Result(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConfirmationResultCallback, "result")
 	if _err != nil {
-		return _err
+		_code = TransactionIConfirmationResultCallbackResult
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

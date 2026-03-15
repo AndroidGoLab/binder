@@ -44,7 +44,7 @@ func (p *VoiceInteractorRequestProxy) Cancel(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractorRequest, "cancel")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractorRequestCancel
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

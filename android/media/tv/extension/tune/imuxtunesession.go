@@ -62,7 +62,7 @@ func (p *MuxTuneSessionProxy) Start(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMuxTuneSession, "start")
 	if _err != nil {
-		return _err
+		_code = TransactionIMuxTuneSessionStart
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -86,7 +86,7 @@ func (p *MuxTuneSessionProxy) Stop(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMuxTuneSession, "stop")
 	if _err != nil {
-		return _err
+		_code = TransactionIMuxTuneSessionStop
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -110,7 +110,7 @@ func (p *MuxTuneSessionProxy) Release(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMuxTuneSession, "release")
 	if _err != nil {
-		return _err
+		_code = TransactionIMuxTuneSessionRelease
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -135,7 +135,7 @@ func (p *MuxTuneSessionProxy) GetSessionToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMuxTuneSession, "getSessionToken")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIMuxTuneSessionGetSessionToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

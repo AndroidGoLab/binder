@@ -68,7 +68,7 @@ func (p *ShellTransitionsProxy) RegisterRemote(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIShellTransitions, "registerRemote")
 	if _err != nil {
-		return _err
+		_code = TransactionIShellTransitionsRegisterRemote
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *ShellTransitionsProxy) UnregisterRemote(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIShellTransitions, "unregisterRemote")
 	if _err != nil {
-		return _err
+		_code = TransactionIShellTransitionsUnregisterRemote
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -104,7 +104,7 @@ func (p *ShellTransitionsProxy) GetShellApplyToken(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIShellTransitions, "getShellApplyToken")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIShellTransitionsGetShellApplyToken
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -135,7 +135,7 @@ func (p *ShellTransitionsProxy) SetHomeTransitionListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIShellTransitions, "setHomeTransitionListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIShellTransitionsSetHomeTransitionListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -151,7 +151,7 @@ func (p *ShellTransitionsProxy) GetHomeTaskOverlayContainer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIShellTransitions, "getHomeTaskOverlayContainer")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIShellTransitionsGetHomeTaskOverlayContainer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -194,7 +194,7 @@ func (p *ShellTransitionsProxy) RegisterRemoteForTakeover(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIShellTransitions, "registerRemoteForTakeover")
 	if _err != nil {
-		return _err
+		_code = TransactionIShellTransitionsRegisterRemoteForTakeover
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -211,7 +211,7 @@ func (p *ShellTransitionsProxy) SetFocusTransitionListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIShellTransitions, "setFocusTransitionListener")
 	if _err != nil {
-		return _err
+		_code = TransactionIShellTransitionsSetFocusTransitionListener
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

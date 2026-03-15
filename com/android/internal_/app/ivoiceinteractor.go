@@ -65,7 +65,7 @@ func (p *VoiceInteractorProxy) StartConfirmation(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractor, "startConfirmation")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVoiceInteractorStartConfirmation
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -107,7 +107,7 @@ func (p *VoiceInteractorProxy) StartPickOption(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractor, "startPickOption")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVoiceInteractorStartPickOption
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -143,7 +143,7 @@ func (p *VoiceInteractorProxy) StartCompleteVoice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractor, "startCompleteVoice")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVoiceInteractorStartCompleteVoice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -179,7 +179,7 @@ func (p *VoiceInteractorProxy) StartAbortVoice(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractor, "startAbortVoice")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVoiceInteractorStartAbortVoice
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -216,7 +216,7 @@ func (p *VoiceInteractorProxy) StartCommand(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractor, "startCommand")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVoiceInteractorStartCommand
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -257,7 +257,7 @@ func (p *VoiceInteractorProxy) SupportsCommands(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractor, "supportsCommands")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIVoiceInteractorSupportsCommands
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -299,7 +299,7 @@ func (p *VoiceInteractorProxy) NotifyDirectActionsChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractor, "notifyDirectActionsChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractorNotifyDirectActionsChanged
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -324,7 +324,7 @@ func (p *VoiceInteractorProxy) SetKillCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractor, "setKillCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIVoiceInteractorSetKillCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

@@ -54,7 +54,7 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnInteractiveAppServiceAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppManagerCallback, "onInteractiveAppServiceAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInteractiveAppManagerCallbackOnInteractiveAppServiceAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnInteractiveAppServiceRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppManagerCallback, "onInteractiveAppServiceRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInteractiveAppManagerCallbackOnInteractiveAppServiceRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnInteractiveAppServiceUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppManagerCallback, "onInteractiveAppServiceUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInteractiveAppManagerCallbackOnInteractiveAppServiceUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -108,7 +108,7 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnTvInteractiveAppServiceInfoUpda
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppManagerCallback, "onTvInteractiveAppServiceInfoUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInteractiveAppManagerCallbackOnTvInteractiveAppServiceInfoUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -131,7 +131,7 @@ func (p *TvInteractiveAppManagerCallbackProxy) OnStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInteractiveAppManagerCallback, "onStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInteractiveAppManagerCallbackOnStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

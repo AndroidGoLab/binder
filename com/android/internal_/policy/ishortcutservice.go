@@ -46,7 +46,7 @@ func (p *ShortcutServiceProxy) NotifyShortcutKeyPressed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIShortcutService, "notifyShortcutKeyPressed")
 	if _err != nil {
-		return _err
+		_code = TransactionIShortcutServiceNotifyShortcutKeyPressed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -52,7 +52,7 @@ func (p *CameraServiceListenerProxy) OnPhysicalCameraStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onPhysicalCameraStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceListenerOnPhysicalCameraStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -71,7 +71,7 @@ func (p *CameraServiceListenerProxy) OnStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraServiceListener, "onStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionICameraServiceListenerOnStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

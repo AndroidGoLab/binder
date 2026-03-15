@@ -58,7 +58,7 @@ func (p *BluetoothAudioPortProxy) GetPresentationPosition(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioPort, "getPresentationPosition")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBluetoothAudioPortGetPresentationPosition
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *BluetoothAudioPortProxy) StartStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioPort, "startStream")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothAudioPortStartStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -117,7 +117,7 @@ func (p *BluetoothAudioPortProxy) StopStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioPort, "stopStream")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothAudioPortStopStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -141,7 +141,7 @@ func (p *BluetoothAudioPortProxy) SuspendStream(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioPort, "suspendStream")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothAudioPortSuspendStream
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -170,7 +170,7 @@ func (p *BluetoothAudioPortProxy) UpdateSourceMetadata(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioPort, "updateSourceMetadata")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothAudioPortUpdateSourceMetadata
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -199,7 +199,7 @@ func (p *BluetoothAudioPortProxy) UpdateSinkMetadata(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioPort, "updateSinkMetadata")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothAudioPortUpdateSinkMetadata
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -225,7 +225,7 @@ func (p *BluetoothAudioPortProxy) SetLatencyMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioPort, "setLatencyMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIBluetoothAudioPortSetLatencyMode
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

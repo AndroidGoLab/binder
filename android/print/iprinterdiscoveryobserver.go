@@ -52,7 +52,7 @@ func (p *PrinterDiscoveryObserverProxy) OnPrintersAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrinterDiscoveryObserver, "onPrintersAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrinterDiscoveryObserverOnPrintersAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -72,7 +72,7 @@ func (p *PrinterDiscoveryObserverProxy) OnPrintersRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrinterDiscoveryObserver, "onPrintersRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionIPrinterDiscoveryObserverOnPrintersRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -55,7 +55,7 @@ func (p *AppFunctionServiceProxy) ExecuteAppFunction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppFunctionService, "executeAppFunction")
 	if _err != nil {
-		return _err
+		_code = TransactionIAppFunctionServiceExecuteAppFunction
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

@@ -56,7 +56,7 @@ func (p *AudioInputCallbackProxy) OnDescriptionChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioInputCallback, "onDescriptionChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioInputCallbackOnDescriptionChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -73,7 +73,7 @@ func (p *AudioInputCallbackProxy) OnStatusChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioInputCallback, "onStatusChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioInputCallbackOnStatusChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -94,7 +94,7 @@ func (p *AudioInputCallbackProxy) OnStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioInputCallback, "onStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioInputCallbackOnStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -109,7 +109,7 @@ func (p *AudioInputCallbackProxy) OnSetGainSettingFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioInputCallback, "onSetGainSettingFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioInputCallbackOnSetGainSettingFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -124,7 +124,7 @@ func (p *AudioInputCallbackProxy) OnSetGainModeFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioInputCallback, "onSetGainModeFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioInputCallbackOnSetGainModeFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -139,7 +139,7 @@ func (p *AudioInputCallbackProxy) OnSetMuteFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioInputCallback, "onSetMuteFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIAudioInputCallbackOnSetMuteFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

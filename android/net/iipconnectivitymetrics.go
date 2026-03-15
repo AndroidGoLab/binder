@@ -58,7 +58,7 @@ func (p *IpConnectivityMetricsProxy) LogEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIpConnectivityMetrics, "logEvent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIpConnectivityMetricsLogEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -88,7 +88,7 @@ func (p *IpConnectivityMetricsProxy) LogDefaultNetworkValidity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIpConnectivityMetrics, "logDefaultNetworkValidity")
 	if _err != nil {
-		return _err
+		_code = TransactionIIpConnectivityMetricsLogDefaultNetworkValidity
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -124,7 +124,7 @@ func (p *IpConnectivityMetricsProxy) LogDefaultNetworkEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIpConnectivityMetrics, "logDefaultNetworkEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIIpConnectivityMetricsLogDefaultNetworkEvent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -153,7 +153,7 @@ func (p *IpConnectivityMetricsProxy) AddNetdEventCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIpConnectivityMetrics, "addNetdEventCallback")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIpConnectivityMetricsAddNetdEventCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -184,7 +184,7 @@ func (p *IpConnectivityMetricsProxy) RemoveNetdEventCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIIpConnectivityMetrics, "removeNetdEventCallback")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIIpConnectivityMetricsRemoveNetdEventCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

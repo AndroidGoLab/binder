@@ -60,7 +60,7 @@ func (p *MusicRecognitionManagerCallbackProxy) OnRecognitionSucceeded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMusicRecognitionManagerCallback, "onRecognitionSucceeded")
 	if _err != nil {
-		return _err
+		_code = TransactionIMusicRecognitionManagerCallbackOnRecognitionSucceeded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -77,7 +77,7 @@ func (p *MusicRecognitionManagerCallbackProxy) OnRecognitionFailed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMusicRecognitionManagerCallback, "onRecognitionFailed")
 	if _err != nil {
-		return _err
+		_code = TransactionIMusicRecognitionManagerCallbackOnRecognitionFailed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -92,7 +92,7 @@ func (p *MusicRecognitionManagerCallbackProxy) OnAudioStreamClosed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMusicRecognitionManagerCallback, "onAudioStreamClosed")
 	if _err != nil {
-		return _err
+		_code = TransactionIMusicRecognitionManagerCallbackOnAudioStreamClosed
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

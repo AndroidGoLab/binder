@@ -53,7 +53,7 @@ func (p *BackgroundInstallControlServiceProxy) GetBackgroundInstalledPackages(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackgroundInstallControlService, "getBackgroundInstalledPackages")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBackgroundInstallControlServiceGetBackgroundInstalledPackages
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -87,7 +87,7 @@ func (p *BackgroundInstallControlServiceProxy) RegisterBackgroundInstallCallback
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackgroundInstallControlService, "registerBackgroundInstallCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackgroundInstallControlServiceRegisterBackgroundInstallCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -112,7 +112,7 @@ func (p *BackgroundInstallControlServiceProxy) UnregisterBackgroundInstallCallba
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackgroundInstallControlService, "unregisterBackgroundInstallCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIBackgroundInstallControlServiceUnregisterBackgroundInstallCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

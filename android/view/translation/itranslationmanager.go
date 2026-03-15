@@ -67,7 +67,7 @@ func (p *TranslationManagerProxy) OnTranslationCapabilitiesRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "onTranslationCapabilitiesRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionITranslationManagerOnTranslationCapabilitiesRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -85,7 +85,7 @@ func (p *TranslationManagerProxy) RegisterTranslationCapabilityCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "registerTranslationCapabilityCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITranslationManagerRegisterTranslationCapabilityCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -103,7 +103,7 @@ func (p *TranslationManagerProxy) UnregisterTranslationCapabilityCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "unregisterTranslationCapabilityCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITranslationManagerUnregisterTranslationCapabilityCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -128,7 +128,7 @@ func (p *TranslationManagerProxy) OnSessionCreated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "onSessionCreated")
 	if _err != nil {
-		return _err
+		_code = TransactionITranslationManagerOnSessionCreated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -172,7 +172,7 @@ func (p *TranslationManagerProxy) UpdateUiTranslationState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "updateUiTranslationState")
 	if _err != nil {
-		return _err
+		_code = TransactionITranslationManagerUpdateUiTranslationState
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -190,7 +190,7 @@ func (p *TranslationManagerProxy) RegisterUiTranslationStateCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "registerUiTranslationStateCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITranslationManagerRegisterUiTranslationStateCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -208,7 +208,7 @@ func (p *TranslationManagerProxy) UnregisterUiTranslationStateCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "unregisterUiTranslationStateCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITranslationManagerUnregisterUiTranslationStateCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -226,7 +226,7 @@ func (p *TranslationManagerProxy) GetServiceSettingsActivity(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "getServiceSettingsActivity")
 	if _err != nil {
-		return _err
+		_code = TransactionITranslationManagerGetServiceSettingsActivity
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -248,7 +248,7 @@ func (p *TranslationManagerProxy) OnTranslationFinished(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "onTranslationFinished")
 	if _err != nil {
-		return _err
+		_code = TransactionITranslationManagerOnTranslationFinished
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

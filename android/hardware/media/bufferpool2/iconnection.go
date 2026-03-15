@@ -59,7 +59,7 @@ func (p *ConnectionProxy) Fetch(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnection, "fetch")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIConnectionFetch
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -96,7 +96,7 @@ func (p *ConnectionProxy) Sync(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConnection, "sync")
 	if _err != nil {
-		return _err
+		_code = TransactionIConnectionSync
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

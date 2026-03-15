@@ -75,7 +75,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) CommitText(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "commitText")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAccessibilityInputConnectionCommitText
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -99,7 +99,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) SetSelection(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "setSelection")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAccessibilityInputConnectionSetSelection
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -130,7 +130,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) GetSurroundingText(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "getSurroundingText")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAccessibilityInputConnectionGetSurroundingText
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -154,7 +154,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) DeleteSurroundingText(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "deleteSurroundingText")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAccessibilityInputConnectionDeleteSurroundingText
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -175,7 +175,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) SendKeyEvent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "sendKeyEvent")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAccessibilityInputConnectionSendKeyEvent
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -197,7 +197,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) PerformEditorAction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "performEditorAction")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAccessibilityInputConnectionPerformEditorAction
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -219,7 +219,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) PerformContextMenuAction(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "performContextMenuAction")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAccessibilityInputConnectionPerformContextMenuAction
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -246,7 +246,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) GetCursorCapsMode(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "getCursorCapsMode")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAccessibilityInputConnectionGetCursorCapsMode
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -268,7 +268,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) ClearMetaKeyStates(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteAccessibilityInputConnection, "clearMetaKeyStates")
 	if _err != nil {
-		return _err
+		_code = TransactionIRemoteAccessibilityInputConnectionClearMetaKeyStates
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

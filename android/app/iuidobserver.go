@@ -58,7 +58,7 @@ func (p *UidObserverProxy) OnUidGone(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUidObserver, "onUidGone")
 	if _err != nil {
-		return _err
+		_code = TransactionIUidObserverOnUidGone
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -75,7 +75,7 @@ func (p *UidObserverProxy) OnUidActive(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUidObserver, "onUidActive")
 	if _err != nil {
-		return _err
+		_code = TransactionIUidObserverOnUidActive
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -94,7 +94,7 @@ func (p *UidObserverProxy) OnUidIdle(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUidObserver, "onUidIdle")
 	if _err != nil {
-		return _err
+		_code = TransactionIUidObserverOnUidIdle
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -117,7 +117,7 @@ func (p *UidObserverProxy) OnUidStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUidObserver, "onUidStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIUidObserverOnUidStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -136,7 +136,7 @@ func (p *UidObserverProxy) OnUidProcAdjChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUidObserver, "onUidProcAdjChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIUidObserverOnUidProcAdjChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -155,7 +155,7 @@ func (p *UidObserverProxy) OnUidCachedChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUidObserver, "onUidCachedChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionIUidObserverOnUidCachedChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

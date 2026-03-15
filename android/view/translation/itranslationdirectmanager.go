@@ -55,7 +55,7 @@ func (p *TranslationDirectManagerProxy) OnTranslationRequest(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationDirectManager, "onTranslationRequest")
 	if _err != nil {
-		return _err
+		_code = TransactionITranslationDirectManagerOnTranslationRequest
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -72,7 +72,7 @@ func (p *TranslationDirectManagerProxy) OnFinishTranslationSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationDirectManager, "onFinishTranslationSession")
 	if _err != nil {
-		return _err
+		_code = TransactionITranslationDirectManagerOnFinishTranslationSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

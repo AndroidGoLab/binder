@@ -86,7 +86,7 @@ func (p *PackageManagerNativeProxy) GetNamesForUids(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "getNamesForUids")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageManagerNativeGetNamesForUids
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -131,7 +131,7 @@ func (p *PackageManagerNativeProxy) GetPackageUid(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "getPackageUid")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageManagerNativeGetPackageUid
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -162,7 +162,7 @@ func (p *PackageManagerNativeProxy) GetInstallerForPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "getInstallerForPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageManagerNativeGetInstallerForPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -193,7 +193,7 @@ func (p *PackageManagerNativeProxy) GetVersionCodeForPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "getVersionCodeForPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageManagerNativeGetVersionCodeForPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -231,7 +231,7 @@ func (p *PackageManagerNativeProxy) IsAudioPlaybackCaptureAllowed(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "isAudioPlaybackCaptureAllowed")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageManagerNativeIsAudioPlaybackCaptureAllowed
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -272,7 +272,7 @@ func (p *PackageManagerNativeProxy) GetLocationFlags(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "getLocationFlags")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageManagerNativeGetLocationFlags
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -303,7 +303,7 @@ func (p *PackageManagerNativeProxy) GetTargetSdkVersionForPackage(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "getTargetSdkVersionForPackage")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageManagerNativeGetTargetSdkVersionForPackage
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -332,7 +332,7 @@ func (p *PackageManagerNativeProxy) GetModuleMetadataPackageName(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "getModuleMetadataPackageName")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageManagerNativeGetModuleMetadataPackageName
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -372,7 +372,7 @@ func (p *PackageManagerNativeProxy) HasSha256SigningCertificate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "hasSha256SigningCertificate")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageManagerNativeHasSha256SigningCertificate
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -403,7 +403,7 @@ func (p *PackageManagerNativeProxy) IsPackageDebuggable(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "isPackageDebuggable")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageManagerNativeIsPackageDebuggable
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -436,7 +436,7 @@ func (p *PackageManagerNativeProxy) HasSystemFeature(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "hasSystemFeature")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageManagerNativeHasSystemFeature
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -466,7 +466,7 @@ func (p *PackageManagerNativeProxy) RegisterStagedApexObserver(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "registerStagedApexObserver")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageManagerNativeRegisterStagedApexObserver
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -492,7 +492,7 @@ func (p *PackageManagerNativeProxy) UnregisterStagedApexObserver(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "unregisterStagedApexObserver")
 	if _err != nil {
-		return _err
+		_code = TransactionIPackageManagerNativeUnregisterStagedApexObserver
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -517,7 +517,7 @@ func (p *PackageManagerNativeProxy) GetStagedApexInfos(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageManagerNative, "getStagedApexInfos")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIPackageManagerNativeGetStagedApexInfos
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

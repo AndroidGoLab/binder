@@ -62,7 +62,7 @@ func (p *DemuxProxy) SetFrontendDataSource(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "setFrontendDataSource")
 	if _err != nil {
-		return _err
+		_code = TransactionIDemuxSetFrontendDataSource
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -96,7 +96,7 @@ func (p *DemuxProxy) OpenFilter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "openFilter")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDemuxOpenFilter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -126,7 +126,7 @@ func (p *DemuxProxy) OpenTimeFilter(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "openTimeFilter")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDemuxOpenTimeFilter
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -158,7 +158,7 @@ func (p *DemuxProxy) GetAvSyncHwId(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "getAvSyncHwId")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDemuxGetAvSyncHwId
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -189,7 +189,7 @@ func (p *DemuxProxy) GetAvSyncTime(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "getAvSyncTime")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDemuxGetAvSyncTime
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -217,7 +217,7 @@ func (p *DemuxProxy) Close(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "close")
 	if _err != nil {
-		return _err
+		_code = TransactionIDemuxClose
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -248,7 +248,7 @@ func (p *DemuxProxy) OpenDvr(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "openDvr")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIDemuxOpenDvr
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -279,7 +279,7 @@ func (p *DemuxProxy) ConnectCiCam(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "connectCiCam")
 	if _err != nil {
-		return _err
+		_code = TransactionIDemuxConnectCiCam
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -303,7 +303,7 @@ func (p *DemuxProxy) DisconnectCiCam(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDemux, "disconnectCiCam")
 	if _err != nil {
-		return _err
+		_code = TransactionIDemuxDisconnectCiCam
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

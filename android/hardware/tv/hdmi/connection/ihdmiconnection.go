@@ -53,7 +53,7 @@ func (p *HdmiConnectionProxy) GetPortInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiConnection, "getPortInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHdmiConnectionGetPortInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -93,7 +93,7 @@ func (p *HdmiConnectionProxy) IsConnected(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiConnection, "isConnected")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHdmiConnectionIsConnected
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -123,7 +123,7 @@ func (p *HdmiConnectionProxy) SetCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiConnection, "setCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiConnectionSetCallback
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -151,7 +151,7 @@ func (p *HdmiConnectionProxy) SetHpdSignal(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiConnection, "setHpdSignal")
 	if _err != nil {
-		return _err
+		_code = TransactionIHdmiConnectionSetHpdSignal
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -178,7 +178,7 @@ func (p *HdmiConnectionProxy) GetHpdSignal(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIHdmiConnection, "getHpdSignal")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIHdmiConnectionGetHpdSignal
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

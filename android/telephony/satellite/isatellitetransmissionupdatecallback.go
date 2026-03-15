@@ -58,7 +58,7 @@ func (p *SatelliteTransmissionUpdateCallbackProxy) OnSendDatagramStateChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteTransmissionUpdateCallback, "onSendDatagramStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteTransmissionUpdateCallbackOnSendDatagramStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -79,7 +79,7 @@ func (p *SatelliteTransmissionUpdateCallbackProxy) OnReceiveDatagramStateChanged
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteTransmissionUpdateCallback, "onReceiveDatagramStateChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteTransmissionUpdateCallbackOnReceiveDatagramStateChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -99,7 +99,7 @@ func (p *SatelliteTransmissionUpdateCallbackProxy) OnSatellitePositionChanged(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteTransmissionUpdateCallback, "onSatellitePositionChanged")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteTransmissionUpdateCallbackOnSatellitePositionChanged
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -116,7 +116,7 @@ func (p *SatelliteTransmissionUpdateCallbackProxy) OnSendDatagramRequested(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISatelliteTransmissionUpdateCallback, "onSendDatagramRequested")
 	if _err != nil {
-		return _err
+		_code = TransactionISatelliteTransmissionUpdateCallbackOnSendDatagramRequested
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

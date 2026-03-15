@@ -53,7 +53,7 @@ func (p *EvsDisplayProxy) GetDisplayInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsDisplay, "getDisplayInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsDisplayGetDisplayInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -87,7 +87,7 @@ func (p *EvsDisplayProxy) GetDisplayState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsDisplay, "getDisplayState")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsDisplayGetDisplayState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -117,7 +117,7 @@ func (p *EvsDisplayProxy) GetTargetBuffer(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsDisplay, "getTargetBuffer")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIEvsDisplayGetTargetBuffer
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -155,7 +155,7 @@ func (p *EvsDisplayProxy) ReturnTargetBufferForDisplay(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsDisplay, "returnTargetBufferForDisplay")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsDisplayReturnTargetBufferForDisplay
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -181,7 +181,7 @@ func (p *EvsDisplayProxy) SetDisplayState(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEvsDisplay, "setDisplayState")
 	if _err != nil {
-		return _err
+		_code = TransactionIEvsDisplaySetDisplayState
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

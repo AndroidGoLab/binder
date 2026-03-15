@@ -51,7 +51,7 @@ func (p *SecureElementReaderProxy) IsSecureElementPresent(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementReader, "isSecureElementPresent")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementReaderIsSecureElementPresent
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -80,7 +80,7 @@ func (p *SecureElementReaderProxy) OpenSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementReader, "openSession")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementReaderOpenSession
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -109,7 +109,7 @@ func (p *SecureElementReaderProxy) CloseSessions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementReader, "closeSessions")
 	if _err != nil {
-		return _err
+		_code = TransactionISecureElementReaderCloseSessions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -134,7 +134,7 @@ func (p *SecureElementReaderProxy) Reset(
 
 	_code, _err := p.remote.ResolveCode(DescriptorISecureElementReader, "reset")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionISecureElementReaderReset
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

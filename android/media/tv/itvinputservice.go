@@ -71,7 +71,7 @@ func (p *TvInputServiceProxy) RegisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "registerCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputServiceRegisterCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -88,7 +88,7 @@ func (p *TvInputServiceProxy) UnregisterCallback(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "unregisterCallback")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputServiceUnregisterCallback
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -119,7 +119,7 @@ func (p *TvInputServiceProxy) CreateSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "createSession")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputServiceCreateSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -140,7 +140,7 @@ func (p *TvInputServiceProxy) CreateRecordingSession(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "createRecordingSession")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputServiceCreateRecordingSession
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -156,7 +156,7 @@ func (p *TvInputServiceProxy) GetAvailableExtensionInterfaceNames(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "getAvailableExtensionInterfaceNames")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITvInputServiceGetAvailableExtensionInterfaceNames
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -197,7 +197,7 @@ func (p *TvInputServiceProxy) GetExtensionInterface(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "getExtensionInterface")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITvInputServiceGetExtensionInterface
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -229,7 +229,7 @@ func (p *TvInputServiceProxy) GetExtensionInterfacePermission(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "getExtensionInterfacePermission")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionITvInputServiceGetExtensionInterfacePermission
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -262,7 +262,7 @@ func (p *TvInputServiceProxy) NotifyHardwareAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "notifyHardwareAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputServiceNotifyHardwareAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -282,7 +282,7 @@ func (p *TvInputServiceProxy) NotifyHardwareRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "notifyHardwareRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputServiceNotifyHardwareRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -302,7 +302,7 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceAdded(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "notifyHdmiDeviceAdded")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputServiceNotifyHdmiDeviceAdded
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -322,7 +322,7 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceRemoved(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "notifyHdmiDeviceRemoved")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputServiceNotifyHdmiDeviceRemoved
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -342,7 +342,7 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceUpdated(
 
 	_code, _err := p.remote.ResolveCode(DescriptorITvInputService, "notifyHdmiDeviceUpdated")
 	if _err != nil {
-		return _err
+		_code = TransactionITvInputServiceNotifyHdmiDeviceUpdated
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

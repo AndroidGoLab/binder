@@ -50,7 +50,7 @@ func (p *BatteryPropertiesRegistrarProxy) GetProperty(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBatteryPropertiesRegistrar, "getProperty")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIBatteryPropertiesRegistrarGetProperty
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -81,7 +81,7 @@ func (p *BatteryPropertiesRegistrarProxy) ScheduleUpdate(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBatteryPropertiesRegistrar, "scheduleUpdate")
 	if _err != nil {
-		return _err
+		_code = TransactionIBatteryPropertiesRegistrarScheduleUpdate
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)

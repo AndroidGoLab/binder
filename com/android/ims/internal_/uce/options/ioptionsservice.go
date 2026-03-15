@@ -63,7 +63,7 @@ func (p *OptionsServiceProxy) GetVersion(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOptionsService, "getVersion")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOptionsServiceGetVersion
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -102,7 +102,7 @@ func (p *OptionsServiceProxy) AddListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOptionsService, "addListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOptionsServiceAddListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -142,7 +142,7 @@ func (p *OptionsServiceProxy) RemoveListener(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOptionsService, "removeListener")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOptionsServiceRemoveListener
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -181,7 +181,7 @@ func (p *OptionsServiceProxy) SetMyInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOptionsService, "setMyInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOptionsServiceSetMyInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -215,7 +215,7 @@ func (p *OptionsServiceProxy) GetMyInfo(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOptionsService, "getMyInfo")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOptionsServiceGetMyInfo
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -251,7 +251,7 @@ func (p *OptionsServiceProxy) GetContactCap(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOptionsService, "getContactCap")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOptionsServiceGetContactCap
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -294,7 +294,7 @@ func (p *OptionsServiceProxy) GetContactListCap(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOptionsService, "getContactListCap")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOptionsServiceGetContactListCap
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)
@@ -339,7 +339,7 @@ func (p *OptionsServiceProxy) ResponseIncomingOptions(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOptionsService, "responseIncomingOptions")
 	if _err != nil {
-		return _result, _err
+		_code = TransactionIOptionsServiceResponseIncomingOptions
 	}
 
 	_reply, _err := p.remote.Transact(ctx, _code, 0, _data)

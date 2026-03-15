@@ -53,7 +53,7 @@ func (p *ControlsProviderProxy) Load(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIControlsProvider, "load")
 	if _err != nil {
-		return _err
+		_code = TransactionIControlsProviderLoad
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -70,7 +70,7 @@ func (p *ControlsProviderProxy) LoadSuggested(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIControlsProvider, "loadSuggested")
 	if _err != nil {
-		return _err
+		_code = TransactionIControlsProviderLoadSuggested
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -96,7 +96,7 @@ func (p *ControlsProviderProxy) Subscribe(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIControlsProvider, "subscribe")
 	if _err != nil {
-		return _err
+		_code = TransactionIControlsProviderSubscribe
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
@@ -120,7 +120,7 @@ func (p *ControlsProviderProxy) Action(
 
 	_code, _err := p.remote.ResolveCode(DescriptorIControlsProvider, "action")
 	if _err != nil {
-		return _err
+		_code = TransactionIControlsProviderAction
 	}
 
 	_, _err = p.remote.Transact(ctx, _code, binder.FlagOneway, _data)
