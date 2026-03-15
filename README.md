@@ -1750,6 +1750,16 @@ Each binder method has a numeric transaction code that can differ between Androi
 
 Methods 2 and 3 exist only for extra reliability in edge cases (e.g. no read access to `/system/framework/`). The `genversions` tool builds the version tables by checking out AOSP revision tags and recording method→code mappings.
 
+The resolved table can be cached to disk for fast subsequent startups by passing `OptionCachePath`:
+
+```go
+transport, err := versionaware.NewTransport(ctx, driver, 0,
+    versionaware.OptionCachePath("/data/local/tmp/binder-codes.json"),
+)
+```
+
+Caching is disabled by default. The cache is fingerprinted and automatically invalidated when the device firmware changes.
+
 ## Testing and Verification
 
 The project is verified at four levels:

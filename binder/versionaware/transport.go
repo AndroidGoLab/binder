@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 
@@ -52,7 +53,10 @@ func NewTransport(
 	ctx context.Context,
 	inner binder.Transport,
 	targetAPI int,
+	opts ...Option,
 ) (*Transport, error) {
+	cfg := Options(opts).config()
+
 	if targetAPI <= 0 {
 		targetAPI = detectAPILevel()
 	}
@@ -60,17 +64,54 @@ func NewTransport(
 		return nil, fmt.Errorf("versionaware: unable to detect Android API level; pass --target-api explicitly or ensure /etc/build_flags.json is readable; supported API levels: %v", supportedAPILevels())
 	}
 
+	// Try loading from cache if configured.
+	if cfg.CachePath != "" {
+		fingerprint := resolvedTableFingerprint(targetAPI)
+		if table := loadCachedTable(cfg.CachePath, fingerprint); table != nil {
+			logger.Debugf(ctx, "versionaware: loaded cached transaction codes from %s (%d interfaces)", cfg.CachePath, len(table))
+			return &Transport{
+				inner:    inner,
+				apiLevel: targetAPI,
+				table:    table,
+				version:  fmt.Sprintf("%d.cached", targetAPI),
+			}, nil
+		}
+	}
+
+	table, version, err := resolveTable(ctx, inner, targetAPI)
+	if err != nil {
+		return nil, err
+	}
+
+	// Save to cache if configured.
+	if cfg.CachePath != "" {
+		fingerprint := resolvedTableFingerprint(targetAPI)
+		saveCachedTable(cfg.CachePath, fingerprint, table)
+		logger.Debugf(ctx, "versionaware: cached resolved transaction codes to %s", cfg.CachePath)
+	}
+
+	return &Transport{
+		inner:    inner,
+		apiLevel: targetAPI,
+		table:    table,
+		version:  version,
+	}, nil
+}
+
+// resolveTable performs the full transaction code resolution:
+// DEX extraction first, then compiled tables with revision detection.
+func resolveTable(
+	ctx context.Context,
+	inner binder.Transport,
+	targetAPI int,
+) (VersionTable, string, error) {
 	// Primary: extract transaction codes directly from the device's
 	// framework JAR files. This is definitive — no version guessing.
 	table := extractTransactionCodesFromDevice()
 	if table != nil {
+		version := fmt.Sprintf("%d.device", targetAPI)
 		logger.Debugf(ctx, "versionaware: extracted transaction codes from device framework JARs (%d interfaces)", len(table))
-		return &Transport{
-			inner:    inner,
-			apiLevel: targetAPI,
-			table:    table,
-			version:  fmt.Sprintf("%d.device", targetAPI),
-		}, nil
+		return table, version, nil
 	}
 
 	// Fallback: use compiled version tables with revision detection.
@@ -80,7 +121,7 @@ func NewTransport(
 
 	revisions := Revisions[targetAPI]
 	if len(revisions) == 0 {
-		return nil, fmt.Errorf("versionaware: API level %d is not supported and framework JARs not readable; supported API levels: %v", targetAPI, supportedAPILevels())
+		return nil, "", fmt.Errorf("versionaware: API level %d is not supported and framework JARs not readable; supported API levels: %v", targetAPI, supportedAPILevels())
 	}
 
 	// Narrow revision candidates by checking which methods exist in
@@ -97,23 +138,25 @@ func NewTransport(
 		var err error
 		version, err = probeRevision(ctx, inner, targetAPI)
 		if err != nil {
-			return nil, fmt.Errorf("versionaware: probing revision for API %d: %w", targetAPI, err)
+			return nil, "", fmt.Errorf("versionaware: probing revision for API %d: %w", targetAPI, err)
 		}
 	}
 
 	table, ok := Tables[version]
 	if !ok {
-		return nil, fmt.Errorf("versionaware: no transaction code table for version %q", version)
+		return nil, "", fmt.Errorf("versionaware: no transaction code table for version %q", version)
 	}
 
 	logger.Debugf(ctx, "versionaware: using compiled version table %s (%d interfaces)", version, len(table))
+	return table, version, nil
+}
 
-	return &Transport{
-		inner:    inner,
-		apiLevel: targetAPI,
-		table:    table,
-		version:  version,
-	}, nil
+// resolvedTableFingerprint returns a fingerprint that changes when
+// the device's firmware changes, invalidating cached transaction codes.
+// Combines API level with framework JAR fingerprint (if available).
+func resolvedTableFingerprint(apiLevel int) string {
+	fp := frameworkFingerprint()
+	return fmt.Sprintf("api=%d;jars=%s", apiLevel, fp)
 }
 
 // ResolveCode resolves an AIDL method name to the correct transaction code
@@ -152,25 +195,10 @@ const (
 // with AIDL $Stub classes and TRANSACTION_* constants.
 const frameworkJARDir = "/system/framework"
 
-// cacheDir is where bindercli stores cached transaction code tables.
-const cacheDir = "/data/local/tmp/.binder_cache"
-
 // extractTransactionCodesFromDevice scans all JARs in /system/framework/
 // and extracts definitive transaction codes from DEX bytecode.
-// Caches the result to disk for fast subsequent startups.
 // Returns nil if the directory is not readable or no codes are found.
 func extractTransactionCodesFromDevice() VersionTable {
-	fingerprint := frameworkFingerprint()
-	if fingerprint == "" {
-		return nil
-	}
-
-	// Try loading from cache.
-	if table := loadCachedTable(fingerprint); table != nil {
-		return table
-	}
-
-	// Scan all JARs.
 	entries, err := os.ReadDir(frameworkJARDir)
 	if err != nil {
 		return nil
@@ -200,8 +228,6 @@ func extractTransactionCodesFromDevice() VersionTable {
 		return nil
 	}
 
-	// Cache for next time.
-	saveCachedTable(fingerprint, table)
 	return table
 }
 
@@ -227,10 +253,12 @@ func frameworkFingerprint() string {
 	return b.String()
 }
 
-// loadCachedTable reads a cached VersionTable from disk.
+// loadCachedTable reads a cached VersionTable from the given path.
 // Returns nil if cache is missing, corrupted, or fingerprint doesn't match.
-func loadCachedTable(fingerprint string) VersionTable {
-	cachePath := cacheDir + "/codes.json"
+func loadCachedTable(
+	cachePath string,
+	fingerprint string,
+) VersionTable {
 	data, err := os.ReadFile(cachePath)
 	if err != nil {
 		return nil
@@ -257,9 +285,14 @@ func loadCachedTable(fingerprint string) VersionTable {
 	return table
 }
 
-// saveCachedTable writes a VersionTable to disk for future use.
-func saveCachedTable(fingerprint string, table VersionTable) {
-	_ = os.MkdirAll(cacheDir, 0o755)
+// saveCachedTable writes a VersionTable to the given path.
+func saveCachedTable(
+	cachePath string,
+	fingerprint string,
+	table VersionTable,
+) {
+	dir := filepath.Dir(cachePath)
+	_ = os.MkdirAll(dir, 0o755)
 
 	raw := make(map[string]map[string]uint32)
 	for desc, methods := range table {
@@ -281,7 +314,7 @@ func saveCachedTable(fingerprint string, table VersionTable) {
 	if err != nil {
 		return
 	}
-	_ = os.WriteFile(cacheDir+"/codes.json", data, 0o644)
+	_ = os.WriteFile(cachePath, data, 0o644)
 }
 
 // filterRevisionsBySOMethodSet reads BpServiceManager symbols from
