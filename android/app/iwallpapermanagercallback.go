@@ -60,6 +60,7 @@ func (p *WallpaperManagerCallbackProxy) OnWallpaperColorsChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManagerCallback)
+	_data.WriteInt32(1)
 	if _err := colors.MarshalParcel(_data); _err != nil {
 		return _err
 	}

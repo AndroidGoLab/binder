@@ -46,6 +46,7 @@ func (p *IntrusionDetectionEventTransportProxy) Initialize(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIntrusionDetectionEventTransport)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -76,6 +77,7 @@ func (p *IntrusionDetectionEventTransportProxy) AddData(
 			}
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -95,6 +97,7 @@ func (p *IntrusionDetectionEventTransportProxy) Release(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIntrusionDetectionEventTransport)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}

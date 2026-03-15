@@ -64,6 +64,7 @@ func (p *DesktopModeProxy) ShowDesktopApps(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
 	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -200,6 +201,7 @@ func (p *DesktopModeProxy) OnDesktopSplitSelectAnimComplete(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
+	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -239,6 +241,7 @@ func (p *DesktopModeProxy) MoveToDesktop(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDesktopMode)
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
 	if _err := transitionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}

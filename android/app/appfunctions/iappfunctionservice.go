@@ -44,6 +44,7 @@ func (p *AppFunctionServiceProxy) ExecuteAppFunction(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppFunctionService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

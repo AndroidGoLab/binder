@@ -81,6 +81,7 @@ func (p *AGnssRilProxy) SetRefLocation(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAGnssRil)
+	_data.WriteInt32(1)
 	if _err := agnssReflocation.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -137,6 +138,7 @@ func (p *AGnssRilProxy) UpdateNetworkState(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAGnssRil)
+	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
 		return _err
 	}

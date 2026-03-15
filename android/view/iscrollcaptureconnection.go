@@ -77,6 +77,7 @@ func (p *ScrollCaptureConnectionProxy) RequestImage(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
+	_data.WriteInt32(1)
 	if _err := captureArea.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

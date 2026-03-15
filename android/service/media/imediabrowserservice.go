@@ -57,6 +57,7 @@ func (p *MediaBrowserServiceProxy) Connect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserService)
 	_data.WriteString16(pkg)
+	_data.WriteInt32(1)
 	if _err := rootHints.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -135,6 +136,7 @@ func (p *MediaBrowserServiceProxy) GetMediaItem(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserService)
 	_data.WriteString16(uri)
+	_data.WriteInt32(1)
 	if _err := cb.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -160,6 +162,7 @@ func (p *MediaBrowserServiceProxy) AddSubscription(
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserService)
 	_data.WriteString16(uri)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}

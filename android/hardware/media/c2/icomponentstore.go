@@ -58,9 +58,11 @@ func (p *ComponentStoreProxy) CopyBuffer(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponentStore)
+	_data.WriteInt32(1)
 	if _err := src.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := dst.MarshalParcel(_data); _err != nil {
 		return _err
 	}

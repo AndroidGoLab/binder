@@ -41,6 +41,7 @@ func (p *GnssMeasurementCallbackProxy) GnssMeasurementCb(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssMeasurementCallback)
+	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
 		return _err
 	}

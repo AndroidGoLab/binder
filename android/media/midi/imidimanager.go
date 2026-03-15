@@ -307,6 +307,7 @@ func (p *MidiManagerProxy) RegisterDeviceServer(
 			_data.WriteString16(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := properties.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -423,6 +424,7 @@ func (p *MidiManagerProxy) SetDeviceStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 	_data.WriteStrongBinder(server.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}

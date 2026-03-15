@@ -91,6 +91,7 @@ func (p *NotificationListenerProxy) OnListenerConnected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
+	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -112,6 +113,7 @@ func (p *NotificationListenerProxy) OnNotificationPosted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteStrongBinder(notificationHolder.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -132,9 +134,11 @@ func (p *NotificationListenerProxy) OnNotificationPostedFull(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
+	_data.WriteInt32(1)
 	if _err := sbn.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -175,9 +179,11 @@ func (p *NotificationListenerProxy) OnNotificationRemoved(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteStrongBinder(notificationHolder.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := stats.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -201,12 +207,15 @@ func (p *NotificationListenerProxy) OnNotificationRemovedFull(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
+	_data.WriteInt32(1)
 	if _err := sbn.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := stats.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -227,6 +236,7 @@ func (p *NotificationListenerProxy) OnNotificationRankingUpdate(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
+	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -325,6 +335,7 @@ func (p *NotificationListenerProxy) OnNotificationEnqueuedWithChannel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteStrongBinder(notificationHolder.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -346,9 +357,11 @@ func (p *NotificationListenerProxy) OnNotificationEnqueuedWithChannelFull(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
+	_data.WriteInt32(1)
 	if _err := sbn.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -388,6 +401,7 @@ func (p *NotificationListenerProxy) OnNotificationSnoozedUntilContextFull(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
+	_data.WriteInt32(1)
 	if _err := sbn.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -596,6 +610,7 @@ func (p *NotificationListenerProxy) OnNotificationFeedbackReceived(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(key)
+	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}

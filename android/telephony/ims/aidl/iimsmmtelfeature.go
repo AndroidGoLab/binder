@@ -227,6 +227,7 @@ func (p *ImsMmTelFeatureProxy) CreateCallSession(
 	var _result internal.IImsCallSession
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelFeature)
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -360,6 +361,7 @@ func (p *ImsMmTelFeatureProxy) SetUiTtyMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelFeature)
 	_data.WriteInt32(uiTtyMode)
+	_data.WriteInt32(1)
 	if _err := onCompleteMessage.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -508,6 +510,7 @@ func (p *ImsMmTelFeatureProxy) ChangeCapabilitiesConfiguration(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelFeature)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -613,6 +616,7 @@ func (p *ImsMmTelFeatureProxy) SetMediaQualityThreshold(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelFeature)
 	_data.WriteInt32(mediaSessionType)
+	_data.WriteInt32(1)
 	if _err := threshold.MarshalParcel(_data); _err != nil {
 		return _err
 	}

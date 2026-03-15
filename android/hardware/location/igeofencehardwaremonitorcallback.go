@@ -41,6 +41,7 @@ func (p *GeofenceHardwareMonitorCallbackProxy) OnMonitoringSystemChange(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardwareMonitorCallback)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

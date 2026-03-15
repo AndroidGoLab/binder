@@ -708,6 +708,7 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGroupStartedWithParams(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
+	_data.WriteInt32(1)
 	if _err := groupStartedEventParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -727,6 +728,7 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnPeerClientJoined(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
+	_data.WriteInt32(1)
 	if _err := clientJoinedEventParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -746,6 +748,7 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnPeerClientDisconnected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
+	_data.WriteInt32(1)
 	if _err := clientDisconnectedEventParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -765,6 +768,7 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnProvisionDiscoveryCompletedEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
+	_data.WriteInt32(1)
 	if _err := provisionDiscoveryCompletedEventParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -784,6 +788,7 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnDeviceFoundWithParams(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
+	_data.WriteInt32(1)
 	if _err := deviceFoundEventParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -803,6 +808,7 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnGoNegotiationRequestWithParams(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -822,6 +828,7 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnInvitationReceivedWithParams(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -841,6 +848,7 @@ func (p *SupplicantP2pIfaceCallbackProxy) OnUsdBasedServiceDiscoveryResult(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIfaceCallback)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}

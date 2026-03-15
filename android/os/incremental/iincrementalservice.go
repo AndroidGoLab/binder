@@ -217,6 +217,7 @@ func (p *IncrementalServiceProxy) StartLoading(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIncrementalService)
 	_data.WriteInt32(storageId)
+	_data.WriteInt32(1)
 	if _err := healthCheckParams.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -430,6 +431,7 @@ func (p *IncrementalServiceProxy) MakeFile(
 	_data.WriteInt32(storageId)
 	_data.WriteString(path)
 	_data.WriteInt32(mode)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

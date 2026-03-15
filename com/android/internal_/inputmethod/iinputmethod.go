@@ -98,6 +98,7 @@ func (p *InputMethodProxy) OnCreateInlineSuggestionsRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethod)
+	_data.WriteInt32(1)
 	if _err := requestInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -118,6 +119,7 @@ func (p *InputMethodProxy) BindInput(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethod)
+	_data.WriteInt32(1)
 	if _err := binding.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -226,6 +228,7 @@ func (p *InputMethodProxy) ShowSoftInput(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethod)
 	_data.WriteStrongBinder(showInputToken.Handle())
+	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -250,6 +253,7 @@ func (p *InputMethodProxy) HideSoftInput(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethod)
 	_data.WriteStrongBinder(hideInputToken.Handle())
+	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -287,6 +291,7 @@ func (p *InputMethodProxy) ChangeInputMethodSubtype(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethod)
+	_data.WriteInt32(1)
 	if _err := subtype.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -311,6 +316,7 @@ func (p *InputMethodProxy) CanStartStylusHandwriting(
 	_data.WriteInterfaceToken(DescriptorIInputMethod)
 	_data.WriteInt32(requestId)
 	_data.WriteStrongBinder(connectionlessCallback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := cursorAnchorInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

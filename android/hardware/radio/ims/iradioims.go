@@ -87,6 +87,7 @@ func (p *RadioImsProxy) UpdateImsRegistrationInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioIms)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := imsRegistration.MarshalParcel(_data); _err != nil {
 		return _err
 	}

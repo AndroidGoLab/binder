@@ -47,6 +47,7 @@ func (p *InputFilterCallbacksProxy) SendKeyEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputFilterCallbacks)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

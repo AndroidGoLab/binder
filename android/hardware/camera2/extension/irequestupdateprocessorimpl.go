@@ -74,6 +74,7 @@ func (p *RequestUpdateProcessorImplProxy) OnResolutionUpdate(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRequestUpdateProcessorImpl)
+	_data.WriteInt32(1)
 	if _err := size.MarshalParcel(_data); _err != nil {
 		return _err
 	}

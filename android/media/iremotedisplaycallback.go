@@ -41,6 +41,7 @@ func (p *RemoteDisplayCallbackProxy) OnStateChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteDisplayCallback)
+	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
 		return _err
 	}

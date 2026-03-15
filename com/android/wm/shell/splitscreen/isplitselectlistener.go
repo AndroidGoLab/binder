@@ -46,10 +46,12 @@ func (p *SplitSelectListenerProxy) OnRequestSplitSelect(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISplitSelectListener)
+	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteInt32(splitPosition)
+	_data.WriteInt32(1)
 	if _err := taskBounds.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

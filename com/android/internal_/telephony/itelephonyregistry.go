@@ -370,6 +370,7 @@ func (p *TelephonyRegistryProxy) NotifyServiceStateForPhoneId(
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -402,6 +403,7 @@ func (p *TelephonyRegistryProxy) NotifySignalStrengthForPhoneId(
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := signalStrength.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -576,6 +578,7 @@ func (p *TelephonyRegistryProxy) NotifyDataConnectionForSubscriber(
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := preciseState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -606,6 +609,7 @@ func (p *TelephonyRegistryProxy) NotifyCellLocationForSubscriber(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := cellLocation.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1035,6 +1039,7 @@ func (p *TelephonyRegistryProxy) NotifyDisplayInfoChanged(
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(slotIndex)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := telephonyDisplayInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1063,6 +1068,7 @@ func (p *TelephonyRegistryProxy) NotifyPhoneCapabilityChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
+	_data.WriteInt32(1)
 	if _err := capability.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1179,6 +1185,7 @@ func (p *TelephonyRegistryProxy) NotifyOutgoingEmergencyCall(
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := emergencyNumber.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1211,6 +1218,7 @@ func (p *TelephonyRegistryProxy) NotifyOutgoingEmergencySms(
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := emergencyNumber.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1242,6 +1250,7 @@ func (p *TelephonyRegistryProxy) NotifyCallQualityChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
+	_data.WriteInt32(1)
 	if _err := callQuality.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1277,6 +1286,7 @@ func (p *TelephonyRegistryProxy) NotifyMediaQualityStatusChanged(
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1307,6 +1317,7 @@ func (p *TelephonyRegistryProxy) NotifyImsDisconnectCause(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1343,6 +1354,7 @@ func (p *TelephonyRegistryProxy) NotifyRegistrationFailed(
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(slotIndex)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := cellIdentity.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1379,6 +1391,7 @@ func (p *TelephonyRegistryProxy) NotifyBarringInfoChanged(
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(slotIndex)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := barringInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2108,6 +2121,7 @@ func (p *TelephonyRegistryProxy) NotifySecurityAlgorithmsChanged(
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2140,6 +2154,7 @@ func (p *TelephonyRegistryProxy) NotifyCellularIdentifierDisclosedChanged(
 	_data.WriteInterfaceToken(DescriptorITelephonyRegistry)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := disclosure.MarshalParcel(_data); _err != nil {
 		return _err
 	}

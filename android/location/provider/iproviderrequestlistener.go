@@ -43,6 +43,7 @@ func (p *ProviderRequestListenerProxy) OnProviderRequestChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProviderRequestListener)
 	_data.WriteString16(provider)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

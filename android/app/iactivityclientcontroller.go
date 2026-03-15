@@ -1222,6 +1222,7 @@ func (p *ActivityClientControllerProxy) EnterPictureInPictureMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1256,6 +1257,7 @@ func (p *ActivityClientControllerProxy) SetPictureInPictureParams(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1420,6 +1422,7 @@ func (p *ActivityClientControllerProxy) SetTaskDescription(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := values.MarshalParcel(_data); _err != nil {
 		return _err
 	}

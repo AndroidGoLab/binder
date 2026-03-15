@@ -61,6 +61,7 @@ func (p *ExternalStorageServiceProxy) StartSession(
 	_data.WriteFileDescriptor(deviceFd)
 	_data.WriteString16(upperPath)
 	_data.WriteString16(lowerPath)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -82,6 +83,7 @@ func (p *ExternalStorageServiceProxy) EndSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIExternalStorageService)
 	_data.WriteString16(sessionId)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -104,9 +106,11 @@ func (p *ExternalStorageServiceProxy) NotifyVolumeStateChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIExternalStorageService)
 	_data.WriteString16(sessionId)
+	_data.WriteInt32(1)
 	if _err := vol.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -132,6 +136,7 @@ func (p *ExternalStorageServiceProxy) FreeCache(
 	_data.WriteString16(sessionId)
 	_data.WriteString16(volumeUuid)
 	_data.WriteInt64(bytes)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

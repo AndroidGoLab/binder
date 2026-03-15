@@ -162,6 +162,7 @@ func (p *UceServiceProxy) CreateOptionsService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	_data.WriteStrongBinder(optionsListener.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := optionsServiceListenerHdl.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -201,6 +202,7 @@ func (p *UceServiceProxy) CreateOptionsServiceForSubscription(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	_data.WriteStrongBinder(optionsListener.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := optionsServiceListenerHdl.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -266,6 +268,7 @@ func (p *UceServiceProxy) CreatePresenceService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	_data.WriteStrongBinder(presenceServiceListener.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -305,6 +308,7 @@ func (p *UceServiceProxy) CreatePresenceServiceForSubscription(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUceService)
 	_data.WriteStrongBinder(presenceServiceListener.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

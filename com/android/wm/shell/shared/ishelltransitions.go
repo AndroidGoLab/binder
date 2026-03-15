@@ -56,9 +56,11 @@ func (p *ShellTransitionsProxy) RegisterRemote(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIShellTransitions)
+	_data.WriteInt32(1)
 	if _err := filter.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -78,6 +80,7 @@ func (p *ShellTransitionsProxy) UnregisterRemote(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIShellTransitions)
+	_data.WriteInt32(1)
 	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -173,9 +176,11 @@ func (p *ShellTransitionsProxy) RegisterRemoteForTakeover(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIShellTransitions)
+	_data.WriteInt32(1)
 	if _err := filter.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
 		return _err
 	}

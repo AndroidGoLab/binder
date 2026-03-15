@@ -53,12 +53,15 @@ func (p *AmbientContextManagerProxy) RegisterObserver(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := resultPendingIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := statusCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -89,6 +92,7 @@ func (p *AmbientContextManagerProxy) RegisterObserverWithCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -156,6 +160,7 @@ func (p *AmbientContextManagerProxy) QueryServiceStatus(
 		}
 	}
 	_data.WriteString16(callingPackage)
+	_data.WriteInt32(1)
 	if _err := statusCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

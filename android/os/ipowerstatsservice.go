@@ -51,6 +51,7 @@ func (p *PowerStatsServiceProxy) GetSupportedPowerMonitors(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPowerStatsService)
+	_data.WriteInt32(1)
 	if _err := resultReceiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -79,6 +80,7 @@ func (p *PowerStatsServiceProxy) GetPowerMonitorReadings(
 			_data.WriteInt32(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := resultReceiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -247,6 +247,7 @@ func (p *InstalldProxy) CreateAppData(
 	var _result CreateAppDataResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
+	_data.WriteInt32(1)
 	if _err := args.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -327,6 +328,7 @@ func (p *InstalldProxy) ReconcileSdkData(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
+	_data.WriteInt32(1)
 	if _err := args.MarshalParcel(_data); _err != nil {
 		return _err
 	}

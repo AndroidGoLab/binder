@@ -241,6 +241,7 @@ func (p *GameManagerServiceProxy) SetGameState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := gameState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -398,6 +399,7 @@ func (p *GameManagerServiceProxy) UpdateCustomGameModeConfiguration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGameManagerService)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := gameModeConfig.MarshalParcel(_data); _err != nil {
 		return _err
 	}

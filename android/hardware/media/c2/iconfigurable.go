@@ -53,6 +53,7 @@ func (p *ConfigurableProxy) Config(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
+	_data.WriteInt32(1)
 	if _err := inParams.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

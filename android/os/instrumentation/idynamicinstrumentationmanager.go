@@ -43,9 +43,11 @@ func (p *DynamicInstrumentationManagerProxy) GetExecutableMethodFileOffsets(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDynamicInstrumentationManager)
+	_data.WriteInt32(1)
 	if _err := targetProcess.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := methodDescriptor.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -47,6 +47,7 @@ func (p *AppFunctionManagerProxy) ExecuteAppFunction(
 	var _result ondeviceintelligence.ICancellationSignal
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppFunctionManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -87,6 +88,7 @@ func (p *AppFunctionManagerProxy) SetAppFunctionEnabled(
 	_data.WriteInterfaceToken(DescriptorIAppFunctionManager)
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(functionIdentifier)
+	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
 		return _err
 	}

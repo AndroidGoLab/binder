@@ -226,6 +226,7 @@ func (p *IdentityCredentialProxy) StartRetrieval(
 			}
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := authToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -510,6 +511,7 @@ func (p *IdentityCredentialProxy) SetVerificationToken(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIdentityCredential)
+	_data.WriteInt32(1)
 	if _err := verificationToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -46,9 +46,11 @@ func (p *CallScreeningAdapterProxy) OnScreeningResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallScreeningAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
 		return _err
 	}

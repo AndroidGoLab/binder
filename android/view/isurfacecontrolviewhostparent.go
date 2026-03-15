@@ -69,6 +69,7 @@ func (p *SurfaceControlViewHostParentProxy) ForwardBackKeyToParent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHostParent)
+	_data.WriteInt32(1)
 	if _err := keyEvent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

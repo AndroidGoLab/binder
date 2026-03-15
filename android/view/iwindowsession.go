@@ -136,6 +136,7 @@ func (p *WindowSessionProxy) AddToDisplay(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	_data.WriteStrongBinder(window.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := attrs.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -208,6 +209,7 @@ func (p *WindowSessionProxy) AddToDisplayAsUser(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	_data.WriteStrongBinder(window.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := attrs.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -277,6 +279,7 @@ func (p *WindowSessionProxy) AddToDisplayWithoutInputChannel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	_data.WriteStrongBinder(window.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := attrs.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -366,6 +369,7 @@ func (p *WindowSessionProxy) Relayout(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	_data.WriteStrongBinder(window.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := attrs.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -415,6 +419,7 @@ func (p *WindowSessionProxy) RelayoutAsync(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	_data.WriteStrongBinder(window.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := attrs.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -477,12 +482,15 @@ func (p *WindowSessionProxy) SetInsets(
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	_data.WriteStrongBinder(window.AsBinder().Handle())
 	_data.WriteInt32(touchableInsets)
+	_data.WriteInt32(1)
 	if _err := contentInsets.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := visibleInsets.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := touchableRegion.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -505,6 +513,7 @@ func (p *WindowSessionProxy) FinishDrawing(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	_data.WriteStrongBinder(window.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := postDrawTransaction.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -538,6 +547,7 @@ func (p *WindowSessionProxy) PerformDrag(
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	_data.WriteStrongBinder(window.AsBinder().Handle())
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := surface.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -834,6 +844,7 @@ func (p *WindowSessionProxy) OnRectangleOnScreenRequested(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := rectangle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -965,6 +976,7 @@ func (p *WindowSessionProxy) UpdateTapExcludeRegion(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	_data.WriteStrongBinder(window.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := region.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1109,6 +1121,7 @@ func (p *WindowSessionProxy) GrantInputChannel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
 	if _err := surface.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1155,12 +1168,14 @@ func (p *WindowSessionProxy) UpdateInputChannel(
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	_data.WriteStrongBinder(channelToken.Handle())
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
 	if _err := surface.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(flags)
 	_data.WriteInt32(privateFlags)
 	_data.WriteInt32(inputFeatures)
+	_data.WriteInt32(1)
 	if _err := region.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1213,6 +1228,7 @@ func (p *WindowSessionProxy) GenerateDisplayHash(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	_data.WriteStrongBinder(window.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := boundsInWindow.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1345,6 +1361,7 @@ func (p *WindowSessionProxy) NotifyImeWindowVisibilityChangedFromClient(
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	_data.WriteStrongBinder(window.AsBinder().Handle())
 	_data.WriteBool(visible)
+	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}

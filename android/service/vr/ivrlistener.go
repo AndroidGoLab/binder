@@ -44,6 +44,7 @@ func (p *VrListenerProxy) FocusedActivityChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVrListener)
+	_data.WriteInt32(1)
 	if _err := component.MarshalParcel(_data); _err != nil {
 		return _err
 	}

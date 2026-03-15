@@ -97,6 +97,7 @@ func (p *ContentCaptureServiceProxy) OnSessionStarted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureService)
+	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -139,6 +140,7 @@ func (p *ContentCaptureServiceProxy) OnActivitySnapshot(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureService)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := snapshotData.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -158,6 +160,7 @@ func (p *ContentCaptureServiceProxy) OnDataRemovalRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -178,6 +181,7 @@ func (p *ContentCaptureServiceProxy) OnDataShared(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -198,6 +202,7 @@ func (p *ContentCaptureServiceProxy) OnActivityEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureService)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

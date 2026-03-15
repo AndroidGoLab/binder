@@ -45,6 +45,7 @@ func (p *SatelliteDatagramCallbackProxy) OnSatelliteDatagramReceived(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatelliteDatagramCallback)
 	_data.WriteInt64(datagramId)
+	_data.WriteInt32(1)
 	if _err := datagram.MarshalParcel(_data); _err != nil {
 		return _err
 	}

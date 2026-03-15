@@ -53,6 +53,7 @@ func (p *SoundTriggerServiceProxy) AttachAsOriginator(
 	var _result ISoundTriggerSession
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerService)
+	_data.WriteInt32(1)
 	if _err := moduleProperties.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -91,6 +92,7 @@ func (p *SoundTriggerServiceProxy) AttachAsMiddleman(
 	var _result ISoundTriggerSession
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerService)
+	_data.WriteInt32(1)
 	if _err := moduleProperties.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

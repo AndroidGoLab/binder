@@ -44,9 +44,11 @@ func (p *ChooserTargetServiceProxy) GetChooserTargets(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIChooserTargetService)
+	_data.WriteInt32(1)
 	if _err := targetComponentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := matchedFilter.MarshalParcel(_data); _err != nil {
 		return _err
 	}

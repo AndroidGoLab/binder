@@ -65,6 +65,7 @@ func (p *WindowOrganizerControllerProxy) ApplyTransaction(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
+	_data.WriteInt32(1)
 	if _err := t.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -95,6 +96,7 @@ func (p *WindowOrganizerControllerProxy) ApplySyncTransaction(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
+	_data.WriteInt32(1)
 	if _err := t.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -208,6 +210,7 @@ func (p *WindowOrganizerControllerProxy) StartLegacyTransition(
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 	_data.WriteInt32(type_)
 	_data.WriteStrongBinder(syncCallback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := t.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

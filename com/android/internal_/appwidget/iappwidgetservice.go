@@ -443,6 +443,7 @@ func (p *AppWidgetServiceProxy) UpdateAppWidgetIds(
 			_data.WriteInt32(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := views.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -475,6 +476,7 @@ func (p *AppWidgetServiceProxy) UpdateAppWidgetOptions(
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(callingPackage)
 	_data.WriteInt32(appWidgetId)
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -546,6 +548,7 @@ func (p *AppWidgetServiceProxy) PartiallyUpdateAppWidgetIds(
 			_data.WriteInt32(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := views.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -575,9 +578,11 @@ func (p *AppWidgetServiceProxy) UpdateAppWidgetProvider(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
+	_data.WriteInt32(1)
 	if _err := provider.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := views.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -607,6 +612,7 @@ func (p *AppWidgetServiceProxy) UpdateAppWidgetProviderInfo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
+	_data.WriteInt32(1)
 	if _err := provider.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -810,9 +816,11 @@ func (p *AppWidgetServiceProxy) BindAppWidgetId(
 	_data.WriteString16(callingPackage)
 	_data.WriteInt32(appWidgetId)
 	_data.WriteInt32(providerProfileId)
+	_data.WriteInt32(1)
 	if _err := providerComponent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -854,6 +862,7 @@ func (p *AppWidgetServiceProxy) BindRemoteViewsService(
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(callingPackage)
 	_data.WriteInt32(appWidgetId)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -955,6 +964,7 @@ func (p *AppWidgetServiceProxy) GetAppWidgetIds(
 	var _result []int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
+	_data.WriteInt32(1)
 	if _err := providerComponent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1035,12 +1045,15 @@ func (p *AppWidgetServiceProxy) RequestPinAppWidget(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := providerComponent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := resultIntent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1124,10 +1137,12 @@ func (p *AppWidgetServiceProxy) SetWidgetPreview(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
+	_data.WriteInt32(1)
 	if _err := providerComponent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteInt32(widgetCategories)
+	_data.WriteInt32(1)
 	if _err := preview.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1165,6 +1180,7 @@ func (p *AppWidgetServiceProxy) GetWidgetPreview(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
 	_data.WriteString16(callingPackage)
+	_data.WriteInt32(1)
 	if _err := providerComponent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1199,6 +1215,7 @@ func (p *AppWidgetServiceProxy) RemoveWidgetPreview(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetService)
+	_data.WriteInt32(1)
 	if _err := providerComponent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

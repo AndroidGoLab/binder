@@ -41,6 +41,7 @@ func (p *SliceListenerProxy) OnSliceUpdated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISliceListener)
+	_data.WriteInt32(1)
 	if _err := s.MarshalParcel(_data); _err != nil {
 		return _err
 	}

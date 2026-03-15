@@ -478,6 +478,7 @@ func (p *ColorDisplayManagerProxy) SetNightDisplayCustomStartTime(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
+	_data.WriteInt32(1)
 	if _err := time.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -539,6 +540,7 @@ func (p *ColorDisplayManagerProxy) SetNightDisplayCustomEndTime(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIColorDisplayManager)
+	_data.WriteInt32(1)
 	if _err := time.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

@@ -132,12 +132,15 @@ func (p *ContentCaptureServiceCallbackProxy) WriteSessionFlush(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureServiceCallback)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := app.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := flushMetrics.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -457,6 +457,7 @@ func (p *VirtualDeviceProxy) AddActivityPolicyExemption(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
+	_data.WriteInt32(1)
 	if _err := exemption.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -485,6 +486,7 @@ func (p *VirtualDeviceProxy) RemoveActivityPolicyExemption(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
+	_data.WriteInt32(1)
 	if _err := exemption.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -599,6 +601,7 @@ func (p *VirtualDeviceProxy) CreateVirtualDisplay(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
+	_data.WriteInt32(1)
 	if _err := virtualDisplayConfig.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -633,6 +636,7 @@ func (p *VirtualDeviceProxy) CreateVirtualDpad(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -663,6 +667,7 @@ func (p *VirtualDeviceProxy) CreateVirtualKeyboard(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -693,6 +698,7 @@ func (p *VirtualDeviceProxy) CreateVirtualMouse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -723,6 +729,7 @@ func (p *VirtualDeviceProxy) CreateVirtualTouchscreen(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -753,6 +760,7 @@ func (p *VirtualDeviceProxy) CreateVirtualNavigationTouchpad(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -783,6 +791,7 @@ func (p *VirtualDeviceProxy) CreateVirtualStylus(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -813,6 +822,7 @@ func (p *VirtualDeviceProxy) CreateVirtualRotaryEncoder(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -902,6 +912,7 @@ func (p *VirtualDeviceProxy) SendDpadKeyEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -937,6 +948,7 @@ func (p *VirtualDeviceProxy) SendKeyEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -972,6 +984,7 @@ func (p *VirtualDeviceProxy) SendButtonEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1007,6 +1020,7 @@ func (p *VirtualDeviceProxy) SendRelativeEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1042,6 +1056,7 @@ func (p *VirtualDeviceProxy) SendScrollEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1077,6 +1092,7 @@ func (p *VirtualDeviceProxy) SendTouchEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1112,6 +1128,7 @@ func (p *VirtualDeviceProxy) SendStylusMotionEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1147,6 +1164,7 @@ func (p *VirtualDeviceProxy) SendStylusButtonEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1182,6 +1200,7 @@ func (p *VirtualDeviceProxy) SendRotaryEncoderScrollEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1255,6 +1274,7 @@ func (p *VirtualDeviceProxy) SendSensorEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1290,9 +1310,11 @@ func (p *VirtualDeviceProxy) LaunchPendingIntent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
 	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := resultReceiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1407,6 +1429,7 @@ func (p *VirtualDeviceProxy) RegisterIntentInterceptor(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
 	_data.WriteStrongBinder(intentInterceptor.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := filter.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1461,6 +1484,7 @@ func (p *VirtualDeviceProxy) RegisterVirtualCamera(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
+	_data.WriteInt32(1)
 	if _err := camera.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1489,6 +1513,7 @@ func (p *VirtualDeviceProxy) UnregisterVirtualCamera(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
+	_data.WriteInt32(1)
 	if _err := camera.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1518,6 +1543,7 @@ func (p *VirtualDeviceProxy) GetVirtualCameraId(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
+	_data.WriteInt32(1)
 	if _err := camera.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

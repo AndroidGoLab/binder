@@ -60,6 +60,7 @@ func (p *SatelliteCommunicationAllowedStateCallbackProxy) OnSatelliteAccessConfi
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatelliteCommunicationAllowedStateCallback)
+	_data.WriteInt32(1)
 	if _err := satelliteAccessConfiguration.MarshalParcel(_data); _err != nil {
 		return _err
 	}

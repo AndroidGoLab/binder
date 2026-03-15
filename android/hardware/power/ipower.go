@@ -372,6 +372,7 @@ func (p *PowerProxy) GetCpuHeadroom(
 	var _result CpuHeadroomResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPower)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -404,6 +405,7 @@ func (p *PowerProxy) GetGpuHeadroom(
 	var _result GpuHeadroomResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPower)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -461,6 +463,7 @@ func (p *PowerProxy) SendCompositionUpdate(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPower)
+	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -44,6 +44,7 @@ func (p *AuthenticationPolicyServiceProxy) EnableSecureLockDevice(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthenticationPolicyService)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -77,6 +78,7 @@ func (p *AuthenticationPolicyServiceProxy) DisableSecureLockDevice(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthenticationPolicyService)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

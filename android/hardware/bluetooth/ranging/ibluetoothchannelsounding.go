@@ -159,6 +159,7 @@ func (p *BluetoothChannelSoundingProxy) OpenSession(
 	var _result IBluetoothChannelSoundingSession
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSounding)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

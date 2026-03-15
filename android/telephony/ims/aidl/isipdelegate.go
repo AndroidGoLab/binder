@@ -49,6 +49,7 @@ func (p *SipDelegateProxy) SendMessage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISipDelegate)
+	_data.WriteInt32(1)
 	if _err := sipMessage.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -78,6 +78,7 @@ func (p *TextToSpeechServiceProxy) Speak(
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 	_data.WriteStrongBinder(callingInstance.Handle())
 	_data.WriteInt32(queueMode)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -118,6 +119,7 @@ func (p *TextToSpeechServiceProxy) SynthesizeToFileDescriptor(
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 	_data.WriteStrongBinder(callingInstance.Handle())
 	_data.WriteFileDescriptor(fileDescriptor)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -157,10 +159,12 @@ func (p *TextToSpeechServiceProxy) PlayAudio(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextToSpeechService)
 	_data.WriteStrongBinder(callingInstance.Handle())
+	_data.WriteInt32(1)
 	if _err := audioUri.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteInt32(queueMode)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

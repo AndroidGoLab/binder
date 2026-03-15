@@ -63,6 +63,7 @@ func (p *SandboxedDetectionServiceProxy) DetectFromDspSource(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISandboxedDetectionService)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

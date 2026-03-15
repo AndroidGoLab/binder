@@ -42,6 +42,7 @@ func (p *DeviceVolumeBehaviorDispatcherProxy) DispatchDeviceVolumeBehaviorChange
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceVolumeBehaviorDispatcher)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -57,6 +57,7 @@ func (p *ServiceListSetChannelListSessionProxy) SetChannelList(
 			}
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := ServiceListInfoBundle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

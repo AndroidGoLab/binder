@@ -202,6 +202,7 @@ func (p *RemoteAccessProxy) NotifyApStateChange(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
+	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -299,6 +300,7 @@ func (p *RemoteAccessProxy) ScheduleTask(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccess)
+	_data.WriteInt32(1)
 	if _err := scheduleInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -41,6 +41,7 @@ func (p *ConversationListenerProxy) OnConversationUpdate(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConversationListener)
+	_data.WriteInt32(1)
 	if _err := conversation.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -115,6 +115,7 @@ func (p *DataServiceProxy) SetupDataCall(
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(accessNetwork)
+	_data.WriteInt32(1)
 	if _err := dataProfile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -122,9 +123,11 @@ func (p *DataServiceProxy) SetupDataCall(
 	_data.WriteBool(allowRoaming)
 	_data.WriteInt32(reason)
 	_data.WriteInt32(pduSessionId)
+	_data.WriteInt32(1)
 	if _err := sliceInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := trafficDescriptor.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -173,6 +176,7 @@ func (p *DataServiceProxy) SetInitialAttachApn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataService)
 	_data.WriteInt32(slotId)
+	_data.WriteInt32(1)
 	if _err := dataProfile.MarshalParcel(_data); _err != nil {
 		return _err
 	}

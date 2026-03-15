@@ -43,9 +43,11 @@ func (p *ImageProcessorImplProxy) OnNextImageAvailable(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImageProcessorImpl)
+	_data.WriteInt32(1)
 	if _err := outputConfigId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := image.MarshalParcel(_data); _err != nil {
 		return _err
 	}

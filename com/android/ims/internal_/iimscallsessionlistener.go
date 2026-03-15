@@ -121,6 +121,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionProgressing(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -142,6 +143,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -163,6 +165,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionStartFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := reasonInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -184,6 +187,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionTerminated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := reasonInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -205,6 +209,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionHeld(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -226,6 +231,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionHoldFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := reasonInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -247,6 +253,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionHoldReceived(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -268,6 +275,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionResumed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -289,6 +297,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionResumeFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := reasonInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -310,6 +319,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionResumeReceived(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -333,6 +343,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionMergeStarted(
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
 	_data.WriteStrongBinder(newSession.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -371,6 +382,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionMergeFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := reasonInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -392,6 +404,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionUpdated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -413,6 +426,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionUpdateFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := reasonInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -434,6 +448,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionUpdateReceived(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -457,6 +472,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionConferenceExtended(
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
 	_data.WriteStrongBinder(newSession.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -478,6 +494,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionConferenceExtendFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := reasonInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -501,6 +518,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionConferenceExtendReceived(
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
 	_data.WriteStrongBinder(newSession.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -539,6 +557,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionInviteParticipantsRequestFailed
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := reasonInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -577,6 +596,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionRemoveParticipantsRequestFailed
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := reasonInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -598,6 +618,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionConferenceStateUpdated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -644,6 +665,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionHandover(
 	_data.WriteStrongBinder(session.AsBinder().Handle())
 	_data.WriteInt32(srcAccessTech)
 	_data.WriteInt32(targetAccessTech)
+	_data.WriteInt32(1)
 	if _err := reasonInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -669,6 +691,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionHandoverFailed(
 	_data.WriteStrongBinder(session.AsBinder().Handle())
 	_data.WriteInt32(srcAccessTech)
 	_data.WriteInt32(targetAccessTech)
+	_data.WriteInt32(1)
 	if _err := reasonInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -749,6 +772,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionSuppServiceReceived(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := suppSrvNotification.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -770,6 +794,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionRttModifyRequestReceived(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
 	_data.WriteStrongBinder(session.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := callProfile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -823,6 +848,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionRttAudioIndicatorChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -857,6 +883,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionTransferFailed(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
+	_data.WriteInt32(1)
 	if _err := reasonInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -876,6 +903,7 @@ func (p *ImsCallSessionListenerProxy) CallQualityChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSessionListener)
+	_data.WriteInt32(1)
 	if _err := callQuality.MarshalParcel(_data); _err != nil {
 		return _err
 	}

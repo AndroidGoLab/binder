@@ -42,6 +42,7 @@ func (p *LcnV2ChannelListListenerProxy) OnDetectLcnV2ChannelList(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILcnV2ChannelListListener)
+	_data.WriteInt32(1)
 	if _err := detectLcnV2ChannelList.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -183,6 +183,7 @@ func (p *GeofenceHardwareProxy) AddCircularFence(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGeofenceHardware)
 	_data.WriteInt32(monitoringType)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

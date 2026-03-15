@@ -221,6 +221,7 @@ func (p *OnAppsChangedListenerProxy) OnShortcutChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnAppsChangedListener)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := shortcuts.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -260,6 +261,7 @@ func (p *OnAppsChangedListenerProxy) OnUserConfigChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnAppsChangedListener)
+	_data.WriteInt32(1)
 	if _err := launcherUserInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

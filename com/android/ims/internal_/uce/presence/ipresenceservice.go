@@ -94,6 +94,7 @@ func (p *PresenceServiceProxy) AddListener(
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
 	_data.WriteInt32(presenceServiceHdl)
 	_data.WriteStrongBinder(presenceServiceListener.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -133,6 +134,7 @@ func (p *PresenceServiceProxy) RemoveListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
 	_data.WriteInt32(presenceServiceHdl)
+	_data.WriteInt32(1)
 	if _err := presenceServiceListenerHdl.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -204,6 +206,7 @@ func (p *PresenceServiceProxy) PublishMyCap(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
 	_data.WriteInt32(presenceServiceHdl)
+	_data.WriteInt32(1)
 	if _err := myCapInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -323,6 +326,7 @@ func (p *PresenceServiceProxy) SetNewFeatureTag(
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
 	_data.WriteInt32(presenceServiceHdl)
 	_data.WriteString16(featureTag)
+	_data.WriteInt32(1)
 	if _err := serviceInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

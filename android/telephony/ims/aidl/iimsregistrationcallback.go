@@ -53,6 +53,7 @@ func (p *ImsRegistrationCallbackProxy) OnRegistered(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationCallback)
+	_data.WriteInt32(1)
 	if _err := attr.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -72,6 +73,7 @@ func (p *ImsRegistrationCallbackProxy) OnRegistering(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationCallback)
+	_data.WriteInt32(1)
 	if _err := attr.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -93,6 +95,7 @@ func (p *ImsRegistrationCallbackProxy) OnDeregistered(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationCallback)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -117,11 +120,13 @@ func (p *ImsRegistrationCallbackProxy) OnDeregisteredWithDetails(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationCallback)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(suggestedAction)
 	_data.WriteInt32(imsRadioTech)
+	_data.WriteInt32(1)
 	if _err := detail.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -143,6 +148,7 @@ func (p *ImsRegistrationCallbackProxy) OnTechnologyChangeFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationCallback)
 	_data.WriteInt32(imsRadioTech)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

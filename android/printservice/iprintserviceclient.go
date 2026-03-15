@@ -289,6 +289,7 @@ func (p *PrintServiceClientProxy) OnPrintersAdded(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
+	_data.WriteInt32(1)
 	if _err := printers.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -317,6 +318,7 @@ func (p *PrintServiceClientProxy) OnPrintersRemoved(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
+	_data.WriteInt32(1)
 	if _err := printerIds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -346,6 +348,7 @@ func (p *PrintServiceClientProxy) OnCustomPrinterIconLoaded(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintServiceClient)
+	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _err
 	}

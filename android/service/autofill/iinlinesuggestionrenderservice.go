@@ -53,6 +53,7 @@ func (p *InlineSuggestionRenderServiceProxy) RenderSuggestion(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionRenderService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := presentation.MarshalParcel(_data); _err != nil {
 		return _err
 	}

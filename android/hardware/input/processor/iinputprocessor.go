@@ -47,6 +47,7 @@ func (p *InputProcessorProxy) Classify(
 	var _result common.Classification
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputProcessor)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

@@ -235,6 +235,7 @@ func (p *DreamManagerProxy) TestDream(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -545,6 +546,7 @@ func (p *DreamManagerProxy) SetSystemDreamComponent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
+	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -573,6 +575,7 @@ func (p *DreamManagerProxy) RegisterDreamOverlayService(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
+	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -601,6 +604,7 @@ func (p *DreamManagerProxy) StartDreamActivity(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDreamManager)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

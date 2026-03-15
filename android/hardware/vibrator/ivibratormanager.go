@@ -261,6 +261,7 @@ func (p *VibratorManagerProxy) StartSession(
 			_data.WriteInt32(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

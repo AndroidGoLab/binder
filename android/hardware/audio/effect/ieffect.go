@@ -194,6 +194,7 @@ func (p *EffectProxy) SetParameter(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEffect)
+	_data.WriteInt32(1)
 	if _err := param.MarshalParcel(_data); _err != nil {
 		return _err
 	}

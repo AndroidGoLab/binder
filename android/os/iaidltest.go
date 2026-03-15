@@ -103,6 +103,7 @@ func (p *AidlTestProxy) ParcelableIn(
 	var _result AidlTestTestParcelable
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
+	_data.WriteInt32(1)
 	if _err := p_.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -167,6 +168,7 @@ func (p *AidlTestProxy) ParcelableInOut(
 	var _result AidlTestTestParcelable
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAidlTest)
+	_data.WriteInt32(1)
 	if _err := p_.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

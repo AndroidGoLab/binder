@@ -216,6 +216,7 @@ func (p *UsbManagerProxy) OpenAccessory(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := accessory.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -250,6 +251,7 @@ func (p *UsbManagerProxy) SetDevicePackage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -282,6 +284,7 @@ func (p *UsbManagerProxy) SetAccessoryPackage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := accessory.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -314,6 +317,7 @@ func (p *UsbManagerProxy) AddDevicePackagesToPreferenceDenied(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -352,6 +356,7 @@ func (p *UsbManagerProxy) AddAccessoryPackagesToPreferenceDenied(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := accessory.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -390,6 +395,7 @@ func (p *UsbManagerProxy) RemoveDevicePackagesFromPreferenceDenied(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -428,6 +434,7 @@ func (p *UsbManagerProxy) RemoveAccessoryPackagesFromPreferenceDenied(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -467,6 +474,7 @@ func (p *UsbManagerProxy) SetDevicePersistentPermission(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -500,6 +508,7 @@ func (p *UsbManagerProxy) SetAccessoryPersistentPermission(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := accessory.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -532,6 +541,7 @@ func (p *UsbManagerProxy) HasDevicePermission(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -569,6 +579,7 @@ func (p *UsbManagerProxy) HasDevicePermissionWithIdentity(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -605,6 +616,7 @@ func (p *UsbManagerProxy) HasAccessoryPermission(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := accessory.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -640,6 +652,7 @@ func (p *UsbManagerProxy) HasAccessoryPermissionWithIdentity(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := accessory.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -676,6 +689,7 @@ func (p *UsbManagerProxy) RequestDevicePermission(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -707,6 +721,7 @@ func (p *UsbManagerProxy) RequestAccessoryPermission(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := accessory.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -737,6 +752,7 @@ func (p *UsbManagerProxy) GrantDevicePermission(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -767,6 +783,7 @@ func (p *UsbManagerProxy) GrantAccessoryPermission(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbManager)
+	_data.WriteInt32(1)
 	if _err := accessory.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -51,6 +51,7 @@ func (p *ComponentListenerProxy) OnError(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponentListener)
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -149,6 +150,7 @@ func (p *ComponentListenerProxy) OnWorkDone(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponentListener)
+	_data.WriteInt32(1)
 	if _err := workBundle.MarshalParcel(_data); _err != nil {
 		return _err
 	}

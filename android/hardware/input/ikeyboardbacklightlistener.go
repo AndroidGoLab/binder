@@ -44,6 +44,7 @@ func (p *KeyboardBacklightListenerProxy) OnBrightnessChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyboardBacklightListener)
 	_data.WriteInt32(deviceId)
+	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
 		return _err
 	}

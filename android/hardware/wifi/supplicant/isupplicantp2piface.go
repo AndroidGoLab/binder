@@ -2183,6 +2183,7 @@ func (p *SupplicantP2pIfaceProxy) ConnectWithParams(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
+	_data.WriteInt32(1)
 	if _err := connectInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2215,6 +2216,7 @@ func (p *SupplicantP2pIfaceProxy) FindWithParams(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
+	_data.WriteInt32(1)
 	if _err := discoveryInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2243,6 +2245,7 @@ func (p *SupplicantP2pIfaceProxy) ConfigureExtListenWithParams(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
+	_data.WriteInt32(1)
 	if _err := extListenInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2271,6 +2274,7 @@ func (p *SupplicantP2pIfaceProxy) AddGroupWithConfigurationParams(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
+	_data.WriteInt32(1)
 	if _err := groupConfigurationParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2299,6 +2303,7 @@ func (p *SupplicantP2pIfaceProxy) CreateGroupOwner(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
+	_data.WriteInt32(1)
 	if _err := groupOwnerInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2357,6 +2362,7 @@ func (p *SupplicantP2pIfaceProxy) StartUsdBasedServiceDiscovery(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
+	_data.WriteInt32(1)
 	if _err := serviceDiscoveryConfig.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2416,6 +2422,7 @@ func (p *SupplicantP2pIfaceProxy) StartUsdBasedServiceAdvertisement(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
+	_data.WriteInt32(1)
 	if _err := serviceAdvertisementConfig.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2474,6 +2481,7 @@ func (p *SupplicantP2pIfaceProxy) ProvisionDiscoveryWithParams(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2531,6 +2539,7 @@ func (p *SupplicantP2pIfaceProxy) ValidateDirInfo(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
+	_data.WriteInt32(1)
 	if _err := dirInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2563,6 +2572,7 @@ func (p *SupplicantP2pIfaceProxy) ReinvokePersistentGroup(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantP2pIface)
+	_data.WriteInt32(1)
 	if _err := reinvokeGroupParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}

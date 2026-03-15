@@ -153,6 +153,7 @@ func (p *UsbProxy) SwitchRole(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsb)
 	_data.WriteString16(portName)
+	_data.WriteInt32(1)
 	if _err := role.MarshalParcel(_data); _err != nil {
 		return _err
 	}

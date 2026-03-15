@@ -114,9 +114,11 @@ func (p *GlanceableHubWidgetManagerServiceProxy) AddWidget(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGlanceableHubWidgetManagerService)
+	_data.WriteInt32(1)
 	if _err := provider.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -62,9 +62,11 @@ func (p *TextClassifierServiceProxy) OnSuggestSelection(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -87,9 +89,11 @@ func (p *TextClassifierServiceProxy) OnClassifyText(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -112,9 +116,11 @@ func (p *TextClassifierServiceProxy) OnGenerateLinks(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -136,9 +142,11 @@ func (p *TextClassifierServiceProxy) OnSelectionEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -159,9 +167,11 @@ func (p *TextClassifierServiceProxy) OnTextClassifierEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -182,9 +192,11 @@ func (p *TextClassifierServiceProxy) OnCreateTextClassificationSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
+	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -204,6 +216,7 @@ func (p *TextClassifierServiceProxy) OnDestroyTextClassificationSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -225,9 +238,11 @@ func (p *TextClassifierServiceProxy) OnDetectLanguage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -250,9 +265,11 @@ func (p *TextClassifierServiceProxy) OnSuggestConversationActions(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITextClassifierService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

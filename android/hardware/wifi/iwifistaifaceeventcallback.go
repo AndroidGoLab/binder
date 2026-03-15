@@ -66,6 +66,7 @@ func (p *WifiStaIfaceEventCallbackProxy) OnBackgroundFullScanResult(
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
 	_data.WriteInt32(cmdId)
 	_data.WriteInt32(bucketsScanned)
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -179,6 +180,7 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionCreate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
 	_data.WriteInt32(cmdId)
+	_data.WriteInt32(1)
 	if _err := twtSession.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -200,6 +202,7 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionUpdate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
 	_data.WriteInt32(cmdId)
+	_data.WriteInt32(1)
 	if _err := twtSession.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -244,6 +247,7 @@ func (p *WifiStaIfaceEventCallbackProxy) OnTwtSessionStats(
 	_data.WriteInterfaceToken(DescriptorIWifiStaIfaceEventCallback)
 	_data.WriteInt32(cmdId)
 	_data.WriteInt32(twtSessionId)
+	_data.WriteInt32(1)
 	if _err := twtSessionStats.MarshalParcel(_data); _err != nil {
 		return _err
 	}

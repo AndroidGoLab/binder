@@ -89,6 +89,7 @@ func (p *CameraDeviceSessionProxy) ConfigureStreams(
 	var _result []HalStream
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceSession)
+	_data.WriteInt32(1)
 	if _err := requestedConfiguration.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -242,9 +243,11 @@ func (p *CameraDeviceSessionProxy) IsReconfigurationRequired(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceSession)
+	_data.WriteInt32(1)
 	if _err := oldSessionParams.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := newSessionParams.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -433,6 +436,7 @@ func (p *CameraDeviceSessionProxy) ConfigureStreamsV2(
 	var _result ConfigureStreamsRet
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceSession)
+	_data.WriteInt32(1)
 	if _err := requestedConfiguration.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

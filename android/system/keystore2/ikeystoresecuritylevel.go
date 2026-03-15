@@ -59,6 +59,7 @@ func (p *KeystoreSecurityLevelProxy) CreateOperation(
 	var _result CreateOperationResponse
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
+	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -106,6 +107,7 @@ func (p *KeystoreSecurityLevelProxy) GenerateKey(
 	var _result KeyMetadata
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
+	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -168,6 +170,7 @@ func (p *KeystoreSecurityLevelProxy) ImportKey(
 	var _result KeyMetadata
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
+	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -230,9 +233,11 @@ func (p *KeystoreSecurityLevelProxy) ImportWrappedKey(
 	var _result KeyMetadata
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
+	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := wrappingKey.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -293,6 +298,7 @@ func (p *KeystoreSecurityLevelProxy) ConvertStorageKeyToEphemeral(
 	var _result EphemeralStorageKeyResponse
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
+	_data.WriteInt32(1)
 	if _err := storageKey.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -324,6 +330,7 @@ func (p *KeystoreSecurityLevelProxy) DeleteKey(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeystoreSecurityLevel)
+	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
 		return _err
 	}

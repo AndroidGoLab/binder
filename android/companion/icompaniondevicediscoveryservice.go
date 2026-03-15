@@ -47,11 +47,13 @@ func (p *CompanionDeviceDiscoveryServiceProxy) StartDiscovery(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceDiscoveryService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(callingPackage)
 	_data.WriteStrongBinder(applicationCallback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := serviceCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

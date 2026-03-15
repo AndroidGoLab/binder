@@ -118,6 +118,7 @@ func (p *TranslationManagerProxy) OnSessionCreated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
+	_data.WriteInt32(1)
 	if _err := translationContext.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -147,9 +148,11 @@ func (p *TranslationManagerProxy) UpdateUiTranslationState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
 	_data.WriteInt32(state)
+	_data.WriteInt32(1)
 	if _err := sourceSpec.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := targetSpec.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -160,6 +163,7 @@ func (p *TranslationManagerProxy) UpdateUiTranslationState(
 	}
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
 	if _err := uiTranslationSpec.MarshalParcel(_data); _err != nil {
 		return _err
 	}

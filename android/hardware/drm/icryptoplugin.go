@@ -52,6 +52,7 @@ func (p *CryptoPluginProxy) Decrypt(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
+	_data.WriteInt32(1)
 	if _err := args.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -214,6 +215,7 @@ func (p *CryptoPluginProxy) SetSharedBufferBase(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICryptoPlugin)
+	_data.WriteInt32(1)
 	if _err := base.MarshalParcel(_data); _err != nil {
 		return _err
 	}

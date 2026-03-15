@@ -44,6 +44,7 @@ func (p *DataServiceSignalInfoListenerProxy) OnDataServiceSignalInfoChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataServiceSignalInfoListener)
 	_data.WriteString16(sessionToken)
+	_data.WriteInt32(1)
 	if _err := changedSignalInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

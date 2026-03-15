@@ -44,6 +44,7 @@ func (p *PrinterDiscoveryObserverProxy) OnPrintersAdded(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrinterDiscoveryObserver)
+	_data.WriteInt32(1)
 	if _err := printers.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -63,6 +64,7 @@ func (p *PrinterDiscoveryObserverProxy) OnPrintersRemoved(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrinterDiscoveryObserver)
+	_data.WriteInt32(1)
 	if _err := printerIds.MarshalParcel(_data); _err != nil {
 		return _err
 	}

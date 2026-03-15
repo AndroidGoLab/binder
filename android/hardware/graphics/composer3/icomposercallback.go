@@ -144,6 +144,7 @@ func (p *ComposerCallbackProxy) OnVsyncPeriodTimingChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComposerCallback)
 	_data.WriteInt64(display)
+	_data.WriteInt32(1)
 	if _err := updatedTimeline.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -180,6 +181,7 @@ func (p *ComposerCallbackProxy) OnRefreshRateChangedDebug(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComposerCallback)
+	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -229,6 +231,7 @@ func (p *ComposerCallbackProxy) OnHdcpLevelsChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComposerCallback)
 	_data.WriteInt64(display)
+	_data.WriteInt32(1)
 	if _err := levels.MarshalParcel(_data); _err != nil {
 		return _err
 	}

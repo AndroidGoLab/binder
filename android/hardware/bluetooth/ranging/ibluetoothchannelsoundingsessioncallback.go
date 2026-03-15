@@ -101,6 +101,7 @@ func (p *BluetoothChannelSoundingSessionCallbackProxy) OnResult(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSessionCallback)
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}

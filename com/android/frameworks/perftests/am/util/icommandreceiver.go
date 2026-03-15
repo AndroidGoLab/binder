@@ -52,6 +52,7 @@ func (p *CommandReceiverProxy) SendCommand(
 	_data.WriteString16(sourcePackage)
 	_data.WriteString16(targetPackage)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := bundle.MarshalParcel(_data); _err != nil {
 		return _err
 	}

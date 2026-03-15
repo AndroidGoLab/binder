@@ -66,6 +66,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnNetworkEapSimGsmAuthRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -85,6 +86,7 @@ func (p *SupplicantStaNetworkCallbackProxy) OnNetworkEapSimUmtsAuthRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetworkCallback)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}

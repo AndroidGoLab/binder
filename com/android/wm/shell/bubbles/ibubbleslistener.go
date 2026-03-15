@@ -45,6 +45,7 @@ func (p *BubblesListenerProxy) OnBubbleStateChange(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBubblesListener)
+	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -64,6 +65,7 @@ func (p *BubblesListenerProxy) AnimateBubbleBarLocation(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBubblesListener)
+	_data.WriteInt32(1)
 	if _err := location.MarshalParcel(_data); _err != nil {
 		return _err
 	}

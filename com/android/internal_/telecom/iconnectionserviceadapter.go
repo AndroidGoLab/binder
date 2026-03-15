@@ -129,12 +129,15 @@ func (p *ConnectionServiceAdapterProxy) HandleCreateConnectionComplete(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := connection.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -158,12 +161,15 @@ func (p *ConnectionServiceAdapterProxy) HandleCreateConferenceComplete(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := connection.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -185,6 +191,7 @@ func (p *ConnectionServiceAdapterProxy) SetActive(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -206,6 +213,7 @@ func (p *ConnectionServiceAdapterProxy) SetRinging(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -227,6 +235,7 @@ func (p *ConnectionServiceAdapterProxy) SetDialing(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -248,6 +257,7 @@ func (p *ConnectionServiceAdapterProxy) SetPulling(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -270,9 +280,11 @@ func (p *ConnectionServiceAdapterProxy) SetDisconnected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := disconnectCause.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -294,6 +306,7 @@ func (p *ConnectionServiceAdapterProxy) SetOnHold(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -317,6 +330,7 @@ func (p *ConnectionServiceAdapterProxy) SetRingbackRequested(
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteBool(ringing)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -340,6 +354,7 @@ func (p *ConnectionServiceAdapterProxy) SetConnectionCapabilities(
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(connectionCapabilities)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -363,6 +378,7 @@ func (p *ConnectionServiceAdapterProxy) SetConnectionProperties(
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(connectionProperties)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -386,6 +402,7 @@ func (p *ConnectionServiceAdapterProxy) SetIsConferenced(
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteString16(conferenceCallId)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -407,6 +424,7 @@ func (p *ConnectionServiceAdapterProxy) SetConferenceMergeFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -429,9 +447,11 @@ func (p *ConnectionServiceAdapterProxy) AddConferenceCall(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := conference.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -453,6 +473,7 @@ func (p *ConnectionServiceAdapterProxy) RemoveCall(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -476,6 +497,7 @@ func (p *ConnectionServiceAdapterProxy) OnPostDialWait(
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteString16(remaining)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -499,6 +521,7 @@ func (p *ConnectionServiceAdapterProxy) OnPostDialChar(
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(int32(nextChar))
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -522,6 +545,7 @@ func (p *ConnectionServiceAdapterProxy) QueryRemoteConnectionServices(
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteString16(callingPackage)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -545,6 +569,7 @@ func (p *ConnectionServiceAdapterProxy) SetVideoProvider(
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteStrongBinder(videoProvider.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -568,6 +593,7 @@ func (p *ConnectionServiceAdapterProxy) SetVideoState(
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(videoState)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -591,6 +617,7 @@ func (p *ConnectionServiceAdapterProxy) SetIsVoipAudioMode(
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteBool(isVoip)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -613,9 +640,11 @@ func (p *ConnectionServiceAdapterProxy) SetStatusHints(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := statusHints.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -639,10 +668,12 @@ func (p *ConnectionServiceAdapterProxy) SetAddress(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := address.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(presentation)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -668,6 +699,7 @@ func (p *ConnectionServiceAdapterProxy) SetCallerDisplayName(
 	_data.WriteString16(callId)
 	_data.WriteString16(callerDisplayName)
 	_data.WriteInt32(presentation)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -698,6 +730,7 @@ func (p *ConnectionServiceAdapterProxy) SetConferenceableConnections(
 			_data.WriteString16(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -720,9 +753,11 @@ func (p *ConnectionServiceAdapterProxy) AddExistingConnection(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := connection.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -745,9 +780,11 @@ func (p *ConnectionServiceAdapterProxy) PutExtras(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -778,6 +815,7 @@ func (p *ConnectionServiceAdapterProxy) RemoveExtras(
 			_data.WriteString16(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -803,6 +841,7 @@ func (p *ConnectionServiceAdapterProxy) SetAudioRoute(
 	_data.WriteString16(callId)
 	_data.WriteInt32(audioRoute)
 	_data.WriteString16(bluetoothAddress)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -826,12 +865,15 @@ func (p *ConnectionServiceAdapterProxy) RequestCallEndpointChange(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := endpoint.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -856,9 +898,11 @@ func (p *ConnectionServiceAdapterProxy) OnConnectionEvent(
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteString16(event)
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -880,6 +924,7 @@ func (p *ConnectionServiceAdapterProxy) OnRttInitiationSuccess(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -903,6 +948,7 @@ func (p *ConnectionServiceAdapterProxy) OnRttInitiationFailure(
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(reason)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -924,6 +970,7 @@ func (p *ConnectionServiceAdapterProxy) OnRttSessionRemotelyTerminated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -945,6 +992,7 @@ func (p *ConnectionServiceAdapterProxy) OnRemoteRttRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -967,9 +1015,11 @@ func (p *ConnectionServiceAdapterProxy) OnPhoneAccountChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := pHandle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -989,6 +1039,7 @@ func (p *ConnectionServiceAdapterProxy) OnConnectionServiceFocusReleased(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1010,6 +1061,7 @@ func (p *ConnectionServiceAdapterProxy) ResetConnectionTime(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callIdi)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1033,6 +1085,7 @@ func (p *ConnectionServiceAdapterProxy) SetConferenceState(
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteBool(isConference)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1056,6 +1109,7 @@ func (p *ConnectionServiceAdapterProxy) SetCallDirection(
 	_data.WriteInterfaceToken(DescriptorIConnectionServiceAdapter)
 	_data.WriteString16(callId)
 	_data.WriteInt32(direction)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1082,9 +1136,11 @@ func (p *ConnectionServiceAdapterProxy) QueryLocation(
 	_data.WriteString16(callId)
 	_data.WriteInt64(timeoutMillis)
 	_data.WriteString16(provider)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

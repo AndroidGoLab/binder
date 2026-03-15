@@ -180,6 +180,7 @@ func (p *WallpaperManagerProxy) SetWallpaperComponentChecked(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
+	_data.WriteInt32(1)
 	if _err := description.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -401,6 +402,7 @@ func (p *WallpaperManagerProxy) GetFutureBitmapCrops(
 	var _result []interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
+	_data.WriteInt32(1)
 	if _err := bitmapSize.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -470,6 +472,7 @@ func (p *WallpaperManagerProxy) GetBitmapCrop(
 	var _result graphics.Rect
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
+	_data.WriteInt32(1)
 	if _err := bitmapSize.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -834,6 +837,7 @@ func (p *WallpaperManagerProxy) SetDisplayPadding(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
+	_data.WriteInt32(1)
 	if _err := padding.MarshalParcel(_data); _err != nil {
 		return _err
 	}

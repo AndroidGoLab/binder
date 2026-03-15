@@ -42,6 +42,7 @@ func (p *RcsUcePublishStateCallbackProxy) OnPublishUpdated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRcsUcePublishStateCallback)
+	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
 		return _err
 	}

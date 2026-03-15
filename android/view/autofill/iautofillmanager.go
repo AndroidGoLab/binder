@@ -152,12 +152,15 @@ func (p *AutoFillManagerProxy) StartSession(
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteStrongBinder(activityToken.Handle())
 	_data.WriteStrongBinder(appCallback.Handle())
+	_data.WriteInt32(1)
 	if _err := autoFillId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := value.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -226,12 +229,15 @@ func (p *AutoFillManagerProxy) UpdateSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := value.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -289,6 +295,7 @@ func (p *AutoFillManagerProxy) SetViewAutofilled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _err
 	}

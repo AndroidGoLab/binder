@@ -43,6 +43,7 @@ func (p *DisplayPortAltModeInfoListenerProxy) OnDisplayPortAltModeInfoChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayPortAltModeInfoListener)
 	_data.WriteString16(portId)
+	_data.WriteInt32(1)
 	if _err := DisplayPortAltModeInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

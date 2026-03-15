@@ -43,6 +43,7 @@ func (p *ThermalChangedCallbackProxy) NotifyThrottling(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIThermalChangedCallback)
+	_data.WriteInt32(1)
 	if _err := temperature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -62,6 +63,7 @@ func (p *ThermalChangedCallbackProxy) NotifyThresholdChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIThermalChangedCallback)
+	_data.WriteInt32(1)
 	if _err := threshold.MarshalParcel(_data); _err != nil {
 		return _err
 	}

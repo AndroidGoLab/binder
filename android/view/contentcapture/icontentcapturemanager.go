@@ -123,6 +123,7 @@ func (p *ContentCaptureManagerProxy) RemoveData(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -143,6 +144,7 @@ func (p *ContentCaptureManagerProxy) ShareData(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

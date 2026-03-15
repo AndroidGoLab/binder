@@ -47,6 +47,7 @@ func (p *TransitionPlayerProxy) OnTransitionReady(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransitionPlayer)
 	_data.WriteStrongBinder(transitionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -68,6 +69,7 @@ func (p *TransitionPlayerProxy) RequestStartTransition(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransitionPlayer)
 	_data.WriteStrongBinder(transitionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

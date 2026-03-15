@@ -175,12 +175,15 @@ func (p *RecentTasksProxy) StartRecentsTransition(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecentTasks)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := fillIn.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}

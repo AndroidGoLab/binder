@@ -85,6 +85,7 @@ func (p *FavoriteNetworkProxy) SetFavoriteNetwork(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFavoriteNetwork)
+	_data.WriteInt32(1)
 	if _err := favoriteNetworkSettings.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

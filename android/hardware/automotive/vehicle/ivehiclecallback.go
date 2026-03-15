@@ -49,6 +49,7 @@ func (p *VehicleCallbackProxy) OnGetValues(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVehicleCallback)
+	_data.WriteInt32(1)
 	if _err := responses.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -68,6 +69,7 @@ func (p *VehicleCallbackProxy) OnSetValues(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVehicleCallback)
+	_data.WriteInt32(1)
 	if _err := responses.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -88,6 +90,7 @@ func (p *VehicleCallbackProxy) OnPropertyEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVehicleCallback)
+	_data.WriteInt32(1)
 	if _err := propValues.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -108,6 +111,7 @@ func (p *VehicleCallbackProxy) OnPropertySetError(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVehicleCallback)
+	_data.WriteInt32(1)
 	if _err := errors.MarshalParcel(_data); _err != nil {
 		return _err
 	}

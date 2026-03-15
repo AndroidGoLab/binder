@@ -416,6 +416,7 @@ func (p *TrustManagerProxy) UnlockedByBiometricForUser(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := source.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -445,6 +446,7 @@ func (p *TrustManagerProxy) ClearAllBiometricRecognized(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITrustManager)
+	_data.WriteInt32(1)
 	if _err := target.MarshalParcel(_data); _err != nil {
 		return _err
 	}

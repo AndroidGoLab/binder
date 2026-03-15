@@ -56,6 +56,7 @@ func (p *ImsMediaSessionListenerProxy) OnModifySessionResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -76,6 +77,7 @@ func (p *ImsMediaSessionListenerProxy) OnFirstMediaPacketReceived(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -121,6 +123,7 @@ func (p *ImsMediaSessionListenerProxy) NotifyMediaQualityStatus(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
+	_data.WriteInt32(1)
 	if _err := quality.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -140,6 +143,7 @@ func (p *ImsMediaSessionListenerProxy) TriggerAnbrQuery(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -178,6 +182,7 @@ func (p *ImsMediaSessionListenerProxy) OnCallQualityChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
+	_data.WriteInt32(1)
 	if _err := callQuality.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -197,6 +202,7 @@ func (p *ImsMediaSessionListenerProxy) NotifyRtpReceptionStats(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSessionListener)
+	_data.WriteInt32(1)
 	if _err := stats.MarshalParcel(_data); _err != nil {
 		return _err
 	}

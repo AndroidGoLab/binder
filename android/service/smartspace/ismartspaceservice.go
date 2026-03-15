@@ -53,9 +53,11 @@ func (p *SmartspaceServiceProxy) OnCreateSmartspaceSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISmartspaceService)
+	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -76,9 +78,11 @@ func (p *SmartspaceServiceProxy) NotifySmartspaceEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISmartspaceService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -98,6 +102,7 @@ func (p *SmartspaceServiceProxy) RequestSmartspaceUpdate(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISmartspaceService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -118,6 +123,7 @@ func (p *SmartspaceServiceProxy) RegisterSmartspaceUpdates(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISmartspaceService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -139,6 +145,7 @@ func (p *SmartspaceServiceProxy) UnregisterSmartspaceUpdates(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISmartspaceService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -159,6 +166,7 @@ func (p *SmartspaceServiceProxy) OnDestroySmartspaceSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISmartspaceService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}

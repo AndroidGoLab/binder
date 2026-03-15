@@ -48,6 +48,7 @@ func (p *CamInfoListenerProxy) OnCamInfoChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamInfoListener)
 	_data.WriteInt32(slotId)
+	_data.WriteInt32(1)
 	if _err := updatedCamInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -69,6 +70,7 @@ func (p *CamInfoListenerProxy) OnSlotInfoChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamInfoListener)
 	_data.WriteInt32(slotId)
+	_data.WriteInt32(1)
 	if _err := updatedSlotInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -90,6 +92,7 @@ func (p *CamInfoListenerProxy) OnNewTypeCamInsert(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamInfoListener)
 	_data.WriteInt32(slotId)
+	_data.WriteInt32(1)
 	if _err := newCamType.MarshalParcel(_data); _err != nil {
 		return _err
 	}

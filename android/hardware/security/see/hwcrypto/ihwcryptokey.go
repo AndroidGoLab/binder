@@ -174,6 +174,7 @@ func (p *HwCryptoKeyProxy) ImportClearKey(
 	var _result IOpaqueKey
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHwCryptoKey)
+	_data.WriteInt32(1)
 	if _err := newKeyPolicy.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

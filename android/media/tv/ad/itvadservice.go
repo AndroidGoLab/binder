@@ -86,6 +86,7 @@ func (p *TvAdServiceProxy) CreateSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdService)
+	_data.WriteInt32(1)
 	if _err := channel.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -108,6 +109,7 @@ func (p *TvAdServiceProxy) SendAppLinkCommand(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdService)
+	_data.WriteInt32(1)
 	if _err := command.MarshalParcel(_data); _err != nil {
 		return _err
 	}

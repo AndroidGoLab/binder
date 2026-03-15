@@ -65,6 +65,7 @@ func (p *CallStreamingServiceProxy) OnCallStreamingStarted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallStreamingService)
+	_data.WriteInt32(1)
 	if _err := call.MarshalParcel(_data); _err != nil {
 		return _err
 	}

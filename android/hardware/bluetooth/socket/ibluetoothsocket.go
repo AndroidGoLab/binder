@@ -101,6 +101,7 @@ func (p *BluetoothSocketProxy) Opened(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSocket)
+	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
 		return _err
 	}

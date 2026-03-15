@@ -50,6 +50,7 @@ func (p *BurstProxy) ExecuteSynchronously(
 	var _result ExecutionResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBurst)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -122,6 +123,7 @@ func (p *BurstProxy) ExecuteSynchronouslyWithConfig(
 	var _result ExecutionResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBurst)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -133,6 +135,7 @@ func (p *BurstProxy) ExecuteSynchronouslyWithConfig(
 			_data.WriteInt64(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

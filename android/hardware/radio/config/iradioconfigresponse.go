@@ -61,6 +61,7 @@ func (p *RadioConfigResponseProxy) GetHalDeviceCapabilitiesResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -82,6 +83,7 @@ func (p *RadioConfigResponseProxy) GetNumOfLiveModemsResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -103,9 +105,11 @@ func (p *RadioConfigResponseProxy) GetPhoneCapabilityResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := phoneCapability.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -126,6 +130,7 @@ func (p *RadioConfigResponseProxy) GetSimSlotsStatusResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -155,6 +160,7 @@ func (p *RadioConfigResponseProxy) SetNumOfLiveModemsResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -174,6 +180,7 @@ func (p *RadioConfigResponseProxy) SetPreferredDataModemResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -193,6 +200,7 @@ func (p *RadioConfigResponseProxy) SetSimSlotsMappingResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -213,6 +221,7 @@ func (p *RadioConfigResponseProxy) GetSimultaneousCallingSupportResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -241,6 +250,7 @@ func (p *RadioConfigResponseProxy) GetSimTypeInfoResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -270,6 +280,7 @@ func (p *RadioConfigResponseProxy) SetSimTypeResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioConfigResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

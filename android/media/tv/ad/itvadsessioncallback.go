@@ -188,6 +188,7 @@ func (p *TvAdSessionCallbackProxy) OnTvAdSessionData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdSessionCallback)
 	_data.WriteString16(type_)
+	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -41,6 +41,7 @@ func (p *GetDefaultDownloadableSubscriptionListCallbackProxy) OnComplete(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGetDefaultDownloadableSubscriptionListCallback)
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}

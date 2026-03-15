@@ -61,6 +61,7 @@ func (p *FillCallbackProxy) OnSuccess(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFillCallback)
+	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
 		return _err
 	}

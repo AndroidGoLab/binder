@@ -102,6 +102,7 @@ func (p *RemoteViewsFactoryProxy) OnDestroy(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteViewsFactory)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

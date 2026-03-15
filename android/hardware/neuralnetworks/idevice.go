@@ -72,6 +72,7 @@ func (p *DeviceProxy) Allocate(
 	var _result DeviceBuffer
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevice)
+	_data.WriteInt32(1)
 	if _err := desc.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -228,6 +229,7 @@ func (p *DeviceProxy) GetSupportedOperations(
 	var _result []bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevice)
+	_data.WriteInt32(1)
 	if _err := model.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -336,6 +338,7 @@ func (p *DeviceProxy) PrepareModel(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevice)
+	_data.WriteInt32(1)
 	if _err := model.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -449,9 +452,11 @@ func (p *DeviceProxy) PrepareModelWithConfig(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevice)
+	_data.WriteInt32(1)
 	if _err := model.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}

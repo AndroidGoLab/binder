@@ -262,6 +262,7 @@ func (p *RadioModemProxy) NvWriteItem(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := item.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -336,6 +337,7 @@ func (p *RadioModemProxy) SetRadioCapability(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModem)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := rc.MarshalParcel(_data); _err != nil {
 		return _err
 	}

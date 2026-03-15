@@ -49,6 +49,7 @@ func (p *JobServiceProxy) StartJob(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIJobService)
+	_data.WriteInt32(1)
 	if _err := jobParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -68,6 +69,7 @@ func (p *JobServiceProxy) StopJob(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIJobService)
+	_data.WriteInt32(1)
 	if _err := jobParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -87,6 +89,7 @@ func (p *JobServiceProxy) OnNetworkChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIJobService)
+	_data.WriteInt32(1)
 	if _err := jobParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -107,9 +110,11 @@ func (p *JobServiceProxy) GetTransferredDownloadBytes(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIJobService)
+	_data.WriteInt32(1)
 	if _err := jobParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := jobWorkItem.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -130,9 +135,11 @@ func (p *JobServiceProxy) GetTransferredUploadBytes(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIJobService)
+	_data.WriteInt32(1)
 	if _err := jobParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := jobWorkItem.MarshalParcel(_data); _err != nil {
 		return _err
 	}

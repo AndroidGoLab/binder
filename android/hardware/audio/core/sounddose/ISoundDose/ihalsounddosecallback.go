@@ -47,6 +47,7 @@ func (p *HalSoundDoseCallbackProxy) OnMomentaryExposureWarning(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHalSoundDoseCallback)
 	_data.WriteFloat32(currentDbA)
+	_data.WriteInt32(1)
 	if _err := audioDevice.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -67,9 +68,11 @@ func (p *HalSoundDoseCallbackProxy) OnNewMelValues(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHalSoundDoseCallback)
+	_data.WriteInt32(1)
 	if _err := melRecord.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := audioDevice.MarshalParcel(_data); _err != nil {
 		return _err
 	}

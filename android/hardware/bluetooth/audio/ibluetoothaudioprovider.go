@@ -105,6 +105,7 @@ func (p *BluetoothAudioProviderProxy) StartSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
 	_data.WriteStrongBinder(hostIf.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := audioConfig.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -196,6 +197,7 @@ func (p *BluetoothAudioProviderProxy) UpdateAudioConfiguration(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
+	_data.WriteInt32(1)
 	if _err := audioConfig.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -253,6 +255,7 @@ func (p *BluetoothAudioProviderProxy) ParseA2dpConfiguration(
 	var _result A2dpStatus
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
+	_data.WriteInt32(1)
 	if _err := codecId.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -309,6 +312,7 @@ func (p *BluetoothAudioProviderProxy) GetA2dpConfiguration(
 			}
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := hint.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -341,6 +345,7 @@ func (p *BluetoothAudioProviderProxy) SetCodecPriority(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
+	_data.WriteInt32(1)
 	if _err := codecId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -590,6 +595,7 @@ func (p *BluetoothAudioProviderProxy) GetLeAudioBroadcastDatapathConfiguration(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
+	_data.WriteInt32(1)
 	if _err := audioContext.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

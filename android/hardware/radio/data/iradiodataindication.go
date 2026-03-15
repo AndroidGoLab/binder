@@ -80,6 +80,7 @@ func (p *RadioDataIndicationProxy) KeepaliveStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -101,6 +102,7 @@ func (p *RadioDataIndicationProxy) PcoData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := pco.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -122,6 +124,7 @@ func (p *RadioDataIndicationProxy) UnthrottleApn(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := dataProfileInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -143,6 +146,7 @@ func (p *RadioDataIndicationProxy) SlicingConfigChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := slicingConfig.MarshalParcel(_data); _err != nil {
 		return _err
 	}

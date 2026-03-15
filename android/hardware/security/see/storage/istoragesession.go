@@ -128,6 +128,7 @@ func (p *StorageSessionProxy) OpenFile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageSession)
 	_data.WriteString(filePath)
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

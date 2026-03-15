@@ -127,6 +127,7 @@ func (p *EndpointCallbackProxy) OnMessageReceived(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEndpointCallback)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -157,6 +158,7 @@ func (p *EndpointCallbackProxy) OnMessageDeliveryStatusReceived(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEndpointCallback)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := msgStatus.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -189,9 +191,11 @@ func (p *EndpointCallbackProxy) OnEndpointSessionOpenRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEndpointCallback)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := destination.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := initiator.MarshalParcel(_data); _err != nil {
 		return _err
 	}

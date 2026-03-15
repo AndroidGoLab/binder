@@ -54,9 +54,11 @@ func (p *AppIntegrityManagerProxy) UpdateRuleSet(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppIntegrityManager)
 	_data.WriteString16(version)
+	_data.WriteInt32(1)
 	if _err := rules.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := statusReceiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -76,6 +76,7 @@ func (p *WearableSensingServiceProxy) ProvideSecureConnection(
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	_data.WriteFileDescriptor(parcelFileDescriptor)
 	_data.WriteStrongBinder(wearableSensingCallback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := statusCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -100,6 +101,7 @@ func (p *WearableSensingServiceProxy) ProvideConcurrentSecureConnection(
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	_data.WriteFileDescriptor(parcelFileDescriptor)
 	_data.WriteStrongBinder(wearableSensingCallback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := statusCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -122,6 +124,7 @@ func (p *WearableSensingServiceProxy) ProvideReadOnlyParcelFileDescriptor(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	_data.WriteFileDescriptor(parcelFileDescriptor)
+	_data.WriteInt32(1)
 	if _err := statusCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -145,6 +148,7 @@ func (p *WearableSensingServiceProxy) ProvideDataStream(
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	_data.WriteFileDescriptor(parcelFileDescriptor)
 	_data.WriteStrongBinder(wearableSensingCallback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := statusCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -166,9 +170,11 @@ func (p *WearableSensingServiceProxy) ProvideData(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
+	_data.WriteInt32(1)
 	if _err := sharedMemory.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -193,11 +199,13 @@ func (p *WearableSensingServiceProxy) RegisterDataRequestObserver(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
 	_data.WriteInt32(dataType)
+	_data.WriteInt32(1)
 	if _err := dataRequestCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(dataRequestObserverId)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := statusCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -223,6 +231,7 @@ func (p *WearableSensingServiceProxy) UnregisterDataRequestObserver(
 	_data.WriteInt32(dataType)
 	_data.WriteInt32(dataRequestObserverId)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := statusCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -243,9 +252,11 @@ func (p *WearableSensingServiceProxy) StartHotwordRecognition(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
+	_data.WriteInt32(1)
 	if _err := wearableHotwordCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := statusCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -265,6 +276,7 @@ func (p *WearableSensingServiceProxy) StopHotwordRecognition(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
+	_data.WriteInt32(1)
 	if _err := statusCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -317,13 +329,16 @@ func (p *WearableSensingServiceProxy) StartDetection(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWearableSensingService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := detectionResultCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := statusCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -371,6 +386,7 @@ func (p *WearableSensingServiceProxy) QueryServiceStatus(
 		}
 	}
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

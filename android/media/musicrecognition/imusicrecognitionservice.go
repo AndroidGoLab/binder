@@ -47,6 +47,7 @@ func (p *MusicRecognitionServiceProxy) OnAudioStreamStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionService)
 	_data.WriteFileDescriptor(fd)
+	_data.WriteInt32(1)
 	if _err := audioFormat.MarshalParcel(_data); _err != nil {
 		return _err
 	}

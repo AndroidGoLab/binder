@@ -876,6 +876,7 @@ func (p *VibratorProxy) PerformVendorEffect(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
+	_data.WriteInt32(1)
 	if _err := vendorEffect.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1031,6 +1032,7 @@ func (p *VibratorProxy) ComposePwleV2(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVibrator)
+	_data.WriteInt32(1)
 	if _err := composite.MarshalParcel(_data); _err != nil {
 		return _err
 	}

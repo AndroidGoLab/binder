@@ -89,9 +89,11 @@ func (p *RecentsAnimationControllerProxy) SetFinishTaskTransaction(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecentsAnimationController)
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
 	if _err := finishTransaction.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := overlay.MarshalParcel(_data); _err != nil {
 		return _err
 	}

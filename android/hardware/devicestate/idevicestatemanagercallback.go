@@ -45,6 +45,7 @@ func (p *DeviceStateManagerCallbackProxy) OnDeviceStateInfoChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceStateManagerCallback)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

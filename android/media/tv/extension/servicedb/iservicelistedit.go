@@ -322,6 +322,7 @@ func (p *ServiceListEditProxy) UpdateServiceInfoFromDatabase(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceListEdit)
+	_data.WriteInt32(1)
 	if _err := updateServiceInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -699,6 +700,7 @@ func (p *ServiceListEditProxy) ToRecordInfoByType(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceListEdit)
+	_data.WriteInt32(1)
 	if _err := recordInfoBundle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -736,6 +738,7 @@ func (p *ServiceListEditProxy) PutRecordIdList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceListEdit)
 	_data.WriteString16(serviceListId)
+	_data.WriteInt32(1)
 	if _err := recordIdListBundle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -853,6 +856,7 @@ func (p *ServiceListEditProxy) AddPredefinedSatInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceListEdit)
 	_data.WriteString16(serviceListId)
+	_data.WriteInt32(1)
 	if _err := predefinedSatInfoBundle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

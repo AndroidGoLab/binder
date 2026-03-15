@@ -46,6 +46,7 @@ func (p *GetKeyCallbackProxy) OnSuccess(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGetKeyCallback)
+	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
 		return _err
 	}

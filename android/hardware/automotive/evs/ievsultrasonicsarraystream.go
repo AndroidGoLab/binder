@@ -43,6 +43,7 @@ func (p *EvsUltrasonicsArrayStreamProxy) DeliverDataFrame(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArrayStream)
+	_data.WriteInt32(1)
 	if _err := dataFrameDesc.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -62,6 +63,7 @@ func (p *EvsUltrasonicsArrayStreamProxy) Notify(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArrayStream)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

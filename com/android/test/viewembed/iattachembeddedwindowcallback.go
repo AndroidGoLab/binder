@@ -42,6 +42,7 @@ func (p *AttachEmbeddedWindowCallbackProxy) OnEmbeddedWindowAttached(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAttachEmbeddedWindowCallback)
+	_data.WriteInt32(1)
 	if _err := surfacePackage.MarshalParcel(_data); _err != nil {
 		return _err
 	}

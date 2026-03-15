@@ -532,6 +532,7 @@ func (p *DrmPluginProxy) GetOfflineLicenseState(
 	var _result OfflineLicenseState
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
+	_data.WriteInt32(1)
 	if _err := keySetId.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -670,6 +671,7 @@ func (p *DrmPluginProxy) GetSecureStop(
 	var _result SecureStop
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
+	_data.WriteInt32(1)
 	if _err := secureStopId.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1011,6 +1013,7 @@ func (p *DrmPluginProxy) ReleaseSecureStop(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
+	_data.WriteInt32(1)
 	if _err := secureStopId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1039,6 +1042,7 @@ func (p *DrmPluginProxy) ReleaseSecureStops(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
+	_data.WriteInt32(1)
 	if _err := ssRelease.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1124,6 +1128,7 @@ func (p *DrmPluginProxy) RemoveOfflineLicense(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
+	_data.WriteInt32(1)
 	if _err := keySetId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1152,6 +1157,7 @@ func (p *DrmPluginProxy) RemoveSecureStop(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmPlugin)
+	_data.WriteInt32(1)
 	if _err := secureStopId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1222,6 +1228,7 @@ func (p *DrmPluginProxy) RestoreKeys(
 			_data.WritePaddedByte(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := keySetId.MarshalParcel(_data); _err != nil {
 		return _err
 	}

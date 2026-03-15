@@ -94,6 +94,7 @@ func (p *GnssStatusListenerProxy) OnSvStatusChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssStatusListener)
+	_data.WriteInt32(1)
 	if _err := gnssStatus.MarshalParcel(_data); _err != nil {
 		return _err
 	}

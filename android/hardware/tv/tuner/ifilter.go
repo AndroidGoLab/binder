@@ -123,6 +123,7 @@ func (p *FilterProxy) Configure(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFilter)
+	_data.WriteInt32(1)
 	if _err := settings.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -151,6 +152,7 @@ func (p *FilterProxy) ConfigureAvStreamType(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFilter)
+	_data.WriteInt32(1)
 	if _err := avStreamType.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -395,6 +397,7 @@ func (p *FilterProxy) ReleaseAvHandle(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFilter)
+	_data.WriteInt32(1)
 	if _err := avMemory.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -450,6 +453,7 @@ func (p *FilterProxy) SetDelayHint(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFilter)
+	_data.WriteInt32(1)
 	if _err := hint.MarshalParcel(_data); _err != nil {
 		return _err
 	}

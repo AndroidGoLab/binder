@@ -96,6 +96,7 @@ func (p *PackageInstallerProxy) CreateSession(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -133,6 +134,7 @@ func (p *PackageInstallerProxy) UpdateSessionAppIcon(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := appIcon.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -425,6 +427,7 @@ func (p *PackageInstallerProxy) Uninstall(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
+	_data.WriteInt32(1)
 	if _err := versionedPackage.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -459,6 +462,7 @@ func (p *PackageInstallerProxy) UninstallExistingPackage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
+	_data.WriteInt32(1)
 	if _err := versionedPackage.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -701,6 +705,7 @@ func (p *PackageInstallerProxy) CheckInstallConstraints(
 			_data.WriteString16(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := constraints.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -742,6 +747,7 @@ func (p *PackageInstallerProxy) WaitForInstallConstraints(
 			_data.WriteString16(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := constraints.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -837,9 +843,11 @@ func (p *PackageInstallerProxy) InstallPackageArchived(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstaller)
+	_data.WriteInt32(1)
 	if _err := archivedPackageParcel.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}

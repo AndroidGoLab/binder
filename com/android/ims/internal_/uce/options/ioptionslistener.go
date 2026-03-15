@@ -133,9 +133,11 @@ func (p *OptionsListenerProxy) SipResponseReceived(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOptionsListener)
 	_data.WriteString16(uri)
+	_data.WriteInt32(1)
 	if _err := sipResponse.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := capInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -164,6 +166,7 @@ func (p *OptionsListenerProxy) CmdStatus(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOptionsListener)
+	_data.WriteInt32(1)
 	if _err := cmdStatus.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -195,6 +198,7 @@ func (p *OptionsListenerProxy) IncomingOptions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOptionsListener)
 	_data.WriteString16(uri)
+	_data.WriteInt32(1)
 	if _err := capInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

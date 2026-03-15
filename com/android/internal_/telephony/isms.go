@@ -275,9 +275,11 @@ func (p *SmsProxy) SendDataForSubscriber(
 			_data.WritePaddedByte(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := sentIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -321,9 +323,11 @@ func (p *SmsProxy) SendTextForSubscriber(
 	_data.WriteString16(destAddr)
 	_data.WriteString16(scAddr)
 	_data.WriteString16(text)
+	_data.WriteInt32(1)
 	if _err := sentIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -371,9 +375,11 @@ func (p *SmsProxy) SendTextForSubscriberWithOptions(
 	_data.WriteString16(destAddr)
 	_data.WriteString16(scAddr)
 	_data.WriteString16(text)
+	_data.WriteInt32(1)
 	if _err := sentIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -419,6 +425,7 @@ func (p *SmsProxy) InjectSmsPduForSubscriber(
 		}
 	}
 	_data.WriteString16(format)
+	_data.WriteInt32(1)
 	if _err := receivedIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1015,13 +1022,16 @@ func (p *SmsProxy) SendStoredText(
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(callingAttributionTag)
+	_data.WriteInt32(1)
 	if _err := messageUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(scAddress)
+	_data.WriteInt32(1)
 	if _err := sentIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := deliveryIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1059,6 +1069,7 @@ func (p *SmsProxy) SendStoredMultipartText(
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(callingAttributeTag)
+	_data.WriteInt32(1)
 	if _err := messageUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1143,6 +1154,7 @@ func (p *SmsProxy) CreateAppSpecificSmsToken(
 	_data.WriteInterfaceToken(DescriptorISms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1182,6 +1194,7 @@ func (p *SmsProxy) CreateAppSpecificSmsTokenWithPackageInfo(
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(prefixes)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

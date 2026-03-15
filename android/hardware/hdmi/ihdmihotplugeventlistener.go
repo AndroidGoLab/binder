@@ -41,6 +41,7 @@ func (p *HdmiHotplugEventListenerProxy) OnReceived(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdmiHotplugEventListener)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

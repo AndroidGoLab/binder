@@ -938,6 +938,7 @@ func (p *ActivityManagerProxy) HandleApplicationCrash(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityManager)
 	_data.WriteStrongBinder(app.Handle())
+	_data.WriteInt32(1)
 	if _err := crashInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -983,6 +984,7 @@ func (p *ActivityManagerProxy) StartActivity(
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1034,6 +1036,7 @@ func (p *ActivityManagerProxy) StartActivityWithFeature(
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -3099,6 +3102,7 @@ func (p *ActivityManagerProxy) SetServiceForeground(
 	_data.WriteInterfaceToken(DescriptorIActivityManager)
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteInt32(id)
+	_data.WriteInt32(1)
 	if _err := notification.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -3576,6 +3580,7 @@ func (p *ActivityManagerProxy) ProfileControl(
 	_data.WriteString16(process)
 	_data.WriteInt32(userId)
 	_data.WriteBool(start)
+	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -3991,6 +3996,7 @@ func (p *ActivityManagerProxy) HandleApplicationWtf(
 	_data.WriteStrongBinder(app.Handle())
 	_data.WriteString16(tag)
 	_data.WriteBool(system)
+	_data.WriteInt32(1)
 	if _err := crashInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5120,6 +5126,7 @@ func (p *ActivityManagerProxy) StartActivityAsUser(
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5173,6 +5180,7 @@ func (p *ActivityManagerProxy) StartActivityAsUserWithFeature(
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6522,6 +6530,7 @@ func (p *ActivityManagerProxy) ResizeTask(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityManager)
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -76,12 +76,15 @@ func (p *OnDeviceSandboxedInferenceServiceProxy) RequestTokenInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceSandboxedInferenceService)
 	_data.WriteInt32(callerUid)
+	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := cancellationSignal.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -109,16 +112,20 @@ func (p *OnDeviceSandboxedInferenceServiceProxy) ProcessRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceSandboxedInferenceService)
 	_data.WriteInt32(callerUid)
+	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(requestType)
+	_data.WriteInt32(1)
 	if _err := cancellationSignal.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := processingSignal.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -146,16 +153,20 @@ func (p *OnDeviceSandboxedInferenceServiceProxy) ProcessRequestStreaming(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceSandboxedInferenceService)
 	_data.WriteInt32(callerUid)
+	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(requestType)
+	_data.WriteInt32(1)
 	if _err := cancellationSignal.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := processingSignal.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -177,6 +188,7 @@ func (p *OnDeviceSandboxedInferenceServiceProxy) UpdateProcessingState(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceSandboxedInferenceService)
+	_data.WriteInt32(1)
 	if _err := processingState.MarshalParcel(_data); _err != nil {
 		return _err
 	}

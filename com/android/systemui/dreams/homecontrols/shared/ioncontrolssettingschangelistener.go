@@ -43,6 +43,7 @@ func (p *OnControlsSettingsChangeListenerProxy) OnControlsSettingsChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnControlsSettingsChangeListener)
+	_data.WriteInt32(1)
 	if _err := panelComponent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

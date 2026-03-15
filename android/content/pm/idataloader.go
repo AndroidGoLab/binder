@@ -53,9 +53,11 @@ func (p *DataLoaderProxy) Create(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataLoader)
 	_data.WriteInt32(id)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := control.MarshalParcel(_data); _err != nil {
 		return _err
 	}

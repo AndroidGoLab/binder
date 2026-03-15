@@ -69,6 +69,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceTransitionCb(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofenceCallback)
 	_data.WriteInt32(geofenceId)
+	_data.WriteInt32(1)
 	if _err := location.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -101,6 +102,7 @@ func (p *GnssGeofenceCallbackProxy) GnssGeofenceStatusCb(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssGeofenceCallback)
 	_data.WriteInt32(availability)
+	_data.WriteInt32(1)
 	if _err := lastLocation.MarshalParcel(_data); _err != nil {
 		return _err
 	}

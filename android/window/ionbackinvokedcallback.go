@@ -51,6 +51,7 @@ func (p *OnBackInvokedCallbackProxy) OnBackStarted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnBackInvokedCallback)
+	_data.WriteInt32(1)
 	if _err := backMotionEvent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -70,6 +71,7 @@ func (p *OnBackInvokedCallbackProxy) OnBackProgressed(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnBackInvokedCallback)
+	_data.WriteInt32(1)
 	if _err := backMotionEvent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

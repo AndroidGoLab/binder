@@ -86,13 +86,16 @@ func (p *PrintDocumentAdapterProxy) Layout(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintDocumentAdapter)
+	_data.WriteInt32(1)
 	if _err := oldAttributes.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := newAttributes.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := metadata.MarshalParcel(_data); _err != nil {
 		return _err
 	}

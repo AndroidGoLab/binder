@@ -136,6 +136,7 @@ func (p *AdvancedExtenderImplProxy) GetEstimatedCaptureLatencyRange(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
 	_data.WriteString16(cameraId)
+	_data.WriteInt32(1)
 	if _err := outputSize.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -249,6 +250,7 @@ func (p *AdvancedExtenderImplProxy) GetSupportedPostviewResolutions(
 	var _result []SizeList
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAdvancedExtenderImpl)
+	_data.WriteInt32(1)
 	if _err := captureSize.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

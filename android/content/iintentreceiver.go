@@ -47,6 +47,7 @@ func (p *IntentReceiverProxy) PerformReceive(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIntentReceiver)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

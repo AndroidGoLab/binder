@@ -91,6 +91,7 @@ func (p *RadioModemResponseProxy) EnableModemResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -111,6 +112,7 @@ func (p *RadioModemResponseProxy) GetBasebandVersionResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -135,6 +137,7 @@ func (p *RadioModemResponseProxy) GetDeviceIdentityResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -159,6 +162,7 @@ func (p *RadioModemResponseProxy) GetHardwareConfigResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -189,9 +193,11 @@ func (p *RadioModemResponseProxy) GetModemActivityInfoResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := activityInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -212,6 +218,7 @@ func (p *RadioModemResponseProxy) GetModemStackStatusResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -233,9 +240,11 @@ func (p *RadioModemResponseProxy) GetRadioCapabilityResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := rc.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -256,6 +265,7 @@ func (p *RadioModemResponseProxy) NvReadItemResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -276,6 +286,7 @@ func (p *RadioModemResponseProxy) NvResetConfigResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -295,6 +306,7 @@ func (p *RadioModemResponseProxy) NvWriteCdmaPrlResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -314,6 +326,7 @@ func (p *RadioModemResponseProxy) NvWriteItemResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -333,6 +346,7 @@ func (p *RadioModemResponseProxy) RequestShutdownResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -352,6 +366,7 @@ func (p *RadioModemResponseProxy) SendDeviceStateResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -372,9 +387,11 @@ func (p *RadioModemResponseProxy) SetRadioCapabilityResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := rc.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -394,6 +411,7 @@ func (p *RadioModemResponseProxy) SetRadioPowerResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -414,6 +432,7 @@ func (p *RadioModemResponseProxy) GetImeiResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemResponse)
+	_data.WriteInt32(1)
 	if _err := responseInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

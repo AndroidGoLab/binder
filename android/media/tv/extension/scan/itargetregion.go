@@ -85,6 +85,7 @@ func (p *TargetRegionProxy) SetTargetRegion(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITargetRegion)
+	_data.WriteInt32(1)
 	if _err := targetRegionSettings.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

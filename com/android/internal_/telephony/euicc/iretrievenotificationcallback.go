@@ -44,6 +44,7 @@ func (p *RetrieveNotificationCallbackProxy) OnComplete(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRetrieveNotificationCallback)
 	_data.WriteInt32(resultCode)
+	_data.WriteInt32(1)
 	if _err := notification.MarshalParcel(_data); _err != nil {
 		return _err
 	}

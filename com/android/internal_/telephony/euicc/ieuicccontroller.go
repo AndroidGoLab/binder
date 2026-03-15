@@ -92,9 +92,11 @@ func (p *EuiccControllerProxy) ContinueOperation(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
+	_data.WriteInt32(1)
 	if _err := resolutionIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := resolutionExtras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -118,10 +120,12 @@ func (p *EuiccControllerProxy) GetDownloadableSubscriptionMetadata(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
+	_data.WriteInt32(1)
 	if _err := subscription.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(callingPackage)
+	_data.WriteInt32(1)
 	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -145,6 +149,7 @@ func (p *EuiccControllerProxy) GetDefaultDownloadableSubscriptionList(
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
 	_data.WriteString16(callingPackage)
+	_data.WriteInt32(1)
 	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -234,14 +239,17 @@ func (p *EuiccControllerProxy) DownloadSubscription(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
+	_data.WriteInt32(1)
 	if _err := subscription.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteBool(switchAfterDownload)
 	_data.WriteString16(callingPackage)
+	_data.WriteInt32(1)
 	if _err := resolvedBundle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -297,6 +305,7 @@ func (p *EuiccControllerProxy) DeleteSubscription(
 	_data.WriteInt32(cardId)
 	_data.WriteInt32(subscriptionId)
 	_data.WriteString16(callingPackage)
+	_data.WriteInt32(1)
 	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -322,6 +331,7 @@ func (p *EuiccControllerProxy) SwitchToSubscription(
 	_data.WriteInt32(cardId)
 	_data.WriteInt32(subscriptionId)
 	_data.WriteString16(callingPackage)
+	_data.WriteInt32(1)
 	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -349,6 +359,7 @@ func (p *EuiccControllerProxy) SwitchToSubscriptionWithPort(
 	_data.WriteInt32(subscriptionId)
 	_data.WriteInt32(portIndex)
 	_data.WriteString16(callingPackage)
+	_data.WriteInt32(1)
 	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -376,6 +387,7 @@ func (p *EuiccControllerProxy) UpdateSubscriptionNickname(
 	_data.WriteInt32(subscriptionId)
 	_data.WriteString16(nickname)
 	_data.WriteString16(callingPackage)
+	_data.WriteInt32(1)
 	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -397,6 +409,7 @@ func (p *EuiccControllerProxy) EraseSubscriptions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
+	_data.WriteInt32(1)
 	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -420,6 +433,7 @@ func (p *EuiccControllerProxy) EraseSubscriptionsWithOptions(
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
 	_data.WriteInt32(options)
+	_data.WriteInt32(1)
 	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -441,6 +455,7 @@ func (p *EuiccControllerProxy) RetainSubscriptionsForFactoryReset(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEuiccController)
 	_data.WriteInt32(cardId)
+	_data.WriteInt32(1)
 	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

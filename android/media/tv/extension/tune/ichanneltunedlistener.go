@@ -44,6 +44,7 @@ func (p *ChannelTunedListenerProxy) OnChannelTuned(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIChannelTunedListener)
 	_data.WriteString16(sessionToken)
+	_data.WriteInt32(1)
 	if _err := channelTunedInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

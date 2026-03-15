@@ -43,6 +43,7 @@ func (p *ConvertCredentialCallbackProxy) OnSuccess(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConvertCredentialCallback)
+	_data.WriteInt32(1)
 	if _err := convertCredentialResponse.MarshalParcel(_data); _err != nil {
 		return _err
 	}

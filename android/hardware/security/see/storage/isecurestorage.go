@@ -51,6 +51,7 @@ func (p *SecureStorageProxy) StartSession(
 	var _result IStorageSession
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISecureStorage)
+	_data.WriteInt32(1)
 	if _err := filesystem.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

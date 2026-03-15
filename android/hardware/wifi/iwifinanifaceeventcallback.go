@@ -117,6 +117,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventClusterEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -136,6 +137,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventDataPathConfirm(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -155,6 +157,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventDataPathRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -174,6 +177,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventDataPathScheduleUpdate(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -210,6 +214,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventDisabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -229,6 +234,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventFollowupReceived(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -248,6 +254,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventMatch(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -288,6 +295,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventPublishTerminated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WritePaddedByte(sessionId)
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -309,6 +317,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventSubscribeTerminated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WritePaddedByte(sessionId)
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -330,6 +339,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventTransmitFollowup(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -349,6 +359,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventSuspensionModeChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -371,9 +382,11 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyCapabilitiesResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := capabilities.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -395,6 +408,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyConfigResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -416,6 +430,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyCreateDataInterfaceResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -437,6 +452,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyDeleteDataInterfaceResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -458,6 +474,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyDisableResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -479,6 +496,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyEnableResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -501,6 +519,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyInitiateDataPathResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -523,6 +542,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyRespondToDataPathIndicationRespon
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -545,6 +565,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyStartPublishResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -568,6 +589,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyStartSubscribeResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -590,6 +612,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyStopPublishResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -611,6 +634,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyStopSubscribeResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -632,6 +656,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyTerminateDataPathResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -653,6 +678,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifySuspendResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -674,6 +700,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyResumeResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -695,6 +722,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyTransmitFollowupResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -714,6 +742,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventPairingRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -733,6 +762,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventPairingConfirm(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -755,6 +785,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyInitiatePairingResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -777,6 +808,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyRespondToPairingIndicationRespons
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -796,6 +828,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventBootstrappingRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -815,6 +848,7 @@ func (p *WifiNanIfaceEventCallbackProxy) EventBootstrappingConfirm(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -837,6 +871,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyInitiateBootstrappingResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -859,6 +894,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyRespondToBootstrappingIndicationR
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -880,6 +916,7 @@ func (p *WifiNanIfaceEventCallbackProxy) NotifyTerminatePairingResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIfaceEventCallback)
 	_data.WriteInt32(int32(id))
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}

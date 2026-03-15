@@ -50,6 +50,7 @@ func (p *RadioImsIndicationProxy) OnConnectionSetupFailure(
 	_data.WriteInterfaceToken(DescriptorIRadioImsIndication)
 	_data.WriteInt32(int32(type_))
 	_data.WriteInt32(token)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

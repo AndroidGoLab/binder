@@ -1589,6 +1589,7 @@ func (p *BatteryStatsProxy) NotePhoneSignalStrength(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
 	if _err := signalStrength.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2783,6 +2784,7 @@ func (p *BatteryStatsProxy) NoteWifiControllerActivity(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

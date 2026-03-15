@@ -94,6 +94,7 @@ func (p *OptionsServiceProxy) AddListener(
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
 	_data.WriteInt32(optionsServiceHandle)
 	_data.WriteStrongBinder(optionsListener.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := optionsServiceListenerHdl.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -133,6 +134,7 @@ func (p *OptionsServiceProxy) RemoveListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
 	_data.WriteInt32(optionsServiceHandle)
+	_data.WriteInt32(1)
 	if _err := optionsServiceListenerHdl.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -170,6 +172,7 @@ func (p *OptionsServiceProxy) SetMyInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
 	_data.WriteInt32(optionsServiceHandle)
+	_data.WriteInt32(1)
 	if _err := capInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -327,6 +330,7 @@ func (p *OptionsServiceProxy) ResponseIncomingOptions(
 	_data.WriteInt32(tId)
 	_data.WriteInt32(sipResponseCode)
 	_data.WriteString16(reasonPhrase)
+	_data.WriteInt32(1)
 	if _err := capInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

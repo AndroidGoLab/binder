@@ -64,6 +64,7 @@ func (p *LocationProviderProxy) SetRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationProvider)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

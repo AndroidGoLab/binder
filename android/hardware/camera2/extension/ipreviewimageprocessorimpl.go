@@ -74,6 +74,7 @@ func (p *PreviewImageProcessorImplProxy) OnResolutionUpdate(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPreviewImageProcessorImpl)
+	_data.WriteInt32(1)
 	if _err := size.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -131,6 +132,7 @@ func (p *PreviewImageProcessorImplProxy) Process(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPreviewImageProcessorImpl)
+	_data.WriteInt32(1)
 	if _err := image.MarshalParcel(_data); _err != nil {
 		return _err
 	}

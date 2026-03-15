@@ -80,6 +80,7 @@ func (p *ImsServiceProxy) Open(
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(phoneId)
 	_data.WriteInt32(serviceClass)
+	_data.WriteInt32(1)
 	if _err := incomingCallIntent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -301,6 +302,7 @@ func (p *ImsServiceProxy) CreateCallSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -521,6 +523,7 @@ func (p *ImsServiceProxy) SetUiTTYMode(
 	_data.WriteInterfaceToken(DescriptorIImsService)
 	_data.WriteInt32(serviceId)
 	_data.WriteInt32(uiTtyMode)
+	_data.WriteInt32(1)
 	if _err := onComplete.MarshalParcel(_data); _err != nil {
 		return _err
 	}

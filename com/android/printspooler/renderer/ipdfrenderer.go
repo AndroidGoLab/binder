@@ -84,6 +84,7 @@ func (p *PdfRendererProxy) RenderPage(
 	_data.WriteInt32(pageIndex)
 	_data.WriteInt32(bitmapWidth)
 	_data.WriteInt32(bitmapHeight)
+	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
 		return _err
 	}

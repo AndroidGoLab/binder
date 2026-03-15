@@ -281,6 +281,7 @@ func (p *RemoteMemoryIntArrayProxy) AccessLastElementInRemoteProcess(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteMemoryIntArray)
+	_data.WriteInt32(1)
 	if _err := array.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -43,6 +43,7 @@ func (p *ExecuteAppFunctionCallbackProxy) OnSuccess(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIExecuteAppFunctionCallback)
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -62,6 +63,7 @@ func (p *ExecuteAppFunctionCallbackProxy) OnError(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIExecuteAppFunctionCallback)
+	_data.WriteInt32(1)
 	if _err := exception.MarshalParcel(_data); _err != nil {
 		return _err
 	}

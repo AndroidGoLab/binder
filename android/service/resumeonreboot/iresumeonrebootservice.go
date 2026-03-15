@@ -55,6 +55,7 @@ func (p *ResumeOnRebootServiceProxy) WrapSecret(
 		}
 	}
 	_data.WriteInt64(lifeTimeInMillis)
+	_data.WriteInt32(1)
 	if _err := resultCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -83,6 +84,7 @@ func (p *ResumeOnRebootServiceProxy) Unwrap(
 			_data.WritePaddedByte(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := resultCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

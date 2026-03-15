@@ -44,6 +44,7 @@ func (p *CallForwardingInfoCallbackProxy) OnCallForwardingInfoAvailable(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallForwardingInfoCallback)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

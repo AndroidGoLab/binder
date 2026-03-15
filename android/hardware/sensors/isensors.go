@@ -239,9 +239,11 @@ func (p *SensorsProxy) Initialize(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISensors)
+	_data.WriteInt32(1)
 	if _err := eventQueueDescriptor.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := wakeLockDescriptor.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -271,6 +273,7 @@ func (p *SensorsProxy) InjectSensorData(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISensors)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -300,6 +303,7 @@ func (p *SensorsProxy) RegisterDirectChannel(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISensors)
+	_data.WriteInt32(1)
 	if _err := mem.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

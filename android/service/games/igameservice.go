@@ -77,6 +77,7 @@ func (p *GameServiceProxy) GameStarted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGameService)
+	_data.WriteInt32(1)
 	if _err := gameStartedEvent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

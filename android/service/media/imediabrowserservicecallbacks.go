@@ -53,9 +53,11 @@ func (p *MediaBrowserServiceCallbacksProxy) OnConnect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserServiceCallbacks)
 	_data.WriteString16(root)
+	_data.WriteInt32(1)
 	if _err := session.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -93,9 +95,11 @@ func (p *MediaBrowserServiceCallbacksProxy) OnLoadChildren(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaBrowserServiceCallbacks)
 	_data.WriteString16(mediaId)
+	_data.WriteInt32(1)
 	if _err := list.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}

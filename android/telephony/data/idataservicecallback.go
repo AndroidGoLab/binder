@@ -61,6 +61,7 @@ func (p *DataServiceCallbackProxy) OnSetupDataCallComplete(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
 	_data.WriteInt32(result)
+	_data.WriteInt32(1)
 	if _err := dataCallResponse.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -236,6 +237,7 @@ func (p *DataServiceCallbackProxy) OnDataProfileUnthrottled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDataServiceCallback)
+	_data.WriteInt32(1)
 	if _err := dp.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -77,6 +77,7 @@ func (p *RadioNetworkIndicationProxy) BarringInfoChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := cellIdentity.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -155,6 +156,7 @@ func (p *RadioNetworkIndicationProxy) CurrentLinkCapacityEstimate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := lce.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -204,6 +206,7 @@ func (p *RadioNetworkIndicationProxy) CurrentSignalStrength(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := signalStrength.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -242,6 +245,7 @@ func (p *RadioNetworkIndicationProxy) NetworkScanResult(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -307,6 +311,7 @@ func (p *RadioNetworkIndicationProxy) RegistrationFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := cellIdentity.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -351,6 +356,7 @@ func (p *RadioNetworkIndicationProxy) SuppSvcNotify(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := suppSvc.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -391,6 +397,7 @@ func (p *RadioNetworkIndicationProxy) EmergencyNetworkScanResult(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -412,6 +419,7 @@ func (p *RadioNetworkIndicationProxy) CellularIdentifierDisclosed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := disclosure.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -433,6 +441,7 @@ func (p *RadioNetworkIndicationProxy) SecurityAlgorithmsUpdated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := securityAlgorithmUpdate.MarshalParcel(_data); _err != nil {
 		return _err
 	}

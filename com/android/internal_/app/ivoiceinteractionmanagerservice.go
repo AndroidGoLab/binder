@@ -548,6 +548,7 @@ func (p *VoiceInteractionManagerServiceProxy) UpdateKeyphraseSoundModel(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
+	_data.WriteInt32(1)
 	if _err := model.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1111,6 +1112,7 @@ func (p *VoiceInteractionManagerServiceProxy) CreateSoundTriggerSessionAsOrigina
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
 	_data.WriteStrongBinder(client.Handle())
+	_data.WriteInt32(1)
 	if _err := moduleProperties.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1501,6 +1503,7 @@ func (p *VoiceInteractionManagerServiceProxy) TriggerHardwareRecognitionEventFor
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionManagerService)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

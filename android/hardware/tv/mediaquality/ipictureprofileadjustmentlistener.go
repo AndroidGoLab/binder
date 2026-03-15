@@ -47,6 +47,7 @@ func (p *PictureProfileAdjustmentListenerProxy) OnPictureProfileAdjusted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPictureProfileAdjustmentListener)
+	_data.WriteInt32(1)
 	if _err := pictureProfile.MarshalParcel(_data); _err != nil {
 		return _err
 	}

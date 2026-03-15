@@ -68,6 +68,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnKeyphraseDetected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
+	_data.WriteInt32(1)
 	if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -103,6 +104,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnGenericSoundTriggerDetected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
+	_data.WriteInt32(1)
 	if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -267,6 +269,7 @@ func (p *HotwordRecognitionStatusCallbackProxy) OnOpenFile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHotwordRecognitionStatusCallback)
 	_data.WriteString16(filename)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}

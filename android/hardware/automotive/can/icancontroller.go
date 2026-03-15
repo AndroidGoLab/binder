@@ -119,6 +119,7 @@ func (p *CanControllerProxy) UpBus(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICanController)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

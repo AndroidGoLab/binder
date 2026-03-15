@@ -81,11 +81,13 @@ func (p *EuiccServiceProxy) DownloadSubscription(
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(portIndex)
+	_data.WriteInt32(1)
 	if _err := subscription.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteBool(switchAfterDownload)
 	_data.WriteBool(forceDeactivateSim)
+	_data.WriteInt32(1)
 	if _err := resolvedBundle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -113,6 +115,7 @@ func (p *EuiccServiceProxy) GetDownloadableSubscriptionMetadata(
 	_data.WriteInterfaceToken(DescriptorIEuiccService)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(portIndex)
+	_data.WriteInt32(1)
 	if _err := subscription.MarshalParcel(_data); _err != nil {
 		return _err
 	}

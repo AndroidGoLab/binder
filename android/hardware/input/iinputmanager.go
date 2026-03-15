@@ -521,6 +521,7 @@ func (p *InputManagerProxy) InjectInputEvent(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
+	_data.WriteInt32(1)
 	if _err := ev.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -557,6 +558,7 @@ func (p *InputManagerProxy) InjectInputEventToTarget(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
+	_data.WriteInt32(1)
 	if _err := ev.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -592,6 +594,7 @@ func (p *InputManagerProxy) VerifyInputEvent(
 	var _result view.VerifiedInputEvent
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
+	_data.WriteInt32(1)
 	if _err := ev.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -659,6 +662,7 @@ func (p *InputManagerProxy) SetTouchCalibrationForInputDevice(
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteString16(inputDeviceDescriptor)
 	_data.WriteInt32(rotation)
+	_data.WriteInt32(1)
 	if _err := calibration.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -759,13 +763,16 @@ func (p *InputManagerProxy) GetKeyboardLayoutForInputDevice(
 	var _result KeyboardLayoutSelectionResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
+	_data.WriteInt32(1)
 	if _err := identifier.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := imeInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := imeSubtype.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -801,13 +808,16 @@ func (p *InputManagerProxy) SetKeyboardLayoutForInputDevice(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
+	_data.WriteInt32(1)
 	if _err := identifier.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := imeInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := imeSubtype.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -841,13 +851,16 @@ func (p *InputManagerProxy) GetKeyboardLayoutListForInputDevice(
 	var _result []KeyboardLayout
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
+	_data.WriteInt32(1)
 	if _err := identifier.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := imeInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := imeSubtype.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1097,6 +1110,7 @@ func (p *InputManagerProxy) Vibrate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
+	_data.WriteInt32(1)
 	if _err := effect.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1129,6 +1143,7 @@ func (p *InputManagerProxy) VibrateCombined(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(deviceId)
+	_data.WriteInt32(1)
 	if _err := vibration.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1359,6 +1374,7 @@ func (p *InputManagerProxy) SetPointerIcon(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
+	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2391,6 +2407,7 @@ func (p *InputManagerProxy) AddCustomInputGesture(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2426,6 +2443,7 @@ func (p *InputManagerProxy) RemoveCustomInputGesture(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputManager)
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

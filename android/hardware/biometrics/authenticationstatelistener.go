@@ -54,6 +54,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationAcquired(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
+	_data.WriteInt32(1)
 	if _err := authInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -73,6 +74,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationError(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
+	_data.WriteInt32(1)
 	if _err := authInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -92,6 +94,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationFailed(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
+	_data.WriteInt32(1)
 	if _err := authInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -111,6 +114,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationHelp(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
+	_data.WriteInt32(1)
 	if _err := authInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -130,6 +134,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationStarted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
+	_data.WriteInt32(1)
 	if _err := authInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -149,6 +154,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationStopped(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
+	_data.WriteInt32(1)
 	if _err := authInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -168,6 +174,7 @@ func (p *AuthenticationStateListenerProxy) OnAuthenticationSucceeded(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorAuthenticationStateListener)
+	_data.WriteInt32(1)
 	if _err := authInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

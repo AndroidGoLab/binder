@@ -44,6 +44,7 @@ func (p *EventDownloadProxy) CreateSession(
 	var _result binder.IBinder
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEventDownload)
+	_data.WriteInt32(1)
 	if _err := eventDownloadParams.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

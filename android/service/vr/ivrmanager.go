@@ -250,6 +250,7 @@ func (p *VrManagerProxy) SetVr2dDisplayProperties(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVrManager)
+	_data.WriteInt32(1)
 	if _err := vr2dDisplayProperties.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -65,6 +65,7 @@ func (p *TrustAgentServiceCallbackProxy) GrantTrust(
 	_data.WriteInterfaceToken(DescriptorITrustAgentServiceCallback)
 	_data.WriteInt64(durationMs)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := resultCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

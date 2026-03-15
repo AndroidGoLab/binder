@@ -83,6 +83,7 @@ func (p *SuggestionServiceProxy) DismissSuggestion(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISuggestionService)
+	_data.WriteInt32(1)
 	if _err := suggestion.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -111,6 +112,7 @@ func (p *SuggestionServiceProxy) LaunchSuggestion(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISuggestionService)
+	_data.WriteInt32(1)
 	if _err := suggestion.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -201,6 +201,7 @@ func (p *FeatureFlagsProxy) OverrideFlag(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFeatureFlags)
+	_data.WriteInt32(1)
 	if _err := flag.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -229,6 +230,7 @@ func (p *FeatureFlagsProxy) ResetFlag(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFeatureFlags)
+	_data.WriteInt32(1)
 	if _err := flag.MarshalParcel(_data); _err != nil {
 		return _err
 	}

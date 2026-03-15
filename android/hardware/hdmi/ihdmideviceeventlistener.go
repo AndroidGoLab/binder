@@ -42,6 +42,7 @@ func (p *HdmiDeviceEventListenerProxy) OnStatusChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdmiDeviceEventListener)
+	_data.WriteInt32(1)
 	if _err := deviceInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

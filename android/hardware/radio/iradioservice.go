@@ -88,6 +88,7 @@ func (p *RadioServiceProxy) OpenTuner(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioService)
 	_data.WriteInt32(moduleId)
+	_data.WriteInt32(1)
 	if _err := bandConfig.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

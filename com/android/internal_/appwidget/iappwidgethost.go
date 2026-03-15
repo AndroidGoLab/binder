@@ -72,6 +72,7 @@ func (p *AppWidgetHostProxy) UpdateAppWidget(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetHost)
 	_data.WriteInt32(appWidgetId)
+	_data.WriteInt32(1)
 	if _err := views.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -93,6 +94,7 @@ func (p *AppWidgetHostProxy) ProviderChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppWidgetHost)
 	_data.WriteInt32(appWidgetId)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

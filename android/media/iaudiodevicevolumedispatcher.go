@@ -44,9 +44,11 @@ func (p *AudioDeviceVolumeDispatcherProxy) DispatchDeviceVolumeChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioDeviceVolumeDispatcher)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := vol.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -69,9 +71,11 @@ func (p *AudioDeviceVolumeDispatcherProxy) DispatchDeviceVolumeAdjusted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioDeviceVolumeDispatcher)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := vol.MarshalParcel(_data); _err != nil {
 		return _err
 	}

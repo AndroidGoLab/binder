@@ -191,6 +191,7 @@ func (p *AuthServiceProxy) Authenticate(
 	_data.WriteInt32(userId)
 	_data.WriteStrongBinder(receiver.AsBinder().Handle())
 	_data.WriteString16(opPackageName)
+	_data.WriteInt32(1)
 	if _err := promptInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

@@ -78,6 +78,7 @@ func (p *ImsMMTelFeatureProxy) StartSession(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
+	_data.WriteInt32(1)
 	if _err := incomingCallIntent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -317,6 +318,7 @@ func (p *ImsMMTelFeatureProxy) CreateCallSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -524,6 +526,7 @@ func (p *ImsMMTelFeatureProxy) SetUiTTYMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMMTelFeature)
 	_data.WriteInt32(uiTtyMode)
+	_data.WriteInt32(1)
 	if _err := onComplete.MarshalParcel(_data); _err != nil {
 		return _err
 	}

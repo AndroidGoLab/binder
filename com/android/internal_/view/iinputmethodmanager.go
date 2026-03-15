@@ -405,6 +405,7 @@ func (p *InputMethodManagerProxy) ShowSoftInput(
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 	_data.WriteStrongBinder(windowToken.Handle())
+	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -457,6 +458,7 @@ func (p *InputMethodManagerProxy) HideSoftInput(
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 	_data.WriteStrongBinder(windowToken.Handle())
+	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -564,6 +566,7 @@ func (p *InputMethodManagerProxy) StartInputOrWindowGainedFocus(
 	}
 	_data.WriteInt32(unverifiedTargetSdkVersion)
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := imeDispatcher.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -637,6 +640,7 @@ func (p *InputMethodManagerProxy) StartInputOrWindowGainedFocusAsync(
 	}
 	_data.WriteInt32(unverifiedTargetSdkVersion)
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := imeDispatcher.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1115,6 +1119,7 @@ func (p *InputMethodManagerProxy) StartConnectionlessStylusHandwriting(
 	_data.WriteInterfaceToken(DescriptorIInputMethodManager)
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := cursorAnchorInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

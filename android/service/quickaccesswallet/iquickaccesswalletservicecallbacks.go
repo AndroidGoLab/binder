@@ -50,6 +50,7 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnGetWalletCardsSuccess(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletServiceCallbacks)
+	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -69,6 +70,7 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnGetWalletCardsFailure(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletServiceCallbacks)
+	_data.WriteInt32(1)
 	if _err := error_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -88,6 +90,7 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnWalletServiceEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletServiceCallbacks)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -107,6 +110,7 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnTargetActivityPendingIntentRe
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletServiceCallbacks)
+	_data.WriteInt32(1)
 	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -126,6 +130,7 @@ func (p *QuickAccessWalletServiceCallbacksProxy) OnGestureTargetActivityPendingI
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletServiceCallbacks)
+	_data.WriteInt32(1)
 	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -44,6 +44,7 @@ func (p *CamPinCapabilityListenerProxy) OnCamPinCapabilityChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamPinCapabilityListener)
 	_data.WriteInt32(slotId)
+	_data.WriteInt32(1)
 	if _err := bundle.MarshalParcel(_data); _err != nil {
 		return _err
 	}

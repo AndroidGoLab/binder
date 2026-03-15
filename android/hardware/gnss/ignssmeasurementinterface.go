@@ -102,6 +102,7 @@ func (p *GnssMeasurementInterfaceProxy) SetCallbackWithOptions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssMeasurementInterface)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}

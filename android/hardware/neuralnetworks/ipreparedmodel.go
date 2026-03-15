@@ -60,6 +60,7 @@ func (p *PreparedModelProxy) ExecuteSynchronously(
 	var _result ExecutionResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPreparedModel)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -100,6 +101,7 @@ func (p *PreparedModelProxy) ExecuteFenced(
 	var _result FencedExecutionResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPreparedModel)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -175,9 +177,11 @@ func (p *PreparedModelProxy) CreateReusableExecution(
 	var _result IExecution
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPreparedModel)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -214,9 +218,11 @@ func (p *PreparedModelProxy) ExecuteSynchronouslyWithConfig(
 	var _result ExecutionResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPreparedModel)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -254,6 +260,7 @@ func (p *PreparedModelProxy) ExecuteFencedWithConfig(
 	var _result FencedExecutionResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPreparedModel)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -265,6 +272,7 @@ func (p *PreparedModelProxy) ExecuteFencedWithConfig(
 			_data.WriteFileDescriptor(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

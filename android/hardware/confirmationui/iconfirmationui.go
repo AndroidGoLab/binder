@@ -87,6 +87,7 @@ func (p *ConfirmationUIProxy) DeliverSecureInputEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfirmationUI)
+	_data.WriteInt32(1)
 	if _err := secureInputToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}

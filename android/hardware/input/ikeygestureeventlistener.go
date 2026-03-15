@@ -41,6 +41,7 @@ func (p *KeyGestureEventListenerProxy) OnKeyGestureEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyGestureEventListener)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

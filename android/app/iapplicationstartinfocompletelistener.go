@@ -41,6 +41,7 @@ func (p *ApplicationStartInfoCompleteListenerProxy) OnApplicationStartInfoComple
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationStartInfoCompleteListener)
+	_data.WriteInt32(1)
 	if _err := applicationStartInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

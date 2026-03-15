@@ -314,6 +314,7 @@ func (p *ImsUtProxy) Transact(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsUt)
+	_data.WriteInt32(1)
 	if _err := ssInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

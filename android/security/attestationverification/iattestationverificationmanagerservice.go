@@ -49,10 +49,12 @@ func (p *AttestationVerificationManagerServiceProxy) VerifyAttestation(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAttestationVerificationManagerService)
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(localBindingType)
+	_data.WriteInt32(1)
 	if _err := requirements.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -64,6 +66,7 @@ func (p *AttestationVerificationManagerServiceProxy) VerifyAttestation(
 			_data.WritePaddedByte(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := resultCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -85,9 +88,11 @@ func (p *AttestationVerificationManagerServiceProxy) VerifyToken(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAttestationVerificationManagerService)
+	_data.WriteInt32(1)
 	if _err := token.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := resultCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

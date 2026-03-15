@@ -1012,6 +1012,7 @@ func (p *WindowManagerProxy) OverridePendingAppTransitionRemote(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
+	_data.WriteInt32(1)
 	if _err := remoteAnimationAdapter.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -3850,6 +3851,7 @@ func (p *WindowManagerProxy) VerifyDisplayHash(
 	var _result displayhash.VerifiedDisplayHash
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
+	_data.WriteInt32(1)
 	if _err := displayHash.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4509,6 +4511,7 @@ func (p *WindowManagerProxy) ReplaceContentOnDisplay(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
 	if _err := sc.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4601,6 +4604,7 @@ func (p *WindowManagerProxy) RegisterTrustedPresentationListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteStrongBinder(window.Handle())
+	_data.WriteInt32(1)
 	if _err := thresholds.MarshalParcel(_data); _err != nil {
 		return _err
 	}

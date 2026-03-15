@@ -813,6 +813,7 @@ func (p *SurfaceComposerProxy) SetHdrConversionStrategy(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
+	_data.WriteInt32(1)
 	if _err := hdrConversionStrategy.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -962,6 +963,7 @@ func (p *SurfaceComposerProxy) CaptureDisplay(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
+	_data.WriteInt32(1)
 	if _err := args.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -985,6 +987,7 @@ func (p *SurfaceComposerProxy) CaptureDisplayById(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteInt64(displayId)
+	_data.WriteInt32(1)
 	if _err := args.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1006,6 +1009,7 @@ func (p *SurfaceComposerProxy) CaptureLayersSync(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
+	_data.WriteInt32(1)
 	if _err := args.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1035,6 +1039,7 @@ func (p *SurfaceComposerProxy) CaptureLayers(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
+	_data.WriteInt32(1)
 	if _err := args.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1358,6 +1363,7 @@ func (p *SurfaceComposerProxy) AddRegionSamplingListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
+	_data.WriteInt32(1)
 	if _err := samplingArea.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1522,6 +1528,7 @@ func (p *SurfaceComposerProxy) SetDesiredDisplayModeSpecs(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteStrongBinder(displayToken.Handle())
+	_data.WriteInt32(1)
 	if _err := specs.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1613,6 +1620,7 @@ func (p *SurfaceComposerProxy) SetDisplayBrightness(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
 	_data.WriteStrongBinder(displayToken.Handle())
+	_data.WriteInt32(1)
 	if _err := brightness.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1718,9 +1726,11 @@ func (p *SurfaceComposerProxy) SetGlobalShadowSettings(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceComposer)
+	_data.WriteInt32(1)
 	if _err := ambientColor.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := spotColor.MarshalParcel(_data); _err != nil {
 		return _err
 	}

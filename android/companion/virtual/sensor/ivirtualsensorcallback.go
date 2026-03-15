@@ -51,6 +51,7 @@ func (p *VirtualSensorCallbackProxy) OnConfigurationChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualSensorCallback)
+	_data.WriteInt32(1)
 	if _err := sensor.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -75,6 +76,7 @@ func (p *VirtualSensorCallbackProxy) OnDirectChannelCreated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualSensorCallback)
 	_data.WriteInt32(channelHandle)
+	_data.WriteInt32(1)
 	if _err := sharedMemory.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -115,6 +117,7 @@ func (p *VirtualSensorCallbackProxy) OnDirectChannelConfigured(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualSensorCallback)
 	_data.WriteInt32(channelHandle)
+	_data.WriteInt32(1)
 	if _err := sensor.MarshalParcel(_data); _err != nil {
 		return _err
 	}

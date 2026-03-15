@@ -47,6 +47,7 @@ func (p *DrmFactoryProxy) CreateDrmPlugin(
 	var _result IDrmPlugin
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmFactory)
+	_data.WriteInt32(1)
 	if _err := uuid.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -83,6 +84,7 @@ func (p *DrmFactoryProxy) CreateCryptoPlugin(
 	var _result ICryptoPlugin
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDrmFactory)
+	_data.WriteInt32(1)
 	if _err := uuid.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

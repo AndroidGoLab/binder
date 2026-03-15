@@ -46,6 +46,7 @@ func (p *TranslationDirectManagerProxy) OnTranslationRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationDirectManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

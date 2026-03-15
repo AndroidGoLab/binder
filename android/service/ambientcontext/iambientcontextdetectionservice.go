@@ -50,13 +50,16 @@ func (p *AmbientContextDetectionServiceProxy) StartDetection(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAmbientContextDetectionService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := detectionResultCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := statusCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -104,6 +107,7 @@ func (p *AmbientContextDetectionServiceProxy) QueryServiceStatus(
 		}
 	}
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

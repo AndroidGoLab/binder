@@ -53,9 +53,11 @@ func (p *ContentSuggestionsServiceProxy) ProvideContextImage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsService)
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
 	if _err := snapshot.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := imageContextRequestExtras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -76,6 +78,7 @@ func (p *ContentSuggestionsServiceProxy) SuggestContentSelections(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -97,6 +100,7 @@ func (p *ContentSuggestionsServiceProxy) ClassifyContentSelections(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -119,6 +123,7 @@ func (p *ContentSuggestionsServiceProxy) NotifyInteraction(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsService)
 	_data.WriteString16(requestId)
+	_data.WriteInt32(1)
 	if _err := interaction.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -143,6 +143,7 @@ func (p *TimeDetectorServiceProxy) UpdateConfiguration(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
+	_data.WriteInt32(1)
 	if _err := timeConfiguration.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -204,6 +205,7 @@ func (p *TimeDetectorServiceProxy) ConfirmTime(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
+	_data.WriteInt32(1)
 	if _err := time.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -237,6 +239,7 @@ func (p *TimeDetectorServiceProxy) SetManualTime(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
+	_data.WriteInt32(1)
 	if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -269,6 +272,7 @@ func (p *TimeDetectorServiceProxy) SuggestExternalTime(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
+	_data.WriteInt32(1)
 	if _err := timeSuggestion.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -298,6 +302,7 @@ func (p *TimeDetectorServiceProxy) SuggestManualTime(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
+	_data.WriteInt32(1)
 	if _err := timeSuggestion.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -330,6 +335,7 @@ func (p *TimeDetectorServiceProxy) SuggestTelephonyTime(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
+	_data.WriteInt32(1)
 	if _err := timeSuggestion.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -77,6 +77,7 @@ func (p *MidiDeviceListenerProxy) OnDeviceStatusChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiDeviceListener)
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}

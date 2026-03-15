@@ -410,6 +410,7 @@ func (p *ImsConfigProxy) SetRcsClientConfiguration(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsConfig)
+	_data.WriteInt32(1)
 	if _err := rcc.MarshalParcel(_data); _err != nil {
 		return _err
 	}

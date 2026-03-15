@@ -45,6 +45,7 @@ func (p *NetworkServiceCallbackProxy) OnRequestNetworkRegistrationInfoComplete(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkServiceCallback)
 	_data.WriteInt32(result)
+	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
 		return _err
 	}

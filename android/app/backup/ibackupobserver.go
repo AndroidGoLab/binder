@@ -47,6 +47,7 @@ func (p *BackupObserverProxy) OnUpdate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupObserver)
 	_data.WriteString16(currentPackage)
+	_data.WriteInt32(1)
 	if _err := backupProgress.MarshalParcel(_data); _err != nil {
 		return _err
 	}

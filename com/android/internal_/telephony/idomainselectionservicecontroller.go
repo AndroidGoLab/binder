@@ -48,6 +48,7 @@ func (p *DomainSelectionServiceControllerProxy) SelectDomain(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDomainSelectionServiceController)
+	_data.WriteInt32(1)
 	if _err := attr.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -72,6 +73,7 @@ func (p *DomainSelectionServiceControllerProxy) UpdateServiceState(
 	_data.WriteInterfaceToken(DescriptorIDomainSelectionServiceController)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := serviceState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -95,6 +97,7 @@ func (p *DomainSelectionServiceControllerProxy) UpdateBarringInfo(
 	_data.WriteInterfaceToken(DescriptorIDomainSelectionServiceController)
 	_data.WriteInt32(slotId)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -44,6 +44,7 @@ func (p *GetProfileCallbackProxy) OnComplete(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGetProfileCallback)
 	_data.WriteInt32(resultCode)
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}

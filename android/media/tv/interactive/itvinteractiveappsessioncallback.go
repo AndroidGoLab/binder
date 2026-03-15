@@ -145,6 +145,7 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnBroadcastInfoRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -201,6 +202,7 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnBiInteractiveAppCreated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
+	_data.WriteInt32(1)
 	if _err := biIAppUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -238,6 +240,7 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnAdBufferReady(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
+	_data.WriteInt32(1)
 	if _err := buffer.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -259,6 +262,7 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnCommandRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 	_data.WriteString16(cmdType)
+	_data.WriteInt32(1)
 	if _err := parameters.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -280,6 +284,7 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnTimeShiftCommandRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 	_data.WriteString16(cmdType)
+	_data.WriteInt32(1)
 	if _err := parameters.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -299,6 +304,7 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnSetVideoBounds(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
+	_data.WriteInt32(1)
 	if _err := rect.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -455,6 +461,7 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestStartRecording(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 	_data.WriteString16(requestId)
+	_data.WriteInt32(1)
 	if _err := programUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -497,12 +504,15 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestScheduleRecording(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 	_data.WriteString16(requestId)
 	_data.WriteString16(inputId)
+	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := programUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -530,12 +540,14 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnRequestScheduleRecording2(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 	_data.WriteString16(requestId)
 	_data.WriteString16(inputId)
+	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt64(start)
 	_data.WriteInt64(duration)
 	_data.WriteInt32(repeat)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -557,6 +569,7 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnSetTvRecordingInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
 	_data.WriteString16(recordingId)
+	_data.WriteInt32(1)
 	if _err := recordingInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -691,6 +704,7 @@ func (p *TvInteractiveAppSessionCallbackProxy) OnAdRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppSessionCallback)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

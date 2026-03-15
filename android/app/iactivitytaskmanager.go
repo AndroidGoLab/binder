@@ -250,6 +250,7 @@ func (p *ActivityTaskManagerProxy) StartActivity(
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -357,6 +358,7 @@ func (p *ActivityTaskManagerProxy) StartActivityAsUser(
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -491,6 +493,7 @@ func (p *ActivityTaskManagerProxy) StartActivityAndWait(
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -591,6 +594,7 @@ func (p *ActivityTaskManagerProxy) StartVoiceActivity(
 	_data.WriteInt32(callingUid)
 	_data.WriteString16(resolvedType)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -793,6 +797,7 @@ func (p *ActivityTaskManagerProxy) StartActivityAsCaller(
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1222,9 +1227,11 @@ func (p *ActivityTaskManagerProxy) ReportAssistContextExtras(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteStrongBinder(assistToken.Handle())
+	_data.WriteInt32(1)
 	if _err := structure.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := content.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1578,9 +1585,11 @@ func (p *ActivityTaskManagerProxy) AddAppTask(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteStrongBinder(activityToken.Handle())
+	_data.WriteInt32(1)
 	if _err := description.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := thumbnail.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1773,6 +1782,7 @@ func (p *ActivityTaskManagerProxy) ResizeTask(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -3011,6 +3021,7 @@ func (p *ActivityTaskManagerProxy) OnPictureInPictureUiStateChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
+	_data.WriteInt32(1)
 	if _err := pipState.MarshalParcel(_data); _err != nil {
 		return _err
 	}

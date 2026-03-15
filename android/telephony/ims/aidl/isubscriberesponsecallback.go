@@ -67,6 +67,7 @@ func (p *SubscribeResponseCallbackProxy) OnNetworkResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISubscribeResponseCallback)
+	_data.WriteInt32(1)
 	if _err := detail.MarshalParcel(_data); _err != nil {
 		return _err
 	}

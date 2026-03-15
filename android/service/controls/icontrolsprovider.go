@@ -111,6 +111,7 @@ func (p *ControlsProviderProxy) Action(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIControlsProvider)
 	_data.WriteString16(controlId)
+	_data.WriteInt32(1)
 	if _err := action.MarshalParcel(_data); _err != nil {
 		return _err
 	}

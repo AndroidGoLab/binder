@@ -138,6 +138,7 @@ func (p *AccessibilityServiceClientProxy) OnGesture(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
+	_data.WriteInt32(1)
 	if _err := gestureEvent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -193,9 +194,11 @@ func (p *AccessibilityServiceClientProxy) OnMagnificationChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
 	if _err := region.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -215,6 +218,7 @@ func (p *AccessibilityServiceClientProxy) OnMotionEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -438,6 +442,7 @@ func (p *AccessibilityServiceClientProxy) StartInput(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
+	_data.WriteInt32(1)
 	if _err := editorInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

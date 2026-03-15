@@ -1355,6 +1355,7 @@ func (p *TelephonyProxy) HandleUssdRequest(
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteString16(ussdRequest)
+	_data.WriteInt32(1)
 	if _err := wrappedCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2735,6 +2736,7 @@ func (p *TelephonyProxy) EnableVisualVoicemailSmsFilter(
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(callingPackage)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := settings.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2856,6 +2858,7 @@ func (p *TelephonyProxy) SendVisualVoicemailSmsForSubscriber(
 	_data.WriteString16(number)
 	_data.WriteInt32(port)
 	_data.WriteString16(text)
+	_data.WriteInt32(1)
 	if _err := sentIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -3314,6 +3317,7 @@ func (p *TelephonyProxy) IccOpenLogicalChannel(
 	var _result androidTelephony.IccOpenLogicalChannelResponse
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -3346,6 +3350,7 @@ func (p *TelephonyProxy) IccCloseLogicalChannel(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4273,9 +4278,11 @@ func (p *TelephonyProxy) RequestNetworkScan(
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteBool(renounceFineLocationAccess)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := messenger.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4343,6 +4350,7 @@ func (p *TelephonyProxy) SetNetworkSelectionModeManual(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := operatorInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4724,6 +4732,7 @@ func (p *TelephonyProxy) RequestNumberVerification(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := range_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -4885,6 +4894,7 @@ func (p *TelephonyProxy) GetCarrierPackageNamesForIntentAndPhone(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5315,6 +5325,7 @@ func (p *TelephonyProxy) UploadCallComposerPicture(
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(contentType)
 	_data.WriteFileDescriptor(fd)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -5952,6 +5963,7 @@ func (p *TelephonyProxy) GetSubIdForPhoneAccountHandle(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6075,6 +6087,7 @@ func (p *TelephonyProxy) RequestModemActivityInfo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -6133,6 +6146,7 @@ func (p *TelephonyProxy) GetVoicemailRingtoneUri(
 	var _result net.Uri
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := accountHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6167,9 +6181,11 @@ func (p *TelephonyProxy) SetVoicemailRingtoneUri(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(callingPackage)
+	_data.WriteInt32(1)
 	if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -6199,6 +6215,7 @@ func (p *TelephonyProxy) IsVoicemailVibrationEnabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := accountHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6234,6 +6251,7 @@ func (p *TelephonyProxy) SetVoicemailVibrationEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteString16(callingPackage)
+	_data.WriteInt32(1)
 	if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -6477,6 +6495,7 @@ func (p *TelephonyProxy) SetAllowedCarriers(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := carrierRestrictionRules.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6811,6 +6830,7 @@ func (p *TelephonyProxy) SetCallForwarding(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := callForwardingInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -9140,6 +9160,7 @@ func (p *TelephonyProxy) UpdateEmergencyNumberListTestMode(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(action)
+	_data.WriteInt32(1)
 	if _err := num.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -10449,6 +10470,7 @@ func (p *TelephonyProxy) SendThermalMitigationRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := thermalMitigationRequest.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -10489,9 +10511,11 @@ func (p *TelephonyProxy) BootstrapAuthenticationRequest(
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
 	_data.WriteInt32(appType)
+	_data.WriteInt32(1)
 	if _err := nafUrl.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := securityProtocol.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -10652,6 +10676,7 @@ func (p *TelephonyProxy) SetRcsClientConfiguration(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := rcc.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -11524,6 +11549,7 @@ func (p *TelephonyProxy) SetSignalStrengthUpdateRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -11556,6 +11582,7 @@ func (p *TelephonyProxy) ClearSignalStrengthUpdateRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -11642,6 +11669,7 @@ func (p *TelephonyProxy) GetSlicingConfig(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -12395,6 +12423,7 @@ func (p *TelephonyProxy) RequestIsSatelliteEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := receiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -12423,6 +12452,7 @@ func (p *TelephonyProxy) RequestIsDemoModeEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := receiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -12451,6 +12481,7 @@ func (p *TelephonyProxy) RequestIsEmergencyModeEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := receiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -12479,6 +12510,7 @@ func (p *TelephonyProxy) RequestIsSatelliteSupported(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := receiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -12507,6 +12539,7 @@ func (p *TelephonyProxy) RequestSatelliteCapabilities(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := receiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -12715,6 +12748,7 @@ func (p *TelephonyProxy) RequestIsSatelliteProvisioned(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := receiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -13001,6 +13035,7 @@ func (p *TelephonyProxy) RequestIsCommunicationAllowedForCurrentLocation(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := receiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -13029,6 +13064,7 @@ func (p *TelephonyProxy) RequestSatelliteAccessConfigurationForCurrentLocation(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := receiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -13057,6 +13093,7 @@ func (p *TelephonyProxy) RequestTimeForNextSatelliteVisibility(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := receiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -13085,6 +13122,7 @@ func (p *TelephonyProxy) RequestSelectedNbIotSatelliteSubscriptionId(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := receiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -13735,6 +13773,7 @@ func (p *TelephonyProxy) RequestNtnSignalStrength(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := receiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -13900,6 +13939,7 @@ func (p *TelephonyProxy) SetDomainSelectionServiceOverride(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -14323,6 +14363,7 @@ func (p *TelephonyProxy) RequestSatelliteSessionStats(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := receiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -14351,6 +14392,7 @@ func (p *TelephonyProxy) RequestSatelliteSubscriberProvisionStatus(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -14379,6 +14421,7 @@ func (p *TelephonyProxy) RequestSatelliteDisplayName(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := receiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -14413,6 +14456,7 @@ func (p *TelephonyProxy) ProvisionSatellite(
 	} else {
 		_data.WriteInt32(int32(len(list)))
 	}
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -14472,6 +14516,7 @@ func (p *TelephonyProxy) SetTestEuiccUiComponent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -14567,6 +14612,7 @@ func (p *TelephonyProxy) DeprovisionSatellite(
 	} else {
 		_data.WriteInt32(int32(len(list)))
 	}
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -14622,6 +14668,7 @@ func (p *TelephonyProxy) GetCarrierIdFromIdentifier(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteInt32(1)
 	if _err := carrierIdentifier.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

@@ -60,6 +60,7 @@ func (p *AssistDataReceiverProxy) OnHandleAssistScreenshot(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAssistDataReceiver)
+	_data.WriteInt32(1)
 	if _err := screenshot.MarshalParcel(_data); _err != nil {
 		return _err
 	}

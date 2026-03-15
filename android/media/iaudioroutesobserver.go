@@ -41,6 +41,7 @@ func (p *AudioRoutesObserverProxy) DispatchAudioRoutesChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioRoutesObserver)
+	_data.WriteInt32(1)
 	if _err := newRoutes.MarshalParcel(_data); _err != nil {
 		return _err
 	}

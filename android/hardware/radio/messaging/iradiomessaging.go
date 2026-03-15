@@ -108,6 +108,7 @@ func (p *RadioMessagingProxy) AcknowledgeLastIncomingCdmaSms(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessaging)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := smsAck.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -273,6 +274,7 @@ func (p *RadioMessagingProxy) SendCdmaSms(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessaging)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := sms.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -294,6 +296,7 @@ func (p *RadioMessagingProxy) SendCdmaSmsExpectMore(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessaging)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := sms.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -315,6 +318,7 @@ func (p *RadioMessagingProxy) SendImsSms(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessaging)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -336,6 +340,7 @@ func (p *RadioMessagingProxy) SendSms(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessaging)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -357,6 +362,7 @@ func (p *RadioMessagingProxy) SendSmsExpectMore(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessaging)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -510,6 +516,7 @@ func (p *RadioMessagingProxy) WriteSmsToRuim(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessaging)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := cdmaSms.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -531,6 +538,7 @@ func (p *RadioMessagingProxy) WriteSmsToSim(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessaging)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := smsWriteArgs.MarshalParcel(_data); _err != nil {
 		return _err
 	}

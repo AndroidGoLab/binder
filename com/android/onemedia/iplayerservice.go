@@ -136,6 +136,7 @@ func (p *PlayerServiceProxy) SendRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlayerService)
 	_data.WriteString16(action)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -165,6 +166,7 @@ func (p *PlayerServiceProxy) SetIcon(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlayerService)
+	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _err
 	}

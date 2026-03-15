@@ -49,6 +49,7 @@ func (p *ServiceListImportSessionProxy) ImportServiceList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceListImportSession)
 	_data.WriteFileDescriptor(pfd)
+	_data.WriteInt32(1)
 	if _err := importParams.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

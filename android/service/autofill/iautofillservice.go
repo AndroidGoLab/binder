@@ -71,6 +71,7 @@ func (p *AutoFillServiceProxy) OnFillRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -93,6 +94,7 @@ func (p *AutoFillServiceProxy) OnFillCredentialRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -115,6 +117,7 @@ func (p *AutoFillServiceProxy) OnSaveRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -152,6 +155,7 @@ func (p *AutoFillServiceProxy) OnConvertCredentialRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
+	_data.WriteInt32(1)
 	if _err := convertCredentialRequest.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -172,6 +176,7 @@ func (p *AutoFillServiceProxy) OnSessionDestroyed(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
+	_data.WriteInt32(1)
 	if _err := history.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -280,6 +280,7 @@ func (p *BackupAgentProxy) GetLoggerResults(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
+	_data.WriteInt32(1)
 	if _err := resultsFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -299,6 +300,7 @@ func (p *BackupAgentProxy) GetOperationType(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
+	_data.WriteInt32(1)
 	if _err := operationTypeFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}

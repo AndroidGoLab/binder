@@ -43,6 +43,7 @@ func (p *MeasurementCorrectionsInterfaceProxy) SetCorrections(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMeasurementCorrectionsInterface)
+	_data.WriteInt32(1)
 	if _err := corrections.MarshalParcel(_data); _err != nil {
 		return _err
 	}

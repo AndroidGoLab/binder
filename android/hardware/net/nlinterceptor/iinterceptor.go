@@ -81,6 +81,7 @@ func (p *InterceptorProxy) CloseSocket(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInterceptor)
+	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -110,6 +111,7 @@ func (p *InterceptorProxy) SubscribeGroup(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInterceptor)
+	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -140,6 +142,7 @@ func (p *InterceptorProxy) UnsubscribeGroup(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInterceptor)
+	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
 		return _err
 	}

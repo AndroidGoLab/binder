@@ -590,6 +590,7 @@ func (p *AudioServiceProxy) TrackPlayer(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := pic.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -624,6 +625,7 @@ func (p *AudioServiceProxy) PlayerAttributes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(piid)
+	_data.WriteInt32(1)
 	if _err := attr.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -952,9 +954,11 @@ func (p *AudioServiceProxy) SetDeviceVolume(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := vi.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := ada.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -987,9 +991,11 @@ func (p *AudioServiceProxy) GetDeviceVolume(
 	var _result VolumeInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := vi.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := ada.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1775,6 +1781,7 @@ func (p *AudioServiceProxy) SetInputGainIndex(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := ada.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1805,6 +1812,7 @@ func (p *AudioServiceProxy) GetInputGainIndex(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := ada.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1896,6 +1904,7 @@ func (p *AudioServiceProxy) IsInputGainFixed(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := ada.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2770,6 +2779,7 @@ func (p *AudioServiceProxy) RequestAudioFocus(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := aa.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2816,6 +2826,7 @@ func (p *AudioServiceProxy) AbandonAudioFocus(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(fd.AsBinder().Handle())
 	_data.WriteString16(clientId)
+	_data.WriteInt32(1)
 	if _err := aa.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -3251,6 +3262,7 @@ func (p *AudioServiceProxy) SetWiredDeviceConnectionState(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := aa.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -4269,6 +4281,7 @@ func (p *AudioServiceProxy) SetVolumePolicy(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := policy.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -4519,6 +4532,7 @@ func (p *AudioServiceProxy) GetFocusRampTimeMs(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(focusGain)
+	_data.WriteInt32(1)
 	if _err := attr.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4554,6 +4568,7 @@ func (p *AudioServiceProxy) DispatchFocusChange(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := afi.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4592,6 +4607,7 @@ func (p *AudioServiceProxy) DispatchFocusChangeWithFade(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := afi.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4606,6 +4622,7 @@ func (p *AudioServiceProxy) DispatchFocusChangeWithFade(
 			}
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := transientFadeMgrConfig.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4659,6 +4676,7 @@ func (p *AudioServiceProxy) HandleBluetoothActiveDeviceChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -4689,6 +4707,7 @@ func (p *AudioServiceProxy) SetFocusRequestResultFromExtPolicy(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := afi.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -5120,6 +5139,7 @@ func (p *AudioServiceProxy) SetDeviceAsNonDefaultForStrategy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(strategy)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5155,6 +5175,7 @@ func (p *AudioServiceProxy) RemoveDeviceAsNonDefaultForStrategy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(strategy)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5228,6 +5249,7 @@ func (p *AudioServiceProxy) GetDevicesForAttributes(
 	var _result []AudioDeviceAttributes
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5270,6 +5292,7 @@ func (p *AudioServiceProxy) GetDevicesForAttributesUnprotected(
 	var _result []AudioDeviceAttributes
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5312,6 +5335,7 @@ func (p *AudioServiceProxy) AddOnDevicesForAttributesChangedListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -5523,6 +5547,7 @@ func (p *AudioServiceProxy) SetDeviceVolumeBehavior(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -5554,6 +5579,7 @@ func (p *AudioServiceProxy) GetDeviceVolumeBehavior(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6190,6 +6216,7 @@ func (p *AudioServiceProxy) SetAdditionalOutputDeviceDelay(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6224,6 +6251,7 @@ func (p *AudioServiceProxy) GetAdditionalOutputDeviceDelay(
 	var _result int64
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6257,6 +6285,7 @@ func (p *AudioServiceProxy) GetMaxAdditionalOutputDeviceDelay(
 	var _result int64
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6298,6 +6327,7 @@ func (p *AudioServiceProxy) RequestAudioFocusForTest(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := aa.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6344,6 +6374,7 @@ func (p *AudioServiceProxy) AbandonAudioFocusForTest(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(fd.AsBinder().Handle())
 	_data.WriteString16(clientId)
+	_data.WriteInt32(1)
 	if _err := aa.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6378,6 +6409,7 @@ func (p *AudioServiceProxy) GetFadeOutDurationOnFocusLossMillis(
 	var _result int64
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := aa.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6705,6 +6737,7 @@ func (p *AudioServiceProxy) IsSpatializerAvailableForDevice(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6738,6 +6771,7 @@ func (p *AudioServiceProxy) HasHeadTracker(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6772,6 +6806,7 @@ func (p *AudioServiceProxy) SetHeadTrackerEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteBool(enabled)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -6801,6 +6836,7 @@ func (p *AudioServiceProxy) IsHeadTrackerEnabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6918,9 +6954,11 @@ func (p *AudioServiceProxy) CanBeSpatialized(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := aa.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := af.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -7182,6 +7220,7 @@ func (p *AudioServiceProxy) AddSpatializerCompatibleAudioDevice(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := ada.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7210,6 +7249,7 @@ func (p *AudioServiceProxy) RemoveSpatializerCompatibleAudioDevice(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := ada.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7660,6 +7700,7 @@ func (p *AudioServiceProxy) MuteAwaitConnection(
 			_data.WriteInt32(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := dev.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7680,6 +7721,7 @@ func (p *AudioServiceProxy) CancelMuteAwaitConnection(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := dev.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7756,6 +7798,7 @@ func (p *AudioServiceProxy) SetTestDeviceConnectionState(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7852,6 +7895,7 @@ func (p *AudioServiceProxy) SendFocusLossAndUpdate(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := focusLoser.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7873,6 +7917,7 @@ func (p *AudioServiceProxy) SendFocusLoss(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := focusLoser.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -8091,6 +8136,7 @@ func (p *AudioServiceProxy) RegisterDeviceVolumeDispatcherForAbsoluteVolume(
 	_data.WriteBool(register)
 	_data.WriteStrongBinder(cb.AsBinder().Handle())
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -8162,10 +8208,12 @@ func (p *AudioServiceProxy) SetPreferredMixerAttributes(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := aa.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteInt32(portId)
+	_data.WriteInt32(1)
 	if _err := mixerAttributes.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -8200,6 +8248,7 @@ func (p *AudioServiceProxy) ClearPreferredMixerAttributes(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := aa.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -8468,6 +8517,7 @@ func (p *AudioServiceProxy) AddLoudnessCodecInfo(
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(mediaCodecHash)
+	_data.WriteInt32(1)
 	if _err := codecInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -8498,6 +8548,7 @@ func (p *AudioServiceProxy) RemoveLoudnessCodecInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := codecInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -8527,6 +8578,7 @@ func (p *AudioServiceProxy) GetLoudnessParams(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := codecInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -8556,6 +8608,7 @@ func (p *AudioServiceProxy) SetFadeManagerConfigurationForFocusLoss(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := fmcForFocusLoss.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -8646,6 +8699,7 @@ func (p *AudioServiceProxy) ShouldNotificationSoundPlay(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
 	if _err := aa.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

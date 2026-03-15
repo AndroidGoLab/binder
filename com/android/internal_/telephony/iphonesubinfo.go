@@ -934,6 +934,7 @@ func (p *PhoneSubInfoProxy) SetCarrierInfoForImsiEncryption(
 	_data.WriteInterfaceToken(DescriptorIPhoneSubInfo)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPackage)
+	_data.WriteInt32(1)
 	if _err := imsiEncryptionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

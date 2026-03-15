@@ -47,6 +47,7 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnDetected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback)
+	_data.WriteInt32(1)
 	if _err := hotwordDetectedResult.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -67,6 +68,7 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnHotwordDetec
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback)
+	_data.WriteInt32(1)
 	if _err := hotwordDetectionServiceFailure.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -86,6 +88,7 @@ func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnRejected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback)
+	_data.WriteInt32(1)
 	if _err := hotwordRejectedResult.MarshalParcel(_data); _err != nil {
 		return _err
 	}

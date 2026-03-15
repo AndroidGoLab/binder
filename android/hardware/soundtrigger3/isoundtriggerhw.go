@@ -120,6 +120,7 @@ func (p *SoundTriggerHwProxy) LoadSoundModel(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHw)
+	_data.WriteInt32(1)
 	if _err := soundModel.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -155,6 +156,7 @@ func (p *SoundTriggerHwProxy) LoadPhraseSoundModel(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerHw)
+	_data.WriteInt32(1)
 	if _err := soundModel.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -220,6 +222,7 @@ func (p *SoundTriggerHwProxy) StartRecognition(
 	_data.WriteInt32(modelHandle)
 	_data.WriteInt32(deviceHandle)
 	_data.WriteInt32(ioHandle)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}

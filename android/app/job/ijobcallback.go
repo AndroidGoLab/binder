@@ -299,6 +299,7 @@ func (p *JobCallbackProxy) UpdateEstimatedNetworkBytes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIJobCallback)
 	_data.WriteInt32(jobId)
+	_data.WriteInt32(1)
 	if _err := item.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -333,6 +334,7 @@ func (p *JobCallbackProxy) UpdateTransferredNetworkBytes(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIJobCallback)
 	_data.WriteInt32(jobId)
+	_data.WriteInt32(1)
 	if _err := item.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -368,6 +370,7 @@ func (p *JobCallbackProxy) SetNotification(
 	_data.WriteInterfaceToken(DescriptorIJobCallback)
 	_data.WriteInt32(jobId)
 	_data.WriteInt32(notificationId)
+	_data.WriteInt32(1)
 	if _err := notification.MarshalParcel(_data); _err != nil {
 		return _err
 	}

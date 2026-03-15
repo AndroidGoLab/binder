@@ -156,6 +156,7 @@ func (p *BluetoothAudioPortProxy) UpdateSourceMetadata(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioPort)
+	_data.WriteInt32(1)
 	if _err := sourceMetadata.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -184,6 +185,7 @@ func (p *BluetoothAudioPortProxy) UpdateSinkMetadata(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioPort)
+	_data.WriteInt32(1)
 	if _err := sinkMetadata.MarshalParcel(_data); _err != nil {
 		return _err
 	}

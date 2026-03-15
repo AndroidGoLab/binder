@@ -68,6 +68,7 @@ func (p *ControlsSubscriberProxy) OnNext(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIControlsSubscriber)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := c.MarshalParcel(_data); _err != nil {
 		return _err
 	}

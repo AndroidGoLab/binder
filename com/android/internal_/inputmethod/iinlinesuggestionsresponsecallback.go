@@ -43,6 +43,7 @@ func (p *InlineSuggestionsResponseCallbackProxy) OnInlineSuggestionsResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionsResponseCallback)
+	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
 		return _err
 	}

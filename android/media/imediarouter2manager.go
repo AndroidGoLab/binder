@@ -57,6 +57,7 @@ func (p *MediaRouter2ManagerProxy) NotifySessionCreated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2Manager)
 	_data.WriteInt32(requestId)
+	_data.WriteInt32(1)
 	if _err := session.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -76,6 +77,7 @@ func (p *MediaRouter2ManagerProxy) NotifySessionUpdated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2Manager)
+	_data.WriteInt32(1)
 	if _err := session.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -95,6 +97,7 @@ func (p *MediaRouter2ManagerProxy) NotifySessionReleased(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2Manager)
+	_data.WriteInt32(1)
 	if _err := session.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -116,6 +119,7 @@ func (p *MediaRouter2ManagerProxy) NotifyDiscoveryPreferenceChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2Manager)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := discoveryPreference.MarshalParcel(_data); _err != nil {
 		return _err
 	}

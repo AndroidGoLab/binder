@@ -136,6 +136,7 @@ func (p *ContextHubProxy) LoadNanoapp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
 	_data.WriteInt32(contextHubId)
+	_data.WriteInt32(1)
 	if _err := appBinary.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -339,6 +340,7 @@ func (p *ContextHubProxy) SendMessageToHub(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
 	_data.WriteInt32(contextHubId)
+	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -367,6 +369,7 @@ func (p *ContextHubProxy) OnHostEndpointConnected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
+	_data.WriteInt32(1)
 	if _err := hostEndpointInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -462,6 +465,7 @@ func (p *ContextHubProxy) OnNanSessionStateChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
+	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -518,6 +522,7 @@ func (p *ContextHubProxy) SendMessageDeliveryStatusToHub(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
 	_data.WriteInt32(contextHubId)
+	_data.WriteInt32(1)
 	if _err := messageDeliveryStatus.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -622,6 +627,7 @@ func (p *ContextHubProxy) RegisterEndpoint(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
+	_data.WriteInt32(1)
 	if _err := endpoint.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -650,6 +656,7 @@ func (p *ContextHubProxy) UnregisterEndpoint(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
+	_data.WriteInt32(1)
 	if _err := endpoint.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -749,9 +756,11 @@ func (p *ContextHubProxy) OpenEndpointSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := destination.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := initiator.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -783,6 +792,7 @@ func (p *ContextHubProxy) SendMessageToEndpoint(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -813,6 +823,7 @@ func (p *ContextHubProxy) SendMessageDeliveryStatusToEndpoint(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHub)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := msgStatus.MarshalParcel(_data); _err != nil {
 		return _err
 	}

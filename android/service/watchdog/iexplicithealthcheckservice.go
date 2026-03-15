@@ -107,6 +107,7 @@ func (p *ExplicitHealthCheckServiceProxy) GetSupportedPackages(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIExplicitHealthCheckService)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -126,6 +127,7 @@ func (p *ExplicitHealthCheckServiceProxy) GetRequestedPackages(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIExplicitHealthCheckService)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

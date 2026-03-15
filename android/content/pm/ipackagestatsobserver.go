@@ -42,6 +42,7 @@ func (p *PackageStatsObserverProxy) OnGetStatsCompleted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageStatsObserver)
+	_data.WriteInt32(1)
 	if _err := pStats.MarshalParcel(_data); _err != nil {
 		return _err
 	}

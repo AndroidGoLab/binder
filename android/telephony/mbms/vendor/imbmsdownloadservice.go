@@ -215,6 +215,7 @@ func (p *MbmsDownloadServiceProxy) Download(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
+	_data.WriteInt32(1)
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -249,6 +250,7 @@ func (p *MbmsDownloadServiceProxy) AddStatusListener(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
+	_data.WriteInt32(1)
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -284,6 +286,7 @@ func (p *MbmsDownloadServiceProxy) RemoveStatusListener(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
+	_data.WriteInt32(1)
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -319,6 +322,7 @@ func (p *MbmsDownloadServiceProxy) AddProgressListener(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
+	_data.WriteInt32(1)
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -354,6 +358,7 @@ func (p *MbmsDownloadServiceProxy) RemoveProgressListener(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
+	_data.WriteInt32(1)
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -428,6 +433,7 @@ func (p *MbmsDownloadServiceProxy) CancelDownload(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
+	_data.WriteInt32(1)
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -462,9 +468,11 @@ func (p *MbmsDownloadServiceProxy) RequestDownloadState(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
+	_data.WriteInt32(1)
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := fileInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -498,6 +506,7 @@ func (p *MbmsDownloadServiceProxy) ResetDownloadKnowledge(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMbmsDownloadService)
+	_data.WriteInt32(1)
 	if _err := downloadRequest.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

@@ -187,9 +187,11 @@ func (p *VideoProviderProxy) SendSessionModifyRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVideoProvider)
+	_data.WriteInt32(1)
 	if _err := fromProfile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := toProfile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -209,6 +211,7 @@ func (p *VideoProviderProxy) SendSessionModifyResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVideoProvider)
+	_data.WriteInt32(1)
 	if _err := responseProfile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -258,6 +261,7 @@ func (p *VideoProviderProxy) SetPauseImage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVideoProvider)
+	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
 		return _err
 	}

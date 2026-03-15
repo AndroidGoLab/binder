@@ -161,6 +161,7 @@ func (p *GnssCallbackProxy) GnssLocationCb(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
+	_data.WriteInt32(1)
 	if _err := location.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -47,6 +47,7 @@ func (p *ServiceListExportSessionProxy) ExportServiceList(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIServiceListExportSession)
 	_data.WriteFileDescriptor(pfd)
+	_data.WriteInt32(1)
 	if _err := exportParams.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

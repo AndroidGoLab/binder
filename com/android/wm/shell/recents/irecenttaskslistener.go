@@ -70,6 +70,7 @@ func (p *RecentTasksListenerProxy) OnRunningTaskAppeared(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecentTasksListener)
+	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -89,6 +90,7 @@ func (p *RecentTasksListenerProxy) OnRunningTaskVanished(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecentTasksListener)
+	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -108,6 +110,7 @@ func (p *RecentTasksListenerProxy) OnRunningTaskChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecentTasksListener)
+	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -127,6 +130,7 @@ func (p *RecentTasksListenerProxy) OnTaskMovedToFront(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecentTasksListener)
+	_data.WriteInt32(1)
 	if _err := taskToFront.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -146,6 +150,7 @@ func (p *RecentTasksListenerProxy) OnTaskInfoChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecentTasksListener)
+	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

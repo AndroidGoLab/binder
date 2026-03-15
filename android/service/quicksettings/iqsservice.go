@@ -94,6 +94,7 @@ func (p *QSServiceProxy) UpdateQsTile(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSService)
+	_data.WriteInt32(1)
 	if _err := tile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -126,6 +127,7 @@ func (p *QSServiceProxy) UpdateStatusIcon(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSService)
 	_data.WriteStrongBinder(tile.Handle())
+	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -209,6 +211,7 @@ func (p *QSServiceProxy) StartActivity(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQSService)
 	_data.WriteStrongBinder(tile.Handle())
+	_data.WriteInt32(1)
 	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

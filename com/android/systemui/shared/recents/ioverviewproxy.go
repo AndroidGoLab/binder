@@ -87,6 +87,7 @@ func (p *OverviewProxyProxy) OnActiveNavBarRegionChanges(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
+	_data.WriteInt32(1)
 	if _err := activeRegion.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -106,6 +107,7 @@ func (p *OverviewProxyProxy) OnInitialize(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOverviewProxy)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}

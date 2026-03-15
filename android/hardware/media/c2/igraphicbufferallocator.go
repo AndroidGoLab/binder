@@ -47,6 +47,7 @@ func (p *GraphicBufferAllocatorProxy) Allocate(
 	var _result c2IGraphicBufferAllocator.Allocation
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGraphicBufferAllocator)
+	_data.WriteInt32(1)
 	if _err := desc.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

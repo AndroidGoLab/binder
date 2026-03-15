@@ -128,6 +128,7 @@ func (p *TextServicesManagerProxy) GetSpellCheckerService(
 	_data.WriteString16(locale)
 	_data.WriteStrongBinder(tsListener.AsBinder().Handle())
 	_data.WriteStrongBinder(scListener.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := bundle.MarshalParcel(_data); _err != nil {
 		return _err
 	}

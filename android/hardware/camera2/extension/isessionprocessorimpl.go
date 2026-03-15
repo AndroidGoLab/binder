@@ -73,12 +73,15 @@ func (p *SessionProcessorImplProxy) InitSession(
 	} else {
 		_data.WriteInt32(int32(len(charsMap)))
 	}
+	_data.WriteInt32(1)
 	if _err := previewSurface.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := imageCaptureSurface.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := postviewSurface.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -276,6 +279,7 @@ func (p *SessionProcessorImplProxy) SetParameters(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
+	_data.WriteInt32(1)
 	if _err := captureRequest.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -306,6 +310,7 @@ func (p *SessionProcessorImplProxy) StartTrigger(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionProcessorImpl)
+	_data.WriteInt32(1)
 	if _err := captureRequest.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

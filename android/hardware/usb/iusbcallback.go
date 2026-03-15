@@ -87,6 +87,7 @@ func (p *UsbCallbackProxy) NotifyRoleSwitchStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsbCallback)
 	_data.WriteString16(portName)
+	_data.WriteInt32(1)
 	if _err := newRole.MarshalParcel(_data); _err != nil {
 		return _err
 	}

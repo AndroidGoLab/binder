@@ -66,6 +66,7 @@ func (p *ImsMmTelListenerProxy) OnIncomingCall(
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
 	_data.WriteStrongBinder(c.AsBinder().Handle())
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -100,9 +101,11 @@ func (p *ImsMmTelListenerProxy) OnRejectedCall(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
+	_data.WriteInt32(1)
 	if _err := callProfile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := reason.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -243,6 +246,7 @@ func (p *ImsMmTelListenerProxy) OnMediaQualityStatusChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelListener)
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}

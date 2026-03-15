@@ -154,6 +154,7 @@ func (p *AccessibilityServiceConnectionProxy) SetServiceInfo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceConnection)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -942,6 +943,7 @@ func (p *AccessibilityServiceConnectionProxy) SetMagnificationConfig(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceConnection)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1389,6 +1391,7 @@ func (p *AccessibilityServiceConnectionProxy) SetGestureDetectionPassthroughRegi
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceConnection)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
 	if _err := region.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1419,6 +1422,7 @@ func (p *AccessibilityServiceConnectionProxy) SetTouchExplorationPassthroughRegi
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceConnection)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
 	if _err := region.MarshalParcel(_data); _err != nil {
 		return _err
 	}

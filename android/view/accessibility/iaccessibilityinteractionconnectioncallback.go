@@ -52,6 +52,7 @@ func (p *AccessibilityInteractionConnectionCallbackProxy) SetFindAccessibilityNo
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnectionCallback)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

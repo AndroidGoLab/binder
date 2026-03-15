@@ -48,6 +48,7 @@ func (p *InlineContentCallbackProxy) OnContent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineContentCallback)
+	_data.WriteInt32(1)
 	if _err := content.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -66,6 +66,7 @@ func (p *SliceManagerProxy) PinSlice(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteString16(pkg)
+	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -108,6 +109,7 @@ func (p *SliceManagerProxy) UnpinSlice(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteString16(pkg)
+	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -170,6 +172,7 @@ func (p *SliceManagerProxy) GetPinnedSpecs(
 	var _result []SliceSpec
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
+	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -332,6 +335,7 @@ func (p *SliceManagerProxy) GrantSlicePermission(
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(toPkg)
+	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -364,6 +368,7 @@ func (p *SliceManagerProxy) RevokeSlicePermission(
 	_data.WriteInterfaceToken(DescriptorISliceManager)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(toPkg)
+	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -397,6 +402,7 @@ func (p *SliceManagerProxy) CheckSlicePermission(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
+	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -443,6 +449,7 @@ func (p *SliceManagerProxy) GrantPermissionFromUser(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISliceManager)
+	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
 		return _err
 	}

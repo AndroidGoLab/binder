@@ -68,6 +68,7 @@ func (p *BlobStoreManagerProxy) CreateSession(
 	var _result int64
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
+	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -137,6 +138,7 @@ func (p *BlobStoreManagerProxy) OpenBlob(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
+	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -202,6 +204,7 @@ func (p *BlobStoreManagerProxy) AcquireLease(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
+	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -234,6 +237,7 @@ func (p *BlobStoreManagerProxy) ReleaseLease(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
+	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -320,6 +324,7 @@ func (p *BlobStoreManagerProxy) WaitForIdle(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -456,6 +461,7 @@ func (p *BlobStoreManagerProxy) GetLeaseInfo(
 	var _result LeaseInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBlobStoreManager)
+	_data.WriteInt32(1)
 	if _err := blobHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

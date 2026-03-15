@@ -143,6 +143,7 @@ func (p *TaskOrganizerControllerProxy) DeleteRootTask(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
+	_data.WriteInt32(1)
 	if _err := task.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -177,6 +178,7 @@ func (p *TaskOrganizerControllerProxy) GetChildTasks(
 	var _result []interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
+	_data.WriteInt32(1)
 	if _err := parent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -300,6 +302,7 @@ func (p *TaskOrganizerControllerProxy) SetInterceptBackPressedOnTaskRoot(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
+	_data.WriteInt32(1)
 	if _err := task.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -329,6 +332,7 @@ func (p *TaskOrganizerControllerProxy) RestartTaskTopActivityProcessIfVisible(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizerController)
+	_data.WriteInt32(1)
 	if _err := task.MarshalParcel(_data); _err != nil {
 		return _err
 	}

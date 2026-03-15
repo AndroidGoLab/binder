@@ -48,6 +48,7 @@ func (p *RemoteStorageServiceProxy) GetReadOnlyFileDescriptor(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteStorageService)
 	_data.WriteString16(filePath)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -68,9 +69,11 @@ func (p *RemoteStorageServiceProxy) GetReadOnlyFeatureFileDescriptorMap(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteStorageService)
+	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := remoteCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

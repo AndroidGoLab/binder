@@ -65,16 +65,20 @@ func (p *PipProxy) StartSwipePipToHome(
 	var _result graphics.Rect
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPip)
+	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := activityInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := pictureInPictureParams.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteInt32(launcherRotation)
+	_data.WriteInt32(1)
 	if _err := hotseatKeepClearArea.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -112,18 +116,23 @@ func (p *PipProxy) StopSwipePipToHome(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPip)
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := destinationBounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := overlay.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := appBounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sourceRectHint.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -145,6 +154,7 @@ func (p *PipProxy) AbortSwipePipToHome(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPip)
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}

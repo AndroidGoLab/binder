@@ -49,6 +49,7 @@ func (p *ImsServiceFeatureCallbackProxy) ImsFeatureCreated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsServiceFeatureCallback)
+	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -42,9 +42,11 @@ func (p *GetDeviceSettingsConfigCallbackProxy) OnResult(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGetDeviceSettingsConfigCallback)
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}

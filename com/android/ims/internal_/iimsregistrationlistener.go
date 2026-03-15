@@ -129,6 +129,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationDisconnected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
+	_data.WriteInt32(1)
 	if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -277,6 +278,7 @@ func (p *ImsRegistrationListenerProxy) RegistrationChangeFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsRegistrationListener)
 	_data.WriteInt32(targetAccessTech)
+	_data.WriteInt32(1)
 	if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

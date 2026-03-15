@@ -226,6 +226,7 @@ func (p *TrustAgentServiceProxy) OnEscrowTokenAdded(
 		}
 	}
 	_data.WriteInt64(handle)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}

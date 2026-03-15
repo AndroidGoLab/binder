@@ -45,6 +45,7 @@ func (p *KeyGestureHandlerProxy) HandleKeyGesture(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyGestureHandler)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

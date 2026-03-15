@@ -133,6 +133,7 @@ func (p *TunerProxy) SetConfiguration(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -300,6 +301,7 @@ func (p *TunerProxy) Tune(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
+	_data.WriteInt32(1)
 	if _err := selector.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -435,6 +437,7 @@ func (p *TunerProxy) StartProgramListUpdates(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITuner)
+	_data.WriteInt32(1)
 	if _err := filter.MarshalParcel(_data); _err != nil {
 		return _err
 	}

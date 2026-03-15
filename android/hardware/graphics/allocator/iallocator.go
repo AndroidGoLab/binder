@@ -88,6 +88,7 @@ func (p *AllocatorProxy) Allocate2(
 	var _result AllocationResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAllocator)
+	_data.WriteInt32(1)
 	if _err := descriptor.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -121,6 +122,7 @@ func (p *AllocatorProxy) IsSupported(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAllocator)
+	_data.WriteInt32(1)
 	if _err := descriptor.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

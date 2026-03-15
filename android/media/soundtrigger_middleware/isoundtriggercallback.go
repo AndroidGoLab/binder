@@ -52,6 +52,7 @@ func (p *SoundTriggerCallbackProxy) OnRecognition(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerCallback)
 	_data.WriteInt32(modelHandle)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -75,6 +76,7 @@ func (p *SoundTriggerCallbackProxy) OnPhraseRecognition(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerCallback)
 	_data.WriteInt32(modelHandle)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -192,6 +192,7 @@ func (p *TaskFragmentOrganizerControllerProxy) OnTransactionHandled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
 	_data.WriteStrongBinder(transactionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := wct.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -225,11 +226,13 @@ func (p *TaskFragmentOrganizerControllerProxy) ApplyTransaction(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
+	_data.WriteInt32(1)
 	if _err := wct.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(transitionType)
 	_data.WriteBool(shouldApplyIndependently)
+	_data.WriteInt32(1)
 	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
 		return _err
 	}

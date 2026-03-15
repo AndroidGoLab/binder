@@ -95,6 +95,7 @@ func (p *ContextHubCallbackProxy) HandleContextHubMessage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
+	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -185,6 +186,7 @@ func (p *ContextHubCallbackProxy) HandleNanSessionRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -215,6 +217,7 @@ func (p *ContextHubCallbackProxy) HandleMessageDeliveryStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
 	_data.WriteInt32(int32(hostEndpointId))
+	_data.WriteInt32(1)
 	if _err := messageDeliveryStatus.MarshalParcel(_data); _err != nil {
 		return _err
 	}

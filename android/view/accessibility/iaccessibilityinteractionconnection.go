@@ -70,6 +70,7 @@ func (p *AccessibilityInteractionConnectionProxy) FindAccessibilityNodeInfoByAcc
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
 	_data.WriteInt64(accessibilityNodeId)
+	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -113,6 +114,7 @@ func (p *AccessibilityInteractionConnectionProxy) FindAccessibilityNodeInfosByVi
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
 	_data.WriteInt64(accessibilityNodeId)
 	_data.WriteString16(viewId)
+	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -156,6 +158,7 @@ func (p *AccessibilityInteractionConnectionProxy) FindAccessibilityNodeInfosByTe
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
 	_data.WriteInt64(accessibilityNodeId)
 	_data.WriteString16(text)
+	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -199,6 +202,7 @@ func (p *AccessibilityInteractionConnectionProxy) FindFocus(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
 	_data.WriteInt64(accessibilityNodeId)
 	_data.WriteInt32(focusType)
+	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -242,6 +246,7 @@ func (p *AccessibilityInteractionConnectionProxy) FocusSearch(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
 	_data.WriteInt64(accessibilityNodeId)
 	_data.WriteInt32(direction)
+	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}

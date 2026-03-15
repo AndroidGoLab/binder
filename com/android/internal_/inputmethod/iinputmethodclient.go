@@ -64,6 +64,7 @@ func (p *InputMethodClientProxy) OnBindMethod(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
+	_data.WriteInt32(1)
 	if _err := res.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -84,6 +85,7 @@ func (p *InputMethodClientProxy) OnStartInputResult(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
+	_data.WriteInt32(1)
 	if _err := res.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -105,6 +107,7 @@ func (p *InputMethodClientProxy) OnBindAccessibilityService(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodClient)
+	_data.WriteInt32(1)
 	if _err := res.MarshalParcel(_data); _err != nil {
 		return _err
 	}

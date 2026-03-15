@@ -47,6 +47,7 @@ func (p *AuthMgrAuthorizationProxy) InitAuthentication(
 	var _result []byte
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthMgrAuthorization)
+	_data.WriteInt32(1)
 	if _err := diceCertChain.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -98,9 +99,11 @@ func (p *AuthMgrAuthorizationProxy) CompleteAuthentication(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthMgrAuthorization)
+	_data.WriteInt32(1)
 	if _err := signedConnectionRequest.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := dicePolicy.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -149,6 +152,7 @@ func (p *AuthMgrAuthorizationProxy) AuthorizeAndConnectClientToTrustedService(
 			_data.WritePaddedByte(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := clientDiceArtifacts.MarshalParcel(_data); _err != nil {
 		return _err
 	}

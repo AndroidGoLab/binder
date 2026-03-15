@@ -878,6 +878,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordQuality(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -911,6 +912,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordQuality(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -947,6 +949,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumLength(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -980,6 +983,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumLength(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1016,6 +1020,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumUpperCase(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1049,6 +1054,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumUpperCase(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1085,6 +1091,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumLowerCase(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1118,6 +1125,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumLowerCase(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1154,6 +1162,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumLetters(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1187,6 +1196,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumLetters(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1223,6 +1233,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumNumeric(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1256,6 +1267,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumNumeric(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1292,6 +1304,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumSymbols(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1325,6 +1338,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumSymbols(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1361,6 +1375,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordMinimumNonLetter(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1394,6 +1409,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordMinimumNonLetter(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1462,6 +1478,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordHistoryLength(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1495,6 +1512,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordHistoryLength(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1532,6 +1550,7 @@ func (p *DevicePolicyManagerProxy) SetPasswordExpirationTimeout(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1566,6 +1585,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordExpirationTimeout(
 	var _result int64
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1603,6 +1623,7 @@ func (p *DevicePolicyManagerProxy) GetPasswordExpiration(
 	var _result int64
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1862,6 +1883,7 @@ func (p *DevicePolicyManagerProxy) IsUsingUnifiedPassword(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1965,6 +1987,7 @@ func (p *DevicePolicyManagerProxy) SetMaximumFailedPasswordsForWipe(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1999,6 +2022,7 @@ func (p *DevicePolicyManagerProxy) GetMaximumFailedPasswordsForWipe(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2069,6 +2093,7 @@ func (p *DevicePolicyManagerProxy) SetMaximumTimeToLock(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2103,6 +2128,7 @@ func (p *DevicePolicyManagerProxy) GetMaximumTimeToLock(
 	var _result int64
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2140,6 +2166,7 @@ func (p *DevicePolicyManagerProxy) SetRequiredStrongAuthTimeout(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2174,6 +2201,7 @@ func (p *DevicePolicyManagerProxy) GetRequiredStrongAuthTimeout(
 	var _result int64
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2274,10 +2302,12 @@ func (p *DevicePolicyManagerProxy) SetFactoryResetProtectionPolicy(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(callerPackageName)
+	_data.WriteInt32(1)
 	if _err := policy.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2307,6 +2337,7 @@ func (p *DevicePolicyManagerProxy) GetFactoryResetProtectionPolicy(
 	var _result FactoryResetProtectionPolicy
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2367,6 +2398,7 @@ func (p *DevicePolicyManagerProxy) SendLostModeLocationUpdate(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2398,6 +2430,7 @@ func (p *DevicePolicyManagerProxy) SetGlobalProxy(
 	var _result content.ComponentName
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2462,6 +2495,7 @@ func (p *DevicePolicyManagerProxy) SetRecommendedGlobalProxy(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2492,6 +2526,7 @@ func (p *DevicePolicyManagerProxy) SetStorageEncryption(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2527,6 +2562,7 @@ func (p *DevicePolicyManagerProxy) GetStorageEncryption(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2594,6 +2630,7 @@ func (p *DevicePolicyManagerProxy) RequestBugreport(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2629,6 +2666,7 @@ func (p *DevicePolicyManagerProxy) SetCameraDisabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2664,6 +2702,7 @@ func (p *DevicePolicyManagerProxy) GetCameraDisabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2702,6 +2741,7 @@ func (p *DevicePolicyManagerProxy) SetScreenCaptureDisabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2736,6 +2776,7 @@ func (p *DevicePolicyManagerProxy) GetScreenCaptureDisabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2887,6 +2928,7 @@ func (p *DevicePolicyManagerProxy) SetKeyguardDisabledFeatures(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2921,6 +2963,7 @@ func (p *DevicePolicyManagerProxy) GetKeyguardDisabledFeatures(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2958,6 +3001,7 @@ func (p *DevicePolicyManagerProxy) SetActiveAdmin(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2991,6 +3035,7 @@ func (p *DevicePolicyManagerProxy) IsAdminActive(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -3099,9 +3144,11 @@ func (p *DevicePolicyManagerProxy) GetRemoveWarning(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -3132,6 +3179,7 @@ func (p *DevicePolicyManagerProxy) RemoveActiveAdmin(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -3162,6 +3210,7 @@ func (p *DevicePolicyManagerProxy) ForceRemoveActiveAdmin(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -3194,6 +3243,7 @@ func (p *DevicePolicyManagerProxy) HasGrantedPolicy(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := policyReceiver.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -3229,6 +3279,7 @@ func (p *DevicePolicyManagerProxy) ReportPasswordChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := metrics.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -3419,6 +3470,7 @@ func (p *DevicePolicyManagerProxy) SetDeviceOwner(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -3628,6 +3680,7 @@ func (p *DevicePolicyManagerProxy) SetProfileOwner(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -3692,6 +3745,7 @@ func (p *DevicePolicyManagerProxy) GetProfileOwnerOrDeviceOwnerSupervisionCompon
 	var _result content.ComponentName
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -3724,6 +3778,7 @@ func (p *DevicePolicyManagerProxy) IsSupervisionComponent(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -3787,6 +3842,7 @@ func (p *DevicePolicyManagerProxy) SetProfileEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -3816,6 +3872,7 @@ func (p *DevicePolicyManagerProxy) SetProfileName(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -3845,6 +3902,7 @@ func (p *DevicePolicyManagerProxy) ClearProfileOwner(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -3967,6 +4025,7 @@ func (p *DevicePolicyManagerProxy) SetDeviceOwnerLockScreenInfo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -4024,6 +4083,7 @@ func (p *DevicePolicyManagerProxy) SetPackagesSuspended(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4079,6 +4139,7 @@ func (p *DevicePolicyManagerProxy) IsPackageSuspended(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4155,6 +4216,7 @@ func (p *DevicePolicyManagerProxy) InstallCaCert(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4198,6 +4260,7 @@ func (p *DevicePolicyManagerProxy) UninstallCaCerts(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -4236,6 +4299,7 @@ func (p *DevicePolicyManagerProxy) EnforceCanManageCaCerts(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -4341,6 +4405,7 @@ func (p *DevicePolicyManagerProxy) InstallKeyPair(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4404,6 +4469,7 @@ func (p *DevicePolicyManagerProxy) RemoveKeyPair(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4477,11 +4543,13 @@ func (p *DevicePolicyManagerProxy) GenerateKeyPair(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteString16(callerPackage)
 	_data.WriteString16(algorithm)
+	_data.WriteInt32(1)
 	if _err := keySpec.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4524,6 +4592,7 @@ func (p *DevicePolicyManagerProxy) SetKeyPairCertificate(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4579,6 +4648,7 @@ func (p *DevicePolicyManagerProxy) ChoosePrivateKeyAlias(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteInt32(uid)
+	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -4611,6 +4681,7 @@ func (p *DevicePolicyManagerProxy) SetDelegatedScopes(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -4650,6 +4721,7 @@ func (p *DevicePolicyManagerProxy) GetDelegatedScopes(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4695,6 +4767,7 @@ func (p *DevicePolicyManagerProxy) GetDelegatePackages(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4739,6 +4812,7 @@ func (p *DevicePolicyManagerProxy) SetCertInstallerPackage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -4769,6 +4843,7 @@ func (p *DevicePolicyManagerProxy) GetCertInstallerPackage(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4805,6 +4880,7 @@ func (p *DevicePolicyManagerProxy) SetAlwaysOnVpnPackage(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4848,6 +4924,7 @@ func (p *DevicePolicyManagerProxy) GetAlwaysOnVpnPackage(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4912,6 +4989,7 @@ func (p *DevicePolicyManagerProxy) IsAlwaysOnVpnLockdownEnabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -4976,6 +5054,7 @@ func (p *DevicePolicyManagerProxy) GetAlwaysOnVpnLockdownAllowlist(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5021,13 +5100,16 @@ func (p *DevicePolicyManagerProxy) AddPersistentPreferredActivity(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(callerPackageName)
+	_data.WriteInt32(1)
 	if _err := filter.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := activity.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -5058,6 +5140,7 @@ func (p *DevicePolicyManagerProxy) ClearPackagePersistentPreferredActivities(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -5091,6 +5174,7 @@ func (p *DevicePolicyManagerProxy) SetDefaultSmsApplication(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -5152,11 +5236,13 @@ func (p *DevicePolicyManagerProxy) SetApplicationRestrictions(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(callerPackage)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := settings.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -5190,6 +5276,7 @@ func (p *DevicePolicyManagerProxy) GetApplicationRestrictions(
 	var _result os.Bundle
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5226,6 +5313,7 @@ func (p *DevicePolicyManagerProxy) SetApplicationRestrictionsManagingPackage(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5260,6 +5348,7 @@ func (p *DevicePolicyManagerProxy) GetApplicationRestrictionsManagingPackage(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5324,9 +5413,11 @@ func (p *DevicePolicyManagerProxy) SetRestrictionsProvider(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := provider.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -5389,6 +5480,7 @@ func (p *DevicePolicyManagerProxy) SetUserRestriction(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -5514,6 +5606,7 @@ func (p *DevicePolicyManagerProxy) GetUserRestrictions(
 	var _result os.Bundle
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5580,10 +5673,12 @@ func (p *DevicePolicyManagerProxy) AddCrossProfileIntentFilter(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(callerPackageName)
+	_data.WriteInt32(1)
 	if _err := filter.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -5614,6 +5709,7 @@ func (p *DevicePolicyManagerProxy) ClearCrossProfileIntentFilters(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -5645,6 +5741,7 @@ func (p *DevicePolicyManagerProxy) SetPermittedAccessibilityServices(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5686,6 +5783,7 @@ func (p *DevicePolicyManagerProxy) GetPermittedAccessibilityServices(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5772,6 +5870,7 @@ func (p *DevicePolicyManagerProxy) IsAccessibilityServicePermittedByAdmin(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5810,6 +5909,7 @@ func (p *DevicePolicyManagerProxy) SetPermittedInputMethods(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5855,6 +5955,7 @@ func (p *DevicePolicyManagerProxy) GetPermittedInputMethods(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5944,6 +6045,7 @@ func (p *DevicePolicyManagerProxy) IsInputMethodPermittedByAdmin(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5981,6 +6083,7 @@ func (p *DevicePolicyManagerProxy) SetPermittedCrossProfileNotificationListeners
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6022,6 +6125,7 @@ func (p *DevicePolicyManagerProxy) GetPermittedCrossProfileNotificationListeners
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6238,6 +6342,7 @@ func (p *DevicePolicyManagerProxy) SetApplicationHidden(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6278,6 +6383,7 @@ func (p *DevicePolicyManagerProxy) IsApplicationHidden(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6318,10 +6424,12 @@ func (p *DevicePolicyManagerProxy) CreateAndManageUser(
 	var _result os.UserHandle
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteString16(name)
+	_data.WriteInt32(1)
 	if _err := profileOwner.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6356,9 +6464,11 @@ func (p *DevicePolicyManagerProxy) RemoveUser(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6393,9 +6503,11 @@ func (p *DevicePolicyManagerProxy) SwitchUser(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6430,9 +6542,11 @@ func (p *DevicePolicyManagerProxy) StartUserInBackground(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6467,9 +6581,11 @@ func (p *DevicePolicyManagerProxy) StopUser(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6503,6 +6619,7 @@ func (p *DevicePolicyManagerProxy) LogoutUser(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6594,6 +6711,7 @@ func (p *DevicePolicyManagerProxy) GetSecondaryUsers(
 	var _result []os.UserHandle
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6694,6 +6812,7 @@ func (p *DevicePolicyManagerProxy) EnableSystemApp(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -6727,10 +6846,12 @@ func (p *DevicePolicyManagerProxy) EnableSystemAppWithIntent(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteString16(callerPackage)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6766,6 +6887,7 @@ func (p *DevicePolicyManagerProxy) InstallExistingPackage(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6804,6 +6926,7 @@ func (p *DevicePolicyManagerProxy) SetAccountManagementDisabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -6924,6 +7047,7 @@ func (p *DevicePolicyManagerProxy) SetSecondaryLockscreenEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -6954,6 +7078,7 @@ func (p *DevicePolicyManagerProxy) IsSecondaryLockscreenEnabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -7061,6 +7186,7 @@ func (p *DevicePolicyManagerProxy) SetLockTaskPackages(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7100,6 +7226,7 @@ func (p *DevicePolicyManagerProxy) GetLockTaskPackages(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -7176,6 +7303,7 @@ func (p *DevicePolicyManagerProxy) SetLockTaskFeatures(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7208,6 +7336,7 @@ func (p *DevicePolicyManagerProxy) GetLockTaskFeatures(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -7243,6 +7372,7 @@ func (p *DevicePolicyManagerProxy) SetGlobalSetting(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7276,6 +7406,7 @@ func (p *DevicePolicyManagerProxy) SetSystemSetting(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7309,6 +7440,7 @@ func (p *DevicePolicyManagerProxy) SetSecureSetting(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7341,6 +7473,7 @@ func (p *DevicePolicyManagerProxy) SetConfiguredNetworksLockdownState(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7372,6 +7505,7 @@ func (p *DevicePolicyManagerProxy) HasLockdownAdminConfiguredNetworks(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -7405,6 +7539,7 @@ func (p *DevicePolicyManagerProxy) SetLocationEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7437,6 +7572,7 @@ func (p *DevicePolicyManagerProxy) SetTime(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -7474,6 +7610,7 @@ func (p *DevicePolicyManagerProxy) SetTimeZone(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -7509,6 +7646,7 @@ func (p *DevicePolicyManagerProxy) SetMasterVolumeMuted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7539,6 +7677,7 @@ func (p *DevicePolicyManagerProxy) IsMasterVolumeMuted(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -7604,6 +7743,7 @@ func (p *DevicePolicyManagerProxy) SetUninstallBlocked(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7667,6 +7807,7 @@ func (p *DevicePolicyManagerProxy) SetCrossProfileCallerIdDisabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7697,6 +7838,7 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileCallerIdDisabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -7761,6 +7903,7 @@ func (p *DevicePolicyManagerProxy) SetCrossProfileContactsSearchDisabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7791,6 +7934,7 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileContactsSearchDisabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -7862,6 +8006,7 @@ func (p *DevicePolicyManagerProxy) StartManagedQuickContact(
 	_data.WriteInt64(contactId)
 	_data.WriteBool(isContactIdIgnored)
 	_data.WriteInt64(directoryId)
+	_data.WriteInt32(1)
 	if _err := originalIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7890,6 +8035,7 @@ func (p *DevicePolicyManagerProxy) SetManagedProfileCallerIdAccessPolicy(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := policy.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -7979,6 +8125,7 @@ func (p *DevicePolicyManagerProxy) SetCredentialManagerPolicy(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := policy.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -8037,6 +8184,7 @@ func (p *DevicePolicyManagerProxy) SetManagedProfileContactsAccessPolicy(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := policy.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -8127,6 +8275,7 @@ func (p *DevicePolicyManagerProxy) SetBluetoothContactSharingDisabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -8157,6 +8306,7 @@ func (p *DevicePolicyManagerProxy) GetBluetoothContactSharingDisabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -8224,10 +8374,12 @@ func (p *DevicePolicyManagerProxy) SetTrustAgentConfiguration(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(callerPackageName)
+	_data.WriteInt32(1)
 	if _err := agent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -8261,9 +8413,11 @@ func (p *DevicePolicyManagerProxy) GetTrustAgentConfiguration(
 	var _result []interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := agent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -8307,6 +8461,7 @@ func (p *DevicePolicyManagerProxy) AddCrossProfileWidgetProvider(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -8344,6 +8499,7 @@ func (p *DevicePolicyManagerProxy) RemoveCrossProfileWidgetProvider(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -8380,6 +8536,7 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileWidgetProviders(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -8424,6 +8581,7 @@ func (p *DevicePolicyManagerProxy) SetAutoTimeRequired(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -8484,6 +8642,7 @@ func (p *DevicePolicyManagerProxy) SetAutoTimeEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -8516,6 +8675,7 @@ func (p *DevicePolicyManagerProxy) GetAutoTimeEnabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -8610,6 +8770,7 @@ func (p *DevicePolicyManagerProxy) SetAutoTimeZoneEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -8642,6 +8803,7 @@ func (p *DevicePolicyManagerProxy) GetAutoTimeZoneEnabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -8735,6 +8897,7 @@ func (p *DevicePolicyManagerProxy) SetForceEphemeralUsers(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -8765,6 +8928,7 @@ func (p *DevicePolicyManagerProxy) GetForceEphemeralUsers(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -8799,6 +8963,7 @@ func (p *DevicePolicyManagerProxy) IsRemovingAdmin(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := adminReceiver.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -8833,9 +8998,11 @@ func (p *DevicePolicyManagerProxy) SetUserIcon(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -8866,10 +9033,12 @@ func (p *DevicePolicyManagerProxy) SetSystemUpdatePolicy(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(callerPackageName)
+	_data.WriteInt32(1)
 	if _err := policy.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -8952,6 +9121,7 @@ func (p *DevicePolicyManagerProxy) SetKeyguardDisabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -8988,6 +9158,7 @@ func (p *DevicePolicyManagerProxy) SetStatusBarDisabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -9082,6 +9253,7 @@ func (p *DevicePolicyManagerProxy) NotifyPendingSystemUpdate(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -9112,6 +9284,7 @@ func (p *DevicePolicyManagerProxy) GetPendingSystemUpdate(
 	var _result SystemUpdateInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -9146,6 +9319,7 @@ func (p *DevicePolicyManagerProxy) SetPermissionPolicy(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -9177,6 +9351,7 @@ func (p *DevicePolicyManagerProxy) GetPermissionPolicy(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -9214,6 +9389,7 @@ func (p *DevicePolicyManagerProxy) SetPermissionGrantState(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -9221,6 +9397,7 @@ func (p *DevicePolicyManagerProxy) SetPermissionGrantState(
 	_data.WriteString16(packageName)
 	_data.WriteString16(permission)
 	_data.WriteInt32(grantState)
+	_data.WriteInt32(1)
 	if _err := resultReceiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -9253,6 +9430,7 @@ func (p *DevicePolicyManagerProxy) GetPermissionGrantState(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -9356,6 +9534,7 @@ func (p *DevicePolicyManagerProxy) SetKeepUninstalledPackages(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -9395,6 +9574,7 @@ func (p *DevicePolicyManagerProxy) GetKeepUninstalledPackages(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -9439,6 +9619,7 @@ func (p *DevicePolicyManagerProxy) IsManagedProfile(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -9473,6 +9654,7 @@ func (p *DevicePolicyManagerProxy) GetWifiMacAddress(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -9506,6 +9688,7 @@ func (p *DevicePolicyManagerProxy) Reboot(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -9536,6 +9719,7 @@ func (p *DevicePolicyManagerProxy) SetShortSupportMessage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -9567,6 +9751,7 @@ func (p *DevicePolicyManagerProxy) GetShortSupportMessage(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -9597,6 +9782,7 @@ func (p *DevicePolicyManagerProxy) SetLongSupportMessage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -9626,6 +9812,7 @@ func (p *DevicePolicyManagerProxy) GetLongSupportMessage(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -9656,6 +9843,7 @@ func (p *DevicePolicyManagerProxy) GetShortSupportMessageForUser(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -9687,6 +9875,7 @@ func (p *DevicePolicyManagerProxy) GetLongSupportMessageForUser(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -9717,6 +9906,7 @@ func (p *DevicePolicyManagerProxy) SetOrganizationColor(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -9801,6 +9991,7 @@ func (p *DevicePolicyManagerProxy) GetOrganizationColor(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -9866,6 +10057,7 @@ func (p *DevicePolicyManagerProxy) SetOrganizationName(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -9897,6 +10089,7 @@ func (p *DevicePolicyManagerProxy) GetOrganizationName(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -10038,6 +10231,7 @@ func (p *DevicePolicyManagerProxy) SetAffiliationIds(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -10075,6 +10269,7 @@ func (p *DevicePolicyManagerProxy) GetAffiliationIds(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -10179,6 +10374,7 @@ func (p *DevicePolicyManagerProxy) SetSecurityLoggingEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -10211,6 +10407,7 @@ func (p *DevicePolicyManagerProxy) IsSecurityLoggingEnabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -10246,6 +10443,7 @@ func (p *DevicePolicyManagerProxy) RetrieveSecurityLogs(
 	var _result pm.ParceledListSlice
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -10280,6 +10478,7 @@ func (p *DevicePolicyManagerProxy) RetrievePreRebootSecurityLogs(
 	var _result pm.ParceledListSlice
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -10623,6 +10822,7 @@ func (p *DevicePolicyManagerProxy) SetBackupServiceEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -10653,6 +10853,7 @@ func (p *DevicePolicyManagerProxy) IsBackupServiceEnabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -10687,6 +10888,7 @@ func (p *DevicePolicyManagerProxy) SetNetworkLoggingEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -10719,6 +10921,7 @@ func (p *DevicePolicyManagerProxy) IsNetworkLoggingEnabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -10755,6 +10958,7 @@ func (p *DevicePolicyManagerProxy) RetrieveNetworkLogs(
 	var _result []NetworkEvent
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -10805,11 +11009,13 @@ func (p *DevicePolicyManagerProxy) BindDeviceAdminServiceAsUser(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteStrongBinder(caller.AsBinder().Handle())
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := service.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -10846,6 +11052,7 @@ func (p *DevicePolicyManagerProxy) GetBindDeviceAdminTargetUsers(
 	var _result []os.UserHandle
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -10888,6 +11095,7 @@ func (p *DevicePolicyManagerProxy) IsEphemeralUser(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11010,6 +11218,7 @@ func (p *DevicePolicyManagerProxy) SetResetPasswordToken(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11053,6 +11262,7 @@ func (p *DevicePolicyManagerProxy) ClearResetPasswordToken(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11088,6 +11298,7 @@ func (p *DevicePolicyManagerProxy) IsResetPasswordTokenActive(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11126,6 +11337,7 @@ func (p *DevicePolicyManagerProxy) ResetPasswordWithToken(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11199,6 +11411,7 @@ func (p *DevicePolicyManagerProxy) GetOwnerInstalledCaCerts(
 	var _result pm.StringParceledListSlice
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11232,6 +11445,7 @@ func (p *DevicePolicyManagerProxy) ClearApplicationUserData(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -11263,6 +11477,7 @@ func (p *DevicePolicyManagerProxy) SetLogoutEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -11324,6 +11539,7 @@ func (p *DevicePolicyManagerProxy) GetDisallowedSystemApps(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11370,9 +11586,11 @@ func (p *DevicePolicyManagerProxy) TransferOwnership(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := target.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -11427,6 +11645,7 @@ func (p *DevicePolicyManagerProxy) SetStartUserSessionMessage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -11456,6 +11675,7 @@ func (p *DevicePolicyManagerProxy) SetEndUserSessionMessage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -11485,6 +11705,7 @@ func (p *DevicePolicyManagerProxy) GetStartUserSessionMessage(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11514,6 +11735,7 @@ func (p *DevicePolicyManagerProxy) GetEndUserSessionMessage(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11544,6 +11766,7 @@ func (p *DevicePolicyManagerProxy) SetMeteredDataDisabledPackages(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11595,6 +11818,7 @@ func (p *DevicePolicyManagerProxy) GetMeteredDataDisabledPackages(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11639,9 +11863,11 @@ func (p *DevicePolicyManagerProxy) AddOverrideApn(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := apnSetting.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11677,10 +11903,12 @@ func (p *DevicePolicyManagerProxy) UpdateOverrideApn(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteInt32(apnId)
+	_data.WriteInt32(1)
 	if _err := apnSetting.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11715,6 +11943,7 @@ func (p *DevicePolicyManagerProxy) RemoveOverrideApn(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11749,6 +11978,7 @@ func (p *DevicePolicyManagerProxy) GetOverrideApns(
 	var _result []data.ApnSetting
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11791,6 +12021,7 @@ func (p *DevicePolicyManagerProxy) SetOverrideApnsEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -11821,6 +12052,7 @@ func (p *DevicePolicyManagerProxy) IsOverrideApnEnabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11856,6 +12088,7 @@ func (p *DevicePolicyManagerProxy) IsMeteredDataDisabledPackageForUser(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11893,6 +12126,7 @@ func (p *DevicePolicyManagerProxy) SetGlobalPrivateDns(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11928,6 +12162,7 @@ func (p *DevicePolicyManagerProxy) GetGlobalPrivateDnsMode(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11961,6 +12196,7 @@ func (p *DevicePolicyManagerProxy) GetGlobalPrivateDnsHost(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -11995,6 +12231,7 @@ func (p *DevicePolicyManagerProxy) SetProfileOwnerOnOrganizationOwnedDevice(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -12028,6 +12265,7 @@ func (p *DevicePolicyManagerProxy) InstallUpdateFromFile(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -12060,6 +12298,7 @@ func (p *DevicePolicyManagerProxy) SetCrossProfileCalendarPackages(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -12097,6 +12336,7 @@ func (p *DevicePolicyManagerProxy) GetCrossProfileCalendarPackages(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -12214,6 +12454,7 @@ func (p *DevicePolicyManagerProxy) SetCrossProfilePackages(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -12251,6 +12492,7 @@ func (p *DevicePolicyManagerProxy) GetCrossProfilePackages(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -12477,6 +12719,7 @@ func (p *DevicePolicyManagerProxy) SetKeyGrantForApp(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -12615,6 +12858,7 @@ func (p *DevicePolicyManagerProxy) SetUserControlDisabledPackages(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -12654,6 +12898,7 @@ func (p *DevicePolicyManagerProxy) GetUserControlDisabledPackages(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -12699,6 +12944,7 @@ func (p *DevicePolicyManagerProxy) SetCommonCriteriaModeEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -12730,6 +12976,7 @@ func (p *DevicePolicyManagerProxy) IsCommonCriteriaModeEnabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -12763,6 +13010,7 @@ func (p *DevicePolicyManagerProxy) GetPersonalAppsSuspendedReasons(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -12796,6 +13044,7 @@ func (p *DevicePolicyManagerProxy) SetPersonalAppsSuspended(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -12826,6 +13075,7 @@ func (p *DevicePolicyManagerProxy) GetManagedProfileMaximumTimeOff(
 	var _result int64
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -12859,6 +13109,7 @@ func (p *DevicePolicyManagerProxy) SetManagedProfileMaximumTimeOff(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -13094,6 +13345,7 @@ func (p *DevicePolicyManagerProxy) CreateAndProvisionManagedProfile(
 	var _result os.UserHandle
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := provisioningParams.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -13128,6 +13380,7 @@ func (p *DevicePolicyManagerProxy) CreateManagedProfile(
 	var _result os.UserHandle
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := provisioningParams.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -13161,9 +13414,11 @@ func (p *DevicePolicyManagerProxy) FinalizeCreateManagedProfile(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := provisioningParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := managedProfileUser.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -13193,6 +13448,7 @@ func (p *DevicePolicyManagerProxy) ProvisionFullyManagedDevice(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := provisioningParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -13223,9 +13479,11 @@ func (p *DevicePolicyManagerProxy) FinalizeWorkProfileProvisioning(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := managedProfileUser.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := migratedAccount.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -13286,6 +13544,7 @@ func (p *DevicePolicyManagerProxy) SetDeviceOwnerType(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -13316,6 +13575,7 @@ func (p *DevicePolicyManagerProxy) GetDeviceOwnerType(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -13550,6 +13810,7 @@ func (p *DevicePolicyManagerProxy) SetWifiSsidPolicy(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackageName)
+	_data.WriteInt32(1)
 	if _err := policy.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -13986,6 +14247,7 @@ func (p *DevicePolicyManagerProxy) GetPolicyManagedProfiles(
 	var _result []os.UserHandle
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -14192,6 +14454,7 @@ func (p *DevicePolicyManagerProxy) SetManagedSubscriptionsPolicy(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := policy.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -14395,6 +14658,7 @@ func (p *DevicePolicyManagerProxy) SetContentProtectionPolicy(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -14428,6 +14692,7 @@ func (p *DevicePolicyManagerProxy) GetContentProtectionPolicy(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
+	_data.WriteInt32(1)
 	if _err := who.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -14593,6 +14858,7 @@ func (p *DevicePolicyManagerProxy) GetPolicySizeForAdmin(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicePolicyManager)
 	_data.WriteString16(callerPackageName)
+	_data.WriteInt32(1)
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

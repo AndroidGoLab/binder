@@ -585,6 +585,7 @@ func (p *PackageManagerProxy) GetPackageInfoVersioned(
 	var _result PackageInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
+	_data.WriteInt32(1)
 	if _err := versionedPackage.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2259,6 +2260,7 @@ func (p *PackageManagerProxy) DeletePackageVersioned(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
+	_data.WriteInt32(1)
 	if _err := versionedPackage.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2292,6 +2294,7 @@ func (p *PackageManagerProxy) DeleteExistingPackageAsUser(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
+	_data.WriteInt32(1)
 	if _err := versionedPackage.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2876,6 +2879,7 @@ func (p *PackageManagerProxy) SetPackagesSuspendedAsUser(
 		}
 	}
 	_data.WriteBool(suspended)
+	_data.WriteInt32(1)
 	if _err := dialogInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5250,6 +5254,7 @@ func (p *PackageManagerProxy) IsPackageSignedByKeySet(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := ks.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -5285,6 +5290,7 @@ func (p *PackageManagerProxy) IsPackageSignedByKeySetExactly(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := ks.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6808,6 +6814,7 @@ func (p *PackageManagerProxy) AddPermission(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -6841,6 +6848,7 @@ func (p *PackageManagerProxy) AddPermissionAsync(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageManager)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

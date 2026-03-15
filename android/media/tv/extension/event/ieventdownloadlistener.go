@@ -42,6 +42,7 @@ func (p *EventDownloadListenerProxy) OnCompleted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEventDownloadListener)
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}

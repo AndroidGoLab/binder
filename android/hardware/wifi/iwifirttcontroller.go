@@ -89,10 +89,12 @@ func (p *WifiRttControllerProxy) EnableResponder(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 	_data.WriteInt32(cmdId)
+	_data.WriteInt32(1)
 	if _err := channelHint.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(maxDurationInSeconds)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -309,6 +311,7 @@ func (p *WifiRttControllerProxy) SetLci(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 	_data.WriteInt32(cmdId)
+	_data.WriteInt32(1)
 	if _err := lci.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -339,6 +342,7 @@ func (p *WifiRttControllerProxy) SetLcr(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiRttController)
 	_data.WriteInt32(cmdId)
+	_data.WriteInt32(1)
 	if _err := lcr.MarshalParcel(_data); _err != nil {
 		return _err
 	}

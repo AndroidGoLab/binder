@@ -45,6 +45,7 @@ func (p *LightsProxy) SetLightState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILights)
 	_data.WriteInt32(id)
+	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
 		return _err
 	}

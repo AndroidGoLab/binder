@@ -80,6 +80,7 @@ func (p *FieldClassificationServiceProxy) OnFieldClassificationRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFieldClassificationService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -51,6 +51,7 @@ func (p *RemoteTransitionProxy) StartAnimation(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteTransition)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -76,6 +77,7 @@ func (p *RemoteTransitionProxy) MergeAnimation(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteTransition)
 	_data.WriteStrongBinder(transition.Handle())
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -102,6 +104,7 @@ func (p *RemoteTransitionProxy) TakeOverAnimation(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteTransition)
 	_data.WriteStrongBinder(transition.Handle())
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

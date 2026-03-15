@@ -179,6 +179,7 @@ func (p *SplitScreenProxy) StartTask(
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(position)
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -206,12 +207,15 @@ func (p *SplitScreenProxy) StartShortcut(
 	_data.WriteString16(packageName)
 	_data.WriteString16(shortcutId)
 	_data.WriteInt32(position)
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := instanceId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -236,17 +240,21 @@ func (p *SplitScreenProxy) StartIntent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := fillInIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(position)
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := instanceId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -274,18 +282,22 @@ func (p *SplitScreenProxy) StartTasks(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
 	_data.WriteInt32(taskId1)
+	_data.WriteInt32(1)
 	if _err := options1.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(taskId2)
+	_data.WriteInt32(1)
 	if _err := options2.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(splitPosition)
 	_data.WriteInt32(snapPosition)
+	_data.WriteInt32(1)
 	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := instanceId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -313,22 +325,27 @@ func (p *SplitScreenProxy) StartIntentAndTask(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
+	_data.WriteInt32(1)
 	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(userId1)
+	_data.WriteInt32(1)
 	if _err := options1.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
 	if _err := options2.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(sidePosition)
 	_data.WriteInt32(snapPosition)
+	_data.WriteInt32(1)
 	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := instanceId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -355,21 +372,26 @@ func (p *SplitScreenProxy) StartShortcutAndTask(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
+	_data.WriteInt32(1)
 	if _err := shortcutInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := options1.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
 	if _err := options2.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(splitPosition)
 	_data.WriteInt32(snapPosition)
+	_data.WriteInt32(1)
 	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := instanceId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -400,31 +422,39 @@ func (p *SplitScreenProxy) StartIntents(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISplitScreen)
+	_data.WriteInt32(1)
 	if _err := pendingIntent1.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(userId1)
+	_data.WriteInt32(1)
 	if _err := shortcutInfo1.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := options1.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := pendingIntent2.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(userId2)
+	_data.WriteInt32(1)
 	if _err := shortcutInfo2.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := options2.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(splitPosition)
 	_data.WriteInt32(snapPosition)
+	_data.WriteInt32(1)
 	if _err := remoteTransition.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := instanceId.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -105,6 +105,7 @@ func (p *StreamOutProxy) UpdateMetadata(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
+	_data.WriteInt32(1)
 	if _err := sourceMetadata.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -133,6 +134,7 @@ func (p *StreamOutProxy) UpdateOffloadMetadata(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
+	_data.WriteInt32(1)
 	if _err := offloadMetadata.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -438,6 +440,7 @@ func (p *StreamOutProxy) SetPlaybackRateParameters(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamOut)
+	_data.WriteInt32(1)
 	if _err := playbackRate.MarshalParcel(_data); _err != nil {
 		return _err
 	}

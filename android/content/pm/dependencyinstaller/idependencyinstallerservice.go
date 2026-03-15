@@ -53,6 +53,7 @@ func (p *DependencyInstallerServiceProxy) OnDependenciesRequired(
 			}
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

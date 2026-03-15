@@ -41,6 +41,7 @@ func (p *TimeZoneProviderManagerProxy) OnTimeZoneProviderEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeZoneProviderManager)
+	_data.WriteInt32(1)
 	if _err := timeZoneProviderEvent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

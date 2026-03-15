@@ -43,6 +43,7 @@ func (p *TvInputCallbackProxy) Notify(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputCallback)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -71,6 +72,7 @@ func (p *TvInputCallbackProxy) NotifyTvMessageEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputCallback)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

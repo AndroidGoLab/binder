@@ -41,6 +41,7 @@ func (p *MediaQualityCallbackProxy) NotifyAmbientBacklightEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityCallback)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

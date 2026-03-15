@@ -250,6 +250,7 @@ func (p *ContentServiceProxy) Sync(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -281,6 +282,7 @@ func (p *ContentServiceProxy) SyncAsUser(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -314,6 +316,7 @@ func (p *ContentServiceProxy) CancelSync(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteString16(authority)
+	_data.WriteInt32(1)
 	if _err := cname.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -346,6 +349,7 @@ func (p *ContentServiceProxy) CancelSyncAsUser(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteString16(authority)
+	_data.WriteInt32(1)
 	if _err := cname.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -375,6 +379,7 @@ func (p *ContentServiceProxy) CancelRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -533,6 +538,7 @@ func (p *ContentServiceProxy) GetPeriodicSyncs(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteString16(providerName)
+	_data.WriteInt32(1)
 	if _err := cname.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1110,6 +1116,7 @@ func (p *ContentServiceProxy) IsSyncActive(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteString16(authority)
+	_data.WriteInt32(1)
 	if _err := cname.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1146,6 +1153,7 @@ func (p *ContentServiceProxy) GetSyncStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteString16(authority)
+	_data.WriteInt32(1)
 	if _err := cname.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1182,6 +1190,7 @@ func (p *ContentServiceProxy) GetSyncStatusAsUser(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteString16(authority)
+	_data.WriteInt32(1)
 	if _err := cname.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1218,6 +1227,7 @@ func (p *ContentServiceProxy) IsSyncPending(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteString16(authority)
+	_data.WriteInt32(1)
 	if _err := cname.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1255,6 +1265,7 @@ func (p *ContentServiceProxy) IsSyncPendingAsUser(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentService)
 	_data.WriteString16(authority)
+	_data.WriteInt32(1)
 	if _err := cname.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

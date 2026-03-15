@@ -64,6 +64,7 @@ func (p *FaceServiceReceiverProxy) OnEnrollResult(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
+	_data.WriteInt32(1)
 	if _err := face.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -105,6 +106,7 @@ func (p *FaceServiceReceiverProxy) OnAuthenticationSucceeded(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
+	_data.WriteInt32(1)
 	if _err := face.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -182,6 +184,7 @@ func (p *FaceServiceReceiverProxy) OnRemoved(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
+	_data.WriteInt32(1)
 	if _err := face.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -277,6 +280,7 @@ func (p *FaceServiceReceiverProxy) OnAuthenticationFrame(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
+	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -296,6 +300,7 @@ func (p *FaceServiceReceiverProxy) OnEnrollmentFrame(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFaceServiceReceiver)
+	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
 		return _err
 	}

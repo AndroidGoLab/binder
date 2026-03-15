@@ -140,6 +140,7 @@ func (p *OnDeviceIntelligenceManagerProxy) GetFeatureDetails(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
+	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -171,9 +172,11 @@ func (p *OnDeviceIntelligenceManagerProxy) RequestFeatureDownload(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
+	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := cancellationSignalFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -206,9 +209,11 @@ func (p *OnDeviceIntelligenceManagerProxy) RequestTokenInfo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
+	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := cancellationSignalFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -243,13 +248,16 @@ func (p *OnDeviceIntelligenceManagerProxy) ProcessRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
+	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(requestType)
+	_data.WriteInt32(1)
 	if _err := cancellationSignalFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := processingSignalFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -284,13 +292,16 @@ func (p *OnDeviceIntelligenceManagerProxy) ProcessRequestStreaming(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceManager)
+	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(requestType)
+	_data.WriteInt32(1)
 	if _err := cancellationSignalFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := processingSignalFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}

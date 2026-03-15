@@ -154,6 +154,7 @@ func (p *ImsRcsFeatureProxy) ChangeCapabilitiesConfiguration(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
+	_data.WriteInt32(1)
 	if _err := r.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -261,6 +262,7 @@ func (p *ImsRcsFeatureProxy) SendOptionsCapabilityRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsRcsFeature)
+	_data.WriteInt32(1)
 	if _err := contactUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -48,6 +48,7 @@ func (p *SpellCheckerServiceProxy) GetISpellCheckerSession(
 	_data.WriteInterfaceToken(DescriptorISpellCheckerService)
 	_data.WriteString16(locale)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := bundle.MarshalParcel(_data); _err != nil {
 		return _err
 	}

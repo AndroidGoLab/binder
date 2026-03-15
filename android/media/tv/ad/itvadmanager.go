@@ -130,6 +130,7 @@ func (p *TvAdManagerProxy) SendAppLinkCommand(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	_data.WriteString16(serviceId)
+	_data.WriteInt32(1)
 	if _err := command.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -371,6 +372,7 @@ func (p *TvAdManagerProxy) SendCurrentVideoBounds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -403,6 +405,7 @@ func (p *TvAdManagerProxy) SendCurrentChannelUri(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -545,6 +548,7 @@ func (p *TvAdManagerProxy) NotifyError(
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
 	_data.WriteString16(errMsg)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -579,6 +583,7 @@ func (p *TvAdManagerProxy) NotifyTvMessage(
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
 	_data.WriteInt32(type_)
+	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -669,6 +674,7 @@ func (p *TvAdManagerProxy) CreateMediaView(
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
 	_data.WriteStrongBinder(windowToken.Handle())
+	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -701,6 +707,7 @@ func (p *TvAdManagerProxy) RelayoutMediaView(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -763,6 +770,7 @@ func (p *TvAdManagerProxy) NotifyTvInputSessionData(
 	_data.WriteInterfaceToken(DescriptorITvAdManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
 	_data.WriteString16(type_)
+	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
 		return _err
 	}

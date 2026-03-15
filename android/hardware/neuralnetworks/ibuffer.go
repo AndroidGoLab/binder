@@ -44,6 +44,7 @@ func (p *BufferProxy) CopyFrom(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBuffer)
+	_data.WriteInt32(1)
 	if _err := src.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -80,6 +81,7 @@ func (p *BufferProxy) CopyTo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBuffer)
+	_data.WriteInt32(1)
 	if _err := dst.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -41,6 +41,7 @@ func (p *PrintJobStateChangeListenerProxy) OnPrintJobStateChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintJobStateChangeListener)
+	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
 		return _err
 	}

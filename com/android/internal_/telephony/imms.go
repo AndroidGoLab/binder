@@ -80,13 +80,16 @@ func (p *MmsProxy) SendMessage(
 	_data.WriteInt32(subId)
 	_data.WriteInt32(callingUser)
 	_data.WriteString16(callingPkg)
+	_data.WriteInt32(1)
 	if _err := contentUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(locationUrl)
+	_data.WriteInt32(1)
 	if _err := configOverrides.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sentIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -129,12 +132,15 @@ func (p *MmsProxy) DownloadMessage(
 	_data.WriteInt32(callingUser)
 	_data.WriteString16(callingPkg)
 	_data.WriteString16(locationUrl)
+	_data.WriteInt32(1)
 	if _err := contentUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := configOverrides.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := downloadedIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -216,6 +222,7 @@ func (p *MmsProxy) ImportMultimediaMessage(
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteInt32(callingUser)
 	_data.WriteString16(callingPkg)
+	_data.WriteInt32(1)
 	if _err := contentUri.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -254,6 +261,7 @@ func (p *MmsProxy) DeleteStoredMessage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteString16(callingPkg)
+	_data.WriteInt32(1)
 	if _err := messageUri.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -323,9 +331,11 @@ func (p *MmsProxy) UpdateStoredMessageStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteString16(callingPkg)
+	_data.WriteInt32(1)
 	if _err := messageUri.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := statusValues.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -432,6 +442,7 @@ func (p *MmsProxy) AddMultimediaMessageDraft(
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteInt32(callingUser)
 	_data.WriteString16(callingPkg)
+	_data.WriteInt32(1)
 	if _err := contentUri.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -469,12 +480,15 @@ func (p *MmsProxy) SendStoredMessage(
 	_data.WriteInterfaceToken(DescriptorIMms)
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPkg)
+	_data.WriteInt32(1)
 	if _err := messageUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := configOverrides.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sentIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

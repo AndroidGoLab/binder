@@ -143,6 +143,7 @@ func (p *AutoFillManagerClientProxy) OnGetCredentialResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -166,6 +167,7 @@ func (p *AutoFillManagerClientProxy) OnGetCredentialException(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -190,6 +192,7 @@ func (p *AutoFillManagerClientProxy) AutofillContent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -261,6 +264,7 @@ func (p *AutoFillManagerClientProxy) SetTrackedViews(
 			}
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := saveTriggerId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -287,11 +291,13 @@ func (p *AutoFillManagerClientProxy) RequestShowFillUi(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
+	_data.WriteInt32(1)
 	if _err := anchorBounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -314,6 +320,7 @@ func (p *AutoFillManagerClientProxy) RequestHideFillUi(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -335,6 +342,7 @@ func (p *AutoFillManagerClientProxy) RequestHideFillUiWhenDestroyed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -357,6 +365,7 @@ func (p *AutoFillManagerClientProxy) NotifyNoFillUi(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -379,6 +388,7 @@ func (p *AutoFillManagerClientProxy) NotifyFillUiShown(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -400,6 +410,7 @@ func (p *AutoFillManagerClientProxy) NotifyFillUiHidden(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -422,6 +433,7 @@ func (p *AutoFillManagerClientProxy) DispatchUnhandledKey(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -539,6 +551,7 @@ func (p *AutoFillManagerClientProxy) RequestShowSoftInput(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _err
 	}

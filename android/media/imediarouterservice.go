@@ -595,6 +595,7 @@ func (p *MediaRouterServiceProxy) SetDiscoveryRequestWithRouter2(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	_data.WriteStrongBinder(router.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := preference.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -660,6 +661,7 @@ func (p *MediaRouterServiceProxy) SetRouteVolumeWithRouter2(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	_data.WriteStrongBinder(router.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := route.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -697,9 +699,11 @@ func (p *MediaRouterServiceProxy) RequestCreateSessionWithRouter2(
 	_data.WriteStrongBinder(router.AsBinder().Handle())
 	_data.WriteInt32(requestId)
 	_data.WriteInt64(managerRequestId)
+	_data.WriteInt32(1)
 	if _err := oldSession.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := route.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -732,6 +736,7 @@ func (p *MediaRouterServiceProxy) SelectRouteWithRouter2(
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	_data.WriteStrongBinder(router.AsBinder().Handle())
 	_data.WriteString16(sessionId)
+	_data.WriteInt32(1)
 	if _err := route.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -764,6 +769,7 @@ func (p *MediaRouterServiceProxy) DeselectRouteWithRouter2(
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	_data.WriteStrongBinder(router.AsBinder().Handle())
 	_data.WriteString16(sessionId)
+	_data.WriteInt32(1)
 	if _err := route.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -796,6 +802,7 @@ func (p *MediaRouterServiceProxy) TransferToRouteWithRouter2(
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	_data.WriteStrongBinder(router.AsBinder().Handle())
 	_data.WriteString16(sessionId)
+	_data.WriteInt32(1)
 	if _err := route.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1044,6 +1051,7 @@ func (p *MediaRouterServiceProxy) SetRouteVolumeWithManager(
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	_data.WriteStrongBinder(manager.AsBinder().Handle())
 	_data.WriteInt32(requestId)
+	_data.WriteInt32(1)
 	if _err := route.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1106,6 +1114,7 @@ func (p *MediaRouterServiceProxy) RequestCreateSessionWithManager(
 	_data.WriteInterfaceToken(DescriptorIMediaRouterService)
 	_data.WriteStrongBinder(manager.AsBinder().Handle())
 	_data.WriteInt32(requestId)
+	_data.WriteInt32(1)
 	if _err := oldSession.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1147,6 +1156,7 @@ func (p *MediaRouterServiceProxy) SelectRouteWithManager(
 	_data.WriteStrongBinder(manager.AsBinder().Handle())
 	_data.WriteInt32(requestId)
 	_data.WriteString16(sessionId)
+	_data.WriteInt32(1)
 	if _err := route.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1181,6 +1191,7 @@ func (p *MediaRouterServiceProxy) DeselectRouteWithManager(
 	_data.WriteStrongBinder(manager.AsBinder().Handle())
 	_data.WriteInt32(requestId)
 	_data.WriteString16(sessionId)
+	_data.WriteInt32(1)
 	if _err := route.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1217,6 +1228,7 @@ func (p *MediaRouterServiceProxy) TransferToRouteWithManager(
 	_data.WriteStrongBinder(manager.AsBinder().Handle())
 	_data.WriteInt32(requestId)
 	_data.WriteString16(sessionId)
+	_data.WriteInt32(1)
 	if _err := route.MarshalParcel(_data); _err != nil {
 		return _err
 	}

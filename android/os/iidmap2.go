@@ -208,6 +208,7 @@ func (p *Idmap2Proxy) CreateFabricatedOverlay(
 	var _result FabricatedOverlayInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIdmap2)
+	_data.WriteInt32(1)
 	if _err := overlay.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

@@ -75,6 +75,7 @@ func (p *RatingInterfaceProxy) SetRRTRatingInfo(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRatingInterface)
+	_data.WriteInt32(1)
 	if _err := param.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

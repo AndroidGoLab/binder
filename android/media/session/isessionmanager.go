@@ -275,6 +275,7 @@ func (p *SessionManagerProxy) DispatchMediaKeyEventToSessionAsSystemService(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := sessionToken.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -347,6 +348,7 @@ func (p *SessionManagerProxy) DispatchVolumeKeyEventToSessionAsSystemService(
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(opPackageName)
+	_data.WriteInt32(1)
 	if _err := sessionToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -905,6 +907,7 @@ func (p *SessionManagerProxy) GetSessionPolicies(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
+	_data.WriteInt32(1)
 	if _err := token.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -938,6 +941,7 @@ func (p *SessionManagerProxy) SetSessionPolicies(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
+	_data.WriteInt32(1)
 	if _err := token.MarshalParcel(_data); _err != nil {
 		return _err
 	}

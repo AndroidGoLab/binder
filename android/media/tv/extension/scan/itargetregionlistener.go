@@ -42,6 +42,7 @@ func (p *TargetRegionListenerProxy) OnDetectTargetRegion(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITargetRegionListener)
+	_data.WriteInt32(1)
 	if _err := detectTargetRegions.MarshalParcel(_data); _err != nil {
 		return _err
 	}

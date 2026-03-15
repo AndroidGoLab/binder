@@ -65,6 +65,7 @@ func (p *InputMethodSessionProxy) UpdateExtractedText(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 	_data.WriteInt32(token)
+	_data.WriteInt32(1)
 	if _err := text.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -128,6 +129,7 @@ func (p *InputMethodSessionProxy) UpdateCursor(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
+	_data.WriteInt32(1)
 	if _err := newCursor.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -206,6 +208,7 @@ func (p *InputMethodSessionProxy) UpdateCursorAnchorInfo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
+	_data.WriteInt32(1)
 	if _err := cursorAnchorInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -257,6 +260,7 @@ func (p *InputMethodSessionProxy) InvalidateInput(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
+	_data.WriteInt32(1)
 	if _err := editorInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

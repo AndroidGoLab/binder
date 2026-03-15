@@ -54,6 +54,7 @@ func (p *MagnificationConnectionCallbackProxy) OnWindowMagnifierBoundsChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnectionCallback)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -94,6 +95,7 @@ func (p *MagnificationConnectionCallbackProxy) OnSourceBoundsChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMagnificationConnectionCallback)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
 	if _err := sourceBounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -117,11 +117,13 @@ func (p *RemoteInputConnectionProxy) GetTextBeforeCursor(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(length)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -144,11 +146,13 @@ func (p *RemoteInputConnectionProxy) GetTextAfterCursor(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(length)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -170,10 +174,12 @@ func (p *RemoteInputConnectionProxy) GetCursorCapsMode(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(reqModes)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -196,13 +202,16 @@ func (p *RemoteInputConnectionProxy) GetExtractedText(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -224,6 +233,7 @@ func (p *RemoteInputConnectionProxy) DeleteSurroundingText(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -247,6 +257,7 @@ func (p *RemoteInputConnectionProxy) DeleteSurroundingTextInCodePoints(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -270,6 +281,7 @@ func (p *RemoteInputConnectionProxy) SetComposingText(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -293,10 +305,12 @@ func (p *RemoteInputConnectionProxy) SetComposingTextWithTextAttribute(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(newCursorPosition)
+	_data.WriteInt32(1)
 	if _err := textAttribute.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -316,6 +330,7 @@ func (p *RemoteInputConnectionProxy) FinishComposingText(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -337,6 +352,7 @@ func (p *RemoteInputConnectionProxy) CommitText(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -360,10 +376,12 @@ func (p *RemoteInputConnectionProxy) CommitTextWithTextAttribute(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(newCursorPosition)
+	_data.WriteInt32(1)
 	if _err := textAttribute.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -384,9 +402,11 @@ func (p *RemoteInputConnectionProxy) CommitCompletion(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := completion.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -407,9 +427,11 @@ func (p *RemoteInputConnectionProxy) CommitCorrection(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := correction.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -431,6 +453,7 @@ func (p *RemoteInputConnectionProxy) SetSelection(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -453,6 +476,7 @@ func (p *RemoteInputConnectionProxy) PerformEditorAction(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -474,6 +498,7 @@ func (p *RemoteInputConnectionProxy) PerformContextMenuAction(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -494,6 +519,7 @@ func (p *RemoteInputConnectionProxy) BeginBatchEdit(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -513,6 +539,7 @@ func (p *RemoteInputConnectionProxy) EndBatchEdit(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -533,6 +560,7 @@ func (p *RemoteInputConnectionProxy) SendKeyEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -553,6 +581,7 @@ func (p *RemoteInputConnectionProxy) ClearMetaKeyStates(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -573,6 +602,7 @@ func (p *RemoteInputConnectionProxy) PerformSpellCheck(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -594,6 +624,7 @@ func (p *RemoteInputConnectionProxy) PerformPrivateCommand(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -616,9 +647,11 @@ func (p *RemoteInputConnectionProxy) PerformHandwritingGesture(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := gesture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -640,9 +673,11 @@ func (p *RemoteInputConnectionProxy) PreviewHandwritingGesture(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := gesture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -665,6 +700,7 @@ func (p *RemoteInputConnectionProxy) SetComposingRegion(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -689,11 +725,13 @@ func (p *RemoteInputConnectionProxy) SetComposingRegionWithTextAttribute(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(start)
 	_data.WriteInt32(end)
+	_data.WriteInt32(1)
 	if _err := textAttribute.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -715,10 +753,12 @@ func (p *RemoteInputConnectionProxy) GetSelectedText(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -741,11 +781,13 @@ func (p *RemoteInputConnectionProxy) RequestCursorUpdates(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(cursorUpdateMode)
 	_data.WriteInt32(imeDisplayId)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -769,12 +811,14 @@ func (p *RemoteInputConnectionProxy) RequestCursorUpdatesWithFilter(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(cursorUpdateMode)
 	_data.WriteInt32(cursorUpdateFilter)
 	_data.WriteInt32(imeDisplayId)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -796,9 +840,11 @@ func (p *RemoteInputConnectionProxy) RequestTextBoundsInfo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -822,13 +868,16 @@ func (p *RemoteInputConnectionProxy) CommitContent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := inputContentInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -852,12 +901,14 @@ func (p *RemoteInputConnectionProxy) GetSurroundingText(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(beforeLength)
 	_data.WriteInt32(afterLength)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -878,6 +929,7 @@ func (p *RemoteInputConnectionProxy) SetImeConsumesInput(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -903,12 +955,14 @@ func (p *RemoteInputConnectionProxy) ReplaceText(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(start)
 	_data.WriteInt32(end)
 	_data.WriteInt32(newCursorPosition)
+	_data.WriteInt32(1)
 	if _err := textAttribute.MarshalParcel(_data); _err != nil {
 		return _err
 	}

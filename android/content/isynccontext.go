@@ -67,6 +67,7 @@ func (p *SyncContextProxy) OnFinished(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISyncContext)
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}

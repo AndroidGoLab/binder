@@ -204,6 +204,7 @@ func (p *SoundTriggerInjectionProxy) OnRecognitionStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
 	_data.WriteInt32(audioSessionToken)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}

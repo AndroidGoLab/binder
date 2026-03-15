@@ -41,6 +41,7 @@ func (p *FeatureFlagsCallbackProxy) OnFlagChange(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFeatureFlagsCallback)
+	_data.WriteInt32(1)
 	if _err := flag.MarshalParcel(_data); _err != nil {
 		return _err
 	}

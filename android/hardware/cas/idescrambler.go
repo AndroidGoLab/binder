@@ -64,10 +64,12 @@ func (p *DescramblerProxy) Descramble(
 			}
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := srcBuffer.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteInt64(srcOffset)
+	_data.WriteInt32(1)
 	if _err := dstBuffer.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

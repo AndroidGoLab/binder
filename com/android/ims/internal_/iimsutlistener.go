@@ -82,6 +82,7 @@ func (p *ImsUtListenerProxy) UtConfigurationUpdateFailed(
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
 	_data.WriteStrongBinder(ut.AsBinder().Handle())
 	_data.WriteInt32(id)
+	_data.WriteInt32(1)
 	if _err := error_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -105,6 +106,7 @@ func (p *ImsUtListenerProxy) UtConfigurationQueried(
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
 	_data.WriteStrongBinder(ut.AsBinder().Handle())
 	_data.WriteInt32(id)
+	_data.WriteInt32(1)
 	if _err := ssInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -128,6 +130,7 @@ func (p *ImsUtListenerProxy) UtConfigurationQueryFailed(
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
 	_data.WriteStrongBinder(ut.AsBinder().Handle())
 	_data.WriteInt32(id)
+	_data.WriteInt32(1)
 	if _err := error_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -149,6 +152,7 @@ func (p *ImsUtListenerProxy) LineIdentificationSupplementaryServiceResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
 	_data.WriteInt32(id)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -258,6 +262,7 @@ func (p *ImsUtListenerProxy) OnSupplementaryServiceIndication(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsUtListener)
+	_data.WriteInt32(1)
 	if _err := ssData.MarshalParcel(_data); _err != nil {
 		return _err
 	}

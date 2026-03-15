@@ -62,6 +62,7 @@ func (p *MediaRouter2Proxy) NotifyRouterRegistered(
 			}
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := currentSystemSessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -132,6 +133,7 @@ func (p *MediaRouter2Proxy) NotifySessionInfoChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -151,6 +153,7 @@ func (p *MediaRouter2Proxy) NotifySessionReleased(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -173,9 +176,11 @@ func (p *MediaRouter2Proxy) RequestCreateSessionByManager(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRouter2)
 	_data.WriteInt64(uniqueRequestId)
+	_data.WriteInt32(1)
 	if _err := oldSession.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := route.MarshalParcel(_data); _err != nil {
 		return _err
 	}

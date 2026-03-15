@@ -48,6 +48,7 @@ func (p *PrintSpoolerClientProxy) OnPrintJobQueued(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerClient)
+	_data.WriteInt32(1)
 	if _err := printJob.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -67,6 +68,7 @@ func (p *PrintSpoolerClientProxy) OnAllPrintJobsForServiceHandled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerClient)
+	_data.WriteInt32(1)
 	if _err := printService.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -101,6 +103,7 @@ func (p *PrintSpoolerClientProxy) OnPrintJobStateChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerClient)
+	_data.WriteInt32(1)
 	if _err := printJob.MarshalParcel(_data); _err != nil {
 		return _err
 	}

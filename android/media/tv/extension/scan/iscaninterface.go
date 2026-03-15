@@ -89,6 +89,7 @@ func (p *ScanInterfaceProxy) GetParameters(
 	_data.WriteInt32(broadcastType)
 	_data.WriteString16(countryCode)
 	_data.WriteString16(operator)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

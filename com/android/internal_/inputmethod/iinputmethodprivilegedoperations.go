@@ -121,6 +121,7 @@ func (p *InputMethodPrivilegedOperationsProxy) CreateInputContentUriToken(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -159,6 +160,7 @@ func (p *InputMethodPrivilegedOperationsProxy) SetInputMethod(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteString16(id)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -181,9 +183,11 @@ func (p *InputMethodPrivilegedOperationsProxy) SetInputMethodAndSubtype(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteString16(id)
+	_data.WriteInt32(1)
 	if _err := subtype.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -206,11 +210,13 @@ func (p *InputMethodPrivilegedOperationsProxy) HideMySoftInput(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
+	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(flags)
 	_data.WriteInt32(reason)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -233,11 +239,13 @@ func (p *InputMethodPrivilegedOperationsProxy) ShowMySoftInput(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
+	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(flags)
 	_data.WriteInt32(reason)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -276,6 +284,7 @@ func (p *InputMethodPrivilegedOperationsProxy) SwitchToPreviousInputMethod(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -297,6 +306,7 @@ func (p *InputMethodPrivilegedOperationsProxy) SwitchToNextInputMethod(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteBool(onlyCurrentIme)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -316,6 +326,7 @@ func (p *InputMethodPrivilegedOperationsProxy) ShouldOfferSwitchingToNextInputMe
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -371,6 +382,7 @@ func (p *InputMethodPrivilegedOperationsProxy) ApplyImeVisibilityAsync(
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
 	_data.WriteStrongBinder(showOrHideInputToken.Handle())
 	_data.WriteBool(setVisible)
+	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -460,6 +472,7 @@ func (p *InputMethodPrivilegedOperationsProxy) SetHandwritingTouchableRegion(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
+	_data.WriteInt32(1)
 	if _err := region.MarshalParcel(_data); _err != nil {
 		return _err
 	}

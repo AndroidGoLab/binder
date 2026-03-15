@@ -138,6 +138,7 @@ func (p *LocaleManagerProxy) SetOverrideLocaleConfig(
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := localeConfig.MarshalParcel(_data); _err != nil {
 		return _err
 	}

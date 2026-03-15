@@ -45,6 +45,7 @@ func (p *MediaProjectionWatcherCallbackProxy) OnStart(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionWatcherCallback)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -64,6 +65,7 @@ func (p *MediaProjectionWatcherCallbackProxy) OnStop(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionWatcherCallback)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -84,6 +86,7 @@ func (p *MediaProjectionWatcherCallbackProxy) OnRecordingSessionSet(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionWatcherCallback)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

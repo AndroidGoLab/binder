@@ -46,9 +46,11 @@ func (p *OriginTransitionsProxy) MakeOriginTransition(
 	var _result window.RemoteTransition
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOriginTransitions)
+	_data.WriteInt32(1)
 	if _err := launchTransition.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := returnTransition.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -80,6 +82,7 @@ func (p *OriginTransitionsProxy) CancelOriginTransition(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOriginTransitions)
+	_data.WriteInt32(1)
 	if _err := originTransition.MarshalParcel(_data); _err != nil {
 		return _err
 	}

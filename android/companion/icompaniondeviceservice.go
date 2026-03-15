@@ -45,6 +45,7 @@ func (p *CompanionDeviceServiceProxy) OnDeviceAppeared(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceService)
+	_data.WriteInt32(1)
 	if _err := associationInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -64,6 +65,7 @@ func (p *CompanionDeviceServiceProxy) OnDeviceDisappeared(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceService)
+	_data.WriteInt32(1)
 	if _err := associationInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -83,6 +85,7 @@ func (p *CompanionDeviceServiceProxy) OnDevicePresenceEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceService)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

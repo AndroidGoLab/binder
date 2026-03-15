@@ -68,6 +68,7 @@ func (p *SipDelegateConnectionStateCallbackProxy) OnFeatureTagStatusChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISipDelegateConnectionStateCallback)
+	_data.WriteInt32(1)
 	if _err := registrationState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -97,6 +98,7 @@ func (p *SipDelegateConnectionStateCallbackProxy) OnImsConfigurationChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISipDelegateConnectionStateCallback)
+	_data.WriteInt32(1)
 	if _err := registeredSipConfig.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -116,6 +118,7 @@ func (p *SipDelegateConnectionStateCallbackProxy) OnConfigurationChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISipDelegateConnectionStateCallback)
+	_data.WriteInt32(1)
 	if _err := registeredSipConfig.MarshalParcel(_data); _err != nil {
 		return _err
 	}

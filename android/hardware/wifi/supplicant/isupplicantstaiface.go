@@ -2155,6 +2155,7 @@ func (p *SupplicantStaIfaceProxy) ConfigureMscs(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2237,6 +2238,7 @@ func (p *SupplicantStaIfaceProxy) StartUsdPublish(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(cmdId)
+	_data.WriteInt32(1)
 	if _err := usdPublishConfig.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2267,6 +2269,7 @@ func (p *SupplicantStaIfaceProxy) StartUsdSubscribe(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
 	_data.WriteInt32(cmdId)
+	_data.WriteInt32(1)
 	if _err := usdSubscribeConfig.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2382,6 +2385,7 @@ func (p *SupplicantStaIfaceProxy) SendUsdMessage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIface)
+	_data.WriteInt32(1)
 	if _err := messageInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

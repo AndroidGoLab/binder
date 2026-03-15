@@ -41,6 +41,7 @@ func (p *ScrollCaptureResponseListenerProxy) OnScrollCaptureResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureResponseListener)
+	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
 		return _err
 	}

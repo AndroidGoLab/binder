@@ -46,6 +46,7 @@ func (p *DisplayAreaOrganizerProxy) OnDisplayAreaAppeared(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizer)
+	_data.WriteInt32(1)
 	if _err := displayAreaInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -65,6 +66,7 @@ func (p *DisplayAreaOrganizerProxy) OnDisplayAreaVanished(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizer)
+	_data.WriteInt32(1)
 	if _err := displayAreaInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -84,6 +86,7 @@ func (p *DisplayAreaOrganizerProxy) OnDisplayAreaInfoChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizer)
+	_data.WriteInt32(1)
 	if _err := displayAreaInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

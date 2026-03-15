@@ -107,6 +107,7 @@ func (p *AccessibilityInputMethodSessionProxy) InvalidateInput(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInputMethodSession)
+	_data.WriteInt32(1)
 	if _err := editorInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

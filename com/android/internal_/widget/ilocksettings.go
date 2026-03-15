@@ -356,9 +356,11 @@ func (p *LockSettingsProxy) SetLockCredential(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
+	_data.WriteInt32(1)
 	if _err := credential.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := savedCredential.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -421,6 +423,7 @@ func (p *LockSettingsProxy) CheckCredential(
 	var _result VerifyCredentialResponse
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
+	_data.WriteInt32(1)
 	if _err := credential.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -457,6 +460,7 @@ func (p *LockSettingsProxy) VerifyCredential(
 	var _result VerifyCredentialResponse
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
+	_data.WriteInt32(1)
 	if _err := credential.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -493,6 +497,7 @@ func (p *LockSettingsProxy) VerifyTiedProfileChallenge(
 	var _result VerifyCredentialResponse
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
+	_data.WriteInt32(1)
 	if _err := credential.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -681,6 +686,7 @@ func (p *LockSettingsProxy) GetHashFactor(
 	var _result []byte
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
+	_data.WriteInt32(1)
 	if _err := currentCredential.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -728,6 +734,7 @@ func (p *LockSettingsProxy) SetSeparateProfileChallengeEnabled(
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteInt32(userId)
 	_data.WriteBool(enabled)
+	_data.WriteInt32(1)
 	if _err := managedUserPassword.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1322,6 +1329,7 @@ func (p *LockSettingsProxy) SetSnapshotCreatedPendingIntent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILockSettings)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1534,6 +1542,7 @@ func (p *LockSettingsProxy) StartRecoverySessionWithCertPath(
 	_data.WriteInterfaceToken(DescriptorILockSettings)
 	_data.WriteString16(sessionId)
 	_data.WriteString16(rootCertificateAlias)
+	_data.WriteInt32(1)
 	if _err := verifierCertPath.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

@@ -320,6 +320,10 @@ func writeParamToParcel(
 	writeExpr := fmt.Sprintf(info.WriteExpr, varName)
 
 	if strings.Contains(info.WriteExpr, ".MarshalParcel") {
+		// Java's writeTypedObject writes int32(1) as a non-null indicator
+		// before calling writeToParcel. The server's readTypedObject reads
+		// this indicator before calling createFromParcel.
+		f.P("\t_data.WriteInt32(1)")
 		f.P("\tif _err := %s; _err != nil {", writeExpr)
 		if hasReturn {
 			f.P("\t\treturn _result, _err")

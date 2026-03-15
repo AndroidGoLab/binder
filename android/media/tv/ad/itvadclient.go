@@ -64,6 +64,7 @@ func (p *TvAdClientProxy) OnSessionCreated(
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
 	_data.WriteString16(serviceId)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := channel.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -229,6 +230,7 @@ func (p *TvAdClientProxy) OnTvAdSessionData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdClient)
 	_data.WriteString16(type_)
+	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
 		return _err
 	}

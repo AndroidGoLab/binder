@@ -91,6 +91,7 @@ func (p *FrontendProxy) Tune(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
+	_data.WriteInt32(1)
 	if _err := settings.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -168,6 +169,7 @@ func (p *FrontendProxy) Scan(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFrontend)
+	_data.WriteInt32(1)
 	if _err := settings.MarshalParcel(_data); _err != nil {
 		return _err
 	}

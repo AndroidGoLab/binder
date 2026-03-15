@@ -46,12 +46,15 @@ func (p *GameSessionServiceProxy) Create(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGameSessionService)
 	_data.WriteStrongBinder(gameSessionController.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := createGameSessionRequest.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := gameSessionViewHostConfiguration.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := createGameSessionResultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}

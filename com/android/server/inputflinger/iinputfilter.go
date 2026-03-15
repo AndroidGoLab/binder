@@ -78,6 +78,7 @@ func (p *InputFilterProxy) NotifyKey(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -141,6 +142,7 @@ func (p *InputFilterProxy) NotifyConfigurationChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputFilter)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}

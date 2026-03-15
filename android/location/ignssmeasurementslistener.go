@@ -43,6 +43,7 @@ func (p *GnssMeasurementsListenerProxy) OnGnssMeasurementsReceived(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssMeasurementsListener)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

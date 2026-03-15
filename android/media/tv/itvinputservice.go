@@ -104,12 +104,14 @@ func (p *TvInputServiceProxy) CreateSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
+	_data.WriteInt32(1)
 	if _err := channel.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteString16(inputId)
 	_data.WriteString16(sessionId)
+	_data.WriteInt32(1)
 	if _err := tvAppAttributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -252,6 +254,7 @@ func (p *TvInputServiceProxy) NotifyHardwareAdded(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
+	_data.WriteInt32(1)
 	if _err := hardwareInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -271,6 +274,7 @@ func (p *TvInputServiceProxy) NotifyHardwareRemoved(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
+	_data.WriteInt32(1)
 	if _err := hardwareInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -290,6 +294,7 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceAdded(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
+	_data.WriteInt32(1)
 	if _err := deviceInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -309,6 +314,7 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceRemoved(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
+	_data.WriteInt32(1)
 	if _err := deviceInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -328,6 +334,7 @@ func (p *TvInputServiceProxy) NotifyHdmiDeviceUpdated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputService)
+	_data.WriteInt32(1)
 	if _err := deviceInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

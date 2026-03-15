@@ -78,15 +78,19 @@ func (p *NoteTaskBubblesServiceProxy) ShowOrHideAppBubble(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINoteTaskBubblesService)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := bubbleExpandBehavior.MarshalParcel(_data); _err != nil {
 		return _err
 	}

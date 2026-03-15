@@ -275,6 +275,7 @@ func (p *KeyChainServiceProxy) GenerateKeyPair(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
 	_data.WriteString16(algorithm)
+	_data.WriteInt32(1)
 	if _err := spec.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -792,6 +793,7 @@ func (p *KeyChainServiceProxy) SetCredentialManagementApp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := policy.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -909,6 +911,7 @@ func (p *KeyChainServiceProxy) GetPredefinedAliasForPackageAndUri(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeyChainService)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

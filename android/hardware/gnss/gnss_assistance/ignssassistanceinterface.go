@@ -43,6 +43,7 @@ func (p *GnssAssistanceInterfaceProxy) InjectGnssAssistance(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssAssistanceInterface)
+	_data.WriteInt32(1)
 	if _err := gnssAssistance.MarshalParcel(_data); _err != nil {
 		return _err
 	}

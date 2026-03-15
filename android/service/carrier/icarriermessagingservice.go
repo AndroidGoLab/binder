@@ -56,6 +56,7 @@ func (p *CarrierMessagingServiceProxy) FilterSms(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingService)
+	_data.WriteInt32(1)
 	if _err := pdu.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -173,10 +174,12 @@ func (p *CarrierMessagingServiceProxy) SendMms(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingService)
+	_data.WriteInt32(1)
 	if _err := pduUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := location.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -200,10 +203,12 @@ func (p *CarrierMessagingServiceProxy) DownloadMms(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICarrierMessagingService)
+	_data.WriteInt32(1)
 	if _err := pduUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := location.MarshalParcel(_data); _err != nil {
 		return _err
 	}

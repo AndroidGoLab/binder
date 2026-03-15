@@ -54,6 +54,7 @@ func (p *RadioImsResponseProxy) SetSrvccCallInfoResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioImsResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -73,6 +74,7 @@ func (p *RadioImsResponseProxy) UpdateImsRegistrationInfoResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioImsResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -93,6 +95,7 @@ func (p *RadioImsResponseProxy) StartImsTrafficResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioImsResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -119,6 +122,7 @@ func (p *RadioImsResponseProxy) StopImsTrafficResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioImsResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -138,6 +142,7 @@ func (p *RadioImsResponseProxy) TriggerEpsFallbackResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioImsResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -157,6 +162,7 @@ func (p *RadioImsResponseProxy) SendAnbrQueryResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioImsResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -176,6 +182,7 @@ func (p *RadioImsResponseProxy) UpdateImsCallStatusResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioImsResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

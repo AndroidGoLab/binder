@@ -81,12 +81,14 @@ func (p *PermissionControllerProxy) RevokeRuntimePermissions(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteBool(doDryRun)
 	_data.WriteInt32(reason)
 	_data.WriteString16(callerPackageName)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -107,6 +109,7 @@ func (p *PermissionControllerProxy) GetRuntimePermissionBackup(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -128,6 +131,7 @@ func (p *PermissionControllerProxy) StageAndApplyRuntimePermissionsBackup(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -151,9 +155,11 @@ func (p *PermissionControllerProxy) ApplyStagedRuntimePermissionBackup(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -175,6 +181,7 @@ func (p *PermissionControllerProxy) GetAppPermissions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -224,6 +231,7 @@ func (p *PermissionControllerProxy) CountPermissionApps(
 		}
 	}
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -247,6 +255,7 @@ func (p *PermissionControllerProxy) GetPermissionUsages(
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteBool(countSystem)
 	_data.WriteInt64(numMillis)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -269,9 +278,11 @@ func (p *PermissionControllerProxy) SetRuntimePermissionGrantStateByDeviceAdminF
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(callerPackageName)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -291,6 +302,7 @@ func (p *PermissionControllerProxy) GrantOrUpgradeDefaultRuntimePermissions(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -331,6 +343,7 @@ func (p *PermissionControllerProxy) UpdateUserSensitiveForApp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteInt32(uid)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -352,6 +365,7 @@ func (p *PermissionControllerProxy) GetPrivilegesDescriptionStringForProfile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(deviceProfileName)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -373,6 +387,7 @@ func (p *PermissionControllerProxy) GetPlatformPermissionsForGroup(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(permissionGroupName)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -394,6 +409,7 @@ func (p *PermissionControllerProxy) GetGroupOfPlatformPermission(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(permissionName)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -413,6 +429,7 @@ func (p *PermissionControllerProxy) GetUnusedAppCount(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -434,6 +451,7 @@ func (p *PermissionControllerProxy) GetHibernationEligibility(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPermissionController)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -466,6 +484,7 @@ func (p *PermissionControllerProxy) RevokeSelfPermissionsOnKill(
 		}
 	}
 	_data.WriteInt32(deviceId)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

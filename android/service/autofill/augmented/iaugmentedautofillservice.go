@@ -95,16 +95,20 @@ func (p *AugmentedAutofillServiceProxy) OnFillRequest(
 	_data.WriteInt32(sessionId)
 	_data.WriteStrongBinder(autofillManagerClient.Handle())
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
 	if _err := activityComponent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := focusedId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := focusedValue.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt64(requestTime)
+	_data.WriteInt32(1)
 	if _err := inlineSuggestionsRequest.MarshalParcel(_data); _err != nil {
 		return _err
 	}

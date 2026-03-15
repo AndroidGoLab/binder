@@ -235,6 +235,7 @@ func (p *HdmiCecProxy) SendMessage(
 	var _result SendMessageResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdmiCec)
+	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

@@ -100,6 +100,7 @@ func (p *BackAnimationProxy) CustomizeStatusBarAppearance(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackAnimation)
+	_data.WriteInt32(1)
 	if _err := appearance.MarshalParcel(_data); _err != nil {
 		return _err
 	}

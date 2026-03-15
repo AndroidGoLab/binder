@@ -76,6 +76,7 @@ func (p *MediaRoute2ProviderServiceProxy) UpdateDiscoveryPreference(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
+	_data.WriteInt32(1)
 	if _err := discoveryPreference.MarshalParcel(_data); _err != nil {
 		return _err
 	}

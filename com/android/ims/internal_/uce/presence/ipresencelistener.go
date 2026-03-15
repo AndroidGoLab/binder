@@ -136,6 +136,7 @@ func (p *PresenceListenerProxy) PublishTriggering(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
+	_data.WriteInt32(1)
 	if _err := publishTrigger.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -164,6 +165,7 @@ func (p *PresenceListenerProxy) CmdStatus(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
+	_data.WriteInt32(1)
 	if _err := cmdStatus.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -192,6 +194,7 @@ func (p *PresenceListenerProxy) SipResponseReceived(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
+	_data.WriteInt32(1)
 	if _err := sipResponse.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -258,6 +261,7 @@ func (p *PresenceListenerProxy) ListCapInfoReceived(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
+	_data.WriteInt32(1)
 	if _err := rlmiInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

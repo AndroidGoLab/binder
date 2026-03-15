@@ -351,6 +351,7 @@ func (p *SupplicantProxy) RemoveInterface(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicant)
+	_data.WriteInt32(1)
 	if _err := ifaceInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

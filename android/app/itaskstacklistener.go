@@ -154,6 +154,7 @@ func (p *TaskStackListenerProxy) OnActivityRestartAttempt(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
+	_data.WriteInt32(1)
 	if _err := task.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -213,6 +214,7 @@ func (p *TaskStackListenerProxy) OnActivityLaunchOnSecondaryDisplayFailed(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
+	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -234,6 +236,7 @@ func (p *TaskStackListenerProxy) OnActivityLaunchOnSecondaryDisplayRerouted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
+	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -289,6 +292,7 @@ func (p *TaskStackListenerProxy) OnTaskMovedToFront(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
+	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -308,6 +312,7 @@ func (p *TaskStackListenerProxy) OnTaskDescriptionChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
+	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -346,6 +351,7 @@ func (p *TaskStackListenerProxy) OnTaskRemovalStarted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
+	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -366,6 +372,7 @@ func (p *TaskStackListenerProxy) OnTaskProfileLocked(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
+	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -421,6 +428,7 @@ func (p *TaskStackListenerProxy) OnBackPressedOnTaskRoot(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
+	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -563,6 +571,7 @@ func (p *TaskStackListenerProxy) OnTaskMovedToBack(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskStackListener)
+	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

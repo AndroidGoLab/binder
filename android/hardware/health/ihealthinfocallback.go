@@ -41,6 +41,7 @@ func (p *HealthInfoCallbackProxy) HealthInfoChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHealthInfoCallback)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

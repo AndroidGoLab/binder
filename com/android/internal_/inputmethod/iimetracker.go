@@ -119,6 +119,7 @@ func (p *ImeTrackerProxy) OnFailed(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
+	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -140,6 +141,7 @@ func (p *ImeTrackerProxy) OnCancelled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
+	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -160,6 +162,7 @@ func (p *ImeTrackerProxy) OnShown(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
+	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -179,6 +182,7 @@ func (p *ImeTrackerProxy) OnHidden(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
+	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -198,6 +202,7 @@ func (p *ImeTrackerProxy) OnDispatched(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
+	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -246,6 +251,7 @@ func (p *ImeTrackerProxy) FinishTrackingPendingImeVisibilityRequests(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImeTracker)
+	_data.WriteInt32(1)
 	if _err := completionSignal.MarshalParcel(_data); _err != nil {
 		return _err
 	}

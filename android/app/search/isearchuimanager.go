@@ -53,9 +53,11 @@ func (p *SearchUiManagerProxy) CreateSearchSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchUiManager)
+	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -87,9 +89,11 @@ func (p *SearchUiManagerProxy) Query(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchUiManager)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := input.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -121,12 +125,15 @@ func (p *SearchUiManagerProxy) NotifyEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchUiManager)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := input.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -156,6 +163,7 @@ func (p *SearchUiManagerProxy) RegisterEmptyQueryResultUpdateCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchUiManager)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -186,6 +194,7 @@ func (p *SearchUiManagerProxy) UnregisterEmptyQueryResultUpdateCallback(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchUiManager)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -215,6 +224,7 @@ func (p *SearchUiManagerProxy) DestroySearchSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchUiManager)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}

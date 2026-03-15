@@ -44,6 +44,7 @@ func (p *MuteAwaitConnectionCallbackProxy) DispatchOnMutedUntilConnection(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMuteAwaitConnectionCallback)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -74,6 +75,7 @@ func (p *MuteAwaitConnectionCallbackProxy) DispatchOnUnmutedEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMuteAwaitConnectionCallback)
 	_data.WriteInt32(event)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}

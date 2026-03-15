@@ -46,6 +46,7 @@ func (p *SipDelegateMessageCallbackProxy) OnMessageReceived(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISipDelegateMessageCallback)
+	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
 		return _err
 	}

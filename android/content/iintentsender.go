@@ -48,6 +48,7 @@ func (p *IntentSenderProxy) Send(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIntentSender)
 	_data.WriteInt32(code)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

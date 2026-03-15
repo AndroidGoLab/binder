@@ -109,6 +109,7 @@ func (p *DescramblerProxy) AddPid(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
+	_data.WriteInt32(1)
 	if _err := pid.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -139,6 +140,7 @@ func (p *DescramblerProxy) RemovePid(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDescrambler)
+	_data.WriteInt32(1)
 	if _err := pid.MarshalParcel(_data); _err != nil {
 		return _err
 	}

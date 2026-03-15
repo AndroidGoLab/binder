@@ -44,6 +44,7 @@ func (p *GameStateListenerProxy) OnGameStateChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGameStateListener)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
 		return _err
 	}

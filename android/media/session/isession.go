@@ -312,6 +312,7 @@ func (p *SessionProxy) SetPlaybackState(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
+	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
 		return _err
 	}

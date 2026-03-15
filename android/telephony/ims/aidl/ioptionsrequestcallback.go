@@ -45,6 +45,7 @@ func (p *OptionsRequestCallbackProxy) RespondToCapabilityRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOptionsRequestCallback)
+	_data.WriteInt32(1)
 	if _err := ownCapabilities.MarshalParcel(_data); _err != nil {
 		return _err
 	}

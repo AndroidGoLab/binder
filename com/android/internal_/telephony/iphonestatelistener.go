@@ -140,6 +140,7 @@ func (p *PhoneStateListenerProxy) OnServiceStateChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
 	if _err := serviceState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -210,6 +211,7 @@ func (p *PhoneStateListenerProxy) OnCellLocationChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
 	if _err := location.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -301,6 +303,7 @@ func (p *PhoneStateListenerProxy) OnSignalStrengthsChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
 	if _err := signalStrength.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -346,6 +349,7 @@ func (p *PhoneStateListenerProxy) OnPreciseCallStateChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
 	if _err := callState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -365,6 +369,7 @@ func (p *PhoneStateListenerProxy) OnPreciseDataConnectionStateChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
 	if _err := dataConnectionState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -384,6 +389,7 @@ func (p *PhoneStateListenerProxy) OnDataConnectionRealTimeInfoChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
 	if _err := dcRtInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -512,6 +518,7 @@ func (p *PhoneStateListenerProxy) OnDisplayInfoChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
 	if _err := telephonyDisplayInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -531,6 +538,7 @@ func (p *PhoneStateListenerProxy) OnPhoneCapabilityChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
 	if _err := capability.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -634,6 +642,7 @@ func (p *PhoneStateListenerProxy) OnOutgoingEmergencyCall(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
 	if _err := placedEmergencyNumber.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -655,6 +664,7 @@ func (p *PhoneStateListenerProxy) OnOutgoingEmergencySms(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
 	if _err := sentEmergencyNumber.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -694,6 +704,7 @@ func (p *PhoneStateListenerProxy) OnImsCallDisconnectCauseChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
 	if _err := imsReasonInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -717,6 +728,7 @@ func (p *PhoneStateListenerProxy) OnRegistrationFailed(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
 	if _err := cellIdentity.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -740,6 +752,7 @@ func (p *PhoneStateListenerProxy) OnBarringInfoChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
 	if _err := barringInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -849,6 +862,7 @@ func (p *PhoneStateListenerProxy) OnMediaQualityStatusChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
 	if _err := mediaQualityStatus.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1029,6 +1043,7 @@ func (p *PhoneStateListenerProxy) OnSecurityAlgorithmsChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1048,6 +1063,7 @@ func (p *PhoneStateListenerProxy) OnCellularIdentifierDisclosedChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
 	if _err := disclosure.MarshalParcel(_data); _err != nil {
 		return _err
 	}

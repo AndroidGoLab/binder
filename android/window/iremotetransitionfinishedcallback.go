@@ -42,6 +42,7 @@ func (p *RemoteTransitionFinishedCallbackProxy) OnTransitionFinished(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteTransitionFinishedCallback)
+	_data.WriteInt32(1)
 	if _err := wct.MarshalParcel(_data); _err != nil {
 		return _err
 	}

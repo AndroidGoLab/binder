@@ -81,6 +81,7 @@ func (p *CapabilityExchangeEventListenerProxy) OnPublishUpdated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICapabilityExchangeEventListener)
+	_data.WriteInt32(1)
 	if _err := details.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -102,6 +103,7 @@ func (p *CapabilityExchangeEventListenerProxy) OnRemoteCapabilityRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICapabilityExchangeEventListener)
+	_data.WriteInt32(1)
 	if _err := contactUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}

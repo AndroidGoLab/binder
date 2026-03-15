@@ -66,6 +66,7 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnResultDetected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionVoiceInteractionCallback)
+	_data.WriteInt32(1)
 	if _err := partialResult.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -115,6 +116,7 @@ func (p *VisualQueryDetectionVoiceInteractionCallbackProxy) OnVisualQueryDetecti
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVisualQueryDetectionVoiceInteractionCallback)
+	_data.WriteInt32(1)
 	if _err := visualQueryDetectionServiceFailure.MarshalParcel(_data); _err != nil {
 		return _err
 	}

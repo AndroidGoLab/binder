@@ -44,6 +44,7 @@ func (p *GnssVisibilityControlCallbackProxy) NfwNotifyCb(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssVisibilityControlCallback)
+	_data.WriteInt32(1)
 	if _err := notification.MarshalParcel(_data); _err != nil {
 		return _err
 	}

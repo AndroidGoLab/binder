@@ -117,10 +117,12 @@ func (p *RollbackManagerProxy) CommitRollback(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRollbackManager)
 	_data.WriteInt32(rollbackId)
+	_data.WriteInt32(1)
 	if _err := causePackages.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(callerPackageName)
+	_data.WriteInt32(1)
 	if _err := statusReceiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}

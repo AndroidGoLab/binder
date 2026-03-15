@@ -140,9 +140,11 @@ func (p *SupplicantStaIfaceCallbackProxy) OnAnqpQueryDone(
 			_data.WritePaddedByte(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := hs20Data.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -162,6 +164,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnAssociationRejected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
+	_data.WriteInt32(1)
 	if _err := assocRejectData.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -233,6 +236,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnBssTmHandlingDone(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
+	_data.WriteInt32(1)
 	if _err := tmData.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -392,6 +396,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppSuccessConfigReceived(
 		}
 	}
 	_data.WriteInt32(int32(securityAkm))
+	_data.WriteInt32(1)
 	if _err := dppConnectionKeys.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -846,6 +851,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnDppConfigReceived(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
+	_data.WriteInt32(1)
 	if _err := configData.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -899,6 +905,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnSupplicantStateChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
+	_data.WriteInt32(1)
 	if _err := stateChangeData.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -944,6 +951,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnPmkSaCacheAdded(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
+	_data.WriteInt32(1)
 	if _err := pmkSaData.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1073,6 +1081,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnUsdPublishReplied(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1092,6 +1101,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnUsdServiceDiscovered(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1111,6 +1121,7 @@ func (p *SupplicantStaIfaceCallbackProxy) OnUsdMessageReceived(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaIfaceCallback)
+	_data.WriteInt32(1)
 	if _err := messageInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

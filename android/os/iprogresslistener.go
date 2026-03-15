@@ -47,6 +47,7 @@ func (p *ProgressListenerProxy) OnStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProgressListener)
 	_data.WriteInt32(id)
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -70,6 +71,7 @@ func (p *ProgressListenerProxy) OnProgress(
 	_data.WriteInterfaceToken(DescriptorIProgressListener)
 	_data.WriteInt32(id)
 	_data.WriteInt32(progress)
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -91,6 +93,7 @@ func (p *ProgressListenerProxy) OnFinished(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProgressListener)
 	_data.WriteInt32(id)
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}

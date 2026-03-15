@@ -908,6 +908,7 @@ func (p *PackageInstallerSessionProxy) RequestUserPreapproval(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
+	_data.WriteInt32(1)
 	if _err := details.MarshalParcel(_data); _err != nil {
 		return _err
 	}

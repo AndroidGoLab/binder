@@ -62,6 +62,7 @@ func (p *FingerprintServiceReceiverProxy) OnEnrollResult(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
+	_data.WriteInt32(1)
 	if _err := fp.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -103,6 +104,7 @@ func (p *FingerprintServiceReceiverProxy) OnAuthenticationSucceeded(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
+	_data.WriteInt32(1)
 	if _err := fp.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -180,6 +182,7 @@ func (p *FingerprintServiceReceiverProxy) OnRemoved(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFingerprintServiceReceiver)
+	_data.WriteInt32(1)
 	if _err := fp.MarshalParcel(_data); _err != nil {
 		return _err
 	}

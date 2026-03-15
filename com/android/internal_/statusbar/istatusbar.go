@@ -208,6 +208,7 @@ func (p *StatusBarProxy) SetIcon(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteString16(slot)
+	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -669,6 +670,7 @@ func (p *StatusBarProxy) StartAssist(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
+	_data.WriteInt32(1)
 	if _err := args.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -786,6 +788,7 @@ func (p *StatusBarProxy) AddQsTile(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
+	_data.WriteInt32(1)
 	if _err := tile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -806,6 +809,7 @@ func (p *StatusBarProxy) AddQsTileToFrontOrEnd(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
+	_data.WriteInt32(1)
 	if _err := tile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -826,6 +830,7 @@ func (p *StatusBarProxy) RemQsTile(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
+	_data.WriteInt32(1)
 	if _err := tile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -869,6 +874,7 @@ func (p *StatusBarProxy) ClickQsTile(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
+	_data.WriteInt32(1)
 	if _err := tile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -888,6 +894,7 @@ func (p *StatusBarProxy) HandleSystemKey(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
+	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -966,6 +973,7 @@ func (p *StatusBarProxy) ShowAuthenticationDialog(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
+	_data.WriteInt32(1)
 	if _err := promptInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1419,6 +1427,7 @@ func (p *StatusBarProxy) RequestTileServiceListeningState(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
+	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1444,9 +1453,11 @@ func (p *StatusBarProxy) RequestAddTile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(callingUid)
+	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1487,6 +1498,7 @@ func (p *StatusBarProxy) UpdateMediaTapToTransferSenderDisplay(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayState)
+	_data.WriteInt32(1)
 	if _err := routeInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1511,9 +1523,11 @@ func (p *StatusBarProxy) UpdateMediaTapToTransferReceiverDisplay(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteInt32(displayState)
+	_data.WriteInt32(1)
 	if _err := routeInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := appIcon.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1665,6 +1679,7 @@ func (p *StatusBarProxy) ShowMediaOutputSwitcher(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStatusBar)
 	_data.WriteString16(targetPackageName)
+	_data.WriteInt32(1)
 	if _err := targetUserHandle.MarshalParcel(_data); _err != nil {
 		return _err
 	}

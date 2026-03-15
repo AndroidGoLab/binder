@@ -138,6 +138,7 @@ func (p *DisplayAreaOrganizerControllerProxy) DeleteTaskDisplayArea(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizerController)
+	_data.WriteInt32(1)
 	if _err := taskDisplayArea.MarshalParcel(_data); _err != nil {
 		return _err
 	}

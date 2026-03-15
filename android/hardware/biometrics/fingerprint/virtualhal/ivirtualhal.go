@@ -168,6 +168,7 @@ func (p *VirtualHalProxy) SetNextEnrollment(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
+	_data.WriteInt32(1)
 	if _err := next_enrollment.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -831,6 +832,7 @@ func (p *VirtualHalProxy) SetSensorLocation(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualHal)
+	_data.WriteInt32(1)
 	if _err := loc.MarshalParcel(_data); _err != nil {
 		return _err
 	}

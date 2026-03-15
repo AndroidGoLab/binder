@@ -170,6 +170,7 @@ func (p *RadioVoiceProxy) Dial(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := dialInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -196,6 +197,7 @@ func (p *RadioVoiceProxy) EmergencyDial(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := dialInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -263,6 +265,7 @@ func (p *RadioVoiceProxy) GetCallForwardStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := callInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -642,6 +645,7 @@ func (p *RadioVoiceProxy) SetCallForward(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioVoice)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := callInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

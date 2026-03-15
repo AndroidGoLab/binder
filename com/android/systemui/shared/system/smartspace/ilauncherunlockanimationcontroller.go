@@ -55,6 +55,7 @@ func (p *LauncherUnlockAnimationControllerProxy) PrepareForUnlock(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILauncherUnlockAnimationController)
 	_data.WriteBool(animateSmartspace)
+	_data.WriteInt32(1)
 	if _err := lockscreenSmartspaceBounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}

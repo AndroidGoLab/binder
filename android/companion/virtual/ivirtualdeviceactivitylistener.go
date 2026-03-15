@@ -54,6 +54,7 @@ func (p *VirtualDeviceActivityListenerProxy) OnTopActivityChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceActivityListener)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
 	if _err := topActivity.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -95,12 +96,15 @@ func (p *VirtualDeviceActivityListenerProxy) OnActivityLaunchBlocked(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceActivityListener)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := intentSender.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -123,9 +127,11 @@ func (p *VirtualDeviceActivityListenerProxy) OnSecureWindowShown(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceActivityListener)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}

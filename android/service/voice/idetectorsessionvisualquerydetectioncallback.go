@@ -51,6 +51,7 @@ func (p *DetectorSessionVisualQueryDetectionCallbackProxy) OnAttentionGained(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDetectorSessionVisualQueryDetectionCallback)
+	_data.WriteInt32(1)
 	if _err := attentionResult.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -104,6 +105,7 @@ func (p *DetectorSessionVisualQueryDetectionCallbackProxy) OnResultDetected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDetectorSessionVisualQueryDetectionCallback)
+	_data.WriteInt32(1)
 	if _err := partialResult.MarshalParcel(_data); _err != nil {
 		return _err
 	}

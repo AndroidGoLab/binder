@@ -54,6 +54,7 @@ func (p *QuickAccessWalletServiceProxy) OnWalletCardsRequested(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -74,6 +75,7 @@ func (p *QuickAccessWalletServiceProxy) OnWalletCardSelected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -109,6 +111,7 @@ func (p *QuickAccessWalletServiceProxy) RegisterWalletServiceEventListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -129,6 +132,7 @@ func (p *QuickAccessWalletServiceProxy) UnregisterWalletServiceEventListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIQuickAccessWalletService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

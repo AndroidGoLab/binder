@@ -42,6 +42,7 @@ func (p *InputFilterHostProxy) SendInputEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputFilterHost)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

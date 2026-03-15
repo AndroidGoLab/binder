@@ -88,6 +88,7 @@ func (p *RadioDataResponseProxy) AllocatePduSessionIdResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -108,6 +109,7 @@ func (p *RadioDataResponseProxy) CancelHandoverResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -127,6 +129,7 @@ func (p *RadioDataResponseProxy) DeactivateDataCallResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -147,6 +150,7 @@ func (p *RadioDataResponseProxy) GetDataCallListResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -177,9 +181,11 @@ func (p *RadioDataResponseProxy) GetSlicingConfigResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := slicingConfig.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -199,6 +205,7 @@ func (p *RadioDataResponseProxy) ReleasePduSessionIdResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -218,6 +225,7 @@ func (p *RadioDataResponseProxy) SetDataAllowedResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -237,6 +245,7 @@ func (p *RadioDataResponseProxy) SetDataProfileResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -256,6 +265,7 @@ func (p *RadioDataResponseProxy) SetDataThrottlingResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -275,6 +285,7 @@ func (p *RadioDataResponseProxy) SetInitialAttachApnResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -295,9 +306,11 @@ func (p *RadioDataResponseProxy) SetupDataCallResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := dcResponse.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -317,6 +330,7 @@ func (p *RadioDataResponseProxy) StartHandoverResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -337,9 +351,11 @@ func (p *RadioDataResponseProxy) StartKeepaliveResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -359,6 +375,7 @@ func (p *RadioDataResponseProxy) StopKeepaliveResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioDataResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

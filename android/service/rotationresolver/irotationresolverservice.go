@@ -43,6 +43,7 @@ func (p *RotationResolverServiceProxy) ResolveRotation(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRotationResolverService)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

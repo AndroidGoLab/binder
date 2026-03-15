@@ -89,6 +89,7 @@ func (p *FocusListenerProxy) AbandonAudioFocusWithMetaData(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFocusListener)
+	_data.WriteInt32(1)
 	if _err := playbackMetaData.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -111,6 +112,7 @@ func (p *FocusListenerProxy) RequestAudioFocusWithMetaData(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFocusListener)
+	_data.WriteInt32(1)
 	if _err := playbackMetaData.MarshalParcel(_data); _err != nil {
 		return _err
 	}

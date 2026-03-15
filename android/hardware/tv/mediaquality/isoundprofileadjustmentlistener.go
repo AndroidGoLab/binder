@@ -47,6 +47,7 @@ func (p *SoundProfileAdjustmentListenerProxy) OnSoundProfileAdjusted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundProfileAdjustmentListener)
+	_data.WriteInt32(1)
 	if _err := soundProfile.MarshalParcel(_data); _err != nil {
 		return _err
 	}

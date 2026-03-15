@@ -46,6 +46,7 @@ func (p *AssociationRequestCallbackProxy) OnAssociationPending(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAssociationRequestCallback)
+	_data.WriteInt32(1)
 	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -65,6 +66,7 @@ func (p *AssociationRequestCallbackProxy) OnAssociationCreated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAssociationRequestCallback)
+	_data.WriteInt32(1)
 	if _err := associationInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

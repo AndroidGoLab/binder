@@ -46,9 +46,11 @@ func (p *DownloadProgressListenerProxy) OnProgressUpdated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDownloadProgressListener)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := fileInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

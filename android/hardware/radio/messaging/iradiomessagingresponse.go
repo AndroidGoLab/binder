@@ -84,6 +84,7 @@ func (p *RadioMessagingResponseProxy) AcknowledgeIncomingGsmSmsWithPduResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -103,6 +104,7 @@ func (p *RadioMessagingResponseProxy) AcknowledgeLastIncomingCdmaSmsResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -122,6 +124,7 @@ func (p *RadioMessagingResponseProxy) AcknowledgeLastIncomingGsmSmsResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -158,6 +161,7 @@ func (p *RadioMessagingResponseProxy) DeleteSmsOnRuimResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -177,6 +181,7 @@ func (p *RadioMessagingResponseProxy) DeleteSmsOnSimResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -197,6 +202,7 @@ func (p *RadioMessagingResponseProxy) GetCdmaBroadcastConfigResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -227,6 +233,7 @@ func (p *RadioMessagingResponseProxy) GetGsmBroadcastConfigResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -257,6 +264,7 @@ func (p *RadioMessagingResponseProxy) GetSmscAddressResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -277,6 +285,7 @@ func (p *RadioMessagingResponseProxy) ReportSmsMemoryStatusResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -297,9 +306,11 @@ func (p *RadioMessagingResponseProxy) SendCdmaSmsExpectMoreResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sms.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -320,9 +331,11 @@ func (p *RadioMessagingResponseProxy) SendCdmaSmsResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sms.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -343,9 +356,11 @@ func (p *RadioMessagingResponseProxy) SendImsSmsResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sms.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -366,9 +381,11 @@ func (p *RadioMessagingResponseProxy) SendSmsExpectMoreResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sms.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -389,9 +406,11 @@ func (p *RadioMessagingResponseProxy) SendSmsResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sms.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -411,6 +430,7 @@ func (p *RadioMessagingResponseProxy) SetCdmaBroadcastActivationResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -430,6 +450,7 @@ func (p *RadioMessagingResponseProxy) SetCdmaBroadcastConfigResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -449,6 +470,7 @@ func (p *RadioMessagingResponseProxy) SetGsmBroadcastActivationResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -468,6 +490,7 @@ func (p *RadioMessagingResponseProxy) SetGsmBroadcastConfigResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -487,6 +510,7 @@ func (p *RadioMessagingResponseProxy) SetSmscAddressResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -507,6 +531,7 @@ func (p *RadioMessagingResponseProxy) WriteSmsToRuimResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -528,6 +553,7 @@ func (p *RadioMessagingResponseProxy) WriteSmsToSimResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

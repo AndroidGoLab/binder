@@ -86,6 +86,7 @@ func (p *DvrProxy) Configure(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDvr)
+	_data.WriteInt32(1)
 	if _err := settings.MarshalParcel(_data); _err != nil {
 		return _err
 	}

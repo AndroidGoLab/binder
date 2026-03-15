@@ -42,6 +42,7 @@ func (p *PlayerCallbackProxy) OnSessionChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlayerCallback)
+	_data.WriteInt32(1)
 	if _err := session.MarshalParcel(_data); _err != nil {
 		return _err
 	}

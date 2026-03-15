@@ -86,6 +86,7 @@ func (p *PlatformCompatProxy) ReportChange(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt64(changeId)
+	_data.WriteInt32(1)
 	if _err := appInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -175,6 +176,7 @@ func (p *PlatformCompatProxy) IsChangeEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
 	_data.WriteInt64(changeId)
+	_data.WriteInt32(1)
 	if _err := appInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -276,6 +278,7 @@ func (p *PlatformCompatProxy) SetOverrides(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
+	_data.WriteInt32(1)
 	if _err := overrides.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -305,6 +308,7 @@ func (p *PlatformCompatProxy) PutAllOverridesOnReleaseBuilds(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
+	_data.WriteInt32(1)
 	if _err := overridesByPackage.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -334,6 +338,7 @@ func (p *PlatformCompatProxy) PutOverridesOnReleaseBuilds(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
+	_data.WriteInt32(1)
 	if _err := overrides.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -364,6 +369,7 @@ func (p *PlatformCompatProxy) SetOverridesForTest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
+	_data.WriteInt32(1)
 	if _err := overrides.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -459,6 +465,7 @@ func (p *PlatformCompatProxy) RemoveAllOverridesOnReleaseBuilds(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
+	_data.WriteInt32(1)
 	if _err := overridesToRemoveByPackage.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -488,6 +495,7 @@ func (p *PlatformCompatProxy) RemoveOverridesOnReleaseBuilds(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
+	_data.WriteInt32(1)
 	if _err := overridesToRemove.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -636,6 +644,7 @@ func (p *PlatformCompatProxy) GetAppConfig(
 	var _result CompatibilityChangeConfig
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlatformCompat)
+	_data.WriteInt32(1)
 	if _err := appInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

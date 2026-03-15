@@ -45,6 +45,7 @@ func (p *AttestationVerificationServiceProxy) OnVerifyAttestation(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAttestationVerificationService)
+	_data.WriteInt32(1)
 	if _err := requirements.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -56,6 +57,7 @@ func (p *AttestationVerificationServiceProxy) OnVerifyAttestation(
 			_data.WritePaddedByte(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

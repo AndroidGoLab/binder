@@ -142,6 +142,7 @@ func (p *SatelliteProxy) RequestSatelliteEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
+	_data.WriteInt32(1)
 	if _err := enableAttributes.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -272,6 +273,7 @@ func (p *SatelliteProxy) SendSatelliteDatagram(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatellite)
+	_data.WriteInt32(1)
 	if _err := datagram.MarshalParcel(_data); _err != nil {
 		return _err
 	}

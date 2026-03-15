@@ -76,6 +76,7 @@ func (p *CallDiagnosticServiceProxy) InitializeDiagnosticCall(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
+	_data.WriteInt32(1)
 	if _err := call.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -95,6 +96,7 @@ func (p *CallDiagnosticServiceProxy) UpdateCall(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
+	_data.WriteInt32(1)
 	if _err := call.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -114,6 +116,7 @@ func (p *CallDiagnosticServiceProxy) UpdateCallAudioState(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
+	_data.WriteInt32(1)
 	if _err := callAudioState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -173,6 +176,7 @@ func (p *CallDiagnosticServiceProxy) CallQualityChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := callQuality.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -192,6 +196,7 @@ func (p *CallDiagnosticServiceProxy) ReceiveBluetoothCallQualityReport(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
+	_data.WriteInt32(1)
 	if _err := qualityReport.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -213,6 +218,7 @@ func (p *CallDiagnosticServiceProxy) NotifyCallDisconnected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallDiagnosticService)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := disconnectCause.MarshalParcel(_data); _err != nil {
 		return _err
 	}

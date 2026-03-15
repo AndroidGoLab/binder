@@ -62,14 +62,17 @@ func (p *WallpaperServiceProxy) Attach(
 	_data.WriteBool(isPreview)
 	_data.WriteInt32(reqWidth)
 	_data.WriteInt32(reqHeight)
+	_data.WriteInt32(1)
 	if _err := padding.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(which)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := description.MarshalParcel(_data); _err != nil {
 		return _err
 	}

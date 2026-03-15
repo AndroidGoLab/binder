@@ -101,6 +101,7 @@ func (p *AccountAuthenticatorProxy) ConfirmCredentials(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -124,6 +125,7 @@ func (p *AccountAuthenticatorProxy) GetAuthToken(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -167,6 +169,7 @@ func (p *AccountAuthenticatorProxy) UpdateCredentials(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -209,6 +212,7 @@ func (p *AccountAuthenticatorProxy) HasFeatures(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -238,6 +242,7 @@ func (p *AccountAuthenticatorProxy) GetAccountRemovalAllowed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -259,6 +264,7 @@ func (p *AccountAuthenticatorProxy) GetAccountCredentialsForCloning(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -281,6 +287,7 @@ func (p *AccountAuthenticatorProxy) AddAccountFromCredentials(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -335,6 +342,7 @@ func (p *AccountAuthenticatorProxy) StartUpdateCredentialsSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -378,6 +386,7 @@ func (p *AccountAuthenticatorProxy) IsCredentialsUpdateSuggested(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountAuthenticator)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}

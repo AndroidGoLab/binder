@@ -164,6 +164,7 @@ func (p *VpnManagerProxy) EstablishVpn(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -299,6 +300,7 @@ func (p *VpnManagerProxy) ProvisionVpnProfile(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -768,6 +770,7 @@ func (p *VpnManagerProxy) StartLegacyVpn(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVpnManager)
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}

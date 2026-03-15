@@ -174,6 +174,7 @@ func (p *TvAdSessionProxy) SendCurrentVideoBounds(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
+	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -193,6 +194,7 @@ func (p *TvAdSessionProxy) SendCurrentChannelUri(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
+	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -283,6 +285,7 @@ func (p *TvAdSessionProxy) NotifyError(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 	_data.WriteString16(errMsg)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -304,6 +307,7 @@ func (p *TvAdSessionProxy) NotifyTvMessage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 	_data.WriteInt32(type_)
+	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -325,6 +329,7 @@ func (p *TvAdSessionProxy) CreateMediaView(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 	_data.WriteStrongBinder(windowToken.Handle())
+	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -344,6 +349,7 @@ func (p *TvAdSessionProxy) RelayoutMediaView(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
+	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -380,6 +386,7 @@ func (p *TvAdSessionProxy) NotifyTvInputSessionData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvAdSession)
 	_data.WriteString16(type_)
+	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
 		return _err
 	}

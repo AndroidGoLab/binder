@@ -58,6 +58,7 @@ func (p *SatelliteListenerProxy) OnSatelliteDatagramReceived(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
+	_data.WriteInt32(1)
 	if _err := datagram.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -93,6 +94,7 @@ func (p *SatelliteListenerProxy) OnSatellitePositionChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
+	_data.WriteInt32(1)
 	if _err := pointingInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -129,6 +131,7 @@ func (p *SatelliteListenerProxy) OnNtnSignalStrengthChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
+	_data.WriteInt32(1)
 	if _err := ntnSignalStrength.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -148,6 +151,7 @@ func (p *SatelliteListenerProxy) OnSatelliteCapabilitiesChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatelliteListener)
+	_data.WriteInt32(1)
 	if _err := capabilities.MarshalParcel(_data); _err != nil {
 		return _err
 	}

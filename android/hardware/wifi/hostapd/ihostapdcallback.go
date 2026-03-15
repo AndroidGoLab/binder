@@ -45,6 +45,7 @@ func (p *HostapdCallbackProxy) OnApInstanceInfoChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHostapdCallback)
+	_data.WriteInt32(1)
 	if _err := apInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -64,6 +65,7 @@ func (p *HostapdCallbackProxy) OnConnectedClientsChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHostapdCallback)
+	_data.WriteInt32(1)
 	if _err := clientInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

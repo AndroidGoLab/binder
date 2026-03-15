@@ -53,6 +53,7 @@ func (p *WapPushManagerProxy) ProcessMessage(
 	_data.WriteInterfaceToken(DescriptorIWapPushManager)
 	_data.WriteString16(app_id)
 	_data.WriteString16(content_type)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

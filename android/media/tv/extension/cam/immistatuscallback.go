@@ -46,6 +46,7 @@ func (p *MmiStatusCallbackProxy) OnMmiEnq(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMmiStatusCallback)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -65,6 +66,7 @@ func (p *MmiStatusCallbackProxy) OnMmiListMenu(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMmiStatusCallback)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

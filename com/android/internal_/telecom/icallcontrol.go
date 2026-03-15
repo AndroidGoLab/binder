@@ -61,6 +61,7 @@ func (p *CallControlProxy) SetActive(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -84,6 +85,7 @@ func (p *CallControlProxy) Answer(
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteInt32(videoState)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -105,6 +107,7 @@ func (p *CallControlProxy) SetInactive(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -127,9 +130,11 @@ func (p *CallControlProxy) Disconnect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := disconnectCause.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -151,6 +156,7 @@ func (p *CallControlProxy) StartCallStreaming(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -171,9 +177,11 @@ func (p *CallControlProxy) RequestCallEndpointChange(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallControl)
+	_data.WriteInt32(1)
 	if _err := callEndpoint.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -195,6 +203,7 @@ func (p *CallControlProxy) SetMuteState(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteBool(isMuted)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -218,6 +227,7 @@ func (p *CallControlProxy) SendEvent(
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteString16(callId)
 	_data.WriteString16(event)
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -241,6 +251,7 @@ func (p *CallControlProxy) RequestVideoState(
 	_data.WriteInterfaceToken(DescriptorICallControl)
 	_data.WriteInt32(videoState)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

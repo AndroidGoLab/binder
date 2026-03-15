@@ -49,6 +49,7 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifyProviderUpdated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderServiceCallback)
+	_data.WriteInt32(1)
 	if _err := providerInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -70,6 +71,7 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifySessionCreated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderServiceCallback)
 	_data.WriteInt64(requestId)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -115,6 +117,7 @@ func (p *MediaRoute2ProviderServiceCallbackProxy) NotifySessionReleased(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderServiceCallback)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

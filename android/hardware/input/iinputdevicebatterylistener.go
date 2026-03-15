@@ -41,6 +41,7 @@ func (p *InputDeviceBatteryListenerProxy) OnBatteryStateChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputDeviceBatteryListener)
+	_data.WriteInt32(1)
 	if _err := batteryState.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -43,6 +43,7 @@ func (p *TokenInfoCallbackProxy) OnSuccess(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITokenInfoCallback)
+	_data.WriteInt32(1)
 	if _err := tokenInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -49,9 +49,11 @@ func (p *CallRedirectionServiceProxy) PlaceCall(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallRedirectionService)
 	_data.WriteStrongBinder(adapter.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := initialPhoneAccount.MarshalParcel(_data); _err != nil {
 		return _err
 	}

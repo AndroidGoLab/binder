@@ -164,6 +164,7 @@ func (p *BluetoothChannelSoundingSessionProxy) WriteRawData(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSession)
+	_data.WriteInt32(1)
 	if _err := rawData.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -218,6 +219,7 @@ func (p *BluetoothChannelSoundingSessionProxy) WriteProcedureData(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSession)
+	_data.WriteInt32(1)
 	if _err := procedureData.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -246,6 +248,7 @@ func (p *BluetoothChannelSoundingSessionProxy) UpdateChannelSoundingConfig(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSession)
+	_data.WriteInt32(1)
 	if _err := conifg.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -274,6 +277,7 @@ func (p *BluetoothChannelSoundingSessionProxy) UpdateProcedureEnableConfig(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothChannelSoundingSession)
+	_data.WriteInt32(1)
 	if _err := procedureEnableConfig.MarshalParcel(_data); _err != nil {
 		return _err
 	}

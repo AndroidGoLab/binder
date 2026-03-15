@@ -104,9 +104,11 @@ func (p *WindowProxy) Resized(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindow)
 	_data.WriteBool(reportDraw)
+	_data.WriteInt32(1)
 	if _err := newMergedConfiguration.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := insetsState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -132,9 +134,11 @@ func (p *WindowProxy) InsetsControlChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindow)
+	_data.WriteInt32(1)
 	if _err := insetsState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := activeControls.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -329,6 +333,7 @@ func (p *WindowProxy) DispatchDragEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindow)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

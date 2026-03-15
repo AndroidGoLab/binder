@@ -75,10 +75,12 @@ func (p *VirtualDeviceManagerProxy) CreateVirtualDevice(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceManager)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteInt32(associationId)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

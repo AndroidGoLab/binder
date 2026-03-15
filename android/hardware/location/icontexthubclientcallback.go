@@ -55,6 +55,7 @@ func (p *ContextHubClientCallbackProxy) OnMessageFromNanoApp(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubClientCallback)
+	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
 		return _err
 	}

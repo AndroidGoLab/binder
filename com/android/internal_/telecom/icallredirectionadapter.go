@@ -79,9 +79,11 @@ func (p *CallRedirectionAdapterProxy) RedirectCall(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallRedirectionAdapter)
+	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := targetPhoneAccount.MarshalParcel(_data); _err != nil {
 		return _err
 	}

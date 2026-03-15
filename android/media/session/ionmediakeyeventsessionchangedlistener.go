@@ -43,6 +43,7 @@ func (p *OnMediaKeyEventSessionChangedListenerProxy) OnMediaKeyEventSessionChang
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnMediaKeyEventSessionChangedListener)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := mediaKeyEventSessionToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -68,6 +68,7 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackMetrics(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
+	_data.WriteInt32(1)
 	if _err := metrics.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -162,6 +163,7 @@ func (p *MediaMetricsManagerProxy) ReportNetworkEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -194,6 +196,7 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackErrorEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -226,6 +229,7 @@ func (p *MediaMetricsManagerProxy) ReportPlaybackStateEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -258,6 +262,7 @@ func (p *MediaMetricsManagerProxy) ReportTrackChangeEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -290,6 +295,7 @@ func (p *MediaMetricsManagerProxy) ReportEditingEndedEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaMetricsManager)
 	_data.WriteString16(sessionId)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

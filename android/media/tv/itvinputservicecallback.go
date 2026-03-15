@@ -47,6 +47,7 @@ func (p *TvInputServiceCallbackProxy) AddHardwareInput(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputServiceCallback)
 	_data.WriteInt32(deviceId)
+	_data.WriteInt32(1)
 	if _err := inputInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -68,6 +69,7 @@ func (p *TvInputServiceCallbackProxy) AddHdmiInput(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputServiceCallback)
 	_data.WriteInt32(id)
+	_data.WriteInt32(1)
 	if _err := inputInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

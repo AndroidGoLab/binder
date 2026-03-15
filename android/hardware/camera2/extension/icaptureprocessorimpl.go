@@ -102,9 +102,11 @@ func (p *CaptureProcessorImplProxy) OnResolutionUpdate(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICaptureProcessorImpl)
+	_data.WriteInt32(1)
 	if _err := size.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := postviewSize.MarshalParcel(_data); _err != nil {
 		return _err
 	}

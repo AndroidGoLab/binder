@@ -42,6 +42,7 @@ func (p *ImsServiceControllerListenerProxy) OnUpdateSupportedImsFeatures(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsServiceControllerListener)
+	_data.WriteInt32(1)
 	if _err := c.MarshalParcel(_data); _err != nil {
 		return _err
 	}

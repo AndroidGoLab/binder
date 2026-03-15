@@ -142,6 +142,7 @@ func (p *PrintSpoolerCallbacksProxy) OnGetPrintJobInfoResult(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerCallbacks)
+	_data.WriteInt32(1)
 	if _err := printJob.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -163,6 +164,7 @@ func (p *PrintSpoolerCallbacksProxy) OnGetCustomPrinterIconResult(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpoolerCallbacks)
+	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _err
 	}

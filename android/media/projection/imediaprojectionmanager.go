@@ -540,6 +540,7 @@ func (p *MediaProjectionManagerProxy) NotifyCaptureBoundsChanged(
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
 	_data.WriteInt32(contentToRecord)
 	_data.WriteInt32(targetProcessUid)
+	_data.WriteInt32(1)
 	if _err := captureBounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}

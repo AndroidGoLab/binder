@@ -65,9 +65,11 @@ func (p *ImsMediaProxy) OpenSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMedia)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := localEndPoint.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -41,6 +41,7 @@ func (p *CinematicEffectListenerProxy) OnCinematicEffectGenerated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICinematicEffectListener)
+	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
 		return _err
 	}

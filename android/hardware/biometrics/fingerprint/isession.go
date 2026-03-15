@@ -137,6 +137,7 @@ func (p *SessionProxy) Enroll(
 	var _result ondeviceintelligence.ICancellationSignal
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
+	_data.WriteInt32(1)
 	if _err := hat.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -337,6 +338,7 @@ func (p *SessionProxy) ResetLockout(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
+	_data.WriteInt32(1)
 	if _err := hat.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -476,6 +478,7 @@ func (p *SessionProxy) AuthenticateWithContext(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteInt64(operationId)
+	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -511,9 +514,11 @@ func (p *SessionProxy) EnrollWithContext(
 	var _result ondeviceintelligence.ICancellationSignal
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
+	_data.WriteInt32(1)
 	if _err := hat.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -548,6 +553,7 @@ func (p *SessionProxy) DetectInteractionWithContext(
 	var _result ondeviceintelligence.ICancellationSignal
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
+	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -581,6 +587,7 @@ func (p *SessionProxy) OnPointerDownWithContext(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
+	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -609,6 +616,7 @@ func (p *SessionProxy) OnPointerUpWithContext(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
+	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -637,6 +645,7 @@ func (p *SessionProxy) OnContextChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
+	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -665,6 +674,7 @@ func (p *SessionProxy) OnPointerCancelWithContext(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
+	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
 		return _err
 	}

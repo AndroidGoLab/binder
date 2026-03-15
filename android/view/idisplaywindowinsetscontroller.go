@@ -70,6 +70,7 @@ func (p *DisplayWindowInsetsControllerProxy) InsetsChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowInsetsController)
+	_data.WriteInt32(1)
 	if _err := insetsState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -90,6 +91,7 @@ func (p *DisplayWindowInsetsControllerProxy) InsetsControlChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowInsetsController)
+	_data.WriteInt32(1)
 	if _err := insetsState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -175,6 +177,7 @@ func (p *DisplayWindowInsetsControllerProxy) SetImeInputTargetRequestedVisibilit
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowInsetsController)
 	_data.WriteBool(visible)
+	_data.WriteInt32(1)
 	if _err := statsToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}

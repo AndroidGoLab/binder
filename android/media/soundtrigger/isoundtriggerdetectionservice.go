@@ -88,6 +88,7 @@ func (p *SoundTriggerDetectionServiceProxy) OnGenericRecognitionEvent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerDetectionService)
 	_data.WriteInt32(opId)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

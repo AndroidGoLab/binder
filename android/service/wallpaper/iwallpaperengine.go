@@ -99,6 +99,7 @@ func (p *WallpaperEngineProxy) SetDisplayPadding(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
+	_data.WriteInt32(1)
 	if _err := padding.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -184,6 +185,7 @@ func (p *WallpaperEngineProxy) DispatchPointer(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -211,6 +213,7 @@ func (p *WallpaperEngineProxy) DispatchWallpaperCommand(
 	_data.WriteInt32(x)
 	_data.WriteInt32(y)
 	_data.WriteInt32(z)
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -277,6 +280,7 @@ func (p *WallpaperEngineProxy) ResizePreview(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperEngine)
+	_data.WriteInt32(1)
 	if _err := positionInWindow.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -253,6 +253,7 @@ func (p *EvsEnumeratorProxy) GetStreamList(
 	var _result []Stream
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
+	_data.WriteInt32(1)
 	if _err := description.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -364,6 +365,7 @@ func (p *EvsEnumeratorProxy) OpenCamera(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsEnumerator)
 	_data.WriteString16(cameraId)
+	_data.WriteInt32(1)
 	if _err := streamCfg.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

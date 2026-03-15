@@ -210,6 +210,7 @@ func (p *SessionCallbackProxy) OnAuthenticationSucceeded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionCallback)
 	_data.WriteInt32(enrollmentId)
+	_data.WriteInt32(1)
 	if _err := hat.MarshalParcel(_data); _err != nil {
 		return _err
 	}

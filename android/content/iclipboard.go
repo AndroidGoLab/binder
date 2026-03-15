@@ -67,6 +67,7 @@ func (p *ClipboardProxy) SetPrimaryClip(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
+	_data.WriteInt32(1)
 	if _err := clip.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -104,6 +105,7 @@ func (p *ClipboardProxy) SetPrimaryClipAsPackage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIClipboard)
+	_data.WriteInt32(1)
 	if _err := clip.MarshalParcel(_data); _err != nil {
 		return _err
 	}

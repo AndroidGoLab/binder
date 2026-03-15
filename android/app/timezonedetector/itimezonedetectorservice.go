@@ -139,6 +139,7 @@ func (p *TimeZoneDetectorServiceProxy) UpdateConfiguration(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
+	_data.WriteInt32(1)
 	if _err := configuration.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -231,6 +232,7 @@ func (p *TimeZoneDetectorServiceProxy) SetManualTimeZone(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
+	_data.WriteInt32(1)
 	if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -264,6 +266,7 @@ func (p *TimeZoneDetectorServiceProxy) SuggestManualTimeZone(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
+	_data.WriteInt32(1)
 	if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -296,6 +299,7 @@ func (p *TimeZoneDetectorServiceProxy) SuggestTelephonyTimeZone(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeZoneDetectorService)
+	_data.WriteInt32(1)
 	if _err := timeZoneSuggestion.MarshalParcel(_data); _err != nil {
 		return _err
 	}

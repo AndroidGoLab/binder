@@ -149,6 +149,7 @@ func (p *SoundTriggerModuleProxy) StartRecognition(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerModule)
 	_data.WriteInt32(modelHandle)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

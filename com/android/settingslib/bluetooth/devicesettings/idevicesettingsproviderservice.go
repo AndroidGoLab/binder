@@ -76,6 +76,7 @@ func (p *DeviceSettingsProviderServiceProxy) RegisterDeviceSettingsListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceSettingsProviderService)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -97,6 +98,7 @@ func (p *DeviceSettingsProviderServiceProxy) UnregisterDeviceSettingsListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceSettingsProviderService)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -118,9 +120,11 @@ func (p *DeviceSettingsProviderServiceProxy) UpdateDeviceSettings(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDeviceSettingsProviderService)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}

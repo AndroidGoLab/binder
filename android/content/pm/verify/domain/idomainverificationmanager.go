@@ -204,6 +204,7 @@ func (p *DomainVerificationManagerProxy) SetDomainVerificationStatus(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(domainSetId)
+	_data.WriteInt32(1)
 	if _err := domains.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -272,6 +273,7 @@ func (p *DomainVerificationManagerProxy) SetDomainVerificationUserSelection(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDomainVerificationManager)
 	_data.WriteString16(domainSetId)
+	_data.WriteInt32(1)
 	if _err := domains.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

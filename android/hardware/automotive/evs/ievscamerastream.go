@@ -69,6 +69,7 @@ func (p *EvsCameraStreamProxy) Notify(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsCameraStream)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

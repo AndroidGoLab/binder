@@ -373,6 +373,7 @@ func (p *UsageStatsManagerProxy) QueryEventsWithFilter(
 	var _result UsageEvents
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
+	_data.WriteInt32(1)
 	if _err := query.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -662,6 +663,7 @@ func (p *UsageStatsManagerProxy) SetAppStandbyBuckets(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
+	_data.WriteInt32(1)
 	if _err := appBuckets.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -757,6 +759,7 @@ func (p *UsageStatsManagerProxy) SetEstimatedLaunchTimes(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUsageStatsManager)
+	_data.WriteInt32(1)
 	if _err := appLaunchTimes.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -800,6 +803,7 @@ func (p *UsageStatsManagerProxy) RegisterAppUsageObserver(
 		}
 	}
 	_data.WriteInt64(timeLimitMs)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -874,9 +878,11 @@ func (p *UsageStatsManagerProxy) RegisterUsageSessionObserver(
 	}
 	_data.WriteInt64(timeLimitMs)
 	_data.WriteInt64(sessionThresholdTimeMs)
+	_data.WriteInt32(1)
 	if _err := limitReachedCallbackIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sessionEndCallbackIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -950,6 +956,7 @@ func (p *UsageStatsManagerProxy) RegisterAppUsageLimitObserver(
 	}
 	_data.WriteInt64(timeLimitMs)
 	_data.WriteInt64(timeUsedMs)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -48,6 +48,7 @@ func (p *ScanListenerProxy) OnEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScanListener)
+	_data.WriteInt32(1)
 	if _err := eventArgs.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -69,6 +70,7 @@ func (p *ScanListenerProxy) OnScanProgress(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScanListener)
 	_data.WriteString16(scanProgress)
+	_data.WriteInt32(1)
 	if _err := scanProgressInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -47,6 +47,7 @@ func (p *AutofillWindowPresenterProxy) Show(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutofillWindowPresenter)
+	_data.WriteInt32(1)
 	if _err := transitionEpicenter.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -68,6 +69,7 @@ func (p *AutofillWindowPresenterProxy) Hide(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutofillWindowPresenter)
+	_data.WriteInt32(1)
 	if _err := transitionEpicenter.MarshalParcel(_data); _err != nil {
 		return _err
 	}

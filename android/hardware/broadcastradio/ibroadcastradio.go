@@ -226,6 +226,7 @@ func (p *BroadcastRadioProxy) Tune(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
+	_data.WriteInt32(1)
 	if _err := program.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -332,6 +333,7 @@ func (p *BroadcastRadioProxy) StartProgramListUpdates(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBroadcastRadio)
+	_data.WriteInt32(1)
 	if _err := filter.MarshalParcel(_data); _err != nil {
 		return _err
 	}

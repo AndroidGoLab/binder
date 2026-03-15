@@ -54,6 +54,7 @@ func (p *EventDownloadSessionProxy) IsBarkerOrSequentialDownloadByServiceType(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEventDownloadSession)
+	_data.WriteInt32(1)
 	if _err := eventDownloadParams.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -87,6 +88,7 @@ func (p *EventDownloadSessionProxy) IsBarkerOrSequentialDownloadByServiceRecord(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEventDownloadSession)
+	_data.WriteInt32(1)
 	if _err := eventDownloadParams.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -119,6 +121,7 @@ func (p *EventDownloadSessionProxy) StartTuningMultiplex(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEventDownloadSession)
+	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}

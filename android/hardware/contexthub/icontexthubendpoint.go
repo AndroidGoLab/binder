@@ -83,6 +83,7 @@ func (p *ContextHubEndpointProxy) OpenSession(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubEndpoint)
+	_data.WriteInt32(1)
 	if _err := destination.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -197,6 +198,7 @@ func (p *ContextHubEndpointProxy) SendMessage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubEndpoint)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
 		return _err
 	}

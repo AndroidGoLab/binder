@@ -50,6 +50,7 @@ func (p *IpConnectivityMetricsProxy) LogEvent(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIIpConnectivityMetrics)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

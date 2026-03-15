@@ -136,6 +136,7 @@ func (p *NetworkManagementEventObserverProxy) AddressUpdated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
 	_data.WriteString16(iface)
+	_data.WriteInt32(1)
 	if _err := address.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -157,6 +158,7 @@ func (p *NetworkManagementEventObserverProxy) AddressRemoved(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
 	_data.WriteString16(iface)
+	_data.WriteInt32(1)
 	if _err := address.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -62,6 +62,7 @@ func (p *FrontendCallbackProxy) OnScanMessage(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFrontendCallback)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
 		return _err
 	}

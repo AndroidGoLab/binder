@@ -676,6 +676,7 @@ func (p *UserManagerProxy) SetUserIcon(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1947,6 +1948,7 @@ func (p *UserManagerProxy) SetApplicationRestrictions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := restrictions.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2038,6 +2040,7 @@ func (p *UserManagerProxy) SetDefaultGuestRestrictions(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
+	_data.WriteInt32(1)
 	if _err := restrictions.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2234,6 +2237,7 @@ func (p *UserManagerProxy) CreateUserWithAttributes(
 	_data.WriteString16(userName)
 	_data.WriteString16(userType)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := userIcon.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

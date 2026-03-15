@@ -74,6 +74,7 @@ func (p *ImsMediaSessionProxy) ModifySession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSession)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -170,6 +171,7 @@ func (p *ImsMediaSessionProxy) SetMediaQualityThreshold(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsMediaSession)
+	_data.WriteInt32(1)
 	if _err := threshold.MarshalParcel(_data); _err != nil {
 		return _err
 	}

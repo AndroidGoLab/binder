@@ -92,6 +92,7 @@ func (p *InCallServiceProxy) AddCall(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInCallService)
+	_data.WriteInt32(1)
 	if _err := call.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -111,6 +112,7 @@ func (p *InCallServiceProxy) UpdateCall(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInCallService)
+	_data.WriteInt32(1)
 	if _err := call.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -168,6 +170,7 @@ func (p *InCallServiceProxy) OnCallAudioStateChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInCallService)
+	_data.WriteInt32(1)
 	if _err := callAudioState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -187,6 +190,7 @@ func (p *InCallServiceProxy) OnCallEndpointChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInCallService)
+	_data.WriteInt32(1)
 	if _err := callEndpoint.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -302,6 +306,7 @@ func (p *InCallServiceProxy) OnConnectionEvent(
 	_data.WriteInterfaceToken(DescriptorIInCallService)
 	_data.WriteString16(callId)
 	_data.WriteString16(event)
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}

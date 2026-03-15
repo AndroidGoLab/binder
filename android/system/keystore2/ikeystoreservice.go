@@ -94,6 +94,7 @@ func (p *KeystoreServiceProxy) GetKeyEntry(
 	var _result KeyEntryResponse
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeystoreService)
+	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -127,6 +128,7 @@ func (p *KeystoreServiceProxy) UpdateSubcomponent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeystoreService)
+	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -213,6 +215,7 @@ func (p *KeystoreServiceProxy) DeleteKey(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeystoreService)
+	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -244,6 +247,7 @@ func (p *KeystoreServiceProxy) Grant(
 	var _result KeyDescriptor
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeystoreService)
+	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -278,6 +282,7 @@ func (p *KeystoreServiceProxy) Ungrant(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIKeystoreService)
+	_data.WriteInt32(1)
 	if _err := key.MarshalParcel(_data); _err != nil {
 		return _err
 	}

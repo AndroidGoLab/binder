@@ -114,9 +114,11 @@ func (p *MediaQualityManagerProxy) CreatePictureProfile(
 	var _result PictureProfile
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
+	_data.WriteInt32(1)
 	if _err := pp.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -151,9 +153,11 @@ func (p *MediaQualityManagerProxy) UpdatePictureProfile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
 	_data.WriteString16(id)
+	_data.WriteInt32(1)
 	if _err := pp.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -184,6 +188,7 @@ func (p *MediaQualityManagerProxy) RemovePictureProfile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
 	_data.WriteString16(id)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -215,6 +220,7 @@ func (p *MediaQualityManagerProxy) SetDefaultPictureProfile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
 	_data.WriteString16(id)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -254,6 +260,7 @@ func (p *MediaQualityManagerProxy) GetPictureProfile(
 	_data.WriteInt32(type_)
 	_data.WriteString16(name)
 	_data.WriteBool(includeParams)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -290,6 +297,7 @@ func (p *MediaQualityManagerProxy) GetPictureProfilesByPackage(
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(includeParams)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -334,6 +342,7 @@ func (p *MediaQualityManagerProxy) GetAvailablePictureProfiles(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
 	_data.WriteBool(includeParams)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -376,6 +385,7 @@ func (p *MediaQualityManagerProxy) GetPictureProfilePackageNames(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -419,6 +429,7 @@ func (p *MediaQualityManagerProxy) GetPictureProfileAllowList(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -470,6 +481,7 @@ func (p *MediaQualityManagerProxy) SetPictureProfileAllowList(
 			_data.WriteString16(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -508,6 +520,7 @@ func (p *MediaQualityManagerProxy) GetPictureProfileHandle(
 			_data.WriteString16(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -551,9 +564,11 @@ func (p *MediaQualityManagerProxy) CreateSoundProfile(
 	var _result SoundProfile
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
+	_data.WriteInt32(1)
 	if _err := pp.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -588,9 +603,11 @@ func (p *MediaQualityManagerProxy) UpdateSoundProfile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
 	_data.WriteString16(id)
+	_data.WriteInt32(1)
 	if _err := pp.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -621,6 +638,7 @@ func (p *MediaQualityManagerProxy) RemoveSoundProfile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
 	_data.WriteString16(id)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -652,6 +670,7 @@ func (p *MediaQualityManagerProxy) SetDefaultSoundProfile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
 	_data.WriteString16(id)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -691,6 +710,7 @@ func (p *MediaQualityManagerProxy) GetSoundProfile(
 	_data.WriteInt32(type_)
 	_data.WriteString16(name)
 	_data.WriteBool(includeParams)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -727,6 +747,7 @@ func (p *MediaQualityManagerProxy) GetSoundProfilesByPackage(
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(includeParams)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -771,6 +792,7 @@ func (p *MediaQualityManagerProxy) GetAvailableSoundProfiles(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
 	_data.WriteBool(includeParams)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -813,6 +835,7 @@ func (p *MediaQualityManagerProxy) GetSoundProfilePackageNames(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -856,6 +879,7 @@ func (p *MediaQualityManagerProxy) GetSoundProfileAllowList(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -907,6 +931,7 @@ func (p *MediaQualityManagerProxy) SetSoundProfileAllowList(
 			_data.WriteString16(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -945,6 +970,7 @@ func (p *MediaQualityManagerProxy) GetSoundProfileHandle(
 			_data.WriteString16(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1074,6 +1100,7 @@ func (p *MediaQualityManagerProxy) GetParamCapabilities(
 			_data.WriteString16(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1116,6 +1143,7 @@ func (p *MediaQualityManagerProxy) IsSupported(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1150,6 +1178,7 @@ func (p *MediaQualityManagerProxy) SetAutoPictureQualityEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
 	_data.WriteBool(enabled)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1179,6 +1208,7 @@ func (p *MediaQualityManagerProxy) IsAutoPictureQualityEnabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1213,6 +1243,7 @@ func (p *MediaQualityManagerProxy) SetSuperResolutionEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
 	_data.WriteBool(enabled)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1242,6 +1273,7 @@ func (p *MediaQualityManagerProxy) IsSuperResolutionEnabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1276,6 +1308,7 @@ func (p *MediaQualityManagerProxy) SetAutoSoundQualityEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
 	_data.WriteBool(enabled)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1305,6 +1338,7 @@ func (p *MediaQualityManagerProxy) IsAutoSoundQualityEnabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1338,9 +1372,11 @@ func (p *MediaQualityManagerProxy) SetAmbientBacklightSettings(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
+	_data.WriteInt32(1)
 	if _err := settings.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1371,6 +1407,7 @@ func (p *MediaQualityManagerProxy) SetAmbientBacklightEnabled(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
 	_data.WriteBool(enabled)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1400,6 +1437,7 @@ func (p *MediaQualityManagerProxy) IsAmbientBacklightEnabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQualityManager)
+	_data.WriteInt32(1)
 	if _err := user.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

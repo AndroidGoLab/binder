@@ -69,6 +69,7 @@ func (p *LayoutResultCallbackProxy) OnLayoutFinished(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILayoutResultCallback)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

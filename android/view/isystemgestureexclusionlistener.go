@@ -45,9 +45,11 @@ func (p *SystemGestureExclusionListenerProxy) OnSystemGestureExclusionChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemGestureExclusionListener)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
 	if _err := systemGestureExclusion.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := systemGestureExclusionUnrestricted.MarshalParcel(_data); _err != nil {
 		return _err
 	}

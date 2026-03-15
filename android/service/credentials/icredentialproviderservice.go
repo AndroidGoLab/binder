@@ -46,6 +46,7 @@ func (p *CredentialProviderServiceProxy) OnBeginGetCredential(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialProviderService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -67,6 +68,7 @@ func (p *CredentialProviderServiceProxy) OnBeginCreateCredential(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialProviderService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -88,6 +90,7 @@ func (p *CredentialProviderServiceProxy) OnClearCredentialState(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialProviderService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

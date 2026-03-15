@@ -111,6 +111,7 @@ func (p *MediaQualityProxy) SetAmbientBacklightDetector(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQuality)
+	_data.WriteInt32(1)
 	if _err := settings.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -502,6 +503,7 @@ func (p *MediaQualityProxy) SendDefaultPictureParameters(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQuality)
+	_data.WriteInt32(1)
 	if _err := pictureParameters.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -586,6 +588,7 @@ func (p *MediaQualityProxy) SendDefaultSoundParameters(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQuality)
+	_data.WriteInt32(1)
 	if _err := soundParameters.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -708,6 +711,7 @@ func (p *MediaQualityProxy) SendPictureParameters(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQuality)
+	_data.WriteInt32(1)
 	if _err := pictureParameters.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -736,6 +740,7 @@ func (p *MediaQualityProxy) SendSoundParameters(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaQuality)
+	_data.WriteInt32(1)
 	if _err := soundParameters.MarshalParcel(_data); _err != nil {
 		return _err
 	}

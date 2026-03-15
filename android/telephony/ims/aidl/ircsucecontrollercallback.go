@@ -72,6 +72,7 @@ func (p *RcsUceControllerCallbackProxy) OnComplete(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRcsUceControllerCallback)
+	_data.WriteInt32(1)
 	if _err := details.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -95,6 +96,7 @@ func (p *RcsUceControllerCallbackProxy) OnError(
 	_data.WriteInterfaceToken(DescriptorIRcsUceControllerCallback)
 	_data.WriteInt32(errorCode)
 	_data.WriteInt64(retryAfterMilliseconds)
+	_data.WriteInt32(1)
 	if _err := details.MarshalParcel(_data); _err != nil {
 		return _err
 	}

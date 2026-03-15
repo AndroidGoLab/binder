@@ -262,6 +262,7 @@ func (p *ScanSessionProxy) ClearServiceList(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScanSession)
+	_data.WriteInt32(1)
 	if _err := optionalClearParams.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -403,6 +404,7 @@ func (p *ScanSessionProxy) GetServiceInfoList(
 	var _result os.Bundle
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScanSession)
+	_data.WriteInt32(1)
 	if _err := filterInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -443,6 +445,7 @@ func (p *ScanSessionProxy) UpdateServiceInfo(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScanSession)
+	_data.WriteInt32(1)
 	if _err := serviceInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

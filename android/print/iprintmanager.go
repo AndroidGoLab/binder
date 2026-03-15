@@ -138,6 +138,7 @@ func (p *PrintManagerProxy) GetPrintJobInfo(
 	var _result PrintJobInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
+	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -179,6 +180,7 @@ func (p *PrintManagerProxy) Print(
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
 	_data.WriteString16(printJobName)
 	_data.WriteStrongBinder(printAdapter.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -215,6 +217,7 @@ func (p *PrintManagerProxy) CancelPrintJob(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
+	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -247,6 +250,7 @@ func (p *PrintManagerProxy) RestartPrintJob(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
+	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -432,6 +436,7 @@ func (p *PrintManagerProxy) SetPrintServiceEnabled(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
+	_data.WriteInt32(1)
 	if _err := service.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -464,6 +469,7 @@ func (p *PrintManagerProxy) IsPrintServiceEnabled(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
+	_data.WriteInt32(1)
 	if _err := service.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -726,6 +732,7 @@ func (p *PrintManagerProxy) StartPrinterStateTracking(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
+	_data.WriteInt32(1)
 	if _err := printerId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -757,6 +764,7 @@ func (p *PrintManagerProxy) GetCustomPrinterIcon(
 	var _result drawable.Icon
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
+	_data.WriteInt32(1)
 	if _err := printerId.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -790,6 +798,7 @@ func (p *PrintManagerProxy) StopPrinterStateTracking(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
+	_data.WriteInt32(1)
 	if _err := printerId.MarshalParcel(_data); _err != nil {
 		return _err
 	}

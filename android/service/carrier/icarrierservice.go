@@ -45,9 +45,11 @@ func (p *CarrierServiceProxy) GetCarrierConfig(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICarrierService)
 	_data.WriteInt32(phoneId)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}

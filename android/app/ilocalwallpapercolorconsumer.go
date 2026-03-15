@@ -43,9 +43,11 @@ func (p *LocalWallpaperColorConsumerProxy) OnColorsChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocalWallpaperColorConsumer)
+	_data.WriteInt32(1)
 	if _err := area.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := colors.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -127,6 +127,7 @@ func (p *SystemUiProxyProxy) OnStatusBarTouchEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -180,6 +181,7 @@ func (p *SystemUiProxyProxy) StartAssistant(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
+	_data.WriteInt32(1)
 	if _err := bundle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -302,6 +304,7 @@ func (p *SystemUiProxyProxy) OnBackEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
+	_data.WriteInt32(1)
 	if _err := keyEvent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -404,6 +407,7 @@ func (p *SystemUiProxyProxy) TakeScreenshot(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -423,6 +427,7 @@ func (p *SystemUiProxyProxy) OnStatusBarTrackpadEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemUiProxy)
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}

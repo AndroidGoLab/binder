@@ -64,6 +64,7 @@ func (p *OnDeviceIntelligenceServiceProxy) GetVersion(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
+	_data.WriteInt32(1)
 	if _err := remoteCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -126,6 +127,7 @@ func (p *OnDeviceIntelligenceServiceProxy) GetFeatureDetails(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
 	_data.WriteInt32(callerUid)
+	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -148,6 +150,7 @@ func (p *OnDeviceIntelligenceServiceProxy) GetReadOnlyFileDescriptor(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
 	_data.WriteString16(fileName)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -168,9 +171,11 @@ func (p *OnDeviceIntelligenceServiceProxy) GetReadOnlyFeatureFileDescriptorMap(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
+	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := remoteCallback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -194,9 +199,11 @@ func (p *OnDeviceIntelligenceServiceProxy) RequestFeatureDownload(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnDeviceIntelligenceService)
 	_data.WriteInt32(callerUid)
+	_data.WriteInt32(1)
 	if _err := feature.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := cancellationSignal.MarshalParcel(_data); _err != nil {
 		return _err
 	}

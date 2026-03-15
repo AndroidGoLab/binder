@@ -56,6 +56,7 @@ func (p *RadioMessagingIndicationProxy) CdmaNewSms(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioMessagingIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
 		return _err
 	}

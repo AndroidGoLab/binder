@@ -243,6 +243,7 @@ func (p *TvInteractiveAppManagerProxy) RegisterAppLinkInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteString16(tiasId)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -275,6 +276,7 @@ func (p *TvInteractiveAppManagerProxy) UnregisterAppLinkInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteString16(tiasId)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -307,6 +309,7 @@ func (p *TvInteractiveAppManagerProxy) SendAppLinkCommand(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteString16(tiasId)
+	_data.WriteInt32(1)
 	if _err := command.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -424,9 +427,11 @@ func (p *TvInteractiveAppManagerProxy) CreateBiInteractiveApp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := biIAppUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -519,6 +524,7 @@ func (p *TvInteractiveAppManagerProxy) SendCurrentVideoBounds(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -551,6 +557,7 @@ func (p *TvInteractiveAppManagerProxy) SendCurrentChannelUri(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -822,6 +829,7 @@ func (p *TvInteractiveAppManagerProxy) SendCertificate(
 	_data.WriteStrongBinder(sessionToken.Handle())
 	_data.WriteString16(host)
 	_data.WriteInt32(port)
+	_data.WriteInt32(1)
 	if _err := certBundle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -854,6 +862,7 @@ func (p *TvInteractiveAppManagerProxy) SendTvRecordingInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := recordingInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -927,6 +936,7 @@ func (p *TvInteractiveAppManagerProxy) NotifyError(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
 	_data.WriteString16(errMsg)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -959,6 +969,7 @@ func (p *TvInteractiveAppManagerProxy) NotifyTimeShiftPlaybackParams(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1153,6 +1164,7 @@ func (p *TvInteractiveAppManagerProxy) NotifyRecordingTuned(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
 	_data.WriteString16(recordingId)
+	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1311,6 +1323,7 @@ func (p *TvInteractiveAppManagerProxy) NotifyTuned(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1654,6 +1667,7 @@ func (p *TvInteractiveAppManagerProxy) NotifyTvMessage(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
 	_data.WriteInt32(type_)
+	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1749,6 +1763,7 @@ func (p *TvInteractiveAppManagerProxy) NotifyBroadcastInfoResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1781,6 +1796,7 @@ func (p *TvInteractiveAppManagerProxy) NotifyAdResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1813,6 +1829,7 @@ func (p *TvInteractiveAppManagerProxy) NotifyAdBufferConsumed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := buffer.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1886,6 +1903,7 @@ func (p *TvInteractiveAppManagerProxy) CreateMediaView(
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
 	_data.WriteStrongBinder(windowToken.Handle())
+	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1918,6 +1936,7 @@ func (p *TvInteractiveAppManagerProxy) RelayoutMediaView(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -44,6 +44,7 @@ func (p *DetectorSessionStorageServiceProxy) OpenFile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDetectorSessionStorageService)
 	_data.WriteString16(filename)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}

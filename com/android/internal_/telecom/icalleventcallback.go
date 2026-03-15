@@ -73,6 +73,7 @@ func (p *CallEventCallbackProxy) OnAddCallControl(
 	_data.WriteString16(callId)
 	_data.WriteInt32(resultCode)
 	_data.WriteStrongBinder(callControl.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := exception.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -94,6 +95,7 @@ func (p *CallEventCallbackProxy) OnSetActive(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -115,6 +117,7 @@ func (p *CallEventCallbackProxy) OnSetInactive(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -138,6 +141,7 @@ func (p *CallEventCallbackProxy) OnAnswer(
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 	_data.WriteInt32(videoState)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -160,9 +164,11 @@ func (p *CallEventCallbackProxy) OnDisconnect(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := cause.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -184,6 +190,7 @@ func (p *CallEventCallbackProxy) OnCallStreamingStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -224,6 +231,7 @@ func (p *CallEventCallbackProxy) OnCallEndpointChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := endpoint.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -313,6 +321,7 @@ func (p *CallEventCallbackProxy) OnEvent(
 	_data.WriteInterfaceToken(DescriptorICallEventCallback)
 	_data.WriteString16(callId)
 	_data.WriteString16(event)
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}

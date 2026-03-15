@@ -153,6 +153,7 @@ func (p *AccessibilityManagerProxy) SendAccessibilityEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
+	_data.WriteInt32(1)
 	if _err := uiEvent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1013,6 +1014,7 @@ func (p *AccessibilityManagerProxy) SetAccessibilityWindowAttributes(
 	_data.WriteInt32(displayId)
 	_data.WriteInt32(windowId)
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
 		return _err
 	}

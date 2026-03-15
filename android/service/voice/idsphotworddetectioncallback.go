@@ -43,6 +43,7 @@ func (p *DspHotwordDetectionCallbackProxy) OnDetected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDspHotwordDetectionCallback)
+	_data.WriteInt32(1)
 	if _err := hotwordDetectedResult.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -62,6 +63,7 @@ func (p *DspHotwordDetectionCallbackProxy) OnRejected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDspHotwordDetectionCallback)
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -122,9 +122,11 @@ func (p *WifiNanIfaceProxy) ConfigRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
 	_data.WriteInt32(int32(cmdId))
+	_data.WriteInt32(1)
 	if _err := msg1.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := msg2.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -238,9 +240,11 @@ func (p *WifiNanIfaceProxy) EnableRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
 	_data.WriteInt32(int32(cmdId))
+	_data.WriteInt32(1)
 	if _err := msg1.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := msg2.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -297,6 +301,7 @@ func (p *WifiNanIfaceProxy) InitiateDataPathRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
 	_data.WriteInt32(int32(cmdId))
+	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -353,6 +358,7 @@ func (p *WifiNanIfaceProxy) RespondToDataPathIndicationRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
 	_data.WriteInt32(int32(cmdId))
+	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -383,6 +389,7 @@ func (p *WifiNanIfaceProxy) StartPublishRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
 	_data.WriteInt32(int32(cmdId))
+	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -413,6 +420,7 @@ func (p *WifiNanIfaceProxy) StartSubscribeRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
 	_data.WriteInt32(int32(cmdId))
+	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -583,6 +591,7 @@ func (p *WifiNanIfaceProxy) TransmitFollowupRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
 	_data.WriteInt32(int32(cmdId))
+	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -613,6 +622,7 @@ func (p *WifiNanIfaceProxy) InitiatePairingRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
 	_data.WriteInt32(int32(cmdId))
+	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -643,6 +653,7 @@ func (p *WifiNanIfaceProxy) RespondToPairingIndicationRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
 	_data.WriteInt32(int32(cmdId))
+	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -673,6 +684,7 @@ func (p *WifiNanIfaceProxy) InitiateBootstrappingRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
 	_data.WriteInt32(int32(cmdId))
+	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -703,6 +715,7 @@ func (p *WifiNanIfaceProxy) RespondToBootstrappingIndicationRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiNanIface)
 	_data.WriteInt32(int32(cmdId))
+	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
 		return _err
 	}

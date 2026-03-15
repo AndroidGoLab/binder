@@ -79,9 +79,11 @@ func (p *AuthGraphKeyExchangeProxy) Init(
 	var _result KeInitResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthGraphKeyExchange)
+	_data.WriteInt32(1)
 	if _err := peerPubKey.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := peerId.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -128,12 +130,15 @@ func (p *AuthGraphKeyExchangeProxy) Finish(
 	var _result SessionInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthGraphKeyExchange)
+	_data.WriteInt32(1)
 	if _err := peerPubKey.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := peerId.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := peerSignature.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -146,6 +151,7 @@ func (p *AuthGraphKeyExchangeProxy) Finish(
 		}
 	}
 	_data.WriteInt32(peerVersion)
+	_data.WriteInt32(1)
 	if _err := ownKey.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -179,6 +185,7 @@ func (p *AuthGraphKeyExchangeProxy) AuthenticationComplete(
 	var _result []Arc
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAuthGraphKeyExchange)
+	_data.WriteInt32(1)
 	if _err := peerSignature.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

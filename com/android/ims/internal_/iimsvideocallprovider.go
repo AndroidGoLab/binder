@@ -166,9 +166,11 @@ func (p *ImsVideoCallProviderProxy) SendSessionModifyRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
+	_data.WriteInt32(1)
 	if _err := fromProfile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := toProfile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -188,6 +190,7 @@ func (p *ImsVideoCallProviderProxy) SendSessionModifyResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
+	_data.WriteInt32(1)
 	if _err := responseProfile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -237,6 +240,7 @@ func (p *ImsVideoCallProviderProxy) SetPauseImage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsVideoCallProvider)
+	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
 		return _err
 	}

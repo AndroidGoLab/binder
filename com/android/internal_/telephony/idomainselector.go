@@ -44,6 +44,7 @@ func (p *DomainSelectorProxy) ReselectDomain(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDomainSelector)
+	_data.WriteInt32(1)
 	if _err := attr.MarshalParcel(_data); _err != nil {
 		return _err
 	}

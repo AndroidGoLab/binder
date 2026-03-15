@@ -129,6 +129,7 @@ func (p *ModuleProxy) SetModuleDebug(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIModule)
+	_data.WriteInt32(1)
 	if _err := debug.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -278,6 +279,7 @@ func (p *ModuleProxy) ConnectExternalDevice(
 	var _result common.AudioPort
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIModule)
+	_data.WriteInt32(1)
 	if _err := templateIdAndAdditionalData.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -635,6 +637,7 @@ func (p *ModuleProxy) SetAudioPatch(
 	var _result AudioPatch
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIModule)
+	_data.WriteInt32(1)
 	if _err := requested.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -668,6 +671,7 @@ func (p *ModuleProxy) SetAudioPortConfig(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIModule)
+	_data.WriteInt32(1)
 	if _err := requested.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

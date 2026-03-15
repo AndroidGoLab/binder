@@ -51,6 +51,7 @@ func (p *PictureProfileCallbackProxy) OnPictureProfileAdded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPictureProfileCallback)
 	_data.WriteString16(id)
+	_data.WriteInt32(1)
 	if _err := p_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -72,6 +73,7 @@ func (p *PictureProfileCallbackProxy) OnPictureProfileUpdated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPictureProfileCallback)
 	_data.WriteString16(id)
+	_data.WriteInt32(1)
 	if _err := p_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -93,6 +95,7 @@ func (p *PictureProfileCallbackProxy) OnPictureProfileRemoved(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPictureProfileCallback)
 	_data.WriteString16(id)
+	_data.WriteInt32(1)
 	if _err := p_.MarshalParcel(_data); _err != nil {
 		return _err
 	}

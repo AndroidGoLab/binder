@@ -559,6 +559,7 @@ func (p *GnssProxy) InjectLocation(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
+	_data.WriteInt32(1)
 	if _err := location.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -587,6 +588,7 @@ func (p *GnssProxy) InjectBestLocation(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
+	_data.WriteInt32(1)
 	if _err := location.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -641,6 +643,7 @@ func (p *GnssProxy) SetPositionMode(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}

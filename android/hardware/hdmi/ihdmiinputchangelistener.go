@@ -41,6 +41,7 @@ func (p *HdmiInputChangeListenerProxy) OnChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdmiInputChangeListener)
+	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
 		return _err
 	}

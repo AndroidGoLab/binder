@@ -42,6 +42,7 @@ func (p *LcnConflictListenerProxy) OnDetectLcnConflict(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILcnConflictListener)
+	_data.WriteInt32(1)
 	if _err := detectLcnConflicts.MarshalParcel(_data); _err != nil {
 		return _err
 	}

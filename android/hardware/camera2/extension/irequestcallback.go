@@ -85,6 +85,7 @@ func (p *RequestCallbackProxy) OnCaptureProgressed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
 	_data.WriteInt32(requestId)
+	_data.WriteInt32(1)
 	if _err := partialResult.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -115,6 +116,7 @@ func (p *RequestCallbackProxy) OnCaptureCompleted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
 	_data.WriteInt32(requestId)
+	_data.WriteInt32(1)
 	if _err := totalCaptureResult.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -145,6 +147,7 @@ func (p *RequestCallbackProxy) OnCaptureFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRequestCallback)
 	_data.WriteInt32(requestId)
+	_data.WriteInt32(1)
 	if _err := captureFailure.MarshalParcel(_data); _err != nil {
 		return _err
 	}

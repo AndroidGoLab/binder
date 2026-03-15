@@ -44,6 +44,7 @@ func (p *CamDrmInfoListenerProxy) OnCamDrmInfoChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICamDrmInfoListener)
 	_data.WriteInt32(slotId)
+	_data.WriteInt32(1)
 	if _err := camDrmInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

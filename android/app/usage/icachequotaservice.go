@@ -43,6 +43,7 @@ func (p *CacheQuotaServiceProxy) ComputeCacheQuotaHints(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICacheQuotaService)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

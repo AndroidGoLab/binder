@@ -101,6 +101,7 @@ func (p *RadioModemIndicationProxy) RadioCapabilityIndication(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := rc.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -158,6 +159,7 @@ func (p *RadioModemIndicationProxy) OnImeiMappingChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioModemIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := imeiInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

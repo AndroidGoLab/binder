@@ -64,6 +64,7 @@ func (p *ContentSuggestionsManagerProxy) ProvideContextImage(
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
 	_data.WriteInt32(userId)
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
 	if _err := imageContextRequestExtras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -86,9 +87,11 @@ func (p *ContentSuggestionsManagerProxy) ProvideContextBitmap(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := bitmap.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := imageContextRequestExtras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -111,6 +114,7 @@ func (p *ContentSuggestionsManagerProxy) SuggestContentSelections(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -134,6 +138,7 @@ func (p *ContentSuggestionsManagerProxy) ClassifyContentSelections(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -158,6 +163,7 @@ func (p *ContentSuggestionsManagerProxy) NotifyInteraction(
 	_data.WriteInterfaceToken(DescriptorIContentSuggestionsManager)
 	_data.WriteInt32(userId)
 	_data.WriteString16(requestId)
+	_data.WriteInt32(1)
 	if _err := interaction.MarshalParcel(_data); _err != nil {
 		return _err
 	}

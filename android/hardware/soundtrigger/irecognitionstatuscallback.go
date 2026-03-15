@@ -55,6 +55,7 @@ func (p *RecognitionStatusCallbackProxy) OnKeyphraseDetected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
+	_data.WriteInt32(1)
 	if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -74,6 +75,7 @@ func (p *RecognitionStatusCallbackProxy) OnGenericSoundTriggerDetected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionStatusCallback)
+	_data.WriteInt32(1)
 	if _err := recognitionEvent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

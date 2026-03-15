@@ -749,6 +749,7 @@ func (p *DisplayManagerProxy) CreateVirtualDisplay(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
+	_data.WriteInt32(1)
 	if _err := virtualDisplayConfig.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -985,6 +986,7 @@ func (p *DisplayManagerProxy) SetBrightnessConfigurationForUser(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
+	_data.WriteInt32(1)
 	if _err := c.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1018,6 +1020,7 @@ func (p *DisplayManagerProxy) SetBrightnessConfigurationForDisplay(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
+	_data.WriteInt32(1)
 	if _err := c.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1462,6 +1465,7 @@ func (p *DisplayManagerProxy) SetHdrConversionMode(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
+	_data.WriteInt32(1)
 	if _err := hdrConversionMode.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2034,6 +2038,7 @@ func (p *DisplayManagerProxy) SetDisplayTopology(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
+	_data.WriteInt32(1)
 	if _err := topology.MarshalParcel(_data); _err != nil {
 		return _err
 	}

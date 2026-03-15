@@ -60,6 +60,7 @@ func (p *PermissionCheckerProxy) CheckPermission(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPermissionChecker)
 	_data.WriteString16(permission)
+	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -100,6 +101,7 @@ func (p *PermissionCheckerProxy) FinishDataDelivery(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPermissionChecker)
 	_data.WriteInt32(op)
+	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -135,6 +137,7 @@ func (p *PermissionCheckerProxy) CheckOp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPermissionChecker)
 	_data.WriteInt32(op)
+	_data.WriteInt32(1)
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

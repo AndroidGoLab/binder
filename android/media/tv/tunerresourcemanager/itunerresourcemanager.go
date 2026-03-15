@@ -109,6 +109,7 @@ func (p *TunerResourceManagerProxy) RegisterClientProfile(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -437,6 +438,7 @@ func (p *TunerResourceManagerProxy) RequestFrontend(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -611,6 +613,7 @@ func (p *TunerResourceManagerProxy) RequestDemux(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -658,6 +661,7 @@ func (p *TunerResourceManagerProxy) RequestDescrambler(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -705,6 +709,7 @@ func (p *TunerResourceManagerProxy) RequestCasSession(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -752,6 +757,7 @@ func (p *TunerResourceManagerProxy) RequestCiCam(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -799,6 +805,7 @@ func (p *TunerResourceManagerProxy) RequestLnb(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1014,9 +1021,11 @@ func (p *TunerResourceManagerProxy) IsHigherPriority(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerResourceManager)
+	_data.WriteInt32(1)
 	if _err := challengerProfile.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := holderProfile.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

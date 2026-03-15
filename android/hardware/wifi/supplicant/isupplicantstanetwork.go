@@ -1738,6 +1738,7 @@ func (p *SupplicantStaNetworkProxy) SendNetworkEapSimUmtsAuthResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1858,6 +1859,7 @@ func (p *SupplicantStaNetworkProxy) SetDppKeys(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISupplicantStaNetwork)
+	_data.WriteInt32(1)
 	if _err := keys.MarshalParcel(_data); _err != nil {
 		return _err
 	}

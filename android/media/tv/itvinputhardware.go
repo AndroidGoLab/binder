@@ -47,6 +47,7 @@ func (p *TvInputHardwareProxy) SetSurface(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputHardware)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

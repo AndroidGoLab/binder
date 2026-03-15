@@ -42,6 +42,7 @@ func (p *VirtualDeviceIntentInterceptorProxy) OnIntentIntercepted(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDeviceIntentInterceptor)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -75,11 +75,13 @@ func (p *AlarmManagerProxy) Set(
 	_data.WriteInt64(windowLength)
 	_data.WriteInt64(interval)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := operation.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
 	_data.WriteString16(listenerTag)
+	_data.WriteInt32(1)
 	if _err := alarmClock.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -166,6 +168,7 @@ func (p *AlarmManagerProxy) Remove(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAlarmManager)
+	_data.WriteInt32(1)
 	if _err := operation.MarshalParcel(_data); _err != nil {
 		return _err
 	}

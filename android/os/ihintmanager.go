@@ -70,6 +70,7 @@ func (p *HintManagerProxy) CreateHintSessionWithConfig(
 	_data.WriteInterfaceToken(DescriptorIHintManager)
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteInt32(int32(tag))
+	_data.WriteInt32(1)
 	if _err := creationConfig.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -254,6 +255,7 @@ func (p *HintManagerProxy) GetCpuHeadroom(
 	var _result power.CpuHeadroomResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHintManager)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -315,6 +317,7 @@ func (p *HintManagerProxy) GetGpuHeadroom(
 	var _result power.GpuHeadroomResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHintManager)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

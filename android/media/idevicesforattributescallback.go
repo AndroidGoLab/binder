@@ -43,6 +43,7 @@ func (p *DevicesForAttributesCallbackProxy) OnDevicesForAttributesChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDevicesForAttributesCallback)
+	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
 		return _err
 	}

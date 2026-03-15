@@ -51,6 +51,7 @@ func (p *SoundProfileCallbackProxy) OnSoundProfileAdded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundProfileCallback)
 	_data.WriteString16(id)
+	_data.WriteInt32(1)
 	if _err := p_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -72,6 +73,7 @@ func (p *SoundProfileCallbackProxy) OnSoundProfileUpdated(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundProfileCallback)
 	_data.WriteString16(id)
+	_data.WriteInt32(1)
 	if _err := p_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -93,6 +95,7 @@ func (p *SoundProfileCallbackProxy) OnSoundProfileRemoved(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundProfileCallback)
 	_data.WriteString16(id)
+	_data.WriteInt32(1)
 	if _err := p_.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -93,6 +93,7 @@ func (p *PrintSpoolerProxy) GetPrintJobInfos(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := componentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -118,6 +119,7 @@ func (p *PrintSpoolerProxy) GetPrintJobInfo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
+	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -140,6 +142,7 @@ func (p *PrintSpoolerProxy) CreatePrintJob(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
+	_data.WriteInt32(1)
 	if _err := printJob.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -163,6 +166,7 @@ func (p *PrintSpoolerProxy) SetPrintJobState(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
+	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -187,6 +191,7 @@ func (p *PrintSpoolerProxy) SetProgress(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
+	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -208,6 +213,7 @@ func (p *PrintSpoolerProxy) SetStatus(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
+	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -229,6 +235,7 @@ func (p *PrintSpoolerProxy) SetStatusRes(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
+	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -252,9 +259,11 @@ func (p *PrintSpoolerProxy) OnCustomPrinterIconLoaded(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
+	_data.WriteInt32(1)
 	if _err := printerId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := icon.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -278,6 +287,7 @@ func (p *PrintSpoolerProxy) GetCustomPrinterIcon(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
+	_data.WriteInt32(1)
 	if _err := printerId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -321,6 +331,7 @@ func (p *PrintSpoolerProxy) SetPrintJobTag(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
+	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -345,6 +356,7 @@ func (p *PrintSpoolerProxy) WritePrintJobData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
 	_data.WriteFileDescriptor(fd)
+	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -382,6 +394,7 @@ func (p *PrintSpoolerProxy) SetPrintJobCancelling(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintSpooler)
+	_data.WriteInt32(1)
 	if _err := printJobId.MarshalParcel(_data); _err != nil {
 		return _err
 	}

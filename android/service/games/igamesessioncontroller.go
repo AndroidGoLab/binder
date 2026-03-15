@@ -46,6 +46,7 @@ func (p *GameSessionControllerProxy) TakeScreenshot(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGameSessionController)
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
 	if _err := gameScreenshotResultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}

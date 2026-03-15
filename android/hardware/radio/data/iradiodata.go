@@ -320,6 +320,7 @@ func (p *RadioDataProxy) SetupDataCall(
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
 	_data.WriteInt32(int32(accessNetwork))
+	_data.WriteInt32(1)
 	if _err := dataProfileInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -389,6 +390,7 @@ func (p *RadioDataProxy) StartKeepalive(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioData)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := keepalive.MarshalParcel(_data); _err != nil {
 		return _err
 	}

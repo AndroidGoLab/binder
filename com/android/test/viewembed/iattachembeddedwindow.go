@@ -81,6 +81,7 @@ func (p *AttachEmbeddedWindowProxy) Relayout(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAttachEmbeddedWindow)
+	_data.WriteInt32(1)
 	if _err := lp.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -111,10 +112,12 @@ func (p *AttachEmbeddedWindowProxy) AttachEmbeddedSurfaceControl(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAttachEmbeddedWindow)
+	_data.WriteInt32(1)
 	if _err := parentSurfaceControl.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
 	if _err := inputTransferToken.MarshalParcel(_data); _err != nil {
 		return _err
 	}

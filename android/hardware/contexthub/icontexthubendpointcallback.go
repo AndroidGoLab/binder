@@ -50,6 +50,7 @@ func (p *ContextHubEndpointCallbackProxy) OnSessionOpenRequest(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubEndpointCallback)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := initiator.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -108,6 +109,7 @@ func (p *ContextHubEndpointCallbackProxy) OnMessageReceived(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubEndpointCallback)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
 		return _err
 	}

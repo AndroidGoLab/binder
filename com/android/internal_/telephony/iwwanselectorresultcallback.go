@@ -42,6 +42,7 @@ func (p *WwanSelectorResultCallbackProxy) OnComplete(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWwanSelectorResultCallback)
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}

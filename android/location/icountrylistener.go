@@ -41,6 +41,7 @@ func (p *CountryListenerProxy) OnCountryDetected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICountryListener)
+	_data.WriteInt32(1)
 	if _err := country.MarshalParcel(_data); _err != nil {
 		return _err
 	}

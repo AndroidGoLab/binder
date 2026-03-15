@@ -61,9 +61,11 @@ func (p *PredictionServiceProxy) OnCreatePredictionSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPredictionService)
+	_data.WriteInt32(1)
 	if _err := context_.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -84,9 +86,11 @@ func (p *PredictionServiceProxy) NotifyAppTargetEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPredictionService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -108,10 +112,12 @@ func (p *PredictionServiceProxy) NotifyLaunchLocationShown(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPredictionService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(launchLocation)
+	_data.WriteInt32(1)
 	if _err := targetIds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -133,9 +139,11 @@ func (p *PredictionServiceProxy) SortAppTargets(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPredictionService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := targets.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -157,6 +165,7 @@ func (p *PredictionServiceProxy) RegisterPredictionUpdates(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPredictionService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -178,6 +187,7 @@ func (p *PredictionServiceProxy) UnregisterPredictionUpdates(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPredictionService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -198,6 +208,7 @@ func (p *PredictionServiceProxy) RequestPredictionUpdate(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPredictionService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -217,6 +228,7 @@ func (p *PredictionServiceProxy) OnDestroyPredictionSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPredictionService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -237,6 +249,7 @@ func (p *PredictionServiceProxy) RequestServiceFeatures(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPredictionService)
+	_data.WriteInt32(1)
 	if _err := sessionId.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -135,6 +135,7 @@ func (p *EvsDisplayProxy) ReturnTargetBufferForDisplay(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsDisplay)
+	_data.WriteInt32(1)
 	if _err := buffer.MarshalParcel(_data); _err != nil {
 		return _err
 	}

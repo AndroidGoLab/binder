@@ -66,6 +66,7 @@ func (p *BufferSubscriberProxy) OnBufferCacheUpdate(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBufferSubscriber)
+	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -85,6 +86,7 @@ func (p *BufferSubscriberProxy) OnNext(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBufferSubscriber)
+	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
 		return _err
 	}

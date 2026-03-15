@@ -747,6 +747,7 @@ func (p *RadioNetworkProxy) StartNetworkScan(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetwork)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -859,6 +860,7 @@ func (p *RadioNetworkProxy) TriggerEmergencyNetworkScan(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetwork)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

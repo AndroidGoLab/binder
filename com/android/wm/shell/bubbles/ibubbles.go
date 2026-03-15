@@ -209,6 +209,7 @@ func (p *BubblesProxy) SetBubbleBarLocation(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
+	_data.WriteInt32(1)
 	if _err := location.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -247,6 +248,7 @@ func (p *BubblesProxy) StopBubbleDrag(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
+	_data.WriteInt32(1)
 	if _err := location.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -267,6 +269,7 @@ func (p *BubblesProxy) ShowShortcutBubble(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -286,6 +289,7 @@ func (p *BubblesProxy) ShowAppBubble(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBubbles)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}

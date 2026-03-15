@@ -394,6 +394,7 @@ func (p *ImsCallSessionProxy) Start(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteString16(callee)
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -431,6 +432,7 @@ func (p *ImsCallSessionProxy) StartConference(
 			_data.WriteString16(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -461,6 +463,7 @@ func (p *ImsCallSessionProxy) Accept(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteInt32(callType)
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -621,6 +624,7 @@ func (p *ImsCallSessionProxy) Hold(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -649,6 +653,7 @@ func (p *ImsCallSessionProxy) Resume(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -703,6 +708,7 @@ func (p *ImsCallSessionProxy) Update(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteInt32(callType)
+	_data.WriteInt32(1)
 	if _err := profile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -832,6 +838,7 @@ func (p *ImsCallSessionProxy) SendDtmf(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
 	_data.WriteInt32(int32(c))
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -995,6 +1002,7 @@ func (p *ImsCallSessionProxy) SendRttModifyRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsCallSession)
+	_data.WriteInt32(1)
 	if _err := toProfile.MarshalParcel(_data); _err != nil {
 		return _err
 	}

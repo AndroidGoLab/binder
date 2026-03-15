@@ -285,6 +285,7 @@ func (p *FingerprintServiceProxy) Authenticate(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteInt64(operationId)
 	_data.WriteStrongBinder(receiver.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -322,6 +323,7 @@ func (p *FingerprintServiceProxy) DetectFingerprint(
 	_data.WriteInterfaceToken(DescriptorIFingerprintService)
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteStrongBinder(receiver.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -364,6 +366,7 @@ func (p *FingerprintServiceProxy) PrepareForAuthentication(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteInt64(operationId)
 	_data.WriteStrongBinder(sensorReceiver.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -538,6 +541,7 @@ func (p *FingerprintServiceProxy) Enroll(
 	_data.WriteStrongBinder(receiver.AsBinder().Handle())
 	_data.WriteString16(opPackageName)
 	_data.WriteInt32(enrollReason)
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1188,6 +1192,7 @@ func (p *FingerprintServiceProxy) RegisterAuthenticators(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFingerprintService)
+	_data.WriteInt32(1)
 	if _err := fingerprintSensorConfigurations.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1246,6 +1251,7 @@ func (p *FingerprintServiceProxy) OnPointerDown(
 	_data.WriteInterfaceToken(DescriptorIFingerprintService)
 	_data.WriteInt64(requestId)
 	_data.WriteInt32(sensorId)
+	_data.WriteInt32(1)
 	if _err := pc.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1278,6 +1284,7 @@ func (p *FingerprintServiceProxy) OnPointerUp(
 	_data.WriteInterfaceToken(DescriptorIFingerprintService)
 	_data.WriteInt64(requestId)
 	_data.WriteInt32(sensorId)
+	_data.WriteInt32(1)
 	if _err := pc.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -114,6 +114,7 @@ func (p *SharedConnectivityServiceProxy) ConnectHotspotNetwork(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
+	_data.WriteInt32(1)
 	if _err := network.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -142,6 +143,7 @@ func (p *SharedConnectivityServiceProxy) DisconnectHotspotNetwork(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
+	_data.WriteInt32(1)
 	if _err := network.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -170,6 +172,7 @@ func (p *SharedConnectivityServiceProxy) ConnectKnownNetwork(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
+	_data.WriteInt32(1)
 	if _err := network.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -198,6 +201,7 @@ func (p *SharedConnectivityServiceProxy) ForgetKnownNetwork(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityService)
+	_data.WriteInt32(1)
 	if _err := network.MarshalParcel(_data); _err != nil {
 		return _err
 	}

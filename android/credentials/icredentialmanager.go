@@ -66,6 +66,7 @@ func (p *CredentialManagerProxy) ExecuteGetCredential(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -100,6 +101,7 @@ func (p *CredentialManagerProxy) ExecutePrepareGetCredential(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -134,6 +136,7 @@ func (p *CredentialManagerProxy) ExecuteCreateCredential(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -168,6 +171,7 @@ func (p *CredentialManagerProxy) GetCandidateCredentials(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -202,6 +206,7 @@ func (p *CredentialManagerProxy) ClearCredentialState(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -279,6 +284,7 @@ func (p *CredentialManagerProxy) RegisterCredentialDescription(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -309,6 +315,7 @@ func (p *CredentialManagerProxy) UnregisterCredentialDescription(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

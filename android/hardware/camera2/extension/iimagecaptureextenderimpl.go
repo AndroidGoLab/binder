@@ -440,6 +440,7 @@ func (p *ImageCaptureExtenderImplProxy) GetSupportedPostviewResolutions(
 	var _result []SizeList
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
+	_data.WriteInt32(1)
 	if _err := captureSize.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -482,6 +483,7 @@ func (p *ImageCaptureExtenderImplProxy) GetEstimatedCaptureLatencyRange(
 	var _result LatencyRange
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImageCaptureExtenderImpl)
+	_data.WriteInt32(1)
 	if _err := outputSize.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

@@ -300,6 +300,7 @@ func (p *ApplicationThreadProxy) BindApplication(
 	_data.WriteString16(sdkSandboxClientAppVolumeUuid)
 	_data.WriteString16(sdkSandboxClientAppPackage)
 	_data.WriteBool(isSdkInSandbox)
+	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -567,6 +568,7 @@ func (p *ApplicationThreadProxy) ProfilerControl(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteBool(start)
+	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -646,6 +648,7 @@ func (p *ApplicationThreadProxy) ScheduleOnNewSceneTransitionInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1347,6 +1350,7 @@ func (p *ApplicationThreadProxy) ScheduleTransaction(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
+	_data.WriteInt32(1)
 	if _err := transaction.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1428,6 +1432,7 @@ func (p *ApplicationThreadProxy) NotifyContentProviderPublishStatus(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
+	_data.WriteInt32(1)
 	if _err := holder.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1557,6 +1562,7 @@ func (p *ApplicationThreadProxy) GetExecutableMethodFileOffsets(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
+	_data.WriteInt32(1)
 	if _err := methodDescriptor.MarshalParcel(_data); _err != nil {
 		return _err
 	}

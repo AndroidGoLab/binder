@@ -1120,6 +1120,7 @@ func (p *ComposerClientProxy) SetActiveConfigWithConstraints(
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
 	_data.WriteInt32(config)
+	_data.WriteInt32(1)
 	if _err := vsyncPeriodChangeConstraints.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1413,6 +1414,7 @@ func (p *ComposerClientProxy) SetReadbackBuffer(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
+	_data.WriteInt32(1)
 	if _err := buffer.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1569,6 +1571,7 @@ func (p *ComposerClientProxy) SetHdrConversionStrategy(
 	var _result common.Hdr
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
+	_data.WriteInt32(1)
 	if _err := conversionStrategy.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1675,6 +1678,7 @@ func (p *ComposerClientProxy) NotifyExpectedPresent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
+	_data.WriteInt32(1)
 	if _err := expectedPresentTime.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1728,6 +1732,7 @@ func (p *ComposerClientProxy) StartHdcpNegotiation(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
 	_data.WriteInt64(display)
+	_data.WriteInt32(1)
 	if _err := levels.MarshalParcel(_data); _err != nil {
 		return _err
 	}

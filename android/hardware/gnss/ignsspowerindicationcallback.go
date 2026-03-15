@@ -78,6 +78,7 @@ func (p *GnssPowerIndicationCallbackProxy) GnssPowerStatsCb(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssPowerIndicationCallback)
+	_data.WriteInt32(1)
 	if _err := gnssPowerStats.MarshalParcel(_data); _err != nil {
 		return _err
 	}

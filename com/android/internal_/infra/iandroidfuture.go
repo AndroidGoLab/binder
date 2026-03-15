@@ -41,6 +41,7 @@ func (p *AndroidFutureProxy) Complete(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAndroidFuture)
+	_data.WriteInt32(1)
 	if _err := resultContainer.MarshalParcel(_data); _err != nil {
 		return _err
 	}

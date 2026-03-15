@@ -41,6 +41,7 @@ func (p *StatsBootstrapAtomServiceProxy) ReportBootstrapAtom(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStatsBootstrapAtomService)
+	_data.WriteInt32(1)
 	if _err := atom.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -232,6 +232,7 @@ func (p *ComponentProxy) Queue(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
+	_data.WriteInt32(1)
 	if _err := workBundle.MarshalParcel(_data); _err != nil {
 		return _err
 	}

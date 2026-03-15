@@ -103,9 +103,11 @@ func (p *VoiceInteractionSessionProxy) HandleAssist(
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
 	_data.WriteInt32(taskId)
 	_data.WriteStrongBinder(activityId.Handle())
+	_data.WriteInt32(1)
 	if _err := structure.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := content.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -127,6 +129,7 @@ func (p *VoiceInteractionSessionProxy) HandleScreenshot(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
+	_data.WriteInt32(1)
 	if _err := screenshot.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -228,6 +231,7 @@ func (p *VoiceInteractionSessionProxy) NotifyVisibleActivityInfoChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
+	_data.WriteInt32(1)
 	if _err := visibleActivityInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

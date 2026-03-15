@@ -133,6 +133,7 @@ func (p *VehicleProxy) GetValues(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := requests.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -163,6 +164,7 @@ func (p *VehicleProxy) SetValues(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVehicle)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := requests.MarshalParcel(_data); _err != nil {
 		return _err
 	}

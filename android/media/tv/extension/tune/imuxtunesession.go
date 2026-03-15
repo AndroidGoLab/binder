@@ -54,6 +54,7 @@ func (p *MuxTuneSessionProxy) Start(
 	_data.WriteInt32(broadcastType)
 	_data.WriteInt32(frequency)
 	_data.WriteInt32(brandwith)
+	_data.WriteInt32(1)
 	if _err := muxTuneParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}

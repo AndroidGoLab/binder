@@ -52,6 +52,7 @@ func (p *RequestProcessorImplProxy) SetImageProcessor(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRequestProcessorImpl)
+	_data.WriteInt32(1)
 	if _err := outputConfigId.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -83,6 +84,7 @@ func (p *RequestProcessorImplProxy) Submit(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRequestProcessorImpl)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -160,6 +162,7 @@ func (p *RequestProcessorImplProxy) SetRepeating(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRequestProcessorImpl)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

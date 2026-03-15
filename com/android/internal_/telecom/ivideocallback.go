@@ -54,6 +54,7 @@ func (p *VideoCallbackProxy) ReceiveSessionModifyRequest(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVideoCallback)
+	_data.WriteInt32(1)
 	if _err := videoProfile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -76,9 +77,11 @@ func (p *VideoCallbackProxy) ReceiveSessionModifyResponse(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVideoCallback)
 	_data.WriteInt32(status)
+	_data.WriteInt32(1)
 	if _err := requestedProfile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := responseProfile.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -151,6 +154,7 @@ func (p *VideoCallbackProxy) ChangeCameraCapabilities(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVideoCallback)
+	_data.WriteInt32(1)
 	if _err := cameraCapabilities.MarshalParcel(_data); _err != nil {
 		return _err
 	}

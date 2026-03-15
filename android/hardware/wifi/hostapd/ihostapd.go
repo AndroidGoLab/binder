@@ -54,9 +54,11 @@ func (p *HostapdProxy) AddAccessPoint(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHostapd)
+	_data.WriteInt32(1)
 	if _err := ifaceParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := nwParams.MarshalParcel(_data); _err != nil {
 		return _err
 	}

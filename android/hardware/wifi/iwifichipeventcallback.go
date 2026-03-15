@@ -114,6 +114,7 @@ func (p *WifiChipEventCallbackProxy) OnDebugRingBufferDataAvailable(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}

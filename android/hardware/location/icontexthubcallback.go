@@ -45,6 +45,7 @@ func (p *ContextHubCallbackProxy) OnMessageReceipt(
 	_data.WriteInterfaceToken(DescriptorIContextHubCallback)
 	_data.WriteInt32(hubId)
 	_data.WriteInt32(nanoAppId)
+	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
 		return _err
 	}

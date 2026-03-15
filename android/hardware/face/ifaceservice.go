@@ -266,6 +266,7 @@ func (p *FaceServiceProxy) Authenticate(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteInt64(operationId)
 	_data.WriteStrongBinder(receiver.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -303,6 +304,7 @@ func (p *FaceServiceProxy) DetectFace(
 	_data.WriteInterfaceToken(DescriptorIFaceService)
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteStrongBinder(receiver.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -346,6 +348,7 @@ func (p *FaceServiceProxy) PrepareForAuthentication(
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteInt64(operationId)
 	_data.WriteStrongBinder(sensorReceiver.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -527,6 +530,7 @@ func (p *FaceServiceProxy) Enroll(
 		}
 	}
 	_data.WriteBool(debugConsent)
+	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1132,6 +1136,7 @@ func (p *FaceServiceProxy) RegisterAuthenticators(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFaceService)
+	_data.WriteInt32(1)
 	if _err := faceSensorConfigurations.MarshalParcel(_data); _err != nil {
 		return _err
 	}

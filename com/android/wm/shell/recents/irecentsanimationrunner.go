@@ -109,12 +109,15 @@ func (p *RecentsAnimationRunnerProxy) OnAnimationStart(
 			}
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := homeContentInsets.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := minimizedHomeBounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}

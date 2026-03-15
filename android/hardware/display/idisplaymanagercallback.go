@@ -62,6 +62,7 @@ func (p *DisplayManagerCallbackProxy) OnTopologyChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayManagerCallback)
+	_data.WriteInt32(1)
 	if _err := topology.MarshalParcel(_data); _err != nil {
 		return _err
 	}

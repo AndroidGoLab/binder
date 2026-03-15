@@ -256,6 +256,7 @@ func (p *PeopleManagerProxy) AddOrUpdateStatus(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(userId)
 	_data.WriteString16(conversationId)
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}

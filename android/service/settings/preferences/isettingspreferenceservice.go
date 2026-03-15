@@ -46,6 +46,7 @@ func (p *SettingsPreferenceServiceProxy) GetAllPreferenceMetadata(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISettingsPreferenceService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -67,6 +68,7 @@ func (p *SettingsPreferenceServiceProxy) GetPreferenceValue(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISettingsPreferenceService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -88,6 +90,7 @@ func (p *SettingsPreferenceServiceProxy) SetPreferenceValue(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISettingsPreferenceService)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

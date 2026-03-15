@@ -42,6 +42,7 @@ func (p *MusicRecognitionManagerProxy) BeginRecognition(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMusicRecognitionManager)
+	_data.WriteInt32(1)
 	if _err := recognitionRequest.MarshalParcel(_data); _err != nil {
 		return _err
 	}

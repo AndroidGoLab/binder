@@ -62,10 +62,12 @@ func (p *DisplayHashingServiceProxy) GenerateDisplayHash(
 			_data.WritePaddedByte(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteString16(hashAlgorithm)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -95,9 +97,11 @@ func (p *DisplayHashingServiceProxy) VerifyDisplayHash(
 			_data.WritePaddedByte(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := displayHash.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -117,6 +121,7 @@ func (p *DisplayHashingServiceProxy) GetDisplayHashAlgorithms(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayHashingService)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -136,6 +141,7 @@ func (p *DisplayHashingServiceProxy) GetIntervalBetweenRequestsMillis(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayHashingService)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

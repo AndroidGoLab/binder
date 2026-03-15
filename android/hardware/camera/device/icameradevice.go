@@ -151,6 +151,7 @@ func (p *CameraDeviceProxy) IsStreamCombinationSupported(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
+	_data.WriteInt32(1)
 	if _err := streams.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -359,6 +360,7 @@ func (p *CameraDeviceProxy) IsStreamCombinationWithSettingsSupported(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
+	_data.WriteInt32(1)
 	if _err := streams.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -392,6 +394,7 @@ func (p *CameraDeviceProxy) GetSessionCharacteristics(
 	var _result CameraMetadata
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDevice)
+	_data.WriteInt32(1)
 	if _err := sessionConfig.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

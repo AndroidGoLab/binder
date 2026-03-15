@@ -62,10 +62,12 @@ func (p *RemoteAccessibilityInputConnectionProxy) CommitText(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(newCursorPosition)
+	_data.WriteInt32(1)
 	if _err := textAttribute.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -87,6 +89,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) SetSelection(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -112,12 +115,14 @@ func (p *RemoteAccessibilityInputConnectionProxy) GetSurroundingText(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(beforeLength)
 	_data.WriteInt32(afterLength)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -139,6 +144,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) DeleteSurroundingText(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -161,6 +167,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) SendKeyEvent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -181,6 +188,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) PerformEditorAction(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -202,6 +210,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) PerformContextMenuAction(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -224,10 +233,12 @@ func (p *RemoteAccessibilityInputConnectionProxy) GetCursorCapsMode(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(reqModes)
+	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -248,6 +259,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) ClearMetaKeyStates(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
+	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -46,6 +46,7 @@ func (p *SessionListenerProxy) OnSessionStarted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionListener)
 	_data.WriteInt32(sessionType)
+	_data.WriteInt32(1)
 	if _err := instance.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -67,6 +68,7 @@ func (p *SessionListenerProxy) OnSessionEnded(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionListener)
 	_data.WriteInt32(sessionType)
+	_data.WriteInt32(1)
 	if _err := instance.MarshalParcel(_data); _err != nil {
 		return _err
 	}

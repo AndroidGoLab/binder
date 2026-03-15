@@ -54,6 +54,7 @@ func (p *LocationProviderManagerProxy) OnInitialize(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
 	_data.WriteBool(allowed)
+	_data.WriteInt32(1)
 	if _err := properties.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -109,6 +110,7 @@ func (p *LocationProviderManagerProxy) OnSetProperties(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationProviderManager)
+	_data.WriteInt32(1)
 	if _err := properties.MarshalParcel(_data); _err != nil {
 		return _err
 	}

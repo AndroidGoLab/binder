@@ -54,6 +54,7 @@ func (p *AugmentedAutofillManagerClientProxy) GetViewCoordinates(
 	var _result graphics.Rect
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillManagerClient)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -86,6 +87,7 @@ func (p *AugmentedAutofillManagerClientProxy) GetViewNodeParcelable(
 	var _result assist.AssistStructureViewNodeParcelable
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillManagerClient)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -173,11 +175,13 @@ func (p *AugmentedAutofillManagerClientProxy) RequestShowFillUi(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillManagerClient)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
+	_data.WriteInt32(1)
 	if _err := anchorBounds.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -209,6 +213,7 @@ func (p *AugmentedAutofillManagerClientProxy) RequestHideFillUi(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillManagerClient)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -240,6 +245,7 @@ func (p *AugmentedAutofillManagerClientProxy) RequestAutofill(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAugmentedAutofillManagerClient)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := id.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

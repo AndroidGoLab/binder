@@ -44,6 +44,7 @@ func (p *RuntimePermissionPresenterProxy) GetAppPermissions(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRuntimePermissionPresenter)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}

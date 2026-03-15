@@ -74,6 +74,7 @@ func (p *RadioVoiceIndicationProxy) CallRing(
 	_data.WriteInterfaceToken(DescriptorIRadioVoiceIndication)
 	_data.WriteInt32(int32(type_))
 	_data.WriteBool(isGsm)
+	_data.WriteInt32(1)
 	if _err := record.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -112,6 +113,7 @@ func (p *RadioVoiceIndicationProxy) CdmaCallWaiting(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioVoiceIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := callWaitingRecord.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -261,6 +263,7 @@ func (p *RadioVoiceIndicationProxy) OnSupplementaryServiceIndication(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioVoiceIndication)
 	_data.WriteInt32(int32(type_))
+	_data.WriteInt32(1)
 	if _err := ss.MarshalParcel(_data); _err != nil {
 		return _err
 	}

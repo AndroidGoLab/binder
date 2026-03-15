@@ -1015,6 +1015,7 @@ func (p *WifiChipProxy) SetAfcChannelAllowance(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
+	_data.WriteInt32(1)
 	if _err := afcChannelAllowance.MarshalParcel(_data); _err != nil {
 		return _err
 	}

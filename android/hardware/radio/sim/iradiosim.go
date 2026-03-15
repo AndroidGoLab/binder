@@ -362,6 +362,7 @@ func (p *RadioSimProxy) IccIoForApp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := iccIo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -404,6 +405,7 @@ func (p *RadioSimProxy) IccTransmitApduBasicChannel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -425,6 +427,7 @@ func (p *RadioSimProxy) IccTransmitApduLogicalChannel(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -559,6 +562,7 @@ func (p *RadioSimProxy) SetAllowedCarriers(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := carriers.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -581,6 +585,7 @@ func (p *RadioSimProxy) SetCarrierInfoForImsiEncryption(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := imsiEncryptionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -686,6 +691,7 @@ func (p *RadioSimProxy) SetUiccSubscription(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := uiccSub.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -816,6 +822,7 @@ func (p *RadioSimProxy) UpdateSimPhonebookRecords(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := recordInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -837,6 +844,7 @@ func (p *RadioSimProxy) IccCloseLogicalChannelWithSessionInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioSim)
 	_data.WriteInt32(serial)
+	_data.WriteInt32(1)
 	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

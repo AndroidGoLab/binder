@@ -48,6 +48,7 @@ func (p *SipTransportProxy) CreateSipDelegate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISipTransport)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}

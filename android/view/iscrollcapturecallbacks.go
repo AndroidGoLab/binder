@@ -63,6 +63,7 @@ func (p *ScrollCaptureCallbacksProxy) OnImageRequestCompleted(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureCallbacks)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
 	if _err := capturedArea.MarshalParcel(_data); _err != nil {
 		return _err
 	}

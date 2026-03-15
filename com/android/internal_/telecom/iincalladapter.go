@@ -131,6 +131,7 @@ func (p *InCallAdapterProxy) DeflectCall(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := address.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -193,6 +194,7 @@ func (p *InCallAdapterProxy) TransferCall(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := targetNumber.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -320,9 +322,11 @@ func (p *InCallAdapterProxy) RequestCallEndpointChange(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
+	_data.WriteInt32(1)
 	if _err := endpoint.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := callback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -436,6 +440,7 @@ func (p *InCallAdapterProxy) PhoneAccountSelected(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := accountHandle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -609,6 +614,7 @@ func (p *InCallAdapterProxy) SendCallEvent(
 	_data.WriteString16(callId)
 	_data.WriteString16(event)
 	_data.WriteInt32(targetSdkVer)
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -630,6 +636,7 @@ func (p *InCallAdapterProxy) PutExtras(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -753,10 +760,12 @@ func (p *InCallAdapterProxy) HandoverTo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInCallAdapter)
 	_data.WriteString16(callId)
+	_data.WriteInt32(1)
 	if _err := destAcct.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(videoState)
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}

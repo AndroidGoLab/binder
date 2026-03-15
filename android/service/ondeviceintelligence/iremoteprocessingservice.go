@@ -43,6 +43,7 @@ func (p *RemoteProcessingServiceProxy) UpdateProcessingState(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteProcessingService)
+	_data.WriteInt32(1)
 	if _err := processingState.MarshalParcel(_data); _err != nil {
 		return _err
 	}

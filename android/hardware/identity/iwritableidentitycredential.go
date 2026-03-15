@@ -152,6 +152,7 @@ func (p *WritableIdentityCredentialProxy) AddAccessControlProfile(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWritableIdentityCredential)
 	_data.WriteInt32(id)
+	_data.WriteInt32(1)
 	if _err := readerCertificate.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

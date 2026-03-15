@@ -43,6 +43,7 @@ func (p *EraserCallbackProxy) OnClassifierUpdate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEraserCallback)
 	_data.WriteInt32(soundSourceId)
+	_data.WriteInt32(1)
 	if _err := metadata.MarshalParcel(_data); _err != nil {
 		return _err
 	}

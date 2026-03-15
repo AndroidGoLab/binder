@@ -195,6 +195,7 @@ func (p *AudioControlProxy) OnAudioFocusChangeWithMetaData(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioControl)
+	_data.WriteInt32(1)
 	if _err := playbackMetaData.MarshalParcel(_data); _err != nil {
 		return _err
 	}

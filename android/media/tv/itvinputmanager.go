@@ -253,6 +253,7 @@ func (p *TvInputManagerProxy) UpdateTvInputInfo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
+	_data.WriteInt32(1)
 	if _err := inputInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -686,6 +687,7 @@ func (p *TvInputManagerProxy) CreateSession(
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 	_data.WriteString16(inputId)
+	_data.WriteInt32(1)
 	if _err := tvAppAttributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -965,9 +967,11 @@ func (p *TvInputManagerProxy) Tune(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1126,6 +1130,7 @@ func (p *TvInputManagerProxy) SendAppPrivateCommand(
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
 	_data.WriteString16(action)
+	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1160,6 +1165,7 @@ func (p *TvInputManagerProxy) CreateOverlayView(
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
 	_data.WriteStrongBinder(windowToken.Handle())
+	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1192,6 +1198,7 @@ func (p *TvInputManagerProxy) RelayoutOverlayView(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := frame.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1282,6 +1289,7 @@ func (p *TvInputManagerProxy) TimeShiftPlay(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := recordedProgramUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1400,6 +1408,7 @@ func (p *TvInputManagerProxy) TimeShiftSetPlaybackParams(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1533,9 +1542,11 @@ func (p *TvInputManagerProxy) StartRecording(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := programUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1596,6 +1607,7 @@ func (p *TvInputManagerProxy) PauseRecording(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1628,6 +1640,7 @@ func (p *TvInputManagerProxy) ResumeRecording(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1718,6 +1731,7 @@ func (p *TvInputManagerProxy) RequestBroadcastInfo(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1780,6 +1794,7 @@ func (p *TvInputManagerProxy) RequestAd(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1812,6 +1827,7 @@ func (p *TvInputManagerProxy) NotifyAdBufferReady(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
+	_data.WriteInt32(1)
 	if _err := buffer.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1846,6 +1862,7 @@ func (p *TvInputManagerProxy) NotifyTvMessage(
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
 	_data.WriteInt32(type_)
+	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1953,6 +1970,7 @@ func (p *TvInputManagerProxy) AcquireTvInputHardware(
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteInt32(deviceId)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2066,6 +2084,7 @@ func (p *TvInputManagerProxy) CaptureFrame(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteString16(inputId)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2170,6 +2189,7 @@ func (p *TvInputManagerProxy) OpenDvbDevice(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2204,6 +2224,7 @@ func (p *TvInputManagerProxy) SendTvInputNotifyIntent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2234,6 +2255,7 @@ func (p *TvInputManagerProxy) RequestChannelBrowsable(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
+	_data.WriteInt32(1)
 	if _err := channelUri.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2350,6 +2372,7 @@ func (p *TvInputManagerProxy) NotifyTvAdSessionData(
 	_data.WriteInterfaceToken(DescriptorITvInputManager)
 	_data.WriteStrongBinder(sessionToken.Handle())
 	_data.WriteString16(type_)
+	_data.WriteInt32(1)
 	if _err := data.MarshalParcel(_data); _err != nil {
 		return _err
 	}

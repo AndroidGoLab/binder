@@ -44,6 +44,7 @@ func (p *ContentProtectionServiceProxy) OnLoginDetected(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentProtectionService)
+	_data.WriteInt32(1)
 	if _err := events.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -80,6 +80,7 @@ func (p *SharedConnectivityCallbackProxy) OnHotspotNetworkConnectionStatusChange
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -125,6 +126,7 @@ func (p *SharedConnectivityCallbackProxy) OnKnownNetworkConnectionStatusChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
+	_data.WriteInt32(1)
 	if _err := status.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -144,6 +146,7 @@ func (p *SharedConnectivityCallbackProxy) OnSharedConnectivitySettingsChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISharedConnectivityCallback)
+	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
 		return _err
 	}

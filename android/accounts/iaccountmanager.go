@@ -132,6 +132,7 @@ func (p *AccountManagerProxy) GetPassword(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -166,6 +167,7 @@ func (p *AccountManagerProxy) GetUserData(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -376,6 +378,7 @@ func (p *AccountManagerProxy) HasFeatures(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -496,6 +499,7 @@ func (p *AccountManagerProxy) AddAccountExplicitly(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -534,6 +538,7 @@ func (p *AccountManagerProxy) RemoveAccountAsUser(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -565,6 +570,7 @@ func (p *AccountManagerProxy) RemoveAccountExplicitly(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -601,6 +607,7 @@ func (p *AccountManagerProxy) CopyAccountToUser(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -661,6 +668,7 @@ func (p *AccountManagerProxy) PeekAuthToken(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -696,6 +704,7 @@ func (p *AccountManagerProxy) SetAuthToken(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -727,6 +736,7 @@ func (p *AccountManagerProxy) SetPassword(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -756,6 +766,7 @@ func (p *AccountManagerProxy) ClearPassword(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -786,6 +797,7 @@ func (p *AccountManagerProxy) SetUserData(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -819,6 +831,7 @@ func (p *AccountManagerProxy) UpdateAppPermission(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -856,6 +869,7 @@ func (p *AccountManagerProxy) GetAuthToken(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -978,6 +992,7 @@ func (p *AccountManagerProxy) UpdateCredentials(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1043,6 +1058,7 @@ func (p *AccountManagerProxy) ConfirmCredentialsAsUser(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1074,6 +1090,7 @@ func (p *AccountManagerProxy) AccountAuthenticated(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1169,6 +1186,7 @@ func (p *AccountManagerProxy) RenameAccount(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := accountToRename.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1199,6 +1217,7 @@ func (p *AccountManagerProxy) GetPreviousName(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1278,6 +1297,7 @@ func (p *AccountManagerProxy) StartUpdateCredentialsSession(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1341,6 +1361,7 @@ func (p *AccountManagerProxy) SomeUserHasAccount(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1376,6 +1397,7 @@ func (p *AccountManagerProxy) IsCredentialsUpdateSuggested(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
 	_data.WriteStrongBinder(response.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1406,6 +1428,7 @@ func (p *AccountManagerProxy) GetPackagesAndVisibilityForAccount(
 	var _result map[interface{}]interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1457,6 +1480,7 @@ func (p *AccountManagerProxy) AddAccountExplicitlyWithVisibility(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1503,6 +1527,7 @@ func (p *AccountManagerProxy) SetAccountVisibility(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := a.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1539,6 +1564,7 @@ func (p *AccountManagerProxy) GetAccountVisibility(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := a.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1692,6 +1718,7 @@ func (p *AccountManagerProxy) HasAccountAccess(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1728,6 +1755,7 @@ func (p *AccountManagerProxy) CreateRequestAccountAccessIntentSenderAsUser(
 	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccountManager)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

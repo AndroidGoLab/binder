@@ -44,6 +44,7 @@ func (p *ProgramRatingInfoListenerProxy) OnProgramInfoChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIProgramRatingInfoListener)
 	_data.WriteString16(sessionToken)
+	_data.WriteInt32(1)
 	if _err := changedProgramInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

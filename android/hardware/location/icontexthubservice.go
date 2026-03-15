@@ -192,6 +192,7 @@ func (p *ContextHubServiceProxy) LoadNanoApp(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubHandle)
+	_data.WriteInt32(1)
 	if _err := nanoApp.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -288,6 +289,7 @@ func (p *ContextHubServiceProxy) FindNanoAppOnHub(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubHandle)
+	_data.WriteInt32(1)
 	if _err := filter.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -335,6 +337,7 @@ func (p *ContextHubServiceProxy) SendMessage(
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubHandle)
 	_data.WriteInt32(nanoAppHandle)
+	_data.WriteInt32(1)
 	if _err := msg.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -522,6 +525,7 @@ func (p *ContextHubServiceProxy) LoadNanoAppOnHub(
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
 	_data.WriteStrongBinder(transactionCallback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := nanoAppBinary.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -669,6 +673,7 @@ func (p *ContextHubServiceProxy) GetPreloadedNanoAppIds(
 	var _result []int64
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
+	_data.WriteInt32(1)
 	if _err := hubInfo.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

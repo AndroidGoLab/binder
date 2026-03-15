@@ -138,6 +138,7 @@ func (p *WifiStaIfaceProxy) ConfigureRoaming(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIface)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -683,6 +684,7 @@ func (p *WifiStaIfaceProxy) StartBackgroundScan(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIface)
 	_data.WriteInt32(cmdId)
+	_data.WriteInt32(1)
 	if _err := params.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -984,6 +986,7 @@ func (p *WifiStaIfaceProxy) TwtSessionSetup(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiStaIface)
 	_data.WriteInt32(cmdId)
+	_data.WriteInt32(1)
 	if _err := twtRequest.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1016,6 +1019,7 @@ func (p *WifiStaIfaceProxy) TwtSessionUpdate(
 	_data.WriteInterfaceToken(DescriptorIWifiStaIface)
 	_data.WriteInt32(cmdId)
 	_data.WriteInt32(sessionId)
+	_data.WriteInt32(1)
 	if _err := twtRequest.MarshalParcel(_data); _err != nil {
 		return _err
 	}

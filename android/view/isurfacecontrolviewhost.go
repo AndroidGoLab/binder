@@ -82,9 +82,11 @@ func (p *SurfaceControlViewHostProxy) OnInsetsChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHost)
+	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := insetFrame.MarshalParcel(_data); _err != nil {
 		return _err
 	}

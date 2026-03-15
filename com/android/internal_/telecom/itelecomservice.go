@@ -286,6 +286,7 @@ func (p *TelecomServiceProxy) SetUserSelectedOutgoingPhoneAccount(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -478,6 +479,7 @@ func (p *TelecomServiceProxy) GetPhoneAccount(
 	var _result androidTelecom.PhoneAccount
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -692,6 +694,7 @@ func (p *TelecomServiceProxy) RegisterPhoneAccount(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := metadata.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -722,6 +725,7 @@ func (p *TelecomServiceProxy) UnregisterPhoneAccount(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := account.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -781,6 +785,7 @@ func (p *TelecomServiceProxy) IsVoiceMailNumber(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := accountHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -819,6 +824,7 @@ func (p *TelecomServiceProxy) GetVoiceMailNumber(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := accountHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -856,6 +862,7 @@ func (p *TelecomServiceProxy) GetLine1Number(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := accountHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1402,6 +1409,7 @@ func (p *TelecomServiceProxy) HandlePinMmiForPhoneAccount(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := accountHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1438,6 +1446,7 @@ func (p *TelecomServiceProxy) GetAdnUriForPhoneAccount(
 	var _result net.Uri
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := accountHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1538,9 +1547,11 @@ func (p *TelecomServiceProxy) AddNewIncomingCall(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := phoneAccount.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1572,9 +1583,11 @@ func (p *TelecomServiceProxy) AddNewIncomingConference(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := phoneAccount.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1605,9 +1618,11 @@ func (p *TelecomServiceProxy) AddNewUnknownCall(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := phoneAccount.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1648,6 +1663,7 @@ func (p *TelecomServiceProxy) StartConference(
 			}
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1680,9 +1696,11 @@ func (p *TelecomServiceProxy) PlaceCall(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := handle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1715,6 +1733,7 @@ func (p *TelecomServiceProxy) EnablePhoneAccount(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := accountHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1865,6 +1884,7 @@ func (p *TelecomServiceProxy) IsIncomingCallPermitted(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1900,6 +1920,7 @@ func (p *TelecomServiceProxy) IsOutgoingCallPermitted(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := phoneAccountHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1960,10 +1981,12 @@ func (p *TelecomServiceProxy) AcceptHandover(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := srcAddr.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(videoState)
+	_data.WriteInt32(1)
 	if _err := destAcct.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2049,6 +2072,7 @@ func (p *TelecomServiceProxy) HandleCallIntent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2240,6 +2264,7 @@ func (p *TelecomServiceProxy) SetTestPhoneAcctSuggestionComponent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
 	_data.WriteString16(flattenedComponentName)
+	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2322,6 +2347,7 @@ func (p *TelecomServiceProxy) SetSystemDialer(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := testComponentName.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -2406,6 +2432,7 @@ func (p *TelecomServiceProxy) IsInSelfManagedCall(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2442,6 +2469,7 @@ func (p *TelecomServiceProxy) AddCall(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelecomService)
+	_data.WriteInt32(1)
 	if _err := callAttributes.MarshalParcel(_data); _err != nil {
 		return _err
 	}

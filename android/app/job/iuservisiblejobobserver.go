@@ -42,6 +42,7 @@ func (p *UserVisibleJobObserverProxy) OnUserVisibleJobStateChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserVisibleJobObserver)
+	_data.WriteInt32(1)
 	if _err := summary.MarshalParcel(_data); _err != nil {
 		return _err
 	}

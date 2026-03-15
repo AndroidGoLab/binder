@@ -42,6 +42,7 @@ func (p *GetEuiccInfoCallbackProxy) OnSuccess(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGetEuiccInfoCallback)
+	_data.WriteInt32(1)
 	if _err := euiccInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

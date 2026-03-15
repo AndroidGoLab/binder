@@ -101,6 +101,7 @@ func (p *SoundTriggerSessionProxy) UpdateSoundModel(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
+	_data.WriteInt32(1)
 	if _err := soundModel.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -158,10 +159,12 @@ func (p *SoundTriggerSessionProxy) StartRecognition(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
+	_data.WriteInt32(1)
 	if _err := soundModel.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -228,6 +231,7 @@ func (p *SoundTriggerSessionProxy) LoadGenericSoundModel(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
+	_data.WriteInt32(1)
 	if _err := soundModel.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -261,6 +265,7 @@ func (p *SoundTriggerSessionProxy) LoadKeyphraseSoundModel(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
+	_data.WriteInt32(1)
 	if _err := soundModel.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -297,6 +302,7 @@ func (p *SoundTriggerSessionProxy) StartRecognitionForService(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

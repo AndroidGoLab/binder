@@ -90,6 +90,7 @@ func (p *VoiceInteractionSoundTriggerSessionProxy) StartRecognition(
 	_data.WriteInt32(keyphraseId)
 	_data.WriteString16(bcp47Locale)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
 	if _err := recognitionConfig.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

@@ -41,6 +41,7 @@ func (p *TranslationServiceCallbackProxy) UpdateTranslationCapability(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationServiceCallback)
+	_data.WriteInt32(1)
 	if _err := capability.MarshalParcel(_data); _err != nil {
 		return _err
 	}

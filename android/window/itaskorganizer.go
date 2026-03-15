@@ -57,6 +57,7 @@ func (p *TaskOrganizerProxy) AddStartingWindow(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -76,6 +77,7 @@ func (p *TaskOrganizerProxy) RemoveStartingWindow(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
+	_data.WriteInt32(1)
 	if _err := removalInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

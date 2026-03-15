@@ -53,6 +53,7 @@ func (p *TunerCallbackProxy) OnTuneFailed(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
 	_data.WriteInt32(int32(result))
+	_data.WriteInt32(1)
 	if _err := selector.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -72,6 +73,7 @@ func (p *TunerCallbackProxy) OnCurrentProgramInfoChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -91,6 +93,7 @@ func (p *TunerCallbackProxy) OnProgramListUpdated(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITunerCallback)
+	_data.WriteInt32(1)
 	if _err := chunk.MarshalParcel(_data); _err != nil {
 		return _err
 	}

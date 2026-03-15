@@ -260,6 +260,7 @@ func (p *UiAutomationConnectionProxy) TakeScreenshot(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUiAutomationConnection)
+	_data.WriteInt32(1)
 	if _err := crop.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

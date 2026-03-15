@@ -44,6 +44,7 @@ func (p *EventMonitorListenerProxy) OnInfoChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEventMonitorListener)
 	_data.WriteInt64(channelDbId)
+	_data.WriteInt32(1)
 	if _err := eventinfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}

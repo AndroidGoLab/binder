@@ -44,9 +44,11 @@ func (p *UserRestrictionsListenerProxy) OnUserRestrictionsChanged(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserRestrictionsListener)
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := newRestrictions.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := prevRestrictions.MarshalParcel(_data); _err != nil {
 		return _err
 	}

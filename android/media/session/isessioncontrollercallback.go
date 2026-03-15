@@ -88,6 +88,7 @@ func (p *SessionControllerCallbackProxy) OnPlaybackStateChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
+	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -171,6 +172,7 @@ func (p *SessionControllerCallbackProxy) OnVolumeInfoChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -49,6 +49,7 @@ func (p *EvsUltrasonicsArrayProxy) DoneWithDataFrame(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEvsUltrasonicsArray)
+	_data.WriteInt32(1)
 	if _err := dataFrameDesc.MarshalParcel(_data); _err != nil {
 		return _err
 	}

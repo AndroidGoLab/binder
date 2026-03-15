@@ -90,6 +90,7 @@ func (p *TvInteractiveAppServiceProxy) CreateSession(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppService)
+	_data.WriteInt32(1)
 	if _err := channel.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -112,6 +113,7 @@ func (p *TvInteractiveAppServiceProxy) RegisterAppLinkInfo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppService)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -131,6 +133,7 @@ func (p *TvInteractiveAppServiceProxy) UnregisterAppLinkInfo(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppService)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -150,6 +153,7 @@ func (p *TvInteractiveAppServiceProxy) SendAppLinkCommand(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITvInteractiveAppService)
+	_data.WriteInt32(1)
 	if _err := command.MarshalParcel(_data); _err != nil {
 		return _err
 	}

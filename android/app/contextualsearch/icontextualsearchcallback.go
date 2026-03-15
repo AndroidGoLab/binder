@@ -44,6 +44,7 @@ func (p *ContextualSearchCallbackProxy) OnResult(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextualSearchCallback)
+	_data.WriteInt32(1)
 	if _err := state.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -63,6 +64,7 @@ func (p *ContextualSearchCallbackProxy) OnError(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextualSearchCallback)
+	_data.WriteInt32(1)
 	if _err := error_.MarshalParcel(_data); _err != nil {
 		return _err
 	}

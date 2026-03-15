@@ -92,6 +92,7 @@ func (p *ShortcutServiceProxy) SetDynamicShortcuts(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := shortcutInfoList.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -129,6 +130,7 @@ func (p *ShortcutServiceProxy) AddDynamicShortcuts(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := shortcutInfoList.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -231,6 +233,7 @@ func (p *ShortcutServiceProxy) UpdateShortcuts(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := shortcuts.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -269,10 +272,12 @@ func (p *ShortcutServiceProxy) RequestPinShortcut(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := shortcut.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := ret.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -305,10 +310,12 @@ func (p *ShortcutServiceProxy) CreateShortcutResultIntent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := shortcut.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(userId)
+	_data.WriteInt32(1)
 	if _err := ret.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -870,6 +877,7 @@ func (p *ShortcutServiceProxy) PushDynamicShortcut(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
 	if _err := shortcut.MarshalParcel(_data); _err != nil {
 		return _err
 	}

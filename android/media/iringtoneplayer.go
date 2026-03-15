@@ -62,6 +62,7 @@ func (p *RingtonePlayerProxy) Play(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := aa.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -89,6 +90,7 @@ func (p *RingtonePlayerProxy) PlayWithVolumeShaping(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
 	if _err := aa.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -193,6 +195,7 @@ func (p *RingtonePlayerProxy) PlayAsync(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
 	_data.WriteBool(looping)
+	_data.WriteInt32(1)
 	if _err := aa.MarshalParcel(_data); _err != nil {
 		return _err
 	}

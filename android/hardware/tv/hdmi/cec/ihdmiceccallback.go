@@ -41,6 +41,7 @@ func (p *HdmiCecCallbackProxy) OnCecMessage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHdmiCecCallback)
+	_data.WriteInt32(1)
 	if _err := message.MarshalParcel(_data); _err != nil {
 		return _err
 	}

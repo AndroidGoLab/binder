@@ -41,6 +41,7 @@ func (p *NtnSignalStrengthCallbackProxy) OnNtnSignalStrengthChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINtnSignalStrengthCallback)
+	_data.WriteInt32(1)
 	if _err := ntnSignalStrength.MarshalParcel(_data); _err != nil {
 		return _err
 	}

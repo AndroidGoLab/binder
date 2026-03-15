@@ -93,6 +93,7 @@ func (p *StorageEventListenerProxy) OnVolumeStateChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
+	_data.WriteInt32(1)
 	if _err := vol.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -114,6 +115,7 @@ func (p *StorageEventListenerProxy) OnVolumeRecordChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
+	_data.WriteInt32(1)
 	if _err := rec.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -151,6 +153,7 @@ func (p *StorageEventListenerProxy) OnDiskScanned(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
+	_data.WriteInt32(1)
 	if _err := disk.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -171,6 +174,7 @@ func (p *StorageEventListenerProxy) OnDiskDestroyed(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageEventListener)
+	_data.WriteInt32(1)
 	if _err := disk.MarshalParcel(_data); _err != nil {
 		return _err
 	}

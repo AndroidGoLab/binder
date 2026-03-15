@@ -266,9 +266,11 @@ func (p *VibratorManagerServiceProxy) SetAlwaysOnEffect(
 	_data.WriteInt32(uid)
 	_data.WriteString16(opPkg)
 	_data.WriteInt32(alwaysOnId)
+	_data.WriteInt32(1)
 	if _err := vibration.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -310,9 +312,11 @@ func (p *VibratorManagerServiceProxy) Vibrate(
 	_data.WriteInt32(uid)
 	_data.WriteInt32(deviceId)
 	_data.WriteString16(opPkg)
+	_data.WriteInt32(1)
 	if _err := vibration.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -451,6 +455,7 @@ func (p *VibratorManagerServiceProxy) StartVendorVibrationSession(
 			_data.WriteInt32(_item)
 		}
 	}
+	_data.WriteInt32(1)
 	if _err := attributes.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

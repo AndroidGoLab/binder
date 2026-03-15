@@ -85,6 +85,7 @@ func (p *LcnV2ChannelListProxy) SetLcnV2ChannelList(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILcnV2ChannelList)
+	_data.WriteInt32(1)
 	if _err := lcnV2ChannelListSettings.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

@@ -247,6 +247,7 @@ func (p *StreamInProxy) UpdateMetadata(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamIn)
+	_data.WriteInt32(1)
 	if _err := sinkMetadata.MarshalParcel(_data); _err != nil {
 		return _err
 	}

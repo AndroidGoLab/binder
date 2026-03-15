@@ -168,6 +168,7 @@ func (p *LocationManagerProxy) GetLastLocation(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -208,6 +209,7 @@ func (p *LocationManagerProxy) GetCurrentLocation(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -246,6 +248,7 @@ func (p *LocationManagerProxy) RegisterLocationListener(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -309,6 +312,7 @@ func (p *LocationManagerProxy) RegisterLocationPendingIntent(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -364,6 +368,7 @@ func (p *LocationManagerProxy) InjectLocation(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
+	_data.WriteInt32(1)
 	if _err := location.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -454,6 +459,7 @@ func (p *LocationManagerProxy) RequestGeofence(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
+	_data.WriteInt32(1)
 	if _err := geofence.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -834,6 +840,7 @@ func (p *LocationManagerProxy) AddGnssMeasurementsListener(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -892,6 +899,7 @@ func (p *LocationManagerProxy) InjectGnssMeasurementCorrections(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
+	_data.WriteInt32(1)
 	if _err := corrections.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1269,6 +1277,7 @@ func (p *LocationManagerProxy) GetProviders(
 	var _result []string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
+	_data.WriteInt32(1)
 	if _err := criteria.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1314,6 +1323,7 @@ func (p *LocationManagerProxy) GetBestProvider(
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
+	_data.WriteInt32(1)
 	if _err := criteria.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -1840,6 +1850,7 @@ func (p *LocationManagerProxy) SetTestProviderLocation(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
+	_data.WriteInt32(1)
 	if _err := location.MarshalParcel(_data); _err != nil {
 		return _err
 	}

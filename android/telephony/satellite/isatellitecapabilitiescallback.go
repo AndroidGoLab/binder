@@ -41,6 +41,7 @@ func (p *SatelliteCapabilitiesCallbackProxy) OnSatelliteCapabilitiesChanged(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISatelliteCapabilitiesCallback)
+	_data.WriteInt32(1)
 	if _err := capabilities.MarshalParcel(_data); _err != nil {
 		return _err
 	}

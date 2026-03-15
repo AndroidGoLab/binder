@@ -1911,6 +1911,7 @@ func (p *SubProxy) SetSubscriptionUserHandle(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISub)
+	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2008,6 +2009,7 @@ func (p *SubProxy) IsSubscriptionAssociatedWithUser(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISub)
 	_data.WriteInt32(subscriptionId)
+	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -2041,6 +2043,7 @@ func (p *SubProxy) GetSubscriptionInfoListAssociatedWithUser(
 	var _result []androidTelephony.SubscriptionInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISub)
+	_data.WriteInt32(1)
 	if _err := userHandle.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

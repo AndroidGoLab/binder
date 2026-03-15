@@ -45,6 +45,7 @@ func (p *BluetoothProxy) SetScoConfig(
 	var _result coreIBluetooth.ScoConfig
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetooth)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -77,6 +78,7 @@ func (p *BluetoothProxy) SetHfpConfig(
 	var _result coreIBluetooth.HfpConfig
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetooth)
+	_data.WriteInt32(1)
 	if _err := config.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}

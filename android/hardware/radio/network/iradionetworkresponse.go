@@ -158,6 +158,7 @@ func (p *RadioNetworkResponseProxy) GetAllowedNetworkTypesBitmapResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -179,6 +180,7 @@ func (p *RadioNetworkResponseProxy) GetAvailableBandModesResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -207,6 +209,7 @@ func (p *RadioNetworkResponseProxy) GetAvailableNetworksResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -238,9 +241,11 @@ func (p *RadioNetworkResponseProxy) GetBarringInfoResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := cellIdentity.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -271,6 +276,7 @@ func (p *RadioNetworkResponseProxy) GetCdmaRoamingPreferenceResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -292,6 +298,7 @@ func (p *RadioNetworkResponseProxy) GetCellInfoListResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -322,9 +329,11 @@ func (p *RadioNetworkResponseProxy) GetDataRegistrationStateResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := dataRegResponse.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -346,6 +355,7 @@ func (p *RadioNetworkResponseProxy) GetImsRegistrationStateResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -368,6 +378,7 @@ func (p *RadioNetworkResponseProxy) GetNetworkSelectionModeResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -391,6 +402,7 @@ func (p *RadioNetworkResponseProxy) GetOperatorResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -414,9 +426,11 @@ func (p *RadioNetworkResponseProxy) GetSignalStrengthResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := signalStrength.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -437,6 +451,7 @@ func (p *RadioNetworkResponseProxy) GetSystemSelectionChannelsResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -467,6 +482,7 @@ func (p *RadioNetworkResponseProxy) GetVoiceRadioTechnologyResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -488,9 +504,11 @@ func (p *RadioNetworkResponseProxy) GetVoiceRegistrationStateResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := voiceRegResponse.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -511,6 +529,7 @@ func (p *RadioNetworkResponseProxy) IsNrDualConnectivityEnabledResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -531,6 +550,7 @@ func (p *RadioNetworkResponseProxy) SetAllowedNetworkTypesBitmapResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -550,6 +570,7 @@ func (p *RadioNetworkResponseProxy) SetBandModeResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -569,6 +590,7 @@ func (p *RadioNetworkResponseProxy) SetBarringPasswordResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -588,6 +610,7 @@ func (p *RadioNetworkResponseProxy) SetCdmaRoamingPreferenceResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -607,6 +630,7 @@ func (p *RadioNetworkResponseProxy) SetCellInfoListRateResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -626,6 +650,7 @@ func (p *RadioNetworkResponseProxy) SetIndicationFilterResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -645,6 +670,7 @@ func (p *RadioNetworkResponseProxy) SetLinkCapacityReportingCriteriaResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -664,6 +690,7 @@ func (p *RadioNetworkResponseProxy) SetLocationUpdatesResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -683,6 +710,7 @@ func (p *RadioNetworkResponseProxy) SetNetworkSelectionModeAutomaticResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -702,6 +730,7 @@ func (p *RadioNetworkResponseProxy) SetNetworkSelectionModeManualResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -721,6 +750,7 @@ func (p *RadioNetworkResponseProxy) SetNrDualConnectivityStateResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -740,6 +770,7 @@ func (p *RadioNetworkResponseProxy) SetSignalStrengthReportingCriteriaResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -759,6 +790,7 @@ func (p *RadioNetworkResponseProxy) SetSuppServiceNotificationsResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -778,6 +810,7 @@ func (p *RadioNetworkResponseProxy) SetSystemSelectionChannelsResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -797,6 +830,7 @@ func (p *RadioNetworkResponseProxy) StartNetworkScanResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -816,6 +850,7 @@ func (p *RadioNetworkResponseProxy) StopNetworkScanResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -836,6 +871,7 @@ func (p *RadioNetworkResponseProxy) SupplyNetworkDepersonalizationResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -856,6 +892,7 @@ func (p *RadioNetworkResponseProxy) SetUsageSettingResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -876,6 +913,7 @@ func (p *RadioNetworkResponseProxy) GetUsageSettingResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -897,9 +935,11 @@ func (p *RadioNetworkResponseProxy) SetEmergencyModeResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteInt32(1)
 	if _err := regState.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -919,6 +959,7 @@ func (p *RadioNetworkResponseProxy) TriggerEmergencyNetworkScanResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -938,6 +979,7 @@ func (p *RadioNetworkResponseProxy) ExitEmergencyModeResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -957,6 +999,7 @@ func (p *RadioNetworkResponseProxy) CancelEmergencyNetworkScanResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -976,6 +1019,7 @@ func (p *RadioNetworkResponseProxy) SetNullCipherAndIntegrityEnabledResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -996,6 +1040,7 @@ func (p *RadioNetworkResponseProxy) IsNullCipherAndIntegrityEnabledResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1017,6 +1062,7 @@ func (p *RadioNetworkResponseProxy) IsN1ModeEnabledResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1037,6 +1083,7 @@ func (p *RadioNetworkResponseProxy) SetN1ModeEnabledResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1057,6 +1104,7 @@ func (p *RadioNetworkResponseProxy) IsCellularIdentifierTransparencyEnabledRespo
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1077,6 +1125,7 @@ func (p *RadioNetworkResponseProxy) SetCellularIdentifierTransparencyEnabledResp
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1096,6 +1145,7 @@ func (p *RadioNetworkResponseProxy) SetSecurityAlgorithmsUpdatedEnabledResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1116,6 +1166,7 @@ func (p *RadioNetworkResponseProxy) IsSecurityAlgorithmsUpdatedEnabledResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1136,6 +1187,7 @@ func (p *RadioNetworkResponseProxy) SetSatellitePlmnResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1155,6 +1207,7 @@ func (p *RadioNetworkResponseProxy) SetSatelliteEnabledForCarrierResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1175,6 +1228,7 @@ func (p *RadioNetworkResponseProxy) IsSatelliteEnabledForCarrierResponse(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRadioNetworkResponse)
+	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
 	}

@@ -125,6 +125,7 @@ func (p *CompanionDeviceManagerProxy) Associate(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -295,6 +296,7 @@ func (p *CompanionDeviceManagerProxy) HasNotificationAccess(
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
+	_data.WriteInt32(1)
 	if _err := component.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -329,6 +331,7 @@ func (p *CompanionDeviceManagerProxy) RequestNotificationAccess(
 	var _result app.PendingIntent
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
+	_data.WriteInt32(1)
 	if _err := component.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
@@ -458,6 +461,7 @@ func (p *CompanionDeviceManagerProxy) StartObservingDevicePresence(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -490,6 +494,7 @@ func (p *CompanionDeviceManagerProxy) StopObservingDevicePresence(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -1248,6 +1253,7 @@ func (p *CompanionDeviceManagerProxy) SetDeviceId(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICompanionDeviceManager)
 	_data.WriteInt32(associationId)
+	_data.WriteInt32(1)
 	if _err := deviceId.MarshalParcel(_data); _err != nil {
 		return _err
 	}

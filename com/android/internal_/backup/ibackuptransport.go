@@ -99,6 +99,7 @@ func (p *BackupTransportProxy) Name(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -118,6 +119,7 @@ func (p *BackupTransportProxy) ConfigurationIntent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -137,6 +139,7 @@ func (p *BackupTransportProxy) CurrentDestinationString(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -156,6 +159,7 @@ func (p *BackupTransportProxy) DataManagementIntent(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -175,6 +179,7 @@ func (p *BackupTransportProxy) DataManagementIntentLabel(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -194,6 +199,7 @@ func (p *BackupTransportProxy) TransportDirName(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -213,6 +219,7 @@ func (p *BackupTransportProxy) RequestBackupTime(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -252,6 +259,7 @@ func (p *BackupTransportProxy) PerformBackup(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := packageInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -275,6 +283,7 @@ func (p *BackupTransportProxy) ClearBackupData(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := packageInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -312,6 +321,7 @@ func (p *BackupTransportProxy) GetAvailableRestoreSets(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -331,6 +341,7 @@ func (p *BackupTransportProxy) GetCurrentRestoreSet(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -380,6 +391,7 @@ func (p *BackupTransportProxy) NextRestorePackage(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -435,6 +447,7 @@ func (p *BackupTransportProxy) RequestFullBackupTime(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -457,6 +470,7 @@ func (p *BackupTransportProxy) PerformFullBackup(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := targetPackage.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -536,10 +550,12 @@ func (p *BackupTransportProxy) IsAppEligibleForBackup(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := targetPackage.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteBool(isFullBackup)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -563,6 +579,7 @@ func (p *BackupTransportProxy) GetBackupQuota(
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
 	_data.WriteString16(packageName)
 	_data.WriteBool(isFullBackup)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -618,6 +635,7 @@ func (p *BackupTransportProxy) GetTransportFlags(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -637,6 +655,7 @@ func (p *BackupTransportProxy) GetBackupManagerMonitor(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupTransport)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -667,6 +686,7 @@ func (p *BackupTransportProxy) GetPackagesThatShouldNotUseRestrictedMode(
 		}
 	}
 	_data.WriteInt32(operationType)
+	_data.WriteInt32(1)
 	if _err := resultFuture.MarshalParcel(_data); _err != nil {
 		return _err
 	}

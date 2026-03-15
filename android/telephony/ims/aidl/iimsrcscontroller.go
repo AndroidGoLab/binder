@@ -377,6 +377,7 @@ func (p *ImsRcsControllerProxy) RequestAvailability(
 	_data.WriteInt32(subId)
 	_data.WriteString16(callingPackage)
 	_data.WriteString16(callingFeatureId)
+	_data.WriteInt32(1)
 	if _err := contactNumber.MarshalParcel(_data); _err != nil {
 		return _err
 	}
@@ -592,6 +593,7 @@ func (p *ImsRcsControllerProxy) CreateSipDelegate(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
+	_data.WriteInt32(1)
 	if _err := request.MarshalParcel(_data); _err != nil {
 		return _err
 	}
