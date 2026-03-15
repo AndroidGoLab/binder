@@ -25,10 +25,11 @@ Includes a complete AIDL compiler that parses Android Interface Definition Langu
 ```go
 driver, _ := kernelbinder.Open(ctx, binder.WithMapSize(128*1024))
 defer driver.Close(ctx)
-sm := servicemanager.New(driver)
-svc, _ := sm.GetService(ctx, "activity")
-am := app.NewActivityManagerProxy(svc)
-limit, _ := am.GetProcessLimit(ctx)
+transport, _ := versionaware.NewTransport(ctx, driver, 0)
+sm := servicemanager.New(transport)
+
+loc, _ := location.GetLastKnownLocation(ctx, sm, "fused")
+fmt.Printf("Lat: %.6f, Lon: %.6f\n", loc.LatitudeDegrees, loc.LongitudeDegrees)
 ```
 
 ## Related Projects
@@ -97,11 +98,13 @@ All three libraries talk to the same Android system services, but through differ
 
 ## Usage Examples
 
-### List Binder Services
+### Get GPS Coordinates
 
 ```go
 import (
+    "github.com/xaionaro-go/binder/android/location"
     "github.com/xaionaro-go/binder/binder"
+    "github.com/xaionaro-go/binder/binder/versionaware"
     "github.com/xaionaro-go/binder/kernelbinder"
     "github.com/xaionaro-go/binder/servicemanager"
 )
@@ -114,7 +117,28 @@ import (
     }
     defer driver.Close(ctx)
 
-    sm := servicemanager.New(driver)
+    transport, err := versionaware.NewTransport(ctx, driver, 0)
+    if err != nil {
+        log.Fatal(err)
+    }
+    sm := servicemanager.New(transport)
+
+    loc, err := location.GetLastKnownLocation(ctx, sm, "fused")
+    if err != nil {
+        log.Fatal(err)
+    }
+    if loc == nil {
+        log.Fatal("no cached location available")
+    }
+
+    fmt.Printf("Lat: %.6f, Lon: %.6f\n", loc.LatitudeDegrees, loc.LongitudeDegrees)
+    fmt.Printf("Altitude: %.1f m\n", loc.AltitudeMeters)
+```
+
+### List Binder Services
+
+```go
+    sm := servicemanager.New(transport)
 
     services, err := sm.ListServices(ctx)
     if err != nil {
@@ -129,39 +153,21 @@ import (
     }
 ```
 
-### Call a System Service (ActivityManager)
+### Call a System Service (PowerManager)
 
 ```go
-import (
-    "github.com/xaionaro-go/binder/binder"
-    "github.com/xaionaro-go/binder/android/app"
-    "github.com/xaionaro-go/binder/kernelbinder"
-    "github.com/xaionaro-go/binder/servicemanager"
-)
+import "github.com/xaionaro-go/binder/android/os"
 
-    driver, err := kernelbinder.Open(ctx, binder.WithMapSize(128*1024))
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer driver.Close(ctx)
-
-    sm := servicemanager.New(driver)
-    svc, err := sm.GetService(ctx, "activity")
+    pm, err := os.GetPowerManager(ctx, sm)
     if err != nil {
         log.Fatal(err)
     }
 
-    am := app.NewActivityManagerProxy(svc)
+    interactive, _ := pm.IsInteractive(ctx)
+    fmt.Printf("Screen on: %v\n", interactive)
 
-    limit, _ := am.GetProcessLimit(ctx)
-    fmt.Printf("Process limit: %d\n", limit)
-
-    monkey, _ := am.IsUserAMonkey(ctx)
-    fmt.Printf("Is monkey test: %v\n", monkey)
-
-    result, _ := am.CheckPermission(ctx, "android.permission.INTERNET",
-        int32(os.Getpid()), int32(os.Getuid()))
-    fmt.Printf("INTERNET permission: %d\n", result)
+    powerSave, _ := pm.IsPowerSaveMode(ctx)
+    fmt.Printf("Power save: %v\n", powerSave)
 ```
 
 More examples: [`examples/`](examples/)
@@ -232,7 +238,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 <!-- BEGIN GENERATED PACKAGES -->
 
-601 packages, 5492 generated Go files.
+601 packages, 5493 generated Go files.
 
 <details>
 <summary><strong>android/accessibilityservice</strong> (1 packages)</summary>
@@ -714,7 +720,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 | Package | Files | Import Path |
 |---|---|---|
-| [`android/location`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/location) | 71 | `github.com/xaionaro-go/binder/android/location` |
+| [`android/location`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/location) | 72 | `github.com/xaionaro-go/binder/android/location` |
 | [`android/location/provider`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/location/provider) | 12 | `github.com/xaionaro-go/binder/android/location/provider` |
 
 </details>
