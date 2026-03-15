@@ -14,21 +14,24 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/xaionaro-go/aidl/binder"
+	"github.com/xaionaro-go/aidl/binder/versionaware"
 	aidlerrors "github.com/xaionaro-go/aidl/errors"
 	"github.com/xaionaro-go/aidl/kernelbinder"
 	"github.com/xaionaro-go/aidl/parcel"
 	"github.com/xaionaro-go/aidl/servicemanager"
 )
 
-func openBinder(t *testing.T) *kernelbinder.Driver {
+func openBinder(t *testing.T) *versionaware.Transport {
 	t.Helper()
 	ctx := context.Background()
 	driver, err := kernelbinder.Open(ctx, binder.WithMapSize(128*1024))
 	require.NoError(t, err, "failed to open /dev/binder")
+	transport, err := versionaware.NewTransport(ctx, driver, 0)
+	require.NoError(t, err, "failed to create version-aware transport")
 	t.Cleanup(func() {
 		_ = driver.Close(ctx)
 	})
-	return driver
+	return transport
 }
 
 // requireOrSkip calls require.NoError unless the error is a transient
@@ -148,7 +151,7 @@ const surfaceComposerDescriptor = "android.gui.ISurfaceComposer"
 func getSurfaceFlingerAIDL(
 	ctx context.Context,
 	t *testing.T,
-	driver *kernelbinder.Driver,
+	driver *versionaware.Transport,
 ) binder.IBinder {
 	t.Helper()
 	sm := servicemanager.New(driver)
@@ -251,7 +254,7 @@ const activityManagerDescriptor = "android.app.IActivityManager"
 func getActivityManager(
 	ctx context.Context,
 	t *testing.T,
-	driver *kernelbinder.Driver,
+	driver *versionaware.Transport,
 ) binder.IBinder {
 	t.Helper()
 	sm := servicemanager.New(driver)
@@ -480,7 +483,13 @@ func TestConcurrentTransactions(t *testing.T) {
 			}
 			defer func() { _ = driver.Close(ctx) }()
 
-			sm := servicemanager.New(driver)
+			transport, err := versionaware.NewTransport(ctx, driver, 0)
+			if err != nil {
+				errs[idx] = err
+				return
+			}
+
+			sm := servicemanager.New(transport)
 			services, err := sm.ListServices(ctx)
 			if err != nil {
 				errs[idx] = err

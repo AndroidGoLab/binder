@@ -11,8 +11,8 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/xaionaro-go/aidl/binder"
+	"github.com/xaionaro-go/aidl/binder/versionaware"
 	aidlerrors "github.com/xaionaro-go/aidl/errors"
-	"github.com/xaionaro-go/aidl/kernelbinder"
 	"github.com/xaionaro-go/aidl/parcel"
 	"github.com/xaionaro-go/aidl/servicemanager"
 )
@@ -21,7 +21,7 @@ import (
 func getService(
 	ctx context.Context,
 	t *testing.T,
-	driver *kernelbinder.Driver,
+	driver *versionaware.Transport,
 	name string,
 ) binder.IBinder {
 	t.Helper()
