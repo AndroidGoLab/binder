@@ -3,6 +3,7 @@ package midi
 import (
 	"context"
 	"fmt"
+	bluetooth "github.com/xaionaro-go/binder/android/bluetooth"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -35,7 +36,7 @@ type IMidiManager interface {
 	RegisterListener(ctx context.Context, clientToken binder.IBinder, listener IMidiDeviceListener) error
 	UnregisterListener(ctx context.Context, clientToken binder.IBinder, listener IMidiDeviceListener) error
 	OpenDevice(ctx context.Context, clientToken binder.IBinder, device interface{}, callback IMidiDeviceOpenCallback) error
-	OpenBluetoothDevice(ctx context.Context, clientToken binder.IBinder, bluetoothDevice interface{}, callback IMidiDeviceOpenCallback) error
+	OpenBluetoothDevice(ctx context.Context, clientToken binder.IBinder, bluetoothDevice bluetooth.BluetoothDevice, callback IMidiDeviceOpenCallback) error
 	CloseDevice(ctx context.Context, clientToken binder.IBinder, deviceToken binder.IBinder) error
 	RegisterDeviceServer(ctx context.Context, server IMidiDeviceServer, numInputPorts int32, numOutputPorts int32, inputPortNames []string, outputPortNames []string, properties os.Bundle, type_ int32, defaultProtocol int32) (interface{}, error)
 	UnregisterDeviceServer(ctx context.Context, server IMidiDeviceServer) error
@@ -221,12 +222,16 @@ func (p *MidiManagerProxy) OpenDevice(
 func (p *MidiManagerProxy) OpenBluetoothDevice(
 	ctx context.Context,
 	clientToken binder.IBinder,
-	bluetoothDevice interface{},
+	bluetoothDevice bluetooth.BluetoothDevice,
 	callback IMidiDeviceOpenCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMidiManager)
 	_data.WriteStrongBinder(clientToken.Handle())
+	_data.WriteInt32(1)
+	if _err := bluetoothDevice.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMidiManager, "openBluetoothDevice")
@@ -592,7 +597,18 @@ func (s *MidiManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientToken binder.IBinder
 		_ = _arg_clientToken
-		var _arg_bluetoothDevice interface{}
+		var _arg_bluetoothDevice bluetooth.BluetoothDevice
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bluetoothDevice.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IMidiDeviceOpenCallback
 		_ = _arg_callback

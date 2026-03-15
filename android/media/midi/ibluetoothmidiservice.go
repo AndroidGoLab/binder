@@ -3,6 +3,7 @@ package midi
 import (
 	"context"
 	"fmt"
+	bluetooth "github.com/xaionaro-go/binder/android/bluetooth"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +18,7 @@ const (
 
 type IBluetoothMidiService interface {
 	AsBinder() binder.IBinder
-	AddBluetoothDevice(ctx context.Context, bluetoothDevice interface{}) (binder.IBinder, error)
+	AddBluetoothDevice(ctx context.Context, bluetoothDevice bluetooth.BluetoothDevice) (binder.IBinder, error)
 }
 
 type BluetoothMidiServiceProxy struct {
@@ -38,11 +39,15 @@ var _ IBluetoothMidiService = (*BluetoothMidiServiceProxy)(nil)
 
 func (p *BluetoothMidiServiceProxy) AddBluetoothDevice(
 	ctx context.Context,
-	bluetoothDevice interface{},
+	bluetoothDevice bluetooth.BluetoothDevice,
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothMidiService)
+	_data.WriteInt32(1)
+	if _err := bluetoothDevice.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothMidiService, "addBluetoothDevice")
 	if _err != nil {
@@ -85,7 +90,18 @@ func (s *BluetoothMidiServiceStub) OnTransaction(
 		if _, _err := data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_bluetoothDevice interface{}
+		var _arg_bluetoothDevice bluetooth.BluetoothDevice
+		{
+			_nullInd, _err := data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_bluetoothDevice.UnmarshalParcel(data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.AddBluetoothDevice(ctx, _arg_bluetoothDevice)
 		_reply := parcel.New()
 		if _err != nil {

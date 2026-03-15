@@ -1,7 +1,7 @@
 package provider
 
 import (
-	device "github.com/xaionaro-go/binder/android/hardware/camera/device"
+	leaudio "github.com/xaionaro-go/binder/android/hardware/bluetooth/offload/leaudio"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +9,7 @@ import (
 
 type CameraIdAndStreamCombination struct {
 	CameraId            string
-	StreamConfiguration device.StreamConfiguration
+	StreamConfiguration leaudio.StreamConfiguration
 }
 
 var _ parcel.Parcelable = (*CameraIdAndStreamCombination)(nil)

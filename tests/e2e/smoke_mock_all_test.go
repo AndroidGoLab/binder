@@ -39,6 +39,8 @@ import (
 	genAppWallpapereffectsgeneration "github.com/xaionaro-go/binder/android/app/wallpapereffectsgeneration"
 	genAppWearable "github.com/xaionaro-go/binder/android/app/wearable"
 	genBinderdebugTest "github.com/xaionaro-go/binder/android/binderdebug/test"
+	genBt "github.com/xaionaro-go/binder/android/bluetooth"
+	genBtLe "github.com/xaionaro-go/binder/android/bluetooth/le"
 	genCompanion "github.com/xaionaro-go/binder/android/companion"
 	genCompanionVirtual "github.com/xaionaro-go/binder/android/companion/virtual"
 	genCompanionVirtualAudio "github.com/xaionaro-go/binder/android/companion/virtual/audio"
@@ -96,6 +98,7 @@ import (
 	genHwBtAudio "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio"
 	genHwBtFinder "github.com/xaionaro-go/binder/android/hardware/bluetooth/finder"
 	genHwBtLmp_event "github.com/xaionaro-go/binder/android/hardware/bluetooth/lmp_event"
+	genHwBtOffloadLeaudio "github.com/xaionaro-go/binder/android/hardware/bluetooth/offload/leaudio"
 	genHwBtRanging "github.com/xaionaro-go/binder/android/hardware/bluetooth/ranging"
 	genHwBtSocket "github.com/xaionaro-go/binder/android/hardware/bluetooth/socket"
 	genHwBoot "github.com/xaionaro-go/binder/android/hardware/boot"
@@ -222,6 +225,7 @@ import (
 	genMediaTvTunerresourcemanager "github.com/xaionaro-go/binder/android/media/tv/tunerresourcemanager"
 	genNet "github.com/xaionaro-go/binder/android/net"
 	genNetVcn "github.com/xaionaro-go/binder/android/net/vcn"
+	genNetWifiNl80211 "github.com/xaionaro-go/binder/android/net/wifi/nl80211"
 	genNetWifiSharedconnectivityService "github.com/xaionaro-go/binder/android/net/wifi/sharedconnectivity/service"
 	genOs "github.com/xaionaro-go/binder/android/os"
 	genOsIInstalld "github.com/xaionaro-go/binder/android/os/IInstalld"
@@ -537,6 +541,61 @@ var allMockProxies = []mockProxyEntry{
 	{"genAppWearable.WearableSensingCallbackProxy", func(b binder.IBinder) interface{} { return genAppWearable.NewWearableSensingCallbackProxy(b) }},
 	{"genAppWearable.WearableSensingManagerProxy", func(b binder.IBinder) interface{} { return genAppWearable.NewWearableSensingManagerProxy(b) }},
 	{"genBinderdebugTest.ControlProxy", func(b binder.IBinder) interface{} { return genBinderdebugTest.NewControlProxy(b) }},
+	{"genBt.AudioInputCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewAudioInputCallbackProxy(b) }},
+	{"genBt.BluetoothA2dpProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothA2dpProxy(b) }},
+	{"genBt.BluetoothA2dpSinkProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothA2dpSinkProxy(b) }},
+	{"genBt.BluetoothActivityEnergyInfoListenerProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothActivityEnergyInfoListenerProxy(b) }},
+	{"genBt.BluetoothAdvertiseProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothAdvertiseProxy(b) }},
+	{"genBt.BluetoothAvrcpControllerProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothAvrcpControllerProxy(b) }},
+	{"genBt.BluetoothCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothCallbackProxy(b) }},
+	{"genBt.BluetoothConnectionCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothConnectionCallbackProxy(b) }},
+	{"genBt.BluetoothCsipSetCoordinatorCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothCsipSetCoordinatorCallbackProxy(b) }},
+	{"genBt.BluetoothCsipSetCoordinatorLockCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothCsipSetCoordinatorLockCallbackProxy(b) }},
+	{"genBt.BluetoothCsipSetCoordinatorProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothCsipSetCoordinatorProxy(b) }},
+	{"genBt.BluetoothGattCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothGattCallbackProxy(b) }},
+	{"genBt.BluetoothGattProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothGattProxy(b) }},
+	{"genBt.BluetoothGattServerCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothGattServerCallbackProxy(b) }},
+	{"genBt.BluetoothHapClientCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothHapClientCallbackProxy(b) }},
+	{"genBt.BluetoothHapClientProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothHapClientProxy(b) }},
+	{"genBt.BluetoothHciVendorSpecificCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothHciVendorSpecificCallbackProxy(b) }},
+	{"genBt.BluetoothHeadsetClientProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothHeadsetClientProxy(b) }},
+	{"genBt.BluetoothHeadsetProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothHeadsetProxy(b) }},
+	{"genBt.BluetoothHearingAidProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothHearingAidProxy(b) }},
+	{"genBt.BluetoothHidDeviceCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothHidDeviceCallbackProxy(b) }},
+	{"genBt.BluetoothHidDeviceProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothHidDeviceProxy(b) }},
+	{"genBt.BluetoothHidHostProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothHidHostProxy(b) }},
+	{"genBt.BluetoothLeAudioCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothLeAudioCallbackProxy(b) }},
+	{"genBt.BluetoothLeAudioProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothLeAudioProxy(b) }},
+	{"genBt.BluetoothLeBroadcastAssistantCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothLeBroadcastAssistantCallbackProxy(b) }},
+	{"genBt.BluetoothLeBroadcastAssistantProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothLeBroadcastAssistantProxy(b) }},
+	{"genBt.BluetoothLeBroadcastCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothLeBroadcastCallbackProxy(b) }},
+	{"genBt.BluetoothLeCallControlCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothLeCallControlCallbackProxy(b) }},
+	{"genBt.BluetoothLeCallControlProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothLeCallControlProxy(b) }},
+	{"genBt.BluetoothManagerCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothManagerCallbackProxy(b) }},
+	{"genBt.BluetoothManagerProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothManagerProxy(b) }},
+	{"genBt.BluetoothMapClientProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothMapClientProxy(b) }},
+	{"genBt.BluetoothMapProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothMapProxy(b) }},
+	{"genBt.BluetoothMcpServiceManagerProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothMcpServiceManagerProxy(b) }},
+	{"genBt.BluetoothMetadataListenerProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothMetadataListenerProxy(b) }},
+	{"genBt.BluetoothOobDataCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothOobDataCallbackProxy(b) }},
+	{"genBt.BluetoothPanCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothPanCallbackProxy(b) }},
+	{"genBt.BluetoothPanProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothPanProxy(b) }},
+	{"genBt.BluetoothPbapClientProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothPbapClientProxy(b) }},
+	{"genBt.BluetoothPbapProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothPbapProxy(b) }},
+	{"genBt.BluetoothPreferredAudioProfilesCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothPreferredAudioProfilesCallbackProxy(b) }},
+	{"genBt.BluetoothProfileServiceConnectionProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothProfileServiceConnectionProxy(b) }},
+	{"genBt.BluetoothProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothProxy(b) }},
+	{"genBt.BluetoothQualityReportReadyCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothQualityReportReadyCallbackProxy(b) }},
+	{"genBt.BluetoothSapProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothSapProxy(b) }},
+	{"genBt.BluetoothScanProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothScanProxy(b) }},
+	{"genBt.BluetoothSocketManagerProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothSocketManagerProxy(b) }},
+	{"genBt.BluetoothVolumeControlCallbackProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothVolumeControlCallbackProxy(b) }},
+	{"genBt.BluetoothVolumeControlProxy", func(b binder.IBinder) interface{} { return genBt.NewBluetoothVolumeControlProxy(b) }},
+	{"genBt.DistanceMeasurementProxy", func(b binder.IBinder) interface{} { return genBt.NewDistanceMeasurementProxy(b) }},
+	{"genBtLe.AdvertisingSetCallbackProxy", func(b binder.IBinder) interface{} { return genBtLe.NewAdvertisingSetCallbackProxy(b) }},
+	{"genBtLe.DistanceMeasurementCallbackProxy", func(b binder.IBinder) interface{} { return genBtLe.NewDistanceMeasurementCallbackProxy(b) }},
+	{"genBtLe.PeriodicAdvertisingCallbackProxy", func(b binder.IBinder) interface{} { return genBtLe.NewPeriodicAdvertisingCallbackProxy(b) }},
+	{"genBtLe.ScannerCallbackProxy", func(b binder.IBinder) interface{} { return genBtLe.NewScannerCallbackProxy(b) }},
 	{"genCompanion.AssociationRequestCallbackProxy", func(b binder.IBinder) interface{} { return genCompanion.NewAssociationRequestCallbackProxy(b) }},
 	{"genCompanion.CompanionDeviceDiscoveryServiceProxy", func(b binder.IBinder) interface{} { return genCompanion.NewCompanionDeviceDiscoveryServiceProxy(b) }},
 	{"genCompanion.CompanionDeviceManagerProxy", func(b binder.IBinder) interface{} { return genCompanion.NewCompanionDeviceManagerProxy(b) }},
@@ -767,6 +826,8 @@ var allMockProxies = []mockProxyEntry{
 	{"genHwBtFinder.BluetoothFinderProxy", func(b binder.IBinder) interface{} { return genHwBtFinder.NewBluetoothFinderProxy(b) }},
 	{"genHwBtLmp_event.BluetoothLmpEventCallbackProxy", func(b binder.IBinder) interface{} { return genHwBtLmp_event.NewBluetoothLmpEventCallbackProxy(b) }},
 	{"genHwBtLmp_event.BluetoothLmpEventProxy", func(b binder.IBinder) interface{} { return genHwBtLmp_event.NewBluetoothLmpEventProxy(b) }},
+	{"genHwBtOffloadLeaudio.HciProxyCallbacksProxy", func(b binder.IBinder) interface{} { return genHwBtOffloadLeaudio.NewHciProxyCallbacksProxy(b) }},
+	{"genHwBtOffloadLeaudio.HciProxyProxy", func(b binder.IBinder) interface{} { return genHwBtOffloadLeaudio.NewHciProxyProxy(b) }},
 	{"genHwBtRanging.BluetoothChannelSoundingProxy", func(b binder.IBinder) interface{} { return genHwBtRanging.NewBluetoothChannelSoundingProxy(b) }},
 	{"genHwBtRanging.BluetoothChannelSoundingSessionCallbackProxy", func(b binder.IBinder) interface{} {
 		return genHwBtRanging.NewBluetoothChannelSoundingSessionCallbackProxy(b)
@@ -1478,6 +1539,16 @@ var allMockProxies = []mockProxyEntry{
 	{"genNetVcn.VcnManagementServiceProxy", func(b binder.IBinder) interface{} { return genNetVcn.NewVcnManagementServiceProxy(b) }},
 	{"genNetVcn.VcnStatusCallbackProxy", func(b binder.IBinder) interface{} { return genNetVcn.NewVcnStatusCallbackProxy(b) }},
 	{"genNetVcn.VcnUnderlyingNetworkPolicyListenerProxy", func(b binder.IBinder) interface{} { return genNetVcn.NewVcnUnderlyingNetworkPolicyListenerProxy(b) }},
+	{"genNetWifiNl80211.ApInterfaceEventCallbackProxy", func(b binder.IBinder) interface{} { return genNetWifiNl80211.NewApInterfaceEventCallbackProxy(b) }},
+	{"genNetWifiNl80211.ApInterfaceProxy", func(b binder.IBinder) interface{} { return genNetWifiNl80211.NewApInterfaceProxy(b) }},
+	{"genNetWifiNl80211.ClientInterfaceProxy", func(b binder.IBinder) interface{} { return genNetWifiNl80211.NewClientInterfaceProxy(b) }},
+	{"genNetWifiNl80211.InterfaceEventCallbackProxy", func(b binder.IBinder) interface{} { return genNetWifiNl80211.NewInterfaceEventCallbackProxy(b) }},
+	{"genNetWifiNl80211.PnoScanEventProxy", func(b binder.IBinder) interface{} { return genNetWifiNl80211.NewPnoScanEventProxy(b) }},
+	{"genNetWifiNl80211.ScanEventProxy", func(b binder.IBinder) interface{} { return genNetWifiNl80211.NewScanEventProxy(b) }},
+	{"genNetWifiNl80211.SendMgmtFrameEventProxy", func(b binder.IBinder) interface{} { return genNetWifiNl80211.NewSendMgmtFrameEventProxy(b) }},
+	{"genNetWifiNl80211.WifiScannerImplProxy", func(b binder.IBinder) interface{} { return genNetWifiNl80211.NewWifiScannerImplProxy(b) }},
+	{"genNetWifiNl80211.WificondEventCallbackProxy", func(b binder.IBinder) interface{} { return genNetWifiNl80211.NewWificondEventCallbackProxy(b) }},
+	{"genNetWifiNl80211.WificondProxy", func(b binder.IBinder) interface{} { return genNetWifiNl80211.NewWificondProxy(b) }},
 	{"genNetWifiSharedconnectivityService.SharedConnectivityCallbackProxy", func(b binder.IBinder) interface{} {
 		return genNetWifiSharedconnectivityService.NewSharedConnectivityCallbackProxy(b)
 	}},
@@ -2173,6 +2244,10 @@ var allMockProxies = []mockProxyEntry{
 	}},
 	{"genComInternalInputmethod.RemoteInputConnectionProxy", func(b binder.IBinder) interface{} { return genComInternalInputmethod.NewRemoteInputConnectionProxy(b) }},
 	{"genComInternalNet.NetworkWatchlistManagerProxy", func(b binder.IBinder) interface{} { return genComInternalNet.NewNetworkWatchlistManagerProxy(b) }},
+	{"genComInternalNet.OemNetdProxy", func(b binder.IBinder) interface{} { return genComInternalNet.NewOemNetdProxy(b) }},
+	{"genComInternalNet.OemNetdUnsolicitedEventListenerProxy", func(b binder.IBinder) interface{} {
+		return genComInternalNet.NewOemNetdUnsolicitedEventListenerProxy(b)
+	}},
 	{"genComInternalOs.BinaryTransparencyServiceProxy", func(b binder.IBinder) interface{} { return genComInternalOs.NewBinaryTransparencyServiceProxy(b) }},
 	{"genComInternalOs.DropBoxManagerServiceProxy", func(b binder.IBinder) interface{} { return genComInternalOs.NewDropBoxManagerServiceProxy(b) }},
 	{"genComInternalOs.ParcelFileDescriptorFactoryProxy", func(b binder.IBinder) interface{} { return genComInternalOs.NewParcelFileDescriptorFactoryProxy(b) }},

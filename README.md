@@ -243,7 +243,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 
 <!-- BEGIN GENERATED PACKAGES -->
 
-628 packages, 5734 generated Go files.
+632 packages, 5847 generated Go files.
 
 <details>
 <summary><strong>android</strong> (1 packages)</summary>
@@ -340,6 +340,16 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | Package | Files | Import Path |
 |---|---|---|
 | [`android/binderdebug/test`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/binderdebug/test) | 1 | `github.com/xaionaro-go/binder/android/binderdebug/test` |
+
+</details>
+
+<details>
+<summary><strong>android/bluetooth</strong> (2 packages)</summary>
+
+| Package | Files | Import Path |
+|---|---|---|
+| [`android/bluetooth`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/bluetooth) | 82 | `github.com/xaionaro-go/binder/android/bluetooth` |
+| [`android/bluetooth/le`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/bluetooth/le) | 16 | `github.com/xaionaro-go/binder/android/bluetooth/le` |
 
 </details>
 
@@ -465,7 +475,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 </details>
 
 <details>
-<summary><strong>android/hardware</strong> (282 packages)</summary>
+<summary><strong>android/hardware</strong> (283 packages)</summary>
 
 | Package | Files | Import Path |
 |---|---|---|
@@ -558,6 +568,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`android/hardware/bluetooth/audio/UnicastCapability`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/UnicastCapability) | 2 | `github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/UnicastCapability` |
 | [`android/hardware/bluetooth/finder`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/bluetooth/finder) | 2 | `github.com/xaionaro-go/binder/android/hardware/bluetooth/finder` |
 | [`android/hardware/bluetooth/lmp_event`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/bluetooth/lmp_event) | 6 | `github.com/xaionaro-go/binder/android/hardware/bluetooth/lmp_event` |
+| [`android/hardware/bluetooth/offload/leaudio`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/bluetooth/offload/leaudio) | 3 | `github.com/xaionaro-go/binder/android/hardware/bluetooth/offload/leaudio` |
 | [`android/hardware/bluetooth/ranging`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/bluetooth/ranging) | 41 | `github.com/xaionaro-go/binder/android/hardware/bluetooth/ranging` |
 | [`android/hardware/bluetooth/socket`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/bluetooth/socket) | 10 | `github.com/xaionaro-go/binder/android/hardware/bluetooth/socket` |
 | [`android/hardware/boot`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/hardware/boot) | 2 | `github.com/xaionaro-go/binder/android/hardware/boot` |
@@ -827,12 +838,13 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 </details>
 
 <details>
-<summary><strong>android/net</strong> (4 packages)</summary>
+<summary><strong>android/net</strong> (5 packages)</summary>
 
 | Package | Files | Import Path |
 |---|---|---|
 | [`android/net`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/net) | 33 | `github.com/xaionaro-go/binder/android/net` |
 | [`android/net/vcn`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/net/vcn) | 6 | `github.com/xaionaro-go/binder/android/net/vcn` |
+| [`android/net/wifi/nl80211`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/net/wifi/nl80211) | 10 | `github.com/xaionaro-go/binder/android/net/wifi/nl80211` |
 | [`android/net/wifi/sharedconnectivity/app`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/net/wifi/sharedconnectivity/app) | 6 | `github.com/xaionaro-go/binder/android/net/wifi/sharedconnectivity/app` |
 | [`android/net/wifi/sharedconnectivity/service`](https://pkg.go.dev/github.com/xaionaro-go/binder/android/net/wifi/sharedconnectivity/service) | 2 | `github.com/xaionaro-go/binder/android/net/wifi/sharedconnectivity/service` |
 
@@ -1143,7 +1155,7 @@ See the full [bindercli reference](#bindercli) for all subcommands and more exam
 | [`com/android/internal_/inputmethod`](https://pkg.go.dev/github.com/xaionaro-go/binder/com/android/internal_/inputmethod) | 20 | `github.com/xaionaro-go/binder/com/android/internal_/inputmethod` |
 | [`com/android/internal_/inputmethod/IInputMethod`](https://pkg.go.dev/github.com/xaionaro-go/binder/com/android/internal_/inputmethod/IInputMethod) | 2 | `github.com/xaionaro-go/binder/com/android/internal_/inputmethod/IInputMethod` |
 | [`com/android/internal_/logging`](https://pkg.go.dev/github.com/xaionaro-go/binder/com/android/internal_/logging) | 1 | `github.com/xaionaro-go/binder/com/android/internal_/logging` |
-| [`com/android/internal_/net`](https://pkg.go.dev/github.com/xaionaro-go/binder/com/android/internal_/net) | 4 | `github.com/xaionaro-go/binder/com/android/internal_/net` |
+| [`com/android/internal_/net`](https://pkg.go.dev/github.com/xaionaro-go/binder/com/android/internal_/net) | 6 | `github.com/xaionaro-go/binder/com/android/internal_/net` |
 | [`com/android/internal_/os`](https://pkg.go.dev/github.com/xaionaro-go/binder/com/android/internal_/os) | 6 | `github.com/xaionaro-go/binder/com/android/internal_/os` |
 | [`com/android/internal_/os/IBinaryTransparencyService`](https://pkg.go.dev/github.com/xaionaro-go/binder/com/android/internal_/os/IBinaryTransparencyService) | 2 | `github.com/xaionaro-go/binder/com/android/internal_/os/IBinaryTransparencyService` |
 | [`com/android/internal_/policy`](https://pkg.go.dev/github.com/xaionaro-go/binder/com/android/internal_/policy) | 8 | `github.com/xaionaro-go/binder/com/android/internal_/policy` |

@@ -16,3 +16,12 @@
 [submodule "tools/pkg/3rdparty/frameworks-av"]
 	path = tools/pkg/3rdparty/frameworks-av
 	url = https://android.googlesource.com/platform/frameworks/av
+[submodule "tools/pkg/3rdparty/system-connectivity-wificond"]
+	path = tools/pkg/3rdparty/system-connectivity-wificond
+	url = https://android.googlesource.com/platform/system/connectivity/wificond
+[submodule "tools/pkg/3rdparty/system-netd"]
+	path = tools/pkg/3rdparty/system-netd
+	url = https://android.googlesource.com/platform/system/netd
+[submodule "tools/pkg/3rdparty/packages-modules-bluetooth"]
+	path = tools/pkg/3rdparty/packages-modules-bluetooth
+	url = https://android.googlesource.com/platform/packages/modules/Bluetooth
