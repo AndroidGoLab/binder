@@ -9,8 +9,8 @@ import (
 type LayoutParams struct {
 	Width                          int32
 	Height                         int32
-	x                              int32
-	y                              int32
+	X                              int32
+	Y                              int32
 	Type                           int32
 	Flags                          int32
 	PrivateFlags                   int32
@@ -75,8 +75,8 @@ func (s *LayoutParams) MarshalParcel(
 ) error {
 	p.WriteInt32(s.Width)
 	p.WriteInt32(s.Height)
-	p.WriteInt32(s.x)
-	p.WriteInt32(s.y)
+	p.WriteInt32(s.X)
+	p.WriteInt32(s.Y)
 	p.WriteInt32(s.Type)
 	p.WriteInt32(s.Flags)
 	p.WriteInt32(s.PrivateFlags)
@@ -133,11 +133,11 @@ func (s *LayoutParams) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.x, _err = p.ReadInt32()
+	s.X, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.y, _err = p.ReadInt32()
+	s.Y, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}

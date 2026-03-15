@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 	"unicode"
+	"unicode/utf8"
 )
 
 // goTypeInfo describes the Go type and parcel methods for a spec type.
@@ -79,7 +80,8 @@ func GenerateGo(
 	fmt.Fprintf(&buf, "type %s struct {\n", spec.Type)
 	for _, f := range supportedFields {
 		info := specTypeToGo[f.Type]
-		fmt.Fprintf(&buf, "\t%s %s\n", f.Name, info.GoType)
+		// Ensure field name is exported (capitalize first letter).
+		fmt.Fprintf(&buf, "\t%s %s\n", exportName(f.Name), info.GoType)
 	}
 	for _, f := range opaqueFields {
 		fmt.Fprintf(&buf, "\t// %s: opaque type — not yet supported\n", f.Name)
@@ -95,13 +97,14 @@ func GenerateGo(
 	buf.WriteString(") error {\n")
 	for _, f := range supportedFields {
 		info := specTypeToGo[f.Type]
+		goName := exportName(f.Name)
 		if f.Condition != "" {
 			cond := goConditionExpression(f.Condition)
 			fmt.Fprintf(&buf, "\tif %s {\n", cond)
-			fmt.Fprintf(&buf, "\t\tp.%s(s.%s)\n", info.WriteMethod, f.Name)
+			fmt.Fprintf(&buf, "\t\tp.%s(s.%s)\n", info.WriteMethod, goName)
 			buf.WriteString("\t}\n")
 		} else {
-			fmt.Fprintf(&buf, "\tp.%s(s.%s)\n", info.WriteMethod, f.Name)
+			fmt.Fprintf(&buf, "\tp.%s(s.%s)\n", info.WriteMethod, goName)
 		}
 	}
 	buf.WriteString("\treturn nil\n")
@@ -116,16 +119,17 @@ func GenerateGo(
 	}
 	for _, f := range supportedFields {
 		info := specTypeToGo[f.Type]
+		goName := exportName(f.Name)
 		if f.Condition != "" {
 			cond := goConditionExpression(f.Condition)
 			fmt.Fprintf(&buf, "\tif %s {\n", cond)
-			fmt.Fprintf(&buf, "\t\ts.%s, _err = p.%s()\n", f.Name, info.ReadMethod)
+			fmt.Fprintf(&buf, "\t\ts.%s, _err = p.%s()\n", goName, info.ReadMethod)
 			buf.WriteString("\t\tif _err != nil {\n")
 			buf.WriteString("\t\t\treturn _err\n")
 			buf.WriteString("\t\t}\n")
 			buf.WriteString("\t}\n")
 		} else {
-			fmt.Fprintf(&buf, "\ts.%s, _err = p.%s()\n", f.Name, info.ReadMethod)
+			fmt.Fprintf(&buf, "\ts.%s, _err = p.%s()\n", goName, info.ReadMethod)
 			buf.WriteString("\tif _err != nil {\n")
 			buf.WriteString("\t\treturn _err\n")
 			buf.WriteString("\t}\n")
@@ -220,4 +224,17 @@ func isValidGoIdentifier(name string) bool {
 	}
 
 	return !token.IsKeyword(name)
+}
+
+// exportName capitalizes the first letter of a name to make it
+// an exported Go identifier. For example, "x" becomes "X".
+func exportName(name string) string {
+	if name == "" {
+		return name
+	}
+	r, size := utf8.DecodeRuneInString(name)
+	if unicode.IsUpper(r) {
+		return name
+	}
+	return string(unicode.ToUpper(r)) + name[size:]
 }

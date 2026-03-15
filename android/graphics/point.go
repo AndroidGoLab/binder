@@ -7,8 +7,8 @@ import (
 )
 
 type Point struct {
-	x int32
-	y int32
+	X int32
+	Y int32
 }
 
 var _ parcel.Parcelable = (*Point)(nil)
@@ -16,8 +16,8 @@ var _ parcel.Parcelable = (*Point)(nil)
 func (s *Point) MarshalParcel(
 	p *parcel.Parcel,
 ) error {
-	p.WriteInt32(s.x)
-	p.WriteInt32(s.y)
+	p.WriteInt32(s.X)
+	p.WriteInt32(s.Y)
 	return nil
 }
 
@@ -25,11 +25,11 @@ func (s *Point) UnmarshalParcel(
 	p *parcel.Parcel,
 ) error {
 	var _err error
-	s.x, _err = p.ReadInt32()
+	s.X, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.y, _err = p.ReadInt32()
+	s.Y, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
