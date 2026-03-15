@@ -13,16 +13,6 @@ const (
 	serviceManagerHandle     = uint32(0)
 	serviceManagerDescriptor = "android.os.IServiceManager"
 
-	// Transaction codes match the method order in IServiceManager.aidl:
-	// 0=getService, 1=getService2, 2=checkService, 3=checkService2,
-	// 4=addService, 5=listServices, 6=registerForNotifications,
-	// 7=unregisterForNotifications, 8=isDeclared.
-	transactionGetService   = binder.FirstCallTransaction + 0 // getService
-	transactionCheckService = binder.FirstCallTransaction + 2 // checkService
-	transactionAddService   = binder.FirstCallTransaction + 4 // addService
-	transactionListServices = binder.FirstCallTransaction + 5 // listServices
-	transactionIsDeclared   = binder.FirstCallTransaction + 8 // isDeclared
-
 	// dumpFlagPriorityAll combines all priority flags per IServiceManager.aidl:
 	// DUMP_FLAG_PRIORITY_CRITICAL (1) | DUMP_FLAG_PRIORITY_HIGH (2)
 	// | DUMP_FLAG_PRIORITY_NORMAL (4) | DUMP_FLAG_PRIORITY_DEFAULT (8).
@@ -51,11 +41,16 @@ func (sm *ServiceManager) GetService(
 	logger.Tracef(ctx, "GetService(%q)", name)
 	defer func() { logger.Tracef(ctx, "/GetService(%q): %v", name, _err) }()
 
+	code, err := sm.remote.ResolveCode(serviceManagerDescriptor, "getService")
+	if err != nil {
+		return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
+	}
+
 	data := parcel.New()
 	data.WriteInterfaceToken(serviceManagerDescriptor)
 	data.WriteString16(name)
 
-	reply, err := sm.remote.Transact(ctx, transactionGetService, 0, data)
+	reply, err := sm.remote.Transact(ctx, code, 0, data)
 	if err != nil {
 		return nil, fmt.Errorf("servicemanager: GetService(%q): %w", name, err)
 	}
@@ -81,11 +76,16 @@ func (sm *ServiceManager) CheckService(
 	logger.Tracef(ctx, "CheckService(%q)", name)
 	defer func() { logger.Tracef(ctx, "/CheckService(%q): %v", name, _err) }()
 
+	code, err := sm.remote.ResolveCode(serviceManagerDescriptor, "checkService")
+	if err != nil {
+		return nil, fmt.Errorf("servicemanager: CheckService(%q): %w", name, err)
+	}
+
 	data := parcel.New()
 	data.WriteInterfaceToken(serviceManagerDescriptor)
 	data.WriteString16(name)
 
-	reply, err := sm.remote.Transact(ctx, transactionCheckService, 0, data)
+	reply, err := sm.remote.Transact(ctx, code, 0, data)
 	if err != nil {
 		return nil, fmt.Errorf("servicemanager: CheckService(%q): %w", name, err)
 	}
@@ -113,11 +113,16 @@ func (sm *ServiceManager) ListServices(
 	logger.Tracef(ctx, "ListServices")
 	defer func() { logger.Tracef(ctx, "/ListServices: %d services, err=%v", len(_services), _err) }()
 
+	code, err := sm.remote.ResolveCode(serviceManagerDescriptor, "listServices")
+	if err != nil {
+		return nil, fmt.Errorf("servicemanager: ListServices: %w", err)
+	}
+
 	data := parcel.New()
 	data.WriteInterfaceToken(serviceManagerDescriptor)
 	data.WriteInt32(dumpFlagPriorityAll)
 
-	reply, err := sm.remote.Transact(ctx, transactionListServices, 0, data)
+	reply, err := sm.remote.Transact(ctx, code, 0, data)
 	if err != nil {
 		return nil, fmt.Errorf("servicemanager: ListServices: %w", err)
 	}
@@ -151,11 +156,16 @@ func (sm *ServiceManager) IsDeclared(
 	logger.Tracef(ctx, "IsDeclared(%q)", name)
 	defer func() { logger.Tracef(ctx, "/IsDeclared(%q): %v, err=%v", name, _declared, _err) }()
 
+	code, err := sm.remote.ResolveCode(serviceManagerDescriptor, "isDeclared")
+	if err != nil {
+		return false, fmt.Errorf("servicemanager: IsDeclared(%q): %w", name, err)
+	}
+
 	data := parcel.New()
 	data.WriteInterfaceToken(serviceManagerDescriptor)
 	data.WriteString16(name)
 
-	reply, err := sm.remote.Transact(ctx, transactionIsDeclared, 0, data)
+	reply, err := sm.remote.Transact(ctx, code, 0, data)
 	if err != nil {
 		return false, fmt.Errorf("servicemanager: IsDeclared(%q): %w", name, err)
 	}

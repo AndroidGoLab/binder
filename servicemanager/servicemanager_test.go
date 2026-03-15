@@ -92,7 +92,7 @@ func TestGetService(t *testing.T) {
 
 	// Verify we sent to handle 0 (ServiceManager) with correct code.
 	assert.Equal(t, uint32(0), mt.lastHandle)
-	assert.Equal(t, transactionGetService, mt.lastCode)
+	assert.Equal(t, binder.FirstCallTransaction, mt.lastCode)
 	assert.Equal(t, binder.TransactionFlags(0), mt.lastFlags)
 
 	// Verify the sent data has correct interface token and service name.
@@ -127,7 +127,7 @@ func TestCheckService_Found(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, result)
 
-	assert.Equal(t, transactionCheckService, mt.lastCode)
+	assert.Equal(t, binder.FirstCallTransaction, mt.lastCode)
 
 	pb, ok := result.(*binder.ProxyBinder)
 	require.True(t, ok)
@@ -167,7 +167,7 @@ func TestListServices(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, expected, result)
 
-	assert.Equal(t, transactionListServices, mt.lastCode)
+	assert.Equal(t, binder.FirstCallTransaction, mt.lastCode)
 
 	// Verify the sent data contains dumpPriority=DUMP_FLAG_PRIORITY_ALL.
 	mt.lastData.SetPosition(0)
@@ -209,7 +209,7 @@ func TestIsDeclared_True(t *testing.T) {
 	require.NoError(t, err)
 	assert.True(t, result)
 
-	assert.Equal(t, transactionIsDeclared, mt.lastCode)
+	assert.Equal(t, binder.FirstCallTransaction, mt.lastCode)
 }
 
 func TestIsDeclared_False(t *testing.T) {

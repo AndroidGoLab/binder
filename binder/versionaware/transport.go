@@ -116,10 +116,6 @@ func supportedAPILevels() []int {
 const (
 	serviceManagerHandle     = uint32(0)
 	serviceManagerDescriptor = "android.os.IServiceManager"
-
-	// checkService is transaction code 2 in IServiceManager.aidl.
-	smTransactionCheckService = binder.FirstCallTransaction + 2
-
 	activityManagerDescriptor = "android.app.IActivityManager"
 )
 
@@ -147,7 +143,7 @@ func probeRevision(
 	}
 
 	// Get the activity service handle via raw ServiceManager CheckService.
-	activityHandle, err := rawCheckService(ctx, inner, "activity")
+	activityHandle, err := rawCheckService(ctx, inner, apiLevel, "activity")
 	if err != nil {
 		return "", fmt.Errorf("cannot look up activity service for probing: %w", err)
 	}
@@ -188,16 +184,34 @@ func probeRevision(
 
 // rawCheckService performs a raw ServiceManager CheckService transaction
 // to look up a service handle without going through the versionaware layer.
+// Uses the version tables to determine the correct checkService transaction
+// code for the given API level.
 func rawCheckService(
 	ctx context.Context,
 	inner binder.Transport,
+	apiLevel int,
 	serviceName string,
 ) (uint32, error) {
+	// Look up the checkService transaction code from the version tables.
+	// The ServiceManager's method ordering varies across API levels.
+	checkServiceCode := binder.TransactionCode(0)
+	for _, rev := range Revisions[apiLevel] {
+		if table, ok := Tables[rev]; ok {
+			checkServiceCode = table.Resolve(serviceManagerDescriptor, "checkService")
+			if checkServiceCode != 0 {
+				break
+			}
+		}
+	}
+	if checkServiceCode == 0 {
+		return 0, fmt.Errorf("cannot determine checkService transaction code for API %d", apiLevel)
+	}
+
 	data := parcel.New()
 	data.WriteInterfaceToken(serviceManagerDescriptor)
 	data.WriteString16(serviceName)
 
-	reply, err := inner.Transact(ctx, serviceManagerHandle, smTransactionCheckService, 0, data)
+	reply, err := inner.Transact(ctx, serviceManagerHandle, checkServiceCode, 0, data)
 	if err != nil {
 		return 0, fmt.Errorf("CheckService(%q): transact: %w", serviceName, err)
 	}
